@@ -29,6 +29,8 @@ The script fetches the RLBox NaCl backend and its modified NaCl compiler, adds t
 
 The PoC checks:
 
+• typed allocations create trusted metadata in T
+• ordinary U `malloc` does not create trusted metadata
 • correct typed pointer → pass
 • wrong allocated type → reject
 • out-of-bounds access → reject
@@ -36,11 +38,12 @@ The PoC checks:
 • untracked U allocation → reject
 • valid interior pointer → pass
 • interior pointer crossing the allocation end → reject
+• U cannot unmap, remap, or change protection on the trusted-managed arena
 
-`Item` and `Other` intentionally have the same size, so the wrong-type case cannot be rejected by domain or size alone.
+`Item` and `Other` intentionally have the same size, so the wrong-type case cannot be rejected by size alone.
 
 ## Current scope
 
-The first end-to-end milestone uses one RLBox sandbox allocation as the backing storage and keeps all sub-allocation metadata in T. This validates the callback, metadata, type, bounds, free, and untracked-pointer paths with minimal code.
+T reserves one dedicated read/write arena inside U's NaCl address space. U can access object bytes, but T owns allocation metadata and the arena mapping. The PoC uses a bump allocator with no address reuse, so removing a metadata record makes stale pointers fail permanently during the test.
 
-The next milestone replaces that backing allocation with a trusted NaCl-reserved arena so arbitrary U cannot recycle the backing region through its normal allocator. Automatic Uriah type inference and InterSpec expected-use inference come after the runtime path is stable.
+The runtime check is intentionally small: a pointer must belong to a tracked allocation, match the expected `TypeHash`, and keep the requested access within that allocation's bounds. Automatic Uriah type inference and InterSpec expected-use inference come after the runtime path is stable.
