@@ -35,6 +35,7 @@ class TypedArena {
   }
 
   uintptr_t base() const { return base_; }
+  size_t allocation_count() const { return allocations_.size(); }
 
   bool release(uintptr_t ptr) {
     for (auto it = allocations_.begin(); it != allocations_.end(); ++it) {
