@@ -1,8 +1,9 @@
 #include <stdint.h>
 #include <stdlib.h>
+#include <sys/mman.h>
 
-typedef unsigned char* (*alloc_fn)(uint32_t, uint64_t);
-typedef int (*free_fn)(unsigned char*);
+typedef uint32_t (*alloc_fn)(uint32_t, uint64_t);
+typedef int (*free_fn)(uint32_t);
 
 static alloc_fn typed_alloc;
 static free_fn typed_free;
@@ -27,7 +28,8 @@ void typed_poc_init(alloc_fn alloc, free_fn free_cb) {
 }
 
 unsigned char* typed_poc_make_item(void) {
-  struct Item* item = (struct Item*)typed_alloc(sizeof(struct Item), ITEM_HASH);
+  uint32_t ptr = typed_alloc(sizeof(struct Item), ITEM_HASH);
+  struct Item* item = (struct Item*)(uintptr_t)ptr;
   if (!item) return 0;
   item->id = 1;
   item->value = 42;
@@ -35,7 +37,8 @@ unsigned char* typed_poc_make_item(void) {
 }
 
 unsigned char* typed_poc_make_other(void) {
-  struct Other* other = (struct Other*)typed_alloc(sizeof(struct Other), OTHER_HASH);
+  uint32_t ptr = typed_alloc(sizeof(struct Other), OTHER_HASH);
+  struct Other* other = (struct Other*)(uintptr_t)ptr;
   if (!other) return 0;
   other->value = 42;
   return (unsigned char*)other;
@@ -46,9 +49,27 @@ unsigned char* typed_poc_make_untracked(void) {
 }
 
 int typed_poc_release(unsigned char* ptr) {
-  return typed_free(ptr);
+  return typed_free((uint32_t)(uintptr_t)ptr);
 }
 
 void typed_poc_release_untracked(unsigned char* ptr) {
   free(ptr);
+}
+
+int typed_poc_try_munmap(uint32_t start, uint32_t size) {
+  return munmap((void*)(uintptr_t)start, size);
+}
+
+int typed_poc_try_mprotect(uint32_t start, uint32_t size) {
+  return mprotect((void*)(uintptr_t)start, size, PROT_READ);
+}
+
+int typed_poc_try_remap(uint32_t start, uint32_t size) {
+  void* result = mmap((void*)(uintptr_t)start,
+                      size,
+                      PROT_READ | PROT_WRITE,
+                      MAP_PRIVATE | MAP_ANONYMOUS | MAP_FIXED,
+                      -1,
+                      0);
+  return result == MAP_FAILED ? -1 : 0;
 }
