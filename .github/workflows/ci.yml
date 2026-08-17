@@ -1,0 +1,29 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  core:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: cmake -S . -B build
+      - run: cmake --build build --parallel
+      - run: ctest --test-dir build --output-on-failure
+
+  rlbox-nacl:
+    runs-on: ubuntu-latest
+    container: ubuntu:20.04
+    timeout-minutes: 45
+    steps:
+      - name: Install build tools
+        run: |
+          apt-get update
+          DEBIAN_FRONTEND=noninteractive apt-get install -y \
+            build-essential ca-certificates cmake cargo curl git \
+            g++-multilib python2 python3
+      - uses: actions/checkout@v4
+      - run: chmod +x ./scripts/run_rlbox_nacl_poc.sh
+      - run: ./scripts/run_rlbox_nacl_poc.sh
