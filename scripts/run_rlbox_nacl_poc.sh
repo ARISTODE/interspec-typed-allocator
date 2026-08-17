@@ -49,5 +49,6 @@ if include not in text:
 PY
 
 cmake -S "$work" -B "$work/build" -DCMAKE_BUILD_TYPE=Release
+cmake --build "$work/build" --target glue_lib_nacl --parallel 2
 cmake --build "$work/build" --target test_rlbox_glue --parallel 2
 "$work/build/test_rlbox_glue" "[typed_allocator]"
