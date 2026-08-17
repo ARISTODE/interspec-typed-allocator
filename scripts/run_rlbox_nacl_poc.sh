@@ -22,10 +22,13 @@ import sys
 repo = Path(sys.argv[1])
 root_cmake = repo / "CMakeLists.txt"
 text = root_cmake.read_text()
-old = "FetchContent_Declare(\n  rlbox\n  GIT_REPOSITORY https://github.com/PLSysSec/rlbox_api_cpp17.git)"
-new = "FetchContent_Declare(\n  rlbox\n  GIT_REPOSITORY https://github.com/PLSysSec/rlbox.git\n  GIT_TAG b0157dc84f86ffbe4549e32ed5cbdfad79c17f43)"
-assert old in text
-root_cmake.write_text(text.replace(old, new))
+text = text.replace(
+    "FetchContent_Declare(\n  rlbox\n  GIT_REPOSITORY https://github.com/PLSysSec/rlbox_api_cpp17.git)",
+    "FetchContent_Declare(\n  rlbox\n  GIT_REPOSITORY https://github.com/PLSysSec/rlbox.git\n  GIT_TAG b0157dc84f86ffbe4549e32ed5cbdfad79c17f43)")
+text = text.replace(
+    'add_subdirectory("${catch2_SOURCE_DIR}")',
+    'add_subdirectory("${catch2_SOURCE_DIR}" "${catch2_BINARY_DIR}")')
+root_cmake.write_text(text)
 
 cmake = repo / "c_src/CMakeLists.txt"
 text = cmake.read_text()
