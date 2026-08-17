@@ -6,8 +6,10 @@ work=${TMPDIR:-/tmp}/interspec-rlbox-nacl
 rm -rf "$work"
 mkdir -p "$work/nacl_rlbox"
 
-git clone --depth 1 https://github.com/PLSysSec/rlbox_nacl_sandbox.git "$work/rlbox_nacl_sandbox"
-git clone --depth 1 https://github.com/PLSysSec/nacl_sandbox_compiler.git "$work/nacl_rlbox/native_client"
+git clone -q https://github.com/PLSysSec/rlbox_nacl_sandbox.git "$work/rlbox_nacl_sandbox"
+git -C "$work/rlbox_nacl_sandbox" checkout -q 0dd15342c86c0625c7c2ed7762a13feb524252d7
+git clone -q https://github.com/PLSysSec/nacl_sandbox_compiler.git "$work/nacl_rlbox/native_client"
+git -C "$work/nacl_rlbox/native_client" checkout -q f274515ab22441ea6b4e937e519ace851fac308f
 
 cp "$root/poc/typed_poc_untrusted.c" "$work/rlbox_nacl_sandbox/c_src/"
 cp "$root/poc/typed_poc.inc.cpp" "$work/rlbox_nacl_sandbox/test/"
@@ -18,6 +20,13 @@ from pathlib import Path
 import sys
 
 repo = Path(sys.argv[1])
+root_cmake = repo / "CMakeLists.txt"
+text = root_cmake.read_text()
+old = "FetchContent_Declare(\n  rlbox\n  GIT_REPOSITORY https://github.com/PLSysSec/rlbox_api_cpp17.git)"
+new = "FetchContent_Declare(\n  rlbox\n  GIT_REPOSITORY https://github.com/PLSysSec/rlbox.git\n  GIT_TAG b0157dc84f86ffbe4549e32ed5cbdfad79c17f43)"
+assert old in text
+root_cmake.write_text(text.replace(old, new))
+
 cmake = repo / "c_src/CMakeLists.txt"
 text = cmake.read_text()
 needle = "${rlbox_SOURCE_DIR}/code/tests/rlbox_glue/lib/libtest.c)"
