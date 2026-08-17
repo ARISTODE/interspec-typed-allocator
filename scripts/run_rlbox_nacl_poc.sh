@@ -4,18 +4,20 @@ set -euo pipefail
 root=$(cd "$(dirname "$0")/.." && pwd)
 work=${TMPDIR:-/tmp}/interspec-rlbox-nacl
 rm -rf "$work"
-mkdir -p "$work/nacl_rlbox"
 
-git clone -q https://github.com/PLSysSec/rlbox_nacl_sandbox.git "$work/rlbox_nacl_sandbox"
-git -C "$work/rlbox_nacl_sandbox" checkout -q 0dd15342c86c0625c7c2ed7762a13feb524252d7
-git clone -q https://github.com/PLSysSec/nacl_sandbox_compiler.git "$work/nacl_rlbox/native_client"
-git -C "$work/nacl_rlbox/native_client" checkout -q f274515ab22441ea6b4e937e519ace851fac308f
+git clone -q https://github.com/PLSysSec/rlbox_nacl_sandbox.git "$work"
+git -C "$work" checkout -q 0dd15342c86c0625c7c2ed7762a13feb524252d7
 
-cp "$root/poc/typed_poc_untrusted.c" "$work/rlbox_nacl_sandbox/c_src/"
-cp "$root/poc/typed_poc.inc.cpp" "$work/rlbox_nacl_sandbox/test/"
-cp "$root/src/typed_arena.h" "$work/rlbox_nacl_sandbox/test/"
+# The upstream .gclient still uses the SSH URL for the public compiler repo.
+sed -i 's#git@github.com:PLSysSec/nacl_sandbox_compiler.git#https://github.com/PLSysSec/nacl_sandbox_compiler.git#' \
+  "$work/nacl_rlbox/.gclient"
+"$work/nacl_rlbox/call_gclient_sync.sh"
 
-python3 - "$work/rlbox_nacl_sandbox" <<'PY'
+cp "$root/poc/typed_poc_untrusted.c" "$work/c_src/"
+cp "$root/poc/typed_poc.inc.cpp" "$work/test/"
+cp "$root/src/typed_arena.h" "$work/test/"
+
+python3 - "$work" <<'PY'
 from pathlib import Path
 import sys
 
@@ -40,12 +42,12 @@ cmake.write_text(text.replace(
     "               ${CMAKE_SOURCE_DIR}/typed_poc_untrusted.c)"))
 
 test = repo / "test/test_nacl_sandbox_glue.cpp"
-text = test.read_text()
 include = '#include "typed_poc.inc.cpp"\n'
+text = test.read_text()
 if include not in text:
     test.write_text(text + "\n" + include)
 PY
 
-cmake -S "$work/rlbox_nacl_sandbox" -B "$work/build" -DCMAKE_BUILD_TYPE=Release
+cmake -S "$work" -B "$work/build" -DCMAKE_BUILD_TYPE=Release
 cmake --build "$work/build" --target test_rlbox_glue --parallel 2
 "$work/build/test_rlbox_glue" "[typed_allocator]"
