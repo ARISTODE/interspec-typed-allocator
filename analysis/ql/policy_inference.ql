@@ -7,16 +7,12 @@ predicate trackedUntrustedBoundary(Function f) {
 
 predicate inferredAllocation(string name, string typeName, string functionName,
                              int offset, int bytes) {
-  exists(LocalVariable v, Initializer init, Cast cast, FunctionCall call,
-         PointerType pt, Type objectType, Function f |
-    f = v.getFunction() and
+  exists(FunctionCall call, SizeofOperator size, Type objectType, Function f |
+    f = call.getEnclosingFunction() and
     trackedUntrustedBoundary(f) and
-    init = v.getInitializer() and
-    cast = init.getExpr() and
-    call = cast.getExpr().getUnconverted() and
     call.getTarget().hasName("malloc") and
-    pt = v.getType().getUnspecifiedType() and
-    objectType = pt.getBaseType().getUnspecifiedType() and
+    size = call.getArgument(0) and
+    objectType = size.getTypeOperand().getUnspecifiedType() and
     typeName = objectType.getName() and
     name = f.getName() and
     functionName = f.getName() and
