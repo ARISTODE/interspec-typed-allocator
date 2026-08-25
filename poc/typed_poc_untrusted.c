@@ -1,3 +1,5 @@
+#include "interspec_u_policy.h"
+
 #include <stdint.h>
 #include <stdlib.h>
 #include <sys/mman.h>
@@ -7,12 +9,6 @@ typedef int (*free_fn)(uint32_t);
 
 static alloc_fn typed_alloc;
 static free_fn typed_free;
-
-enum {
-  ITEM_TYPE_ID = 1,
-  OTHER_TYPE_ID = 2,
-  UNKNOWN_TYPE_ID = 999,
-};
 
 struct Item {
   uint32_t id;
@@ -29,8 +25,7 @@ void typed_poc_init(alloc_fn alloc, free_fn free_cb) {
 }
 
 unsigned char* typed_poc_make_item(void) {
-  uint32_t ptr = typed_alloc(sizeof(struct Item), ITEM_TYPE_ID);
-  struct Item* item = (struct Item*)(uintptr_t)ptr;
+  struct Item* item = (struct Item*)malloc(sizeof(struct Item));
   if (!item) return 0;
   item->id = 1;
   item->value = 42;
@@ -38,16 +33,15 @@ unsigned char* typed_poc_make_item(void) {
 }
 
 unsigned char* typed_poc_make_other(void) {
-  uint32_t ptr = typed_alloc(sizeof(struct Other), OTHER_TYPE_ID);
-  struct Other* other = (struct Other*)(uintptr_t)ptr;
+  struct Other* other = (struct Other*)malloc(sizeof(struct Other));
   if (!other) return 0;
   other->value = 42;
   return (unsigned char*)other;
 }
 
-/* U may select another registered ID, but T decides what that ID means. */
+/* Adversarial direct request: U can select a registered ID, not redefine it. */
 unsigned char* typed_poc_make_item_from_other_site(void) {
-  uint32_t ptr = typed_alloc(sizeof(struct Item), OTHER_TYPE_ID);
+  uint32_t ptr = typed_alloc(sizeof(struct Item), INTERSPEC_TYPE_ID_OTHER);
   struct Item* item = (struct Item*)(uintptr_t)ptr;
   if (!item) return 0;
   item->id = 1;
@@ -56,7 +50,7 @@ unsigned char* typed_poc_make_item_from_other_site(void) {
 }
 
 unsigned char* typed_poc_try_unknown_type(void) {
-  uint32_t ptr = typed_alloc(sizeof(struct Item), UNKNOWN_TYPE_ID);
+  uint32_t ptr = typed_alloc(sizeof(struct Item), UINT32_C(999));
   return (unsigned char*)(uintptr_t)ptr;
 }
 
