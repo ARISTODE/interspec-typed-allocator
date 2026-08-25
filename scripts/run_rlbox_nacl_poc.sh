@@ -13,7 +13,15 @@ sed -i 's#git@github.com:PLSysSec/nacl_sandbox_compiler.git#https://github.com/P
   "$work/nacl_rlbox/.gclient"
 "$work/nacl_rlbox/call_gclient_sync.sh"
 
-cp "$root/poc/typed_poc_untrusted.c" "$work/c_src/"
+generated="$work/interspec-generated"
+python3 "$root/tools/generate_policy.py" \
+  --policy "$root/policy/poc_policy.json" \
+  --source "$root/poc/typed_poc_untrusted.c" \
+  --out-dir "$generated"
+
+cp "$generated/typed_poc_untrusted.c" "$work/c_src/"
+cp "$generated/interspec_u_policy.h" "$work/c_src/"
+cp "$generated/interspec_t_policy.h" "$work/test/"
 cp "$root/poc/typed_poc.inc.cpp" "$work/test/"
 mkdir -p "$work/test/interspec"
 cp "$root/include/interspec/runtime.h" "$work/test/interspec/"
