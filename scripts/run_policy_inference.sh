@@ -12,12 +12,20 @@ cat > "$work/stub/interspec_u_policy.h" <<'EOF'
 #define INTERSPEC_TYPE_ID_OTHER UINT32_C(2)
 EOF
 
+cat > "$work/build.sh" <<EOF
+#!/usr/bin/env bash
+set -euo pipefail
+cc -I"$work/stub" -c "$root/poc/typed_poc_untrusted.c" -o "$work/u.o"
+c++ -std=c++17 -c "$root/analysis/poc_trusted_uses.cpp" -o "$work/t.o"
+EOF
+chmod +x "$work/build.sh"
+
 codeql pack install "$root/analysis/ql"
 
 codeql database create "$work/db" \
   --language=cpp \
   --source-root="$root" \
-  --command="cc -I'$work/stub' -c '$root/poc/typed_poc_untrusted.c' -o '$work/u.o' && c++ -std=c++17 -c '$root/analysis/poc_trusted_uses.cpp' -o '$work/t.o'"
+  --command="$work/build.sh"
 
 codeql query run \
   --database="$work/db" \
@@ -29,10 +37,13 @@ codeql bqrs decode \
   --output="$work/policy.csv" \
   -- "$work/policy.bqrs"
 
+cat "$work/policy.csv"
+
 python3 "$root/tools/codeql_policy_to_json.py" \
   --csv "$work/policy.csv" \
   --output "$work/poc_policy.json"
 
+cat "$work/poc_policy.json"
 diff -u "$root/policy/poc_policy.json" "$work/poc_policy.json"
 
 echo "InterSpec policy inference: generated policy matches checked-in policy"
