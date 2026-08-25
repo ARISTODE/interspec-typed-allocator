@@ -57,7 +57,7 @@ TEST_CASE("InterSpec typed allocation PoC", "[typed_allocator]")
   poc_runtime = &runtime;
   REQUIRE(runtime.register_type(kItemTypeId, kItemType));
   REQUIRE(runtime.register_type(kOtherTypeId, kOtherType));
-  REQUIRE_FALSE(runtime.register_type(kItemTypeId, kOtherType));
+  REQUIRE(!runtime.register_type(kItemTypeId, kOtherType));
   REQUIRE(runtime.allocation_count() == 0);
 
   auto alloc_cb = sandbox.register_callback(poc_allocate);
