@@ -91,6 +91,10 @@ TEST_CASE("InterSpec typed allocation PoC", "[typed_allocator]")
   /* Legitimate T uses consume generated expected-type and access-range policy. */
   REQUIRE(check(runtime, item_ptr, kUseItemObject) == interspec::CheckResult::ok);
   REQUIRE(check(runtime, item_ptr, kUseItemValue) == interspec::CheckResult::ok);
+  const auto value_access = checked_access(runtime, item_ptr, kUseItemValue);
+  REQUIRE(value_access.result == interspec::CheckResult::ok);
+  REQUIRE(value_access.address == item_ptr + 4);
+  REQUIRE(value_access.bytes == 4);
   REQUIRE(check(runtime, other_ptr, kUseItemObject) ==
           interspec::CheckResult::wrong_type);
 
