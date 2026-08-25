@@ -7,10 +7,10 @@ The PoC uses RLBox with the NaCl SFI backend. U may freely corrupt object bytes,
 ## Principles
 
 • Keep the implementation small and readable.
-• Reuse RLBox and NaCl mechanisms instead of rebuilding them.
+• Reuse RLBox, NaCl, and CodeQL mechanisms instead of rebuilding them.
 • Separate trusted allocation metadata from untrusted object contents.
 • Never accept a TypeHash as data supplied by U.
-• Generate U allocation instrumentation and T use checks from one policy input.
+• Derive allocation instrumentation and T use checks from source-level analysis.
 • Prefer a working end-to-end path over premature generality.
 
 ## Build the core check
@@ -23,17 +23,43 @@ ctest --test-dir build --output-on-failure
 
 The trusted runtime is exposed as the CMake target `interspec::runtime` and the public header `interspec/runtime.h`.
 
+## P2b: source analysis to policy
+
+`analysis/ql/policy_inference.ql` uses CodeQL to infer the policy facts needed by the runtime from source code:
+
+• tracked U allocation sites and their allocated struct types, using the type operand of `sizeof(T)` at `malloc` calls
+• T pointer-field uses, including the expected declaring type, field byte offset, and field byte size
+
+`tools/codeql_policy_to_json.py` converts those query results into `policy/poc_policy.json`. CI regenerates the JSON and requires it to exactly match the checked-in snapshot, so the policy cannot silently drift away from the analyzed source.
+
+The PoC query intentionally uses the known test boundary functions and a small trusted-use fixture. In a real InterSpec application, those selectors are replaced by InterSpec's existing boundary/data-flow analysis and actual trusted application source; the policy format and downstream runtime path stay the same.
+
 ## Generated policy and instrumentation
 
-`policy/poc_policy.json` is the current input boundary between static inference and runtime code generation. It names the inferred allocation types, the U allocation sites that must be tracked, and the expected T access ranges.
+`tools/generate_policy.py` consumes the inferred policy and generates both sides of the enforcement contract:
 
-`tools/generate_policy.py` consumes that policy and generates both sides of the enforcement contract:
+• U-side TypeIds are assigned automatically and selected ordinary `malloc` sites are rewritten to the InterSpec typed allocator.
+• T-side `TypeId -> TypeHash` registration and expected `{type, offset, bytes}` access policies are generated from the same inferred input.
+• Generated checked accesses validate from the original object pointer through the end of the requested field access, then return the already-validated address/range for trusted use.
 
-• U-side TypeIds are assigned automatically and the selected ordinary `malloc` sites are rewritten to the InterSpec typed allocator.
-• T-side `TypeId -> TypeHash` registration and expected `{type, offset, bytes}` access policies are generated from the same input.
-• Generated field checks validate the range from the checked object pointer through the end of the requested access, so the access cannot silently cross into a different tracked allocation.
+The resulting path is:
 
-The current JSON is a small stand-in for the output of InterSpec/Uriah-style static inference. The next integration step is to emit this policy directly from analysis rather than authoring it by hand.
+```text
+U source + T source
+        ↓
+      CodeQL
+        ↓
+ inferred policy
+        ↓
+ policy generator
+   ↙           ↘
+U allocation   T checks
+instrumentation
+        ↘     ↙
+   InterSpec runtime
+        ↓
+    RLBox + NaCl
+```
 
 ## RLBox + NaCl PoC
 
@@ -50,8 +76,9 @@ The PoC checks:
 • U may supply only a TypeId selector; an unknown TypeId is rejected
 • choosing another registered TypeId gives that registered type and cannot forge or relabel the TypeHash
 • ordinary U `malloc` does not create trusted metadata
-• policy-selected ordinary U `malloc` sites are automatically rewritten to tracked typed allocations
-• legitimate T object/field uses consume generated expected-type and access-range policies
+• source-selected ordinary U `malloc` sites are automatically rewritten to tracked typed allocations
+• T field uses consume inferred expected-type, byte-offset, and access-size policy
+• the checked address returned to T is the same snapshot that passed validation
 • correct typed pointer → pass
 • wrong allocated type → reject
 • out-of-bounds access → reject
@@ -67,4 +94,4 @@ T reserves one dedicated read/write arena inside U's NaCl address space. U can a
 
 For type provenance, T registers a trusted policy table such as `1 -> H(Item)` and `2 -> H(Other)`. U's allocation request carries only the compact TypeId. The TypeId itself is not trusted: compromised U may choose any registered ID. The security property is that only T defines what each ID means. Stronger control-flow or allocation-site provenance is a separate future extension.
 
-The runtime check is intentionally small: a pointer must belong to a tracked allocation, match the expected `TypeHash`, and keep the generated requested access within that same allocation's bounds.
+The runtime check is intentionally small: a pointer must belong to a tracked allocation, match the expected `TypeHash`, and keep the inferred requested access within that same allocation's bounds.
