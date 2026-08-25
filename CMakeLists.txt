@@ -5,7 +5,21 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+add_library(interspec_runtime INTERFACE)
+set_target_properties(interspec_runtime PROPERTIES EXPORT_NAME runtime)
+target_include_directories(interspec_runtime INTERFACE
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>)
+add_library(interspec::runtime ALIAS interspec_runtime)
+
+include(GNUInstallDirs)
+install(TARGETS interspec_runtime EXPORT interspec_runtime_targets)
+install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+install(EXPORT interspec_runtime_targets
+  NAMESPACE interspec::
+  DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/interspec-runtime)
+
 enable_testing()
 add_executable(core_poc tests/core_poc.cpp)
-target_include_directories(core_poc PRIVATE src)
+target_link_libraries(core_poc PRIVATE interspec::runtime)
 add_test(NAME core_poc COMMAND core_poc)
