@@ -36,7 +36,7 @@ def function_body(source, function):
     return match.end(), pos - 1
 
 
-def instrument(source, allocation, type_id):
+def instrument(source, allocation):
     start, end = function_body(source, allocation["function"])
     body = source[start:end]
     type_name = allocation["type"]
@@ -58,7 +58,7 @@ def generate(policy, source):
     for allocation in policy["allocations"]:
         if allocation["type"] not in ids:
             raise ValueError(f"unknown allocation type: {allocation['type']}")
-        source = instrument(source, allocation, ids[allocation["type"]])
+        source = instrument(source, allocation)
 
     u = ["#pragma once", "", "#include <stdint.h>", ""]
     for name, type_id in ids.items():
@@ -68,7 +68,7 @@ def generate(policy, source):
     t = [
         "#pragma once",
         "",
-        "#include <interspec/runtime.h>",
+        '#include "interspec/runtime.h"',
         "",
         "namespace interspec::generated {",
         "",
