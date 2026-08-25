@@ -2,12 +2,17 @@
 #include <stdlib.h>
 #include <sys/mman.h>
 
-typedef uint32_t (*alloc_fn)(uint32_t);
+typedef uint32_t (*alloc_fn)(uint32_t, uint32_t);
 typedef int (*free_fn)(uint32_t);
 
-static alloc_fn item_alloc;
-static alloc_fn other_alloc;
+static alloc_fn typed_alloc;
 static free_fn typed_free;
+
+enum {
+  ITEM_TYPE_ID = 1,
+  OTHER_TYPE_ID = 2,
+  UNKNOWN_TYPE_ID = 999,
+};
 
 struct Item {
   uint32_t id;
@@ -18,14 +23,13 @@ struct Other {
   uint64_t value;
 };
 
-void typed_poc_init(alloc_fn item_cb, alloc_fn other_cb, free_fn free_cb) {
-  item_alloc = item_cb;
-  other_alloc = other_cb;
+void typed_poc_init(alloc_fn alloc, free_fn free_cb) {
+  typed_alloc = alloc;
   typed_free = free_cb;
 }
 
 unsigned char* typed_poc_make_item(void) {
-  uint32_t ptr = item_alloc(sizeof(struct Item));
+  uint32_t ptr = typed_alloc(sizeof(struct Item), ITEM_TYPE_ID);
   struct Item* item = (struct Item*)(uintptr_t)ptr;
   if (!item) return 0;
   item->id = 1;
@@ -34,21 +38,26 @@ unsigned char* typed_poc_make_item(void) {
 }
 
 unsigned char* typed_poc_make_other(void) {
-  uint32_t ptr = other_alloc(sizeof(struct Other));
+  uint32_t ptr = typed_alloc(sizeof(struct Other), OTHER_TYPE_ID);
   struct Other* other = (struct Other*)(uintptr_t)ptr;
   if (!other) return 0;
   other->value = 42;
   return (unsigned char*)other;
 }
 
-/* U can choose the wrong allocation entry point, but cannot relabel it. */
+/* U may select another registered ID, but T decides what that ID means. */
 unsigned char* typed_poc_make_item_from_other_site(void) {
-  uint32_t ptr = other_alloc(sizeof(struct Item));
+  uint32_t ptr = typed_alloc(sizeof(struct Item), OTHER_TYPE_ID);
   struct Item* item = (struct Item*)(uintptr_t)ptr;
   if (!item) return 0;
   item->id = 1;
   item->value = 42;
   return (unsigned char*)item;
+}
+
+unsigned char* typed_poc_try_unknown_type(void) {
+  uint32_t ptr = typed_alloc(sizeof(struct Item), UNKNOWN_TYPE_ID);
+  return (unsigned char*)(uintptr_t)ptr;
 }
 
 unsigned char* typed_poc_make_untracked(void) {
