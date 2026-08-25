@@ -10,6 +10,7 @@ The PoC uses RLBox with the NaCl SFI backend. U may freely corrupt object bytes,
 • Reuse RLBox and NaCl mechanisms instead of rebuilding them.
 • Separate trusted allocation metadata from untrusted object contents.
 • Never accept a TypeHash as data supplied by U.
+• Generate U allocation instrumentation and T use checks from one policy input.
 • Prefer a working end-to-end path over premature generality.
 
 ## Build the core check
@@ -22,13 +23,25 @@ ctest --test-dir build --output-on-failure
 
 The trusted runtime is exposed as the CMake target `interspec::runtime` and the public header `interspec/runtime.h`.
 
+## Generated policy and instrumentation
+
+`policy/poc_policy.json` is the current input boundary between static inference and runtime code generation. It names the inferred allocation types, the U allocation sites that must be tracked, and the expected T access ranges.
+
+`tools/generate_policy.py` consumes that policy and generates both sides of the enforcement contract:
+
+• U-side TypeIds are assigned automatically and the selected ordinary `malloc` sites are rewritten to the InterSpec typed allocator.
+• T-side `TypeId -> TypeHash` registration and expected `{type, offset, bytes}` access policies are generated from the same input.
+• Generated field checks validate the range from the checked object pointer through the end of the requested access, so the access cannot silently cross into a different tracked allocation.
+
+The current JSON is a small stand-in for the output of InterSpec/Uriah-style static inference. The next integration step is to emit this policy directly from analysis rather than authoring it by hand.
+
 ## RLBox + NaCl PoC
 
 ```bash
 ./scripts/run_rlbox_nacl_poc.sh
 ```
 
-The script fetches the RLBox NaCl backend and its modified NaCl compiler, adds the small InterSpec backend patch and PoC shim, builds the sandboxed module, and runs only the `[typed_allocator]` test.
+The script fetches the RLBox NaCl backend and its modified NaCl compiler, generates the P2 policy artifacts, adds the small InterSpec backend patch and PoC shim, builds the sandboxed module, and runs only the `[typed_allocator]` test.
 
 The PoC checks:
 
@@ -37,13 +50,13 @@ The PoC checks:
 • U may supply only a TypeId selector; an unknown TypeId is rejected
 • choosing another registered TypeId gives that registered type and cannot forge or relabel the TypeHash
 • ordinary U `malloc` does not create trusted metadata
+• policy-selected ordinary U `malloc` sites are automatically rewritten to tracked typed allocations
+• legitimate T object/field uses consume generated expected-type and access-range policies
 • correct typed pointer → pass
 • wrong allocated type → reject
 • out-of-bounds access → reject
 • freed pointer → reject
 • untracked U allocation → reject
-• valid interior pointer → pass
-• interior pointer crossing the allocation end → reject
 • U cannot unmap, remap, or change protection on the trusted-managed arena
 
 `Item` and `Other` intentionally have the same size, so the wrong-type case cannot be rejected by size alone.
@@ -52,8 +65,6 @@ The PoC checks:
 
 T reserves one dedicated read/write arena inside U's NaCl address space. U can access object bytes, but T owns allocation metadata and the arena mapping. The PoC uses a bump allocator with no address reuse, so removing a metadata record makes stale pointers fail permanently during the test.
 
-For type provenance, T first registers a trusted policy table such as `1 -> H(Item)` and `2 -> H(Other)`. U's allocation request carries only the compact TypeId. The TypeId itself is not trusted: compromised U may choose any registered ID. The security property is that only T defines what each ID means. Selecting the `Other` ID always creates an allocation recorded as `Other`; U cannot attach `H(Item)` to that request or relabel an existing allocation. Unknown IDs allocate nothing.
+For type provenance, T registers a trusted policy table such as `1 -> H(Item)` and `2 -> H(Other)`. U's allocation request carries only the compact TypeId. The TypeId itself is not trusted: compromised U may choose any registered ID. The security property is that only T defines what each ID means. Stronger control-flow or allocation-site provenance is a separate future extension.
 
-Production integration will generate the TypeId assignments and T-side policy table from statically inferred allocation types. Stronger control-flow or allocation-site provenance is a separate future extension; it is not required for the current allocation-type guarantee.
-
-The runtime check is intentionally small: a pointer must belong to a tracked allocation, match the expected `TypeHash`, and keep the requested access within that allocation's bounds. Automatic allocation instrumentation and InterSpec expected-use inference are the next integration steps.
+The runtime check is intentionally small: a pointer must belong to a tracked allocation, match the expected `TypeHash`, and keep the generated requested access within that same allocation's bounds.
