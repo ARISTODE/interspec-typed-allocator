@@ -1,0 +1,12 @@
+{
+  "types": ["Item", "Other"],
+  "allocations": [
+    {"function": "typed_poc_make_item", "type": "Item"},
+    {"function": "typed_poc_make_other", "type": "Other"}
+  ],
+  "uses": [
+    {"name": "item_object", "type": "Item", "offset": 0, "bytes": 8},
+    {"name": "item_value", "type": "Item", "offset": 4, "bytes": 4},
+    {"name": "other_object", "type": "Other", "offset": 0, "bytes": 8}
+  ]
+}
