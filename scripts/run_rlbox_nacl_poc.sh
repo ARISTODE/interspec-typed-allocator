@@ -15,7 +15,8 @@ sed -i 's#git@github.com:PLSysSec/nacl_sandbox_compiler.git#https://github.com/P
 
 cp "$root/poc/typed_poc_untrusted.c" "$work/c_src/"
 cp "$root/poc/typed_poc.inc.cpp" "$work/test/"
-cp "$root/src/typed_arena.h" "$work/test/"
+mkdir -p "$work/test/interspec"
+cp "$root/include/interspec/runtime.h" "$work/test/interspec/"
 
 python3 - "$work" <<'PY'
 from pathlib import Path
