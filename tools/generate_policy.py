@@ -96,15 +96,19 @@ def generate(policy, source):
             raise ValueError(f"unknown use type: {use['type']}")
         use_ident = cpp(use["name"])
         type_ident = cpp(use["type"])
+        offset = int(use["offset"])
+        size = int(use["bytes"])
+        if offset < 0 or size < 0:
+            raise ValueError(f"negative access range: {use['name']}")
         t += [
             f"constexpr AccessPolicy kUse{use_ident}{{",
-            f"  kTypeHash{type_ident}, {int(use['offset'])}, {int(use['bytes'])}}};",
+            f"  kTypeHash{type_ident}, {offset}, {size}}};",
         ]
     t += [
         "",
         "inline CheckResult check(const Runtime& runtime, uintptr_t base, AccessPolicy policy)",
         "{",
-        "  return runtime.check(base + policy.offset, policy.bytes, policy.type_hash);",
+        "  return runtime.check(base, policy.offset + policy.bytes, policy.type_hash);",
         "}",
         "",
         "}  // namespace interspec::generated",
