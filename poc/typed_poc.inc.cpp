@@ -1,4 +1,5 @@
 #include "interspec/runtime.h"
+#include "interspec_t_policy.h"
 
 #include <cstdint>
 
@@ -20,10 +21,6 @@ int typed_poc_try_remap(uint32_t, uint32_t);
 
 using PocSandbox = rlbox::rlbox_sandbox<TestType>;
 
-static constexpr uint64_t kItemType = interspec::type_hash("Item");
-static constexpr uint64_t kOtherType = interspec::type_hash("Other");
-static constexpr interspec::TypeId kItemTypeId = 1;
-static constexpr interspec::TypeId kOtherTypeId = 2;
 static interspec::Runtime* poc_runtime;
 
 static rlbox::tainted<uint32_t, TestType> poc_allocate(
@@ -44,6 +41,7 @@ static rlbox::tainted<int, TestType> poc_release(
 
 TEST_CASE("InterSpec typed allocation PoC", "[typed_allocator]")
 {
+  using namespace interspec::generated;
   constexpr uint32_t kArenaSize = 64 * 1024;
 
   PocSandbox sandbox;
@@ -55,15 +53,15 @@ TEST_CASE("InterSpec typed allocation PoC", "[typed_allocator]")
 
   interspec::Runtime runtime(arena_base, kArenaSize);
   poc_runtime = &runtime;
-  REQUIRE(runtime.register_type(kItemTypeId, kItemType));
-  REQUIRE(runtime.register_type(kOtherTypeId, kOtherType));
-  REQUIRE(!runtime.register_type(kItemTypeId, kOtherType));
+  REQUIRE(register_types(runtime));
+  REQUIRE(!runtime.register_type(kTypeIdItem, kTypeHashOther));
   REQUIRE(runtime.allocation_count() == 0);
 
   auto alloc_cb = sandbox.register_callback(poc_allocate);
   auto free_cb = sandbox.register_callback(poc_release);
   sandbox.invoke_sandbox_function(typed_poc_init, alloc_cb, free_cb);
 
+  /* These two ordinary malloc sites are rewritten by the P2 generator. */
   auto item = sandbox.invoke_sandbox_function(typed_poc_make_item);
   REQUIRE(runtime.allocation_count() == 1);
 
@@ -90,23 +88,23 @@ TEST_CASE("InterSpec typed allocation PoC", "[typed_allocator]")
   const uintptr_t untracked_ptr =
     sandbox.get_sandbox_impl()->sandbox_address(untracked.UNSAFE_unverified());
 
-  REQUIRE(runtime.check(item_ptr, 8, kItemType) == interspec::CheckResult::ok);
-  REQUIRE(runtime.check(other_ptr, 8, kItemType) ==
+  /* Legitimate T uses consume generated expected-type and access-range policy. */
+  REQUIRE(check(runtime, item_ptr, kUseItemObject) == interspec::CheckResult::ok);
+  REQUIRE(check(runtime, item_ptr, kUseItemValue) == interspec::CheckResult::ok);
+  REQUIRE(check(runtime, other_ptr, kUseItemObject) ==
           interspec::CheckResult::wrong_type);
 
   /* U wrote Item-shaped bytes, but T still records the trusted Other label. */
-  REQUIRE(runtime.check(wrong_site_ptr, 8, kItemType) ==
+  REQUIRE(check(runtime, wrong_site_ptr, kUseItemObject) ==
           interspec::CheckResult::wrong_type);
-  REQUIRE(runtime.check(wrong_site_ptr, 8, kOtherType) ==
+  REQUIRE(check(runtime, wrong_site_ptr, kUseOtherObject) ==
           interspec::CheckResult::ok);
 
-  REQUIRE(runtime.check(item_ptr, 9, kItemType) ==
+  REQUIRE(runtime.check(item_ptr, 9, kTypeHashItem) ==
           interspec::CheckResult::out_of_bounds);
-  REQUIRE(runtime.check(item_ptr + 4, 4, kItemType) ==
-          interspec::CheckResult::ok);
-  REQUIRE(runtime.check(item_ptr + 4, 5, kItemType) ==
+  REQUIRE(runtime.check(item_ptr + 4, 5, kTypeHashItem) ==
           interspec::CheckResult::out_of_bounds);
-  REQUIRE(runtime.check(untracked_ptr, 8, kItemType) ==
+  REQUIRE(runtime.check(untracked_ptr, 8, kTypeHashItem) ==
           interspec::CheckResult::untracked);
 
   REQUIRE(sandbox.invoke_sandbox_function(typed_poc_try_munmap,
@@ -121,12 +119,12 @@ TEST_CASE("InterSpec typed allocation PoC", "[typed_allocator]")
                                           arena_base,
                                           kArenaSize)
             .UNSAFE_unverified() == -1);
-  REQUIRE(runtime.check(item_ptr, 8, kItemType) == interspec::CheckResult::ok);
+  REQUIRE(check(runtime, item_ptr, kUseItemObject) == interspec::CheckResult::ok);
 
   REQUIRE(sandbox.invoke_sandbox_function(typed_poc_release, item)
             .UNSAFE_unverified() == 1);
   REQUIRE(runtime.allocation_count() == 2);
-  REQUIRE(runtime.check(item_ptr, 8, kItemType) ==
+  REQUIRE(check(runtime, item_ptr, kUseItemObject) ==
           interspec::CheckResult::untracked);
 
   sandbox.invoke_sandbox_function(typed_poc_release_untracked, untracked);
