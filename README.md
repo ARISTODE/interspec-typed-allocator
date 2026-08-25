@@ -52,7 +52,7 @@ The PoC checks:
 
 T reserves one dedicated read/write arena inside U's NaCl address space. U can access object bytes, but T owns allocation metadata and the arena mapping. The PoC uses a bump allocator with no address reuse, so removing a metadata record makes stale pointers fail permanently during the test.
 
-For type provenance, T first registers a trusted policy table such as `1 -> H(Item)` and `2 -> H(Other)`. U's allocation request carries only the compact TypeId. The runtime resolves that untrusted selector against the trusted table before creating metadata, so U cannot inject an arbitrary TypeHash. If U changes the selector from `Item` to the registered `Other` ID, the resulting allocation is still recorded as `Other` and fails a later `Item` check. Unknown IDs allocate nothing.
+For type provenance, T first registers a trusted policy table such as `1 -> H(Item)` and `2 -> H(Other)`. U's allocation request carries only the compact TypeId. The TypeId itself is not trusted: compromised U may choose any registered ID. The security property is that only T defines what each ID means. Selecting the `Other` ID always creates an allocation recorded as `Other`; U cannot attach `H(Item)` to that request or relabel an existing allocation. Unknown IDs allocate nothing.
 
 Production integration will generate the TypeId assignments and T-side policy table from statically inferred allocation types. Stronger control-flow or allocation-site provenance is a separate future extension; it is not required for the current allocation-type guarantee.
 
