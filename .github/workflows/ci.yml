@@ -13,6 +13,21 @@ jobs:
       - run: cmake --build build --parallel
       - run: ctest --test-dir build --output-on-failure
 
+  policy-inference:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - id: codeql
+        uses: github/codeql-action/init@v3
+        with:
+          languages: c-cpp
+          build-mode: none
+      - name: Infer runtime policy with CodeQL
+        run: |
+          export PATH="$(dirname '${{ steps.codeql.outputs.codeql-path }}'):$PATH"
+          chmod +x ./scripts/run_policy_inference.sh
+          ./scripts/run_policy_inference.sh
+
   rlbox-nacl:
     runs-on: ubuntu-latest
     container: ubuntu:20.04
