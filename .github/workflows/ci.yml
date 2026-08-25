@@ -4,6 +4,10 @@ on:
   push:
   pull_request:
 
+permissions:
+  contents: read
+  security-events: read
+
 jobs:
   core:
     runs-on: ubuntu-latest
@@ -18,7 +22,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - id: codeql
-        uses: github/codeql-action/init@v3
+        uses: github/codeql-action/init@v4
         with:
           languages: c-cpp
           build-mode: none
