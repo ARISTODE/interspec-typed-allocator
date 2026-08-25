@@ -78,6 +78,12 @@ def generate(policy, source):
         "  size_t bytes;",
         "};",
         "",
+        "struct CheckedAccess {",
+        "  CheckResult result;",
+        "  uintptr_t address;",
+        "  size_t bytes;",
+        "};",
+        "",
     ]
     for name, type_id in ids.items():
         ident = cpp(name)
@@ -106,9 +112,19 @@ def generate(policy, source):
         ]
     t += [
         "",
+        "inline CheckedAccess checked_access(const Runtime& runtime,",
+        "                                    uintptr_t base,",
+        "                                    AccessPolicy policy)",
+        "{",
+        "  const CheckResult result =",
+        "      runtime.check(base, policy.offset + policy.bytes, policy.type_hash);",
+        "  if (result != CheckResult::ok) return {result, 0, 0};",
+        "  return {result, base + policy.offset, policy.bytes};",
+        "}",
+        "",
         "inline CheckResult check(const Runtime& runtime, uintptr_t base, AccessPolicy policy)",
         "{",
-        "  return runtime.check(base, policy.offset + policy.bytes, policy.type_hash);",
+        "  return checked_access(runtime, base, policy).result;",
         "}",
         "",
         "}  // namespace interspec::generated",
