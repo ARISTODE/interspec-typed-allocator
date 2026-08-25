@@ -1,4 +1,4 @@
-#include "typed_arena.h"
+#include <interspec/runtime.h>
 
 #include <cstdint>
 
@@ -18,7 +18,7 @@ int typed_poc_try_remap(uint32_t, uint32_t);
 
 using PocSandbox = rlbox::rlbox_sandbox<TestType>;
 
-static interspec::TypedArena* poc_arena;
+static interspec::Runtime* poc_runtime;
 
 static rlbox::tainted<uint32_t, TestType> poc_allocate(
   PocSandbox&,
@@ -26,14 +26,14 @@ static rlbox::tainted<uint32_t, TestType> poc_allocate(
   rlbox::tainted<uint64_t, TestType> type_hash)
 {
   return static_cast<uint32_t>(
-    poc_arena->allocate(size.UNSAFE_unverified(), type_hash.UNSAFE_unverified()));
+    poc_runtime->allocate(size.UNSAFE_unverified(), type_hash.UNSAFE_unverified()));
 }
 
 static rlbox::tainted<int, TestType> poc_release(
   PocSandbox&,
   rlbox::tainted<uint32_t, TestType> ptr)
 {
-  return poc_arena->release(ptr.UNSAFE_unverified());
+  return poc_runtime->release(ptr.UNSAFE_unverified());
 }
 
 TEST_CASE("InterSpec typed allocation PoC", "[typed_allocator]")
@@ -48,22 +48,22 @@ TEST_CASE("InterSpec typed allocation PoC", "[typed_allocator]")
     sandbox.get_sandbox_impl()->reserve_typed_arena(kArenaSize);
   REQUIRE(arena_base != 0);
 
-  interspec::TypedArena arena(arena_base, kArenaSize);
-  poc_arena = &arena;
-  REQUIRE(arena.allocation_count() == 0);
+  interspec::Runtime runtime(arena_base, kArenaSize);
+  poc_runtime = &runtime;
+  REQUIRE(runtime.allocation_count() == 0);
 
   auto alloc_cb = sandbox.register_callback(poc_allocate);
   auto free_cb = sandbox.register_callback(poc_release);
   sandbox.invoke_sandbox_function(typed_poc_init, alloc_cb, free_cb);
 
   auto item = sandbox.invoke_sandbox_function(typed_poc_make_item);
-  REQUIRE(arena.allocation_count() == 1);
+  REQUIRE(runtime.allocation_count() == 1);
 
   auto other = sandbox.invoke_sandbox_function(typed_poc_make_other);
-  REQUIRE(arena.allocation_count() == 2);
+  REQUIRE(runtime.allocation_count() == 2);
 
   auto untracked = sandbox.invoke_sandbox_function(typed_poc_make_untracked);
-  REQUIRE(arena.allocation_count() == 2);
+  REQUIRE(runtime.allocation_count() == 2);
 
   const uintptr_t item_ptr =
     sandbox.get_sandbox_impl()->sandbox_address(item.UNSAFE_unverified());
@@ -72,14 +72,14 @@ TEST_CASE("InterSpec typed allocation PoC", "[typed_allocator]")
   const uintptr_t untracked_ptr =
     sandbox.get_sandbox_impl()->sandbox_address(untracked.UNSAFE_unverified());
 
-  REQUIRE(arena.check(item_ptr, 8, kItem) == interspec::CheckResult::ok);
-  REQUIRE(arena.check(other_ptr, 8, kItem) == interspec::CheckResult::wrong_type);
-  REQUIRE(arena.check(item_ptr, 9, kItem) ==
+  REQUIRE(runtime.check(item_ptr, 8, kItem) == interspec::CheckResult::ok);
+  REQUIRE(runtime.check(other_ptr, 8, kItem) == interspec::CheckResult::wrong_type);
+  REQUIRE(runtime.check(item_ptr, 9, kItem) ==
           interspec::CheckResult::out_of_bounds);
-  REQUIRE(arena.check(item_ptr + 4, 4, kItem) == interspec::CheckResult::ok);
-  REQUIRE(arena.check(item_ptr + 4, 5, kItem) ==
+  REQUIRE(runtime.check(item_ptr + 4, 4, kItem) == interspec::CheckResult::ok);
+  REQUIRE(runtime.check(item_ptr + 4, 5, kItem) ==
           interspec::CheckResult::out_of_bounds);
-  REQUIRE(arena.check(untracked_ptr, 8, kItem) == interspec::CheckResult::untracked);
+  REQUIRE(runtime.check(untracked_ptr, 8, kItem) == interspec::CheckResult::untracked);
 
   REQUIRE(sandbox.invoke_sandbox_function(typed_poc_try_munmap,
                                           arena_base,
@@ -93,12 +93,12 @@ TEST_CASE("InterSpec typed allocation PoC", "[typed_allocator]")
                                           arena_base,
                                           kArenaSize)
             .UNSAFE_unverified() == -1);
-  REQUIRE(arena.check(item_ptr, 8, kItem) == interspec::CheckResult::ok);
+  REQUIRE(runtime.check(item_ptr, 8, kItem) == interspec::CheckResult::ok);
 
   REQUIRE(sandbox.invoke_sandbox_function(typed_poc_release, item)
             .UNSAFE_unverified() == 1);
-  REQUIRE(arena.allocation_count() == 1);
-  REQUIRE(arena.check(item_ptr, 8, kItem) == interspec::CheckResult::untracked);
+  REQUIRE(runtime.allocation_count() == 1);
+  REQUIRE(runtime.check(item_ptr, 8, kItem) == interspec::CheckResult::untracked);
 
   sandbox.invoke_sandbox_function(typed_poc_release_untracked, untracked);
   sandbox.destroy_sandbox();
