@@ -9,7 +9,7 @@ The PoC uses RLBox with the NaCl SFI backend. U may freely corrupt object bytes,
 • Keep the implementation small and readable.
 • Reuse RLBox and NaCl mechanisms instead of rebuilding them.
 • Separate trusted allocation metadata from untrusted object contents.
-• Do not accept the allocation type as data supplied by U.
+• Never accept a TypeHash as data supplied by U.
 • Prefer a working end-to-end path over premature generality.
 
 ## Build the core check
@@ -33,8 +33,9 @@ The script fetches the RLBox NaCl backend and its modified NaCl compiler, adds t
 The PoC checks:
 
 • typed allocations create trusted metadata in T
-• allocation TypeHash is selected by a T-side allocation entry point, not supplied by U
-• U can call the wrong typed entry point, but the resulting allocation keeps that entry point's trusted type label
+• T registers the authoritative mapping `TypeId -> TypeHash`
+• U may supply only a TypeId selector; an unknown TypeId is rejected
+• choosing another registered TypeId gives that registered type and cannot forge or relabel the TypeHash
 • ordinary U `malloc` does not create trusted metadata
 • correct typed pointer → pass
 • wrong allocated type → reject
@@ -51,6 +52,8 @@ The PoC checks:
 
 T reserves one dedicated read/write arena inside U's NaCl address space. U can access object bytes, but T owns allocation metadata and the arena mapping. The PoC uses a bump allocator with no address reuse, so removing a metadata record makes stale pointers fail permanently during the test.
 
-For type provenance, the current PoC registers separate trusted allocation callbacks for `Item` and `Other`. U passes only an allocation size. The TypeHash is fixed by the T-side callback, so U cannot inject an arbitrary TypeHash or relabel an existing allocation. Production integration will generate these trusted bindings from statically inferred allocation sites/types rather than hand-writing them.
+For type provenance, T first registers a trusted policy table such as `1 -> H(Item)` and `2 -> H(Other)`. U's allocation request carries only the compact TypeId. The runtime resolves that untrusted selector against the trusted table before creating metadata, so U cannot inject an arbitrary TypeHash. If U changes the selector from `Item` to the registered `Other` ID, the resulting allocation is still recorded as `Other` and fails a later `Item` check. Unknown IDs allocate nothing.
 
-The runtime check is intentionally small: a pointer must belong to a tracked allocation, match the expected `TypeHash`, and keep the requested access within that allocation's bounds. Automatic allocation-site binding and InterSpec expected-use inference are the next integration steps.
+Production integration will generate the TypeId assignments and T-side policy table from statically inferred allocation types. Stronger control-flow or allocation-site provenance is a separate future extension; it is not required for the current allocation-type guarantee.
+
+The runtime check is intentionally small: a pointer must belong to a tracked allocation, match the expected `TypeHash`, and keep the requested access within that allocation's bounds. Automatic allocation instrumentation and InterSpec expected-use inference are the next integration steps.
