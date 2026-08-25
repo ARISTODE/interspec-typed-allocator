@@ -3,12 +3,13 @@
 #include <cstdint>
 
 extern "C" {
-using poc_alloc_fn = uint32_t (*)(uint32_t);
+using poc_alloc_fn = uint32_t (*)(uint32_t, uint32_t);
 using poc_free_fn = int (*)(uint32_t);
-void typed_poc_init(poc_alloc_fn, poc_alloc_fn, poc_free_fn);
+void typed_poc_init(poc_alloc_fn, poc_free_fn);
 unsigned char* typed_poc_make_item();
 unsigned char* typed_poc_make_other();
 unsigned char* typed_poc_make_item_from_other_site();
+unsigned char* typed_poc_try_unknown_type();
 unsigned char* typed_poc_make_untracked();
 int typed_poc_release(unsigned char*);
 void typed_poc_release_untracked(unsigned char*);
@@ -21,22 +22,17 @@ using PocSandbox = rlbox::rlbox_sandbox<TestType>;
 
 static constexpr uint64_t kItemType = interspec::type_hash("Item");
 static constexpr uint64_t kOtherType = interspec::type_hash("Other");
+static constexpr interspec::TypeId kItemTypeId = 1;
+static constexpr interspec::TypeId kOtherTypeId = 2;
 static interspec::Runtime* poc_runtime;
 
-static rlbox::tainted<uint32_t, TestType> poc_allocate_item(
+static rlbox::tainted<uint32_t, TestType> poc_allocate(
   PocSandbox&,
-  rlbox::tainted<uint32_t, TestType> size)
+  rlbox::tainted<uint32_t, TestType> size,
+  rlbox::tainted<uint32_t, TestType> type_id)
 {
   return static_cast<uint32_t>(
-    poc_runtime->allocate(size.UNSAFE_unverified(), kItemType));
-}
-
-static rlbox::tainted<uint32_t, TestType> poc_allocate_other(
-  PocSandbox&,
-  rlbox::tainted<uint32_t, TestType> size)
-{
-  return static_cast<uint32_t>(
-    poc_runtime->allocate(size.UNSAFE_unverified(), kOtherType));
+    poc_runtime->allocate(size.UNSAFE_unverified(), type_id.UNSAFE_unverified()));
 }
 
 static rlbox::tainted<int, TestType> poc_release(
@@ -59,13 +55,14 @@ TEST_CASE("InterSpec typed allocation PoC", "[typed_allocator]")
 
   interspec::Runtime runtime(arena_base, kArenaSize);
   poc_runtime = &runtime;
+  REQUIRE(runtime.register_type(kItemTypeId, kItemType));
+  REQUIRE(runtime.register_type(kOtherTypeId, kOtherType));
+  REQUIRE_FALSE(runtime.register_type(kItemTypeId, kOtherType));
   REQUIRE(runtime.allocation_count() == 0);
 
-  auto item_alloc_cb = sandbox.register_callback(poc_allocate_item);
-  auto other_alloc_cb = sandbox.register_callback(poc_allocate_other);
+  auto alloc_cb = sandbox.register_callback(poc_allocate);
   auto free_cb = sandbox.register_callback(poc_release);
-  sandbox.invoke_sandbox_function(
-    typed_poc_init, item_alloc_cb, other_alloc_cb, free_cb);
+  sandbox.invoke_sandbox_function(typed_poc_init, alloc_cb, free_cb);
 
   auto item = sandbox.invoke_sandbox_function(typed_poc_make_item);
   REQUIRE(runtime.allocation_count() == 1);
@@ -75,6 +72,10 @@ TEST_CASE("InterSpec typed allocation PoC", "[typed_allocator]")
 
   auto wrong_site =
     sandbox.invoke_sandbox_function(typed_poc_make_item_from_other_site);
+  REQUIRE(runtime.allocation_count() == 3);
+
+  auto unknown = sandbox.invoke_sandbox_function(typed_poc_try_unknown_type);
+  REQUIRE(unknown.UNSAFE_unverified() == nullptr);
   REQUIRE(runtime.allocation_count() == 3);
 
   auto untracked = sandbox.invoke_sandbox_function(typed_poc_make_untracked);
