@@ -40,14 +40,27 @@ def instrument(source, allocation):
     start, end = function_body(source, allocation["function"])
     body = source[start:end]
     type_name = allocation["type"]
+    type_id = f"INTERSPEC_TYPE_ID_{macro(type_name)}"
+
     old = f"(struct {type_name}*)malloc(sizeof(struct {type_name}))"
-    new = (
-        f"(struct {type_name}*)(uintptr_t)typed_alloc(sizeof(struct {type_name}), "
-        f"INTERSPEC_TYPE_ID_{macro(type_name)})"
-    )
-    if body.count(old) != 1:
-        raise ValueError(f"expected one typed malloc in {allocation['function']}")
-    return source[:start] + body.replace(old, new, 1) + source[end:]
+    if body.count(old) == 1:
+        new = (
+            f"(struct {type_name}*)(uintptr_t)typed_alloc(sizeof(struct {type_name}), "
+            f"{type_id})"
+        )
+        body = body.replace(old, new, 1)
+    else:
+        pattern = re.compile(
+            r"malloc\s*\(\s*sizeof\s*\(\s*\*\s*([A-Za-z_][A-Za-z0-9_]*)\s*\)\s*\)"
+        )
+        matches = list(pattern.finditer(body))
+        if len(matches) != 1:
+            raise ValueError(f"expected one typed malloc in {allocation['function']}")
+        var = matches[0].group(1)
+        new = f"(void*)(uintptr_t)typed_alloc(sizeof(*{var}), {type_id})"
+        body = body[:matches[0].start()] + new + body[matches[0].end():]
+
+    return source[:start] + body + source[end:]
 
 
 def generate(policy, source):
@@ -141,12 +154,13 @@ def main():
     args = parser.parse_args()
 
     policy = json.loads(Path(args.policy).read_text())
-    source = Path(args.source).read_text()
+    source_path = Path(args.source)
+    source = source_path.read_text()
     instrumented, u_header, t_header = generate(policy, source)
 
     out = Path(args.out_dir)
     out.mkdir(parents=True, exist_ok=True)
-    (out / "typed_poc_untrusted.c").write_text(instrumented)
+    (out / source_path.name).write_text(instrumented)
     (out / "interspec_u_policy.h").write_text(u_header)
     (out / "interspec_t_policy.h").write_text(t_header)
 
