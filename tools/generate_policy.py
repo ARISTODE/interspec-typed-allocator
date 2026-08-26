@@ -50,15 +50,41 @@ def instrument(source, allocation):
         )
         body = body.replace(old, new, 1)
     else:
-        pattern = re.compile(
+        sizeof_pattern = re.compile(
             r"malloc\s*\(\s*sizeof\s*\(\s*\*\s*([A-Za-z_][A-Za-z0-9_]*)\s*\)\s*\)"
         )
-        matches = list(pattern.finditer(body))
-        if len(matches) != 1:
-            raise ValueError(f"expected one typed malloc in {allocation['function']}")
-        var = matches[0].group(1)
-        new = f"(void*)(uintptr_t)typed_alloc(sizeof(*{var}), {type_id})"
-        body = body[:matches[0].start()] + new + body[matches[0].end():]
+        sizeof_matches = list(sizeof_pattern.finditer(body))
+        if len(sizeof_matches) == 1:
+            var = sizeof_matches[0].group(1)
+            new = f"(void*)(uintptr_t)typed_alloc(sizeof(*{var}), {type_id})"
+            body = (
+                body[:sizeof_matches[0].start()]
+                + new
+                + body[sizeof_matches[0].end():]
+            )
+        else:
+            # P4 needs one additional real allocation shape: popt's
+            # expandNextArg() allocates a dynamically-sized char buffer with
+            # malloc(tn).  The policy already identifies the expected pointee
+            # type; preserving the original malloc byte count is sufficient.
+            plain_pattern = re.compile(
+                r"malloc\s*\(\s*([A-Za-z_][A-Za-z0-9_]*)\s*\)"
+            )
+            plain_matches = list(plain_pattern.finditer(body))
+            if type_name != "char" or len(plain_matches) != 1:
+                raise ValueError(
+                    f"expected one typed malloc in {allocation['function']}"
+                )
+            size_expr = plain_matches[0].group(1)
+            new = (
+                f"(void*)(uintptr_t)typed_alloc((uint32_t)({size_expr}), "
+                f"{type_id})"
+            )
+            body = (
+                body[:plain_matches[0].start()]
+                + new
+                + body[plain_matches[0].end():]
+            )
 
     return source[:start] + body + source[end:]
 
