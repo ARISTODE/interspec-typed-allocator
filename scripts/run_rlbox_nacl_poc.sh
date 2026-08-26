@@ -71,6 +71,7 @@ cp "$popt_generated/interspec_u_policy.h" "$work/c_src/interspec_popt_u_policy.h
 cp "$popt_generated/interspec_t_policy.h" "$work/test/interspec_popt_t_policy.h"
 cp "$root/integration/rsync_popt/popt_typed_shim.c" "$work/c_src/"
 cp "$root/integration/rsync_popt/popt_smoke.c" "$work/c_src/"
+cp "$root/integration/rsync_popt/popt_help_stub.c" "$work/c_src/"
 cp "$root/integration/rsync_popt/rsync_popt.inc.cpp" "$work/test/"
 
 # These edits are PoC/test-harness glue only; the security backend is packaged
@@ -106,6 +107,7 @@ replace(
     "               ${CMAKE_SOURCE_DIR}/typed_poc_untrusted.c\n"
     "               ${CMAKE_SOURCE_DIR}/popt_typed_shim.c\n"
     "               ${CMAKE_SOURCE_DIR}/popt_smoke.c\n"
+    "               ${CMAKE_SOURCE_DIR}/popt_help_stub.c\n"
     "               ${CMAKE_SOURCE_DIR}/rsync-src/popt/popt.c\n"
     "               ${CMAKE_SOURCE_DIR}/rsync-src/popt/poptconfig.c\n"
     "               ${CMAKE_SOURCE_DIR}/rsync-src/popt/poptparse.c\n"
