@@ -3,15 +3,16 @@ import cpp
 /**
  * P4 policy inference for the real rsync/popt boundary.
  *
- * This query intentionally starts with one concrete trusted dereference shape:
- * rsync stores a poptGetOptArg() result in a local variable and later reads
- * the first character through *arg.  That is enough to infer the expected
- * pointee type for the first real Extended-SP3 use site without inventing a
- * semantic string bound in static analysis.
+ * The query connects two facts from the real source tree.  In U, popt allocates
+ * the poptContext object and the dynamically-sized char buffer eventually
+ * returned by poptGetOptArg().  In T, rsync stores that return value in a local
+ * variable and later dereferences the first char through *arg.  The resulting
+ * policy gives the allocator a trusted expected type and gives the trusted use
+ * site a matching type/range check without inventing a semantic string bound.
  */
 
-predicate realPoptAllocation(string name, string typeName, string functionName,
-                             int offset, int bytes) {
+predicate poptContextAllocation(string name, string typeName,
+                                string functionName, int offset, int bytes) {
   exists(FunctionCall call, SizeofOperator size, Type objectType, Function f |
     f = call.getEnclosingFunction() and
     f.getFile().getRelativePath() = "popt/popt.c" and
@@ -25,6 +26,28 @@ predicate realPoptAllocation(string name, string typeName, string functionName,
     offset = 0 and
     bytes = objectType.getSize()
   )
+}
+
+predicate poptOptArgAllocation(string name, string typeName,
+                               string functionName, int offset, int bytes) {
+  exists(FunctionCall call, Function f |
+    f = call.getEnclosingFunction() and
+    f.getFile().getRelativePath() = "popt/popt.c" and
+    f.hasName("expandNextArg") and
+    call.getTarget().hasName("malloc") and
+    name = f.getName() and
+    typeName = "char" and
+    functionName = f.getName() and
+    offset = 0 and
+    bytes = 1
+  )
+}
+
+predicate realPoptAllocation(string name, string typeName, string functionName,
+                             int offset, int bytes) {
+  poptContextAllocation(name, typeName, functionName, offset, bytes)
+  or
+  poptOptArgAllocation(name, typeName, functionName, offset, bytes)
 }
 
 predicate assignedFromPoptGetOptArg(Variable v, Function f) {
