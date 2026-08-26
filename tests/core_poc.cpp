@@ -39,6 +39,11 @@ int main() {
   EXPECT(runtime.check(item + 16, 65, kItem), CheckResult::out_of_bounds);
   EXPECT(runtime.check(0x50000000, 8, kItem), CheckResult::untracked);
 
+  size_t remaining = 0;
+  EXPECT(runtime.remaining_bytes(item + 16, kItem, remaining), CheckResult::ok);
+  EXPECT(remaining, size_t{64});
+  EXPECT(runtime.remaining_bytes(item, kOther, remaining), CheckResult::wrong_type);
+
   EXPECT(runtime.release(item), true);
   EXPECT(runtime.check(item, 8, kItem), CheckResult::untracked);
 
