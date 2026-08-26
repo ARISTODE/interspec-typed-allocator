@@ -46,8 +46,8 @@ jobs:
         run: |
           apt-get update
           DEBIAN_FRONTEND=noninteractive apt-get install -y \
-            build-essential ca-certificates cmake cargo curl git \
-            g++-multilib python2 python3
+            autoconf automake build-essential ca-certificates cmake cargo curl \
+            g++-multilib gawk git libpopt-dev python2 python3
       - uses: actions/checkout@v4
       - run: chmod +x ./scripts/run_rlbox_nacl_poc.sh
       - run: ./scripts/run_rlbox_nacl_poc.sh
