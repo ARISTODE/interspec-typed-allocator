@@ -2,11 +2,14 @@
 #include "interspec_popt_t_policy.h"
 
 #include <cstdint>
+#include <cstring>
+#include <vector>
 
 extern "C" {
 using popt_alloc_fn = uint32_t (*)(uint32_t, uint32_t);
 void interspec_popt_init(popt_alloc_fn);
 void* interspec_popt_parse_smoke();
+char* interspec_popt_get_opt_arg(void*);
 int interspec_popt_archive_seen();
 }
 
@@ -52,6 +55,22 @@ TEST_CASE("InterSpec real rsync popt integration", "[rsync_popt]")
     sandbox.get_sandbox_impl()->sandbox_address(ctx.UNSAFE_unverified());
   REQUIRE(runtime.check(ctx_ptr, 1, kTypeHashPoptContextS) ==
           interspec::CheckResult::ok);
+
+  auto arg = sandbox.invoke_sandbox_function(interspec_popt_get_opt_arg, ctx);
+  REQUIRE(arg.UNSAFE_unverified() != nullptr);
+  REQUIRE(runtime.allocation_count() == 2);
+
+  const uintptr_t arg_ptr =
+    sandbox.get_sandbox_impl()->sandbox_address(arg.UNSAFE_unverified());
+  size_t arg_bytes = 0;
+  REQUIRE(runtime.remaining_bytes(arg_ptr, kTypeHashChar, arg_bytes) ==
+          interspec::CheckResult::ok);
+  REQUIRE(arg_bytes == sizeof("destination"));
+
+  std::vector<char> trusted_copy(arg_bytes);
+  std::memcpy(trusted_copy.data(), arg.UNSAFE_unverified(), arg_bytes);
+  REQUIRE(trusted_copy.back() == '\0');
+  REQUIRE(std::strcmp(trusted_copy.data(), "destination") == 0);
 
   sandbox.destroy_sandbox();
 }
