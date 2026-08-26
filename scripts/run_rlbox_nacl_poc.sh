@@ -117,7 +117,10 @@ replace(
     "target_include_directories(glue_lib_nacl.nexe PUBLIC\n"
     "  ${modnacl_SOURCE_DIR}\n"
     "  ${CMAKE_SOURCE_DIR}\n"
-    "  ${CMAKE_SOURCE_DIR}/rsync-src/popt)")
+    "  ${CMAKE_SOURCE_DIR}/rsync-src/popt)\n"
+    "target_compile_definitions(glue_lib_nacl.nexe PRIVATE\n"
+    "  HAVE_STPCPY=1\n"
+    "  HAVE_STRERROR=1)")
 
 test = repo / "test/test_nacl_sandbox_glue.cpp"
 text = test.read_text()
