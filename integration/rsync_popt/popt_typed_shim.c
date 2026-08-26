@@ -19,35 +19,39 @@ uint32_t typed_alloc(uint32_t size, uint32_t type_id)
   return interspec_alloc ? interspec_alloc(size, type_id) : 0;
 }
 
-static char* copy_opt_arg_with_type(void* opaque, uint32_t type_id)
-{
-  char* src = poptGetOptArg((poptContext)opaque);
-  if (!src) return NULL;
-
-  const size_t size = strlen(src) + 1;
-  const uint32_t dst = typed_alloc((uint32_t)size, type_id);
-  if (!dst) {
-    free(src);
-    return NULL;
-  }
-
-  memcpy((void*)(uintptr_t)dst, src, size);
-  free(src);
-  return (char*)(uintptr_t)dst;
-}
-
 char* interspec_popt_get_opt_arg(void* opaque)
 {
-  return copy_opt_arg_with_type(opaque, INTERSPEC_TYPE_ID_CHAR);
+  /* expandNextArg() is instrumented directly, so the real popt return value
+   * already points to a trusted-metadata char allocation. */
+  return poptGetOptArg((poptContext)opaque);
 }
 
 char* interspec_popt_get_opt_arg_wrong_type(void* opaque)
 {
-  return copy_opt_arg_with_type(opaque, INTERSPEC_TYPE_ID_POPTCONTEXT_S);
+  const char* src = poptGetOptArg((poptContext)opaque);
+  if (!src) return NULL;
+
+  const size_t size = strlen(src) + 1;
+  const uint32_t dst =
+    typed_alloc((uint32_t)size, INTERSPEC_TYPE_ID_POPTCONTEXT_S);
+  if (!dst) return NULL;
+
+  memcpy((void*)(uintptr_t)dst, src, size);
+  return (char*)(uintptr_t)dst;
 }
 
 char* interspec_popt_get_opt_arg_untracked(void* opaque)
 {
-  /* Models a compromised U returning an ordinary sandbox allocation. */
-  return poptGetOptArg((poptContext)opaque);
+  const char* src = poptGetOptArg((poptContext)opaque);
+  if (!src) return NULL;
+
+  const size_t size = strlen(src) + 1;
+  char* dst = malloc(size);
+  if (!dst) return NULL;
+
+  /* Models a compromised U redirecting the return to a normal sandbox
+   * allocation.  The pointer remains in the expected U domain but has no
+   * trusted allocation/type record. */
+  memcpy(dst, src, size);
+  return dst;
 }
