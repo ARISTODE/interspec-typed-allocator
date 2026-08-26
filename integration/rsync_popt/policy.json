@@ -1,9 +1,20 @@
 {
-  "types": ["poptContext_s", "char"],
+  "types": [
+    "char",
+    "poptContext_s"
+  ],
   "allocations": [
-    {"function": "poptGetContext", "type": "poptContext_s"}
+    {
+      "function": "poptGetContext",
+      "type": "poptContext_s"
+    }
   ],
   "uses": [
-    {"name": "popt_opt_arg_first_byte", "type": "char", "offset": 0, "bytes": 1}
+    {
+      "name": "popt_opt_arg_first_byte",
+      "type": "char",
+      "offset": 0,
+      "bytes": 1
+    }
   ]
 }
