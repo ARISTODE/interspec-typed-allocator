@@ -72,7 +72,41 @@ cp "$popt_generated/interspec_t_policy.h" "$work/test/interspec_popt_t_policy.h"
 cp "$root/integration/rsync_popt/popt_typed_shim.c" "$work/c_src/"
 cp "$root/integration/rsync_popt/popt_smoke.c" "$work/c_src/"
 cp "$root/integration/rsync_popt/popt_help_stub.c" "$work/c_src/"
+cp "$root/integration/rsync_popt/p4c_bridge_untrusted.c" "$work/c_src/"
 cp "$root/integration/rsync_popt/rsync_popt.inc.cpp" "$work/test/"
+
+# Real popt can resize and destroy allocations after the selected typed malloc
+# sites execute.  Route those lifetime operations through the trusted runtime
+# when the pointer belongs to the InterSpec arena, and retain normal libc
+# behavior for all ordinary popt allocations.
+python3 - "$rsync_src/popt/system.h" <<'PY'
+from pathlib import Path
+import sys
+
+path = Path(sys.argv[1])
+text = path.read_text()
+needle = '#endif  /* defined(HAVE_MCHECK_H) && defined(__GNUC__) */\n'
+insert = needle + r'''
+
+#ifdef INTERSPEC_TYPED_POPT
+void interspec_typed_free(void *ptr);
+void * interspec_typed_realloc(void *ptr, size_t size);
+char * interspec_typed_strdup(const char *str);
+#undef free
+#undef realloc
+#undef xrealloc
+#undef strdup
+#undef xstrdup
+#define free(_ptr) interspec_typed_free((_ptr))
+#define realloc(_ptr, _size) interspec_typed_realloc((_ptr), (_size))
+#define xrealloc(_ptr, _size) interspec_typed_realloc((_ptr), (_size))
+#define strdup(_str) interspec_typed_strdup((_str))
+#define xstrdup(_str) interspec_typed_strdup((_str))
+#endif
+'''
+assert needle in text
+path.write_text(text.replace(needle, insert, 1))
+PY
 
 # These edits are PoC/test-harness glue only; the security backend is packaged
 # independently under backends/rlbox_nacl/.
@@ -108,6 +142,7 @@ replace(
     "               ${CMAKE_SOURCE_DIR}/popt_typed_shim.c\n"
     "               ${CMAKE_SOURCE_DIR}/popt_smoke.c\n"
     "               ${CMAKE_SOURCE_DIR}/popt_help_stub.c\n"
+    "               ${CMAKE_SOURCE_DIR}/p4c_bridge_untrusted.c\n"
     "               ${CMAKE_SOURCE_DIR}/rsync-src/popt/popt.c\n"
     "               ${CMAKE_SOURCE_DIR}/rsync-src/popt/poptconfig.c\n"
     "               ${CMAKE_SOURCE_DIR}/rsync-src/popt/poptparse.c\n"
@@ -122,6 +157,7 @@ replace(
     "target_compile_definitions(glue_lib_nacl.nexe PRIVATE\n"
     "  HAVE_STPCPY=1\n"
     "  HAVE_STRERROR=1\n"
+    "  INTERSPEC_TYPED_POPT=1\n"
     "  POPT_SYSCONFDIR=\"/etc\"\n"
     "  PACKAGE=\"rsync\")")
 
@@ -138,3 +174,80 @@ cmake --build "$work/build" --target glue_lib_nacl --parallel 2
 cmake --build "$work/build" --target test_rlbox_glue --parallel 2
 "$work/build/test_rlbox_glue" "[typed_allocator]"
 "$work/build/test_rlbox_glue" "[rsync_popt]"
+
+# P4c: build the complete trusted rsync executable while interposing its popt
+# API with an RLBox bridge.  The host uses system libpopt only for standalone
+# helpers such as poptDupArgv()/poptStrerror(); every context-dependent parser
+# operation is supplied by p4c_bridge.cpp and executes the real bundled popt in
+# the NaCl module built above.
+cd "$rsync_src"
+./configure \
+  --disable-md2man \
+  --disable-xxhash \
+  --disable-zstd \
+  --disable-lz4 \
+  --disable-openssl \
+  --disable-roll-simd \
+  --disable-roll-asm \
+  --disable-md5-asm >/dev/null
+
+bridge_obj="$work/p4c_bridge.o"
+g++ -std=c++17 -O2 -c "$root/integration/rsync_popt/p4c_bridge.cpp" \
+  -o "$bridge_obj" \
+  -DGLUE_LIB_NACL_PATH=\"$work/build/nacl/glue_lib_nacl.nexe\" \
+  -DNACL_LIBC_PATH=\"$work/nacl_rlbox/native_client/scons-out/nacl_irt-x86-64/staging/irt_core.nexe\" \
+  -I"$work/include" \
+  -I"$work/build/_deps/rlbox-src/code/include" \
+  -I"$work/nacl_rlbox/native_client/src/trusted/dyn_ldr" \
+  -I"$root/include" \
+  -I"$work/test" \
+  -I"$rsync_src/popt"
+
+python3 - "$rsync_src/Makefile" <<'PY'
+from pathlib import Path
+import sys
+
+path = Path(sys.argv[1])
+text = path.read_text()
+old = '$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $(OBJS) $(LIBS)'
+new = '$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $(OBJS) $(P4C_BRIDGE) $(LIBS) $(P4C_LIBS)'
+assert old in text
+path.write_text(text.replace(old, new, 1))
+PY
+
+nacl_libdir="$work/nacl_rlbox/native_client/scons-out/opt-linux-x86-64/lib"
+nacl_libs=(
+  "$nacl_libdir/libdyn_ldr.a"
+  "$nacl_libdir/libsel.a"
+  "$nacl_libdir/libnacl_error_code.a"
+  "$nacl_libdir/libenv_cleanser.a"
+  "$nacl_libdir/libnrd_xfer.a"
+  "$nacl_libdir/libnacl_perf_counter.a"
+  "$nacl_libdir/libnacl_base.a"
+  "$nacl_libdir/libimc.a"
+  "$nacl_libdir/libnacl_fault_inject.a"
+  "$nacl_libdir/libnacl_interval.a"
+  "$nacl_libdir/libplatform_qual_lib.a"
+  "$nacl_libdir/libvalidators.a"
+  "$nacl_libdir/libdfa_validate_caller_x86_64.a"
+  "$nacl_libdir/libcpu_features.a"
+  "$nacl_libdir/libvalidation_cache.a"
+  "$nacl_libdir/libplatform.a"
+  "$nacl_libdir/libgio.a"
+  "$nacl_libdir/libnccopy_x86_64.a"
+)
+p4c_libs="-Wl,--start-group ${nacl_libs[*]} -Wl,--end-group -lstdc++ -pthread -ldl"
+
+make -j2 rsync P4C_BRIDGE="$bridge_obj" P4C_LIBS="$p4c_libs"
+
+# Exercise both a destination-backed string option and a direct poptGetOptArg
+# use through the complete rsync main executable.
+"$rsync_src/rsync" --max-size=1M --block-size=1024 --version >/dev/null
+
+# Exercise positional arguments and the normal local-transfer startup path.
+p4c_data="$work/p4c-rsync-data"
+mkdir -p "$p4c_data/src" "$p4c_data/dst"
+printf 'InterSpec P4c\n' > "$p4c_data/src/input.txt"
+"$rsync_src/rsync" --dry-run -a "$p4c_data/src/" "$p4c_data/dst/" >/dev/null
+
+echo "InterSpec P4c: complete rsync executable ran with popt inside RLBox NaCl"
