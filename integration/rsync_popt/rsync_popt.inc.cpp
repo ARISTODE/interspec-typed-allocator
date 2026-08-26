@@ -86,7 +86,10 @@ TEST_CASE("InterSpec real rsync popt integration", "[rsync_popt]")
   REQUIRE(ctx.UNSAFE_unverified() != nullptr);
   REQUIRE(sandbox.invoke_sandbox_function(interspec_popt_archive_seen)
             .UNSAFE_unverified() == 1);
-  REQUIRE(runtime.allocation_count() == 1);
+
+  /* The real popt source has already allocated both the context and the
+   * option-argument char buffer through generated typed allocation sites. */
+  REQUIRE(runtime.allocation_count() == 2);
 
   const uintptr_t ctx_ptr =
     sandbox.get_sandbox_impl()->sandbox_address(ctx.UNSAFE_unverified());
