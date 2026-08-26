@@ -23,7 +23,8 @@ cd "$rsync_src"
   --disable-zstd \
   --disable-lz4 \
   --disable-openssl \
-  --disable-roll-simd
+  --disable-roll-simd \
+  --disable-idn
 make -j2 options.o popt/popt.o
 EOF
 chmod +x "$work/build.sh"
