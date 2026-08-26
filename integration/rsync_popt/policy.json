@@ -1,5 +1,5 @@
 {
-  "types": ["poptContext_s"],
+  "types": ["poptContext_s", "char"],
   "allocations": [
     {"function": "poptGetContext", "type": "poptContext_s"}
   ],
