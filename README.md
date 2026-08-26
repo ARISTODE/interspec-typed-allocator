@@ -11,6 +11,7 @@ The PoC uses RLBox with the NaCl SFI backend. U may freely corrupt object bytes,
 • Separate trusted allocation metadata from untrusted object contents.
 • Never accept a TypeHash as data supplied by U.
 • Derive allocation instrumentation and T use checks from source-level analysis.
+• Keep generic InterSpec policy logic separate from NaCl-specific isolation mechanisms.
 • Prefer a working end-to-end path over premature generality.
 
 ## Build the core check
@@ -61,13 +62,27 @@ instrumentation
     RLBox + NaCl
 ```
 
+## P3: versioned RLBox + NaCl backend
+
+NaCl-specific enforcement is packaged under `backends/rlbox_nacl/` instead of being embedded in the PoC test script.
+
+`manifest.json` pins the exact supported `rlbox_nacl_sandbox` and `nacl_sandbox_compiler` revisions. `apply_backend.py` verifies both revisions before making any changes, so an upstream update cannot silently change the security mechanism.
+
+The backend exposes only the low-level primitives needed by the generic InterSpec runtime:
+
+• reserve one T-managed, U-readable/U-writable arena in the NaCl address space
+• convert a sandbox pointer to its NaCl user address for trusted metadata lookup
+• reject U `munmap`, `mprotect`, and `mmap(MAP_FIXED)` operations that overlap the arena
+
+The generic allocation metadata, type policy, and bounds checks remain in `interspec::Runtime`; they do not depend on NaCl internals.
+
 ## RLBox + NaCl PoC
 
 ```bash
 ./scripts/run_rlbox_nacl_poc.sh
 ```
 
-The script fetches the RLBox NaCl backend and its modified NaCl compiler, generates the P2 policy artifacts, adds the small InterSpec backend patch and PoC shim, builds the sandboxed module, and runs only the `[typed_allocator]` test.
+The script fetches the pinned RLBox NaCl backend and modified NaCl compiler, applies the packaged InterSpec backend, generates the P2 policy artifacts, adds only the PoC test-harness glue, builds the sandboxed module, and runs the `[typed_allocator]` test.
 
 The PoC checks:
 
