@@ -108,7 +108,6 @@ replace(
     "               ${CMAKE_SOURCE_DIR}/popt_smoke.c\n"
     "               ${CMAKE_SOURCE_DIR}/rsync-src/popt/popt.c\n"
     "               ${CMAKE_SOURCE_DIR}/rsync-src/popt/poptconfig.c\n"
-    "               ${CMAKE_SOURCE_DIR}/rsync-src/popt/popthelp.c\n"
     "               ${CMAKE_SOURCE_DIR}/rsync-src/popt/poptparse.c\n"
     "               ${CMAKE_SOURCE_DIR}/rsync-src/popt/poptint.c)")
 replace(
