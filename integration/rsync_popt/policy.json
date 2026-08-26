@@ -5,6 +5,10 @@
   ],
   "allocations": [
     {
+      "function": "expandNextArg",
+      "type": "char"
+    },
+    {
       "function": "poptGetContext",
       "type": "poptContext_s"
     }
