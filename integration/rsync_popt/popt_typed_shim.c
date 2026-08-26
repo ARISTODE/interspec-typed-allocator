@@ -19,13 +19,13 @@ uint32_t typed_alloc(uint32_t size, uint32_t type_id)
   return interspec_alloc ? interspec_alloc(size, type_id) : 0;
 }
 
-char* interspec_popt_get_opt_arg(void* opaque)
+static char* copy_opt_arg_with_type(void* opaque, uint32_t type_id)
 {
   char* src = poptGetOptArg((poptContext)opaque);
   if (!src) return NULL;
 
   const size_t size = strlen(src) + 1;
-  const uint32_t dst = typed_alloc((uint32_t)size, INTERSPEC_TYPE_ID_CHAR);
+  const uint32_t dst = typed_alloc((uint32_t)size, type_id);
   if (!dst) {
     free(src);
     return NULL;
@@ -34,4 +34,20 @@ char* interspec_popt_get_opt_arg(void* opaque)
   memcpy((void*)(uintptr_t)dst, src, size);
   free(src);
   return (char*)(uintptr_t)dst;
+}
+
+char* interspec_popt_get_opt_arg(void* opaque)
+{
+  return copy_opt_arg_with_type(opaque, INTERSPEC_TYPE_ID_CHAR);
+}
+
+char* interspec_popt_get_opt_arg_wrong_type(void* opaque)
+{
+  return copy_opt_arg_with_type(opaque, INTERSPEC_TYPE_ID_POPTCONTEXT_S);
+}
+
+char* interspec_popt_get_opt_arg_untracked(void* opaque)
+{
+  /* Models a compromised U returning an ordinary sandbox allocation. */
+  return poptGetOptArg((poptContext)opaque);
 }
