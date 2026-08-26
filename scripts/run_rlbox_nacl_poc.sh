@@ -120,7 +120,9 @@ replace(
     "  ${CMAKE_SOURCE_DIR}/rsync-src/popt)\n"
     "target_compile_definitions(glue_lib_nacl.nexe PRIVATE\n"
     "  HAVE_STPCPY=1\n"
-    "  HAVE_STRERROR=1)")
+    "  HAVE_STRERROR=1\n"
+    "  POPT_SYSCONFDIR=\"/etc\"\n"
+    "  PACKAGE=\"rsync\")")
 
 test = repo / "test/test_nacl_sandbox_glue.cpp"
 text = test.read_text()
