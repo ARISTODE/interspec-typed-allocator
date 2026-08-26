@@ -63,14 +63,20 @@ class Runtime {
     return false;
   }
 
-  CheckResult check(uintptr_t ptr, size_t bytes, uint64_t expected_type) const {
+  CheckResult remaining_bytes(uintptr_t ptr, uint64_t expected_type,
+                              size_t& bytes) const {
     const Allocation* allocation = find_allocation(ptr);
     if (!allocation) return CheckResult::untracked;
     if (allocation->type_hash != expected_type) return CheckResult::wrong_type;
-
-    const size_t offset = ptr - allocation->base;
-    if (bytes > allocation->size - offset) return CheckResult::out_of_bounds;
+    bytes = allocation->size - (ptr - allocation->base);
     return CheckResult::ok;
+  }
+
+  CheckResult check(uintptr_t ptr, size_t bytes, uint64_t expected_type) const {
+    size_t remaining = 0;
+    const CheckResult result = remaining_bytes(ptr, expected_type, remaining);
+    if (result != CheckResult::ok) return result;
+    return bytes <= remaining ? CheckResult::ok : CheckResult::out_of_bounds;
   }
 
  private:
