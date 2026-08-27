@@ -6,7 +6,8 @@ predicate trackedUntrustedBoundary(Function f) {
 }
 
 predicate inferredAllocation(string name, string typeName, string functionName,
-                             int offset, int bytes) {
+                             int offset, int bytes, int startLine,
+                             int startColumn, int endLine, int endColumn) {
   exists(FunctionCall call, SizeofOperator size, Type objectType, Function f |
     f = call.getEnclosingFunction() and
     trackedUntrustedBoundary(f) and
@@ -17,7 +18,11 @@ predicate inferredAllocation(string name, string typeName, string functionName,
     name = f.getName() and
     functionName = f.getName() and
     offset = 0 and
-    bytes = objectType.getSize()
+    bytes = objectType.getSize() and
+    startLine = call.getLocation().getStartLine() and
+    startColumn = call.getLocation().getStartColumn() and
+    endLine = call.getLocation().getEndLine() and
+    endColumn = call.getLocation().getEndColumn()
   )
 }
 
@@ -37,10 +42,14 @@ predicate inferredUse(string name, string typeName, string functionName,
 }
 
 from string kind, string name, string typeName, string functionName,
-     int offset, int bytes
+     int offset, int bytes, int startLine, int startColumn, int endLine,
+     int endColumn
 where
   (kind = "allocation" and
-   inferredAllocation(name, typeName, functionName, offset, bytes))
+   inferredAllocation(name, typeName, functionName, offset, bytes, startLine,
+                      startColumn, endLine, endColumn))
   or
-  (kind = "use" and inferredUse(name, typeName, functionName, offset, bytes))
-select kind, name, typeName, functionName, offset, bytes
+  (kind = "use" and inferredUse(name, typeName, functionName, offset, bytes) and
+   startLine = 0 and startColumn = 0 and endLine = 0 and endColumn = 0)
+select kind, name, typeName, functionName, offset, bytes,
+       startLine, startColumn, endLine, endColumn
