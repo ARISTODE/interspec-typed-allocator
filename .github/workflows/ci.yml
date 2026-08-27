@@ -50,4 +50,12 @@ jobs:
             g++-multilib gawk git libpopt-dev python2 python3
       - uses: actions/checkout@v4
       - run: chmod +x ./scripts/run_rlbox_nacl_poc.sh
-      - run: ./scripts/run_rlbox_nacl_poc.sh
+      - name: Run RLBox NaCl and P4c integration
+        run: |
+          log=/tmp/interspec-rlbox-nacl-ci.log
+          if ! ./scripts/run_rlbox_nacl_poc.sh >"$log" 2>&1; then
+            echo "RLBox NaCl / P4c integration failed; final log follows"
+            tail -n 300 "$log"
+            exit 1
+          fi
+          tail -n 120 "$log"
