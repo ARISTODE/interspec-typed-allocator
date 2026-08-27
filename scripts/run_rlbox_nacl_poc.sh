@@ -237,13 +237,15 @@ nacl_libs=(
   "$nacl_libdir/libgio.a"
   "$nacl_libdir/libnccopy_x86_64.a"
 )
-p4c_libs="-Wl,--start-group ${nacl_libs[*]} -Wl,--end-group -lstdc++ -pthread -ldl"
+p4c_libs="-Wl,--start-group ${nacl_libs[*]} -Wl,--end-group -lstdc++ -pthread -ldl -lrt"
 
 make -j2 rsync P4C_BRIDGE="$bridge_obj" P4C_LIBS="$p4c_libs"
 
-# Exercise both a destination-backed string option and a direct poptGetOptArg
-# use through the complete rsync main executable.
-"$rsync_src/rsync" --max-size=1M --block-size=1024 --version >/dev/null
+# Exercise a destination-backed string option and direct poptGetOptArg uses
+# through the complete rsync main executable.
+p4c_backup="$work/p4c-backup"
+mkdir -p "$p4c_backup"
+"$rsync_src/rsync" --backup-dir="$p4c_backup" --max-size=1M --block-size=1024 --version >/dev/null
 
 # Exercise positional arguments and the normal local-transfer startup path.
 p4c_data="$work/p4c-rsync-data"
