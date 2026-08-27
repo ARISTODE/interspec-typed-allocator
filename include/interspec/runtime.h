@@ -1,4 +1,5 @@
-#pragma once
+#ifndef INTERSPEC_RUNTIME_H_INCLUDED
+#define INTERSPEC_RUNTIME_H_INCLUDED
 
 #include <cstddef>
 #include <cstdint>
@@ -150,3 +151,5 @@ constexpr uint64_t type_hash(const char* text) {
 }
 
 }  // namespace interspec
+
+#endif  // INTERSPEC_RUNTIME_H_INCLUDED
