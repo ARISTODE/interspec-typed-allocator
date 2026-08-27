@@ -36,3 +36,6 @@ add_test(NAME policy_codegen
     --policy ${CMAKE_CURRENT_SOURCE_DIR}/policy/poc_policy.json
     --source ${CMAKE_CURRENT_SOURCE_DIR}/poc/typed_poc_untrusted.c
     --out-dir ${CMAKE_CURRENT_BINARY_DIR}/generated-policy)
+add_test(NAME policy_codegen_hardening
+  COMMAND ${Python3_EXECUTABLE}
+    ${CMAKE_CURRENT_SOURCE_DIR}/tests/policy_codegen_hardening.py)
