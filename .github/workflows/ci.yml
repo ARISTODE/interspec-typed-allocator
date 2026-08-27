@@ -17,6 +17,34 @@ jobs:
       - run: cmake --build build --parallel
       - run: ctest --test-dir build --output-on-failure
 
+  evaluation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run P6 security and runtime evaluation
+        env:
+          INTERSPEC_BENCH_ITERATIONS: 100000
+        run: bash ./scripts/run_p6_evaluation.sh p6-results
+      - name: Upload P6 evaluation results
+        uses: actions/upload-artifact@v4
+        with:
+          name: p6-evaluation-results
+          path: p6-results
+
+  release-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build installable research preview
+        run: bash ./scripts/package_release.sh dist
+      - name: Upload research preview archive
+        uses: actions/upload-artifact@v4
+        with:
+          name: interspec-typed-allocator-0.1.0
+          path: |
+            dist/interspec-typed-allocator-0.1.0.tar.gz
+            dist/interspec-typed-allocator-0.1.0.tar.gz.sha256
+
   policy-inference:
     runs-on: ubuntu-latest
     steps:
