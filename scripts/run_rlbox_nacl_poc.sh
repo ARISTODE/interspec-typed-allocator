@@ -187,9 +187,10 @@ cd "$rsync_src"
   --disable-zstd \
   --disable-lz4 \
   --disable-openssl \
+  --disable-idn \
   --disable-roll-simd \
   --disable-roll-asm \
-  --disable-md5-asm >/dev/null
+  --disable-md5-asm
 
 bridge_obj="$work/p4c_bridge.o"
 g++ -std=c++17 -O2 -c "$root/integration/rsync_popt/p4c_bridge.cpp" \
