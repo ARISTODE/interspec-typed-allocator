@@ -2,7 +2,6 @@
 
 #include <cstdint>
 #include <iostream>
-#include <string>
 
 namespace {
 
@@ -110,6 +109,8 @@ int main() {
   Runtime invalid(UINTPTR_MAX - 7, 64);
   all_pass &= report_bool("invalid_arena_detected", false,
                           invalid.arena_valid());
+  all_pass &= report_bool("invalid_arena_register_type", true,
+                          invalid.register_type(kItemId, kItem));
   all_pass &= report_bool("invalid_arena_allocation_rejected", true,
                           invalid.allocate(8, kItemId) == 0);
 
