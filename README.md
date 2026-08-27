@@ -158,6 +158,32 @@ The hardening tests include:
 • precise source-site instrumentation when multiple `malloc` calls appear in one function
 • the full P4c rsync + RLBox + NaCl regression, ensuring the hardening changes preserve the real application path
 
+## P6: evaluation and research preview
+
+P6 turns the completed mechanism into an evaluated and reproducible artifact without expanding its security claim.
+
+`evaluation/security_eval.cpp` provides a machine-readable security matrix covering expected type checks, spatial bounds, untracked pointers, exact-base release, stale pointers after free and realloc, realloc failure semantics, TypeHash collision rejection, unknown TypeIds, zero-sized allocations, and invalid arena handling.
+
+`evaluation/runtime_bench.cpp` reports lookup and allocation costs as CSV while sweeping from 1 to 16,384 live allocations. It also reports read-only check throughput with 1, 2, 4, and 8 trusted threads. Timing is intentionally not a CI pass threshold because hosted runner performance is noisy; correctness remains independently enforced by tests.
+
+Run the reproducible evaluation with:
+
+```bash
+bash scripts/run_p6_evaluation.sh
+```
+
+The detailed methodology is in `P6_EVALUATION.md`, one representative CI result is recorded in `P6_RESULTS.md`, and exact reproduction steps are in `REPRODUCIBILITY.md`.
+
+The runtime is now installable as a CMake package. A clean external project can use `find_package(interspec-runtime CONFIG REQUIRED)` and link `interspec::runtime`. CI verifies this path with `examples/consumer/`.
+
+A research preview archive can be built with:
+
+```bash
+bash scripts/package_release.sh
+```
+
+The default artifact is `interspec-typed-allocator-0.1.0.tar.gz` with a SHA256 checksum. The package contains the installed public runtime interface, CMake package metadata, evaluation and reproducibility documentation, representative results, and the pinned RLBox + NaCl manifest.
+
 ## Current scope
 
 T reserves one dedicated read/write arena inside U's NaCl address space. U can access object bytes, but T owns allocation metadata and the arena mapping. The allocator intentionally does not reuse released addresses, so removing a metadata record makes stale pointers fail permanently for the lifetime of the arena.
