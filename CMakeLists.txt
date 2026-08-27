@@ -24,6 +24,11 @@ add_executable(core_poc tests/core_poc.cpp)
 target_link_libraries(core_poc PRIVATE interspec::runtime)
 add_test(NAME core_poc COMMAND core_poc)
 
+find_package(Threads REQUIRED)
+add_executable(runtime_hardening tests/runtime_hardening.cpp)
+target_link_libraries(runtime_hardening PRIVATE interspec::runtime Threads::Threads)
+add_test(NAME runtime_hardening COMMAND runtime_hardening)
+
 find_package(Python3 REQUIRED COMPONENTS Interpreter)
 add_test(NAME policy_codegen
   COMMAND ${Python3_EXECUTABLE}
