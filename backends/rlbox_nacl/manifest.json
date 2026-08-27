@@ -1,0 +1,10 @@
+{
+  "rlbox_nacl_sandbox": {
+    "repository": "https://github.com/PLSysSec/rlbox_nacl_sandbox.git",
+    "commit": "0dd15342c86c0625c7c2ed7762a13feb524252d7"
+  },
+  "nacl_sandbox_compiler": {
+    "repository": "https://github.com/PLSysSec/nacl_sandbox_compiler.git",
+    "commit": "f274515ab22441ea6b4e937e519ace851fac308f"
+  }
+}

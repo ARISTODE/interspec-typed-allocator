@@ -1,0 +1,128 @@
+#include <stdint.h>
+#include <stdlib.h>
+#include <string.h>
+
+#include "interspec_popt_u_policy.h"
+#include "popt.h"
+
+typedef uint32_t (*interspec_alloc_fn)(uint32_t, uint32_t);
+typedef uint32_t (*interspec_release_fn)(uint32_t);
+typedef uint32_t (*interspec_size_fn)(uint32_t);
+typedef uint32_t (*interspec_realloc_fn)(uint32_t, uint32_t);
+
+static interspec_alloc_fn interspec_alloc;
+static interspec_release_fn interspec_release;
+static interspec_size_fn interspec_size;
+static interspec_realloc_fn interspec_realloc;
+
+void interspec_popt_init(interspec_alloc_fn alloc)
+{
+  interspec_alloc = alloc;
+}
+
+void interspec_popt_init_lifetime(interspec_alloc_fn alloc,
+                                  interspec_release_fn release,
+                                  interspec_size_fn size,
+                                  interspec_realloc_fn reallocate)
+{
+  interspec_alloc = alloc;
+  interspec_release = release;
+  interspec_size = size;
+  interspec_realloc = reallocate;
+}
+
+uint32_t typed_alloc(uint32_t size, uint32_t type_id)
+{
+  return interspec_alloc ? interspec_alloc(size, type_id) : 0;
+}
+
+char* interspec_typed_strdup(const char* src)
+{
+  if (!src) return NULL;
+
+  const size_t size = strlen(src) + 1;
+  if (size > UINT32_MAX) return NULL;
+
+  const uint32_t dst = typed_alloc((uint32_t)size, INTERSPEC_TYPE_ID_CHAR);
+  if (!dst) return NULL;
+
+  memcpy((void*)(uintptr_t)dst, src, size);
+  return (char*)(uintptr_t)dst;
+}
+
+void interspec_typed_free(void* ptr)
+{
+  if (!ptr) return;
+
+  const uint32_t raw = (uint32_t)(uintptr_t)ptr;
+  if (interspec_release && interspec_release(raw)) {
+    /* The bump allocator intentionally keeps the physical bytes mapped.  T has
+     * removed the authoritative metadata, so stale pointers fail immediately. */
+    return;
+  }
+
+  free(ptr);
+}
+
+void* interspec_typed_realloc(void* ptr, size_t size)
+{
+  if (!ptr) return realloc(NULL, size);
+  if (size > UINT32_MAX) return NULL;
+
+  const uint32_t raw = (uint32_t)(uintptr_t)ptr;
+  if (interspec_size && interspec_realloc) {
+    const uint32_t old_size = interspec_size(raw);
+    if (old_size != 0) {
+      if (size == 0) {
+        if (interspec_release) interspec_release(raw);
+        return NULL;
+      }
+
+      const uint32_t dst = interspec_realloc(raw, (uint32_t)size);
+      if (!dst) return NULL;
+
+      const size_t copy = old_size < size ? old_size : size;
+      memcpy((void*)(uintptr_t)dst, ptr, copy);
+      return (void*)(uintptr_t)dst;
+    }
+  }
+
+  return realloc(ptr, size);
+}
+
+char* interspec_popt_get_opt_arg(void* opaque)
+{
+  /* expandNextArg() is instrumented directly, so the real popt return value
+   * already points to a trusted-metadata char allocation. */
+  return poptGetOptArg((poptContext)opaque);
+}
+
+char* interspec_popt_get_opt_arg_wrong_type(void* opaque)
+{
+  const char* src = poptGetOptArg((poptContext)opaque);
+  if (!src) return NULL;
+
+  const size_t size = strlen(src) + 1;
+  const uint32_t dst =
+    typed_alloc((uint32_t)size, INTERSPEC_TYPE_ID_POPTCONTEXT_S);
+  if (!dst) return NULL;
+
+  memcpy((void*)(uintptr_t)dst, src, size);
+  return (char*)(uintptr_t)dst;
+}
+
+char* interspec_popt_get_opt_arg_untracked(void* opaque)
+{
+  const char* src = poptGetOptArg((poptContext)opaque);
+  if (!src) return NULL;
+
+  const size_t size = strlen(src) + 1;
+  char* dst = malloc(size);
+  if (!dst) return NULL;
+
+  /* Models a compromised U redirecting the return to a normal sandbox
+   * allocation.  The pointer remains in the expected U domain but has no
+   * trusted allocation/type record. */
+  memcpy(dst, src, size);
+  return dst;
+}

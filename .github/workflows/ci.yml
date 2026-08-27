@@ -1,0 +1,61 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+  security-events: read
+
+jobs:
+  core:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: cmake -S . -B build
+      - run: cmake --build build --parallel
+      - run: ctest --test-dir build --output-on-failure
+
+  policy-inference:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - id: codeql
+        uses: github/codeql-action/init@v4
+        with:
+          languages: c-cpp
+          build-mode: none
+      - name: Infer runtime policy with CodeQL
+        run: |
+          export PATH="$(dirname '${{ steps.codeql.outputs.codeql-path }}'):$PATH"
+          chmod +x ./scripts/run_policy_inference.sh
+          ./scripts/run_policy_inference.sh
+      - name: Infer P4 rsync popt policy from real source
+        run: |
+          export PATH="$(dirname '${{ steps.codeql.outputs.codeql-path }}'):$PATH"
+          chmod +x ./scripts/run_rsync_popt_policy_inference.sh
+          ./scripts/run_rsync_popt_policy_inference.sh
+
+  rlbox-nacl:
+    runs-on: ubuntu-latest
+    container: ubuntu:20.04
+    timeout-minutes: 45
+    steps:
+      - name: Install build tools
+        run: |
+          apt-get update
+          DEBIAN_FRONTEND=noninteractive apt-get install -y \
+            autoconf automake build-essential ca-certificates cmake cargo curl \
+            g++-multilib gawk git libpopt-dev python2 python3
+      - uses: actions/checkout@v4
+      - run: chmod +x ./scripts/run_rlbox_nacl_poc.sh
+      - name: Run RLBox NaCl and P4c integration
+        run: |
+          log=/tmp/interspec-rlbox-nacl-ci.log
+          if ! ./scripts/run_rlbox_nacl_poc.sh >"$log" 2>&1; then
+            echo "RLBox NaCl / P4c integration failed; final log follows"
+            tail -n 300 "$log"
+            exit 1
+          fi
+          tail -n 120 "$log"

@@ -1,0 +1,4 @@
+name: interspec-typed-policy
+version: 0.0.1
+dependencies:
+  codeql/cpp-all: ^5.6.1
