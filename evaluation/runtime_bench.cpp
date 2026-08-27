@@ -6,6 +6,7 @@
 #include <cstdlib>
 #include <iomanip>
 #include <iostream>
+#include <memory>
 #include <thread>
 #include <vector>
 
@@ -48,16 +49,17 @@ void print_result(const char* metric, size_t population, size_t threads,
             << ops_per_sec << '\n';
 }
 
-Runtime make_runtime(size_t population, std::vector<uintptr_t>& objects) {
+std::unique_ptr<Runtime> make_runtime(size_t population,
+                                      std::vector<uintptr_t>& objects) {
   const size_t capacity = (population + 16) * 64;
-  Runtime runtime(kBase, capacity);
-  if (!runtime.register_type(kItemId, kItem) ||
-      !runtime.register_type(kOtherId, kOther)) {
+  auto runtime = std::make_unique<Runtime>(kBase, capacity);
+  if (!runtime->register_type(kItemId, kItem) ||
+      !runtime->register_type(kOtherId, kOther)) {
     std::abort();
   }
   objects.reserve(population);
   for (size_t i = 0; i < population; ++i) {
-    const uintptr_t ptr = runtime.allocate(kObjectSize, kItemId);
+    const uintptr_t ptr = runtime->allocate(kObjectSize, kItemId);
     if (!ptr) std::abort();
     objects.push_back(ptr);
   }
@@ -77,27 +79,27 @@ uint64_t measure(size_t iterations, Fn fn) {
 
 void benchmark_lookup(size_t population, size_t iterations) {
   std::vector<uintptr_t> objects;
-  Runtime runtime = make_runtime(population, objects);
+  auto runtime = make_runtime(population, objects);
   const uintptr_t target = objects.back();
 
   const uint64_t check_ns = measure(iterations, [&](size_t) {
-    return runtime.check(target, 8, kItem) == CheckResult::ok ? 1u : 0u;
+    return runtime->check(target, 8, kItem) == CheckResult::ok ? 1u : 0u;
   });
   print_result("check_live", population, 1, iterations, check_ns);
 
   const uint64_t interior_ns = measure(iterations, [&](size_t) {
-    return runtime.check(target + 8, 8, kItem) == CheckResult::ok ? 1u : 0u;
+    return runtime->check(target + 8, 8, kItem) == CheckResult::ok ? 1u : 0u;
   });
   print_result("check_interior", population, 1, iterations, interior_ns);
 
   const uint64_t wrong_type_ns = measure(iterations, [&](size_t) {
-    return runtime.check(target, 8, kOther) == CheckResult::wrong_type ? 1u : 0u;
+    return runtime->check(target, 8, kOther) == CheckResult::wrong_type ? 1u : 0u;
   });
   print_result("check_wrong_type", population, 1, iterations, wrong_type_ns);
 
   size_t remaining = 0;
   const uint64_t remaining_ns = measure(iterations, [&](size_t) {
-    return runtime.remaining_bytes(target + 8, kItem, remaining) ==
+    return runtime->remaining_bytes(target + 8, kItem, remaining) ==
                    CheckResult::ok
                ? remaining
                : 0u;
@@ -123,7 +125,7 @@ void benchmark_allocation(size_t population) {
 void benchmark_concurrent_checks(size_t population, size_t iterations,
                                  size_t thread_count) {
   std::vector<uintptr_t> objects;
-  Runtime runtime = make_runtime(population, objects);
+  auto runtime = make_runtime(population, objects);
   const uintptr_t target = objects.back();
 
   std::vector<std::thread> threads;
@@ -133,7 +135,7 @@ void benchmark_concurrent_checks(size_t population, size_t iterations,
     threads.emplace_back([&, t] {
       uint64_t local = t;
       for (size_t i = 0; i < iterations; ++i)
-        local += runtime.check(target, 8, kItem) == CheckResult::ok ? 1u : 0u;
+        local += runtime->check(target, 8, kItem) == CheckResult::ok ? 1u : 0u;
       sink.fetch_add(local, std::memory_order_relaxed);
     });
   }
