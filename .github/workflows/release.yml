@@ -1,0 +1,37 @@
+name: release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Resolve and validate release version
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          if ! grep -q "project(interspec_typed_allocator VERSION ${version} LANGUAGES CXX)" CMakeLists.txt; then
+            echo "tag ${GITHUB_REF_NAME} does not match the CMake project version"
+            exit 1
+          fi
+          echo "INTERSPEC_RELEASE_VERSION=$version" >> "$GITHUB_ENV"
+
+      - name: Build release archive
+        run: bash ./scripts/package_release.sh dist
+
+      - name: Publish GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" \
+            "dist/interspec-typed-allocator-${INTERSPEC_RELEASE_VERSION}.tar.gz" \
+            "dist/interspec-typed-allocator-${INTERSPEC_RELEASE_VERSION}.tar.gz.sha256" \
+            --title "InterSpec Typed Allocator ${GITHUB_REF_NAME}" \
+            --notes-file RELEASE_NOTES.md
