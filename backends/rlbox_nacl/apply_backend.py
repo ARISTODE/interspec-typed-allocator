@@ -34,6 +34,22 @@ def apply_backend(root):
     require_head(native, manifest["nacl_sandbox_compiler"]["commit"])
 
     backend = root / "include/rlbox_nacl_sandbox.hpp"
+
+    # The pinned NaCl backend predates rlbox_stdlib.hpp's rlbox::memcpy helper.
+    # Its old unqualified memcpy calls execute inside namespace rlbox and would
+    # otherwise resolve only to the newer four-argument RLBox helper.  Make the
+    # ordinary three-argument C++ memcpy overload visible in the same namespace.
+    replace(
+        backend,
+        "#include <cstdint>\n#include <iostream>",
+        "#include <cstdint>\n#include <cstring>\n#include <iostream>",
+    )
+    replace(
+        backend,
+        "namespace rlbox {\n\nnamespace detail {",
+        "namespace rlbox {\n\nusing std::memcpy;\n\nnamespace detail {",
+    )
+
     replace(
         backend,
         "  using T_PointerType = uint32_t;\n  using T_ShortType = short;\n\nprivate:",
