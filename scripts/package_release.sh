@@ -27,6 +27,7 @@ cp -a "$stage"/. "$package"/
 mkdir -p "$package/share/interspec-typed-allocator"
 cp "$root/README.md" "$package/share/interspec-typed-allocator/"
 cp "$root/P6_EVALUATION.md" "$package/share/interspec-typed-allocator/"
+cp "$root/P6_RESULTS.md" "$package/share/interspec-typed-allocator/"
 cp "$root/REPRODUCIBILITY.md" "$package/share/interspec-typed-allocator/"
 cp "$root/backends/rlbox_nacl/manifest.json" \
   "$package/share/interspec-typed-allocator/rlbox_nacl_manifest.json"
