@@ -53,39 +53,120 @@ def source_offset(source, line, column, end=False):
     return base + column if end else base + column - 1
 
 
+def malloc_call_extent(source, anchor_start, anchor_end):
+    """Expand a CodeQL malloc-name anchor to the complete malloc(...) call.
+
+    For C/C++, FunctionCall.getLocation() in the pinned CodeQL extractor can
+    identify only the target token ("malloc"), rather than the full call
+    expression.  The source span still uniquely identifies the analyzed call.
+    Starting from that trusted analysis anchor, parse the immediately following
+    parenthesized argument and return its full source extent and size expression.
+    """
+    if source[anchor_start:anchor_end].strip() != "malloc":
+        raise ValueError(
+            f"allocation anchor is not malloc: {source[anchor_start:anchor_end]!r}"
+        )
+
+    pos = anchor_end
+    while pos < len(source) and source[pos].isspace():
+        pos += 1
+    if pos >= len(source) or source[pos] != "(":
+        raise ValueError("malloc anchor is not followed by an argument list")
+
+    open_paren = pos
+    depth = 0
+    quote = None
+    escaped = False
+    line_comment = False
+    block_comment = False
+    pos = open_paren
+
+    while pos < len(source):
+        ch = source[pos]
+        nxt = source[pos + 1] if pos + 1 < len(source) else ""
+
+        if line_comment:
+            if ch == "\n":
+                line_comment = False
+            pos += 1
+            continue
+
+        if block_comment:
+            if ch == "*" and nxt == "/":
+                block_comment = False
+                pos += 2
+            else:
+                pos += 1
+            continue
+
+        if quote is not None:
+            if escaped:
+                escaped = False
+            elif ch == "\\":
+                escaped = True
+            elif ch == quote:
+                quote = None
+            pos += 1
+            continue
+
+        if ch == "/" and nxt == "/":
+            line_comment = True
+            pos += 2
+            continue
+        if ch == "/" and nxt == "*":
+            block_comment = True
+            pos += 2
+            continue
+        if ch in {'"', "'"}:
+            quote = ch
+            pos += 1
+            continue
+        if ch == "(":
+            depth += 1
+        elif ch == ")":
+            depth -= 1
+            if depth == 0:
+                argument = source[open_paren + 1:pos].strip()
+                if not argument:
+                    raise ValueError("empty malloc size expression")
+                return anchor_start, pos + 1, argument
+            if depth < 0:
+                break
+        pos += 1
+
+    raise ValueError("unterminated malloc argument list")
+
+
 def instrument_site(source, allocation):
     site = allocation["site"]
-    start = source_offset(
+    anchor_start = source_offset(
         source, int(site["start_line"]), int(site["start_column"])
     )
-    end = source_offset(
+    anchor_end = source_offset(
         source, int(site["end_line"]), int(site["end_column"]), end=True
     )
-    if end <= start:
+    if anchor_end <= anchor_start:
         raise ValueError(f"invalid allocation site in {allocation['function']}")
 
     function_start, function_end = function_body(source, allocation["function"])
-    if start < function_start or end > function_end:
+    if anchor_start < function_start or anchor_end > function_end:
         raise ValueError(
             f"allocation site escapes function {allocation['function']}"
         )
 
-    call = source[start:end]
-    match = re.fullmatch(r"\s*malloc\s*\((.*)\)\s*", call, re.DOTALL)
-    if not match:
+    call_start, call_end, size_expr = malloc_call_extent(
+        source, anchor_start, anchor_end
+    )
+    if call_end > function_end:
         raise ValueError(
-            f"allocation site in {allocation['function']} is not a direct malloc: {call!r}"
+            f"malloc call escapes function {allocation['function']}"
         )
-
-    size_expr = match.group(1).strip()
-    if not size_expr:
-        raise ValueError(f"empty malloc size in {allocation['function']}")
 
     type_id = f"INTERSPEC_TYPE_ID_{macro(allocation['type'])}"
     replacement = (
         f"(void*)(uintptr_t)typed_alloc((uint32_t)({size_expr}), {type_id})"
     )
-    return source[:start] + replacement + source[end:]
+    return source[:call_start] + replacement + source[call_end:]
 
 
 def instrument_legacy(source, allocation):
