@@ -109,6 +109,21 @@ chmod +x scripts/package_release.sh
 ./scripts/package_release.sh
 ```
 
-The default artifact is named `interspec-typed-allocator-0.1.0.tar.gz` and is accompanied by a SHA256 checksum file. The archive includes the installed runtime package plus the README, P6 evaluation methodology, reproducibility instructions, and pinned RLBox + NaCl manifest.
+The default artifact is named `interspec-typed-allocator-0.1.0.tar.gz` and is accompanied by a SHA256 checksum file. The archive includes the installed runtime package plus the README, P6 evaluation methodology, representative results, release notes, reproducibility instructions, and pinned RLBox + NaCl manifest.
 
 No license is inferred or added by the packaging script. Publication under a particular software license should be an explicit project decision rather than an artifact generation side effect.
+
+## 9. Publish a tagged GitHub research preview
+
+`.github/workflows/release.yml` publishes the same validated archive when a version tag is pushed. The tag must match the CMake project version exactly.
+
+For the current preview, the expected tag is:
+
+```bash
+git tag v0.1.0
+git push origin v0.1.0
+```
+
+The release workflow rebuilds the package, reruns the core test suite and external consumer smoke test through `scripts/package_release.sh`, verifies the tag against the project version, and attaches both the archive and SHA256 checksum to a GitHub release using `RELEASE_NOTES.md`.
+
+Creating the tag is intentionally a separate explicit publication action. Ordinary branch or pull request CI produces preview artifacts but does not publish a GitHub release.
