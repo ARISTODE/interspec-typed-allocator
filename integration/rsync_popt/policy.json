@@ -6,11 +6,23 @@
   "allocations": [
     {
       "function": "expandNextArg",
-      "type": "char"
+      "type": "char",
+      "site": {
+        "start_line": 655,
+        "start_column": 14,
+        "end_line": 655,
+        "end_column": 19
+      }
     },
     {
       "function": "poptGetContext",
-      "type": "poptContext_s"
+      "type": "poptContext_s",
+      "site": {
+        "start_line": 157,
+        "start_column": 23,
+        "end_line": 157,
+        "end_column": 28
+      }
     }
   ],
   "uses": [
