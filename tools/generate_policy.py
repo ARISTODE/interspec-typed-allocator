@@ -54,20 +54,24 @@ def source_offset(source, line, column, end=False):
 
 
 def malloc_call_extent(source, anchor_start, anchor_end):
-    """Expand a CodeQL malloc-name anchor to the complete malloc(...) call.
+    """Expand an analyzed malloc span to the complete malloc(...) call.
 
-    For C/C++, FunctionCall.getLocation() in the pinned CodeQL extractor can
-    identify only the target token ("malloc"), rather than the full call
-    expression.  The source span still uniquely identifies the analyzed call.
-    Starting from that trusted analysis anchor, parse the immediately following
-    parenthesized argument and return its full source extent and size expression.
+    Depending on the extractor/query version, a source span may cover only the
+    target token ("malloc") or the whole FunctionCall expression.  In both
+    cases the start position identifies the analyzed call.  Parse the argument
+    list from that start position so instrumentation remains tied to the
+    analysis result rather than to a function-wide textual heuristic.
     """
-    if source[anchor_start:anchor_end].strip() != "malloc":
+    if anchor_end <= anchor_start or not source.startswith("malloc", anchor_start):
         raise ValueError(
-            f"allocation anchor is not malloc: {source[anchor_start:anchor_end]!r}"
+            f"allocation anchor does not start at malloc: {source[anchor_start:anchor_end]!r}"
         )
 
-    pos = anchor_end
+    name_end = anchor_start + len("malloc")
+    if name_end > anchor_end:
+        raise ValueError("allocation span truncates the malloc token")
+
+    pos = name_end
     while pos < len(source) and source[pos].isspace():
         pos += 1
     if pos >= len(source) or source[pos] != "(":
@@ -129,7 +133,12 @@ def malloc_call_extent(source, anchor_start, anchor_end):
                 argument = source[open_paren + 1:pos].strip()
                 if not argument:
                     raise ValueError("empty malloc size expression")
-                return anchor_start, pos + 1, argument
+                call_end = pos + 1
+                if anchor_end > call_end and source[call_end:anchor_end].strip():
+                    raise ValueError(
+                        "allocation span extends past the selected malloc call"
+                    )
+                return anchor_start, call_end, argument
             if depth < 0:
                 break
         pos += 1
