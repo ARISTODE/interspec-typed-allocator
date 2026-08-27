@@ -55,7 +55,7 @@ void* choose(size_t n) {
     instrumented, u_header, t_header = generate(policy, source)
     assert "malloc(n + 7)" in instrumented
     assert selected not in instrumented
-    assert "typed_alloc((uint32_t)(((n * 2) + 1))" in instrumented
+    assert "typed_alloc((uint32_t)((n * 2) + 1)" in instrumented
     assert "INTERSPEC_TYPE_ID_CHAR" in u_header
     assert "std::numeric_limits<size_t>::max() - policy.bytes" in t_header
 
