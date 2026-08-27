@@ -103,6 +103,38 @@ The PoC checks:
 
 `Item` and `Other` intentionally have the same size, so the wrong-type case cannot be rejected by size alone.
 
+## P4: real rsync popt boundary
+
+P4 replaces the synthetic parser allocation sites with the bundled `popt` implementation from the pinned rsync source revision `7c20b077c980036a19587701cec320cc88e42a4a`.
+
+`integration/rsync_popt/` contains the inferred policy, typed allocation lifetime shim, isolated RLBox test, and complete-rsync bridge. CodeQL derives the allocation policy from the real `popt/popt.c`; the generator instruments the selected allocation sites; and the isolated `[rsync_popt]` test executes that parser inside RLBox + NaCl.
+
+The real-boundary test verifies that returned character pointers pass only when trusted metadata records a live allocation of the inferred character type. A pointer with the wrong tracked type is rejected as `wrong_type`, and an ordinary U allocation without trusted metadata is rejected as `untracked`.
+
+## P4c: complete trusted rsync execution
+
+P4c builds rsync 3.5.0 itself as T and interposes the context-dependent `popt` API with `integration/rsync_popt/p4c_bridge.cpp`. The parser implementation remains the real bundled `popt` code and executes inside the NaCl sandbox as U.
+
+At the boundary, the bridge:
+
+• copies trusted `argv`, option names, descriptions, and initial string values into U-owned memory
+• reconstructs the `struct poptOption` table inside U rather than exposing T pointers to the parser
+• creates U shadow storage for destination-backed option variables and copies validated results back to the corresponding T variables
+• tracks typed allocation lifetime across allocation, free, and realloc operations so stale metadata is invalidated
+• accepts returned U character pointers only after trusted type, liveness, spatial-bounds, and NUL-termination checks
+• copies positional arguments back to T only after the same pointer validation
+
+The CI path then executes the complete rsync binary with both option parsing and a normal local-transfer startup path:
+
+```bash
+rsync --backup-dir=<sandbox-test-dir> --max-size=1M --block-size=1024 --version
+rsync --dry-run -a <src>/ <dst>/
+```
+
+The first invocation exercises option arguments, including a destination-backed string option. The second exercises positional arguments and the ordinary local-transfer path through rsync's real `main` and option-processing code. Both commands must return successfully for the `rlbox-nacl` CI job to pass.
+
+The current P4c proof deliberately does not import host `popt` configuration files or aliases into U. It also does not claim exhaustive coverage of rsync daemon mode, remote-shell mode, authentication paths, or every optional feature. Its claim is narrower: the pinned complete rsync executable runs its ordinary CLI and local-transfer startup path while the context-dependent parser executes in RLBox + NaCl and U-returned pointers are mediated by trusted typed allocation metadata.
+
 ## Current scope
 
 T reserves one dedicated read/write arena inside U's NaCl address space. U can access object bytes, but T owns allocation metadata and the arena mapping. The PoC uses a bump allocator with no address reuse, so removing a metadata record makes stale pointers fail permanently during the test.
