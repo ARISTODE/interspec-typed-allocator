@@ -36,7 +36,149 @@ def function_body(source, function):
     return match.end(), pos - 1
 
 
-def instrument(source, allocation):
+def source_offset(source, line, column, end=False):
+    if line < 1 or column < 1:
+        raise ValueError("source locations are one-based")
+    lines = source.splitlines(keepends=True)
+    if line > len(lines):
+        raise ValueError(f"source line out of range: {line}")
+    text = lines[line - 1]
+    visible = text[:-1] if text.endswith("\n") else text
+    if visible.endswith("\r"):
+        visible = visible[:-1]
+    max_column = len(visible) + (1 if end else 0)
+    if column > max_column:
+        raise ValueError(f"source column out of range: {line}:{column}")
+    base = sum(len(part) for part in lines[: line - 1])
+    return base + column if end else base + column - 1
+
+
+def malloc_call_extent(source, anchor_start, anchor_end):
+    """Expand an analyzed malloc span to the complete malloc(...) call.
+
+    Depending on the extractor/query version, a source span may cover only the
+    target token ("malloc") or the whole FunctionCall expression.  In both
+    cases the start position identifies the analyzed call.  Parse the argument
+    list from that start position so instrumentation remains tied to the
+    analysis result rather than to a function-wide textual heuristic.
+    """
+    if anchor_end <= anchor_start or not source.startswith("malloc", anchor_start):
+        raise ValueError(
+            f"allocation anchor does not start at malloc: {source[anchor_start:anchor_end]!r}"
+        )
+
+    name_end = anchor_start + len("malloc")
+    if name_end > anchor_end:
+        raise ValueError("allocation span truncates the malloc token")
+
+    pos = name_end
+    while pos < len(source) and source[pos].isspace():
+        pos += 1
+    if pos >= len(source) or source[pos] != "(":
+        raise ValueError("malloc anchor is not followed by an argument list")
+
+    open_paren = pos
+    depth = 0
+    quote = None
+    escaped = False
+    line_comment = False
+    block_comment = False
+    pos = open_paren
+
+    while pos < len(source):
+        ch = source[pos]
+        nxt = source[pos + 1] if pos + 1 < len(source) else ""
+
+        if line_comment:
+            if ch == "\n":
+                line_comment = False
+            pos += 1
+            continue
+
+        if block_comment:
+            if ch == "*" and nxt == "/":
+                block_comment = False
+                pos += 2
+            else:
+                pos += 1
+            continue
+
+        if quote is not None:
+            if escaped:
+                escaped = False
+            elif ch == "\\":
+                escaped = True
+            elif ch == quote:
+                quote = None
+            pos += 1
+            continue
+
+        if ch == "/" and nxt == "/":
+            line_comment = True
+            pos += 2
+            continue
+        if ch == "/" and nxt == "*":
+            block_comment = True
+            pos += 2
+            continue
+        if ch in {'"', "'"}:
+            quote = ch
+            pos += 1
+            continue
+        if ch == "(":
+            depth += 1
+        elif ch == ")":
+            depth -= 1
+            if depth == 0:
+                argument = source[open_paren + 1:pos].strip()
+                if not argument:
+                    raise ValueError("empty malloc size expression")
+                call_end = pos + 1
+                if anchor_end > call_end and source[call_end:anchor_end].strip():
+                    raise ValueError(
+                        "allocation span extends past the selected malloc call"
+                    )
+                return anchor_start, call_end, argument
+            if depth < 0:
+                break
+        pos += 1
+
+    raise ValueError("unterminated malloc argument list")
+
+
+def instrument_site(source, allocation):
+    site = allocation["site"]
+    anchor_start = source_offset(
+        source, int(site["start_line"]), int(site["start_column"])
+    )
+    anchor_end = source_offset(
+        source, int(site["end_line"]), int(site["end_column"]), end=True
+    )
+    if anchor_end <= anchor_start:
+        raise ValueError(f"invalid allocation site in {allocation['function']}")
+
+    function_start, function_end = function_body(source, allocation["function"])
+    if anchor_start < function_start or anchor_end > function_end:
+        raise ValueError(
+            f"allocation site escapes function {allocation['function']}"
+        )
+
+    call_start, call_end, size_expr = malloc_call_extent(
+        source, anchor_start, anchor_end
+    )
+    if call_end > function_end:
+        raise ValueError(
+            f"malloc call escapes function {allocation['function']}"
+        )
+
+    type_id = f"INTERSPEC_TYPE_ID_{macro(allocation['type'])}"
+    replacement = (
+        f"(void*)(uintptr_t)typed_alloc((uint32_t)({size_expr}), {type_id})"
+    )
+    return source[:call_start] + replacement + source[call_end:]
+
+
+def instrument_legacy(source, allocation):
     start, end = function_body(source, allocation["function"])
     body = source[start:end]
     type_name = allocation["type"]
@@ -63,15 +205,14 @@ def instrument(source, allocation):
                 + body[sizeof_matches[0].end():]
             )
         else:
-            # P4 needs one additional real allocation shape: popt's
-            # expandNextArg() allocates a dynamically-sized char buffer with
-            # malloc(tn).  The policy already identifies the expected pointee
-            # type; preserving the original malloc byte count is sufficient.
+            # Backward-compatible fallback for hand-written policies that do
+            # not yet carry a CodeQL source span.  P5 source-derived policies
+            # use instrument_site(), which supports arbitrary malloc sizes.
             plain_pattern = re.compile(
                 r"malloc\s*\(\s*([A-Za-z_][A-Za-z0-9_]*)\s*\)"
             )
             plain_matches = list(plain_pattern.finditer(body))
-            if type_name != "char" or len(plain_matches) != 1:
+            if len(plain_matches) != 1:
                 raise ValueError(
                     f"expected one typed malloc in {allocation['function']}"
                 )
@@ -94,10 +235,31 @@ def generate(policy, source):
     if len(ids) != len(policy["types"]):
         raise ValueError("duplicate type")
 
+    hashes = {}
+    for name in ids:
+        value = hash_type(name)
+        if value in hashes:
+            raise ValueError(
+                f"TypeHash collision between {hashes[value]!r} and {name!r}"
+            )
+        hashes[value] = name
+
     for allocation in policy["allocations"]:
         if allocation["type"] not in ids:
             raise ValueError(f"unknown allocation type: {allocation['type']}")
-        source = instrument(source, allocation)
+
+    precise = [a for a in policy["allocations"] if "site" in a]
+    legacy = [a for a in policy["allocations"] if "site" not in a]
+    precise.sort(
+        key=lambda a: (
+            int(a["site"]["start_line"]), int(a["site"]["start_column"])
+        ),
+        reverse=True,
+    )
+    for allocation in precise:
+        source = instrument_site(source, allocation)
+    for allocation in legacy:
+        source = instrument_legacy(source, allocation)
 
     u = ["#pragma once", "", "#include <stdint.h>", ""]
     for name, type_id in ids.items():
@@ -108,6 +270,7 @@ def generate(policy, source):
         "#pragma once",
         "",
         '#include "interspec/runtime.h"',
+        "#include <limits>",
         "",
         "namespace interspec::generated {",
         "",
@@ -155,8 +318,10 @@ def generate(policy, source):
         "                                    uintptr_t base,",
         "                                    AccessPolicy policy)",
         "{",
-        "  const CheckResult result =",
-        "      runtime.check(base, policy.offset + policy.bytes, policy.type_hash);",
+        "  if (policy.offset > std::numeric_limits<size_t>::max() - policy.bytes)",
+        "    return {CheckResult::out_of_bounds, 0, 0};",
+        "  const size_t extent = policy.offset + policy.bytes;",
+        "  const CheckResult result = runtime.check(base, extent, policy.type_hash);",
         "  if (result != CheckResult::ok) return {result, 0, 0};",
         "  return {result, base + policy.offset, policy.bytes};",
         "}",

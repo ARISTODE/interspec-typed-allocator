@@ -3,7 +3,11 @@
 
 #include <cstddef>
 #include <cstdint>
-#include <vector>
+#include <limits>
+#include <map>
+#include <mutex>
+#include <shared_mutex>
+#include <unordered_map>
 
 namespace interspec {
 
@@ -30,118 +34,140 @@ enum class CheckResult {
 class Runtime {
  public:
   Runtime(uintptr_t arena_base, size_t arena_size)
-      : base_(arena_base), capacity_(arena_size) {}
+      : base_(arena_base),
+        capacity_(arena_size),
+        arena_valid_(arena_size <=
+                     std::numeric_limits<uintptr_t>::max() - arena_base) {}
 
   bool register_type(TypeId id, uint64_t type_hash) {
-    if (id == 0 || find_type(id) != nullptr) return false;
-    types_.push_back({id, type_hash});
+    std::unique_lock<std::shared_mutex> lock(mu_);
+    if (id == 0 || types_.find(id) != types_.end() ||
+        type_ids_.find(type_hash) != type_ids_.end())
+      return false;
+    types_.emplace(id, type_hash);
+    type_ids_.emplace(type_hash, id);
     return true;
   }
 
   uintptr_t allocate(size_t size, TypeId type_id) {
-    const TypeBinding* type = find_type(type_id);
-    if (!type || size == 0) return 0;
-    return allocate_with_hash(size, type->type_hash);
+    std::unique_lock<std::shared_mutex> lock(mu_);
+    const auto type = types_.find(type_id);
+    if (type == types_.end() || size == 0) return 0;
+    return allocate_with_hash_unlocked(size, type->second);
   }
 
   uintptr_t base() const { return base_; }
-  size_t allocation_count() const { return allocations_.size(); }
+  size_t capacity() const { return capacity_; }
+  bool arena_valid() const { return arena_valid_; }
+
+  size_t allocation_count() const {
+    std::shared_lock<std::shared_mutex> lock(mu_);
+    return allocations_.size();
+  }
 
   bool release(uintptr_t ptr) {
-    for (auto it = allocations_.begin(); it != allocations_.end(); ++it) {
-      if (it->base == ptr) {
-        allocations_.erase(it);
-        return true;
-      }
-    }
-    return false;
+    std::unique_lock<std::shared_mutex> lock(mu_);
+    const auto allocation = allocations_.find(ptr);
+    if (allocation == allocations_.end()) return false;
+    allocations_.erase(allocation);
+    return true;
   }
 
   bool allocation_size(uintptr_t ptr, size_t& size) const {
-    for (const auto& allocation : allocations_) {
-      if (allocation.base == ptr) {
-        size = allocation.size;
-        return true;
-      }
-    }
-    return false;
+    std::shared_lock<std::shared_mutex> lock(mu_);
+    const auto allocation = allocations_.find(ptr);
+    if (allocation == allocations_.end()) return false;
+    size = allocation->second.size;
+    return true;
   }
 
   uintptr_t reallocate(uintptr_t ptr, size_t new_size) {
+    std::unique_lock<std::shared_mutex> lock(mu_);
+    const auto old = allocations_.find(ptr);
+    if (old == allocations_.end()) return 0;
+
     if (new_size == 0) {
-      release(ptr);
+      allocations_.erase(old);
       return 0;
     }
 
-    size_t old_index = allocations_.size();
-    uint64_t type_hash = 0;
-    for (size_t i = 0; i < allocations_.size(); ++i) {
-      if (allocations_[i].base == ptr) {
-        old_index = i;
-        type_hash = allocations_[i].type_hash;
-        break;
-      }
-    }
-    if (old_index == allocations_.size()) return 0;
-
-    const uintptr_t replacement = allocate_with_hash(new_size, type_hash);
+    const uint64_t type_hash = old->second.type_hash;
+    const uintptr_t replacement = allocate_with_hash_unlocked(new_size, type_hash);
     if (!replacement) return 0;
 
-    allocations_.erase(allocations_.begin() + static_cast<std::ptrdiff_t>(old_index));
+    allocations_.erase(ptr);
     return replacement;
   }
 
   CheckResult remaining_bytes(uintptr_t ptr, uint64_t expected_type,
                               size_t& bytes) const {
-    const Allocation* allocation = find_allocation(ptr);
+    std::shared_lock<std::shared_mutex> lock(mu_);
+    const Allocation* allocation = find_allocation_unlocked(ptr);
     if (!allocation) return CheckResult::untracked;
     if (allocation->type_hash != expected_type) return CheckResult::wrong_type;
-    bytes = allocation->size - (ptr - allocation->base);
+    bytes = allocation->size - static_cast<size_t>(ptr - allocation->base);
     return CheckResult::ok;
   }
 
   CheckResult check(uintptr_t ptr, size_t bytes, uint64_t expected_type) const {
-    size_t remaining = 0;
-    const CheckResult result = remaining_bytes(ptr, expected_type, remaining);
-    if (result != CheckResult::ok) return result;
+    std::shared_lock<std::shared_mutex> lock(mu_);
+    const Allocation* allocation = find_allocation_unlocked(ptr);
+    if (!allocation) return CheckResult::untracked;
+    if (allocation->type_hash != expected_type) return CheckResult::wrong_type;
+
+    const size_t offset = static_cast<size_t>(ptr - allocation->base);
+    const size_t remaining = allocation->size - offset;
     return bytes <= remaining ? CheckResult::ok : CheckResult::out_of_bounds;
   }
 
  private:
-  uintptr_t allocate_with_hash(size_t size, uint64_t type_hash) {
-    if (size == 0) return 0;
+  static bool aligned_size(size_t size, size_t& aligned) {
+    constexpr size_t kAlignment = 8;
+    if (size > std::numeric_limits<size_t>::max() - (kAlignment - 1))
+      return false;
+    aligned = (size + (kAlignment - 1)) & ~(kAlignment - 1);
+    return aligned >= size;
+  }
 
-    const size_t aligned = (size + 7u) & ~size_t{7u};
-    if (aligned < size || used_ > capacity_ || aligned > capacity_ - used_)
-      return 0;
+  uintptr_t allocate_with_hash_unlocked(size_t size, uint64_t type_hash) {
+    if (!arena_valid_ || size == 0) return 0;
+
+    size_t aligned = 0;
+    if (!aligned_size(size, aligned)) return 0;
+    if (used_ > capacity_ || aligned > capacity_ - used_) return 0;
+    if (used_ > std::numeric_limits<uintptr_t>::max() - base_) return 0;
 
     const uintptr_t ptr = base_ + used_;
-    allocations_.push_back({ptr, size, type_hash});
+    const auto inserted =
+        allocations_.emplace(ptr, Allocation{ptr, size, type_hash});
+    if (!inserted.second) return 0;
+
     used_ += aligned;
     return ptr;
   }
 
-  const TypeBinding* find_type(TypeId id) const {
-    for (const auto& type : types_) {
-      if (type.id == id) return &type;
-    }
-    return nullptr;
+  const Allocation* find_allocation_unlocked(uintptr_t ptr) const {
+    if (allocations_.empty()) return nullptr;
+
+    auto it = allocations_.upper_bound(ptr);
+    if (it == allocations_.begin()) return nullptr;
+    --it;
+
+    const Allocation& allocation = it->second;
+    if (ptr < allocation.base) return nullptr;
+    const uintptr_t offset = ptr - allocation.base;
+    return offset < allocation.size ? &allocation : nullptr;
   }
 
-  const Allocation* find_allocation(uintptr_t ptr) const {
-    for (const auto& allocation : allocations_) {
-      if (ptr >= allocation.base && ptr - allocation.base < allocation.size) {
-        return &allocation;
-      }
-    }
-    return nullptr;
-  }
-
-  uintptr_t base_;
-  size_t capacity_;
+  const uintptr_t base_;
+  const size_t capacity_;
+  const bool arena_valid_;
   size_t used_ = 0;
-  std::vector<TypeBinding> types_;
-  std::vector<Allocation> allocations_;
+
+  mutable std::shared_mutex mu_;
+  std::unordered_map<TypeId, uint64_t> types_;
+  std::unordered_map<uint64_t, TypeId> type_ids_;
+  std::map<uintptr_t, Allocation> allocations_;
 };
 
 constexpr uint64_t type_hash(const char* text) {

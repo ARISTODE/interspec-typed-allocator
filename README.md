@@ -135,10 +135,33 @@ The first invocation exercises option arguments, including a destination-backed 
 
 The current P4c proof deliberately does not import host `popt` configuration files or aliases into U. It also does not claim exhaustive coverage of rsync daemon mode, remote-shell mode, authentication paths, or every optional feature. Its claim is narrower: the pinned complete rsync executable runs its ordinary CLI and local-transfer startup path while the context-dependent parser executes in RLBox + NaCl and U-returned pointers are mediated by trusted typed allocation metadata.
 
+## P5: hardening and scalability
+
+P5 keeps the P4c security model unchanged while removing assumptions that were acceptable for a small proof of concept but would not scale safely to larger policies or concurrent trusted callers.
+
+The trusted runtime now uses an ordered allocation map. A containing allocation is found with `upper_bound`, making pointer lookup logarithmic in the number of live tracked allocations rather than a linear scan. Type bindings use hash maps. Runtime metadata is protected by a shared mutex: checks and metadata reads take shared access, while registration, allocation, release, and reallocation take exclusive access.
+
+P5 also makes metadata arithmetic fail closed. Arena construction detects address-space wraparound. Allocation alignment and `base + used` calculations are overflow checked. Generated trusted accesses reject `offset + bytes` overflow. Type registration rejects both duplicate TypeIds and duplicate TypeHashes, so a generated TypeHash collision cannot silently create two trusted meanings for the same runtime value.
+
+Allocation instrumentation is now tied to the exact source location inferred by CodeQL. The policy records the analyzed `malloc` source span. The generator starts from that analyzed call and preserves its original size expression, so it can instrument one selected allocation even when a function contains multiple `malloc` calls or the allocation size is an arbitrary expression. The older function-pattern path remains only for backward compatibility with hand-written policies that do not carry source locations.
+
+P5 deliberately retains a bump arena with no physical address reuse. Release and successful reallocation remove the old authoritative metadata, but the allocator never immediately assigns that numerical address to a new object. This prevents an old raw pointer from becoming valid again merely because a later same-type allocation reused the address. Reclaiming addresses safely would require an additional temporal identity mechanism such as tagged or generation-aware pointers, so address reuse is outside the current model rather than being treated as a harmless optimization.
+
+The hardening tests include:
+
+• invalid arena and integer-overflow cases
+• exact-base release semantics
+• successful and failed realloc semantics, including keeping the old object live when reallocation fails
+• TypeHash collision rejection
+• a 10,000-allocation metadata stress test
+• concurrent allocation, checking, size lookup, and release from eight trusted threads
+• precise source-site instrumentation when multiple `malloc` calls appear in one function
+• the full P4c rsync + RLBox + NaCl regression, ensuring the hardening changes preserve the real application path
+
 ## Current scope
 
-T reserves one dedicated read/write arena inside U's NaCl address space. U can access object bytes, but T owns allocation metadata and the arena mapping. The PoC uses a bump allocator with no address reuse, so removing a metadata record makes stale pointers fail permanently during the test.
+T reserves one dedicated read/write arena inside U's NaCl address space. U can access object bytes, but T owns allocation metadata and the arena mapping. The allocator intentionally does not reuse released addresses, so removing a metadata record makes stale pointers fail permanently for the lifetime of the arena.
 
 For type provenance, T registers a trusted policy table such as `1 -> H(Item)` and `2 -> H(Other)`. U's allocation request carries only the compact TypeId. The TypeId itself is not trusted: compromised U may choose any registered ID. The security property is that only T defines what each ID means. Stronger control-flow or allocation-site provenance is a separate future extension.
 
-The runtime check is intentionally small: a pointer must belong to a tracked allocation, match the expected `TypeHash`, and keep the inferred requested access within that same allocation's bounds.
+The runtime check remains intentionally small: a pointer must belong to a tracked allocation, match the expected `TypeHash`, and keep the inferred requested access within that same allocation's bounds.

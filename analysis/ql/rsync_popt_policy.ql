@@ -1,18 +1,17 @@
 import cpp
 
 /**
- * P4 policy inference for the real rsync/popt boundary.
+ * P4/P5 policy inference for the real rsync/popt boundary.
  *
- * The query connects two facts from the real source tree.  In U, popt allocates
- * the poptContext object and the dynamically-sized char buffer eventually
- * returned by poptGetOptArg().  In T, rsync stores that return value in a local
- * variable and later dereferences the first char through *arg.  The resulting
- * policy gives the allocator a trusted expected type and gives the trusted use
- * site a matching type/range check without inventing a semantic string bound.
+ * In addition to the expected allocation/use type facts, P5 records the exact
+ * malloc source span.  The generator can therefore instrument the analyzed
+ * call itself instead of relying on a function-specific source pattern.
  */
 
 predicate poptContextAllocation(string name, string typeName,
-                                string functionName, int offset, int bytes) {
+                                string functionName, int offset, int bytes,
+                                int startLine, int startColumn,
+                                int endLine, int endColumn) {
   exists(FunctionCall call, SizeofOperator size, Type objectType, Function f |
     f = call.getEnclosingFunction() and
     f.getFile().getRelativePath() = "popt/popt.c" and
@@ -24,12 +23,18 @@ predicate poptContextAllocation(string name, string typeName,
     name = f.getName() and
     functionName = f.getName() and
     offset = 0 and
-    bytes = objectType.getSize()
+    bytes = objectType.getSize() and
+    startLine = call.getLocation().getStartLine() and
+    startColumn = call.getLocation().getStartColumn() and
+    endLine = call.getLocation().getEndLine() and
+    endColumn = call.getLocation().getEndColumn()
   )
 }
 
 predicate poptOptArgAllocation(string name, string typeName,
-                               string functionName, int offset, int bytes) {
+                               string functionName, int offset, int bytes,
+                               int startLine, int startColumn,
+                               int endLine, int endColumn) {
   exists(FunctionCall call, Function f |
     f = call.getEnclosingFunction() and
     f.getFile().getRelativePath() = "popt/popt.c" and
@@ -39,15 +44,22 @@ predicate poptOptArgAllocation(string name, string typeName,
     typeName = "char" and
     functionName = f.getName() and
     offset = 0 and
-    bytes = 1
+    bytes = 1 and
+    startLine = call.getLocation().getStartLine() and
+    startColumn = call.getLocation().getStartColumn() and
+    endLine = call.getLocation().getEndLine() and
+    endColumn = call.getLocation().getEndColumn()
   )
 }
 
 predicate realPoptAllocation(string name, string typeName, string functionName,
-                             int offset, int bytes) {
-  poptContextAllocation(name, typeName, functionName, offset, bytes)
+                             int offset, int bytes, int startLine,
+                             int startColumn, int endLine, int endColumn) {
+  poptContextAllocation(name, typeName, functionName, offset, bytes,
+                        startLine, startColumn, endLine, endColumn)
   or
-  poptOptArgAllocation(name, typeName, functionName, offset, bytes)
+  poptOptArgAllocation(name, typeName, functionName, offset, bytes,
+                       startLine, startColumn, endLine, endColumn)
 }
 
 predicate assignedFromPoptGetOptArg(Variable v, Function f) {
@@ -79,11 +91,15 @@ predicate realTrustedUse(string name, string typeName, string functionName,
 }
 
 from string kind, string name, string typeName, string functionName,
-     int offset, int bytes
+     int offset, int bytes, int startLine, int startColumn, int endLine,
+     int endColumn
 where
   (kind = "allocation" and
-   realPoptAllocation(name, typeName, functionName, offset, bytes))
+   realPoptAllocation(name, typeName, functionName, offset, bytes, startLine,
+                      startColumn, endLine, endColumn))
   or
   (kind = "use" and
-   realTrustedUse(name, typeName, functionName, offset, bytes))
-select kind, name, typeName, functionName, offset, bytes
+   realTrustedUse(name, typeName, functionName, offset, bytes) and
+   startLine = 0 and startColumn = 0 and endLine = 0 and endColumn = 0)
+select kind, name, typeName, functionName, offset, bytes,
+       startLine, startColumn, endLine, endColumn
