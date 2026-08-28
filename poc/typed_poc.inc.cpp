@@ -2,7 +2,6 @@
 #include "interspec_t_policy.h"
 
 #include <cstdint>
-#include <cstdio>
 #include <limits>
 
 extern "C" {
@@ -24,31 +23,14 @@ using PocSandbox = rlbox::rlbox_sandbox<TestType>;
 
 static interspec::Runtime* poc_runtime;
 
-static uintptr_t poc_allocate_for_callback_pc(PocSandbox& sandbox,
-                                              uint32_t size)
-{
-  auto* impl = sandbox.get_sandbox_impl();
-  const uintptr_t pc = impl->callback_program_counter();
-  const uintptr_t new_pc = impl->callback_new_program_counter();
-  std::fprintf(stderr,
-               "P7a callback size=%u pc=0x%llx new_pc=0x%llx\n",
-               size,
-               static_cast<unsigned long long>(pc),
-               static_cast<unsigned long long>(new_pc));
-  uintptr_t result = poc_runtime->allocate_from_pc(size, pc);
-  if (result) return result;
-
-  if (new_pc && new_pc != pc)
-    result = poc_runtime->allocate_from_pc(size, new_pc);
-  return result;
-}
-
 static rlbox::tainted<uint32_t, TestType> poc_allocate(
   PocSandbox& sandbox,
   rlbox::tainted<uint32_t, TestType> size)
 {
+  const uintptr_t pc =
+    sandbox.get_sandbox_impl()->callback_program_counter();
   return static_cast<uint32_t>(
-    poc_allocate_for_callback_pc(sandbox, size.UNSAFE_unverified()));
+    poc_runtime->allocate_from_pc(size.UNSAFE_unverified(), pc));
 }
 
 static rlbox::tainted<int, TestType> poc_release(
@@ -76,14 +58,7 @@ TEST_CASE("InterSpec typed allocation PoC", "[typed_allocator]")
   REQUIRE(!runtime.register_type(kTypeIdItem, kTypeHashOther));
 
   auto resolve_symbol = [&](const char* name) -> uintptr_t {
-    const uintptr_t value = sandbox.get_sandbox_impl()->lookup_symbol_address(name);
-    std::fprintf(stderr,
-                 "P7a symbol %s=0x%llx sandbox=0x%x\n",
-                 name,
-                 static_cast<unsigned long long>(value),
-                 sandbox.get_sandbox_impl()->sandbox_address(
-                   reinterpret_cast<const void*>(value)));
-    return value;
+    return sandbox.get_sandbox_impl()->lookup_symbol_address(name);
   };
   REQUIRE(register_allocation_sites(runtime, resolve_symbol));
   REQUIRE(runtime.allocation_site_count() == kAllocationSiteCount);
@@ -96,6 +71,7 @@ TEST_CASE("InterSpec typed allocation PoC", "[typed_allocator]")
   REQUIRE(alloc_slot != std::numeric_limits<uint32_t>::max());
   sandbox.invoke_sandbox_function(typed_poc_init, alloc_slot, free_cb);
 
+  /* These ordinary malloc sites are rewritten from inferred allocation policy. */
   auto item = sandbox.invoke_sandbox_function(typed_poc_make_item);
   REQUIRE(item.UNSAFE_unverified() != nullptr);
   REQUIRE(runtime.allocation_count() == 1);
@@ -109,6 +85,8 @@ TEST_CASE("InterSpec typed allocation PoC", "[typed_allocator]")
   REQUIRE(wrong_site.UNSAFE_unverified() != nullptr);
   REQUIRE(runtime.allocation_count() == 3);
 
+  /* P7a: calling the allocator syscall from a non-authorized U instruction is
+   * rejected even though U knows which callback slot performs allocation. */
   auto unauthorized =
     sandbox.invoke_sandbox_function(typed_poc_try_unauthorized_site);
   REQUIRE(unauthorized.UNSAFE_unverified() == nullptr);
@@ -136,6 +114,7 @@ TEST_CASE("InterSpec typed allocation PoC", "[typed_allocator]")
   REQUIRE(other_site == kAllocationSites[1].site_id);
   REQUIRE(wrong_site_id == other_site);
 
+  /* T uses consume inferred expected-type and field access-range policy. */
   REQUIRE(check(runtime, item_ptr, kUseItemValue) == interspec::CheckResult::ok);
   const auto value_access = checked_access(runtime, item_ptr, kUseItemValue);
   REQUIRE(value_access.result == interspec::CheckResult::ok);
@@ -144,6 +123,7 @@ TEST_CASE("InterSpec typed allocation PoC", "[typed_allocator]")
   REQUIRE(check(runtime, other_ptr, kUseItemValue) ==
           interspec::CheckResult::wrong_type);
 
+  /* U wrote Item-shaped bytes, but T still records the trusted Other label. */
   REQUIRE(check(runtime, wrong_site_ptr, kUseItemValue) ==
           interspec::CheckResult::wrong_type);
   REQUIRE(check(runtime, wrong_site_ptr, kUseOtherValue) ==
