@@ -121,8 +121,7 @@ TEST_CASE("InterSpec real rsync popt integration", "[rsync_popt]")
   REQUIRE(register_types(runtime));
 
   auto resolve_symbol = [&](const char* name) -> uintptr_t {
-    return reinterpret_cast<uintptr_t>(
-      sandbox.get_sandbox_impl()->impl_lookup_symbol(name));
+    return sandbox.get_sandbox_impl()->lookup_symbol_address(name);
   };
   REQUIRE(register_allocation_sites(runtime, resolve_symbol));
   REQUIRE(runtime.register_allocation_site(
