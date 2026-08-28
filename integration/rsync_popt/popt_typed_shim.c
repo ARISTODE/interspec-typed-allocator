@@ -31,7 +31,7 @@ void interspec_popt_init_lifetime(uint32_t site_alloc_slot,
   interspec_realloc = reallocate;
 }
 
-char* interspec_typed_strdup(const char* src)
+__attribute__((noinline)) char* interspec_typed_strdup(const char* src)
 {
   if (!src) return NULL;
 
@@ -41,11 +41,13 @@ char* interspec_typed_strdup(const char* src)
   uint32_t dst = 0;
   __asm__ __volatile__(
     ".globl interspec_alloc_site_interspec_typed_strdup_manual_begin\n"
+    ".type interspec_alloc_site_interspec_typed_strdup_manual_begin,@function\n"
     "interspec_alloc_site_interspec_typed_strdup_manual_begin:"
     ::: "memory");
   dst = INTERSPEC_SITE_ALLOC((uint32_t)size);
   __asm__ __volatile__(
     ".globl interspec_alloc_site_interspec_typed_strdup_manual_end\n"
+    ".type interspec_alloc_site_interspec_typed_strdup_manual_end,@function\n"
     "interspec_alloc_site_interspec_typed_strdup_manual_end:"
     ::: "memory");
   if (!dst) return NULL;
