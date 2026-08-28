@@ -37,7 +37,7 @@ def apply_backend(root):
 
     # The pinned NaCl backend predates rlbox_stdlib.hpp's rlbox::memcpy helper.
     # Its old unqualified memcpy calls execute inside namespace rlbox and would
-    # otherwise resolve only to the newer four-argument RLBox helper.  Make the
+    # otherwise resolve only to the newer four-argument RLBox helper. Make the
     # ordinary three-argument C++ memcpy overload visible in the same namespace.
     replace(
         backend,
@@ -79,6 +79,10 @@ def apply_backend(root):
         "      if (callback_unique_keys[i] == key) return i;\n"
         "    }\n"
         "    return std::numeric_limits<uint32_t>::max();\n"
+        "  }\n\n"
+        "  uintptr_t lookup_symbol_address(const char* name)\n"
+        "  {\n"
+        "    return reinterpret_cast<uintptr_t>(impl_lookup_symbol(name));\n"
         "  }\n\n"
         "private:",
     )
