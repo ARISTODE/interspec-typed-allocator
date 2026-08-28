@@ -84,8 +84,7 @@ class Engine {
       throw std::runtime_error("failed to register InterSpec types");
 
     auto resolve_symbol = [&](const char* name) -> uintptr_t {
-      return reinterpret_cast<uintptr_t>(
-        sandbox_.get_sandbox_impl()->impl_lookup_symbol(name));
+      return sandbox_.get_sandbox_impl()->lookup_symbol_address(name);
     };
     if (!register_allocation_sites(*runtime_, resolve_symbol))
       throw std::runtime_error("failed to register InterSpec allocation sites");
