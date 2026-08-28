@@ -1,5 +1,6 @@
 #include "interspec/runtime.h"
 #include "interspec_popt_t_policy.h"
+#include "site_provenance.h"
 
 #include <cstdint>
 #include <cstring>
@@ -7,11 +8,10 @@
 #include <vector>
 
 extern "C" {
-using popt_alloc_fn = uint32_t (*)(uint32_t, uint32_t);
 using popt_release_fn = uint32_t (*)(uint32_t);
 using popt_size_fn = uint32_t (*)(uint32_t);
 using popt_realloc_fn = uint32_t (*)(uint32_t, uint32_t);
-void interspec_popt_init_lifetime(popt_alloc_fn,
+void interspec_popt_init_lifetime(uint32_t,
                                   popt_release_fn,
                                   popt_size_fn,
                                   popt_realloc_fn);
@@ -26,13 +26,26 @@ using PoptSandbox = rlbox::rlbox_sandbox<TestType>;
 
 static interspec::Runtime* popt_runtime;
 
+static uintptr_t popt_allocate_for_callback_pc(PoptSandbox& sandbox,
+                                               uint32_t size)
+{
+  auto* impl = sandbox.get_sandbox_impl();
+  const uintptr_t pc = impl->callback_program_counter();
+  uintptr_t result = popt_runtime->allocate_from_pc(size, pc);
+  if (result) return result;
+
+  const uintptr_t new_pc = impl->callback_new_program_counter();
+  if (new_pc && new_pc != pc)
+    result = popt_runtime->allocate_from_pc(size, new_pc);
+  return result;
+}
+
 static rlbox::tainted<uint32_t, TestType> popt_allocate(
-  PoptSandbox&,
-  rlbox::tainted<uint32_t, TestType> size,
-  rlbox::tainted<uint32_t, TestType> type_id)
+  PoptSandbox& sandbox,
+  rlbox::tainted<uint32_t, TestType> size)
 {
   return static_cast<uint32_t>(
-    popt_runtime->allocate(size.UNSAFE_unverified(), type_id.UNSAFE_unverified()));
+    popt_allocate_for_callback_pc(sandbox, size.UNSAFE_unverified()));
 }
 
 static rlbox::tainted<uint32_t, TestType> popt_release(
@@ -74,8 +87,6 @@ static bool popt_copy_checked_cstring(PoptSandbox& sandbox,
 
   const uintptr_t arg_ptr = sandbox.get_sandbox_impl()->sandbox_address(raw);
 
-  /* Generated trusted-use policy establishes the expected allocated type
-   * before T performs any dereference of the returned pointer. */
   if (check(runtime, arg_ptr, kUsePoptOptArgFirstByte) !=
       interspec::CheckResult::ok) {
     return false;
@@ -90,9 +101,6 @@ static bool popt_copy_checked_cstring(PoptSandbox& sandbox,
 
   trusted_copy.resize(arg_bytes);
   std::memcpy(trusted_copy.data(), raw, arg_bytes);
-
-  /* A C-string consumer may scan up to the end of the tracked allocation.
-   * Require termination inside that trusted bound before exposing the copy. */
   return trusted_copy.back() == '\0';
 }
 
@@ -112,12 +120,25 @@ TEST_CASE("InterSpec real rsync popt integration", "[rsync_popt]")
   popt_runtime = &runtime;
   REQUIRE(register_types(runtime));
 
+  auto resolve_symbol = [&](const char* name) -> uintptr_t {
+    return sandbox.get_sandbox_impl()->lookup_symbol_address(name);
+  };
+  REQUIRE(register_allocation_sites(runtime, resolve_symbol));
+  REQUIRE(runtime.register_allocation_site(
+    INTERSPEC_POPT_STRDUP_SITE_ID,
+    resolve_symbol(INTERSPEC_POPT_STRDUP_BEGIN_SYMBOL),
+    resolve_symbol(INTERSPEC_POPT_STRDUP_END_SYMBOL),
+    kTypeIdChar));
+
   auto alloc_cb = sandbox.register_callback(popt_allocate);
   auto release_cb = sandbox.register_callback(popt_release);
   auto size_cb = sandbox.register_callback(popt_size);
   auto realloc_cb = sandbox.register_callback(popt_reallocate);
+  const uint32_t alloc_slot = sandbox.get_sandbox_impl()->callback_slot_for_key(
+    reinterpret_cast<const void*>(popt_allocate));
+  REQUIRE(alloc_slot != std::numeric_limits<uint32_t>::max());
   sandbox.invoke_sandbox_function(interspec_popt_init_lifetime,
-                                  alloc_cb,
+                                  alloc_slot,
                                   release_cb,
                                   size_cb,
                                   realloc_cb);
@@ -127,14 +148,15 @@ TEST_CASE("InterSpec real rsync popt integration", "[rsync_popt]")
   REQUIRE(sandbox.invoke_sandbox_function(interspec_popt_archive_seen)
             .UNSAFE_unverified() == 1);
 
-  /* P4c also routes popt's internal strdup/realloc/free operations through the
-   * typed lifetime layer, so there may be additional tracked char objects. */
   REQUIRE(runtime.allocation_count() >= 2);
 
   const uintptr_t ctx_ptr =
     sandbox.get_sandbox_impl()->sandbox_address(ctx.UNSAFE_unverified());
   REQUIRE(runtime.check(ctx_ptr, 1, kTypeHashPoptContextS) ==
           interspec::CheckResult::ok);
+  interspec::SiteId ctx_site = 0;
+  REQUIRE(runtime.allocation_site(ctx_ptr, ctx_site));
+  REQUIRE(ctx_site != 0);
 
   auto arg = sandbox.invoke_sandbox_function(interspec_popt_get_opt_arg, ctx);
   REQUIRE(arg.UNSAFE_unverified() != nullptr);
@@ -144,8 +166,7 @@ TEST_CASE("InterSpec real rsync popt integration", "[rsync_popt]")
   REQUIRE(trusted_copy.size() == sizeof("destination"));
   REQUIRE(std::strcmp(trusted_copy.data(), "destination") == 0);
 
-  /* Same sandbox domain and valid bytes, but the trusted allocation metadata
-   * says this pointer belongs to a different type. Extended SP3 rejects it. */
+  /* A genuine authorized poptContext allocation cannot be relabeled as char. */
   auto wrong_ctx = sandbox.invoke_sandbox_function(interspec_popt_parse_smoke);
   REQUIRE(wrong_ctx.UNSAFE_unverified() != nullptr);
   auto wrong_arg =

@@ -2,7 +2,7 @@
 
 Minimal proof-of-concept for extending InterSpec SP3 with trusted allocation metadata.
 
-The PoC uses RLBox with the NaCl SFI backend. U may freely corrupt object bytes, while T keeps authoritative allocation metadata `{base, size, type_hash}` and validates U-controlled pointers before trusted use.
+The PoC uses RLBox with the NaCl SFI backend. U may freely corrupt object bytes, while T keeps authoritative allocation metadata `{base, size, type_hash, site_id}` for provenance-aware allocations and validates U-controlled pointers before trusted use.
 
 ## Principles
 
@@ -11,6 +11,7 @@ The PoC uses RLBox with the NaCl SFI backend. U may freely corrupt object bytes,
 • Separate trusted allocation metadata from untrusted object contents.
 • Never accept a TypeHash as data supplied by U.
 • Derive allocation instrumentation and T use checks from source-level analysis.
+• For precise source-derived policies, derive allocation type authority from the analyzed allocation instruction rather than a type selected by U.
 • Keep generic InterSpec policy logic separate from NaCl-specific isolation mechanisms.
 • Prefer a working end-to-end path over premature generality.
 
@@ -39,8 +40,8 @@ The PoC query intentionally uses the known test boundary functions and a small t
 
 `tools/generate_policy.py` consumes the inferred policy and generates both sides of the enforcement contract:
 
-• U-side TypeIds are assigned automatically and selected ordinary `malloc` sites are rewritten to the InterSpec typed allocator.
-• T-side `TypeId -> TypeHash` registration and expected `{type, offset, bytes}` access policies are generated from the same inferred input.
+• Precise source-located U allocation sites receive generated SiteIds, instruction labels, and site-authenticated allocation instrumentation. Older hand-written policies without source locations retain the TypeId request path only for backward compatibility.
+• T-side type registration, allocation-site registration, and expected `{type, offset, bytes}` access policies are generated from the same inferred input.
 • Generated checked accesses validate from the original object pointer through the end of the requested field access, then return the already-validated address/range for trusted use.
 
 The resulting path is:
@@ -73,8 +74,9 @@ The backend exposes only the low-level primitives needed by the generic InterSpe
 • reserve one T-managed, U-readable/U-writable arena in the NaCl address space
 • convert a sandbox pointer to its NaCl user address for trusted metadata lookup
 • reject U `munmap`, `mprotect`, and `mmap(MAP_FIXED)` operations that overlap the arena
+• expose the trusted NaCl syscall return PC used by P7a allocation-site provenance
 
-The generic allocation metadata, type policy, and bounds checks remain in `interspec::Runtime`; they do not depend on NaCl internals.
+The generic allocation metadata, type policy, provenance policy, and bounds checks remain in `interspec::Runtime`; only the mechanism for obtaining the trusted U execution address is NaCl-specific.
 
 ## RLBox + NaCl PoC
 
@@ -82,16 +84,17 @@ The generic allocation metadata, type policy, and bounds checks remain in `inter
 ./scripts/run_rlbox_nacl_poc.sh
 ```
 
-The script fetches the pinned RLBox NaCl backend and modified NaCl compiler, applies the packaged InterSpec backend, generates the P2 policy artifacts, adds only the PoC test-harness glue, builds the sandboxed module, and runs the `[typed_allocator]` test.
+The script fetches the pinned RLBox NaCl backend and modified NaCl compiler, applies the packaged InterSpec backend, generates the policy artifacts, adds only the PoC test-harness glue, builds the sandboxed module, and runs the `[typed_allocator]` test.
 
 The PoC checks:
 
-• typed allocations create trusted metadata in T
-• T registers the authoritative mapping `TypeId -> TypeHash`
-• U may supply only a TypeId selector; an unknown TypeId is rejected
-• choosing another registered TypeId gives that registered type and cannot forge or relabel the TypeHash
+• source-selected ordinary U `malloc` sites are automatically rewritten to tracked allocations
+• a precise analyzed allocation site determines the authoritative type without accepting a TypeId or SiteId from U
+• the trusted NaCl syscall return PC must fall inside the registered allocation-site range
+• invoking the allocator callback syscall from an unregistered U instruction is rejected
+• allocating through an `Other` site and corrupting the bytes to look like `Item` does not relabel the trusted metadata
+• legacy policies without source locations still support the older T-defined TypeId mapping, but do not receive the P7a site-provenance guarantee
 • ordinary U `malloc` does not create trusted metadata
-• source-selected ordinary U `malloc` sites are automatically rewritten to tracked typed allocations
 • T field uses consume inferred expected-type, byte-offset, and access-size policy
 • the checked address returned to T is the same snapshot that passed validation
 • correct typed pointer → pass
@@ -182,12 +185,42 @@ A research preview archive can be built with:
 bash scripts/package_release.sh
 ```
 
-The default artifact is `interspec-typed-allocator-0.1.0.tar.gz` with a SHA256 checksum. The package contains the installed public runtime interface, CMake package metadata, evaluation and reproducibility documentation, representative results, and the pinned RLBox + NaCl manifest.
+The default artifact is `interspec-typed-allocator-0.1.0.tar.gz` with a SHA256 checksum. The package contains the installed public runtime interface, CMake package metadata, evaluation and reproducibility documentation, representative results, the P7a provenance documentation, and the pinned RLBox + NaCl manifest.
+
+## P7a: allocation-site provenance
+
+P7a closes the remaining TypeId-selection weakness for precise source-derived allocation policies.
+
+CodeQL identifies an allocation instruction and its inferred object type. The generator emits trusted begin/end symbols around that exact allocation expression and replaces the allocation with a direct NaCl callback syscall. NaCl captures the syscall's sandbox return address into trusted per-thread state before the host callback executes. T resolves the generated site symbols, matches the trusted return PC against the registered site range, and only then creates allocation metadata with the site's authoritative type.
+
+The precise path is therefore:
+
+```text
+analyzed allocation instruction
+        ↓
+generated site range
+        ↓
+U executes direct allocator syscall
+        ↓
+trusted NaCl return PC
+        ↓
+T site lookup
+        ↓
+{base, size, type_hash, site_id}
+```
+
+A compromised U that knows the allocator callback slot cannot obtain trusted metadata by invoking that callback syscall from arbitrary code, because the trusted return PC is outside every authorized site. Likewise, U may overwrite an object allocated by the `Other` site so that its bytes resemble `Item`, but the authoritative metadata remains `Other` and an `Item` use fails with `wrong_type`.
+
+The real rsync/popt path uses the same mechanism for the CodeQL-derived `poptGetContext` and `expandNextArg` sites and for the explicitly registered typed string-copy site. The complete P4c rsync regression remains part of the acceptance test.
+
+Detailed design and limitations are documented in `P7A_PROVENANCE.md`.
 
 ## Current scope
 
 T reserves one dedicated read/write arena inside U's NaCl address space. U can access object bytes, but T owns allocation metadata and the arena mapping. The allocator intentionally does not reuse released addresses, so removing a metadata record makes stale pointers fail permanently for the lifetime of the arena.
 
-For type provenance, T registers a trusted policy table such as `1 -> H(Item)` and `2 -> H(Other)`. U's allocation request carries only the compact TypeId. The TypeId itself is not trusted: compromised U may choose any registered ID. The security property is that only T defines what each ID means. Stronger control-flow or allocation-site provenance is a separate future extension.
+For precise source-derived allocation policies, T no longer trusts U to select a type. T registers each analyzed allocation instruction as a trusted site range bound to an inferred type. A tracked allocation is created only when the trusted NaCl syscall return PC identifies one of those authorized sites. The resulting metadata records the site's `site_id` and `type_hash` together with the allocation base and size.
 
-The runtime check remains intentionally small: a pointer must belong to a tracked allocation, match the expected `TypeHash`, and keep the inferred requested access within that same allocation's bounds.
+Legacy hand-written policies that do not carry allocation source locations retain the older `TypeId -> TypeHash` request path for backward compatibility. Compromised U may choose among registered TypeIds on that legacy path, so those allocations do not receive the P7a allocation-site provenance guarantee.
+
+P7a is allocation-site provenance, not control-flow integrity. If compromised U legitimately reaches an authorized allocation instruction, the allocation receives that site's type. U also remains free to corrupt bytes within its writable objects. T therefore still validates liveness, expected type, and spatial bounds before consuming a U-controlled pointer.

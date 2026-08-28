@@ -4,10 +4,9 @@
 #include <stdlib.h>
 #include <sys/mman.h>
 
-typedef uint32_t (*alloc_fn)(uint32_t, uint32_t);
 typedef int (*free_fn)(uint32_t);
 
-static alloc_fn typed_alloc;
+extern uint32_t interspec_site_alloc_slot;
 static free_fn typed_free;
 
 struct Item {
@@ -19,8 +18,8 @@ struct Other {
   uint64_t value;
 };
 
-void typed_poc_init(alloc_fn alloc, free_fn free_cb) {
-  typed_alloc = alloc;
+void typed_poc_init(uint32_t site_alloc_slot, free_fn free_cb) {
+  interspec_site_alloc_slot = site_alloc_slot;
   typed_free = free_cb;
 }
 
@@ -39,18 +38,26 @@ unsigned char* typed_poc_make_other(void) {
   return (unsigned char*)other;
 }
 
-/* Adversarial direct request: U can select a registered ID, not redefine it. */
+/*
+ * Adversarial shape confusion: the object is created by the authorized Other
+ * allocation site, then U overwrites its bytes to look exactly like Item.
+ * Trusted metadata must remain Other because the allocation site, not U data,
+ * determines the authoritative type.
+ */
 unsigned char* typed_poc_make_item_from_other_site(void) {
-  uint32_t ptr = typed_alloc(sizeof(struct Item), INTERSPEC_TYPE_ID_OTHER);
-  struct Item* item = (struct Item*)(uintptr_t)ptr;
+  struct Item* item = (struct Item*)typed_poc_make_other();
   if (!item) return 0;
   item->id = 1;
   item->value = 42;
   return (unsigned char*)item;
 }
 
-unsigned char* typed_poc_try_unknown_type(void) {
-  uint32_t ptr = typed_alloc(sizeof(struct Item), UINT32_C(999));
+/*
+ * A compromised U can invoke the allocator callback syscall from arbitrary
+ * code, but this instruction is not one of the analyzed allocation sites.
+ */
+unsigned char* typed_poc_try_unauthorized_site(void) {
+  uint32_t ptr = INTERSPEC_SITE_ALLOC(sizeof(struct Item));
   return (unsigned char*)(uintptr_t)ptr;
 }
 

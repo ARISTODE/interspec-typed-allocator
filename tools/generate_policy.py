@@ -17,15 +17,24 @@ def macro(name):
     return re.sub(r"[^A-Za-z0-9]", "_", name).upper()
 
 
+def symbol(name):
+    return re.sub(r"[^A-Za-z0-9_]", "_", name)
+
+
 def cpp(name):
     parts = re.split(r"[^A-Za-z0-9]+", name)
     return "".join(part[:1].upper() + part[1:] for part in parts if part)
 
 
-def function_body(source, function):
+def function_match(source, function):
     match = re.search(r"\b" + re.escape(function) + r"\s*\([^)]*\)\s*\{", source)
     if not match:
         raise ValueError(f"function not found: {function}")
+    return match
+
+
+def function_body(source, function):
+    match = function_match(source, function)
     depth = 1
     pos = match.end()
     while pos < len(source) and depth:
@@ -34,6 +43,23 @@ def function_body(source, function):
     if depth:
         raise ValueError(f"unterminated function: {function}")
     return match.end(), pos - 1
+
+
+def mark_precise_function_noinline(source, function):
+    """Keep global site labels in one stable machine-code instance.
+
+    The allocation-site labels are referenced by T after linking. If the
+    compiler inlines a function containing a site, the inline asm carrying a
+    global label can be emitted more than once. The precise-site path already
+    relies on GNU C statement expressions and inline asm, so a GNU noinline
+    attribute is an appropriate and narrow way to keep each analyzed function
+    body unique without affecting legacy policies.
+    """
+    match = function_match(source, function)
+    marker = "__attribute__((noinline)) "
+    if source[max(0, match.start() - len(marker)):match.start()] == marker:
+        return source
+    return source[:match.start()] + marker + source[match.start():]
 
 
 def source_offset(source, line, column, end=False):
@@ -54,14 +80,7 @@ def source_offset(source, line, column, end=False):
 
 
 def malloc_call_extent(source, anchor_start, anchor_end):
-    """Expand an analyzed malloc span to the complete malloc(...) call.
-
-    Depending on the extractor/query version, a source span may cover only the
-    target token ("malloc") or the whole FunctionCall expression.  In both
-    cases the start position identifies the analyzed call.  Parse the argument
-    list from that start position so instrumentation remains tied to the
-    analysis result rather than to a function-wide textual heuristic.
-    """
+    """Expand an analyzed malloc span to the complete malloc(...) call."""
     if anchor_end <= anchor_start or not source.startswith("malloc", anchor_start):
         raise ValueError(
             f"allocation anchor does not start at malloc: {source[anchor_start:anchor_end]!r}"
@@ -146,7 +165,20 @@ def malloc_call_extent(source, anchor_start, anchor_end):
     raise ValueError("unterminated malloc argument list")
 
 
-def instrument_site(source, allocation):
+def site_symbols(allocation, site_id):
+    stem = symbol(allocation["function"])
+    prefix = f"interspec_alloc_site_{stem}_{site_id}"
+    return prefix + "_begin", prefix + "_end"
+
+
+def exported_label_asm(name):
+    # The pinned NaCl loader indexes only STT_FUNC entries from the nexe symbol
+    # table. Mark these zero-sized metadata anchors as function symbols so T can
+    # resolve their addresses. They are labels only and are never invoked.
+    return f".globl {name}\\n.type {name},@function\\n{name}:"
+
+
+def instrument_site(source, allocation, site_id):
     site = allocation["site"]
     anchor_start = source_offset(
         source, int(site["start_line"]), int(site["start_column"])
@@ -171,9 +203,15 @@ def instrument_site(source, allocation):
             f"malloc call escapes function {allocation['function']}"
         )
 
-    type_id = f"INTERSPEC_TYPE_ID_{macro(allocation['type'])}"
+    begin_symbol, end_symbol = site_symbols(allocation, site_id)
     replacement = (
-        f"(void*)(uintptr_t)typed_alloc((uint32_t)({size_expr}), {type_id})"
+        "({ "
+        f"uint32_t __interspec_size = (uint32_t)({size_expr}); "
+        "uint32_t __interspec_ptr = 0; "
+        f"__asm__ __volatile__(\"{exported_label_asm(begin_symbol)}\" ::: \"memory\"); "
+        "__interspec_ptr = INTERSPEC_SITE_ALLOC(__interspec_size); "
+        f"__asm__ __volatile__(\"{exported_label_asm(end_symbol)}\" ::: \"memory\"); "
+        "(void*)(uintptr_t)__interspec_ptr; })"
     )
     return source[:call_start] + replacement + source[call_end:]
 
@@ -205,9 +243,6 @@ def instrument_legacy(source, allocation):
                 + body[sizeof_matches[0].end():]
             )
         else:
-            # Backward-compatible fallback for hand-written policies that do
-            # not yet carry a CodeQL source span.  P5 source-derived policies
-            # use instrument_site(), which supports arbitrary malloc sizes.
             plain_pattern = re.compile(
                 r"malloc\s*\(\s*([A-Za-z_][A-Za-z0-9_]*)\s*\)"
             )
@@ -244,24 +279,50 @@ def generate(policy, source):
             )
         hashes[value] = name
 
-    for allocation in policy["allocations"]:
+    site_ids = {}
+    next_site_id = 1
+    for index, allocation in enumerate(policy["allocations"]):
         if allocation["type"] not in ids:
             raise ValueError(f"unknown allocation type: {allocation['type']}")
+        if "site" in allocation:
+            site_ids[index] = next_site_id
+            next_site_id += 1
 
-    precise = [a for a in policy["allocations"] if "site" in a]
-    legacy = [a for a in policy["allocations"] if "site" not in a]
+    precise = [
+        (index, allocation)
+        for index, allocation in enumerate(policy["allocations"])
+        if "site" in allocation
+    ]
+    legacy = [
+        allocation
+        for allocation in policy["allocations"]
+        if "site" not in allocation
+    ]
     precise.sort(
-        key=lambda a: (
-            int(a["site"]["start_line"]), int(a["site"]["start_column"])
+        key=lambda entry: (
+            int(entry[1]["site"]["start_line"]),
+            int(entry[1]["site"]["start_column"]),
         ),
         reverse=True,
     )
-    for allocation in precise:
-        source = instrument_site(source, allocation)
+    for index, allocation in precise:
+        source = instrument_site(source, allocation, site_ids[index])
+
+    # Site labels must resolve to exactly one instruction interval, so precise
+    # allocation functions are not compiler-cloned by inlining.
+    for function in sorted({allocation["function"] for _, allocation in precise}):
+        source = mark_precise_function_noinline(source, function)
+
     for allocation in legacy:
         source = instrument_legacy(source, allocation)
 
-    u = ["#pragma once", "", "#include <stdint.h>", ""]
+    u = [
+        "#pragma once",
+        "",
+        "#include <stdint.h>",
+        '#include "interspec_site_allocator.h"',
+        "",
+    ]
     for name, type_id in ids.items():
         u.append(f"#define INTERSPEC_TYPE_ID_{macro(name)} UINT32_C({type_id})")
     u.append("")
@@ -286,6 +347,13 @@ def generate(policy, source):
         "  size_t bytes;",
         "};",
         "",
+        "struct AllocationSitePolicy {",
+        "  SiteId site_id;",
+        "  TypeId type_id;",
+        "  const char* begin_symbol;",
+        "  const char* end_symbol;",
+        "};",
+        "",
     ]
     for name, type_id in ids.items():
         ident = cpp(name)
@@ -298,6 +366,48 @@ def generate(policy, source):
         ident = cpp(name)
         t.append(f"  ok = runtime.register_type(kTypeId{ident}, kTypeHash{ident}) && ok;")
     t += ["  return ok;", "}", ""]
+
+    site_entries = []
+    for index, allocation in enumerate(policy["allocations"]):
+        if index not in site_ids:
+            continue
+        site_id = site_ids[index]
+        type_ident = cpp(allocation["type"])
+        begin_symbol, end_symbol = site_symbols(allocation, site_id)
+        site_entries.append((site_id, type_ident, begin_symbol, end_symbol))
+
+    t.append(f"constexpr size_t kAllocationSiteCount = {len(site_entries)};")
+    if site_entries:
+        t.append("constexpr AllocationSitePolicy kAllocationSites[] = {")
+        for site_id, type_ident, begin_symbol, end_symbol in site_entries:
+            t.append(
+                f'  {{{site_id}, kTypeId{type_ident}, "{begin_symbol}", "{end_symbol}"}},'
+            )
+        t += ["};", ""]
+        t += [
+            "template<typename Resolver>",
+            "inline bool register_allocation_sites(Runtime& runtime, Resolver resolve)",
+            "{",
+            "  for (const auto& site : kAllocationSites) {",
+            "    const uintptr_t begin = resolve(site.begin_symbol);",
+            "    const uintptr_t end = resolve(site.end_symbol);",
+            "    if (!begin || !end ||",
+            "        !runtime.register_allocation_site(site.site_id, begin, end, site.type_id))",
+            "      return false;",
+            "  }",
+            "  return true;",
+            "}",
+            "",
+        ]
+    else:
+        t += [
+            "template<typename Resolver>",
+            "inline bool register_allocation_sites(Runtime&, Resolver)",
+            "{",
+            "  return true;",
+            "}",
+            "",
+        ]
 
     for use in policy["uses"]:
         if use["type"] not in ids:

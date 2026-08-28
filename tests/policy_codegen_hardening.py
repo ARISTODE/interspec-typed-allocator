@@ -55,8 +55,18 @@ void* choose(size_t n) {
     instrumented, u_header, t_header = generate(policy, source)
     assert "malloc(n + 7)" in instrumented
     assert selected not in instrumented
-    assert "typed_alloc((uint32_t)((n * 2) + 1)" in instrumented
+    assert "INTERSPEC_SITE_ALLOC(__interspec_size)" in instrumented
+    assert "interspec_alloc_site_choose_1_begin" in instrumented
+    assert "interspec_alloc_site_choose_1_end" in instrumented
+    assert "__attribute__((noinline)) choose(size_t n)" in instrumented
+    assert "interspec_site_allocator.h" in u_header
     assert "INTERSPEC_TYPE_ID_CHAR" in u_header
+    assert "AllocationSitePolicy" in t_header
+    assert "kAllocationSiteCount = 1" in t_header
+    assert '"interspec_alloc_site_choose_1_begin"' in t_header
+    assert '"interspec_alloc_site_choose_1_end"' in t_header
+    assert "register_allocation_sites" in t_header
+    assert "runtime.register_allocation_site" in t_header
     assert "std::numeric_limits<size_t>::max() - policy.bytes" in t_header
 
     print("InterSpec policy codegen hardening: all checks passed")

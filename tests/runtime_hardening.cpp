@@ -9,6 +9,7 @@
 
 using interspec::CheckResult;
 using interspec::Runtime;
+using interspec::SiteId;
 using interspec::TypeId;
 using interspec::type_hash;
 
@@ -66,6 +67,50 @@ int main() {
   EXPECT(overflow.register_type(kItemId, kItem), true);
   EXPECT(overflow.allocate(std::numeric_limits<size_t>::max(), kItemId),
          uintptr_t{0});
+
+  /* P7a: only a trusted registered PC range can authorize a precise site. */
+  Runtime provenance(kArenaBase, 4096);
+  EXPECT(provenance.register_type(kItemId, kItem), true);
+  EXPECT(provenance.register_type(kOtherId, kOther), true);
+  constexpr SiteId kItemSite = 11;
+  constexpr SiteId kOtherSite = 12;
+  EXPECT(provenance.register_allocation_site(kItemSite, 0x1000, 0x1010,
+                                             kItemId), true);
+  EXPECT(provenance.register_allocation_site(kOtherSite, 0x2000, 0x2020,
+                                             kOtherId), true);
+  EXPECT(provenance.allocation_site_count(), size_t{2});
+  EXPECT(provenance.register_allocation_site(kItemSite, 0x3000, 0x3010,
+                                             kItemId), false);
+  EXPECT(provenance.register_allocation_site(13, 0x1008, 0x1018,
+                                             kItemId), false);
+  EXPECT(provenance.register_allocation_site(14, 0x1010, 0x1020,
+                                             kItemId), true);
+
+  const uintptr_t site_item = provenance.allocate_from_pc(32, 0x1008);
+  EXPECT(site_item != 0, true);
+  EXPECT(provenance.check(site_item, 32, kItem), CheckResult::ok);
+  EXPECT(provenance.allocate_from_pc(32, 0x1800), uintptr_t{0});
+  EXPECT(provenance.allocate_from_pc(32, 0x2020), uintptr_t{0});
+
+  SiteId recorded_site = 0;
+  EXPECT(provenance.allocation_site(site_item, recorded_site), true);
+  EXPECT(recorded_site, kItemSite);
+
+  const uintptr_t site_replacement = provenance.reallocate(site_item, 48);
+  EXPECT(site_replacement != 0, true);
+  EXPECT(provenance.check(site_item, 1, kItem), CheckResult::untracked);
+  EXPECT(provenance.check(site_replacement, 48, kItem), CheckResult::ok);
+  recorded_site = 0;
+  EXPECT(provenance.allocation_site(site_replacement, recorded_site), true);
+  EXPECT(recorded_site, kItemSite);
+
+  const uintptr_t trusted_site_item =
+      provenance.allocate_from_site(16, kItemSite);
+  EXPECT(trusted_site_item != 0, true);
+  recorded_site = 0;
+  EXPECT(provenance.allocation_site(trusted_site_item, recorded_site), true);
+  EXPECT(recorded_site, kItemSite);
+  EXPECT(provenance.allocate_from_site(16, 999), uintptr_t{0});
 
   Runtime stress(kArenaBase, 2u << 20);
   EXPECT(stress.register_type(kItemId, kItem), true);

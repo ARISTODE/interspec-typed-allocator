@@ -8,6 +8,7 @@
 #include "interspec/runtime.h"
 #include "interspec_popt_t_policy.h"
 #include "popt.h"
+#include "site_provenance.h"
 
 #include <algorithm>
 #include <cstdint>
@@ -28,13 +29,12 @@ using UPtr = rlbox::tainted<void*, SandboxType>;
 using UCharPtr = rlbox::tainted<char*, SandboxType>;
 using U32 = rlbox::tainted<uint32_t, SandboxType>;
 
-using p4c_alloc_fn = uint32_t (*)(uint32_t, uint32_t);
 using p4c_release_fn = uint32_t (*)(uint32_t);
 using p4c_size_fn = uint32_t (*)(uint32_t);
 using p4c_realloc_fn = uint32_t (*)(uint32_t, uint32_t);
 
 extern "C" {
-void interspec_popt_init_lifetime(p4c_alloc_fn,
+void interspec_popt_init_lifetime(uint32_t,
                                   p4c_release_fn,
                                   p4c_size_fn,
                                   p4c_realloc_fn);
@@ -62,7 +62,7 @@ void interspec_p4c_argv_free(void*);
 class Engine;
 Engine& engine_from(Sandbox& sandbox);
 
-static U32 p4c_allocate(Sandbox& sandbox, U32 size, U32 type_id);
+static U32 p4c_allocate(Sandbox& sandbox, U32 size);
 static U32 p4c_release(Sandbox& sandbox, U32 ptr);
 static U32 p4c_size(Sandbox& sandbox, U32 ptr);
 static U32 p4c_reallocate(Sandbox& sandbox, U32 ptr, U32 size);
@@ -79,16 +79,33 @@ class Engine {
     if (!arena_base) throw std::runtime_error("failed to reserve typed arena");
 
     runtime_ = std::make_unique<interspec::Runtime>(arena_base, kArenaSize);
-    if (!interspec::rsync_popt_generated::register_types(*runtime_))
+    using namespace interspec::rsync_popt_generated;
+    if (!register_types(*runtime_))
       throw std::runtime_error("failed to register InterSpec types");
+
+    auto resolve_symbol = [&](const char* name) -> uintptr_t {
+      return sandbox_.get_sandbox_impl()->lookup_symbol_address(name);
+    };
+    if (!register_allocation_sites(*runtime_, resolve_symbol))
+      throw std::runtime_error("failed to register InterSpec allocation sites");
+    if (!runtime_->register_allocation_site(
+          INTERSPEC_POPT_STRDUP_SITE_ID,
+          resolve_symbol(INTERSPEC_POPT_STRDUP_BEGIN_SYMBOL),
+          resolve_symbol(INTERSPEC_POPT_STRDUP_END_SYMBOL),
+          kTypeIdChar))
+      throw std::runtime_error("failed to register popt strdup allocation site");
 
     sandbox_.sandbox_storage = this;
     alloc_cb_ = sandbox_.register_callback(p4c_allocate);
     release_cb_ = sandbox_.register_callback(p4c_release);
     size_cb_ = sandbox_.register_callback(p4c_size);
     realloc_cb_ = sandbox_.register_callback(p4c_reallocate);
+    const uint32_t alloc_slot = sandbox_.get_sandbox_impl()->callback_slot_for_key(
+      reinterpret_cast<const void*>(p4c_allocate));
+    if (alloc_slot == std::numeric_limits<uint32_t>::max())
+      throw std::runtime_error("failed to resolve allocator callback slot");
     sandbox_.invoke_sandbox_function(interspec_popt_init_lifetime,
-                                     alloc_cb_,
+                                     alloc_slot,
                                      release_cb_,
                                      size_cb_,
                                      realloc_cb_);
@@ -96,6 +113,18 @@ class Engine {
 
   Sandbox& sandbox() { return sandbox_; }
   interspec::Runtime& runtime() { return *runtime_; }
+
+  uintptr_t allocate_for_callback_pc(uint32_t size) {
+    auto* impl = sandbox_.get_sandbox_impl();
+    const uintptr_t pc = impl->callback_program_counter();
+    uintptr_t result = runtime_->allocate_from_pc(size, pc);
+    if (result) return result;
+
+    const uintptr_t new_pc = impl->callback_new_program_counter();
+    if (new_pc && new_pc != pc)
+      result = runtime_->allocate_from_pc(size, new_pc);
+    return result;
+  }
 
   UCharPtr copy_to_u(const char* src) {
     if (!src) return UCharPtr(nullptr);
@@ -173,9 +202,9 @@ Engine& engine_from(Sandbox& sandbox) {
   return *value;
 }
 
-static U32 p4c_allocate(Sandbox& sandbox, U32 size, U32 type_id) {
-  return static_cast<uint32_t>(engine_from(sandbox).runtime().allocate(
-    size.UNSAFE_unverified(), type_id.UNSAFE_unverified()));
+static U32 p4c_allocate(Sandbox& sandbox, U32 size) {
+  return static_cast<uint32_t>(
+    engine_from(sandbox).allocate_for_callback_pc(size.UNSAFE_unverified()));
 }
 
 static U32 p4c_release(Sandbox& sandbox, U32 ptr) {
