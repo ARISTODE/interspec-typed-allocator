@@ -172,8 +172,8 @@ def apply_backend(root):
     syscall_common = native / "src/trusted/service_runtime/nacl_syscall_common.c"
     replace(
         syscall_common,
-        '#include "native_client/src/trusted/desc/nacl_desc_io.h"\n',
-        '#include "native_client/src/trusted/desc/nacl_desc_io.h"\n'
+        '#include "native_client/src/trusted/dyn_ldr/datastructures/ds_stack.h"\n',
+        '#include "native_client/src/trusted/dyn_ldr/datastructures/ds_stack.h"\n'
         '#include "native_client/src/trusted/dyn_ldr/dyn_ldr_lib.h"\n',
     )
     replace(
@@ -185,7 +185,7 @@ def apply_backend(root):
         "  {\n"
         "    typedef void (*RegPtrPtrFunc)(uintptr_t, void*, uint64_t*);\n"
         "    NaClSandbox_Thread* interspecThreadData =\n"
-        "      (NaClSandbox_Thread*) natp->custom_app_state;\n"
+        "      (NaClSandbox_Thread*) natp->nap->custom_app_state;\n"
         "    if (interspecThreadData != NULL) {\n"
         "      interspecThreadData->callbackProgramCounter = natp->user.prog_ctr;\n"
         "      interspecThreadData->callbackNewProgramCounter = natp->user.new_prog_ctr;\n"
