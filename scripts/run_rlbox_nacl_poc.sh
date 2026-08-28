@@ -15,8 +15,12 @@ sed -i 's#git@github.com:PLSysSec/nacl_sandbox_compiler.git#https://github.com/P
 git -C "$work/nacl_rlbox/native_client" checkout -q \
   f274515ab22441ea6b4e937e519ace851fac308f
 
-# P3: apply the versioned InterSpec backend to the pinned upstream revisions.
+# P3/P7a: apply the versioned InterSpec backend to the pinned upstream revisions.
 python3 "$root/backends/rlbox_nacl/apply_backend.py" --root "$work"
+
+# Shared U primitive used by every precise, source-derived allocation site.
+cp "$root/backends/rlbox_nacl/interspec_site_allocator.h" "$work/c_src/"
+cp "$root/integration/interspec_site_allocator_state.c" "$work/c_src/"
 
 # Synthetic mechanism PoC.
 generated="$work/interspec-generated"
@@ -55,7 +59,6 @@ insert = (
     '#include "system.h"\n'
     '#include <stdint.h>\n'
     '#include "interspec_popt_u_policy.h"\n'
-    'extern uint32_t typed_alloc(uint32_t, uint32_t);\n'
 )
 assert needle in text
 popt.write_text(text.replace(needle, insert, 1))
@@ -69,6 +72,8 @@ PY
 cp "$popt_generated/popt.c" "$rsync_src/popt/popt.c"
 cp "$popt_generated/interspec_u_policy.h" "$work/c_src/interspec_popt_u_policy.h"
 cp "$popt_generated/interspec_t_policy.h" "$work/test/interspec_popt_t_policy.h"
+cp "$root/integration/rsync_popt/site_provenance.h" "$work/c_src/"
+cp "$root/integration/rsync_popt/site_provenance.h" "$work/test/"
 cp "$root/integration/rsync_popt/popt_typed_shim.c" "$work/c_src/"
 cp "$root/integration/rsync_popt/popt_smoke.c" "$work/c_src/"
 cp "$root/integration/rsync_popt/popt_help_stub.c" "$work/c_src/"
@@ -76,7 +81,7 @@ cp "$root/integration/rsync_popt/p4c_bridge_untrusted.c" "$work/c_src/"
 cp "$root/integration/rsync_popt/rsync_popt.inc.cpp" "$work/test/"
 
 # Real popt can resize and destroy allocations after the selected typed malloc
-# sites execute.  Route those lifetime operations through the trusted runtime
+# sites execute. Route those lifetime operations through the trusted runtime
 # when the pointer belongs to the InterSpec arena, and retain normal libc
 # behavior for all ordinary popt allocations.
 python3 - "$rsync_src/popt/system.h" <<'PY'
@@ -138,6 +143,7 @@ replace(
     cmake,
     "${rlbox_SOURCE_DIR}/code/tests/rlbox_glue/lib/libtest.c)",
     "${rlbox_SOURCE_DIR}/code/tests/rlbox_glue/lib/libtest.c\n"
+    "               ${CMAKE_SOURCE_DIR}/interspec_site_allocator_state.c\n"
     "               ${CMAKE_SOURCE_DIR}/typed_poc_untrusted.c\n"
     "               ${CMAKE_SOURCE_DIR}/popt_typed_shim.c\n"
     "               ${CMAKE_SOURCE_DIR}/popt_smoke.c\n"
@@ -176,7 +182,7 @@ cmake --build "$work/build" --target test_rlbox_glue --parallel 2
 "$work/build/test_rlbox_glue" "[rsync_popt]"
 
 # P4c: build the complete trusted rsync executable while interposing its popt
-# API with an RLBox bridge.  The host uses system libpopt only for standalone
+# API with an RLBox bridge. The host uses system libpopt only for standalone
 # helpers such as poptDupArgv()/poptStrerror(); every context-dependent parser
 # operation is supplied by p4c_bridge.cpp and executes the real bundled popt in
 # the NaCl module built above.
