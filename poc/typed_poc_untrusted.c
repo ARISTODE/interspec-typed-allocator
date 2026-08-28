@@ -6,7 +6,7 @@
 
 typedef int (*free_fn)(uint32_t);
 
-uint32_t interspec_site_alloc_slot = UINT32_MAX;
+extern uint32_t interspec_site_alloc_slot;
 static free_fn typed_free;
 
 struct Item {
