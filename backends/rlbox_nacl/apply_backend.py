@@ -189,7 +189,7 @@ def apply_backend(root):
         "  {\n"
         "    typedef void (*RegPtrPtrFunc)(uintptr_t, void*, uint64_t*);\n"
         "    NaClSandbox_Thread* interspecThreadData =\n"
-        "      (NaClSandbox_Thread*) natp->nap->custom_app_state;\n"
+        "      (NaClSandbox_Thread*) natp->custom_app_state;\n"
         "    if (interspecThreadData != NULL) {\n"
         "      interspecThreadData->callbackProgramCounter = natp->user.prog_ctr;\n"
         "      interspecThreadData->callbackNewProgramCounter = natp->user.new_prog_ctr;\n"
