@@ -171,6 +171,13 @@ def site_symbols(allocation, site_id):
     return prefix + "_begin", prefix + "_end"
 
 
+def exported_label_asm(name):
+    # The pinned NaCl loader indexes only STT_FUNC entries from the nexe symbol
+    # table. Mark these zero-sized metadata anchors as function symbols so T can
+    # resolve their addresses. They are labels only and are never invoked.
+    return f".globl {name}\\n.type {name},@function\\n{name}:"
+
+
 def instrument_site(source, allocation, site_id):
     site = allocation["site"]
     anchor_start = source_offset(
@@ -201,9 +208,9 @@ def instrument_site(source, allocation, site_id):
         "({ "
         f"uint32_t __interspec_size = (uint32_t)({size_expr}); "
         "uint32_t __interspec_ptr = 0; "
-        f"__asm__ __volatile__(\".globl {begin_symbol}\\n{begin_symbol}:\" ::: \"memory\"); "
+        f"__asm__ __volatile__(\"{exported_label_asm(begin_symbol)}\" ::: \"memory\"); "
         "__interspec_ptr = INTERSPEC_SITE_ALLOC(__interspec_size); "
-        f"__asm__ __volatile__(\".globl {end_symbol}\\n{end_symbol}:\" ::: \"memory\"); "
+        f"__asm__ __volatile__(\"{exported_label_asm(end_symbol)}\" ::: \"memory\"); "
         "(void*)(uintptr_t)__interspec_ptr; })"
     )
     return source[:call_start] + replacement + source[call_end:]
@@ -301,9 +308,8 @@ def generate(policy, source):
     for index, allocation in precise:
         source = instrument_site(source, allocation, site_ids[index])
 
-    # The labels above must resolve to exactly one machine-code interval. Mark
-    # each containing precise-site function noinline after source-location based
-    # rewriting is complete so the original CodeQL coordinates remain valid.
+    # Site labels must resolve to exactly one instruction interval, so precise
+    # allocation functions are not compiler-cloned by inlining.
     for function in sorted({allocation["function"] for _, allocation in precise}):
         source = mark_precise_function_noinline(source, function)
 
@@ -368,9 +374,7 @@ def generate(policy, source):
         site_id = site_ids[index]
         type_ident = cpp(allocation["type"])
         begin_symbol, end_symbol = site_symbols(allocation, site_id)
-        site_entries.append(
-            (site_id, type_ident, begin_symbol, end_symbol)
-        )
+        site_entries.append((site_id, type_ident, begin_symbol, end_symbol))
 
     t.append(f"constexpr size_t kAllocationSiteCount = {len(site_entries)};")
     if site_entries:
