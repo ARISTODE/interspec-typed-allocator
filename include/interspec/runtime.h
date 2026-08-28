@@ -12,15 +12,25 @@
 namespace interspec {
 
 using TypeId = uint32_t;
+using SiteId = uint32_t;
 
 struct Allocation {
   uintptr_t base;
   size_t size;
   uint64_t type_hash;
+  SiteId site_id;
 };
 
 struct TypeBinding {
   TypeId id;
+  uint64_t type_hash;
+};
+
+struct AllocationSite {
+  SiteId id;
+  uintptr_t begin;
+  uintptr_t end;
+  TypeId type_id;
   uint64_t type_hash;
 };
 
@@ -49,11 +59,47 @@ class Runtime {
     return true;
   }
 
+  bool register_allocation_site(SiteId id, uintptr_t begin, uintptr_t end,
+                                TypeId type_id) {
+    std::unique_lock<std::shared_mutex> lock(mu_);
+    const auto type = types_.find(type_id);
+    if (id == 0 || begin == 0 || begin >= end || type == types_.end() ||
+        sites_by_id_.find(id) != sites_by_id_.end())
+      return false;
+
+    auto next = sites_.lower_bound(begin);
+    if (next != sites_.end() && end > next->second.begin) return false;
+    if (next != sites_.begin()) {
+      const auto prev = std::prev(next);
+      if (prev->second.end > begin) return false;
+    }
+
+    AllocationSite site{id, begin, end, type_id, type->second};
+    const auto inserted = sites_.emplace(begin, site);
+    if (!inserted.second) return false;
+    sites_by_id_.emplace(id, begin);
+    return true;
+  }
+
   uintptr_t allocate(size_t size, TypeId type_id) {
     std::unique_lock<std::shared_mutex> lock(mu_);
     const auto type = types_.find(type_id);
     if (type == types_.end() || size == 0) return 0;
-    return allocate_with_hash_unlocked(size, type->second);
+    return allocate_with_hash_unlocked(size, type->second, 0);
+  }
+
+  uintptr_t allocate_from_site(size_t size, SiteId site_id) {
+    std::unique_lock<std::shared_mutex> lock(mu_);
+    const AllocationSite* site = find_site_by_id_unlocked(site_id);
+    if (!site || size == 0) return 0;
+    return allocate_with_hash_unlocked(size, site->type_hash, site->id);
+  }
+
+  uintptr_t allocate_from_pc(size_t size, uintptr_t caller_pc) {
+    std::unique_lock<std::shared_mutex> lock(mu_);
+    const AllocationSite* site = find_site_unlocked(caller_pc);
+    if (!site || size == 0) return 0;
+    return allocate_with_hash_unlocked(size, site->type_hash, site->id);
   }
 
   uintptr_t base() const { return base_; }
@@ -63,6 +109,11 @@ class Runtime {
   size_t allocation_count() const {
     std::shared_lock<std::shared_mutex> lock(mu_);
     return allocations_.size();
+  }
+
+  size_t allocation_site_count() const {
+    std::shared_lock<std::shared_mutex> lock(mu_);
+    return sites_.size();
   }
 
   bool release(uintptr_t ptr) {
@@ -81,6 +132,14 @@ class Runtime {
     return true;
   }
 
+  bool allocation_site(uintptr_t ptr, SiteId& site_id) const {
+    std::shared_lock<std::shared_mutex> lock(mu_);
+    const auto allocation = allocations_.find(ptr);
+    if (allocation == allocations_.end()) return false;
+    site_id = allocation->second.site_id;
+    return true;
+  }
+
   uintptr_t reallocate(uintptr_t ptr, size_t new_size) {
     std::unique_lock<std::shared_mutex> lock(mu_);
     const auto old = allocations_.find(ptr);
@@ -92,7 +151,9 @@ class Runtime {
     }
 
     const uint64_t type_hash = old->second.type_hash;
-    const uintptr_t replacement = allocate_with_hash_unlocked(new_size, type_hash);
+    const SiteId site_id = old->second.site_id;
+    const uintptr_t replacement =
+        allocate_with_hash_unlocked(new_size, type_hash, site_id);
     if (!replacement) return 0;
 
     allocations_.erase(ptr);
@@ -129,7 +190,8 @@ class Runtime {
     return aligned >= size;
   }
 
-  uintptr_t allocate_with_hash_unlocked(size_t size, uint64_t type_hash) {
+  uintptr_t allocate_with_hash_unlocked(size_t size, uint64_t type_hash,
+                                        SiteId site_id) {
     if (!arena_valid_ || size == 0) return 0;
 
     size_t aligned = 0;
@@ -138,8 +200,8 @@ class Runtime {
     if (used_ > std::numeric_limits<uintptr_t>::max() - base_) return 0;
 
     const uintptr_t ptr = base_ + used_;
-    const auto inserted =
-        allocations_.emplace(ptr, Allocation{ptr, size, type_hash});
+    const auto inserted = allocations_.emplace(
+        ptr, Allocation{ptr, size, type_hash, site_id});
     if (!inserted.second) return 0;
 
     used_ += aligned;
@@ -159,6 +221,22 @@ class Runtime {
     return offset < allocation.size ? &allocation : nullptr;
   }
 
+  const AllocationSite* find_site_unlocked(uintptr_t pc) const {
+    if (sites_.empty()) return nullptr;
+    auto it = sites_.upper_bound(pc);
+    if (it == sites_.begin()) return nullptr;
+    --it;
+    const AllocationSite& site = it->second;
+    return pc >= site.begin && pc < site.end ? &site : nullptr;
+  }
+
+  const AllocationSite* find_site_by_id_unlocked(SiteId id) const {
+    const auto indexed = sites_by_id_.find(id);
+    if (indexed == sites_by_id_.end()) return nullptr;
+    const auto site = sites_.find(indexed->second);
+    return site == sites_.end() ? nullptr : &site->second;
+  }
+
   const uintptr_t base_;
   const size_t capacity_;
   const bool arena_valid_;
@@ -167,6 +245,8 @@ class Runtime {
   mutable std::shared_mutex mu_;
   std::unordered_map<TypeId, uint64_t> types_;
   std::unordered_map<uint64_t, TypeId> type_ids_;
+  std::map<uintptr_t, AllocationSite> sites_;
+  std::unordered_map<SiteId, uintptr_t> sites_by_id_;
   std::map<uintptr_t, Allocation> allocations_;
 };
 
