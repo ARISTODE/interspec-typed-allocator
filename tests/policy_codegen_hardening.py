@@ -58,6 +58,7 @@ void* choose(size_t n) {
     assert "INTERSPEC_SITE_ALLOC(__interspec_size)" in instrumented
     assert "interspec_alloc_site_choose_1_begin" in instrumented
     assert "interspec_alloc_site_choose_1_end" in instrumented
+    assert "__attribute__((noinline)) choose(size_t n)" in instrumented
     assert "interspec_site_allocator.h" in u_header
     assert "INTERSPEC_TYPE_ID_CHAR" in u_header
     assert "AllocationSitePolicy" in t_header
