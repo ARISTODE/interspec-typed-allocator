@@ -4,36 +4,31 @@
 
 #include "interspec_popt_u_policy.h"
 #include "popt.h"
+#include "site_provenance.h"
 
-typedef uint32_t (*interspec_alloc_fn)(uint32_t, uint32_t);
 typedef uint32_t (*interspec_release_fn)(uint32_t);
 typedef uint32_t (*interspec_size_fn)(uint32_t);
 typedef uint32_t (*interspec_realloc_fn)(uint32_t, uint32_t);
 
-static interspec_alloc_fn interspec_alloc;
+extern uint32_t interspec_site_alloc_slot;
 static interspec_release_fn interspec_release;
 static interspec_size_fn interspec_size;
 static interspec_realloc_fn interspec_realloc;
 
-void interspec_popt_init(interspec_alloc_fn alloc)
+void interspec_popt_init(uint32_t site_alloc_slot)
 {
-  interspec_alloc = alloc;
+  interspec_site_alloc_slot = site_alloc_slot;
 }
 
-void interspec_popt_init_lifetime(interspec_alloc_fn alloc,
+void interspec_popt_init_lifetime(uint32_t site_alloc_slot,
                                   interspec_release_fn release,
                                   interspec_size_fn size,
                                   interspec_realloc_fn reallocate)
 {
-  interspec_alloc = alloc;
+  interspec_site_alloc_slot = site_alloc_slot;
   interspec_release = release;
   interspec_size = size;
   interspec_realloc = reallocate;
-}
-
-uint32_t typed_alloc(uint32_t size, uint32_t type_id)
-{
-  return interspec_alloc ? interspec_alloc(size, type_id) : 0;
 }
 
 char* interspec_typed_strdup(const char* src)
@@ -43,7 +38,16 @@ char* interspec_typed_strdup(const char* src)
   const size_t size = strlen(src) + 1;
   if (size > UINT32_MAX) return NULL;
 
-  const uint32_t dst = typed_alloc((uint32_t)size, INTERSPEC_TYPE_ID_CHAR);
+  uint32_t dst = 0;
+  __asm__ __volatile__(
+    ".globl interspec_alloc_site_interspec_typed_strdup_manual_begin\n"
+    "interspec_alloc_site_interspec_typed_strdup_manual_begin:"
+    ::: "memory");
+  dst = INTERSPEC_SITE_ALLOC((uint32_t)size);
+  __asm__ __volatile__(
+    ".globl interspec_alloc_site_interspec_typed_strdup_manual_end\n"
+    "interspec_alloc_site_interspec_typed_strdup_manual_end:"
+    ::: "memory");
   if (!dst) return NULL;
 
   memcpy((void*)(uintptr_t)dst, src, size);
@@ -99,16 +103,9 @@ char* interspec_popt_get_opt_arg(void* opaque)
 
 char* interspec_popt_get_opt_arg_wrong_type(void* opaque)
 {
-  const char* src = poptGetOptArg((poptContext)opaque);
-  if (!src) return NULL;
-
-  const size_t size = strlen(src) + 1;
-  const uint32_t dst =
-    typed_alloc((uint32_t)size, INTERSPEC_TYPE_ID_POPTCONTEXT_S);
-  if (!dst) return NULL;
-
-  memcpy((void*)(uintptr_t)dst, src, size);
-  return (char*)(uintptr_t)dst;
+  /* Return a real tracked poptContext pointer as if it were char*.  This keeps
+   * the adversarial case independent of any U-selected type identifier. */
+  return (char*)opaque;
 }
 
 char* interspec_popt_get_opt_arg_untracked(void* opaque)
