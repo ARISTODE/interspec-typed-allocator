@@ -70,8 +70,7 @@ TEST_CASE("InterSpec typed allocation PoC", "[typed_allocator]")
   REQUIRE(!runtime.register_type(kTypeIdItem, kTypeHashOther));
 
   auto resolve_symbol = [&](const char* name) -> uintptr_t {
-    return reinterpret_cast<uintptr_t>(
-      sandbox.get_sandbox_impl()->impl_lookup_symbol(name));
+    return sandbox.get_sandbox_impl()->lookup_symbol_address(name);
   };
   REQUIRE(register_allocation_sites(runtime, resolve_symbol));
   REQUIRE(runtime.allocation_site_count() == kAllocationSiteCount);
