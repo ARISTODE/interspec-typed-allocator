@@ -26,10 +26,15 @@ def cpp(name):
     return "".join(part[:1].upper() + part[1:] for part in parts if part)
 
 
-def function_body(source, function):
+def function_match(source, function):
     match = re.search(r"\b" + re.escape(function) + r"\s*\([^)]*\)\s*\{", source)
     if not match:
         raise ValueError(f"function not found: {function}")
+    return match
+
+
+def function_body(source, function):
+    match = function_match(source, function)
     depth = 1
     pos = match.end()
     while pos < len(source) and depth:
@@ -38,6 +43,23 @@ def function_body(source, function):
     if depth:
         raise ValueError(f"unterminated function: {function}")
     return match.end(), pos - 1
+
+
+def mark_precise_function_noinline(source, function):
+    """Keep global site labels in one stable machine-code instance.
+
+    The allocation-site labels are referenced by T after linking. If the
+    compiler inlines a function containing a site, the inline asm carrying a
+    global label can be emitted more than once. The precise-site path already
+    relies on GNU C statement expressions and inline asm, so a GNU noinline
+    attribute is an appropriate and narrow way to keep each analyzed function
+    body unique without affecting legacy policies.
+    """
+    match = function_match(source, function)
+    marker = "__attribute__((noinline)) "
+    if source[max(0, match.start() - len(marker)):match.start()] == marker:
+        return source
+    return source[:match.start()] + marker + source[match.start():]
 
 
 def source_offset(source, line, column, end=False):
@@ -278,6 +300,13 @@ def generate(policy, source):
     )
     for index, allocation in precise:
         source = instrument_site(source, allocation, site_ids[index])
+
+    # The labels above must resolve to exactly one machine-code interval. Mark
+    # each containing precise-site function noinline after source-location based
+    # rewriting is complete so the original CodeQL coordinates remain valid.
+    for function in sorted({allocation["function"] for _, allocation in precise}):
+        source = mark_precise_function_noinline(source, function)
+
     for allocation in legacy:
         source = instrument_legacy(source, allocation)
 
