@@ -17,7 +17,7 @@ generated site labels around allocation instruction
         ↓
 direct NaCl callback syscall at that instruction
         ↓
-trusted NaCl callback program counter
+trusted NaCl syscall return PC
         ↓
 T site-range lookup
         ↓
@@ -30,7 +30,7 @@ If U invokes the same allocator callback syscall from an instruction that is not
 
 A site identifier, TypeId, nonce, or claimed return address supplied as ordinary U data cannot establish allocation provenance: compromised U can copy or replay such values. P7a therefore derives provenance from execution state captured by the trusted NaCl service runtime.
 
-The generated allocation expression invokes the existing NaCl callback syscall directly instead of calling a reusable U allocation helper. The patched, pinned NaCl service runtime records the sandbox program-counter state at callback syscall entry before the host callback runs. The RLBox backend exposes that trusted callback state to T.
+The generated allocation expression invokes the existing NaCl callback syscall directly instead of calling a reusable U allocation helper. On syscall entry, NaCl reads the user return address from the sandbox stack, applies its code-address sandboxing logic, and stores the resulting trusted return PC in the per-thread trusted runtime state before dispatching the host callback. The packaged RLBox backend exposes that trusted return PC to T. P7a uses this value, rather than a U-supplied identifier, to authorize allocation.
 
 ## Generated policy
 
@@ -46,17 +46,23 @@ Tracked allocation metadata now includes:
 {base, size, type_hash, site_id}
 ```
 
-`Runtime::allocate_from_pc()` accepts an allocation only when the trusted callback program counter falls inside a registered site range. The selected site's trusted type binding determines the stored `type_hash`. `reallocate()` preserves the original allocation's `type_hash` and `site_id`; it cannot relabel provenance.
+`Runtime::allocate_from_pc()` accepts an allocation only when the trusted syscall return PC falls inside a registered site range. The selected site's trusted type binding determines the stored `type_hash`. `reallocate()` preserves the original allocation's `type_hash` and `site_id`; it cannot relabel provenance.
 
 ## Adversarial tests
 
 The synthetic RLBox + NaCl test exercises two provenance attacks.
 
-First, U invokes the allocator callback syscall from an unregistered instruction. The callback slot is known to U, but the trusted program counter does not match any allocation policy, so allocation fails.
+First, U invokes the allocator callback syscall from an unregistered instruction. The callback slot is known to U, but the trusted return PC does not match any allocation policy, so allocation fails.
 
 Second, U creates an object through the legitimate `Other` allocation site and overwrites its bytes to look exactly like `Item`. The stored provenance and type remain those of the `Other` site, so a T use expecting `Item` is rejected as `wrong_type`.
 
 The real rsync/popt path also uses site provenance. CodeQL-derived `poptGetContext` and `expandNextArg` allocation sites are registered from generated labels. The typed string-copy site used by the boundary bridge is registered explicitly as a trusted `char` allocation site. The complete P4c rsync regression continues to require successful execution with popt inside RLBox + NaCl.
+
+## Trusted-state implementation note
+
+The pinned NaCl integration keeps per-thread sandbox bookkeeping in the `NaClAppThread` thread state. P7a records the callback return PC into the corresponding trusted per-thread InterSpec state before the host callback executes. Sandbox-global application state is not used as allocation provenance.
+
+This distinction is security relevant: allocation authority follows the actual thread that executed the syscall rather than a process-wide value that U could indirectly cause to become stale across nested or concurrent execution.
 
 ## Scope and limitation
 
