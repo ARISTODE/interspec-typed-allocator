@@ -9,10 +9,6 @@ script_dir=$(cd "$(dirname "$0")" && pwd)
 impl="$script_dir/run_rlbox_nacl_poc_impl.sh"
 git_bin=$(type -P git)
 
-# PCRE1 keeps config.h as a template in the source tree. A normal CMake build
-# generates a configured config.h containing LINK_SIZE and the other internal
-# constants. The NaCl integration compiles the real PCRE C sources directly, so
-# reproduce that normal configuration step after the exact pinned checkout.
 git()
 {
   "$git_bin" "$@"
@@ -42,12 +38,6 @@ git()
   return $status
 }
 
-# The integration recipe originally listed every PCRE translation unit. P7c
-# configures JIT off and exercises compile + pcre_fullinfo metadata only, so
-# pcre_jit_compile.c and the unrelated pcre_version.c public string API are not
-# part of this boundary. Produce a temporary recipe without those two units.
-# Exact-count checks keep this source-list surgery fail-closed if the stable
-# implementation recipe changes shape later.
 filtered_impl=$(mktemp "${TMPDIR:-/tmp}/interspec-rlbox-nacl-impl.XXXXXX")
 trap 'rm -f "$filtered_impl"' EXIT
 python3 - "$impl" "$filtered_impl" <<'PY'
@@ -66,6 +56,76 @@ for filename in ("pcre_jit_compile.c", "pcre_version.c"):
 Path(sys.argv[2]).write_text(source)
 PY
 
-# Source rather than exec so the git() preparation hook remains visible to the
-# integration recipe. $0 still names this front-end, preserving its root lookup.
+# Source rather than exec so the preparation hook and all pinned build variables
+# remain visible below for P8's paired application measurement.
 source "$filtered_impl"
+
+# P8 application-level validation benchmark. This is deliberately a
+# tracked-no-check baseline, not an RLBox-only baseline: typed allocation,
+# provenance, sandboxing, marshalling, and the exact NaCl module stay identical.
+# Only Engine::copy_checked() is compiled in measurement-only bypass mode.
+baseline_bridge_obj="$work/p8_no_validation_bridge.o"
+g++ -std=c++17 -O2 -c "$root/integration/rsync_popt/p4c_bridge.cpp" \
+  -o "$baseline_bridge_obj" \
+  -DINTERSPEC_P8_MEASURE_NO_VALIDATION=1 \
+  -DGLUE_LIB_NACL_PATH=\"$work/build/nacl/glue_lib_nacl.nexe\" \
+  -DNACL_LIBC_PATH=\"$work/nacl_rlbox/native_client/scons-out/nacl_irt-x86-64/staging/irt_core.nexe\" \
+  -I"$work/include" \
+  -I"$work/build/_deps/rlbox-src/code/include" \
+  -I"$work/nacl_rlbox/native_client/src/trusted/dyn_ldr" \
+  -I"$root/include" \
+  -I"$work/test" \
+  -I"$rsync_src/popt"
+
+extended_rsync="$work/rsync-extended-sp3"
+baseline_rsync="$work/rsync-tracked-no-check"
+cp "$rsync_src/rsync" "$extended_rsync"
+rm -f "$rsync_src/rsync"
+make -C "$rsync_src" -j2 rsync \
+  P4C_BRIDGE="$baseline_bridge_obj" \
+  P4C_LIBS="$p4c_libs"
+cp "$rsync_src/rsync" "$baseline_rsync"
+cp "$extended_rsync" "$rsync_src/rsync"
+
+# Both variants must still complete the exact valid acceptance workloads before
+# timing. The baseline is measurement-only and is never used for attack tests.
+"$baseline_rsync" --backup-dir="$p4c_backup" --max-size=1M --block-size=1024 --version >/dev/null
+"$baseline_rsync" --dry-run -a "$p4c_data/src/" "$p4c_data/dst/" >/dev/null
+"$extended_rsync" --backup-dir="$p4c_backup" --max-size=1M --block-size=1024 --version >/dev/null
+"$extended_rsync" --dry-run -a "$p4c_data/src/" "$p4c_data/dst/" >/dev/null
+
+app_csv=/tmp/interspec-p8-rsync-performance.csv
+python3 - "$baseline_rsync" "$extended_rsync" "$p4c_backup" \
+  "$p4c_data/src/" "$p4c_data/dst/" "$app_csv" <<'PY'
+import csv
+import os
+import subprocess
+import sys
+import time
+
+baseline, extended, backup, src, dst, output = sys.argv[1:]
+repetitions = int(os.environ.get("INTERSPEC_P8_APP_REPETITIONS", "9"))
+workloads = {
+    "option_parse": [
+        f"--backup-dir={backup}", "--max-size=1M", "--block-size=1024", "--version"
+    ],
+    "local_dry_run": ["--dry-run", "-a", src, dst],
+}
+variants = [("tracked_no_check", baseline), ("extended_sp3", extended)]
+rows = []
+for workload, args in workloads.items():
+    for rep in range(repetitions):
+        order = variants if rep % 2 == 0 else list(reversed(variants))
+        for mode, binary in order:
+            start = time.perf_counter_ns()
+            subprocess.run([binary, *args], check=True,
+                           stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            elapsed = time.perf_counter_ns() - start
+            rows.append((workload, mode, rep, elapsed))
+with open(output, "w", newline="") as f:
+    writer = csv.writer(f)
+    writer.writerow(["workload", "mode", "repetition", "total_ns"])
+    writer.writerows(rows)
+PY
+cat "$app_csv"
+echo "InterSpec P8: paired full-rsync validation measurements written to $app_csv"
