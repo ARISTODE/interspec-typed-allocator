@@ -27,12 +27,12 @@
   },
   "required_runtime_security_cases": [
     "wrong_type",
-    "untracked",
-    "out_of_bounds",
-    "stale_after_release",
+    "untracked_pointer",
+    "cross_allocation_bound",
+    "stale_after_free",
     "stale_after_realloc",
-    "unknown_type_id",
-    "type_hash_collision"
+    "reject_unknown_typeid",
+    "reject_typehash_collision"
   ],
   "required_limitations": [
     "no_general_cfi",
