@@ -4,7 +4,6 @@
 
 #include "interspec_popt_u_policy.h"
 #include "popt.h"
-#include "site_provenance.h"
 
 typedef uint32_t (*interspec_release_fn)(uint32_t);
 typedef uint32_t (*interspec_size_fn)(uint32_t);
