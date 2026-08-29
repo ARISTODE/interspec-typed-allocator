@@ -80,6 +80,41 @@ cp "$root/integration/rsync_popt/popt_help_stub.c" "$work/c_src/"
 cp "$root/integration/rsync_popt/p4c_bridge_untrusted.c" "$work/c_src/"
 cp "$root/integration/rsync_popt/rsync_popt.inc.cpp" "$work/test/"
 
+# P7c boundary 1: real memcached bipbuffer. Its flexible-array allocation is
+# source-instrumented as bipbuf_t, while peek_all returns an interior byte
+# pointer whose runtime extent is validated against the containing object.
+memcached_src="$work/c_src/memcached-src"
+git clone -q https://github.com/memcached/memcached.git "$memcached_src"
+git -C "$memcached_src" checkout -q 2d51e364799bc9698bd4b11728ea978cea12da6e
+
+bipbuf_generated="$work/interspec-bipbuf-generated"
+python3 "$root/tools/generate_boundary_policy.py" \
+  --policy "$root/integration/memcached_bipbuffer/policy.json" \
+  --boundary "$root/integration/memcached_bipbuffer/boundary.json" \
+  --source "$memcached_src/bipbuffer.c" \
+  --out-dir "$bipbuf_generated" \
+  --namespace "interspec::memcached_bipbuffer_generated"
+
+python3 - "$bipbuf_generated/bipbuffer.c" <<'PY'
+from pathlib import Path
+import sys
+
+path = Path(sys.argv[1])
+text = path.read_text()
+needle = '#include "bipbuffer.h"\n'
+insert = needle + '#include "interspec_bipbuffer_u_policy.h"\n'
+assert needle in text
+path.write_text(text.replace(needle, insert, 1))
+PY
+
+cp "$bipbuf_generated/bipbuffer.c" "$memcached_src/bipbuffer.c"
+cp "$bipbuf_generated/interspec_u_policy.h" \
+  "$work/c_src/interspec_bipbuffer_u_policy.h"
+cp "$bipbuf_generated/interspec_t_policy.h" \
+  "$work/test/interspec_bipbuffer_t_policy.h"
+cp "$root/integration/memcached_bipbuffer/bipbuffer_smoke.c" "$work/c_src/"
+cp "$root/integration/memcached_bipbuffer/memcached_bipbuffer.inc.cpp" "$work/test/"
+
 # Real popt can resize and destroy allocations after the selected typed malloc
 # sites execute. Route those lifetime operations through the trusted runtime
 # when the pointer belongs to the InterSpec arena, and retain normal libc
@@ -152,14 +187,17 @@ replace(
     "               ${CMAKE_SOURCE_DIR}/rsync-src/popt/popt.c\n"
     "               ${CMAKE_SOURCE_DIR}/rsync-src/popt/poptconfig.c\n"
     "               ${CMAKE_SOURCE_DIR}/rsync-src/popt/poptparse.c\n"
-    "               ${CMAKE_SOURCE_DIR}/rsync-src/popt/poptint.c)")
+    "               ${CMAKE_SOURCE_DIR}/rsync-src/popt/poptint.c\n"
+    "               ${CMAKE_SOURCE_DIR}/bipbuffer_smoke.c\n"
+    "               ${CMAKE_SOURCE_DIR}/memcached-src/bipbuffer.c)")
 replace(
     cmake,
     "target_include_directories(glue_lib_nacl.nexe PUBLIC ${modnacl_SOURCE_DIR})",
     "target_include_directories(glue_lib_nacl.nexe PUBLIC\n"
     "  ${modnacl_SOURCE_DIR}\n"
     "  ${CMAKE_SOURCE_DIR}\n"
-    "  ${CMAKE_SOURCE_DIR}/rsync-src/popt)\n"
+    "  ${CMAKE_SOURCE_DIR}/rsync-src/popt\n"
+    "  ${CMAKE_SOURCE_DIR}/memcached-src)\n"
     "target_compile_definitions(glue_lib_nacl.nexe PRIVATE\n"
     "  HAVE_STPCPY=1\n"
     "  HAVE_STRERROR=1\n"
@@ -169,7 +207,11 @@ replace(
 
 test = repo / "test/test_nacl_sandbox_glue.cpp"
 text = test.read_text()
-for include in ('#include "typed_poc.inc.cpp"\n', '#include "rsync_popt.inc.cpp"\n'):
+for include in (
+    '#include "typed_poc.inc.cpp"\n',
+    '#include "rsync_popt.inc.cpp"\n',
+    '#include "memcached_bipbuffer.inc.cpp"\n',
+):
     if include not in text:
         text += "\n" + include
 test.write_text(text)
@@ -180,6 +222,7 @@ cmake --build "$work/build" --target glue_lib_nacl --parallel 2
 cmake --build "$work/build" --target test_rlbox_glue --parallel 2
 "$work/build/test_rlbox_glue" "[typed_allocator]"
 "$work/build/test_rlbox_glue" "[rsync_popt]"
+"$work/build/test_rlbox_glue" "[memcached_bipbuffer]"
 
 # P4c: build the complete trusted rsync executable while interposing its popt
 # API with an RLBox bridge. The host uses system libpopt only for standalone
@@ -260,3 +303,4 @@ printf 'InterSpec P4c\n' > "$p4c_data/src/input.txt"
 "$rsync_src/rsync" --dry-run -a "$p4c_data/src/" "$p4c_data/dst/" >/dev/null
 
 echo "InterSpec P4c: complete rsync executable ran with popt inside RLBox NaCl"
+echo "InterSpec P7c: memcached bipbuffer interior-range boundary passed in RLBox NaCl"
