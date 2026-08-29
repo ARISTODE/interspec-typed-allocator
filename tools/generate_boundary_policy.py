@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse
+import copy
 import json
 import sys
 from pathlib import Path
@@ -31,10 +32,52 @@ def inject_before_namespace_close(header, namespace_name, lines):
     return prefix + "\n".join(lines).rstrip() + "\n\n" + suffix
 
 
+def prepare_policy(policy, boundary):
+    """Compose source-derived policy with narrow boundary declarations.
+
+    P7b allowed helper allocation sites only for types already present in the
+    source-derived policy. P7c additionally permits a boundary to declare types
+    needed solely for marshalling helpers, for example a tracked byte copy used
+    to feed an otherwise source-derived library boundary. The declaration is
+    still trusted policy data and is registered through generated T code.
+
+    Dynamic-byte uses retain their source-derived expected type and offset, but
+    the base generator is given a zero fixed byte count. The boundary generator
+    then emits a dedicated checked_dynamic_access() helper that consumes the
+    runtime byte extent without duplicating type policy in application glue.
+    """
+    composed = copy.deepcopy(policy)
+    boundary = boundary or {}
+
+    extra_types = boundary.get("types", [])
+    if not isinstance(extra_types, list):
+        raise ValueError("boundary types must be a list")
+    known_types = set(composed["types"])
+    for type_name in extra_types:
+        if not isinstance(type_name, str) or not type_name:
+            raise ValueError("boundary type names must be non-empty strings")
+        if type_name not in known_types:
+            composed["types"].append(type_name)
+            known_types.add(type_name)
+
+    dynamic_uses = []
+    for use in composed["uses"]:
+        if use.get("dynamic_bytes"):
+            if "bytes" in use and int(use["bytes"]) != 0:
+                raise ValueError(
+                    f"dynamic use must not also declare fixed bytes: {use['name']}"
+                )
+            use["bytes"] = 0
+            dynamic_uses.append(use["name"])
+
+    return composed, dynamic_uses
+
+
 def generate_boundary(policy, source, namespace_name="interspec::generated",
                       boundary=None):
     boundary = boundary or {}
     helpers = boundary.get("helper_sites", [])
+    policy, dynamic_uses = prepare_policy(policy, boundary)
 
     instrumented, u_header, t_header = generate(policy, source)
 
@@ -67,7 +110,7 @@ def generate_boundary(policy, source, namespace_name="interspec::generated",
         helper_entries.append((site_id, type_ident, begin_symbol, end_symbol))
 
         # exported_label_asm() already returns text escaped for a C string
-        # literal (for example, "...\\n.type ...").  Escaping it a second time
+        # literal (for example, "...\\n.type ..."). Escaping it a second time
         # would emit literal backslashes to the assembler rather than line
         # separators, which the NaCl assembler correctly rejects.
         begin_asm = exported_label_asm(begin_symbol)
@@ -136,6 +179,37 @@ def generate_boundary(policy, source, namespace_name="interspec::generated",
         "  return register_helper_allocation_sites(runtime, resolve);",
         "}",
     ]
+
+    if dynamic_uses:
+        t_lines += [
+            "",
+            "// P7c: validate a runtime byte extent while retaining the generated",
+            "// expected type and offset from AccessPolicy.",
+            "inline CheckedAccess checked_dynamic_access(const Runtime& runtime,",
+            "                                            uintptr_t base,",
+            "                                            size_t dynamic_bytes,",
+            "                                            AccessPolicy policy)",
+            "{",
+            "  if (policy.bytes != 0 ||",
+            "      policy.offset > std::numeric_limits<size_t>::max() - dynamic_bytes)",
+            "    return {CheckResult::out_of_bounds, 0, 0};",
+            "  const size_t extent = policy.offset + dynamic_bytes;",
+            "  const CheckResult result = runtime.check(base, extent, policy.type_hash);",
+            "  if (result != CheckResult::ok) return {result, 0, 0};",
+            "  return {result, base + policy.offset, dynamic_bytes};",
+            "}",
+            "",
+            "inline CheckResult check_dynamic(const Runtime& runtime,",
+            "                                 uintptr_t base,",
+            "                                 size_t dynamic_bytes,",
+            "                                 AccessPolicy policy)",
+            "{",
+            "  return checked_dynamic_access(runtime, base, dynamic_bytes, policy).result;",
+            "}",
+            "",
+            f"constexpr size_t kDynamicUseCount = {len(dynamic_uses)};",
+        ]
+
     t_header = inject_before_namespace_close(t_header, namespace_name, t_lines)
     return instrumented, u_header, t_header
 
