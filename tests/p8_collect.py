@@ -14,6 +14,7 @@ from tools.p8_aggregate_runtime import aggregate
 from tools.p8_collect import (
     collect_automation,
     collect_boundary_security,
+    collect_rlbox_overhead,
     collect_runtime_overhead,
     collect_runtime_security,
 )
@@ -23,23 +24,26 @@ def runtime_rows():
     rows = []
     for population in (1, 16, 256, 4096, 16384):
         for metric, ns in (
-            ("domain_only_live", 10),
-            ("check_live", 30),
-            ("domain_only_interior", 12),
-            ("check_interior", 36),
-            ("domain_only_remaining", 8),
-            ("remaining_bytes", 40),
+            ("domain_only_live", 10), ("check_live", 30),
+            ("domain_only_interior", 12), ("check_interior", 36),
+            ("domain_only_remaining", 8), ("remaining_bytes", 40),
         ):
             operations = 100
-            rows.append({
-                "metric": metric,
-                "population": str(population),
-                "threads": "1",
-                "operations": str(operations),
-                "total_ns": str(ns * operations),
-                "ns_per_op": str(ns),
-                "ops_per_sec": "1",
-            })
+            rows.append({"metric": metric, "population": str(population), "threads": "1",
+                         "operations": str(operations), "total_ns": str(ns * operations),
+                         "ns_per_op": str(ns), "ops_per_sec": "1"})
+    return rows
+
+
+def rlbox_rows():
+    rows = []
+    for population in (1, 16, 256, 4096, 16384):
+        for metric, ns in (("rlbox_domain_range", 4.0), ("extended_sp3", 20.0)):
+            rows.append({"metric": metric, "population": str(population),
+                         "operations": "100", "samples": "5",
+                         "median_ns_per_op": str(ns),
+                         "min_ns_per_op": str(ns - 1.0),
+                         "max_ns_per_op": str(ns + 1.0)})
     return rows
 
 
@@ -49,15 +53,9 @@ def write_runtime(path, ns):
     with Path(path).open("w", newline="") as handle:
         writer = csv.DictWriter(handle, fieldnames=fields)
         writer.writeheader()
-        writer.writerow({
-            "metric": "check_live",
-            "population": 4096,
-            "threads": 1,
-            "operations": 100,
-            "total_ns": ns * 100,
-            "ns_per_op": ns,
-            "ops_per_sec": int(1e9 / ns),
-        })
+        writer.writerow({"metric": "check_live", "population": 4096, "threads": 1,
+                         "operations": 100, "total_ns": ns * 100,
+                         "ns_per_op": ns, "ops_per_sec": int(1e9 / ns)})
 
 
 def main():
@@ -76,12 +74,9 @@ def main():
     assert totals["real_application_use_policies"] == 1
     assert totals["analysis_adapter_use_policies"] == 3
 
-    security = [
-        {"case": case, "expected": "x", "actual": "x", "result": "pass"}
-        for case in p8["required_runtime_security_cases"]
-    ]
-    selected = collect_runtime_security(security, p8["required_runtime_security_cases"])
-    assert len(selected) == 7
+    security = [{"case": case, "expected": "x", "actual": "x", "result": "pass"}
+                for case in p8["required_runtime_security_cases"]]
+    assert len(collect_runtime_security(security, p8["required_runtime_security_cases"])) == 7
     bad = list(security)
     bad[0] = dict(bad[0], result="fail")
     try:
@@ -90,10 +85,9 @@ def main():
     except ValueError as error:
         assert "runtime security case failed" in str(error)
 
-    evidence = []
-    for boundary, cases in p8["boundary_security_requirements"].items():
-        for case in cases:
-            evidence.append({"boundary": boundary, "case": case, "result": "pass"})
+    evidence = [{"boundary": boundary, "case": case, "result": "pass"}
+                for boundary, cases in p8["boundary_security_requirements"].items()
+                for case in cases]
     boundary_rows = collect_boundary_security(
         p7c, p8["boundary_security_requirements"], evidence, True)
     assert len(boundary_rows) == 11
@@ -104,13 +98,27 @@ def main():
     assert len(runtime) == 15
     live = next(row for row in runtime
                 if row["comparison"] == "live_base_pointer" and row["population"] == 4096)
-    assert float(live["baseline_ns_per_op"]) == 10.0
-    assert float(live["extended_ns_per_op"]) == 30.0
     assert float(live["additional_ns_per_op"]) == 20.0
     assert float(live["extended_over_baseline"]) == 3.0
 
-    missing = runtime_rows()
-    missing = [row for row in missing
+    backend = collect_rlbox_overhead(
+        rlbox_rows(), p8["rlbox_backend_pair"], p8["required_runtime_populations"])
+    assert len(backend) == 5
+    assert all(float(row["baseline_ns_per_op"]) == 4.0 for row in backend)
+    assert all(float(row["extended_ns_per_op"]) == 20.0 for row in backend)
+    assert all(float(row["additional_ns_per_op"]) == 16.0 for row in backend)
+    assert all(float(row["extended_over_baseline"]) == 5.0 for row in backend)
+    assert all(row["samples"] == 5 for row in backend)
+
+    incomplete = rlbox_rows()[:-1]
+    try:
+        collect_rlbox_overhead(incomplete, p8["rlbox_backend_pair"],
+                               p8["required_runtime_populations"])
+        raise AssertionError("missing RLBox matched pair must fail")
+    except ValueError as error:
+        assert "missing matched RLBox runtime pair" in str(error)
+
+    missing = [row for row in runtime_rows()
                if not (row["metric"] == "check_live" and row["population"] == "4096")]
     try:
         collect_runtime_overhead(missing, p8["runtime_pairs"], p8["required_runtime_populations"])
