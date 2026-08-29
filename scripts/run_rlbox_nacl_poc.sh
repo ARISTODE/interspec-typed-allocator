@@ -42,13 +42,12 @@ git()
   return $status
 }
 
-# The integration recipe predates the explicit non-JIT PCRE configuration and
-# lists pcre_jit_compile.c unconditionally in the NaCl source list. That source
-# embeds SLJIT directly; it is neither built nor required when
-# PCRE_SUPPORT_JIT=OFF. Produce a temporary copy of the otherwise stable recipe
-# with exactly that source-list entry removed. Keeping an exact-count guard
-# makes an upstream recipe-shape change fail rather than silently patching the
-# wrong text.
+# The integration recipe originally listed every PCRE translation unit. P7c
+# configures JIT off and exercises compile + pcre_fullinfo metadata only, so
+# pcre_jit_compile.c and the unrelated pcre_version.c public string API are not
+# part of this boundary. Produce a temporary recipe without those two units.
+# Exact-count checks keep this source-list surgery fail-closed if the stable
+# implementation recipe changes shape later.
 filtered_impl=$(mktemp "${TMPDIR:-/tmp}/interspec-rlbox-nacl-impl.XXXXXX")
 trap 'rm -f "$filtered_impl"' EXIT
 python3 - "$impl" "$filtered_impl" <<'PY'
@@ -56,11 +55,15 @@ from pathlib import Path
 import sys
 
 source = Path(sys.argv[1]).read_text()
-needle = '    "               ${CMAKE_SOURCE_DIR}/pcre-src/pcre_jit_compile.c\\n"\n'
-count = source.count(needle)
-if count != 1:
-    raise SystemExit(f"expected exactly one PCRE JIT source-list entry, found {count}")
-Path(sys.argv[2]).write_text(source.replace(needle, ""))
+for filename in ("pcre_jit_compile.c", "pcre_version.c"):
+    needle = f'    "               ${{CMAKE_SOURCE_DIR}}/pcre-src/{filename}\\n"\n'
+    count = source.count(needle)
+    if count != 1:
+        raise SystemExit(
+            f"expected exactly one PCRE {filename} source-list entry, found {count}"
+        )
+    source = source.replace(needle, "")
+Path(sys.argv[2]).write_text(source)
 PY
 
 # Source rather than exec so the git() preparation hook remains visible to the
