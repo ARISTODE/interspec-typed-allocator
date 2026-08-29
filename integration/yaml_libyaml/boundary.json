@@ -1,0 +1,15 @@
+{
+  "types": [
+    "char"
+  ],
+  "helper_sites": [
+    {
+      "name": "scalar_value",
+      "type": "yaml_scalar_value"
+    },
+    {
+      "name": "wrong_type",
+      "type": "char"
+    }
+  ]
+}

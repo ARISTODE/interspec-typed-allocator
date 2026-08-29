@@ -1,0 +1,15 @@
+{
+  "types": [
+    "char"
+  ],
+  "helper_sites": [
+    {
+      "name": "compiled_regex",
+      "type": "const pcre"
+    },
+    {
+      "name": "wrong_type",
+      "type": "char"
+    }
+  ]
+}

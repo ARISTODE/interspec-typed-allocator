@@ -1,0 +1,14 @@
+{
+  "types": [
+    "const pcre"
+  ],
+  "allocations": [],
+  "uses": [
+    {
+      "name": "pcre_name_table_range",
+      "type": "const pcre",
+      "offset": 0,
+      "dynamic_bytes": true
+    }
+  ]
+}

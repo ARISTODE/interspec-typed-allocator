@@ -1,0 +1,11 @@
+{
+  "types": [
+    "char"
+  ],
+  "helper_sites": [
+    {
+      "name": "input_copy",
+      "type": "char"
+    }
+  ]
+}
