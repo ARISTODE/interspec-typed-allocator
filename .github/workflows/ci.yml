@@ -74,6 +74,11 @@ jobs:
           export PATH="$(dirname '${{ steps.codeql.outputs.codeql-path }}'):$PATH"
           chmod +x ./scripts/run_nginx_libpcre_policy_inference.sh
           ./scripts/run_nginx_libpcre_policy_inference.sh
+      - name: Infer P7c yaml libyaml policy from real source
+        run: |
+          export PATH="$(dirname '${{ steps.codeql.outputs.codeql-path }}'):$PATH"
+          chmod +x ./scripts/run_yaml_libyaml_policy_inference.sh
+          ./scripts/run_yaml_libyaml_policy_inference.sh
 
   rlbox-nacl:
     runs-on: ubuntu-latest
