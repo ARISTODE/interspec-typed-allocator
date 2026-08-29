@@ -4,34 +4,22 @@ This repository pins the external source revisions used by the RLBox + NaCl proo
 
 ## 1. Required environment
 
-The lightweight runtime, policy generation, and P6 evaluation use a C++17 compiler, CMake, Python 3, and pthread support.
+The lightweight runtime, policy generation, P6/P8 evaluation, and paper result collection use a C++17 compiler, CMake, Python 3, and pthread support.
 
-The full RLBox + NaCl integration is tested in the repository CI with Ubuntu 20.04 and installs the build dependencies listed in `.github/workflows/ci.yml` before invoking `scripts/run_rlbox_nacl_poc.sh`.
+The full RLBox + NaCl integration is tested in CI inside Ubuntu 20.04. The required packages are listed directly in `.github/workflows/ci.yml`.
 
 ## 2. Pinned external revisions
 
-RLBox NaCl sandbox:
+| Component | Repository | Commit |
+| --- | --- | --- |
+| RLBox NaCl sandbox | `PLSysSec/rlbox_nacl_sandbox` | `0dd15342c86c0625c7c2ed7762a13feb524252d7` |
+| NaCl sandbox compiler | `PLSysSec/nacl_sandbox_compiler` | `f274515ab22441ea6b4e937e519ace851fac308f` |
+| rsync / bundled popt | `RsyncProject/rsync` | `7c20b077c980036a19587701cec320cc88e42a4a` |
+| memcached / bipbuffer | `memcached/memcached` | `2d51e364799bc9698bd4b11728ea978cea12da6e` |
+| PCRE1 8.45 source | `nektro/pcre-8.45` | `e67dabe61b327bd2d888954b0e74a7c9cfd0a195` |
+| libyaml | `yaml/libyaml` | `90a56d4500aa1a1798514c5cb55c3ad4cb095f94` |
 
-```text
-repository: https://github.com/PLSysSec/rlbox_nacl_sandbox.git
-commit: 0dd15342c86c0625c7c2ed7762a13feb524252d7
-```
-
-NaCl sandbox compiler:
-
-```text
-repository: https://github.com/PLSysSec/nacl_sandbox_compiler.git
-commit: f274515ab22441ea6b4e937e519ace851fac308f
-```
-
-Rsync source used by the real popt boundary:
-
-```text
-repository: https://github.com/RsyncProject/rsync.git
-commit: 7c20b077c980036a19587701cec320cc88e42a4a
-```
-
-The RLBox and NaCl revisions are also recorded in `backends/rlbox_nacl/manifest.json`. The integration script refuses to treat arbitrary upstream revisions as equivalent to the packaged backend.
+The RLBox/NaCl revisions are additionally recorded in `backends/rlbox_nacl/manifest.json`. Boundary source revisions and evidence classifications are recorded in `integration/p7c_manifest.json`.
 
 ## 3. Core correctness
 
@@ -41,53 +29,86 @@ cmake --build build --parallel
 ctest --test-dir build --output-on-failure
 ```
 
-This runs the mechanism PoC, runtime hardening tests, policy generation tests, and the P6 security evaluation.
+This includes runtime hardening, policy generation, P7c completeness, and P8 collector/aggregation tests.
 
 ## 4. Source policy inference
 
-The CodeQL CI job regenerates both checked in policy snapshots from source and requires exact equality.
-
-When CodeQL is available on `PATH`, run:
+When CodeQL is available on `PATH`, the checked-in snapshots can be regenerated with:
 
 ```bash
-chmod +x scripts/run_policy_inference.sh
 ./scripts/run_policy_inference.sh
-
-chmod +x scripts/run_rsync_popt_policy_inference.sh
 ./scripts/run_rsync_popt_policy_inference.sh
+./scripts/run_memcached_bipbuffer_policy_inference.sh
+./scripts/run_nginx_libpcre_policy_inference.sh
+./scripts/run_yaml_libyaml_policy_inference.sh
 ```
 
-A mismatch is a failure rather than an automatic policy update. This makes policy drift visible for review.
+A mismatch is a failure rather than an automatic update. P8 therefore reports only source facts that the checked-in queries actually regenerate.
 
-## 5. P6 security and runtime evaluation
+## 5. P6 raw evaluation
 
 ```bash
-chmod +x scripts/run_p6_evaluation.sh
-./scripts/run_p6_evaluation.sh
+./scripts/run_p6_evaluation.sh p6-results
 ```
 
-The result directory contains the exact security matrix, runtime measurements, test output, commit identifier, compiler version, CMake version, kernel description, and configured benchmark iteration count.
+This emits the runtime security matrix and one runtime benchmark sweep. It remains useful as the lower-level raw evaluation.
 
-For more stable performance comparison, use a dedicated machine and raise the repetition count, for example:
+## 6. P8 paper evaluation
+
+The P8 driver repeats the runtime benchmark, aggregates each metric by median, regenerates the P7c generalization report, validates security evidence, and emits paper-facing CSV/JSON/Markdown tables.
+
+A lightweight run without rebuilding RLBox is:
 
 ```bash
-INTERSPEC_BENCH_ITERATIONS=2000000 ./scripts/run_p6_evaluation.sh
+INTERSPEC_P8_REPETITIONS=5 \
+INTERSPEC_BENCH_ITERATIONS=200000 \
+./scripts/run_p8_evaluation.sh p8-results
 ```
 
-Do not compare absolute nanosecond values from unrelated machines as if they were controlled experiments.
+Without a boundary evidence file, the generated boundary table is explicitly marked as manifest-declared rather than as a fresh RLBox execution.
 
-## 6. Full RLBox + NaCl application path
+For the complete evidence path in an environment with the NaCl prerequisites:
 
 ```bash
-chmod +x scripts/run_rlbox_nacl_poc.sh
+INTERSPEC_P8_RUN_RLBOX=1 \
+INTERSPEC_P8_REQUIRE_BOUNDARY_EVIDENCE=1 \
+INTERSPEC_P8_REPETITIONS=5 \
+INTERSPEC_BENCH_ITERATIONS=200000 \
+./scripts/run_p8_evaluation.sh p8-results
+```
+
+The CI `paper-evaluation` job uses the same collector but receives a boundary evidence artifact produced only after the combined RLBox + NaCl boundary tests pass.
+
+The P8 result directory contains raw repeated measurements under `runtime-runs/`, the median `runtime.csv`, runtime and boundary security tables, automation/generalization data, environment metadata, `summary.json`, and generated `summary.md`.
+
+## 7. Performance measurement discipline
+
+The P8 primitive baseline is an original-SP3-style U-domain/range check. The paired Extended-SP3 measurement adds live allocation lookup, expected trusted type, and containing-object bounds for the same pointer/extent.
+
+The repository CI is useful for regression and generating an example artifact, but hosted-runner nanoseconds are not a controlled performance experiment. For paper numbers, use a dedicated machine and record the environment file generated by P8. A recommended starting point is:
+
+```bash
+INTERSPEC_P8_REPETITIONS=9 \
+INTERSPEC_BENCH_ITERATIONS=2000000 \
+./scripts/run_p8_evaluation.sh p8-controlled-results
+```
+
+Keep the machine otherwise idle, use the same binary and host for each paired measurement, and retain every raw repetition. Do not compare absolute nanosecond values taken on unrelated hardware.
+
+P8 intentionally does not turn the functional rsync/PCRE/YAML/bipbuffer workloads into an end-to-end performance claim unless a matched RLBox-only build and repeated timing methodology are supplied. The primitive overhead and functional application regressions are reported separately.
+
+## 8. Full RLBox + NaCl application path
+
+```bash
 ./scripts/run_rlbox_nacl_poc.sh
+./scripts/run_yaml_libyaml_rlbox_extension.sh
 ```
 
-The script clones the pinned RLBox, NaCl, and rsync revisions, applies the packaged backend, regenerates typed allocation policy artifacts, builds the sandboxed parser and trusted integration, executes the synthetic and real boundary tests, and exercises the complete rsync P4c path.
+The first command builds the synthetic mechanism, rsync/popt, memcached/bipbuffer, PCRE, and complete rsync P4c path. The second extends the same module with libyaml and reruns all boundary tests together.
 
-Network access is required because the external repositories are cloned during the run.
+Network access is required because pinned external repositories are cloned during the run.
 
-## 7. Install and external consumer test
+## 9. Install and external consumer test
 
 ```bash
 cmake -S . -B build-install -DCMAKE_BUILD_TYPE=Release
@@ -100,30 +121,14 @@ cmake --build build-consumer --parallel
 ./build-consumer/interspec_runtime_consumer
 ```
 
-This verifies that the installed public header and exported `interspec::runtime` CMake target can be consumed outside the source tree.
-
-## 8. Build the research preview archive
+## 10. Build the research preview archive
 
 ```bash
-chmod +x scripts/package_release.sh
 ./scripts/package_release.sh
 ```
 
-The default artifact is named `interspec-typed-allocator-0.1.0.tar.gz` and is accompanied by a SHA256 checksum file. The archive includes the installed runtime package plus the README, P6 evaluation methodology, representative results, release notes, reproducibility instructions, and pinned RLBox + NaCl manifest.
+The default archive is `interspec-typed-allocator-0.1.0.tar.gz` with a SHA256 checksum. Publication under a software license remains a separate explicit project decision.
 
-No license is inferred or added by the packaging script. Publication under a particular software license should be an explicit project decision rather than an artifact generation side effect.
+## 11. Publish a tagged GitHub research preview
 
-## 9. Publish a tagged GitHub research preview
-
-`.github/workflows/release.yml` publishes the same validated archive when a version tag is pushed. The tag must match the CMake project version exactly.
-
-For the current preview, the expected tag is:
-
-```bash
-git tag v0.1.0
-git push origin v0.1.0
-```
-
-The release workflow rebuilds the package, reruns the core test suite and external consumer smoke test through `scripts/package_release.sh`, verifies the tag against the project version, and attaches both the archive and SHA256 checksum to a GitHub release using `RELEASE_NOTES.md`.
-
-Creating the tag is intentionally a separate explicit publication action. Ordinary branch or pull request CI produces preview artifacts but does not publish a GitHub release.
+`.github/workflows/release.yml` publishes the validated archive when a version tag matching the CMake project version is pushed. Creating a tag is deliberately separate from branch/PR CI.
