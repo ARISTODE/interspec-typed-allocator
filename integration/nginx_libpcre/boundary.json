@@ -5,11 +5,13 @@
   "helper_sites": [
     {
       "name": "compiled_regex",
-      "type": "const pcre"
+      "type": "const pcre",
+      "role": "integration"
     },
     {
       "name": "wrong_type",
-      "type": "char"
+      "type": "char",
+      "role": "adversarial"
     }
   ]
 }
