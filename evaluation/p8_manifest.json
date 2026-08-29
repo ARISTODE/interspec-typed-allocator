@@ -1,5 +1,5 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "p7c_manifest": "integration/p7c_manifest.json",
   "runtime_pairs": [
     {
@@ -18,6 +18,11 @@
       "extended_metric": "remaining_bytes"
     }
   ],
+  "rlbox_backend_pair": {
+    "name": "rlbox_nacl_domain_range",
+    "baseline_metric": "rlbox_domain_range",
+    "extended_metric": "extended_sp3"
+  },
   "required_runtime_populations": [1, 16, 256, 4096, 16384],
   "boundary_security_requirements": {
     "rsync/popt": ["wrong_type", "untracked"],
