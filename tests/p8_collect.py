@@ -85,13 +85,36 @@ def main():
     except ValueError as error:
         assert "runtime security case failed" in str(error)
 
-    evidence = [{"boundary": boundary, "case": case, "result": "pass"}
-                for boundary, cases in p8["boundary_security_requirements"].items()
-                for case in cases]
+    evidence = [
+        {"boundary": boundary, "case": case, "domain_baseline": "accept",
+         "extended_result": case, "result": "pass"}
+        for boundary, cases in p8["boundary_security_requirements"].items()
+        for case in cases
+    ]
     boundary_rows = collect_boundary_security(
         p7c, p8["boundary_security_requirements"], evidence, True)
     assert len(boundary_rows) == 11
     assert all(row["evidence"] == "rlbox_nacl_regression" for row in boundary_rows)
+    assert all(row["domain_baseline"] == "accept" for row in boundary_rows)
+    assert all(row["extended_result"] == row["case"] for row in boundary_rows)
+
+    bad_domain = [dict(row) for row in evidence]
+    bad_domain[0]["domain_baseline"] = "reject"
+    try:
+        collect_boundary_security(
+            p7c, p8["boundary_security_requirements"], bad_domain, True)
+        raise AssertionError("domain-rejected attack cannot support RQ1")
+    except ValueError as error:
+        assert "domain baseline did not accept" in str(error)
+
+    bad_extended = [dict(row) for row in evidence]
+    bad_extended[0]["extended_result"] = "untracked"
+    try:
+        collect_boundary_security(
+            p7c, p8["boundary_security_requirements"], bad_extended, True)
+        raise AssertionError("wrong Extended-SP3 reason cannot support RQ1")
+    except ValueError as error:
+        assert "Extended-SP3 result mismatch" in str(error)
 
     runtime = collect_runtime_overhead(
         runtime_rows(), p8["runtime_pairs"], p8["required_runtime_populations"])
