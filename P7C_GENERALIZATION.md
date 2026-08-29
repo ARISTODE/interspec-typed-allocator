@@ -55,7 +55,7 @@ A new boundary is considered complete only when all of the following are true.
 3. Trusted pointer uses carry an expected type and byte extent.
 4. The generated policy is registered through `PolicyRuntime`; the bridge does not manually recreate site/type tables.
 5. A valid workload succeeds inside RLBox + NaCl.
-6. A same-domain but wrong-object or wrong-type pointer is rejected.
+6. A same-domain pointer backed by a tracked allocation of the wrong expected type/object class is rejected.
 7. An untracked U pointer is rejected when it reaches a tracked Extended-SP3 use.
 8. Spatial overflow/out-of-object access is rejected for uses with an extent greater than one byte.
 9. Existing rsync/popt, P6 evaluation, packaging, and core tests remain green.
@@ -80,6 +80,8 @@ The report separates generated/source-derived policy from explicit helper policy
 P7c does not add general control-flow integrity. Reaching an authorized allocation instruction still authorizes that site's type.
 
 P7c does not trust object contents. U remains free to modify bytes inside its allocations; trusted code still validates pointer liveness, expected type, and spatial extent before use.
+
+P7c also does not prove intended-object identity between two simultaneously live allocations that have the same trusted type. The current runtime proves that a pointer is contained in some live allocation of the expected trusted type and that the requested extent remains inside that allocation. Binding a use to one particular same-type allocation would require an additional object-identity relation and remains outside the current claim.
 
 P7c does not introduce physical address reuse. The arena remains bump-only so stale raw pointers cannot become valid again through same-address reallocation.
 
