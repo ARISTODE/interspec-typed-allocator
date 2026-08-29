@@ -46,8 +46,6 @@ void p8_paired_measure(const char* boundary,
                        ExtendedFn&& extended)
 {
   for (size_t rep = 0; rep < repetitions; ++rep) {
-    // Alternate order so frequency scaling / warmup does not systematically
-    // favor either side of the pair.
     if ((rep & 1u) == 0) {
       p8_measure(boundary, "tracked_no_check", rep, iterations, baseline);
       p8_measure(boundary, "extended_sp3", rep, iterations, extended);
@@ -95,23 +93,28 @@ TEST_CASE("P8 paired real-boundary validation benchmark", "[p8_boundary_bench]")
     REQUIRE(arg.UNSAFE_unverified() != nullptr);
     char* raw = arg.UNSAFE_unverified();
     const uintptr_t ptr = sandbox.get_sandbox_impl()->sandbox_address(raw);
-    size_t bytes = 0;
-    REQUIRE(policy_runtime.runtime().remaining_bytes(ptr, kTypeHashChar, bytes) ==
-            interspec::CheckResult::ok);
-    REQUIRE(bytes > 0);
-    std::vector<char> trusted(bytes);
+    size_t allocation_remaining = 0;
+    REQUIRE(policy_runtime.runtime().remaining_bytes(
+              ptr, kTypeHashChar, allocation_remaining) == interspec::CheckResult::ok);
+    REQUIRE(allocation_remaining > 0);
+    const size_t string_bytes = std::strlen(raw) + 1;
+    REQUIRE(string_bytes <= allocation_remaining);
+    std::vector<char> trusted(allocation_remaining);
 
     auto baseline = [&] {
+      const size_t bytes = std::strlen(raw) + 1;
       std::memcpy(trusted.data(), raw, bytes);
       p8_bench_sink += static_cast<unsigned char>(trusted[0]);
     };
     auto extended = [&] {
-      if (check(policy_runtime.runtime(), ptr, kUsePoptOptArgFirstByte) !=
-          interspec::CheckResult::ok) std::abort();
-      size_t checked_bytes = 0;
-      if (policy_runtime.runtime().remaining_bytes(ptr, kTypeHashChar, checked_bytes) !=
-          interspec::CheckResult::ok || checked_bytes != bytes) std::abort();
-      std::memcpy(trusted.data(), raw, checked_bytes);
+      size_t remaining = 0;
+      if (policy_runtime.runtime().remaining_bytes(ptr, kTypeHashChar, remaining) !=
+          interspec::CheckResult::ok || remaining == 0)
+        std::abort();
+      const void* end = std::memchr(raw, '\0', remaining);
+      if (!end) std::abort();
+      const size_t bytes = static_cast<const char*>(end) - raw + 1;
+      std::memcpy(trusted.data(), raw, bytes);
       p8_bench_sink += static_cast<unsigned char>(trusted[0]);
     };
     p8_paired_measure("rsync_popt", kRepetitions, iterations, baseline, extended);
