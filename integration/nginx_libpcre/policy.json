@@ -1,0 +1,14 @@
+{
+  "types": [
+    "real_pcre8_or_16"
+  ],
+  "allocations": [],
+  "uses": [
+    {
+      "name": "pcre_name_table_range",
+      "type": "real_pcre8_or_16",
+      "offset": 0,
+      "dynamic_bytes": true
+    }
+  ]
+}
