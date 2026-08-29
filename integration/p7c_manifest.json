@@ -31,7 +31,7 @@
       ],
       "representative_use": "PCRE name-table pointer returned from compiled-pattern metadata",
       "adversarial_required": [
-        "wrong_type_or_wrong_object",
+        "wrong_allocation_type",
         "untracked"
       ]
     },
@@ -44,20 +44,23 @@
       ],
       "representative_use": "U-owned parser/event output pointer consumed by trusted code",
       "adversarial_required": [
-        "wrong_type_or_wrong_object",
+        "wrong_allocation_type",
         "untracked"
       ]
     },
     {
       "name": "memcached/bipbuffer",
       "role": "p7c",
-      "status": "planned",
+      "status": "full",
       "pointer_shapes": [
         "buffer_with_extent"
       ],
-      "representative_use": "U-owned buffer pointer validated together with a dynamic byte extent",
-      "adversarial_required": [
-        "wrong_type_or_wrong_object",
+      "representative_use": "interior U-owned bipbuffer data pointer validated together with its runtime byte extent",
+      "policy": "integration/memcached_bipbuffer/policy.json",
+      "boundary_policy": "integration/memcached_bipbuffer/boundary.json",
+      "source_revision": "2d51e364799bc9698bd4b11728ea978cea12da6e",
+      "adversarial": [
+        "wrong_type",
         "untracked",
         "out_of_bounds"
       ]
