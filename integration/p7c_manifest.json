@@ -11,59 +11,44 @@
       "name": "rsync/popt",
       "role": "baseline",
       "status": "full",
-      "pointer_shapes": [
-        "returned_string"
-      ],
+      "pointer_shapes": ["returned_string"],
       "policy": "integration/rsync_popt/policy.json",
       "boundary_policy": "integration/rsync_popt/boundary.json",
       "source_revision": "7c20b077c980036a19587701cec320cc88e42a4a",
-      "adversarial": [
-        "wrong_type",
-        "untracked"
-      ]
+      "adversarial": ["wrong_type", "untracked"]
     },
     {
       "name": "nginx/libpcre",
       "role": "p7c",
-      "status": "planned",
-      "pointer_shapes": [
-        "interior_u_object"
-      ],
+      "status": "full",
+      "pointer_shapes": ["interior_u_object"],
       "representative_use": "PCRE name-table pointer returned from compiled-pattern metadata",
-      "adversarial_required": [
-        "wrong_allocation_type",
-        "untracked"
-      ]
+      "policy": "integration/nginx_libpcre/policy.json",
+      "boundary_policy": "integration/nginx_libpcre/boundary.json",
+      "source_revision": "e67dabe61b327bd2d888954b0e74a7c9cfd0a195",
+      "adversarial": ["wrong_type", "untracked", "out_of_bounds"]
     },
     {
       "name": "yaml/libyaml",
       "role": "p7c",
-      "status": "planned",
-      "pointer_shapes": [
-        "structured_u_output"
-      ],
-      "representative_use": "U-owned parser/event output pointer consumed by trusted code",
-      "adversarial_required": [
-        "wrong_allocation_type",
-        "untracked"
-      ]
+      "status": "full",
+      "pointer_shapes": ["structured_u_output"],
+      "representative_use": "nested scalar-value pointer and runtime length from a U-owned yaml_event_t",
+      "policy": "integration/yaml_libyaml/policy.json",
+      "boundary_policy": "integration/yaml_libyaml/boundary.json",
+      "source_revision": "90a56d4500aa1a1798514c5cb55c3ad4cb095f94",
+      "adversarial": ["wrong_type", "untracked", "out_of_bounds"]
     },
     {
       "name": "memcached/bipbuffer",
       "role": "p7c",
       "status": "full",
-      "pointer_shapes": [
-        "buffer_with_extent"
-      ],
+      "pointer_shapes": ["buffer_with_extent"],
       "representative_use": "interior U-owned bipbuffer data pointer validated together with its runtime byte extent",
       "policy": "integration/memcached_bipbuffer/policy.json",
       "boundary_policy": "integration/memcached_bipbuffer/boundary.json",
       "source_revision": "2d51e364799bc9698bd4b11728ea978cea12da6e",
-      "adversarial": [
-        "wrong_type",
-        "untracked",
-        "out_of_bounds"
-      ]
+      "adversarial": ["wrong_type", "untracked", "out_of_bounds"]
     }
   ]
 }
