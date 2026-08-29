@@ -21,15 +21,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Run P6 security and runtime evaluation
+      - name: Run P8 deterministic and runtime evaluation
         env:
           INTERSPEC_BENCH_ITERATIONS: 100000
-        run: bash ./scripts/run_p6_evaluation.sh p6-results
-      - name: Upload P6 evaluation results
+        run: bash ./scripts/run_p8_evaluation.sh p8-results
+      - name: Upload P8 evaluation results
         uses: actions/upload-artifact@v4
         with:
-          name: p6-evaluation-results
-          path: p6-results
+          name: p8-evaluation-results
+          path: p8-results
 
   release-smoke:
     runs-on: ubuntu-latest
