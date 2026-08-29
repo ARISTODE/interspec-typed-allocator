@@ -86,6 +86,7 @@ jobs:
     timeout-minutes: 45
     env:
       INTERSPEC_P8_BOUNDARY_ITERATIONS: 20000
+      INTERSPEC_P8_APP_REPETITIONS: 9
     steps:
       - name: Install build tools
         run: |
@@ -95,15 +96,15 @@ jobs:
             g++-multilib gawk git libpopt-dev python2 python3 util-linux
       - uses: actions/checkout@v4
       - run: chmod +x ./scripts/run_rlbox_nacl_poc.sh ./scripts/run_yaml_libyaml_rlbox_extension.sh
-      - name: Run RLBox NaCl, P4c, P7c, and P8 boundary measurements
+      - name: Run RLBox NaCl, P4c, P7c, and P8 measurements
         run: |
           log=/tmp/interspec-rlbox-nacl-ci.log
           if ! ./scripts/run_rlbox_nacl_poc.sh >"$log" 2>&1; then
-            echo "RLBox NaCl / P4c / P7c base integration failed; final log follows"
+            echo "RLBox NaCl / P4c / P7c base integration or P8 app benchmark failed; final log follows"
             tail -n 300 "$log"
             exit 1
           fi
-          tail -n 100 "$log"
+          tail -n 140 "$log"
 
           yaml_log=/tmp/interspec-yaml-libyaml-ci.log
           if ! ./scripts/run_yaml_libyaml_rlbox_extension.sh >"$yaml_log" 2>&1; then
@@ -116,26 +117,34 @@ jobs:
           python3 ./tools/summarize_p8_performance.py \
             --input /tmp/interspec-p8-boundary-performance.csv \
             --output /tmp/interspec-p8-boundary-performance-summary.csv
+          python3 ./tools/summarize_p8_application.py \
+            --input /tmp/interspec-p8-rsync-performance.csv \
+            --output /tmp/interspec-p8-rsync-performance-summary.csv
           {
             echo "commit=$(git rev-parse HEAD)"
             echo "kernel=$(uname -srmo)"
             echo "cpu=$(lscpu | awk -F: '/Model name/ {gsub(/^[ \t]+/, \"\", $2); print $2; exit}')"
-            echo "iterations=${INTERSPEC_P8_BOUNDARY_ITERATIONS}"
-            echo "repetitions=7"
+            echo "boundary_iterations=${INTERSPEC_P8_BOUNDARY_ITERATIONS}"
+            echo "boundary_repetitions=7"
+            echo "application_repetitions=${INTERSPEC_P8_APP_REPETITIONS}"
             echo "baseline=tracked_no_check"
             echo "extended=extended_sp3"
-          } > /tmp/interspec-p8-boundary-environment.txt
+            echo "note=baseline retains typed allocation provenance and differs only in final T-side validation"
+          } > /tmp/interspec-p8-rlbox-environment.txt
           cat /tmp/interspec-p8-boundary-performance-summary.csv
-      - name: Upload P8 RLBox boundary measurements and diagnostics
+          cat /tmp/interspec-p8-rsync-performance-summary.csv
+      - name: Upload P8 RLBox measurements and diagnostics
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: p8-rlbox-boundary-results
+          name: p8-rlbox-results
           if-no-files-found: ignore
           path: |
             /tmp/interspec-p8-boundary-performance.csv
             /tmp/interspec-p8-boundary-performance-summary.csv
-            /tmp/interspec-p8-boundary-environment.txt
+            /tmp/interspec-p8-rsync-performance.csv
+            /tmp/interspec-p8-rsync-performance-summary.csv
+            /tmp/interspec-p8-rlbox-environment.txt
             /tmp/interspec-p8-boundary-bench.log
             /tmp/interspec-rlbox-nacl-ci.log
             /tmp/interspec-yaml-libyaml-ci.log
