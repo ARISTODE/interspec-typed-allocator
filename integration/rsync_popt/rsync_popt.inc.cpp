@@ -1,6 +1,5 @@
-#include "interspec/runtime.h"
+#include "interspec/policy_runtime.h"
 #include "interspec_popt_t_policy.h"
-#include "site_provenance.h"
 
 #include <cstdint>
 #include <cstring>
@@ -24,35 +23,22 @@ int interspec_popt_archive_seen();
 
 using PoptSandbox = rlbox::rlbox_sandbox<TestType>;
 
-static interspec::Runtime* popt_runtime;
-
-static uintptr_t popt_allocate_for_callback_pc(PoptSandbox& sandbox,
-                                               uint32_t size)
-{
-  auto* impl = sandbox.get_sandbox_impl();
-  const uintptr_t pc = impl->callback_program_counter();
-  uintptr_t result = popt_runtime->allocate_from_pc(size, pc);
-  if (result) return result;
-
-  const uintptr_t new_pc = impl->callback_new_program_counter();
-  if (new_pc && new_pc != pc)
-    result = popt_runtime->allocate_from_pc(size, new_pc);
-  return result;
-}
+static interspec::PolicyRuntime* popt_policy_runtime;
 
 static rlbox::tainted<uint32_t, TestType> popt_allocate(
   PoptSandbox& sandbox,
   rlbox::tainted<uint32_t, TestType> size)
 {
   return static_cast<uint32_t>(
-    popt_allocate_for_callback_pc(sandbox, size.UNSAFE_unverified()));
+    popt_policy_runtime->allocate_from_callback(
+      *sandbox.get_sandbox_impl(), size.UNSAFE_unverified()));
 }
 
 static rlbox::tainted<uint32_t, TestType> popt_release(
   PoptSandbox&,
   rlbox::tainted<uint32_t, TestType> ptr)
 {
-  return popt_runtime->release(ptr.UNSAFE_unverified()) ? 1u : 0u;
+  return popt_policy_runtime->runtime().release(ptr.UNSAFE_unverified()) ? 1u : 0u;
 }
 
 static rlbox::tainted<uint32_t, TestType> popt_size(
@@ -60,7 +46,9 @@ static rlbox::tainted<uint32_t, TestType> popt_size(
   rlbox::tainted<uint32_t, TestType> ptr)
 {
   size_t size = 0;
-  if (!popt_runtime->allocation_size(ptr.UNSAFE_unverified(), size)) return 0u;
+  if (!popt_policy_runtime->runtime().allocation_size(
+        ptr.UNSAFE_unverified(), size))
+    return 0u;
   if (size > std::numeric_limits<uint32_t>::max()) return 0u;
   return static_cast<uint32_t>(size);
 }
@@ -70,7 +58,7 @@ static rlbox::tainted<uint32_t, TestType> popt_reallocate(
   rlbox::tainted<uint32_t, TestType> ptr,
   rlbox::tainted<uint32_t, TestType> size)
 {
-  return static_cast<uint32_t>(popt_runtime->reallocate(
+  return static_cast<uint32_t>(popt_policy_runtime->runtime().reallocate(
     ptr.UNSAFE_unverified(), size.UNSAFE_unverified()));
 }
 
@@ -116,19 +104,17 @@ TEST_CASE("InterSpec real rsync popt integration", "[rsync_popt]")
     sandbox.get_sandbox_impl()->reserve_typed_arena(kArenaSize);
   REQUIRE(arena_base != 0);
 
-  interspec::Runtime runtime(arena_base, kArenaSize);
-  popt_runtime = &runtime;
-  REQUIRE(register_types(runtime));
+  interspec::PolicyRuntime policy_runtime(arena_base, kArenaSize);
+  popt_policy_runtime = &policy_runtime;
+  REQUIRE(policy_runtime.initialize_from_sandbox(
+    *sandbox.get_sandbox_impl(),
+    [](interspec::Runtime& runtime) { return register_types(runtime); },
+    [](interspec::Runtime& runtime, auto resolve) {
+      return register_allocation_policy(runtime, resolve);
+    }));
 
-  auto resolve_symbol = [&](const char* name) -> uintptr_t {
-    return sandbox.get_sandbox_impl()->lookup_symbol_address(name);
-  };
-  REQUIRE(register_allocation_sites(runtime, resolve_symbol));
-  REQUIRE(runtime.register_allocation_site(
-    INTERSPEC_POPT_STRDUP_SITE_ID,
-    resolve_symbol(INTERSPEC_POPT_STRDUP_BEGIN_SYMBOL),
-    resolve_symbol(INTERSPEC_POPT_STRDUP_END_SYMBOL),
-    kTypeIdChar));
+  interspec::Runtime& runtime = policy_runtime.runtime();
+  REQUIRE(runtime.allocation_site_count() == kTotalAllocationSiteCount);
 
   auto alloc_cb = sandbox.register_callback(popt_allocate);
   auto release_cb = sandbox.register_callback(popt_release);

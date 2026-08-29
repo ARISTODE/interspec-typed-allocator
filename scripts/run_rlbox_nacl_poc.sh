@@ -22,9 +22,11 @@ python3 "$root/backends/rlbox_nacl/apply_backend.py" --root "$work"
 cp "$root/backends/rlbox_nacl/interspec_site_allocator.h" "$work/c_src/"
 cp "$root/integration/interspec_site_allocator_state.c" "$work/c_src/"
 
-# Synthetic mechanism PoC.
+# Synthetic mechanism PoC. P7b uses the boundary generator even when no
+# boundary-helper sites are present, so the same generated policy interface is
+# exercised by synthetic and real integrations.
 generated="$work/interspec-generated"
-python3 "$root/tools/generate_policy.py" \
+python3 "$root/tools/generate_boundary_policy.py" \
   --policy "$root/policy/poc_policy.json" \
   --source "$root/poc/typed_poc_untrusted.c" \
   --out-dir "$generated"
@@ -35,17 +37,22 @@ cp "$generated/interspec_t_policy.h" "$work/test/"
 cp "$root/poc/typed_poc.inc.cpp" "$work/test/"
 mkdir -p "$work/test/interspec"
 cp "$root/include/interspec/runtime.h" "$work/test/interspec/"
+cp "$root/include/interspec/policy_runtime.h" "$work/test/interspec/"
 
-# P4: compile and execute the real bundled popt implementation used by rsync.
+# P4/P7b: compile and execute the real bundled popt implementation used by
+# rsync. CodeQL-derived sites and boundary-helper sites are emitted through one
+# generated policy interface.
 rsync_src="$work/c_src/rsync-src"
 git clone -q https://github.com/RsyncProject/rsync.git "$rsync_src"
 git -C "$rsync_src" checkout -q 7c20b077c980036a19587701cec320cc88e42a4a
 
 popt_generated="$work/interspec-popt-generated"
-python3 "$root/tools/generate_policy.py" \
+python3 "$root/tools/generate_boundary_policy.py" \
   --policy "$root/integration/rsync_popt/policy.json" \
+  --boundary "$root/integration/rsync_popt/boundary.json" \
   --source "$rsync_src/popt/popt.c" \
-  --out-dir "$popt_generated"
+  --out-dir "$popt_generated" \
+  --namespace "interspec::rsync_popt_generated"
 
 python3 - "$popt_generated" <<'PY'
 from pathlib import Path
@@ -62,18 +69,11 @@ insert = (
 )
 assert needle in text
 popt.write_text(text.replace(needle, insert, 1))
-
-t_header = out / "interspec_t_policy.h"
-text = t_header.read_text().replace(
-    "namespace interspec::generated", "namespace interspec::rsync_popt_generated")
-t_header.write_text(text)
 PY
 
 cp "$popt_generated/popt.c" "$rsync_src/popt/popt.c"
 cp "$popt_generated/interspec_u_policy.h" "$work/c_src/interspec_popt_u_policy.h"
 cp "$popt_generated/interspec_t_policy.h" "$work/test/interspec_popt_t_policy.h"
-cp "$root/integration/rsync_popt/site_provenance.h" "$work/c_src/"
-cp "$root/integration/rsync_popt/site_provenance.h" "$work/test/"
 cp "$root/integration/rsync_popt/popt_typed_shim.c" "$work/c_src/"
 cp "$root/integration/rsync_popt/popt_smoke.c" "$work/c_src/"
 cp "$root/integration/rsync_popt/popt_help_stub.c" "$work/c_src/"

@@ -1,21 +1,19 @@
 # InterSpec Typed Allocator
 
-Minimal proof-of-concept for extending InterSpec SP3 with trusted allocation metadata.
+Research proof of concept for extending InterSpec SP3 with trusted allocation metadata and allocation-site provenance.
 
-The PoC uses RLBox with the NaCl SFI backend. U may freely corrupt object bytes, while T keeps authoritative allocation metadata `{base, size, type_hash, site_id}` for provenance-aware allocations and validates U-controlled pointers before trusted use.
+The implementation uses RLBox with the NaCl SFI backend. U may corrupt object bytes, while T owns authoritative allocation metadata `{base, size, type_hash, site_id}` and validates U-controlled pointers before trusted use.
 
 ## Principles
 
-• Keep the implementation small and readable.
-• Reuse RLBox, NaCl, and CodeQL mechanisms instead of rebuilding them.
-• Separate trusted allocation metadata from untrusted object contents.
+• Keep trusted allocation metadata separate from U-controlled object contents.
 • Never accept a TypeHash as data supplied by U.
-• Derive allocation instrumentation and T use checks from source-level analysis.
-• For precise source-derived policies, derive allocation type authority from the analyzed allocation instruction rather than a type selected by U.
-• Keep generic InterSpec policy logic separate from NaCl-specific isolation mechanisms.
-• Prefer a working end-to-end path over premature generality.
+• Derive allocation instrumentation and T-side use checks from source analysis.
+• For precise source-derived policy, derive allocation type authority from the analyzed allocation instruction rather than a TypeId selected by U.
+• Keep generic InterSpec policy/runtime logic separate from NaCl-specific isolation mechanisms.
+• Keep application-specific API marshalling separate from Extended SP3 enforcement.
 
-## Build the core check
+## Build the core runtime
 
 ```bash
 cmake -S . -B build
@@ -23,28 +21,25 @@ cmake --build build
 ctest --test-dir build --output-on-failure
 ```
 
-The trusted runtime is exposed as the CMake target `interspec::runtime` and the public header `interspec/runtime.h`.
+The installable CMake target is `interspec::runtime`. The public runtime interfaces are `interspec/runtime.h` and `interspec/policy_runtime.h`.
 
-## P2b: source analysis to policy
+## Source analysis and generated policy
 
-`analysis/ql/policy_inference.ql` uses CodeQL to infer the policy facts needed by the runtime from source code:
+`analysis/ql/` contains CodeQL queries that infer the policy facts needed by the runtime. For the synthetic and rsync/popt paths this includes:
 
-• tracked U allocation sites and their allocated struct types, using the type operand of `sizeof(T)` at `malloc` calls
-• T pointer-field uses, including the expected declaring type, field byte offset, and field byte size
+• U allocation sites and inferred object types
+• exact source locations for precise allocation instructions
+• T pointer uses, including expected type, byte offset, and access size
 
-`tools/codeql_policy_to_json.py` converts those query results into `policy/poc_policy.json`. CI regenerates the JSON and requires it to exactly match the checked-in snapshot, so the policy cannot silently drift away from the analyzed source.
+`tools/codeql_policy_to_json.py` converts query results into policy JSON. CI regenerates checked-in policy snapshots and requires them to match, preventing silent drift between analysis and enforcement.
 
-The PoC query intentionally uses the known test boundary functions and a small trusted-use fixture. In a real InterSpec application, those selectors are replaced by InterSpec's existing boundary/data-flow analysis and actual trusted application source; the policy format and downstream runtime path stay the same.
+`tools/generate_policy.py` converts source-derived policy into both sides of the enforcement contract:
 
-## Generated policy and instrumentation
+• precise U allocation sites receive SiteIds, exported instruction labels, and site-authenticated allocation instrumentation
+• T receives type registration, allocation-site registration, and expected `{type, offset, bytes}` access policy
+• generated checked accesses validate the whole requested extent before returning the trusted-use address
 
-`tools/generate_policy.py` consumes the inferred policy and generates both sides of the enforcement contract:
-
-• Precise source-located U allocation sites receive generated SiteIds, instruction labels, and site-authenticated allocation instrumentation. Older hand-written policies without source locations retain the TypeId request path only for backward compatibility.
-• T-side type registration, allocation-site registration, and expected `{type, offset, bytes}` access policies are generated from the same inferred input.
-• Generated checked accesses validate from the original object pointer through the end of the requested field access, then return the already-validated address/range for trusted use.
-
-The resulting path is:
+The core path is:
 
 ```text
 U source + T source
@@ -53,131 +48,114 @@ U source + T source
         ↓
  inferred policy
         ↓
- policy generator
+ policy generation
    ↙           ↘
-U allocation   T checks
+U allocation   T access policy
 instrumentation
         ↘     ↙
-   InterSpec runtime
+ InterSpec policy/runtime
         ↓
     RLBox + NaCl
 ```
 
-## P3: versioned RLBox + NaCl backend
+## Versioned RLBox + NaCl backend
 
-NaCl-specific enforcement is packaged under `backends/rlbox_nacl/` instead of being embedded in the PoC test script.
+NaCl-specific enforcement is packaged under `backends/rlbox_nacl/`.
 
-`manifest.json` pins the exact supported `rlbox_nacl_sandbox` and `nacl_sandbox_compiler` revisions. `apply_backend.py` verifies both revisions before making any changes, so an upstream update cannot silently change the security mechanism.
+`manifest.json` pins the supported `rlbox_nacl_sandbox` and `nacl_sandbox_compiler` revisions. `apply_backend.py` verifies those revisions before applying the InterSpec backend changes.
 
-The backend exposes only the low-level primitives needed by the generic InterSpec runtime:
+The backend exposes the low-level mechanisms needed by the generic runtime:
 
-• reserve one T-managed, U-readable/U-writable arena in the NaCl address space
-• convert a sandbox pointer to its NaCl user address for trusted metadata lookup
-• reject U `munmap`, `mprotect`, and `mmap(MAP_FIXED)` operations that overlap the arena
-• expose the trusted NaCl syscall return PC used by P7a allocation-site provenance
+• reserve one T-managed, U-readable/U-writable arena inside the NaCl address space
+• convert a host-visible sandbox pointer to its NaCl user address
+• prevent U from unmapping, remapping, or changing protection on the typed arena
+• expose trusted callback execution state used to authenticate precise allocation instructions
 
-The generic allocation metadata, type policy, provenance policy, and bounds checks remain in `interspec::Runtime`; only the mechanism for obtaining the trusted U execution address is NaCl-specific.
+Allocation metadata, type policy, site policy, liveness, and spatial checks remain in the generic InterSpec runtime.
 
-## RLBox + NaCl PoC
+## RLBox + NaCl end-to-end test
 
 ```bash
 ./scripts/run_rlbox_nacl_poc.sh
 ```
 
-The script fetches the pinned RLBox NaCl backend and modified NaCl compiler, applies the packaged InterSpec backend, generates the policy artifacts, adds only the PoC test-harness glue, builds the sandboxed module, and runs the `[typed_allocator]` test.
+The script fetches the pinned backend, applies the packaged modifications, generates synthetic and rsync/popt policy artifacts, builds the NaCl module, runs adversarial tests, and finally builds and executes the complete rsync path.
 
-The PoC checks:
+The synthetic provenance test checks:
 
-• source-selected ordinary U `malloc` sites are automatically rewritten to tracked allocations
-• a precise analyzed allocation site determines the authoritative type without accepting a TypeId or SiteId from U
-• the trusted NaCl syscall return PC must fall inside the registered allocation-site range
-• invoking the allocator callback syscall from an unregistered U instruction is rejected
-• allocating through an `Other` site and corrupting the bytes to look like `Item` does not relabel the trusted metadata
-• legacy policies without source locations still support the older T-defined TypeId mapping, but do not receive the P7a site-provenance guarantee
-• ordinary U `malloc` does not create trusted metadata
-• T field uses consume inferred expected-type, byte-offset, and access-size policy
-• the checked address returned to T is the same snapshot that passed validation
-• correct typed pointer → pass
-• wrong allocated type → reject
-• out-of-bounds access → reject
-• freed pointer → reject
-• untracked U allocation → reject
-• U cannot unmap, remap, or change protection on the trusted-managed arena
+• precise source-selected `malloc` sites become tracked allocations
+• allocation type is determined by the authorized site rather than U-supplied TypeId data
+• invoking the allocator callback from an unregistered U instruction is rejected
+• allocating from an `Other` site and rewriting bytes to look like `Item` does not change trusted metadata
+• ordinary U allocation without trusted metadata is rejected as `untracked`
+• wrong allocated type is rejected as `wrong_type`
+• out-of-bounds and stale pointers are rejected
+• the typed arena cannot be unmapped, remapped, or reprotected by U
 
-`Item` and `Other` intentionally have the same size, so the wrong-type case cannot be rejected by size alone.
+`Item` and `Other` intentionally have the same size, so type confusion cannot be rejected by size alone.
 
-## P4: real rsync popt boundary
+## Real rsync / popt boundary
 
-P4 replaces the synthetic parser allocation sites with the bundled `popt` implementation from the pinned rsync source revision `7c20b077c980036a19587701cec320cc88e42a4a`.
+The real integration uses the bundled `popt` implementation from pinned rsync source revision `7c20b077c980036a19587701cec320cc88e42a4a`.
 
-`integration/rsync_popt/` contains the inferred policy, typed allocation lifetime shim, isolated RLBox test, and complete-rsync bridge. CodeQL derives the allocation policy from the real `popt/popt.c`; the generator instruments the selected allocation sites; and the isolated `[rsync_popt]` test executes that parser inside RLBox + NaCl.
+CodeQL derives the real allocation policy from `popt/popt.c`, including `poptGetContext` and `expandNextArg`. The isolated `[rsync_popt]` test executes the real parser inside RLBox + NaCl and verifies that:
 
-The real-boundary test verifies that returned character pointers pass only when trusted metadata records a live allocation of the inferred character type. A pointer with the wrong tracked type is rejected as `wrong_type`, and an ordinary U allocation without trusted metadata is rejected as `untracked`.
+• a valid live `char` allocation is accepted
+• a tracked pointer with the wrong type is rejected
+• a normal same-domain U allocation with no trusted metadata is rejected
 
-## P4c: complete trusted rsync execution
+## Complete trusted rsync execution
 
-P4c builds rsync 3.5.0 itself as T and interposes the context-dependent `popt` API with `integration/rsync_popt/p4c_bridge.cpp`. The parser implementation remains the real bundled `popt` code and executes inside the NaCl sandbox as U.
+`integration/rsync_popt/p4c_bridge.cpp` interposes the context-dependent `popt` API while rsync itself remains T and the real bundled parser executes as U.
 
-At the boundary, the bridge:
+The bridge still performs application-specific marshalling:
 
-• copies trusted `argv`, option names, descriptions, and initial string values into U-owned memory
-• reconstructs the `struct poptOption` table inside U rather than exposing T pointers to the parser
-• creates U shadow storage for destination-backed option variables and copies validated results back to the corresponding T variables
-• tracks typed allocation lifetime across allocation, free, and realloc operations so stale metadata is invalidated
-• accepts returned U character pointers only after trusted type, liveness, spatial-bounds, and NUL-termination checks
-• copies positional arguments back to T only after the same pointer validation
+• copies trusted argv, option names, descriptions, and initial strings into U memory
+• reconstructs the `poptOption` table in U rather than exposing T pointers
+• creates U shadow storage for destination-backed option variables
+• synchronizes scalar and string results back to T
+• validates U-returned character pointers for liveness, expected type, spatial bounds, and NUL termination before copying strings to T
+• retrieves positional arguments element by element so T never dereferences a U `char**`
 
-The CI path then executes the complete rsync binary with both option parsing and a normal local-transfer startup path:
+The complete rsync acceptance path executes:
 
 ```bash
 rsync --backup-dir=<sandbox-test-dir> --max-size=1M --block-size=1024 --version
 rsync --dry-run -a <src>/ <dst>/
 ```
 
-The first invocation exercises option arguments, including a destination-backed string option. The second exercises positional arguments and the ordinary local-transfer path through rsync's real `main` and option-processing code. Both commands must return successfully for the `rlbox-nacl` CI job to pass.
+The claim is deliberately narrow: the pinned complete rsync executable runs its ordinary CLI and local-transfer startup path with context-dependent popt parsing inside RLBox + NaCl. The proof does not import host popt configuration/aliases and does not claim exhaustive daemon, remote-shell, authentication, or optional-feature coverage.
 
-The current P4c proof deliberately does not import host `popt` configuration files or aliases into U. It also does not claim exhaustive coverage of rsync daemon mode, remote-shell mode, authentication paths, or every optional feature. Its claim is narrower: the pinned complete rsync executable runs its ordinary CLI and local-transfer startup path while the context-dependent parser executes in RLBox + NaCl and U-returned pointers are mediated by trusted typed allocation metadata.
+## P5 hardening and scalability
 
-## P5: hardening and scalability
+The trusted runtime uses an ordered allocation map for logarithmic containing-allocation lookup, hash maps for type bindings, and a shared mutex for concurrent trusted readers/writers.
 
-P5 keeps the P4c security model unchanged while removing assumptions that were acceptable for a small proof of concept but would not scale safely to larger policies or concurrent trusted callers.
+Hardening includes:
 
-The trusted runtime now uses an ordered allocation map. A containing allocation is found with `upper_bound`, making pointer lookup logarithmic in the number of live tracked allocations rather than a linear scan. Type bindings use hash maps. Runtime metadata is protected by a shared mutex: checks and metadata reads take shared access, while registration, allocation, release, and reallocation take exclusive access.
-
-P5 also makes metadata arithmetic fail closed. Arena construction detects address-space wraparound. Allocation alignment and `base + used` calculations are overflow checked. Generated trusted accesses reject `offset + bytes` overflow. Type registration rejects both duplicate TypeIds and duplicate TypeHashes, so a generated TypeHash collision cannot silently create two trusted meanings for the same runtime value.
-
-Allocation instrumentation is now tied to the exact source location inferred by CodeQL. The policy records the analyzed `malloc` source span. The generator starts from that analyzed call and preserves its original size expression, so it can instrument one selected allocation even when a function contains multiple `malloc` calls or the allocation size is an arbitrary expression. The older function-pattern path remains only for backward compatibility with hand-written policies that do not carry source locations.
-
-P5 deliberately retains a bump arena with no physical address reuse. Release and successful reallocation remove the old authoritative metadata, but the allocator never immediately assigns that numerical address to a new object. This prevents an old raw pointer from becoming valid again merely because a later same-type allocation reused the address. Reclaiming addresses safely would require an additional temporal identity mechanism such as tagged or generation-aware pointers, so address reuse is outside the current model rather than being treated as a harmless optimization.
-
-The hardening tests include:
-
-• invalid arena and integer-overflow cases
+• checked arena and allocation arithmetic
 • exact-base release semantics
-• successful and failed realloc semantics, including keeping the old object live when reallocation fails
+• failed realloc preserving the old live allocation
+• successful realloc preserving type and site provenance while invalidating old metadata
 • TypeHash collision rejection
-• a 10,000-allocation metadata stress test
-• concurrent allocation, checking, size lookup, and release from eight trusted threads
-• precise source-site instrumentation when multiple `malloc` calls appear in one function
-• the full P4c rsync + RLBox + NaCl regression, ensuring the hardening changes preserve the real application path
+• concurrent runtime tests
+• metadata stress tests with 10,000 live allocations
+• precise source-site instrumentation when multiple `malloc` calls occur in one function
 
-## P6: evaluation and research preview
+The current arena intentionally does not reuse released numerical addresses. Removing metadata therefore makes stale raw pointers permanently invalid for the lifetime of that arena. Safe reuse would require an additional temporal identity mechanism.
 
-P6 turns the completed mechanism into an evaluated and reproducible artifact without expanding its security claim.
+## P6 evaluation and research preview
 
-`evaluation/security_eval.cpp` provides a machine-readable security matrix covering expected type checks, spatial bounds, untracked pointers, exact-base release, stale pointers after free and realloc, realloc failure semantics, TypeHash collision rejection, unknown TypeIds, zero-sized allocations, and invalid arena handling.
+`evaluation/security_eval.cpp` emits a machine-readable security matrix covering expected type, spatial bounds, untracked pointers, release/realloc semantics, stale pointers, collisions, unknown TypeIds, zero-sized allocations, and invalid arenas.
 
-`evaluation/runtime_bench.cpp` reports lookup and allocation costs as CSV while sweeping from 1 to 16,384 live allocations. It also reports read-only check throughput with 1, 2, 4, and 8 trusted threads. Timing is intentionally not a CI pass threshold because hosted runner performance is noisy; correctness remains independently enforced by tests.
+`evaluation/runtime_bench.cpp` measures lookup/allocation cost while sweeping from 1 to 16,384 live allocations and reports read-only check throughput across multiple trusted threads. Timing is reported rather than used as a CI threshold.
 
-Run the reproducible evaluation with:
+Run the evaluation with:
 
 ```bash
 bash scripts/run_p6_evaluation.sh
 ```
 
-The detailed methodology is in `P6_EVALUATION.md`, one representative CI result is recorded in `P6_RESULTS.md`, and exact reproduction steps are in `REPRODUCIBILITY.md`.
-
-The runtime is now installable as a CMake package. A clean external project can use `find_package(interspec-runtime CONFIG REQUIRED)` and link `interspec::runtime`. CI verifies this path with `examples/consumer/`.
+The runtime is installable as a CMake package and is validated by `examples/consumer/`.
 
 A research preview archive can be built with:
 
@@ -185,42 +163,58 @@ A research preview archive can be built with:
 bash scripts/package_release.sh
 ```
 
-The default artifact is `interspec-typed-allocator-0.1.0.tar.gz` with a SHA256 checksum. The package contains the installed public runtime interface, CMake package metadata, evaluation and reproducibility documentation, representative results, the P7a provenance documentation, and the pinned RLBox + NaCl manifest.
+The package includes the installed runtime headers, CMake metadata, evaluation/reproducibility documentation, P7a provenance documentation, P7b native-integration documentation, and the pinned RLBox + NaCl manifest.
 
-## P7a: allocation-site provenance
+## P7a allocation-site provenance
 
-P7a closes the remaining TypeId-selection weakness for precise source-derived allocation policies.
+P7a closes the TypeId-selection weakness for precise source-derived allocation policies.
 
-CodeQL identifies an allocation instruction and its inferred object type. The generator emits trusted begin/end symbols around that exact allocation expression and replaces the allocation with a direct NaCl callback syscall. NaCl captures the syscall's sandbox return address into trusted per-thread state before the host callback executes. T resolves the generated site symbols, matches the trusted return PC against the registered site range, and only then creates allocation metadata with the site's authoritative type.
-
-The precise path is therefore:
+CodeQL identifies an allocation instruction and its inferred object type. The generator emits trusted begin/end symbols around the exact allocation instruction and replaces it with a direct NaCl allocator callback syscall. NaCl captures trusted callback execution state before host dispatch. T resolves generated site symbols, matches the trusted callback return PC to an authorized site range, and derives the authoritative type from that site.
 
 ```text
 analyzed allocation instruction
         ↓
 generated site range
         ↓
-U executes direct allocator syscall
+U executes allocator syscall
         ↓
-trusted NaCl return PC
+trusted NaCl callback PC
         ↓
 T site lookup
         ↓
 {base, size, type_hash, site_id}
 ```
 
-A compromised U that knows the allocator callback slot cannot obtain trusted metadata by invoking that callback syscall from arbitrary code, because the trusted return PC is outside every authorized site. Likewise, U may overwrite an object allocated by the `Other` site so that its bytes resemble `Item`, but the authoritative metadata remains `Other` and an `Item` use fails with `wrong_type`.
+A compromised U that knows the callback slot cannot create trusted metadata from an arbitrary instruction. U may still legitimately execute an authorized allocation instruction and may corrupt the resulting object bytes, so P7a is allocation-site provenance rather than general control-flow integrity.
 
-The real rsync/popt path uses the same mechanism for the CodeQL-derived `poptGetContext` and `expandNextArg` sites and for the explicitly registered typed string-copy site. The complete P4c rsync regression remains part of the acceptance test.
+Detailed design and limitations are in `P7A_PROVENANCE.md`.
 
-Detailed design and limitations are documented in `P7A_PROVENANCE.md`.
+## P7b native InterSpec policy/runtime integration
 
-## Current scope
+P7b removes trusted allocation-policy plumbing from application-specific bridges.
 
-T reserves one dedicated read/write arena inside U's NaCl address space. U can access object bytes, but T owns allocation metadata and the arena mapping. The allocator intentionally does not reuse released addresses, so removing a metadata record makes stale pointers fail permanently for the lifetime of the arena.
+`interspec::PolicyRuntime` now owns the generic binding between generated policy and a sandbox backend. It centralizes:
 
-For precise source-derived allocation policies, T no longer trusts U to select a type. T registers each analyzed allocation instruction as a trusted site range bound to an inferred type. A tracked allocation is created only when the trusted NaCl syscall return PC identifies one of those authorized sites. The resulting metadata records the site's `site_id` and `type_hash` together with the allocation base and size.
+• generated type registration
+• generated allocation-site symbol resolution and registration
+• callback-PC provenance dispatch into `Runtime::allocate_from_pc()`
 
-Legacy hand-written policies that do not carry allocation source locations retain the older `TypeId -> TypeHash` request path for backward compatibility. Compromised U may choose among registered TypeIds on that legacy path, so those allocations do not receive the P7a allocation-site provenance guarantee.
+`tools/generate_boundary_policy.py` composes the source-derived policy with boundary-specific helper-site declarations. A helper allocation needed for API marshalling can therefore be represented as policy data and emitted into the same U/T policy pair rather than maintained as a second trusted registration table.
 
-P7a is allocation-site provenance, not control-flow integrity. If compromised U legitimately reaches an authorized allocation instruction, the allocation receives that site's type. U also remains free to corrupt bytes within its writable objects. T therefore still validates liveness, expected type, and spatial bounds before consuming a U-controlled pointer.
+For rsync/popt, `integration/rsync_popt/boundary.json` declares the typed string-copy helper as a `char` allocation site. The old hand-maintained `site_provenance.h` path is removed. The generated policy exposes one `register_allocation_policy()` entry point that registers both CodeQL-derived sites and helper sites.
+
+The synthetic provenance test and the complete rsync/popt bridge both use `PolicyRuntime`. The remaining rsync bridge code is application-specific marshalling rather than Extended SP3 type/site registration or callback provenance logic.
+
+P7b does **not** claim automatic generation of arbitrary library ABI marshalling. A new boundary can still require code for complex tables, callbacks, or output slots. What is reusable is the Extended SP3 analysis → generated policy → trusted runtime → sandbox-backend enforcement path.
+
+Detailed design and acceptance criteria are in `P7B_NATIVE_INTEGRATION.md`.
+
+## Current security scope
+
+T reserves a dedicated read/write arena inside U's NaCl address space. U can access object bytes, but T owns the arena mapping and allocation metadata.
+
+For precise source-derived policy, T does not trust U to select allocation type. Tracked metadata is created only when trusted callback execution state identifies an authorized allocation site. T then checks liveness, expected type, and spatial extent before consuming a U-controlled pointer.
+
+Legacy hand-written policies without precise source locations retain the older T-defined `TypeId -> TypeHash` request path for backward compatibility and therefore do not receive the P7a provenance guarantee.
+
+The mechanism does not prove arbitrary parser-output integrity, control-flow integrity, or temporal identity under physical address reuse. U-controlled object contents remain untrusted, and application-specific scalar output policies remain separate from this Extended SP3 pointer-safety work.
