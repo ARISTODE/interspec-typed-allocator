@@ -115,6 +115,55 @@ cp "$bipbuf_generated/interspec_t_policy.h" \
 cp "$root/integration/memcached_bipbuffer/bipbuffer_smoke.c" "$work/c_src/"
 cp "$root/integration/memcached_bipbuffer/memcached_bipbuffer.inc.cpp" "$work/test/"
 
+# P7c boundary 2: PCRE1 8.45, matching InterSpec's nginx/libpcre boundary.
+# pcre_compile() allocates one compiled pattern through PCRE's configurable
+# pcre_malloc function pointer. Because the generic precise-site transformer is
+# intentionally malloc-syntax based, P7c makes this allocator replacement an
+# explicit generated boundary site. The real PCRE source around that allocation
+# is patched to call the same site-authenticated allocator; the name table is
+# then obtained through the real pcre_fullinfo() API as an interior pointer.
+pcre_src="$work/c_src/pcre-src"
+git clone -q https://github.com/nektro/pcre-8.45.git "$pcre_src"
+git -C "$pcre_src" checkout -q e67dabe61b327bd2d888954b0e74a7c9cfd0a195
+
+pcre_generated="$work/interspec-pcre-generated"
+python3 "$root/tools/generate_boundary_policy.py" \
+  --policy "$root/integration/nginx_libpcre/policy.json" \
+  --boundary "$root/integration/nginx_libpcre/boundary.json" \
+  --source "$pcre_src/pcre_compile.c" \
+  --out-dir "$pcre_generated" \
+  --namespace "interspec::nginx_libpcre_generated"
+
+python3 - "$pcre_generated/pcre_compile.c" <<'PY'
+from pathlib import Path
+import sys
+
+path = Path(sys.argv[1])
+text = path.read_text()
+include_needle = '#include "pcre_internal.h"\n'
+include_insert = (
+    include_needle
+    + '#include <stdint.h>\n'
+    + '#include "interspec_pcre_u_policy.h"\n'
+)
+assert include_needle in text
+text = text.replace(include_needle, include_insert, 1)
+
+alloc_needle = 're = (REAL_PCRE *)(PUBL(malloc))(size);'
+alloc_replacement = '''INTERSPEC_SITE_COMPILED_REGEX_BEGIN();
+re = (REAL_PCRE *)(uintptr_t)INTERSPEC_SITE_ALLOC((uint32_t)size);
+INTERSPEC_SITE_COMPILED_REGEX_END();'''
+assert alloc_needle in text
+text = text.replace(alloc_needle, alloc_replacement, 1)
+path.write_text(text)
+PY
+
+cp "$pcre_generated/pcre_compile.c" "$pcre_src/pcre_compile.c"
+cp "$pcre_generated/interspec_u_policy.h" "$work/c_src/interspec_pcre_u_policy.h"
+cp "$pcre_generated/interspec_t_policy.h" "$work/test/interspec_pcre_t_policy.h"
+cp "$root/integration/nginx_libpcre/pcre_smoke.c" "$work/c_src/"
+cp "$root/integration/nginx_libpcre/nginx_libpcre.inc.cpp" "$work/test/"
+
 # Real popt can resize and destroy allocations after the selected typed malloc
 # sites execute. Route those lifetime operations through the trusted runtime
 # when the pointer belongs to the InterSpec arena, and retain normal libc
@@ -189,7 +238,30 @@ replace(
     "               ${CMAKE_SOURCE_DIR}/rsync-src/popt/poptparse.c\n"
     "               ${CMAKE_SOURCE_DIR}/rsync-src/popt/poptint.c\n"
     "               ${CMAKE_SOURCE_DIR}/bipbuffer_smoke.c\n"
-    "               ${CMAKE_SOURCE_DIR}/memcached-src/bipbuffer.c)")
+    "               ${CMAKE_SOURCE_DIR}/memcached-src/bipbuffer.c\n"
+    "               ${CMAKE_SOURCE_DIR}/pcre_smoke.c\n"
+    "               ${CMAKE_SOURCE_DIR}/pcre-src/pcre_byte_order.c\n"
+    "               ${CMAKE_SOURCE_DIR}/pcre-src/pcre_chartables.c\n"
+    "               ${CMAKE_SOURCE_DIR}/pcre-src/pcre_compile.c\n"
+    "               ${CMAKE_SOURCE_DIR}/pcre-src/pcre_config.c\n"
+    "               ${CMAKE_SOURCE_DIR}/pcre-src/pcre_dfa_exec.c\n"
+    "               ${CMAKE_SOURCE_DIR}/pcre-src/pcre_exec.c\n"
+    "               ${CMAKE_SOURCE_DIR}/pcre-src/pcre_fullinfo.c\n"
+    "               ${CMAKE_SOURCE_DIR}/pcre-src/pcre_get.c\n"
+    "               ${CMAKE_SOURCE_DIR}/pcre-src/pcre_globals.c\n"
+    "               ${CMAKE_SOURCE_DIR}/pcre-src/pcre_jit_compile.c\n"
+    "               ${CMAKE_SOURCE_DIR}/pcre-src/pcre_maketables.c\n"
+    "               ${CMAKE_SOURCE_DIR}/pcre-src/pcre_newline.c\n"
+    "               ${CMAKE_SOURCE_DIR}/pcre-src/pcre_ord2utf8.c\n"
+    "               ${CMAKE_SOURCE_DIR}/pcre-src/pcre_printint.c\n"
+    "               ${CMAKE_SOURCE_DIR}/pcre-src/pcre_refcount.c\n"
+    "               ${CMAKE_SOURCE_DIR}/pcre-src/pcre_string_utils.c\n"
+    "               ${CMAKE_SOURCE_DIR}/pcre-src/pcre_study.c\n"
+    "               ${CMAKE_SOURCE_DIR}/pcre-src/pcre_tables.c\n"
+    "               ${CMAKE_SOURCE_DIR}/pcre-src/pcre_ucd.c\n"
+    "               ${CMAKE_SOURCE_DIR}/pcre-src/pcre_valid_utf8.c\n"
+    "               ${CMAKE_SOURCE_DIR}/pcre-src/pcre_version.c\n"
+    "               ${CMAKE_SOURCE_DIR}/pcre-src/pcre_xclass.c)")
 replace(
     cmake,
     "target_include_directories(glue_lib_nacl.nexe PUBLIC ${modnacl_SOURCE_DIR})",
@@ -197,13 +269,38 @@ replace(
     "  ${modnacl_SOURCE_DIR}\n"
     "  ${CMAKE_SOURCE_DIR}\n"
     "  ${CMAKE_SOURCE_DIR}/rsync-src/popt\n"
-    "  ${CMAKE_SOURCE_DIR}/memcached-src)\n"
+    "  ${CMAKE_SOURCE_DIR}/memcached-src\n"
+    "  ${CMAKE_SOURCE_DIR}/pcre-src)\n"
     "target_compile_definitions(glue_lib_nacl.nexe PRIVATE\n"
     "  HAVE_STPCPY=1\n"
     "  HAVE_STRERROR=1\n"
     "  INTERSPEC_TYPED_POPT=1\n"
     "  POPT_SYSCONFDIR=\"/etc\"\n"
-    "  PACKAGE=\"rsync\")")
+    "  PACKAGE=\"rsync\")\n"
+    "set_source_files_properties(\n"
+    "  ${CMAKE_SOURCE_DIR}/pcre-src/pcre_byte_order.c\n"
+    "  ${CMAKE_SOURCE_DIR}/pcre-src/pcre_chartables.c\n"
+    "  ${CMAKE_SOURCE_DIR}/pcre-src/pcre_compile.c\n"
+    "  ${CMAKE_SOURCE_DIR}/pcre-src/pcre_config.c\n"
+    "  ${CMAKE_SOURCE_DIR}/pcre-src/pcre_dfa_exec.c\n"
+    "  ${CMAKE_SOURCE_DIR}/pcre-src/pcre_exec.c\n"
+    "  ${CMAKE_SOURCE_DIR}/pcre-src/pcre_fullinfo.c\n"
+    "  ${CMAKE_SOURCE_DIR}/pcre-src/pcre_get.c\n"
+    "  ${CMAKE_SOURCE_DIR}/pcre-src/pcre_globals.c\n"
+    "  ${CMAKE_SOURCE_DIR}/pcre-src/pcre_jit_compile.c\n"
+    "  ${CMAKE_SOURCE_DIR}/pcre-src/pcre_maketables.c\n"
+    "  ${CMAKE_SOURCE_DIR}/pcre-src/pcre_newline.c\n"
+    "  ${CMAKE_SOURCE_DIR}/pcre-src/pcre_ord2utf8.c\n"
+    "  ${CMAKE_SOURCE_DIR}/pcre-src/pcre_printint.c\n"
+    "  ${CMAKE_SOURCE_DIR}/pcre-src/pcre_refcount.c\n"
+    "  ${CMAKE_SOURCE_DIR}/pcre-src/pcre_string_utils.c\n"
+    "  ${CMAKE_SOURCE_DIR}/pcre-src/pcre_study.c\n"
+    "  ${CMAKE_SOURCE_DIR}/pcre-src/pcre_tables.c\n"
+    "  ${CMAKE_SOURCE_DIR}/pcre-src/pcre_ucd.c\n"
+    "  ${CMAKE_SOURCE_DIR}/pcre-src/pcre_valid_utf8.c\n"
+    "  ${CMAKE_SOURCE_DIR}/pcre-src/pcre_version.c\n"
+    "  ${CMAKE_SOURCE_DIR}/pcre-src/pcre_xclass.c\n"
+    "  PROPERTIES COMPILE_DEFINITIONS HAVE_CONFIG_H=1)")
 
 test = repo / "test/test_nacl_sandbox_glue.cpp"
 text = test.read_text()
@@ -211,6 +308,7 @@ for include in (
     '#include "typed_poc.inc.cpp"\n',
     '#include "rsync_popt.inc.cpp"\n',
     '#include "memcached_bipbuffer.inc.cpp"\n',
+    '#include "nginx_libpcre.inc.cpp"\n',
 ):
     if include not in text:
         text += "\n" + include
@@ -223,6 +321,7 @@ cmake --build "$work/build" --target test_rlbox_glue --parallel 2
 "$work/build/test_rlbox_glue" "[typed_allocator]"
 "$work/build/test_rlbox_glue" "[rsync_popt]"
 "$work/build/test_rlbox_glue" "[memcached_bipbuffer]"
+"$work/build/test_rlbox_glue" "[nginx_libpcre]"
 
 # P4c: build the complete trusted rsync executable while interposing its popt
 # API with an RLBox bridge. The host uses system libpopt only for standalone
@@ -304,3 +403,4 @@ printf 'InterSpec P4c\n' > "$p4c_data/src/input.txt"
 
 echo "InterSpec P4c: complete rsync executable ran with popt inside RLBox NaCl"
 echo "InterSpec P7c: memcached bipbuffer interior-range boundary passed in RLBox NaCl"
+echo "InterSpec P7c: nginx/libpcre interior name-table boundary passed in RLBox NaCl"
