@@ -44,12 +44,15 @@ void* make_value(size_t n) {
             }
         ],
         "uses": [
-            {"name": "first_byte", "type": "char", "offset": 0, "bytes": 1}
+            {"name": "first_byte", "type": "char", "offset": 0, "bytes": 1},
+            {"name": "runtime_range", "type": "char", "offset": 0,
+             "dynamic_bytes": True},
         ],
     }
     boundary = {
+        "types": ["byte_copy"],
         "helper_sites": [
-            {"name": "typed_copy", "type": "char"},
+            {"name": "typed_copy", "type": "byte_copy"},
         ]
     }
 
@@ -69,7 +72,7 @@ void* make_value(size_t n) {
     assert "interspec_alloc_site_typed_copy_2_begin" in u_header
     assert "interspec_alloc_site_typed_copy_2_end" in u_header
 
-    # Helper labels must contain one C-string newline escape.  A previous P7b
+    # Helper labels must contain one C-string newline escape. A previous P7b
     # implementation escaped exported_label_asm() twice, producing literal
     # backslashes in the emitted assembly and failing the NaCl assembler.
     expected_begin_asm = (
@@ -87,6 +90,7 @@ void* make_value(size_t n) {
     assert "typed_copy_2_begin\\\\n.type" not in u_header
     assert "typed_copy_2_end\\\\n.type" not in u_header
 
+    assert "kTypeIdByteCopy" in t_header
     assert "kAllocationSiteCount = 1" in t_header
     assert "kHelperAllocationSiteCount = 1" in t_header
     assert "kTotalAllocationSiteCount" in t_header
@@ -94,6 +98,14 @@ void* make_value(size_t n) {
     assert '"interspec_alloc_site_typed_copy_2_end"' in t_header
     assert "register_allocation_policy" in t_header
     assert "register_helper_allocation_sites" in t_header
+
+    # A dynamic use keeps its generated expected type/offset, while the byte
+    # extent is supplied at runtime and checked against the same allocation.
+    assert "kUseRuntimeRange" in t_header
+    assert "checked_dynamic_access" in t_header
+    assert "check_dynamic" in t_header
+    assert "kDynamicUseCount = 1" in t_header
+    assert "policy.offset > std::numeric_limits<size_t>::max() - dynamic_bytes" in t_header
 
     try:
         generate_boundary(
@@ -104,6 +116,17 @@ void* make_value(size_t n) {
         raise AssertionError("unknown helper type should fail")
     except ValueError as error:
         assert "unknown helper site type" in str(error)
+
+    try:
+        bad_policy = dict(policy)
+        bad_policy["uses"] = [
+            {"name": "bad_dynamic", "type": "char", "offset": 0,
+             "bytes": 4, "dynamic_bytes": True}
+        ]
+        generate_boundary(bad_policy, source)
+        raise AssertionError("dynamic use with fixed bytes should fail")
+    except ValueError as error:
+        assert "dynamic use must not also declare fixed bytes" in str(error)
 
     print("InterSpec boundary policy codegen: all checks passed")
 
