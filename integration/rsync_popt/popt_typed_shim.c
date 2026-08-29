@@ -4,7 +4,6 @@
 
 #include "interspec_popt_u_policy.h"
 #include "popt.h"
-#include "site_provenance.h"
 
 typedef uint32_t (*interspec_release_fn)(uint32_t);
 typedef uint32_t (*interspec_size_fn)(uint32_t);
@@ -39,17 +38,9 @@ __attribute__((noinline)) char* interspec_typed_strdup(const char* src)
   if (size > UINT32_MAX) return NULL;
 
   uint32_t dst = 0;
-  __asm__ __volatile__(
-    ".globl interspec_alloc_site_interspec_typed_strdup_manual_begin\n"
-    ".type interspec_alloc_site_interspec_typed_strdup_manual_begin,@function\n"
-    "interspec_alloc_site_interspec_typed_strdup_manual_begin:"
-    ::: "memory");
+  INTERSPEC_SITE_POPT_TYPED_STRDUP_BEGIN();
   dst = INTERSPEC_SITE_ALLOC((uint32_t)size);
-  __asm__ __volatile__(
-    ".globl interspec_alloc_site_interspec_typed_strdup_manual_end\n"
-    ".type interspec_alloc_site_interspec_typed_strdup_manual_end,@function\n"
-    "interspec_alloc_site_interspec_typed_strdup_manual_end:"
-    ::: "memory");
+  INTERSPEC_SITE_POPT_TYPED_STRDUP_END();
   if (!dst) return NULL;
 
   memcpy((void*)(uintptr_t)dst, src, size);
