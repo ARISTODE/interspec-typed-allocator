@@ -23,13 +23,15 @@ cp -a "$stage"/. "$package"/
 mkdir -p "$package/share/interspec-typed-allocator"
 for doc in README.md P6_EVALUATION.md P6_RESULTS.md P7A_PROVENANCE.md \
            P7B_NATIVE_INTEGRATION.md P7C_GENERALIZATION.md P7C_RESULTS.md \
-           RELEASE_NOTES.md REPRODUCIBILITY.md; do
+           P8_EVALUATION.md RELEASE_NOTES.md REPRODUCIBILITY.md; do
   cp "$root/$doc" "$package/share/interspec-typed-allocator/"
 done
 cp "$root/backends/rlbox_nacl/manifest.json" \
   "$package/share/interspec-typed-allocator/rlbox_nacl_manifest.json"
 cp "$root/integration/p7c_manifest.json" \
   "$package/share/interspec-typed-allocator/p7c_manifest.json"
+cp "$root/evaluation/p8_manifest.json" \
+  "$package/share/interspec-typed-allocator/p8_manifest.json"
 rm -f "$archive" "$archive.sha256"
 tar -C "$out" -czf "$archive" "interspec-typed-allocator-$version"
 sha256sum "$archive" > "$archive.sha256"
