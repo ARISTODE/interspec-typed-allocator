@@ -22,7 +22,7 @@ The P8 RLBox tests first establish that the malicious pointer, or the entire mal
 | yaml/libyaml | untracked U pointer | accepts | `untracked` |
 | yaml/libyaml | oversized scalar extent | accepts | `out_of_bounds` |
 
-Thus the real-boundary matrix contains **11/11 cases in which the original domain property is satisfied but Extended SP3 rejects the corrupted use**.
+Thus the real-boundary matrix contains **11/11 cases in which the original domain property is satisfied but Extended SP3 rejects the corrupted use**. The machine-readable boundary evidence records `domain_baseline=accept` together with the exact Extended-SP3 rejection reason for every row, and the collector fails if either side does not match the expected relation.
 
 The lower-level runtime security matrix additionally requires and passes seven representative cases covering wrong type, untracked pointers, cross-allocation bounds, stale-after-free, stale-after-realloc, unknown TypeIds, and TypeHash collision rejection. The complete P6 matrix contains further lifetime, arithmetic, and allocation edge cases.
 
@@ -55,15 +55,15 @@ A representative hosted-CI run with five repetitions and 100,000 operations per 
 
 | Live allocations | RLBox domain/range | Extended SP3 | Additional cost |
 | ---: | ---: | ---: | ---: |
-| 1 | 5.24 ns | 19.64 ns | 14.39 ns |
-| 16 | 5.08 ns | 26.42 ns | 21.34 ns |
-| 256 | 3.08 ns | 19.61 ns | 16.53 ns |
-| 4,096 | 3.08 ns | 27.06 ns | 23.98 ns |
-| 16,384 | 3.08 ns | 51.98 ns | 48.89 ns |
+| 1 | 6.32 ns | 18.78 ns | 12.46 ns |
+| 16 | 6.16 ns | 21.88 ns | 15.72 ns |
+| 256 | 3.70 ns | 16.61 ns | 12.91 ns |
+| 4,096 | 3.78 ns | 21.32 ns | 17.55 ns |
+| 16,384 | 3.78 ns | 48.08 ns | 44.31 ns |
 
-These values are **reference CI measurements, not publication-final performance numbers**. They came from hosted CI commit `eeeb9fb8e0a4dcef855b695c40ccd40b072b0206` on an AMD EPYC 7763 virtual runner. The five-sample min/max ranges showed noticeable host noise at some populations, so it would be inappropriate to present the exact medians above as stable machine-independent results.
+These values are **reference CI measurements, not publication-final performance numbers**. They were generated from commit `6e952fdf677effd77e6e67b117d4ba756d3dfd66` on an Ubuntu 24.04 hosted runner using an AMD EPYC 9V74 virtual CPU. The corresponding P8 artifact digest is `sha256:0637646ef6e426d21d7cd7c474d44ee5e4b858ff52912b63ce3ee52fa79fc52e`.
 
-What the reference run does establish is that the matched benchmark behaves plausibly after preventing compiler loop hoisting and that the expected logarithmic allocation-lookup trend becomes visible at larger live-allocation populations. The observed absolute increment was on the order of tens of nanoseconds/check, reaching roughly 49 ns at 16,384 live allocations in that run.
+The five-sample ranges still show hosted-runner variability, so the exact medians above should not be treated as machine-independent performance results. What the reference run establishes is that the matched benchmark behaves plausibly after preventing compiler loop hoisting and that allocation-lookup scaling becomes visible at larger live-allocation populations. The observed absolute increment in that run remained in the tens-of-nanoseconds range, reaching about 44 ns/check at 16,384 live allocations.
 
 The secondary primitive benchmark uses only arithmetic U-domain/range validation as a lower-bound baseline. It is useful for decomposing metadata cost but should not replace the matched RLBox comparison in the paper.
 
@@ -71,7 +71,7 @@ For publication, regenerate the table on a dedicated otherwise-idle machine with
 
 ## RQ4 — Is the evidence reproducible and are the claims bounded?
 
-The P8 pipeline is fail-closed. It refuses to construct a required paper table when a runtime security case, real-boundary attack, live-allocation population, matched baseline, or Extended-SP3 measurement is missing. It also keeps source provenance and attack-only instrumentation explicit in the machine-readable manifests.
+The P8 pipeline is fail-closed. It refuses to construct a required paper table when a runtime security case, real-boundary attack, live-allocation population, matched baseline, or Extended-SP3 measurement is missing. For real-boundary RQ1 evidence it additionally requires that the original domain predicate accepts the malicious value and that Extended SP3 returns the expected stronger rejection reason. Source provenance and attack-only instrumentation remain explicit in the machine-readable manifests.
 
 CI produces and uploads the raw repetitions plus:
 
