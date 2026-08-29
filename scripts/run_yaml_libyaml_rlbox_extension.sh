@@ -53,6 +53,7 @@ cp "$yaml_generated/interspec_u_policy.h" "$work/c_src/interspec_yaml_u_policy.h
 cp "$yaml_generated/interspec_t_policy.h" "$work/test/interspec_yaml_t_policy.h"
 cp "$root/integration/yaml_libyaml/yaml_smoke.c" "$work/c_src/"
 cp "$root/integration/yaml_libyaml/yaml_libyaml.inc.cpp" "$work/test/"
+cp "$root/evaluation/p8_boundary_bench.inc.cpp" "$work/test/"
 
 python3 - "$work" <<'PY'
 from pathlib import Path
@@ -94,17 +95,16 @@ set_source_files_properties(
 cmake.write_text(text)
 test = repo / "test/test_nacl_sandbox_glue.cpp"
 t = test.read_text()
-inc = '#include "yaml_libyaml.inc.cpp"\n'
-if inc not in t:
-    t += "\n" + inc
+for inc in (
+    '#include "yaml_libyaml.inc.cpp"\n',
+    '#include "p8_boundary_bench.inc.cpp"\n',
+):
+    if inc not in t:
+        t += "\n" + inc
 test.write_text(t)
 PY
 
 cmake -S "$work" -B "$work/build" -DCMAKE_BUILD_TYPE=Release
-# glue_lib_nacl is an OUTPUT-based custom target. Its .nexe outputs already
-# exist from the base P7c build, so changing c_src/CMakeLists.txt alone does not
-# rerun the nested NaCl configure/link step. Remove exactly those outputs to
-# invalidate the custom command while retaining the expensive NaCl runtime.
 rm -f "$work/build/nacl/glue_lib_nacl.nexe" \
       "$work/build/nacl_gcc/glue_lib_nacl.nexe"
 cmake --build "$work/build" --target glue_lib_nacl --parallel 2
@@ -116,5 +116,20 @@ cmake --build "$work/build" --target test_rlbox_glue --parallel 2
 "$work/build/test_rlbox_glue" "[nginx_libpcre]"
 "$work/build/test_rlbox_glue" "[yaml_libyaml]"
 
+# Performance evidence is never a correctness threshold. Capture paired raw
+# measurements from the same sandbox/process and let P8 aggregation compute the
+# statistics and overhead later.
+bench_log=/tmp/interspec-p8-boundary-bench.log
+bench_csv=/tmp/interspec-p8-boundary-performance.csv
+INTERSPEC_P8_BOUNDARY_ITERATIONS=${INTERSPEC_P8_BOUNDARY_ITERATIONS:-20000} \
+  "$work/build/test_rlbox_glue" "[p8_boundary_bench]" >"$bench_log" 2>&1
+{
+  echo "boundary,mode,repetition,iterations,total_ns,ns_per_op"
+  grep '^P8BENCH,' "$bench_log" | cut -d, -f2-
+} > "$bench_csv"
+test "$(wc -l < "$bench_csv")" -gt 1
+cat "$bench_csv"
+
 echo "InterSpec P7c: yaml/libyaml structured scalar boundary passed in RLBox NaCl"
 echo "InterSpec P7c: all synthetic, baseline, and three generalization boundaries passed together"
+echo "InterSpec P8: paired real-boundary pointer-validation measurements written to $bench_csv"
