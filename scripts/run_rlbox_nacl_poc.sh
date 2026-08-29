@@ -43,10 +43,12 @@ git()
 }
 
 # The integration recipe predates the explicit non-JIT PCRE configuration and
-# listed pcre_jit_compile.c unconditionally. That source embeds SLJIT directly;
-# it is neither built nor required when PCRE_SUPPORT_JIT=OFF. Produce a temporary
-# copy of the otherwise stable recipe with exactly those two CMake-list entries
-# removed (source list + per-source compile-definition list).
+# lists pcre_jit_compile.c unconditionally in the NaCl source list. That source
+# embeds SLJIT directly; it is neither built nor required when
+# PCRE_SUPPORT_JIT=OFF. Produce a temporary copy of the otherwise stable recipe
+# with exactly that source-list entry removed. Keeping an exact-count guard
+# makes an upstream recipe-shape change fail rather than silently patching the
+# wrong text.
 filtered_impl=$(mktemp "${TMPDIR:-/tmp}/interspec-rlbox-nacl-impl.XXXXXX")
 trap 'rm -f "$filtered_impl"' EXIT
 python3 - "$impl" "$filtered_impl" <<'PY'
@@ -56,8 +58,8 @@ import sys
 source = Path(sys.argv[1]).read_text()
 needle = '    "               ${CMAKE_SOURCE_DIR}/pcre-src/pcre_jit_compile.c\\n"\n'
 count = source.count(needle)
-if count != 2:
-    raise SystemExit(f"expected exactly two PCRE JIT source-list entries, found {count}")
+if count != 1:
+    raise SystemExit(f"expected exactly one PCRE JIT source-list entry, found {count}")
 Path(sys.argv[2]).write_text(source.replace(needle, ""))
 PY
 
