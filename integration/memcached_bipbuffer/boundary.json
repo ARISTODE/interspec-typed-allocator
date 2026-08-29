@@ -5,7 +5,8 @@
   "helper_sites": [
     {
       "name": "input_copy",
-      "type": "char"
+      "type": "char",
+      "role": "adversarial"
     }
   ]
 }
