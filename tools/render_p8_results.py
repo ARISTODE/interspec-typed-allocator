@@ -19,8 +19,20 @@ def num(value, digits=2):
     return f"{float(value):.{digits}f}"
 
 
+def selected_runtime_rows(rows):
+    populations = {1, 256, 4096, 16384}
+    selected = []
+    for row in rows:
+        if row["metric"] not in {"check_live", "remaining_bytes"}:
+            continue
+        if int(row["threads"]) != 1 or int(row["population"]) not in populations:
+            continue
+        selected.append(row)
+    return sorted(selected, key=lambda r: (int(r["population"]), r["metric"]))
+
+
 def render(deterministic, automation_rows, boundary_rows, app_rows,
-           reference_commit, environment_note):
+           reference_commit, environment_note, runtime_rows=None):
     sec = deterministic["security"]
     auto = deterministic["automation"]
 
@@ -74,8 +86,34 @@ def render(deterministic, automation_rows, boundary_rows, app_rows,
         "The explicit helpers for PCRE and libyaml correspond to real allocator abstractions "
         "(`pcre_malloc` and `YAML_MALLOC`) rather than direct `malloc` syntax. They are reported "
         "as explicit policy rather than being counted as source-derived direct-allocation inference.",
+    ]
+
+    if runtime_rows:
+        lines += [
+            "",
+            "## 3. Trusted metadata runtime cost",
+            "",
+            "The low-level runtime benchmark measures trusted metadata operations without a sandbox crossing. "
+            "The selected rows below show how containing-allocation lookup scales with the number of live allocations.",
+            "",
+            "| Live allocations | Operation | ns/op |",
+            "| ---: | --- | ---: |",
+        ]
+        for row in selected_runtime_rows(runtime_rows):
+            lines.append(
+                f"| {row['population']} | {row['metric']} | {num(row['ns_per_op'])} |"
+            )
+        boundary_section = "## 4. Incremental validation cost at real boundaries"
+        app_section = "## 5. Complete rsync paired measurement"
+        interpretation_section = "## 6. Interpretation and limitations"
+    else:
+        boundary_section = "## 3. Incremental validation cost at real boundaries"
+        app_section = "## 4. Complete rsync paired measurement"
+        interpretation_section = "## 5. Interpretation and limitations"
+
+    lines += [
         "",
-        "## 3. Incremental validation cost at real boundaries",
+        boundary_section,
         "",
         "These measurements keep the real U object, sandbox, typed allocation/provenance, and copy "
         "behavior fixed. `tracked_no_check` bypasses only the final T-side Extended-SP3 acceptance "
@@ -96,7 +134,7 @@ def render(deterministic, automation_rows, boundary_rows, app_rows,
 
     lines += [
         "",
-        "## 4. Complete rsync paired measurement",
+        app_section,
         "",
         "The complete pinned rsync executable is rebuilt twice from the same object files and linked "
         "against the same NaCl module. The measurement-only variant changes only the final trusted "
@@ -115,13 +153,13 @@ def render(deterministic, automation_rows, boundary_rows, app_rows,
 
     lines += [
         "",
-        "## 5. Interpretation and limitations",
+        interpretation_section,
         "",
         "P8 separates three performance questions rather than collapsing them into one number: "
-        "P6 characterizes trusted metadata operations, the real-boundary benchmark isolates final "
-        "pointer-validation cost, and the complete-rsync pair measures that validation change at the "
-        "application level. None of these is a total RLBox-only-versus-Extended-SP3 comparison because "
-        "typed allocation/provenance remains enabled in the paired baseline.",
+        "the runtime benchmark characterizes trusted metadata operations, the real-boundary benchmark "
+        "isolates final pointer-validation cost, and the complete-rsync pair measures that validation "
+        "change at the application level. None of these is a total RLBox-only-versus-Extended-SP3 "
+        "comparison because typed allocation/provenance remains enabled in the paired baseline.",
         "",
         "The security claim remains limited to liveness, expected trusted allocation type, and spatial "
         "containment of the requested extent. It does not establish general CFI, U object-content "
@@ -136,6 +174,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--deterministic", required=True)
     parser.add_argument("--automation", required=True)
+    parser.add_argument("--runtime", required=True)
     parser.add_argument("--boundary-summary", required=True)
     parser.add_argument("--application-summary", required=True)
     parser.add_argument("--commit", required=True)
@@ -151,6 +190,7 @@ def main():
         read_csv(args.application_summary),
         args.commit,
         Path(args.environment).read_text(),
+        read_csv(args.runtime),
     )
     Path(args.output).write_text(text + "\n")
 
