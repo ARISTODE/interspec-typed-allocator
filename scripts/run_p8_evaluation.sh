@@ -18,7 +18,6 @@ mkdir -p "$out/runtime-runs"
 cmake -S "$root" -B "$build" -DCMAKE_BUILD_TYPE=Release
 cmake --build "$build" --parallel
 ctest --test-dir "$build" --output-on-failure | tee "$out/ctest.txt"
-
 "$build/p6_security_eval" | tee "$out/security.csv"
 
 runtime_inputs=()
@@ -27,41 +26,52 @@ for ((i = 1; i <= repetitions; ++i)); do
   INTERSPEC_BENCH_ITERATIONS="$iterations" "$build/p6_runtime_bench" > "$run"
   runtime_inputs+=("$run")
 done
-python3 "$root/tools/p8_aggregate_runtime.py" \
-  --output "$out/runtime.csv" \
-  "${runtime_inputs[@]}"
-
-python3 "$root/tools/p7c_report.py" --require-complete \
-  > "$out/p7c-generalization.json"
+python3 "$root/tools/p8_aggregate_runtime.py" --output "$out/runtime.csv" "${runtime_inputs[@]}"
+python3 "$root/tools/p7c_report.py" --require-complete > "$out/p7c-generalization.json"
 
 boundary_evidence=""
+rlbox_runtime=""
 if [[ "${INTERSPEC_P8_RUN_RLBOX:-0}" == "1" ]]; then
   boundary_evidence="$out/boundary-security-evidence.csv"
-  bash "$root/scripts/run_rlbox_nacl_poc.sh" \
-    > "$out/rlbox-base.log" 2>&1
+  rlbox_runtime="$out/rlbox-runtime.csv"
+  bash "$root/scripts/run_rlbox_nacl_poc.sh" > "$out/rlbox-base.log" 2>&1
   INTERSPEC_P8_BOUNDARY_EVIDENCE="$boundary_evidence" \
+  INTERSPEC_P8_RLBOX_RUNTIME="$rlbox_runtime" \
+  INTERSPEC_P8_REPETITIONS="$repetitions" \
+  INTERSPEC_BENCH_ITERATIONS="$iterations" \
     bash "$root/scripts/run_yaml_libyaml_rlbox_extension.sh" \
     > "$out/rlbox-combined.log" 2>&1
-elif [[ -n "${INTERSPEC_P8_BOUNDARY_EVIDENCE:-}" ]]; then
-  boundary_evidence="$out/boundary-security-evidence.csv"
-  cp "$INTERSPEC_P8_BOUNDARY_EVIDENCE" "$boundary_evidence"
+else
+  if [[ -n "${INTERSPEC_P8_BOUNDARY_EVIDENCE:-}" ]]; then
+    boundary_evidence="$out/boundary-security-evidence.csv"
+    cp "$INTERSPEC_P8_BOUNDARY_EVIDENCE" "$boundary_evidence"
+  fi
+  if [[ -n "${INTERSPEC_P8_RLBOX_RUNTIME:-}" ]]; then
+    rlbox_runtime="$out/rlbox-runtime.csv"
+    cp "$INTERSPEC_P8_RLBOX_RUNTIME" "$rlbox_runtime"
+  fi
 fi
 
-collector=(
-  python3 "$root/tools/p8_collect.py"
+collector=(python3 "$root/tools/p8_collect.py"
   --security "$out/security.csv"
   --runtime "$out/runtime.csv"
-  --out-dir "$out"
-)
-if [[ -n "$boundary_evidence" ]]; then
-  collector+=(--boundary-security "$boundary_evidence")
-fi
+  --out-dir "$out")
+[[ -n "$boundary_evidence" ]] && collector+=(--boundary-security "$boundary_evidence")
+[[ -n "$rlbox_runtime" ]] && collector+=(--rlbox-runtime "$rlbox_runtime")
+
 if [[ "${INTERSPEC_P8_REQUIRE_BOUNDARY_EVIDENCE:-0}" == "1" ]]; then
   if [[ -z "$boundary_evidence" ]]; then
     echo "P8 boundary evidence was required but not supplied/generated" >&2
     exit 3
   fi
   collector+=(--require-boundary-evidence)
+fi
+if [[ "${INTERSPEC_P8_REQUIRE_RLBOX_RUNTIME:-0}" == "1" ]]; then
+  if [[ -z "$rlbox_runtime" ]]; then
+    echo "P8 matched RLBox runtime evidence was required but not supplied/generated" >&2
+    exit 4
+  fi
+  collector+=(--require-rlbox-runtime)
 fi
 "${collector[@]}"
 
@@ -80,6 +90,7 @@ mem_kb=$(awk '/MemTotal/ {print $2; exit}' /proc/meminfo 2>/dev/null || true)
   echo "iterations=$iterations"
   echo "runtime_repetitions=$repetitions"
   echo "boundary_evidence=$([[ -n "$boundary_evidence" ]] && echo rlbox_nacl || echo manifest_only)"
+  echo "rlbox_runtime_evidence=$([[ -n "$rlbox_runtime" ]] && echo matched_backend || echo absent)"
   echo "utc_generated=$(date -u +%Y-%m-%dT%H:%M:%SZ)"
 } > "$out/environment.txt"
 
