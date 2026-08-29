@@ -79,15 +79,19 @@ def render(deterministic, automation_rows, boundary_rows, app_rows,
         "",
         "These measurements keep the real U object, sandbox, typed allocation/provenance, and copy "
         "behavior fixed. `tracked_no_check` bypasses only the final T-side Extended-SP3 acceptance "
-        "check. Thus the overhead is **incremental validation overhead**, not total overhead over plain RLBox.",
+        "check. Thus the overhead is **incremental validation overhead**, not total overhead over plain RLBox. "
+        "Because the no-check operation itself is only a few nanoseconds, percentage changes can look "
+        "large; the absolute added nanoseconds are therefore shown explicitly.",
         "",
-        "| Boundary | Baseline median (ns) | Extended SP3 median (ns) | Paired median overhead |",
-        "| --- | ---: | ---: | ---: |",
+        "| Boundary | Baseline median (ns) | Extended SP3 median (ns) | Added median time (ns) | Paired median overhead |",
+        "| --- | ---: | ---: | ---: | ---: |",
     ]
     for row in boundary_rows:
+        baseline = float(row['baseline_median_ns'])
+        extended = float(row['extended_median_ns'])
         lines.append(
-            f"| {row['boundary']} | {num(row['baseline_median_ns'])} | "
-            f"{num(row['extended_median_ns'])} | {pct(row['paired_overhead_median_pct'])} |"
+            f"| {row['boundary']} | {num(baseline)} | {num(extended)} | "
+            f"{num(extended - baseline)} | {pct(row['paired_overhead_median_pct'])} |"
         )
 
     lines += [
@@ -98,13 +102,15 @@ def render(deterministic, automation_rows, boundary_rows, app_rows,
         "against the same NaCl module. The measurement-only variant changes only the final trusted "
         "pointer validation in the popt bridge.",
         "",
-        "| Workload | Baseline median (ms) | Extended SP3 median (ms) | Paired median overhead |",
-        "| --- | ---: | ---: | ---: |",
+        "| Workload | Baseline median (ms) | Extended SP3 median (ms) | Median-time delta (ms) | Paired median overhead |",
+        "| --- | ---: | ---: | ---: | ---: |",
     ]
     for row in app_rows:
+        baseline = float(row['baseline_median_ms'])
+        extended = float(row['extended_median_ms'])
         lines.append(
-            f"| {row['workload']} | {num(row['baseline_median_ms'], 3)} | "
-            f"{num(row['extended_median_ms'], 3)} | {pct(row['paired_overhead_median_pct'])} |"
+            f"| {row['workload']} | {num(baseline, 3)} | {num(extended, 3)} | "
+            f"{num(extended - baseline, 3)} | {pct(row['paired_overhead_median_pct'])} |"
         )
 
     lines += [
