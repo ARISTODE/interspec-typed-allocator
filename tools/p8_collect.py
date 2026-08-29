@@ -56,16 +56,25 @@ def collect_automation(root, p7c_manifest):
         allocations = policy.get("allocations", [])
         uses = policy.get("uses", [])
         helpers = boundary.get("helper_sites", [])
-        integration_helpers = [h for h in helpers if h.get("role", "integration") == "integration"]
-        adversarial_helpers = [h for h in helpers if h.get("role", "integration") == "adversarial"]
-        unknown_roles = sorted({h.get("role", "integration") for h in helpers} - {"integration", "adversarial"})
+        integration_helpers = [
+            h for h in helpers if h.get("role", "integration") == "integration"
+        ]
+        adversarial_helpers = [
+            h for h in helpers if h.get("role", "integration") == "adversarial"
+        ]
+        unknown_roles = sorted(
+            {h.get("role", "integration") for h in helpers}
+            - {"integration", "adversarial"}
+        )
         if unknown_roles:
             raise ValueError(f"{entry['name']}: unknown helper roles: {unknown_roles}")
+
         precise = [a for a in allocations if "site" in a]
         dynamic_uses = [u for u in uses if u.get("dynamic_bytes")]
         use_evidence = entry.get("trusted_use_evidence")
         if use_evidence not in {"real_application_source", "analysis_adapter"}:
             raise ValueError(f"{entry['name']}: missing/invalid trusted_use_evidence")
+
         production_sites = len(allocations) + len(integration_helpers)
         source_fraction = len(allocations) / production_sites if production_sites else 0.0
         rows.append({
@@ -84,6 +93,7 @@ def collect_automation(root, p7c_manifest):
             "trusted_use_source": entry.get("trusted_use_source", ""),
             "allocation_evidence": entry.get("allocation_evidence", ""),
         })
+
         totals["source_allocation_sites"] += len(allocations)
         totals["precise_source_allocation_sites"] += len(precise)
         totals["integration_helper_sites"] += len(integration_helpers)
@@ -93,9 +103,12 @@ def collect_automation(root, p7c_manifest):
             totals["real_application_use_policies"] += len(uses)
         else:
             totals["analysis_adapter_use_policies"] += len(uses)
+
     production = totals["source_allocation_sites"] + totals["integration_helper_sites"]
     totals["production_allocation_sites"] = production
-    totals["source_allocation_fraction"] = totals["source_allocation_sites"] / production if production else 0.0
+    totals["source_allocation_fraction"] = (
+        totals["source_allocation_sites"] / production if production else 0.0
+    )
     return rows, totals
 
 
@@ -108,15 +121,27 @@ def collect_runtime_security(rows, required_cases):
         row = by_case[case]
         if row.get("result") != "pass":
             raise ValueError(f"runtime security case failed: {case}")
-        result_rows.append({"case": case, "expected": row.get("expected", ""),
-                            "actual": row.get("actual", ""), "result": "pass"})
+        result_rows.append({
+            "case": case,
+            "expected": row.get("expected", ""),
+            "actual": row.get("actual", ""),
+            "result": "pass",
+        })
     return result_rows
 
 
 def collect_boundary_security(p7c_manifest, requirements, evidence_rows, require_evidence):
-    declared = {entry["name"]: set(entry.get("adversarial", [])) for entry in p7c_manifest["boundaries"]}
-    evidence = {(row.get("boundary", ""), row.get("case", "")): row.get("result", "")
-                for row in evidence_rows}
+    declared = {
+        entry["name"]: set(entry.get("adversarial", []))
+        for entry in p7c_manifest["boundaries"]
+    }
+    evidence = {}
+    for row in evidence_rows:
+        key = (row.get("boundary", ""), row.get("case", ""))
+        if key in evidence:
+            raise ValueError(f"duplicate boundary security evidence: {key}")
+        evidence[key] = row
+
     rows = []
     for boundary, cases in requirements.items():
         if boundary not in declared:
@@ -124,12 +149,48 @@ def collect_boundary_security(p7c_manifest, requirements, evidence_rows, require
         for case in cases:
             if case not in declared[boundary]:
                 raise ValueError(f"{boundary}: required attack not declared: {case}")
-            actual = evidence.get((boundary, case))
-            if require_evidence and actual != "pass":
-                raise ValueError(f"{boundary}: missing passing RLBox evidence for {case}")
-            rows.append({"boundary": boundary, "case": case, "expected": "reject",
-                         "result": actual if actual is not None else "declared",
-                         "evidence": "rlbox_nacl_regression" if actual is not None else "manifest_declaration"})
+
+            evidence_row = evidence.get((boundary, case))
+            if require_evidence and evidence_row is None:
+                raise ValueError(f"{boundary}: missing RLBox evidence for {case}")
+
+            if evidence_row is None:
+                rows.append({
+                    "boundary": boundary,
+                    "case": case,
+                    "domain_baseline": "not_measured",
+                    "extended_result": "not_measured",
+                    "expected": "domain_accept_extended_reject",
+                    "result": "declared",
+                    "evidence": "manifest_declaration",
+                })
+                continue
+
+            domain_baseline = evidence_row.get("domain_baseline", "")
+            extended_result = evidence_row.get("extended_result", "")
+            result = evidence_row.get("result", "")
+            if domain_baseline != "accept":
+                raise ValueError(
+                    f"{boundary}: original domain baseline did not accept {case}: "
+                    f"{domain_baseline!r}"
+                )
+            if extended_result != case:
+                raise ValueError(
+                    f"{boundary}: Extended-SP3 result mismatch for {case}: "
+                    f"{extended_result!r}"
+                )
+            if result != "pass":
+                raise ValueError(f"{boundary}: boundary evidence failed for {case}")
+
+            rows.append({
+                "boundary": boundary,
+                "case": case,
+                "domain_baseline": domain_baseline,
+                "extended_result": extended_result,
+                "expected": "domain_accept_extended_reject",
+                "result": "pass",
+                "evidence": "rlbox_nacl_regression",
+            })
     return rows
 
 
@@ -163,9 +224,12 @@ def collect_runtime_overhead(runtime_rows, pairs, populations):
             if baseline <= 0:
                 raise ValueError(f"zero runtime baseline for {pair['name']} at {population}")
             rows.append({
-                "comparison": pair["name"], "population": population,
-                "baseline_metric": pair["baseline_metric"], "extended_metric": pair["extended_metric"],
-                "baseline_ns_per_op": f"{baseline:.6f}", "extended_ns_per_op": f"{extended:.6f}",
+                "comparison": pair["name"],
+                "population": population,
+                "baseline_metric": pair["baseline_metric"],
+                "extended_metric": pair["extended_metric"],
+                "baseline_ns_per_op": f"{baseline:.6f}",
+                "extended_ns_per_op": f"{extended:.6f}",
                 "additional_ns_per_op": f"{extended - baseline:.6f}",
                 "extended_over_baseline": f"{extended / baseline:.6f}",
             })
@@ -180,21 +244,30 @@ def collect_rlbox_overhead(rows, pair, populations):
             raise ValueError(f"duplicate RLBox runtime row: {key}")
         samples = int(row["samples"])
         median = float(row["median_ns_per_op"])
-        if samples < 3 or median <= 0:
+        minimum = float(row["min_ns_per_op"])
+        maximum = float(row["max_ns_per_op"])
+        if samples < 3 or median <= 0 or minimum <= 0 or maximum < minimum:
             raise ValueError(f"invalid RLBox runtime row: {key}")
-        metrics[key] = {"median": median, "samples": samples,
-                        "min": float(row["min_ns_per_op"]), "max": float(row["max_ns_per_op"])}
+        metrics[key] = {
+            "median": median,
+            "samples": samples,
+            "min": minimum,
+            "max": maximum,
+        }
+
     result = []
     for population in populations:
-        bk = (pair["baseline_metric"], population)
-        ek = (pair["extended_metric"], population)
-        if bk not in metrics or ek not in metrics:
+        baseline_key = (pair["baseline_metric"], population)
+        extended_key = (pair["extended_metric"], population)
+        if baseline_key not in metrics or extended_key not in metrics:
             raise ValueError(f"missing matched RLBox runtime pair at population {population}")
-        baseline = metrics[bk]
-        extended = metrics[ek]
+        baseline = metrics[baseline_key]
+        extended = metrics[extended_key]
         result.append({
-            "comparison": pair["name"], "population": population,
-            "baseline_metric": pair["baseline_metric"], "extended_metric": pair["extended_metric"],
+            "comparison": pair["name"],
+            "population": population,
+            "baseline_metric": pair["baseline_metric"],
+            "extended_metric": pair["extended_metric"],
             "samples": min(baseline["samples"], extended["samples"]),
             "baseline_ns_per_op": f"{baseline['median']:.6f}",
             "extended_ns_per_op": f"{extended['median']:.6f}",
@@ -211,43 +284,79 @@ def collect_rlbox_overhead(rows, pair, populations):
 def render_table(lines, rows):
     for row in rows:
         lines.append(
-            f"| {row['comparison']} | {row['population']} | {float(row['baseline_ns_per_op']):.2f} | "
-            f"{float(row['extended_ns_per_op']):.2f} | {float(row['additional_ns_per_op']):.2f} | "
+            f"| {row['comparison']} | {row['population']} | "
+            f"{float(row['baseline_ns_per_op']):.2f} | "
+            f"{float(row['extended_ns_per_op']):.2f} | "
+            f"{float(row['additional_ns_per_op']):.2f} | "
             f"{float(row['extended_over_baseline']):.2f}× |"
         )
 
 
 def render_markdown(summary, automation_rows, primitive_rows, rlbox_rows, boundary_rows):
-    lines = ["# P8 Generated Results", "",
-             "This file is generated from machine-readable P8 inputs. Do not edit paper numbers here manually.", "",
-             "## Security", "",
-             f"Runtime security cases required/passed: **{summary['security']['runtime_cases_passed']} / {summary['security']['runtime_cases_required']}**.",
-             f"Boundary attack cases required/covered: **{summary['security']['boundary_cases_covered']} / {summary['security']['boundary_cases_required']}**.", "",
-             "| Boundary | Attack class | Evidence | Result |", "| --- | --- | --- | --- |"]
+    lines = [
+        "# P8 Generated Results",
+        "",
+        "This file is generated from machine-readable P8 inputs. Do not edit paper numbers here manually.",
+        "",
+        "## Security",
+        "",
+        f"Runtime security cases required/passed: **{summary['security']['runtime_cases_passed']} / {summary['security']['runtime_cases_required']}**.",
+        f"Boundary attack cases required/covered: **{summary['security']['boundary_cases_covered']} / {summary['security']['boundary_cases_required']}**.",
+        "",
+        "| Boundary | Attack class | Original domain SP3 | Extended SP3 | Result |",
+        "| --- | --- | --- | --- | --- |",
+    ]
     for row in boundary_rows:
-        lines.append(f"| {row['boundary']} | {row['case']} | {row['evidence']} | {row['result']} |")
-    lines += ["", "## Automation and generalization", "",
-              "| Boundary | Source allocation sites | Integration helper sites | Adversarial-only helper sites | Trusted uses | Use evidence |",
-              "| --- | ---: | ---: | ---: | ---: | --- |"]
+        lines.append(
+            f"| {row['boundary']} | {row['case']} | {row['domain_baseline']} | "
+            f"{row['extended_result']} | {row['result']} |"
+        )
+
+    lines += [
+        "",
+        "## Automation and generalization",
+        "",
+        "| Boundary | Source allocation sites | Integration helper sites | Adversarial-only helper sites | Trusted uses | Use evidence |",
+        "| --- | ---: | ---: | ---: | ---: | --- |",
+    ]
     for row in automation_rows:
-        lines.append(f"| {row['boundary']} | {row['source_allocation_sites']} | {row['integration_helper_sites']} | {row['adversarial_helper_sites']} | {row['trusted_use_policies']} | {row['trusted_use_evidence']} |")
-    a = summary["automation"]
-    lines += ["",
-              f"Across production allocation policy, **{a['source_allocation_sites']}** sites are source-derived and **{a['integration_helper_sites']}** are explicit integration helpers. Attack-only helper sites (**{a['adversarial_helper_sites']}**) are excluded from that denominator.",
-              f"The source-derived allocation-site share is **{100.0 * a['source_allocation_fraction']:.1f}%** under this defined metric.",
-              f"Trusted-use policies: **{a['real_application_use_policies']}** from real application source and **{a['analysis_adapter_use_policies']}** from P7c analysis adapters.", ""]
+        lines.append(
+            f"| {row['boundary']} | {row['source_allocation_sites']} | "
+            f"{row['integration_helper_sites']} | {row['adversarial_helper_sites']} | "
+            f"{row['trusted_use_policies']} | {row['trusted_use_evidence']} |"
+        )
+
+    automation = summary["automation"]
+    lines += [
+        "",
+        f"Across production allocation policy, **{automation['source_allocation_sites']}** sites are source-derived and **{automation['integration_helper_sites']}** are explicit integration helpers. Attack-only helper sites (**{automation['adversarial_helper_sites']}**) are excluded from that denominator.",
+        f"The source-derived allocation-site share is **{100.0 * automation['source_allocation_fraction']:.1f}%** under this defined metric.",
+        f"Trusted-use policies: **{automation['real_application_use_policies']}** from real application source and **{automation['analysis_adapter_use_policies']}** from P7c analysis adapters.",
+        "",
+    ]
+
     if rlbox_rows:
-        lines += ["## Matched RLBox + NaCl domain baseline", "",
-                  "This table uses RLBox's actual `is_pointer_in_sandbox_memory()` predicate for both ends of the requested range, matching the backend operation used by original-SP3-style U-domain validation.", "",
-                  "| Comparison | Live allocations | RLBox domain range ns/op | Extended SP3 ns/op | Additional ns/op | Ratio |",
-                  "| --- | ---: | ---: | ---: | ---: | ---: |"]
+        lines += [
+            "## Matched RLBox + NaCl domain baseline",
+            "",
+            "This table uses RLBox's actual `is_pointer_in_sandbox_memory()` predicate for both ends of the requested range, matching the backend operation used by original-SP3-style U-domain validation.",
+            "",
+            "| Comparison | Live allocations | RLBox domain range ns/op | Extended SP3 ns/op | Additional ns/op | Ratio |",
+            "| --- | ---: | ---: | ---: | ---: | ---: |",
+        ]
         render_table(lines, rlbox_rows)
         lines.append("")
-    lines += ["## Idealized primitive decomposition", "",
-              "This lower-bound baseline is only raw U-domain/range arithmetic. It is retained to expose how much cost comes from metadata lookup, but the matched RLBox table above is the stronger backend comparison.", "",
-              "| Comparison | Live allocations | Primitive baseline ns/op | Extended ns/op | Additional ns/op | Ratio |",
-              "| --- | ---: | ---: | ---: | ---: | ---: |"]
+
+    lines += [
+        "## Idealized primitive decomposition",
+        "",
+        "This lower-bound baseline is only raw U-domain/range arithmetic. It is retained to expose how much cost comes from metadata lookup, but the matched RLBox table above is the stronger backend comparison.",
+        "",
+        "| Comparison | Live allocations | Primitive baseline ns/op | Extended ns/op | Additional ns/op | Ratio |",
+        "| --- | ---: | ---: | ---: | ---: | ---: |",
+    ]
     render_table(lines, primitive_rows)
+
     lines += ["", "## Preserved limitations", ""]
     for item in summary["limitations"]:
         lines.append(f"• {item['text']}")
@@ -275,16 +384,29 @@ def main():
     out.mkdir(parents=True, exist_ok=True)
 
     automation_rows, automation_totals = collect_automation(root, p7c_manifest)
-    runtime_security = collect_runtime_security(read_csv(args.security), manifest["required_runtime_security_cases"])
+    runtime_security = collect_runtime_security(
+        read_csv(args.security), manifest["required_runtime_security_cases"]
+    )
     boundary_evidence = read_csv(args.boundary_security) if args.boundary_security else []
-    boundary_security = collect_boundary_security(p7c_manifest, manifest["boundary_security_requirements"],
-                                                  boundary_evidence, args.require_boundary_evidence)
-    primitive_overhead = collect_runtime_overhead(read_csv(args.runtime), manifest["runtime_pairs"],
-                                                  manifest["required_runtime_populations"])
+    boundary_security = collect_boundary_security(
+        p7c_manifest,
+        manifest["boundary_security_requirements"],
+        boundary_evidence,
+        args.require_boundary_evidence,
+    )
+    primitive_overhead = collect_runtime_overhead(
+        read_csv(args.runtime),
+        manifest["runtime_pairs"],
+        manifest["required_runtime_populations"],
+    )
+
     rlbox_overhead = []
     if args.rlbox_runtime:
-        rlbox_overhead = collect_rlbox_overhead(read_csv(args.rlbox_runtime), manifest["rlbox_backend_pair"],
-                                                manifest["required_runtime_populations"])
+        rlbox_overhead = collect_rlbox_overhead(
+            read_csv(args.rlbox_runtime),
+            manifest["rlbox_backend_pair"],
+            manifest["required_runtime_populations"],
+        )
     elif args.require_rlbox_runtime:
         raise ValueError("matched RLBox runtime evidence is required")
 
@@ -294,23 +416,37 @@ def main():
             raise ValueError(f"unknown required limitation: {key}")
         limitations.append({"id": key, "text": LIMITATION_TEXT[key]})
 
-    boundary_required = sum(len(v) for v in manifest["boundary_security_requirements"].values())
-    boundary_covered = sum(1 for row in boundary_security if row["result"] == "pass")
+    boundary_required = sum(
+        len(cases) for cases in manifest["boundary_security_requirements"].values()
+    )
+    boundary_covered = sum(
+        1 for row in boundary_security
+        if row["result"] == "pass"
+        and row["domain_baseline"] == "accept"
+        and row["extended_result"] == row["case"]
+    )
+
     summary = {
-        "schema_version": 2,
+        "schema_version": 3,
         "security": {
             "runtime_cases_required": len(manifest["required_runtime_security_cases"]),
             "runtime_cases_passed": len(runtime_security),
             "boundary_cases_required": boundary_required,
             "boundary_cases_covered": boundary_covered,
+            "domain_accept_extended_reject_cases": boundary_covered,
             "boundary_evidence_required": args.require_boundary_evidence,
         },
         "automation": automation_totals,
         "runtime": {
             "primitive_paired_measurements": len(primitive_overhead),
             "matched_rlbox_measurements": len(rlbox_overhead),
-            "max_primitive_additional_ns_per_op": max(float(row["additional_ns_per_op"]) for row in primitive_overhead),
-            "max_rlbox_additional_ns_per_op": max((float(row["additional_ns_per_op"]) for row in rlbox_overhead), default=None),
+            "max_primitive_additional_ns_per_op": max(
+                float(row["additional_ns_per_op"]) for row in primitive_overhead
+            ),
+            "max_rlbox_additional_ns_per_op": max(
+                (float(row["additional_ns_per_op"]) for row in rlbox_overhead),
+                default=None,
+            ),
         },
         "limitations": limitations,
     }
@@ -321,9 +457,18 @@ def main():
     write_csv(out / "runtime-overhead.csv", list(primitive_overhead[0].keys()), primitive_overhead)
     if rlbox_overhead:
         write_csv(out / "rlbox-runtime-overhead.csv", list(rlbox_overhead[0].keys()), rlbox_overhead)
-    (out / "summary.json").write_text(json.dumps(summary, indent=2, sort_keys=True) + "\n")
-    (out / "summary.md").write_text(render_markdown(summary, automation_rows, primitive_overhead,
-                                                     rlbox_overhead, boundary_security))
+    (out / "summary.json").write_text(
+        json.dumps(summary, indent=2, sort_keys=True) + "\n"
+    )
+    (out / "summary.md").write_text(
+        render_markdown(
+            summary,
+            automation_rows,
+            primitive_overhead,
+            rlbox_overhead,
+            boundary_security,
+        )
+    )
 
 
 if __name__ == "__main__":
