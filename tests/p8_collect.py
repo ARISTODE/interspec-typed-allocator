@@ -10,6 +10,7 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
+from tools.p8_aggregate_runtime import aggregate
 from tools.p8_collect import (
     collect_automation,
     collect_boundary_security,
@@ -40,6 +41,23 @@ def runtime_rows():
                 "ops_per_sec": "1",
             })
     return rows
+
+
+def write_runtime(path, ns):
+    fields = ["metric", "population", "threads", "operations",
+              "total_ns", "ns_per_op", "ops_per_sec"]
+    with Path(path).open("w", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=fields)
+        writer.writeheader()
+        writer.writerow({
+            "metric": "check_live",
+            "population": 4096,
+            "threads": 1,
+            "operations": 100,
+            "total_ns": ns * 100,
+            "ns_per_op": ns,
+            "ops_per_sec": int(1e9 / ns),
+        })
 
 
 def main():
@@ -99,6 +117,20 @@ def main():
         raise AssertionError("missing paired measurement must reject P8 collection")
     except ValueError as error:
         assert "missing Extended-SP3 runtime row" in str(error)
+
+    with tempfile.TemporaryDirectory() as temp:
+        temp = Path(temp)
+        paths = []
+        for index, ns in enumerate((50, 30, 40), start=1):
+            path = temp / f"run-{index}.csv"
+            write_runtime(path, ns)
+            paths.append(path)
+        aggregated = aggregate(paths)
+        assert len(aggregated) == 1
+        assert float(aggregated[0]["ns_per_op"]) == 40.0
+        assert float(aggregated[0]["min_ns_per_op"]) == 30.0
+        assert float(aggregated[0]["max_ns_per_op"]) == 50.0
+        assert aggregated[0]["samples"] == 3
 
     print("P8 collection tests: ok")
 
