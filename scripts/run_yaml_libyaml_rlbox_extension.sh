@@ -14,10 +14,6 @@ rm -rf "$yaml_src"
 git clone -q https://github.com/yaml/libyaml.git "$yaml_src"
 git -C "$yaml_src" checkout -q 90a56d4500aa1a1798514c5cb55c3ad4cb095f94
 
-# libyaml normally generates this four-definition header during configure.
-# Put the same generated content in both configured include locations used by
-# our source-only CodeQL and NaCl builds so HAVE_CONFIG_H never depends on
-# include-order accidents.
 cat > "$yaml_src/include/config.h" <<'EOF'
 #define YAML_VERSION_MAJOR 0
 #define YAML_VERSION_MINOR 2
@@ -35,32 +31,21 @@ python3 "$root/tools/generate_boundary_policy.py" \
   --out-dir "$yaml_generated" \
   --namespace "interspec::yaml_libyaml_generated"
 
-# yaml_scalar_event_initialize() owns the scalar value stored in the structured
-# event. Patch only that first YAML_MALLOC(length+1) site; a later identical
-# allocation belongs to scalar document nodes and is intentionally left alone.
 python3 - "$yaml_generated/api.c" <<'PY'
 from pathlib import Path
 import sys
-
 path = Path(sys.argv[1])
 text = path.read_text()
-include_needle = '#include "yaml_private.h"\n'
-include_insert = (
-    include_needle
-    + '#include <stdint.h>\n'
-    + '#include "interspec_yaml_u_policy.h"\n'
-)
-assert include_needle in text
-text = text.replace(include_needle, include_insert, 1)
-
-alloc_needle = 'value_copy = YAML_MALLOC(length+1);'
-assert text.count(alloc_needle) >= 2
-alloc_replacement = '''INTERSPEC_SITE_SCALAR_VALUE_BEGIN();
+needle = '#include "yaml_private.h"\n'
+assert needle in text
+text = text.replace(needle, needle + '#include <stdint.h>\n#include "interspec_yaml_u_policy.h"\n', 1)
+alloc = 'value_copy = YAML_MALLOC(length+1);'
+assert text.count(alloc) >= 2
+replacement = '''INTERSPEC_SITE_SCALAR_VALUE_BEGIN();
     value_copy = (yaml_char_t *)(uintptr_t)
         INTERSPEC_SITE_ALLOC((uint32_t)(length + 1));
     INTERSPEC_SITE_SCALAR_VALUE_END();'''
-text = text.replace(alloc_needle, alloc_replacement, 1)
-path.write_text(text)
+path.write_text(text.replace(alloc, replacement, 1))
 PY
 
 cp "$yaml_generated/api.c" "$yaml_src/src/api.c"
@@ -69,17 +54,12 @@ cp "$yaml_generated/interspec_t_policy.h" "$work/test/interspec_yaml_t_policy.h"
 cp "$root/integration/yaml_libyaml/yaml_smoke.c" "$work/c_src/"
 cp "$root/integration/yaml_libyaml/yaml_libyaml.inc.cpp" "$work/test/"
 
-# Extend the already-built P7c NaCl module rather than rebuilding the complete
-# pinned NaCl toolchain a second time. The rebuilt test binary still contains
-# every prior boundary, so the final commands exercise all boundaries together.
 python3 - "$work" <<'PY'
 from pathlib import Path
 import sys
-
 repo = Path(sys.argv[1])
 cmake = repo / "c_src/CMakeLists.txt"
 text = cmake.read_text()
-
 source_needle = "               ${CMAKE_SOURCE_DIR}/pcre-src/pcre_xclass.c)"
 source_replacement = """               ${CMAKE_SOURCE_DIR}/pcre-src/pcre_xclass.c
                ${CMAKE_SOURCE_DIR}/yaml_smoke.c
@@ -93,15 +73,13 @@ source_replacement = """               ${CMAKE_SOURCE_DIR}/pcre-src/pcre_xclass.
                ${CMAKE_SOURCE_DIR}/libyaml-src/src/dumper.c)"""
 assert source_needle in text
 text = text.replace(source_needle, source_replacement, 1)
-
 include_needle = "  ${CMAKE_SOURCE_DIR}/pcre-src)"
 include_replacement = """  ${CMAKE_SOURCE_DIR}/pcre-src
   ${CMAKE_SOURCE_DIR}/libyaml-src/include
   ${CMAKE_SOURCE_DIR}/libyaml-src/src)"""
 assert include_needle in text
 text = text.replace(include_needle, include_replacement, 1)
-
-props = """
+text += """
 set_source_files_properties(
   ${CMAKE_SOURCE_DIR}/libyaml-src/src/api.c
   ${CMAKE_SOURCE_DIR}/libyaml-src/src/reader.c
@@ -113,23 +91,25 @@ set_source_files_properties(
   ${CMAKE_SOURCE_DIR}/libyaml-src/src/dumper.c
   PROPERTIES COMPILE_DEFINITIONS HAVE_CONFIG_H=1)
 """
-if "libyaml-src/src/api.c\n  PROPERTIES COMPILE_DEFINITIONS HAVE_CONFIG_H=1" not in text:
-    text += props
 cmake.write_text(text)
-
 test = repo / "test/test_nacl_sandbox_glue.cpp"
-test_text = test.read_text()
-include = '#include "yaml_libyaml.inc.cpp"\n'
-if include not in test_text:
-    test_text += "\n" + include
-test.write_text(test_text)
+t = test.read_text()
+inc = '#include "yaml_libyaml.inc.cpp"\n'
+if inc not in t:
+    t += "\n" + inc
+test.write_text(t)
 PY
 
 cmake -S "$work" -B "$work/build" -DCMAKE_BUILD_TYPE=Release
+# glue_lib_nacl is an OUTPUT-based custom target. Its .nexe outputs already
+# exist from the base P7c build, so changing c_src/CMakeLists.txt alone does not
+# rerun the nested NaCl configure/link step. Remove exactly those outputs to
+# invalidate the custom command while retaining the expensive NaCl runtime.
+rm -f "$work/build/nacl/glue_lib_nacl.nexe" \
+      "$work/build/nacl_gcc/glue_lib_nacl.nexe"
 cmake --build "$work/build" --target glue_lib_nacl --parallel 2
 cmake --build "$work/build" --target test_rlbox_glue --parallel 2
 
-# Re-run all Extended-SP3 boundary tests from the final combined binary.
 "$work/build/test_rlbox_glue" "[typed_allocator]"
 "$work/build/test_rlbox_glue" "[rsync_popt]"
 "$work/build/test_rlbox_glue" "[memcached_bipbuffer]"
