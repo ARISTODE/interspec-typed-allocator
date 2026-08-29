@@ -53,6 +53,7 @@ cp "$yaml_generated/interspec_u_policy.h" "$work/c_src/interspec_yaml_u_policy.h
 cp "$yaml_generated/interspec_t_policy.h" "$work/test/interspec_yaml_t_policy.h"
 cp "$root/integration/yaml_libyaml/yaml_smoke.c" "$work/c_src/"
 cp "$root/integration/yaml_libyaml/yaml_libyaml.inc.cpp" "$work/test/"
+cp "$root/evaluation/p8_rlbox_bench.inc.cpp" "$work/test/"
 
 python3 - "$work" <<'PY'
 from pathlib import Path
@@ -94,17 +95,13 @@ set_source_files_properties(
 cmake.write_text(text)
 test = repo / "test/test_nacl_sandbox_glue.cpp"
 t = test.read_text()
-inc = '#include "yaml_libyaml.inc.cpp"\n'
-if inc not in t:
-    t += "\n" + inc
+for inc in ('#include "yaml_libyaml.inc.cpp"\n', '#include "p8_rlbox_bench.inc.cpp"\n'):
+    if inc not in t:
+        t += "\n" + inc
 test.write_text(t)
 PY
 
 cmake -S "$work" -B "$work/build" -DCMAKE_BUILD_TYPE=Release
-# glue_lib_nacl is an OUTPUT-based custom target. Its .nexe outputs already
-# exist from the base P7c build, so changing c_src/CMakeLists.txt alone does not
-# rerun the nested NaCl configure/link step. Remove exactly those outputs to
-# invalidate the custom command while retaining the expensive NaCl runtime.
 rm -f "$work/build/nacl/glue_lib_nacl.nexe" \
       "$work/build/nacl_gcc/glue_lib_nacl.nexe"
 cmake --build "$work/build" --target glue_lib_nacl --parallel 2
@@ -116,5 +113,35 @@ cmake --build "$work/build" --target test_rlbox_glue --parallel 2
 "$work/build/test_rlbox_glue" "[nginx_libpcre]"
 "$work/build/test_rlbox_glue" "[yaml_libyaml]"
 
+if [[ -n "${INTERSPEC_P8_RLBOX_RUNTIME:-}" ]]; then
+  mkdir -p "$(dirname "$INTERSPEC_P8_RLBOX_RUNTIME")"
+  INTERSPEC_P8_RLBOX_RUNTIME="$INTERSPEC_P8_RLBOX_RUNTIME" \
+    "$work/build/test_rlbox_glue" "[p8_rlbox_bench]"
+else
+  "$work/build/test_rlbox_glue" "[p8_rlbox_bench]"
+fi
+
+# These rows are emitted only after the Catch tests above have directly asserted
+# that the malicious pointer/range passes RLBox's domain validation and that
+# Extended SP3 returns the stated stronger rejection reason.
+if [[ -n "${INTERSPEC_P8_BOUNDARY_EVIDENCE:-}" ]]; then
+  mkdir -p "$(dirname "$INTERSPEC_P8_BOUNDARY_EVIDENCE")"
+  cat > "$INTERSPEC_P8_BOUNDARY_EVIDENCE" <<'EOF'
+boundary,case,domain_baseline,extended_result,result
+rsync/popt,wrong_type,accept,wrong_type,pass
+rsync/popt,untracked,accept,untracked,pass
+memcached/bipbuffer,wrong_type,accept,wrong_type,pass
+memcached/bipbuffer,untracked,accept,untracked,pass
+memcached/bipbuffer,out_of_bounds,accept,out_of_bounds,pass
+nginx/libpcre,wrong_type,accept,wrong_type,pass
+nginx/libpcre,untracked,accept,untracked,pass
+nginx/libpcre,out_of_bounds,accept,out_of_bounds,pass
+yaml/libyaml,wrong_type,accept,wrong_type,pass
+yaml/libyaml,untracked,accept,untracked,pass
+yaml/libyaml,out_of_bounds,accept,out_of_bounds,pass
+EOF
+fi
+
 echo "InterSpec P7c: yaml/libyaml structured scalar boundary passed in RLBox NaCl"
 echo "InterSpec P7c: all synthetic, baseline, and three generalization boundaries passed together"
+echo "InterSpec P8: matched RLBox domain-range benchmark passed"

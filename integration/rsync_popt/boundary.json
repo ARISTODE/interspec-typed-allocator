@@ -2,7 +2,8 @@
   "helper_sites": [
     {
       "name": "popt_typed_strdup",
-      "type": "char"
+      "type": "char",
+      "role": "integration"
     }
   ]
 }

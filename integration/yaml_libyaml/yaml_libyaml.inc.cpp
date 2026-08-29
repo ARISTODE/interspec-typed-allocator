@@ -37,6 +37,15 @@ TEST_CASE("InterSpec libyaml structured scalar generalization", "[yaml_libyaml]"
   YamlSandbox sandbox;
   CreateSandbox(sandbox);
 
+  const auto domain_range_ok = [&](const void* ptr, size_t bytes) {
+    if (ptr == nullptr || bytes == 0) return false;
+    const uintptr_t start = reinterpret_cast<uintptr_t>(ptr);
+    if (start > std::numeric_limits<uintptr_t>::max() - (bytes - 1)) return false;
+    const void* end = reinterpret_cast<const void*>(start + bytes - 1);
+    return sandbox.is_pointer_in_sandbox_memory(ptr) &&
+           sandbox.is_pointer_in_sandbox_memory(end);
+  };
+
   const uint32_t arena_base =
     sandbox.get_sandbox_impl()->reserve_typed_arena(kArenaSize);
   REQUIRE(arena_base != 0);
@@ -62,11 +71,6 @@ TEST_CASE("InterSpec libyaml structured scalar generalization", "[yaml_libyaml]"
   REQUIRE(alloc_slot != std::numeric_limits<uint32_t>::max());
   sandbox.invoke_sandbox_function(interspec_yaml_init, alloc_slot);
 
-  /*
-   * The event object remains U-owned. T does not dereference its nested pointer
-   * fields directly; U exposes the scalar value and length, and T validates
-   * that returned range before copying it.
-   */
   auto event = sandbox.invoke_sandbox_function(interspec_yaml_make_scalar);
   REQUIRE(event.UNSAFE_unverified() != nullptr);
 
@@ -76,6 +80,7 @@ TEST_CASE("InterSpec libyaml structured scalar generalization", "[yaml_libyaml]"
     sandbox.invoke_sandbox_function(interspec_yaml_scalar_size)
       .UNSAFE_unverified();
   REQUIRE(value_bytes == sizeof("InterSpec-yaml") - 1);
+  REQUIRE(domain_range_ok(value.UNSAFE_unverified(), value_bytes));
 
   const uintptr_t value_addr = sandbox.get_sandbox_impl()->sandbox_address(
     value.UNSAFE_unverified());
@@ -98,6 +103,7 @@ TEST_CASE("InterSpec libyaml structured scalar generalization", "[yaml_libyaml]"
   const uint32_t wrong_bytes =
     sandbox.invoke_sandbox_function(interspec_yaml_scalar_size)
       .UNSAFE_unverified();
+  REQUIRE(domain_range_ok(wrong.UNSAFE_unverified(), wrong_bytes));
   const uintptr_t wrong_addr = sandbox.get_sandbox_impl()->sandbox_address(
     wrong.UNSAFE_unverified());
   REQUIRE(check_dynamic(runtime,
@@ -112,6 +118,7 @@ TEST_CASE("InterSpec libyaml structured scalar generalization", "[yaml_libyaml]"
   const uint32_t untracked_bytes =
     sandbox.invoke_sandbox_function(interspec_yaml_scalar_size)
       .UNSAFE_unverified();
+  REQUIRE(domain_range_ok(untracked.UNSAFE_unverified(), untracked_bytes));
   const uintptr_t untracked_addr = sandbox.get_sandbox_impl()->sandbox_address(
     untracked.UNSAFE_unverified());
   REQUIRE(check_dynamic(runtime,
@@ -126,6 +133,7 @@ TEST_CASE("InterSpec libyaml structured scalar generalization", "[yaml_libyaml]"
   const uint32_t oversized_bytes =
     sandbox.invoke_sandbox_function(interspec_yaml_scalar_size)
       .UNSAFE_unverified();
+  REQUIRE(domain_range_ok(oversized.UNSAFE_unverified(), oversized_bytes));
   const uintptr_t oversized_addr = sandbox.get_sandbox_impl()->sandbox_address(
     oversized.UNSAFE_unverified());
   REQUIRE(oversized_addr == value_addr);

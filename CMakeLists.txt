@@ -58,3 +58,5 @@ add_test(NAME p7c_report COMMAND ${Python3_EXECUTABLE}
   ${CMAKE_CURRENT_SOURCE_DIR}/tests/p7c_report.py)
 add_test(NAME p7c_report_complete COMMAND ${Python3_EXECUTABLE}
   ${CMAKE_CURRENT_SOURCE_DIR}/tools/p7c_report.py --require-complete)
+add_test(NAME p8_collect COMMAND ${Python3_EXECUTABLE}
+  ${CMAKE_CURRENT_SOURCE_DIR}/tests/p8_collect.py)

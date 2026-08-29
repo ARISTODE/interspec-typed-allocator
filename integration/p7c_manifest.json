@@ -1,5 +1,5 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "required_new_boundaries": 3,
   "required_pointer_shapes": [
     "interior_u_object",
@@ -15,6 +15,9 @@
       "policy": "integration/rsync_popt/policy.json",
       "boundary_policy": "integration/rsync_popt/boundary.json",
       "source_revision": "7c20b077c980036a19587701cec320cc88e42a4a",
+      "allocation_evidence": "real_library_source",
+      "trusted_use_evidence": "real_application_source",
+      "trusted_use_source": "rsync/options.c",
       "adversarial": ["wrong_type", "untracked"]
     },
     {
@@ -26,6 +29,9 @@
       "policy": "integration/nginx_libpcre/policy.json",
       "boundary_policy": "integration/nginx_libpcre/boundary.json",
       "source_revision": "e67dabe61b327bd2d888954b0e74a7c9cfd0a195",
+      "allocation_evidence": "real_library_source_with_allocator_abstraction_helper",
+      "trusted_use_evidence": "analysis_adapter",
+      "trusted_use_source": "integration/nginx_libpcre/interspec_trusted_uses.c",
       "adversarial": ["wrong_type", "untracked", "out_of_bounds"]
     },
     {
@@ -37,6 +43,9 @@
       "policy": "integration/yaml_libyaml/policy.json",
       "boundary_policy": "integration/yaml_libyaml/boundary.json",
       "source_revision": "90a56d4500aa1a1798514c5cb55c3ad4cb095f94",
+      "allocation_evidence": "real_library_source_with_allocator_abstraction_helper",
+      "trusted_use_evidence": "analysis_adapter",
+      "trusted_use_source": "integration/yaml_libyaml/interspec_trusted_uses.c",
       "adversarial": ["wrong_type", "untracked", "out_of_bounds"]
     },
     {
@@ -48,6 +57,9 @@
       "policy": "integration/memcached_bipbuffer/policy.json",
       "boundary_policy": "integration/memcached_bipbuffer/boundary.json",
       "source_revision": "2d51e364799bc9698bd4b11728ea978cea12da6e",
+      "allocation_evidence": "real_library_source",
+      "trusted_use_evidence": "analysis_adapter",
+      "trusted_use_source": "integration/memcached_bipbuffer/interspec_trusted_uses.c",
       "adversarial": ["wrong_type", "untracked", "out_of_bounds"]
     }
   ]

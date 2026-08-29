@@ -34,6 +34,33 @@ size_t iterations_from_env() {
   return parsed == 0 ? 200000 : static_cast<size_t>(parsed);
 }
 
+size_t arena_capacity(size_t population) {
+  return (population + 16) * 64;
+}
+
+/*
+ * P8 baseline for the security property already enforced by original SP3:
+ * validate only that [ptr, ptr + bytes) stays inside the allowed U domain.
+ *
+ * This deliberately knows nothing about allocation liveness, expected type,
+ * or the containing object's bound. It is an idealized domain/range primitive,
+ * not a timing claim for one particular RLBox helper implementation.
+ */
+bool domain_only_check(uintptr_t ptr, size_t bytes, size_t capacity) {
+  if (ptr < kBase) return false;
+  const uintptr_t raw_offset = ptr - kBase;
+  if (raw_offset > capacity) return false;
+  const size_t offset = static_cast<size_t>(raw_offset);
+  return bytes <= capacity - offset;
+}
+
+size_t domain_only_remaining(uintptr_t ptr, size_t capacity) {
+  if (ptr < kBase) return 0;
+  const uintptr_t raw_offset = ptr - kBase;
+  if (raw_offset > capacity) return 0;
+  return capacity - static_cast<size_t>(raw_offset);
+}
+
 void print_result(const char* metric, size_t population, size_t threads,
                   uint64_t operations, uint64_t total_ns) {
   const double ns_per_op = operations == 0
@@ -51,8 +78,7 @@ void print_result(const char* metric, size_t population, size_t threads,
 
 std::unique_ptr<Runtime> make_runtime(size_t population,
                                       std::vector<uintptr_t>& objects) {
-  const size_t capacity = (population + 16) * 64;
-  auto runtime = std::make_unique<Runtime>(kBase, capacity);
+  auto runtime = std::make_unique<Runtime>(kBase, arena_capacity(population));
   if (!runtime->register_type(kItemId, kItem) ||
       !runtime->register_type(kOtherId, kOther)) {
     std::abort();
@@ -80,26 +106,60 @@ uint64_t measure(size_t iterations, Fn fn) {
 void benchmark_lookup(size_t population, size_t iterations) {
   std::vector<uintptr_t> objects;
   auto runtime = make_runtime(population, objects);
-  const uintptr_t target = objects.back();
+  const size_t capacity = arena_capacity(population);
+
+  /*
+   * The pointer value is intentionally volatile. Without this reload the
+   * compiler can prove that the pure domain-only predicate has the same result
+   * on every iteration and hoist it out of the loop, producing impossible
+   * sub-picosecond "costs". Both the baseline and Extended-SP3 measurements
+   * consume the same per-operation volatile pointer load so that load cost is
+   * paired rather than charged to only one side.
+   */
+  volatile uintptr_t target_source = objects.back();
+
+  const uint64_t domain_live_ns = measure(iterations, [&](size_t) {
+    const uintptr_t current = target_source;
+    return domain_only_check(current, 8, capacity) ? 1u : 0u;
+  });
+  print_result("domain_only_live", population, 1, iterations, domain_live_ns);
 
   const uint64_t check_ns = measure(iterations, [&](size_t) {
-    return runtime->check(target, 8, kItem) == CheckResult::ok ? 1u : 0u;
+    const uintptr_t current = target_source;
+    return runtime->check(current, 8, kItem) == CheckResult::ok ? 1u : 0u;
   });
   print_result("check_live", population, 1, iterations, check_ns);
 
+  const uint64_t domain_interior_ns = measure(iterations, [&](size_t) {
+    const uintptr_t current = target_source + 8;
+    return domain_only_check(current, 8, capacity) ? 1u : 0u;
+  });
+  print_result("domain_only_interior", population, 1, iterations,
+               domain_interior_ns);
+
   const uint64_t interior_ns = measure(iterations, [&](size_t) {
-    return runtime->check(target + 8, 8, kItem) == CheckResult::ok ? 1u : 0u;
+    const uintptr_t current = target_source + 8;
+    return runtime->check(current, 8, kItem) == CheckResult::ok ? 1u : 0u;
   });
   print_result("check_interior", population, 1, iterations, interior_ns);
 
   const uint64_t wrong_type_ns = measure(iterations, [&](size_t) {
-    return runtime->check(target, 8, kOther) == CheckResult::wrong_type ? 1u : 0u;
+    const uintptr_t current = target_source;
+    return runtime->check(current, 8, kOther) == CheckResult::wrong_type ? 1u : 0u;
   });
   print_result("check_wrong_type", population, 1, iterations, wrong_type_ns);
 
   size_t remaining = 0;
+  const uint64_t domain_remaining_ns = measure(iterations, [&](size_t) {
+    const uintptr_t current = target_source + 8;
+    return domain_only_remaining(current, capacity);
+  });
+  print_result("domain_only_remaining", population, 1, iterations,
+               domain_remaining_ns);
+
   const uint64_t remaining_ns = measure(iterations, [&](size_t) {
-    return runtime->remaining_bytes(target + 8, kItem, remaining) ==
+    const uintptr_t current = target_source + 8;
+    return runtime->remaining_bytes(current, kItem, remaining) ==
                    CheckResult::ok
                ? remaining
                : 0u;
@@ -108,7 +168,7 @@ void benchmark_lookup(size_t population, size_t iterations) {
 }
 
 void benchmark_allocation(size_t population) {
-  Runtime runtime(kBase, (population + 16) * 64);
+  Runtime runtime(kBase, arena_capacity(population));
   if (!runtime.register_type(kItemId, kItem)) std::abort();
 
   const auto start = Clock::now();

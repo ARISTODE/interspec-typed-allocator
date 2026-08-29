@@ -37,6 +37,15 @@ TEST_CASE("InterSpec memcached bipbuffer generalization", "[memcached_bipbuffer]
   BipbufSandbox sandbox;
   CreateSandbox(sandbox);
 
+  const auto domain_range_ok = [&](const void* ptr, size_t bytes) {
+    if (ptr == nullptr || bytes == 0) return false;
+    const uintptr_t start = reinterpret_cast<uintptr_t>(ptr);
+    if (start > std::numeric_limits<uintptr_t>::max() - (bytes - 1)) return false;
+    const void* end = reinterpret_cast<const void*>(start + bytes - 1);
+    return sandbox.is_pointer_in_sandbox_memory(ptr) &&
+           sandbox.is_pointer_in_sandbox_memory(end);
+  };
+
   const uint32_t arena_base =
     sandbox.get_sandbox_impl()->reserve_typed_arena(kArenaSize);
   REQUIRE(arena_base != 0);
@@ -62,7 +71,6 @@ TEST_CASE("InterSpec memcached bipbuffer generalization", "[memcached_bipbuffer]
   REQUIRE(alloc_slot != std::numeric_limits<uint32_t>::max());
   sandbox.invoke_sandbox_function(interspec_bipbuf_init, alloc_slot);
 
-  /* Real bipbuf_new() is source-instrumented and owns the flexible data tail. */
   auto owner = sandbox.invoke_sandbox_function(interspec_bipbuf_make_and_fill);
   REQUIRE(owner.UNSAFE_unverified() != nullptr);
   REQUIRE(runtime.allocation_count() == 1);
@@ -77,10 +85,11 @@ TEST_CASE("InterSpec memcached bipbuffer generalization", "[memcached_bipbuffer]
   const uint32_t valid_len =
     sandbox.invoke_sandbox_function(interspec_bipbuf_last_size).UNSAFE_unverified();
   REQUIRE(valid_len == sizeof("InterSpec-bipbuffer"));
+  REQUIRE(domain_range_ok(valid.UNSAFE_unverified(), valid_len));
 
   const uintptr_t valid_addr = sandbox.get_sandbox_impl()->sandbox_address(
     valid.UNSAFE_unverified());
-  REQUIRE(valid_addr > owner_addr);  // the result is an interior data pointer
+  REQUIRE(valid_addr > owner_addr);
   const auto valid_access = checked_dynamic_access(
     runtime, valid_addr, valid_len, kUseBipbufPeekAllRange);
   REQUIRE(valid_access.result == interspec::CheckResult::ok);
@@ -92,21 +101,23 @@ TEST_CASE("InterSpec memcached bipbuffer generalization", "[memcached_bipbuffer]
   REQUIRE(std::strcmp(reinterpret_cast<const char*>(trusted.data()),
                       "InterSpec-bipbuffer") == 0);
 
-  /* Same U domain and tracked metadata, but a different trusted type. */
+  /* Original domain/range SP3 accepts this tracked same-domain range. */
   auto wrong = sandbox.invoke_sandbox_function(interspec_bipbuf_peek_wrong_type);
   REQUIRE(wrong.UNSAFE_unverified() != nullptr);
   const uint32_t wrong_len =
     sandbox.invoke_sandbox_function(interspec_bipbuf_last_size).UNSAFE_unverified();
+  REQUIRE(domain_range_ok(wrong.UNSAFE_unverified(), wrong_len));
   const uintptr_t wrong_addr = sandbox.get_sandbox_impl()->sandbox_address(
     wrong.UNSAFE_unverified());
   REQUIRE(check_dynamic(runtime, wrong_addr, wrong_len, kUseBipbufPeekAllRange) ==
           interspec::CheckResult::wrong_type);
 
-  /* Ordinary malloc is in U but is not a tracked Extended-SP3 object. */
+  /* Ordinary malloc is also in U and passes domain/range validation. */
   auto untracked = sandbox.invoke_sandbox_function(interspec_bipbuf_peek_untracked);
   REQUIRE(untracked.UNSAFE_unverified() != nullptr);
   const uint32_t untracked_len =
     sandbox.invoke_sandbox_function(interspec_bipbuf_last_size).UNSAFE_unverified();
+  REQUIRE(domain_range_ok(untracked.UNSAFE_unverified(), untracked_len));
   const uintptr_t untracked_addr = sandbox.get_sandbox_impl()->sandbox_address(
     untracked.UNSAFE_unverified());
   REQUIRE(check_dynamic(runtime,
@@ -115,12 +126,13 @@ TEST_CASE("InterSpec memcached bipbuffer generalization", "[memcached_bipbuffer]
                         kUseBipbufPeekAllRange) ==
           interspec::CheckResult::untracked);
 
-  /* Correct interior pointer, corrupted runtime length: spatial check rejects. */
+  /* Corrupted extent remains in sandbox memory but escapes the owning object. */
   auto oversized = sandbox.invoke_sandbox_function(
     interspec_bipbuf_peek_oversized, owner);
   REQUIRE(oversized.UNSAFE_unverified() != nullptr);
   const uint32_t oversized_len =
     sandbox.invoke_sandbox_function(interspec_bipbuf_last_size).UNSAFE_unverified();
+  REQUIRE(domain_range_ok(oversized.UNSAFE_unverified(), oversized_len));
   const uintptr_t oversized_addr = sandbox.get_sandbox_impl()->sandbox_address(
     oversized.UNSAFE_unverified());
   REQUIRE(oversized_addr == valid_addr);

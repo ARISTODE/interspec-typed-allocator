@@ -1,0 +1,50 @@
+{
+  "schema_version": 2,
+  "p7c_manifest": "integration/p7c_manifest.json",
+  "runtime_pairs": [
+    {
+      "name": "live_base_pointer",
+      "baseline_metric": "domain_only_live",
+      "extended_metric": "check_live"
+    },
+    {
+      "name": "live_interior_pointer",
+      "baseline_metric": "domain_only_interior",
+      "extended_metric": "check_interior"
+    },
+    {
+      "name": "remaining_extent_query",
+      "baseline_metric": "domain_only_remaining",
+      "extended_metric": "remaining_bytes"
+    }
+  ],
+  "rlbox_backend_pair": {
+    "name": "rlbox_nacl_domain_range",
+    "baseline_metric": "rlbox_domain_range",
+    "extended_metric": "extended_sp3"
+  },
+  "required_runtime_populations": [1, 16, 256, 4096, 16384],
+  "boundary_security_requirements": {
+    "rsync/popt": ["wrong_type", "untracked"],
+    "memcached/bipbuffer": ["wrong_type", "untracked", "out_of_bounds"],
+    "nginx/libpcre": ["wrong_type", "untracked", "out_of_bounds"],
+    "yaml/libyaml": ["wrong_type", "untracked", "out_of_bounds"]
+  },
+  "required_runtime_security_cases": [
+    "wrong_type",
+    "untracked_pointer",
+    "cross_allocation_bound",
+    "stale_after_free",
+    "stale_after_realloc",
+    "reject_unknown_typeid",
+    "reject_typehash_collision"
+  ],
+  "required_limitations": [
+    "no_general_cfi",
+    "u_object_contents_untrusted",
+    "no_physical_address_reuse",
+    "no_same_type_object_identity",
+    "abi_marshalling_application_specific",
+    "p7c_use_adapters_not_real_application_inference"
+  ]
+}

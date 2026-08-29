@@ -8,8 +8,9 @@ The implementation uses RLBox with the NaCl SFI backend. U may corrupt object by
 
 • Keep trusted allocation metadata separate from U-controlled object contents.
 • Never accept a TypeHash as data supplied by U.
-• Derive allocation instrumentation and T-side use checks from source analysis.
+• Derive allocation instrumentation and T-side use checks from source analysis where the source pattern is supported.
 • For precise source-derived policy, derive allocation type authority from the analyzed allocation instruction rather than a TypeId selected by U.
+• Represent unsupported allocator abstractions as explicit trusted boundary policy instead of labeling them automatic.
 • Keep generic InterSpec policy/runtime logic separate from NaCl-specific isolation mechanisms.
 • Keep application-specific API marshalling separate from Extended SP3 enforcement.
 
@@ -27,7 +28,7 @@ The installable CMake target is `interspec::runtime`. The public runtime interfa
 
 `analysis/ql/` contains CodeQL queries that infer allocation and trusted-use facts. `tools/codeql_policy_to_json.py` converts query results into policy JSON, and CI requires checked-in policy snapshots to match regenerated results.
 
-`tools/generate_policy.py` instruments precise source-selected U allocations and generates T-side type/site/use policy. `tools/generate_boundary_policy.py` composes that source-derived policy with explicitly declared boundary helper sites. P7c also supports runtime-sized uses through generated `checked_dynamic_access()` checks.
+`tools/generate_policy.py` instruments precise source-selected U allocations and generates T-side type/site/use policy. `tools/generate_boundary_policy.py` composes that source-derived policy with explicitly declared boundary helper sites and runtime-sized access policy.
 
 ```text
 U source + T source
@@ -55,7 +56,7 @@ NaCl-specific enforcement is packaged under `backends/rlbox_nacl/`. The manifest
 
 The baseline real integration uses bundled `popt` from pinned rsync revision `7c20b077c980036a19587701cec320cc88e42a4a`.
 
-CodeQL derives the real `poptGetContext` and `expandNextArg` allocation sites. The isolated test rejects a tracked wrong type and an untracked same-domain U pointer. The complete trusted rsync path interposes context-dependent popt APIs while the real bundled parser executes in NaCl.
+CodeQL derives the real `poptGetContext` and `expandNextArg` allocation sites and a trusted pointer use from real `rsync/options.c`. The isolated test rejects a tracked wrong type and an untracked same-domain U pointer. The complete trusted rsync path interposes context-dependent popt APIs while the real bundled parser executes in NaCl.
 
 The complete rsync acceptance path executes:
 
@@ -74,7 +75,7 @@ Released numerical addresses are not reused. Safe physical reuse would require a
 
 ## P6 evaluation and research preview
 
-`evaluation/security_eval.cpp` provides a machine-readable security matrix. `evaluation/runtime_bench.cpp` measures runtime costs over allocation-count and thread-count sweeps. The installable CMake package is validated by `examples/consumer/`.
+`evaluation/security_eval.cpp` provides a machine-readable security matrix. `evaluation/runtime_bench.cpp` sweeps allocation counts and trusted-reader thread counts. The installable CMake package is validated by `examples/consumer/`.
 
 ```bash
 bash scripts/run_p6_evaluation.sh
@@ -105,7 +106,7 @@ P7b introduces `interspec::PolicyRuntime` and composable boundary-policy generat
 
 ## P7c multi-boundary generalization
 
-P7c validates the same P7b mechanism on three additional real boundaries, selected to exercise different pointer shapes:
+P7c validates the same P7b mechanism on three additional real library boundaries selected to exercise different pointer shapes:
 
 • `memcached/bipbuffer`: a direct source-derived `bipbuf_new()` allocation and an interior `bipbuf_peek_all()` pointer validated with a runtime byte extent.
 
@@ -115,16 +116,52 @@ P7c validates the same P7b mechanism on three additional real boundaries, select
 
 All three run in the combined RLBox + NaCl test module together with the synthetic provenance tests and rsync/popt baseline. Each new boundary exercises valid behavior and rejects tracked wrong-type memory, untracked same-domain memory, and corrupted runtime extents where applicable.
 
-P7c also fixes a generalization issue discovered by the multi-policy test: helper-site assembly labels are now namespaced by generated policy, so multiple boundaries can safely use the same local helper name/SiteId in one NaCl module.
+P7c also fixes a generalization issue discovered by the multi-policy test: helper-site assembly labels are namespaced by generated policy, so multiple boundaries can safely use the same local helper name/SiteId in one NaCl module.
 
-`integration/p7c_manifest.json` and `tools/p7c_report.py` are the machine-readable generalization record. CI runs the report with `--require-complete`. The measured policy composition is documented in `P7C_RESULTS.md`: memcached has one precise source-derived allocation site; PCRE and libyaml each use explicit helper sites because their real allocation paths go through allocator abstractions rather than direct `malloc` syntax.
+The P7c trusted-use adapters for memcached, PCRE, and libyaml are representative T-side consumption shapes used to test enforcement generality. They are not claimed as automatic inference from those applications' original trusted source. `integration/p7c_manifest.json` records that evidence provenance explicitly.
 
-Detailed acceptance criteria and limitations are in `P7C_GENERALIZATION.md`.
+Detailed acceptance criteria and limitations are in `P7C_GENERALIZATION.md` and `P7C_RESULTS.md`.
+
+## P8 paper-quality evaluation
+
+P8 converts the implementation into one reproducible evidence package organized around four research questions: security effectiveness, automation/generalization, incremental enforcement cost, and claim/reproducibility boundaries.
+
+The evaluation deliberately separates three things that are easy to conflate:
+
+1. **Security mechanism evidence.** Runtime edge cases come from `evaluation/security_eval.cpp`; real-boundary attack evidence is emitted only after the combined RLBox + NaCl tests pass.
+
+2. **Automation evidence.** Source-derived allocation sites, explicit integration helper sites, and attack-only helper sites are counted separately. Trusted-use facts are labeled `real_application_source` or `analysis_adapter`.
+
+3. **Performance evidence.** `evaluation/runtime_bench.cpp` now pairs an original-SP3-style domain/range baseline with Extended SP3 for the same pointer/extent. The Extended check adds live allocation lookup, expected type, and containing-object bounds. Repeated runs are aggregated by median; every raw repetition is preserved.
+
+At the current four boundaries, production allocation policy contains three source-derived allocation sites and three explicit integration helper sites. Three additional helper sites exist only to construct adversarial wrong-type tests and are excluded from integration effort. Of the four trusted-use policies, rsync/popt is derived from real application source; the three P7c generalization uses are explicitly labeled analysis adapters.
+
+Run the lightweight P8 pipeline with:
+
+```bash
+INTERSPEC_P8_REPETITIONS=5 \
+INTERSPEC_BENCH_ITERATIONS=200000 \
+./scripts/run_p8_evaluation.sh p8-results
+```
+
+To require fresh RLBox + NaCl boundary evidence in a compatible environment:
+
+```bash
+INTERSPEC_P8_RUN_RLBOX=1 \
+INTERSPEC_P8_REQUIRE_BOUNDARY_EVIDENCE=1 \
+./scripts/run_p8_evaluation.sh p8-results
+```
+
+CI performs the expensive RLBox test once, uploads its boundary-security evidence, and makes the downstream `paper-evaluation` job require that evidence. The paper-facing outputs are `automation.csv`, `security-runtime.csv`, `security-boundaries.csv`, `runtime-overhead.csv`, `summary.json`, and generated `summary.md`, alongside every raw runtime repetition and environment metadata.
+
+P8 does not turn shared hosted-runner timing into a universal performance claim. Controlled paper measurements should be collected on a dedicated machine using the procedure in `REPRODUCIBILITY.md`.
+
+Detailed methodology and acceptance criteria are in `P8_EVALUATION.md`.
 
 ## Current security scope
 
 T reserves a dedicated read/write arena inside U's NaCl address space. U can access object bytes, but T owns the arena mapping and authoritative allocation metadata. Before trusted pointer consumption, T validates liveness, expected type, and spatial extent.
 
-For precise source-derived policy, U does not select the authoritative allocation type. Explicit helper allocation sites are trusted boundary policy and receive the same site-authenticated runtime metadata path.
+For precise source-derived policy, U does not select the authoritative allocation type. Explicit integration helper allocation sites are trusted boundary policy and receive the same site-authenticated runtime metadata path.
 
 The mechanism does not prove arbitrary parser-output integrity, general control-flow integrity, or temporal identity under physical address reuse. U-controlled object contents remain untrusted. It also does not prove intended-object identity among multiple simultaneously live allocations of the same trusted type; a check establishes containment in a live allocation of the expected trusted type and requested bounds. Arbitrary library ABI marshalling remains application-specific.

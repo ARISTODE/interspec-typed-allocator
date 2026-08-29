@@ -93,7 +93,10 @@ jobs:
             g++-multilib gawk git libpopt-dev python2 python3
       - uses: actions/checkout@v4
       - run: chmod +x ./scripts/run_rlbox_nacl_poc.sh ./scripts/run_yaml_libyaml_rlbox_extension.sh
-      - name: Run RLBox NaCl, P4c, and P7c integrations
+      - name: Run RLBox NaCl, P4c, P7c, and matched P8 baseline
+        env:
+          INTERSPEC_BENCH_ITERATIONS: 100000
+          INTERSPEC_P8_REPETITIONS: 5
         run: |
           log=/tmp/interspec-rlbox-nacl-ci.log
           if ! ./scripts/run_rlbox_nacl_poc.sh >"$log" 2>&1; then
@@ -104,13 +107,15 @@ jobs:
           tail -n 100 "$log"
 
           yaml_log=/tmp/interspec-yaml-libyaml-ci.log
-          if ! ./scripts/run_yaml_libyaml_rlbox_extension.sh >"$yaml_log" 2>&1; then
-            echo "P7c yaml/libyaml extension failed; final log follows"
+          if ! INTERSPEC_P8_BOUNDARY_EVIDENCE=/tmp/p8-boundary-security.csv \
+               INTERSPEC_P8_RLBOX_RUNTIME=/tmp/p8-rlbox-runtime.csv \
+               ./scripts/run_yaml_libyaml_rlbox_extension.sh >"$yaml_log" 2>&1; then
+            echo "P7c/P8 yaml + matched backend integration failed; final log follows"
             tail -n 300 "$yaml_log"
             exit 1
           fi
           tail -n 120 "$yaml_log"
-      - name: Upload P7c integration diagnostics
+      - name: Upload P7c/P8 integration diagnostics
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -119,3 +124,37 @@ jobs:
           path: |
             /tmp/interspec-rlbox-nacl-ci.log
             /tmp/interspec-yaml-libyaml-ci.log
+            /tmp/p8-boundary-security.csv
+            /tmp/p8-rlbox-runtime.csv
+      - name: Upload P8 RLBox evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: p8-rlbox-evidence
+          path: |
+            /tmp/p8-boundary-security.csv
+            /tmp/p8-rlbox-runtime.csv
+
+  paper-evaluation:
+    needs: rlbox-nacl
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download RLBox evidence
+        uses: actions/download-artifact@v4
+        with:
+          name: p8-rlbox-evidence
+          path: p8-input
+      - name: Run P8 paper evaluation
+        env:
+          INTERSPEC_BENCH_ITERATIONS: 100000
+          INTERSPEC_P8_REPETITIONS: 5
+          INTERSPEC_P8_BOUNDARY_EVIDENCE: p8-input/p8-boundary-security.csv
+          INTERSPEC_P8_RLBOX_RUNTIME: p8-input/p8-rlbox-runtime.csv
+          INTERSPEC_P8_REQUIRE_BOUNDARY_EVIDENCE: 1
+          INTERSPEC_P8_REQUIRE_RLBOX_RUNTIME: 1
+        run: bash ./scripts/run_p8_evaluation.sh p8-results
+      - name: Upload P8 paper evaluation results
+        uses: actions/upload-artifact@v4
+        with:
+          name: p8-paper-evaluation-results
+          path: p8-results

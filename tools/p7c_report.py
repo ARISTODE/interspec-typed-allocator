@@ -45,6 +45,14 @@ def boundary_metrics(root, entry):
     if boundary_path:
         boundary = load_json(root, boundary_path)
         helpers = boundary.get("helper_sites", [])
+    integration_helpers = [
+        helper for helper in helpers if helper.get("role", "integration") == "integration"
+    ]
+    adversarial_helpers = [
+        helper for helper in helpers if helper.get("role", "integration") == "adversarial"
+    ]
+    if len(integration_helpers) + len(adversarial_helpers) != len(helpers):
+        raise ValueError(f"{entry['name']}: unknown helper-site role")
 
     result.update({
         "complete": True,
@@ -56,8 +64,11 @@ def boundary_metrics(root, entry):
         ),
         "trusted_uses": len(uses),
         "helper_sites": len(helpers),
+        "integration_helper_sites": len(integration_helpers),
+        "adversarial_helper_sites": len(adversarial_helpers),
         "adversarial": entry.get("adversarial", []),
         "source_revision": entry["source_revision"],
+        "trusted_use_evidence": entry.get("trusted_use_evidence", "unspecified"),
     })
     return result
 
