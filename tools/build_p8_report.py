@@ -26,16 +26,10 @@ def load_security_csv(path):
 
 def write_automation_csv(path, boundaries):
     fields = [
-        "boundary",
-        "role",
-        "status",
-        "source_revision",
-        "inferred_allocation_sites",
-        "precise_source_allocation_sites",
-        "helper_sites",
-        "trusted_uses",
-        "pointer_shapes",
-        "adversarial",
+        "boundary", "role", "status", "source_revision",
+        "inferred_allocation_sites", "precise_source_allocation_sites",
+        "integration_helper_sites", "adversarial_helper_sites",
+        "trusted_uses", "pointer_shapes", "adversarial",
     ]
     with path.open("w", newline="") as output:
         writer = csv.DictWriter(output, fieldnames=fields)
@@ -47,9 +41,9 @@ def write_automation_csv(path, boundaries):
                 "status": boundary["status"],
                 "source_revision": boundary.get("source_revision", ""),
                 "inferred_allocation_sites": boundary.get("inferred_allocation_sites", 0),
-                "precise_source_allocation_sites": boundary.get(
-                    "precise_source_allocation_sites", 0),
-                "helper_sites": boundary.get("helper_sites", 0),
+                "precise_source_allocation_sites": boundary.get("precise_source_allocation_sites", 0),
+                "integration_helper_sites": boundary.get("integration_helper_sites", 0),
+                "adversarial_helper_sites": boundary.get("adversarial_helper_sites", 0),
                 "trusted_uses": boundary.get("trusted_uses", 0),
                 "pointer_shapes": ";".join(boundary.get("pointer_shapes", [])),
                 "adversarial": ";".join(boundary.get("adversarial", [])),
@@ -61,25 +55,23 @@ def build(root, security_csv, manifest_path):
     failed = [row["case"] for row in security if row["result"] != "pass"]
     manifest = json.loads(manifest_path.read_text())
     generalization = build_report(root, manifest)
-
     boundaries = generalization["boundaries"]
     real_boundaries = [b for b in boundaries if b["role"] in {"baseline", "p7c"}]
+
     missing_revision = [b["name"] for b in real_boundaries if not b.get("source_revision")]
     no_uses = [b["name"] for b in real_boundaries if b.get("trusted_uses", 0) < 1]
     no_adversarial = [b["name"] for b in real_boundaries if not b.get("adversarial")]
-
     deterministic_complete = (
-        not failed
-        and generalization["complete"]
-        and not missing_revision
-        and not no_uses
-        and not no_adversarial
+        not failed and generalization["complete"] and not missing_revision
+        and not no_uses and not no_adversarial
     )
 
     inferred = sum(b.get("inferred_allocation_sites", 0) for b in real_boundaries)
     precise = sum(b.get("precise_source_allocation_sites", 0) for b in real_boundaries)
-    helpers = sum(b.get("helper_sites", 0) for b in real_boundaries)
+    integration_helpers = sum(b.get("integration_helper_sites", 0) for b in real_boundaries)
+    adversarial_helpers = sum(b.get("adversarial_helper_sites", 0) for b in real_boundaries)
     uses = sum(b.get("trusted_uses", 0) for b in real_boundaries)
+    integration_allocation_policy = inferred + integration_helpers
 
     return {
         "schema_version": 1,
@@ -94,10 +86,12 @@ def build(root, security_csv, manifest_path):
             "boundary_count": len(real_boundaries),
             "inferred_allocation_sites": inferred,
             "precise_source_allocation_sites": precise,
-            "helper_sites": helpers,
+            "integration_helper_sites": integration_helpers,
+            "adversarial_helper_sites_excluded_from_automation": adversarial_helpers,
             "trusted_uses": uses,
-            "source_derived_fraction_of_allocation_policy": (
-                inferred / (inferred + helpers) if inferred + helpers else 0.0
+            "source_derived_fraction_of_integration_allocation_policy": (
+                inferred / integration_allocation_policy
+                if integration_allocation_policy else 0.0
             ),
         },
         "completion_failures": {
@@ -116,18 +110,16 @@ def main():
     parser.add_argument("--output-dir", required=True)
     parser.add_argument("--require-complete", action="store_true")
     args = parser.parse_args()
-
     root = Path(args.root).resolve() if args.root else ROOT
-    security_csv = Path(args.security_csv).resolve()
-    manifest_path = (root / args.manifest).resolve()
     out = Path(args.output_dir).resolve()
     out.mkdir(parents=True, exist_ok=True)
-
-    report = build(root, security_csv, manifest_path)
+    report = build(
+        root,
+        Path(args.security_csv).resolve(),
+        (root / args.manifest).resolve())
     (out / "p8-deterministic.json").write_text(
         json.dumps(report, indent=2, sort_keys=True) + "\n")
     write_automation_csv(out / "p8-automation.csv", report["generalization"]["boundaries"])
-
     if args.require_complete and not report["deterministic_complete"]:
         raise SystemExit(1)
 
