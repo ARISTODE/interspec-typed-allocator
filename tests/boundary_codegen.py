@@ -69,6 +69,24 @@ void* make_value(size_t n) {
     assert "interspec_alloc_site_typed_copy_2_begin" in u_header
     assert "interspec_alloc_site_typed_copy_2_end" in u_header
 
+    # Helper labels must contain one C-string newline escape.  A previous P7b
+    # implementation escaped exported_label_asm() twice, producing literal
+    # backslashes in the emitted assembly and failing the NaCl assembler.
+    expected_begin_asm = (
+        ".globl interspec_alloc_site_typed_copy_2_begin\\n"
+        ".type interspec_alloc_site_typed_copy_2_begin,@function\\n"
+        "interspec_alloc_site_typed_copy_2_begin:"
+    )
+    expected_end_asm = (
+        ".globl interspec_alloc_site_typed_copy_2_end\\n"
+        ".type interspec_alloc_site_typed_copy_2_end,@function\\n"
+        "interspec_alloc_site_typed_copy_2_end:"
+    )
+    assert expected_begin_asm in u_header
+    assert expected_end_asm in u_header
+    assert "typed_copy_2_begin\\\\n.type" not in u_header
+    assert "typed_copy_2_end\\\\n.type" not in u_header
+
     assert "kAllocationSiteCount = 1" in t_header
     assert "kHelperAllocationSiteCount = 1" in t_header
     assert "kTotalAllocationSiteCount" in t_header
