@@ -13,13 +13,23 @@ git -C "$yaml_src" checkout -q "$revision"
 cp "$root/integration/yaml_libyaml/interspec_trusted_uses.c" \
   "$yaml_src/interspec_trusted_uses.c"
 
+# libyaml normally generates config.h through CMake/autoconf. The policy build
+# compiles only the source needed by CodeQL, so reproduce the version-only
+# generated header from cmake/config.h.in directly.
+cat > "$yaml_src/src/config.h" <<'EOF'
+#define YAML_VERSION_MAJOR 0
+#define YAML_VERSION_MINOR 2
+#define YAML_VERSION_PATCH 5
+#define YAML_VERSION_STRING "0.2.5"
+EOF
+
 codeql pack install "$root/analysis/ql"
 
 cat > "$work/build.sh" <<EOF
 #!/usr/bin/env bash
 set -euo pipefail
 cd "$yaml_src"
-cc -std=c11 -Iinclude -Isrc -c src/api.c -o "$work/api.o"
+cc -std=c11 -DHAVE_CONFIG_H=1 -Iinclude -Isrc -c src/api.c -o "$work/api.o"
 cc -std=c11 -Iinclude -Isrc -c interspec_trusted_uses.c -o "$work/interspec_trusted_uses.o"
 EOF
 chmod +x "$work/build.sh"
