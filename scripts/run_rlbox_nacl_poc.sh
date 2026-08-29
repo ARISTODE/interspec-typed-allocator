@@ -37,6 +37,7 @@ cp "$generated/interspec_t_policy.h" "$work/test/"
 cp "$root/poc/typed_poc.inc.cpp" "$work/test/"
 mkdir -p "$work/test/interspec"
 cp "$root/include/interspec/runtime.h" "$work/test/interspec/"
+cp "$root/include/interspec/policy_runtime.h" "$work/test/interspec/"
 
 # P4/P7b: compile and execute the real bundled popt implementation used by
 # rsync. CodeQL-derived sites and boundary-helper sites are emitted through one
@@ -73,10 +74,6 @@ PY
 cp "$popt_generated/popt.c" "$rsync_src/popt/popt.c"
 cp "$popt_generated/interspec_u_policy.h" "$work/c_src/interspec_popt_u_policy.h"
 cp "$popt_generated/interspec_t_policy.h" "$work/test/interspec_popt_t_policy.h"
-# Transitional aliases remain until p4c_bridge.cpp is switched to the combined
-# generated register_allocation_policy() entry point.
-cp "$root/integration/rsync_popt/site_provenance.h" "$work/c_src/"
-cp "$root/integration/rsync_popt/site_provenance.h" "$work/test/"
 cp "$root/integration/rsync_popt/popt_typed_shim.c" "$work/c_src/"
 cp "$root/integration/rsync_popt/popt_smoke.c" "$work/c_src/"
 cp "$root/integration/rsync_popt/popt_help_stub.c" "$work/c_src/"
