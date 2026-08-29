@@ -8,39 +8,33 @@ P0 through P7c established the Extended-SP3 mechanism and showed that the same g
 
 Does Extended SP3 reject pointer corruptions that satisfy the original sandbox-domain check?
 
-The paper evidence separates the following classes:
-
-1. tracked pointer with the wrong trusted allocation type;
-2. same-domain pointer with no trusted allocation metadata;
-3. correct allocation/type paired with an extent that escapes the containing object;
-4. stale pointer after logical release/reallocation;
-5. allocation callback reached from an unauthorized instruction;
-6. TypeHash/TypeId misuse and collision cases already covered by P5/P6.
-
-Boundary-level evidence is drawn from the combined RLBox + NaCl regression. Runtime-level edge cases are drawn from the P6 security matrix. A passing P8 security result requires both layers.
+The evidence separates tracked wrong type, same-domain untracked pointers, containing-object bound violations, stale pointers, unauthorized allocation callback sites, and TypeId/TypeHash misuse. Boundary-level evidence comes from the combined RLBox + NaCl regression; runtime-level edge cases come from the P6 security matrix. A passing P8 result requires both layers.
 
 ### RQ2 — Automation and generalization
 
 How much security policy comes from source analysis, and how much requires explicit boundary knowledge?
 
-P8 reports four quantities separately instead of collapsing them into a single “automation percentage”:
+P8 reports four quantities separately:
 
 1. precise source-derived allocation sites;
-2. explicit integration helper sites required because the library allocation path uses an abstraction such as `pcre_malloc` or `YAML_MALLOC`;
+2. explicit integration helper sites required for allocator abstractions such as `pcre_malloc` or `YAML_MALLOC`;
 3. adversarial-only helper sites used solely to construct negative tests;
-4. trusted-use evidence derived from real application source versus a small analysis adapter.
+4. trusted-use evidence from real application source versus a small analysis adapter.
 
-This distinction prevents attack harness code from being counted as integration effort and prevents representative P7c use adapters from being described as automatic discovery in real application code.
+This prevents attack harness code from being counted as integration effort and prevents representative P7c adapters from being described as automatic discovery in real application code.
 
 ### RQ3 — Incremental enforcement cost
 
-What does Extended SP3 add beyond the original domain/range check?
+What does Extended SP3 add beyond domain/range validation?
 
-The trusted runtime benchmark measures the same live pointer and byte extent in two ways:
+P8 has two paired microbenchmark layers.
+
+**Primary backend comparison.** Inside the pinned RLBox + NaCl process, the same valid 8-byte range is checked using RLBox's actual `is_pointer_in_sandbox_memory()` predicate at both ends of the range and then using Extended SP3:
 
 ```text
-Original-SP3-style baseline:
-    pointer/extent lies in permitted U domain
+RLBox domain/range baseline:
+    begin pointer is in U memory
+    + end pointer is in U memory
 
 Extended SP3:
     live tracked allocation
@@ -48,48 +42,54 @@ Extended SP3:
     + requested extent within the containing object
 ```
 
-The primary primitive metric is `extended_ns / domain_only_ns` and the absolute additional nanoseconds per check. Measurements are swept over allocation populations so the ordered containing-allocation lookup cost is visible rather than hidden in one small configuration.
+Both sides reload the pointer from a volatile source on every operation so the compiler cannot hoist the pure domain predicate out of the loop. The benchmark repeats each measurement at least three times, uses the median, retains min/max and every evidence file, and sweeps 1, 16, 256, 4,096, and 16,384 live allocations.
 
-P8 does not conflate this primitive cost with RLBox transition and application-marshalling cost. End-to-end RLBox workloads remain part of the functional regression, while an application-level performance claim is made only when a matched baseline and repeated timing methodology are available.
+**Secondary primitive decomposition.** The ordinary runtime benchmark also compares Extended SP3 with an idealized arithmetic-only U-domain/range predicate. This is a lower bound used to expose metadata lookup cost; it is not presented as the measured cost of the RLBox backend.
+
+The paper-facing primitive metrics are absolute additional nanoseconds/check and the Extended/baseline ratio. Absolute cost is emphasized because the domain-only baseline is intentionally very cheap.
+
+P8 still does not conflate pointer-check cost with RLBox transitions or application-specific marshalling. The real rsync, bipbuffer, PCRE, and libyaml paths remain functional/security regressions. An end-to-end application performance claim requires a separate matched RLBox-only build and repeated workload timing.
 
 ### RQ4 — Reproducibility and claim boundaries
 
-Can another evaluator regenerate every reported table from the repository, and do the generated results preserve the system’s limitations?
+Can another evaluator regenerate every reported table from the repository, and do the generated results preserve the system's limitations?
 
-A single P8 driver produces machine-readable CSV/JSON plus a generated Markdown summary. CI uploads those outputs as an artifact. The report must explicitly preserve these limitations:
+A single P8 driver produces machine-readable CSV/JSON plus a generated Markdown summary. CI uploads those outputs as an artifact. The report must preserve these limitations:
 
 1. no general control-flow integrity;
 2. U-owned object contents remain untrusted;
 3. no physical address reuse / generation identity;
 4. no intended-object identity among simultaneously live allocations of the same trusted type;
 5. arbitrary library ABI marshalling remains application-specific;
-6. PCRE/libyaml trusted-use policies in P7c are representative analysis adapters rather than real nginx/libyaml application-source inference.
+6. memcached, PCRE, and libyaml P7c trusted-use policies are representative analysis adapters rather than original-application T-side inference.
 
 ## P8 outputs
-
-Running:
 
 ```bash
 bash scripts/run_p8_evaluation.sh p8-results
 ```
 
-produces:
+produces the raw repeated runtime measurements and the paper-facing outputs:
 
 ```text
 p8-results/
   security.csv
+  runtime-runs/
   runtime.csv
+  rlbox-runtime.csv                 # when matched backend evidence is supplied
   p7c-generalization.json
   automation.csv
+  security-runtime.csv
   security-boundaries.csv
-  runtime-overhead.csv
+  runtime-overhead.csv              # idealized primitive decomposition
+  rlbox-runtime-overhead.csv        # matched RLBox/NaCl comparison
   summary.json
   summary.md
   environment.txt
   ctest.txt
 ```
 
-The raw `security.csv` and `runtime.csv` come from the compiled runtime evaluation binaries. `tools/p8_collect.py` converts those raw measurements plus checked-in policy manifests into the paper-facing outputs.
+`tools/p8_collect.py` validates the evidence contract and refuses to generate a required table when a security case, boundary attack, runtime population, or matched baseline/Extended pair is missing.
 
 ## Acceptance criteria
 
@@ -97,14 +97,17 @@ P8 is complete when all of the following hold on one exact commit.
 
 1. Core, policy inference, P6 evaluation, packaging, and combined RLBox + NaCl regressions are green.
 2. `tools/p7c_report.py --require-complete` remains green.
-3. P8 reports all four real boundaries and never counts adversarial-only helper sites as integration effort.
-4. The report labels each trusted-use source as `real_application_source` or `analysis_adapter`.
-5. Runtime results include paired domain-only and Extended-SP3 measurements at every lookup population.
-6. The collector rejects missing or mismatched baseline/extended measurements instead of silently producing partial ratios.
-7. Security tables include both runtime-level and real-boundary evidence.
-8. CI uploads the complete P8 result directory.
-9. The generated summary includes the preserved limitations above.
+3. P8 reports all four real boundaries and excludes adversarial-only helper sites from integration effort.
+4. Each trusted-use source is labeled `real_application_source` or `analysis_adapter`.
+5. The idealized runtime results contain paired domain-only and Extended-SP3 measurements at every required population.
+6. The matched backend results contain RLBox domain/range and Extended-SP3 medians at every required population.
+7. The collector fails closed on missing/mismatched evidence.
+8. Security tables contain both runtime-level and real-boundary evidence.
+9. CI uploads the complete P8 result directory.
+10. The generated summary preserves the limitations above.
 
 ## Interpretation discipline
 
-P8 is intended to strengthen the evidence, not broaden the claim. A result should be reported as “source-derived” only when the checked-in analysis actually derives it from the pinned source. A boundary helper is an explicit policy declaration, even when the surrounding library source is real. A representative trusted-use adapter demonstrates enforcement generality, but it is not equivalent to proving that the original application’s T-side use was inferred automatically.
+P8 strengthens the evidence; it does not broaden the security claim. A fact is called source-derived only when the checked-in analysis derives it from pinned source. A boundary helper remains an explicit policy declaration. A representative trusted-use adapter demonstrates enforcement generality but is not equivalent to automatic inference from the original trusted application.
+
+Hosted CI measurements are regression/reference evidence, not final publication performance numbers. The final paper timing table should be regenerated on a dedicated, otherwise idle machine using the controlled procedure in `REPRODUCIBILITY.md`.
