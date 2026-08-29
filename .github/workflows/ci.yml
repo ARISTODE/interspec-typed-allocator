@@ -92,13 +92,21 @@ jobs:
             autoconf automake build-essential ca-certificates cmake cargo curl \
             g++-multilib gawk git libpopt-dev python2 python3
       - uses: actions/checkout@v4
-      - run: chmod +x ./scripts/run_rlbox_nacl_poc.sh
-      - name: Run RLBox NaCl and P4c integration
+      - run: chmod +x ./scripts/run_rlbox_nacl_poc.sh ./scripts/run_yaml_libyaml_rlbox_extension.sh
+      - name: Run RLBox NaCl, P4c, and P7c integrations
         run: |
           log=/tmp/interspec-rlbox-nacl-ci.log
           if ! ./scripts/run_rlbox_nacl_poc.sh >"$log" 2>&1; then
-            echo "RLBox NaCl / P4c integration failed; final log follows"
+            echo "RLBox NaCl / P4c / P7c base integration failed; final log follows"
             tail -n 300 "$log"
             exit 1
           fi
-          tail -n 120 "$log"
+          tail -n 100 "$log"
+
+          yaml_log=/tmp/interspec-yaml-libyaml-ci.log
+          if ! ./scripts/run_yaml_libyaml_rlbox_extension.sh >"$yaml_log" 2>&1; then
+            echo "P7c yaml/libyaml extension failed; final log follows"
+            tail -n 300 "$yaml_log"
+            exit 1
+          fi
+          tail -n 120 "$yaml_log"
