@@ -29,6 +29,7 @@ cp "$root/README.md" "$package/share/interspec-typed-allocator/"
 cp "$root/P6_EVALUATION.md" "$package/share/interspec-typed-allocator/"
 cp "$root/P6_RESULTS.md" "$package/share/interspec-typed-allocator/"
 cp "$root/P7A_PROVENANCE.md" "$package/share/interspec-typed-allocator/"
+cp "$root/P7B_NATIVE_INTEGRATION.md" "$package/share/interspec-typed-allocator/"
 cp "$root/RELEASE_NOTES.md" "$package/share/interspec-typed-allocator/"
 cp "$root/REPRODUCIBILITY.md" "$package/share/interspec-typed-allocator/"
 cp "$root/backends/rlbox_nacl/manifest.json" \
