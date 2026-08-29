@@ -71,3 +71,6 @@ add_test(NAME policy_codegen_hardening
 add_test(NAME boundary_codegen
   COMMAND ${Python3_EXECUTABLE}
     ${CMAKE_CURRENT_SOURCE_DIR}/tests/boundary_codegen.py)
+add_test(NAME p7c_report
+  COMMAND ${Python3_EXECUTABLE}
+    ${CMAKE_CURRENT_SOURCE_DIR}/tests/p7c_report.py)
