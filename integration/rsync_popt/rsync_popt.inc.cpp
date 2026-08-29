@@ -146,19 +146,25 @@ TEST_CASE("InterSpec real rsync popt integration", "[rsync_popt]")
 
   auto arg = sandbox.invoke_sandbox_function(interspec_popt_get_opt_arg, ctx);
   REQUIRE(arg.UNSAFE_unverified() != nullptr);
+  REQUIRE(sandbox.is_pointer_in_sandbox_memory(arg.UNSAFE_unverified()));
 
   std::vector<char> trusted_copy;
   REQUIRE(popt_copy_checked_cstring(sandbox, runtime, arg, trusted_copy));
   REQUIRE(trusted_copy.size() == sizeof("destination"));
   REQUIRE(std::strcmp(trusted_copy.data(), "destination") == 0);
 
-  /* A genuine authorized poptContext allocation cannot be relabeled as char. */
+  /*
+   * Original SP3 for this use checks pointer domain. The malicious pointer is
+   * still inside U memory, but its trusted allocation type is poptContext_s,
+   * not char. Extended SP3 therefore rejects a case the domain check accepts.
+   */
   auto wrong_ctx = sandbox.invoke_sandbox_function(interspec_popt_parse_smoke);
   REQUIRE(wrong_ctx.UNSAFE_unverified() != nullptr);
   auto wrong_arg =
     sandbox.invoke_sandbox_function(interspec_popt_get_opt_arg_wrong_type,
                                     wrong_ctx);
   REQUIRE(wrong_arg.UNSAFE_unverified() != nullptr);
+  REQUIRE(sandbox.is_pointer_in_sandbox_memory(wrong_arg.UNSAFE_unverified()));
   const uintptr_t wrong_arg_ptr =
     sandbox.get_sandbox_impl()->sandbox_address(wrong_arg.UNSAFE_unverified());
   REQUIRE(check(runtime, wrong_arg_ptr, kUsePoptOptArgFirstByte) ==
@@ -167,8 +173,7 @@ TEST_CASE("InterSpec real rsync popt integration", "[rsync_popt]")
   REQUIRE(!popt_copy_checked_cstring(
     sandbox, runtime, wrong_arg, rejected_wrong_type));
 
-  /* Ordinary U malloc is still inside the sandbox, so domain-only SP3 would
-   * accept it. The typed allocator has no trusted record for it and rejects. */
+  /* Ordinary U malloc also passes the original pointer-domain check. */
   auto untracked_ctx =
     sandbox.invoke_sandbox_function(interspec_popt_parse_smoke);
   REQUIRE(untracked_ctx.UNSAFE_unverified() != nullptr);
@@ -176,6 +181,7 @@ TEST_CASE("InterSpec real rsync popt integration", "[rsync_popt]")
     sandbox.invoke_sandbox_function(interspec_popt_get_opt_arg_untracked,
                                     untracked_ctx);
   REQUIRE(untracked_arg.UNSAFE_unverified() != nullptr);
+  REQUIRE(sandbox.is_pointer_in_sandbox_memory(untracked_arg.UNSAFE_unverified()));
   const uintptr_t untracked_arg_ptr =
     sandbox.get_sandbox_impl()->sandbox_address(untracked_arg.UNSAFE_unverified());
   REQUIRE(check(runtime, untracked_arg_ptr, kUsePoptOptArgFirstByte) ==
