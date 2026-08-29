@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "required_new_boundaries": 3,
+  "required_pointer_shapes": [
+    "interior_u_object",
+    "structured_u_output",
+    "buffer_with_extent"
+  ],
+  "boundaries": [
+    {
+      "name": "rsync/popt",
+      "role": "baseline",
+      "status": "full",
+      "pointer_shapes": [
+        "returned_string"
+      ],
+      "policy": "integration/rsync_popt/policy.json",
+      "boundary_policy": "integration/rsync_popt/boundary.json",
+      "source_revision": "7c20b077c980036a19587701cec320cc88e42a4a",
+      "adversarial": [
+        "wrong_type",
+        "untracked"
+      ]
+    },
+    {
+      "name": "nginx/libpcre",
+      "role": "p7c",
+      "status": "planned",
+      "pointer_shapes": [
+        "interior_u_object"
+      ],
+      "representative_use": "PCRE name-table pointer returned from compiled-pattern metadata",
+      "adversarial_required": [
+        "wrong_type_or_wrong_object",
+        "untracked"
+      ]
+    },
+    {
+      "name": "yaml/libyaml",
+      "role": "p7c",
+      "status": "planned",
+      "pointer_shapes": [
+        "structured_u_output"
+      ],
+      "representative_use": "U-owned parser/event output pointer consumed by trusted code",
+      "adversarial_required": [
+        "wrong_type_or_wrong_object",
+        "untracked"
+      ]
+    },
+    {
+      "name": "memcached/bipbuffer",
+      "role": "p7c",
+      "status": "planned",
+      "pointer_shapes": [
+        "buffer_with_extent"
+      ],
+      "representative_use": "U-owned buffer pointer validated together with a dynamic byte extent",
+      "adversarial_required": [
+        "wrong_type_or_wrong_object",
+        "untracked",
+        "out_of_bounds"
+      ]
+    }
+  ]
+}
