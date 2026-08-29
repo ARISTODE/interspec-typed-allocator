@@ -53,6 +53,7 @@ cp "$yaml_generated/interspec_u_policy.h" "$work/c_src/interspec_yaml_u_policy.h
 cp "$yaml_generated/interspec_t_policy.h" "$work/test/interspec_yaml_t_policy.h"
 cp "$root/integration/yaml_libyaml/yaml_smoke.c" "$work/c_src/"
 cp "$root/integration/yaml_libyaml/yaml_libyaml.inc.cpp" "$work/test/"
+cp "$root/evaluation/p8_rlbox_bench.inc.cpp" "$work/test/"
 
 python3 - "$work" <<'PY'
 from pathlib import Path
@@ -94,9 +95,9 @@ set_source_files_properties(
 cmake.write_text(text)
 test = repo / "test/test_nacl_sandbox_glue.cpp"
 t = test.read_text()
-inc = '#include "yaml_libyaml.inc.cpp"\n'
-if inc not in t:
-    t += "\n" + inc
+for inc in ('#include "yaml_libyaml.inc.cpp"\n', '#include "p8_rlbox_bench.inc.cpp"\n'):
+    if inc not in t:
+        t += "\n" + inc
 test.write_text(t)
 PY
 
@@ -112,10 +113,14 @@ cmake --build "$work/build" --target test_rlbox_glue --parallel 2
 "$work/build/test_rlbox_glue" "[nginx_libpcre]"
 "$work/build/test_rlbox_glue" "[yaml_libyaml]"
 
-# The evidence file is written only after all combined Catch tests have passed.
-# It records the boundary-level attack classes exercised by those passing test
-# cases so the P8 paper collector can require actual RLBox+NaCl evidence instead
-# of relying on manifest declarations alone.
+if [[ -n "${INTERSPEC_P8_RLBOX_RUNTIME:-}" ]]; then
+  mkdir -p "$(dirname "$INTERSPEC_P8_RLBOX_RUNTIME")"
+  INTERSPEC_P8_RLBOX_RUNTIME="$INTERSPEC_P8_RLBOX_RUNTIME" \
+    "$work/build/test_rlbox_glue" "[p8_rlbox_bench]"
+else
+  "$work/build/test_rlbox_glue" "[p8_rlbox_bench]"
+fi
+
 if [[ -n "${INTERSPEC_P8_BOUNDARY_EVIDENCE:-}" ]]; then
   mkdir -p "$(dirname "$INTERSPEC_P8_BOUNDARY_EVIDENCE")"
   cat > "$INTERSPEC_P8_BOUNDARY_EVIDENCE" <<'EOF'
@@ -136,3 +141,4 @@ fi
 
 echo "InterSpec P7c: yaml/libyaml structured scalar boundary passed in RLBox NaCl"
 echo "InterSpec P7c: all synthetic, baseline, and three generalization boundaries passed together"
+echo "InterSpec P8: matched RLBox domain-range benchmark passed"
