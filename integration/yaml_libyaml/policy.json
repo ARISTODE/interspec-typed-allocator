@@ -1,0 +1,14 @@
+{
+  "types": [
+    "yaml_scalar_value"
+  ],
+  "allocations": [],
+  "uses": [
+    {
+      "name": "yaml_scalar_value_range",
+      "type": "yaml_scalar_value",
+      "offset": 0,
+      "dynamic_bytes": true
+    }
+  ]
+}
