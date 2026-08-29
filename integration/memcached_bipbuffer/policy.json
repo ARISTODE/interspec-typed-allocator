@@ -1,0 +1,25 @@
+{
+  "types": [
+    "bipbuf_t"
+  ],
+  "allocations": [
+    {
+      "function": "bipbuf_new",
+      "type": "bipbuf_t",
+      "site": {
+        "start_line": 51,
+        "start_column": 20,
+        "end_line": 51,
+        "end_column": 25
+      }
+    }
+  ],
+  "uses": [
+    {
+      "name": "bipbuf_peek_all_range",
+      "type": "bipbuf_t",
+      "offset": 0,
+      "dynamic_bytes": true
+    }
+  ]
+}
