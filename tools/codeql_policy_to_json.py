@@ -18,7 +18,7 @@ def main():
 
     with Path(args.csv).open(newline="") as source:
         for row in csv.reader(source):
-            if len(row) < 6 or row[0] not in {"allocation", "use"}:
+            if len(row) < 6 or row[0] not in {"allocation", "use", "dynamic_use"}:
                 continue
             kind, name, type_name, function_name, offset, size = row[:6]
             types.add(type_name)
@@ -37,12 +37,16 @@ def main():
                         }
                 allocations.append(allocation)
             else:
-                uses.append({
+                use = {
                     "name": name,
                     "type": type_name,
                     "offset": int(offset),
-                    "bytes": int(size),
-                })
+                }
+                if kind == "dynamic_use":
+                    use["dynamic_bytes"] = True
+                else:
+                    use["bytes"] = int(size)
+                uses.append(use)
 
     def allocation_key(allocation):
         site = allocation.get("site", {})
