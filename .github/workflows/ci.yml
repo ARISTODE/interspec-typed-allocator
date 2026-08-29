@@ -110,3 +110,12 @@ jobs:
             exit 1
           fi
           tail -n 120 "$yaml_log"
+      - name: Upload P7c integration diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: p7c-integration-diagnostics
+          if-no-files-found: ignore
+          path: |
+            /tmp/interspec-rlbox-nacl-ci.log
+            /tmp/interspec-yaml-libyaml-ci.log
