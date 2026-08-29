@@ -37,6 +37,15 @@ TEST_CASE("InterSpec nginx libpcre name-table generalization", "[nginx_libpcre]"
   PcreSandbox sandbox;
   CreateSandbox(sandbox);
 
+  const auto domain_range_ok = [&](const void* ptr, size_t bytes) {
+    if (ptr == nullptr || bytes == 0) return false;
+    const uintptr_t start = reinterpret_cast<uintptr_t>(ptr);
+    if (start > std::numeric_limits<uintptr_t>::max() - (bytes - 1)) return false;
+    const void* end = reinterpret_cast<const void*>(start + bytes - 1);
+    return sandbox.is_pointer_in_sandbox_memory(ptr) &&
+           sandbox.is_pointer_in_sandbox_memory(end);
+  };
+
   const uint32_t arena_base =
     sandbox.get_sandbox_impl()->reserve_typed_arena(kArenaSize);
   REQUIRE(arena_base != 0);
@@ -62,7 +71,6 @@ TEST_CASE("InterSpec nginx libpcre name-table generalization", "[nginx_libpcre]"
   REQUIRE(alloc_slot != std::numeric_limits<uint32_t>::max());
   sandbox.invoke_sandbox_function(interspec_pcre_init, alloc_slot);
 
-  /* The patched real PCRE compile allocation is an explicitly declared site. */
   auto compiled = sandbox.invoke_sandbox_function(interspec_pcre_compile_named);
   REQUIRE(compiled.UNSAFE_unverified() != nullptr);
   const uintptr_t compiled_addr = sandbox.get_sandbox_impl()->sandbox_address(
@@ -77,6 +85,7 @@ TEST_CASE("InterSpec nginx libpcre name-table generalization", "[nginx_libpcre]"
     sandbox.invoke_sandbox_function(interspec_pcre_name_table_size)
       .UNSAFE_unverified();
   REQUIRE(table_bytes >= 7);
+  REQUIRE(domain_range_ok(table.UNSAFE_unverified(), table_bytes));
 
   const uintptr_t table_addr = sandbox.get_sandbox_impl()->sandbox_address(
     table.UNSAFE_unverified());
@@ -91,13 +100,13 @@ TEST_CASE("InterSpec nginx libpcre name-table generalization", "[nginx_libpcre]"
   std::memcpy(trusted.data(), table.UNSAFE_unverified(), table_bytes);
   REQUIRE(std::memcmp(trusted.data() + 2, "word", 4) == 0);
 
-  /* Tracked same-domain memory of another trusted type is rejected. */
   auto wrong = sandbox.invoke_sandbox_function(
     interspec_pcre_name_table_wrong_type);
   REQUIRE(wrong.UNSAFE_unverified() != nullptr);
   const uint32_t wrong_bytes =
     sandbox.invoke_sandbox_function(interspec_pcre_name_table_size)
       .UNSAFE_unverified();
+  REQUIRE(domain_range_ok(wrong.UNSAFE_unverified(), wrong_bytes));
   const uintptr_t wrong_addr = sandbox.get_sandbox_impl()->sandbox_address(
     wrong.UNSAFE_unverified());
   REQUIRE(check_dynamic(runtime,
@@ -106,13 +115,13 @@ TEST_CASE("InterSpec nginx libpcre name-table generalization", "[nginx_libpcre]"
                         kUsePcreNameTableRange) ==
           interspec::CheckResult::wrong_type);
 
-  /* Ordinary sandbox malloc is same-domain but has no authoritative record. */
   auto untracked = sandbox.invoke_sandbox_function(
     interspec_pcre_name_table_untracked);
   REQUIRE(untracked.UNSAFE_unverified() != nullptr);
   const uint32_t untracked_bytes =
     sandbox.invoke_sandbox_function(interspec_pcre_name_table_size)
       .UNSAFE_unverified();
+  REQUIRE(domain_range_ok(untracked.UNSAFE_unverified(), untracked_bytes));
   const uintptr_t untracked_addr = sandbox.get_sandbox_impl()->sandbox_address(
     untracked.UNSAFE_unverified());
   REQUIRE(check_dynamic(runtime,
@@ -121,13 +130,13 @@ TEST_CASE("InterSpec nginx libpcre name-table generalization", "[nginx_libpcre]"
                         kUsePcreNameTableRange) ==
           interspec::CheckResult::untracked);
 
-  /* Correct interior pointer with a corrupted byte extent must fail spatially. */
   auto oversized = sandbox.invoke_sandbox_function(
     interspec_pcre_name_table_oversized, compiled);
   REQUIRE(oversized.UNSAFE_unverified() != nullptr);
   const uint32_t oversized_bytes =
     sandbox.invoke_sandbox_function(interspec_pcre_name_table_size)
       .UNSAFE_unverified();
+  REQUIRE(domain_range_ok(oversized.UNSAFE_unverified(), oversized_bytes));
   const uintptr_t oversized_addr = sandbox.get_sandbox_impl()->sandbox_address(
     oversized.UNSAFE_unverified());
   REQUIRE(oversized_addr == table_addr);
