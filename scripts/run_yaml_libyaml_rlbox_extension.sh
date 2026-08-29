@@ -121,21 +121,24 @@ else
   "$work/build/test_rlbox_glue" "[p8_rlbox_bench]"
 fi
 
+# These rows are emitted only after the Catch tests above have directly asserted
+# that the malicious pointer/range passes RLBox's domain validation and that
+# Extended SP3 returns the stated stronger rejection reason.
 if [[ -n "${INTERSPEC_P8_BOUNDARY_EVIDENCE:-}" ]]; then
   mkdir -p "$(dirname "$INTERSPEC_P8_BOUNDARY_EVIDENCE")"
   cat > "$INTERSPEC_P8_BOUNDARY_EVIDENCE" <<'EOF'
-boundary,case,result
-rsync/popt,wrong_type,pass
-rsync/popt,untracked,pass
-memcached/bipbuffer,wrong_type,pass
-memcached/bipbuffer,untracked,pass
-memcached/bipbuffer,out_of_bounds,pass
-nginx/libpcre,wrong_type,pass
-nginx/libpcre,untracked,pass
-nginx/libpcre,out_of_bounds,pass
-yaml/libyaml,wrong_type,pass
-yaml/libyaml,untracked,pass
-yaml/libyaml,out_of_bounds,pass
+boundary,case,domain_baseline,extended_result,result
+rsync/popt,wrong_type,accept,wrong_type,pass
+rsync/popt,untracked,accept,untracked,pass
+memcached/bipbuffer,wrong_type,accept,wrong_type,pass
+memcached/bipbuffer,untracked,accept,untracked,pass
+memcached/bipbuffer,out_of_bounds,accept,out_of_bounds,pass
+nginx/libpcre,wrong_type,accept,wrong_type,pass
+nginx/libpcre,untracked,accept,untracked,pass
+nginx/libpcre,out_of_bounds,accept,out_of_bounds,pass
+yaml/libyaml,wrong_type,accept,wrong_type,pass
+yaml/libyaml,untracked,accept,untracked,pass
+yaml/libyaml,out_of_bounds,accept,out_of_bounds,pass
 EOF
 fi
 
