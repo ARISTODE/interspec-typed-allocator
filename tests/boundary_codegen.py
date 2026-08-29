@@ -7,6 +7,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from tools.generate_boundary_policy import generate_boundary
+from tools.generate_policy import symbol
 
 
 def span(source, needle):
@@ -20,6 +21,10 @@ def span(source, needle):
     end_line, end_column = location(end)
     return {"start_line": start_line, "start_column": start_column,
             "end_line": end_line, "end_column": end_column}
+
+
+def prefix_for(namespace, helper, site_id):
+    return f"interspec_alloc_site_{symbol(namespace)}_{symbol(helper)}_{site_id}"
 
 
 def main():
@@ -50,7 +55,7 @@ void* make_value(size_t n) {
     assert "INTERSPEC_SITE_TYPED_COPY_BEGIN" in u_header
     assert "INTERSPEC_SITE_TYPED_COPY_END" in u_header
 
-    prefix = "interspec_alloc_site_interspec_sample_generated_typed_copy_2"
+    prefix = prefix_for(namespace, "typed_copy", 2)
     assert prefix + "_begin" in u_header
     assert prefix + "_end" in u_header
     expected_begin_asm = (
@@ -82,13 +87,10 @@ void* make_value(size_t n) {
     assert "kDynamicUseCount = 1" in t_header
     assert "policy.offset > std::numeric_limits<size_t>::max() - dynamic_bytes" in t_header
 
-    # Two generated boundaries may use the same local helper name and SiteId,
-    # but their ELF symbols must differ when linked into one NaCl module.
+    other_namespace = "interspec::other_generated"
     _, u_other, t_other = generate_boundary(
-        policy, source,
-        namespace_name="interspec::other_generated",
-        boundary=boundary)
-    other_prefix = "interspec_alloc_site_interspec_other_generated_typed_copy_2"
+        policy, source, namespace_name=other_namespace, boundary=boundary)
+    other_prefix = prefix_for(other_namespace, "typed_copy", 2)
     assert other_prefix + "_begin" in u_other
     assert prefix + "_begin" not in u_other
     assert f'"{other_prefix}_begin"' in t_other
