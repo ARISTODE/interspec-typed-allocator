@@ -5,10 +5,9 @@
 #include "rlbox.hpp"
 #include "rlbox_nacl_sandbox.hpp"
 
-#include "interspec/runtime.h"
+#include "interspec/policy_runtime.h"
 #include "interspec_popt_t_policy.h"
 #include "popt.h"
-#include "site_provenance.h"
 
 #include <algorithm>
 #include <cstdint>
@@ -78,22 +77,19 @@ class Engine {
       sandbox_.get_sandbox_impl()->reserve_typed_arena(kArenaSize);
     if (!arena_base) throw std::runtime_error("failed to reserve typed arena");
 
-    runtime_ = std::make_unique<interspec::Runtime>(arena_base, kArenaSize);
-    using namespace interspec::rsync_popt_generated;
-    if (!register_types(*runtime_))
-      throw std::runtime_error("failed to register InterSpec types");
-
-    auto resolve_symbol = [&](const char* name) -> uintptr_t {
-      return sandbox_.get_sandbox_impl()->lookup_symbol_address(name);
-    };
-    if (!register_allocation_sites(*runtime_, resolve_symbol))
-      throw std::runtime_error("failed to register InterSpec allocation sites");
-    if (!runtime_->register_allocation_site(
-          INTERSPEC_POPT_STRDUP_SITE_ID,
-          resolve_symbol(INTERSPEC_POPT_STRDUP_BEGIN_SYMBOL),
-          resolve_symbol(INTERSPEC_POPT_STRDUP_END_SYMBOL),
-          kTypeIdChar))
-      throw std::runtime_error("failed to register popt strdup allocation site");
+    policy_runtime_ =
+      std::make_unique<interspec::PolicyRuntime>(arena_base, kArenaSize);
+    auto* impl = sandbox_.get_sandbox_impl();
+    if (!policy_runtime_->initialize_from_sandbox(
+          *impl,
+          [](interspec::Runtime& runtime) {
+            return interspec::rsync_popt_generated::register_types(runtime);
+          },
+          [](interspec::Runtime& runtime, auto resolve) {
+            return interspec::rsync_popt_generated::register_allocation_policy(
+              runtime, resolve);
+          }))
+      throw std::runtime_error("failed to initialize InterSpec allocation policy");
 
     sandbox_.sandbox_storage = this;
     alloc_cb_ = sandbox_.register_callback(p4c_allocate);
@@ -112,18 +108,11 @@ class Engine {
   }
 
   Sandbox& sandbox() { return sandbox_; }
-  interspec::Runtime& runtime() { return *runtime_; }
+  interspec::Runtime& runtime() { return policy_runtime_->runtime(); }
 
   uintptr_t allocate_for_callback_pc(uint32_t size) {
-    auto* impl = sandbox_.get_sandbox_impl();
-    const uintptr_t pc = impl->callback_program_counter();
-    uintptr_t result = runtime_->allocate_from_pc(size, pc);
-    if (result) return result;
-
-    const uintptr_t new_pc = impl->callback_new_program_counter();
-    if (new_pc && new_pc != pc)
-      result = runtime_->allocate_from_pc(size, new_pc);
-    return result;
+    return policy_runtime_->allocate_from_callback(
+      *sandbox_.get_sandbox_impl(), size);
   }
 
   UCharPtr copy_to_u(const char* src) {
@@ -154,7 +143,7 @@ class Engine {
     const uintptr_t sandbox_ptr =
       sandbox_.get_sandbox_impl()->sandbox_address(raw);
     size_t remaining = 0;
-    const auto result = runtime_->remaining_bytes(
+    const auto result = runtime().remaining_bytes(
       sandbox_ptr, kTypeHashChar, remaining);
     if (result != interspec::CheckResult::ok || remaining == 0)
       throw std::runtime_error("InterSpec rejected popt char pointer");
@@ -183,7 +172,7 @@ class Engine {
     std::declval<Sandbox&>().register_callback(&p4c_reallocate));
 
   Sandbox sandbox_;
-  std::unique_ptr<interspec::Runtime> runtime_;
+  std::unique_ptr<interspec::PolicyRuntime> policy_runtime_;
   AllocCallback alloc_cb_;
   ReleaseCallback release_cb_;
   SizeCallback size_cb_;
