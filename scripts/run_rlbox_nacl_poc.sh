@@ -42,6 +42,25 @@ git()
   return $status
 }
 
+# The integration recipe predates the explicit non-JIT PCRE configuration and
+# listed pcre_jit_compile.c unconditionally. That source embeds SLJIT directly;
+# it is neither built nor required when PCRE_SUPPORT_JIT=OFF. Produce a temporary
+# copy of the otherwise stable recipe with exactly those two CMake-list entries
+# removed (source list + per-source compile-definition list).
+filtered_impl=$(mktemp "${TMPDIR:-/tmp}/interspec-rlbox-nacl-impl.XXXXXX")
+trap 'rm -f "$filtered_impl"' EXIT
+python3 - "$impl" "$filtered_impl" <<'PY'
+from pathlib import Path
+import sys
+
+source = Path(sys.argv[1]).read_text()
+needle = '    "               ${CMAKE_SOURCE_DIR}/pcre-src/pcre_jit_compile.c\\n"\n'
+count = source.count(needle)
+if count != 2:
+    raise SystemExit(f"expected exactly two PCRE JIT source-list entries, found {count}")
+Path(sys.argv[2]).write_text(source.replace(needle, ""))
+PY
+
 # Source rather than exec so the git() preparation hook remains visible to the
 # integration recipe. $0 still names this front-end, preserving its root lookup.
-source "$impl"
+source "$filtered_impl"
