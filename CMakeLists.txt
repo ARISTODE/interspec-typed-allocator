@@ -47,6 +47,10 @@ add_executable(runtime_hardening tests/runtime_hardening.cpp)
 target_link_libraries(runtime_hardening PRIVATE interspec::runtime Threads::Threads)
 add_test(NAME runtime_hardening COMMAND runtime_hardening)
 
+add_executable(policy_runtime tests/policy_runtime.cpp)
+target_link_libraries(policy_runtime PRIVATE interspec::runtime)
+add_test(NAME policy_runtime COMMAND policy_runtime)
+
 add_executable(p6_security_eval evaluation/security_eval.cpp)
 target_link_libraries(p6_security_eval PRIVATE interspec::runtime)
 add_test(NAME p6_security_eval COMMAND p6_security_eval)
