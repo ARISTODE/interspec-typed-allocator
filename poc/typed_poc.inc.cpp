@@ -1,4 +1,4 @@
-#include "interspec/runtime.h"
+#include "interspec/policy_runtime.h"
 #include "interspec_t_policy.h"
 
 #include <cstdint>
@@ -21,23 +21,22 @@ int typed_poc_try_remap(uint32_t, uint32_t);
 
 using PocSandbox = rlbox::rlbox_sandbox<TestType>;
 
-static interspec::Runtime* poc_runtime;
+static interspec::PolicyRuntime* poc_policy_runtime;
 
 static rlbox::tainted<uint32_t, TestType> poc_allocate(
   PocSandbox& sandbox,
   rlbox::tainted<uint32_t, TestType> size)
 {
-  const uintptr_t pc =
-    sandbox.get_sandbox_impl()->callback_program_counter();
   return static_cast<uint32_t>(
-    poc_runtime->allocate_from_pc(size.UNSAFE_unverified(), pc));
+    poc_policy_runtime->allocate_from_callback(
+      *sandbox.get_sandbox_impl(), size.UNSAFE_unverified()));
 }
 
 static rlbox::tainted<int, TestType> poc_release(
   PocSandbox&,
   rlbox::tainted<uint32_t, TestType> ptr)
 {
-  return poc_runtime->release(ptr.UNSAFE_unverified());
+  return poc_policy_runtime->runtime().release(ptr.UNSAFE_unverified());
 }
 
 TEST_CASE("InterSpec typed allocation PoC", "[typed_allocator]")
@@ -52,16 +51,18 @@ TEST_CASE("InterSpec typed allocation PoC", "[typed_allocator]")
     sandbox.get_sandbox_impl()->reserve_typed_arena(kArenaSize);
   REQUIRE(arena_base != 0);
 
-  interspec::Runtime runtime(arena_base, kArenaSize);
-  poc_runtime = &runtime;
-  REQUIRE(register_types(runtime));
-  REQUIRE(!runtime.register_type(kTypeIdItem, kTypeHashOther));
+  interspec::PolicyRuntime policy_runtime(arena_base, kArenaSize);
+  poc_policy_runtime = &policy_runtime;
+  REQUIRE(policy_runtime.initialize_from_sandbox(
+    *sandbox.get_sandbox_impl(),
+    [](interspec::Runtime& runtime) { return register_types(runtime); },
+    [](interspec::Runtime& runtime, auto resolve) {
+      return register_allocation_policy(runtime, resolve);
+    }));
 
-  auto resolve_symbol = [&](const char* name) -> uintptr_t {
-    return sandbox.get_sandbox_impl()->lookup_symbol_address(name);
-  };
-  REQUIRE(register_allocation_sites(runtime, resolve_symbol));
-  REQUIRE(runtime.allocation_site_count() == kAllocationSiteCount);
+  interspec::Runtime& runtime = policy_runtime.runtime();
+  REQUIRE(!runtime.register_type(kTypeIdItem, kTypeHashOther));
+  REQUIRE(runtime.allocation_site_count() == kTotalAllocationSiteCount);
   REQUIRE(runtime.allocation_count() == 0);
 
   auto alloc_cb = sandbox.register_callback(poc_allocate);
