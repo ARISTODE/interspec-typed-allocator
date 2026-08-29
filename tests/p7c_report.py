@@ -21,9 +21,8 @@ def test_repository_manifest_is_incremental():
     manifest = json.loads((ROOT / "integration/p7c_manifest.json").read_text())
     report = build_report(ROOT, manifest)
     assert not report["complete"]
-    assert report["completed_new_boundaries"] == 0
+    assert report["completed_new_boundaries"] == 1
     assert report["missing_pointer_shapes"] == [
-        "buffer_with_extent",
         "interior_u_object",
         "structured_u_output",
     ]
@@ -34,6 +33,16 @@ def test_repository_manifest_is_incremental():
     assert baseline["precise_source_allocation_sites"] == 2
     assert baseline["helper_sites"] == 1
     assert baseline["trusted_uses"] == 1
+
+    bipbuf = next(
+        b for b in report["boundaries"] if b["name"] == "memcached/bipbuffer"
+    )
+    assert bipbuf["complete"]
+    assert bipbuf["inferred_allocation_sites"] == 1
+    assert bipbuf["precise_source_allocation_sites"] == 1
+    assert bipbuf["helper_sites"] == 1
+    assert bipbuf["trusted_uses"] == 1
+    assert bipbuf["pointer_shapes"] == ["buffer_with_extent"]
 
 
 def test_complete_report_requires_count_and_shape_coverage():
@@ -69,7 +78,7 @@ def test_complete_report_requires_count_and_shape_coverage():
                 "policy": "policy.json",
                 "boundary_policy": "boundary.json",
                 "source_revision": f"rev-{index}",
-                "adversarial": ["wrong_type_or_wrong_object", "untracked"],
+                "adversarial": ["wrong_type", "untracked"],
             })
 
         manifest = {
