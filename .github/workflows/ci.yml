@@ -69,6 +69,11 @@ jobs:
           export PATH="$(dirname '${{ steps.codeql.outputs.codeql-path }}'):$PATH"
           chmod +x ./scripts/run_memcached_bipbuffer_policy_inference.sh
           ./scripts/run_memcached_bipbuffer_policy_inference.sh
+      - name: Infer P7c nginx libpcre policy from real source
+        run: |
+          export PATH="$(dirname '${{ steps.codeql.outputs.codeql-path }}'):$PATH"
+          chmod +x ./scripts/run_nginx_libpcre_policy_inference.sh
+          ./scripts/run_nginx_libpcre_policy_inference.sh
 
   rlbox-nacl:
     runs-on: ubuntu-latest
