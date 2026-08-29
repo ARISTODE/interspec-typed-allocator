@@ -140,6 +140,15 @@ class Engine {
     char* raw = source.UNSAFE_unverified();
     if (!raw) return nullptr;
 
+#ifdef INTERSPEC_P8_MEASURE_NO_VALIDATION
+    /*
+     * Measurement-only baseline. The sandbox, marshalling, typed allocation,
+     * provenance, and workload remain identical; only the final Extended-SP3
+     * acceptance check is bypassed. This build is never used by correctness
+     * tests and deliberately trusts the known-valid benchmark workload.
+     */
+    const size_t bytes = std::strlen(raw) + 1;
+#else
     const uintptr_t sandbox_ptr =
       sandbox_.get_sandbox_impl()->sandbox_address(raw);
     size_t remaining = 0;
@@ -154,6 +163,7 @@ class Engine {
 
     const size_t bytes =
       static_cast<const char*>(end) - raw + 1;
+#endif
     auto copy = std::make_unique<char[]>(bytes);
     std::memcpy(copy.get(), raw, bytes);
     char* result_ptr = copy.get();
