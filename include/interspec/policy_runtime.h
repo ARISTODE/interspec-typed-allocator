@@ -1,7 +1,7 @@
 #ifndef INTERSPEC_POLICY_RUNTIME_H_INCLUDED
 #define INTERSPEC_POLICY_RUNTIME_H_INCLUDED
 
-#include "interspec/runtime.h"
+#include "runtime.h"
 
 #include <cstddef>
 #include <cstdint>
@@ -11,10 +11,10 @@ namespace interspec {
 
 /*
  * P7b common binding between a generated InterSpec policy and a sandbox
- * backend.  Application bridges should not need to duplicate type/site
+ * backend. Application bridges should not need to duplicate type/site
  * registration or callback-PC provenance lookup.
  *
- * The class intentionally does not depend on RLBox headers.  A sandbox backend
+ * The class intentionally does not depend on RLBox headers. A sandbox backend
  * only needs to provide the small interface used by initialize_from_sandbox()
  * and allocate_from_callback():
  *
@@ -62,7 +62,7 @@ class PolicyRuntime {
 
     /*
      * Some backend revisions expose both the current and post-syscall program
-     * counters.  P7a's pinned backend normalizes callback_program_counter() to
+     * counters. P7a's pinned backend normalizes callback_program_counter() to
      * the return PC, but retaining this fail-closed fallback keeps the helper
      * usable with compatible backends that expose the two values separately.
      */
