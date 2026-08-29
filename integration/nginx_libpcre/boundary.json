@@ -5,7 +5,7 @@
   "helper_sites": [
     {
       "name": "compiled_regex",
-      "type": "real_pcre8_or_16"
+      "type": "const pcre"
     },
     {
       "name": "wrong_type",
