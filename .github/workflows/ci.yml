@@ -104,7 +104,8 @@ jobs:
           tail -n 100 "$log"
 
           yaml_log=/tmp/interspec-yaml-libyaml-ci.log
-          if ! ./scripts/run_yaml_libyaml_rlbox_extension.sh >"$yaml_log" 2>&1; then
+          if ! INTERSPEC_P8_BOUNDARY_EVIDENCE=/tmp/p8-boundary-security.csv \
+              ./scripts/run_yaml_libyaml_rlbox_extension.sh >"$yaml_log" 2>&1; then
             echo "P7c yaml/libyaml extension failed; final log follows"
             tail -n 300 "$yaml_log"
             exit 1
@@ -119,3 +120,32 @@ jobs:
           path: |
             /tmp/interspec-rlbox-nacl-ci.log
             /tmp/interspec-yaml-libyaml-ci.log
+            /tmp/p8-boundary-security.csv
+      - name: Upload P8 boundary security evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: p8-boundary-evidence
+          path: /tmp/p8-boundary-security.csv
+
+  paper-evaluation:
+    needs: rlbox-nacl
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download RLBox boundary evidence
+        uses: actions/download-artifact@v4
+        with:
+          name: p8-boundary-evidence
+          path: p8-input
+      - name: Run P8 paper evaluation
+        env:
+          INTERSPEC_BENCH_ITERATIONS: 100000
+          INTERSPEC_P8_REPETITIONS: 5
+          INTERSPEC_P8_BOUNDARY_EVIDENCE: p8-input/p8-boundary-security.csv
+          INTERSPEC_P8_REQUIRE_BOUNDARY_EVIDENCE: 1
+        run: bash ./scripts/run_p8_evaluation.sh p8-results
+      - name: Upload P8 paper evaluation results
+        uses: actions/upload-artifact@v4
+        with:
+          name: p8-paper-evaluation-results
+          path: p8-results
