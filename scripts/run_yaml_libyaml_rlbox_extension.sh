@@ -15,12 +15,16 @@ git clone -q https://github.com/yaml/libyaml.git "$yaml_src"
 git -C "$yaml_src" checkout -q 90a56d4500aa1a1798514c5cb55c3ad4cb095f94
 
 # libyaml normally generates this four-definition header during configure.
+# Put the same generated content in both configured include locations used by
+# our source-only CodeQL and NaCl builds so HAVE_CONFIG_H never depends on
+# include-order accidents.
 cat > "$yaml_src/include/config.h" <<'EOF'
 #define YAML_VERSION_MAJOR 0
 #define YAML_VERSION_MINOR 2
 #define YAML_VERSION_PATCH 5
 #define YAML_VERSION_STRING "0.2.5"
 EOF
+cp "$yaml_src/include/config.h" "$yaml_src/src/config.h"
 
 yaml_generated="$work/interspec-yaml-generated"
 rm -rf "$yaml_generated"
