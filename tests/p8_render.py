@@ -39,8 +39,8 @@ def main():
     assert "25/25" in text
     assert "42.9%" in text
     assert "sample | 1 | 1 | 1 | interior_u_object, buffer_with_extent" in text
-    assert "12.00" in text
-    assert "10.0%" in text
+    assert "12.00 | 2.00 | 20.0%" in text
+    assert "1.100 | 0.100 | 10.0%" in text
     assert "incremental validation overhead" in text
     assert "not total overhead over plain RLBox" in text
     print("P8 result renderer tests: ok")
