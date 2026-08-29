@@ -12,10 +12,6 @@ if str(ROOT) not in sys.path:
 from tools.generate_policy import cpp, exported_label_asm, generate, macro, symbol
 
 
-def c_string(value):
-    return value.replace("\\", "\\\\").replace('"', '\\"').replace("\n", "\\n")
-
-
 def helper_symbols(name, site_id):
     prefix = f"interspec_alloc_site_{symbol(name)}_{site_id}"
     return prefix + "_begin", prefix + "_end"
@@ -70,8 +66,12 @@ def generate_boundary(policy, source, namespace_name="interspec::generated",
         type_ident = cpp(type_name)
         helper_entries.append((site_id, type_ident, begin_symbol, end_symbol))
 
-        begin_asm = c_string(exported_label_asm(begin_symbol))
-        end_asm = c_string(exported_label_asm(end_symbol))
+        # exported_label_asm() already returns text escaped for a C string
+        # literal (for example, "...\\n.type ...").  Escaping it a second time
+        # would emit literal backslashes to the assembler rather than line
+        # separators, which the NaCl assembler correctly rejects.
+        begin_asm = exported_label_asm(begin_symbol)
+        end_asm = exported_label_asm(end_symbol)
         u_lines += [
             f"#define {helper_macro(name, 'BEGIN')}() \\",
             f"  __asm__ __volatile__(\"{begin_asm}\" ::: \"memory\")",
