@@ -1,0 +1,15 @@
+{
+  "types": [
+    "char"
+  ],
+  "helper_sites": [
+    {
+      "name": "compiled_regex",
+      "type": "real_pcre8_or_16"
+    },
+    {
+      "name": "wrong_type",
+      "type": "char"
+    }
+  ]
+}
