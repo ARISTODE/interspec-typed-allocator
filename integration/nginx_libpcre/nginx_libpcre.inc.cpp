@@ -67,7 +67,7 @@ TEST_CASE("InterSpec nginx libpcre name-table generalization", "[nginx_libpcre]"
   REQUIRE(compiled.UNSAFE_unverified() != nullptr);
   const uintptr_t compiled_addr = sandbox.get_sandbox_impl()->sandbox_address(
     compiled.UNSAFE_unverified());
-  REQUIRE(runtime.check(compiled_addr, 1, kTypeHashRealPcre8Or16) ==
+  REQUIRE(runtime.check(compiled_addr, 1, kTypeHashConstPcre) ==
           interspec::CheckResult::ok);
 
   auto table = sandbox.invoke_sandbox_function(
