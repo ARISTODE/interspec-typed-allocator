@@ -9,7 +9,46 @@ permissions:
   contents: write
 
 jobs:
+  p8-evidence:
+    runs-on: ubuntu-latest
+    container: ubuntu:20.04
+    timeout-minutes: 45
+    env:
+      INTERSPEC_BENCH_ITERATIONS: 100000
+      INTERSPEC_P8_BOUNDARY_ITERATIONS: 20000
+      INTERSPEC_P8_APP_REPETITIONS: 9
+    steps:
+      - name: Install build tools
+        run: |
+          apt-get update
+          DEBIAN_FRONTEND=noninteractive apt-get install -y \
+            autoconf automake build-essential ca-certificates cmake cargo curl \
+            g++-multilib gawk git libpopt-dev python2 python3 util-linux
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Generate deterministic P8 evidence
+        run: bash ./scripts/run_p8_evaluation.sh p8-results
+      - name: Generate RLBox + NaCl P8 evidence
+        run: |
+          chmod +x ./scripts/run_rlbox_nacl_poc.sh \
+            ./scripts/run_yaml_libyaml_rlbox_extension.sh \
+            ./scripts/write_p8_rlbox_environment.sh \
+            ./scripts/run_p8_rlbox_evaluation.sh
+          ./scripts/run_p8_rlbox_evaluation.sh p8-rlbox-results
+      - name: Upload P8 deterministic evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-p8-evaluation-results
+          path: p8-results
+      - name: Upload P8 RLBox evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-p8-rlbox-results
+          path: p8-rlbox-results
+
   release:
+    needs: p8-evidence
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -29,7 +68,21 @@ jobs:
           fi
           echo "INTERSPEC_RELEASE_VERSION=$version" >> "$GITHUB_ENV"
 
+      - name: Download P8 deterministic evidence
+        uses: actions/download-artifact@v4
+        with:
+          name: release-p8-evaluation-results
+          path: p8-results
+      - name: Download P8 RLBox evidence
+        uses: actions/download-artifact@v4
+        with:
+          name: release-p8-rlbox-results
+          path: p8-rlbox-results
+
       - name: Build release archive
+        env:
+          INTERSPEC_P8_EVAL_DIR: ${{ github.workspace }}/p8-results
+          INTERSPEC_P8_RLBOX_DIR: ${{ github.workspace }}/p8-rlbox-results
         run: bash ./scripts/package_release.sh dist
 
       - name: Publish GitHub release
