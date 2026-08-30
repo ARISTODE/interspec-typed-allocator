@@ -32,10 +32,26 @@ jobs:
           path: p8-results
 
   release-smoke:
+    needs:
+      - evaluation
+      - rlbox-nacl
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Download P8 deterministic evidence
+        uses: actions/download-artifact@v4
+        with:
+          name: p8-evaluation-results
+          path: p8-results
+      - name: Download P8 RLBox evidence
+        uses: actions/download-artifact@v4
+        with:
+          name: p8-rlbox-results
+          path: p8-rlbox-results
       - name: Build installable research preview
+        env:
+          INTERSPEC_P8_EVAL_DIR: ${{ github.workspace }}/p8-results
+          INTERSPEC_P8_RLBOX_DIR: ${{ github.workspace }}/p8-rlbox-results
         run: bash ./scripts/package_release.sh dist
       - name: Upload research preview archive
         uses: actions/upload-artifact@v4
