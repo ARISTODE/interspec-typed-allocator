@@ -1,0 +1,17 @@
+{
+  "rlbox_wasm2c_sandbox": {
+    "repository": "https://github.com/PLSysSec/rlbox_wasm2c_sandbox.git",
+    "commit": "c4f18c48cea47421617f72ba5edc95c68aa85671"
+  },
+  "rlbox": {
+    "repository": "https://github.com/PLSysSec/rlbox.git",
+    "commit": "b0157dc84f86ffbe4549e32ed5cbdfad79c17f43"
+  },
+  "wabt": {
+    "repository": "https://github.com/WebAssembly/wabt.git",
+    "commit": "974221b1ef82f6393d004e5da6116f2ad3e44005"
+  },
+  "wasi_sdk": {
+    "version": "21.0"
+  }
+}

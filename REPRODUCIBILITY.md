@@ -1,12 +1,12 @@
 # Reproducibility
 
-This repository pins the external source revisions used by the RLBox + NaCl proof and provides a reproducible path from policy inference through P8 paper-facing evidence and release packaging.
+This repository pins the external source revisions used by the RLBox + NaCl and RLBox + wasm2c proofs and provides a reproducible path from policy inference through P8/P9 backend evidence and release packaging.
 
 ## 1. Required environment
 
 The lightweight runtime, policy generation, P6 evaluation, and deterministic P8 report use a C++17 compiler, CMake, Python 3, and pthread support.
 
-The full RLBox + NaCl integration is tested in repository CI with Ubuntu 20.04 and installs the build dependencies listed in `.github/workflows/ci.yml` before invoking the integration and P8 measurement drivers.
+The full RLBox + NaCl integration is tested in repository CI with Ubuntu 20.04. The P9b RLBox + wasm2c integration is tested on the repository's current Ubuntu GitHub-hosted runner. Each job installs the build dependencies listed in `.github/workflows/ci.yml` before invoking its integration driver.
 
 ## 2. Pinned external revisions
 
@@ -24,6 +24,29 @@ repository: https://github.com/PLSysSec/nacl_sandbox_compiler.git
 commit: f274515ab22441ea6b4e937e519ace851fac308f
 ```
 
+RLBox wasm2c sandbox:
+
+```text
+repository: https://github.com/PLSysSec/rlbox_wasm2c_sandbox.git
+commit: c4f18c48cea47421617f72ba5edc95c68aa85671
+```
+
+RLBox API used by P9b:
+
+```text
+repository: https://github.com/PLSysSec/rlbox.git
+commit: b0157dc84f86ffbe4549e32ed5cbdfad79c17f43
+```
+
+WABT / wasm2c used by P9b:
+
+```text
+repository: https://github.com/WebAssembly/wabt.git
+commit: 974221b1ef82f6393d004e5da6116f2ad3e44005
+```
+
+P9b uses wasi-sdk 21.0 through the pinned upstream wasm2c build path.
+
 Rsync source used by the real popt boundary:
 
 ```text
@@ -31,7 +54,7 @@ repository: https://github.com/RsyncProject/rsync.git
 commit: 7c20b077c980036a19587701cec320cc88e42a4a
 ```
 
-The RLBox and NaCl revisions are also recorded in `backends/rlbox_nacl/manifest.json`. Real-boundary source revisions are recorded in the integration manifests consumed by the P7c/P8 report. The integration scripts refuse to treat arbitrary upstream revisions as equivalent to the evaluated configuration.
+The NaCl revisions are recorded in `backends/rlbox_nacl/manifest.json`. The wasm2c revisions are recorded in `backends/rlbox_wasm2c/manifest.json`. Real-boundary source revisions are recorded in the integration manifests consumed by the P7c/P8 report. The integration scripts refuse to treat arbitrary upstream revisions as equivalent to the evaluated configuration.
 
 ## 3. Core correctness
 
@@ -41,7 +64,7 @@ cmake --build build --parallel
 ctest --test-dir build --output-on-failure
 ```
 
-This runs the mechanism PoC, runtime hardening tests, policy generation tests, P6 security evaluation, P7c report checks, and P8 report/rendering unit tests.
+This runs the mechanism PoC, runtime hardening tests, policy generation tests, P6 security evaluation, P7c report checks, P8 report/rendering tests, the P9a baseline aggregation tests, and the P9b wasm-direct provenance/code-generation tests.
 
 ## 4. Source policy inference
 
@@ -87,26 +110,54 @@ This reuses the P6 security/runtime path, requires the P7c generalization report
 
 A completed deterministic report has `deterministic_complete` set to `true`. Release packaging rejects an incomplete report.
 
-## 7. Full RLBox + NaCl integration and P8 paired measurements
+## 7. Full RLBox + NaCl integration and P8/P9a measurements
 
 ```bash
 chmod +x scripts/run_rlbox_nacl_poc.sh \
   scripts/run_yaml_libyaml_rlbox_extension.sh \
   scripts/write_p8_rlbox_environment.sh \
-  scripts/run_p8_rlbox_evaluation.sh
+  scripts/run_p8_rlbox_evaluation.sh \
+  scripts/collect_p9a_rlbox_results.sh
 
 INTERSPEC_P8_BOUNDARY_ITERATIONS=20000 \
 INTERSPEC_P8_APP_REPETITIONS=9 \
+INTERSPEC_P9A_APP_REPETITIONS=9 \
 ./scripts/run_p8_rlbox_evaluation.sh p8-rlbox-results
+
+./scripts/collect_p9a_rlbox_results.sh p9a-rlbox-results
 ```
 
-The driver clones the pinned RLBox, NaCl, rsync, and boundary source revisions as required, applies the packaged backend, regenerates typed allocation policy artifacts, builds the sandboxed integrations, executes the synthetic and real-boundary regressions, and produces paired boundary/application timing evidence.
+The P8 driver clones the pinned RLBox, NaCl, rsync, and boundary source revisions as required, applies the packaged backend, regenerates typed allocation policy artifacts, builds the sandboxed integrations, executes the synthetic and real-boundary regressions, and produces paired boundary/application timing evidence.
 
-The paired baseline is `tracked_no_check`: sandboxing, typed allocation/provenance, policy registration, and marshalling remain enabled, while only the final T-side Extended-SP3 pointer acceptance check is bypassed. Therefore these measurements quantify incremental validation overhead, not total Extended-SP3 overhead relative to plain RLBox.
+The P8 paired baseline is `tracked_no_check`: sandboxing, typed allocation/provenance, policy registration, and marshalling remain enabled, while only the final T-side Extended-SP3 pointer acceptance check is bypassed. P9a additionally produces a three-way rsync/popt comparison with `rlbox_only`, `tracked_no_check`, and `extended_sp3` so tracking/provenance cost can be separated from final validation cost on the NaCl prototype path.
 
 Network access is required because the external repositories are cloned during the run. Hosted CI timings are reproducible reference measurements. Final publication timing numbers should be regenerated on controlled hardware with the same output format.
 
-## 8. Install and external consumer test
+## 8. P9b RLBox wasm2c integration
+
+P9b ports the allocation provenance and Extended-SP3 trusted-use checks to the wasm2c backend used by the InterSpec paper. The full end-to-end command is:
+
+```bash
+chmod +x scripts/run_rlbox_wasm2c_poc.sh
+./scripts/run_rlbox_wasm2c_poc.sh
+```
+
+The driver performs the complete experiment from a fresh directory. It clones the pinned `rlbox_wasm2c_sandbox` and rsync revisions, applies `backends/rlbox_wasm2c/apply_backend.py`, pins the RLBox and WABT revisions from the backend manifest, regenerates the rsync/popt policy with `tools/generate_wasm_boundary_policy.py`, compiles the real bundled popt implementation into Wasm, and builds the wasm2c runtime.
+
+For allocation provenance, each precise source site and explicit helper site is rewritten to a distinct direct Wasm import. The Wasm call supplies only the allocation size. Its trusted host wrapper embeds the corresponding SiteId and dispatches to T's SiteId-to-TypeId policy, so U does not provide either authority value as ordinary data.
+
+The driver then executes `p9b_wasm_smoke`, which verifies valid tracked use, spatial overflow rejection, ordinary same-domain untracked-pointer rejection, wrong-type rejection, and stale-pointer rejection after logical free. Finally, it mechanically transforms the existing rsync/popt trusted bridge to wasm2c, builds the complete trusted rsync executable, and runs both the option-parsing and local dry-run workloads with the real bundled popt executing inside RLBox wasm2c.
+
+Successful output includes both of these markers:
+
+```text
+InterSpec P9b: wasm2c security smoke passed
+InterSpec P9b: complete rsync executable ran with popt inside RLBox wasm2c
+```
+
+The P9b CI job is a required predecessor of `release-smoke`, so a branch cannot pass the full CI graph while the wasm2c integration is broken. P9b is a backend/security integration result, not a publication-quality performance result.
+
+## 9. Install and external consumer test
 
 ```bash
 cmake -S . -B build-install -DCMAKE_BUILD_TYPE=Release
@@ -121,9 +172,9 @@ cmake --build build-consumer --parallel
 
 This verifies that the installed public header and exported `interspec::runtime` CMake target can be consumed outside the source tree.
 
-## 9. Build the complete research preview archive
+## 10. Build the complete research preview archive
 
-The release archive intentionally requires both P8 evidence directories so a green packaging job cannot silently publish a pre-P8 artifact.
+The release archive intentionally requires both P8 evidence directories so a green packaging job cannot silently publish a pre-P8 artifact. The package also records the P9a/P9b evaluation plans and both backend manifests; P9a hosted timing artifacts remain CI evidence rather than a release prerequisite.
 
 ```bash
 ./scripts/run_p8_evaluation.sh p8-results
@@ -134,15 +185,15 @@ INTERSPEC_P8_RLBOX_DIR="$PWD/p8-rlbox-results" \
 ./scripts/package_release.sh dist
 ```
 
-The default artifact is named `interspec-typed-allocator-0.1.0.tar.gz` and is accompanied by a SHA256 checksum. In addition to the installed runtime and earlier P6/P7 documentation, the archive contains `P8_EVALUATION.md`, a mechanically rendered `P8_RESULTS.md`, deterministic/security/automation records, trusted-metadata runtime measurements, paired real-boundary summaries, paired rsync summaries, environment metadata, release notes, reproducibility instructions, and pinned manifests.
+The default artifact is named `interspec-typed-allocator-0.1.0.tar.gz` and is accompanied by a SHA256 checksum. In addition to the installed runtime and earlier P6/P7 documentation, the archive contains `P8_EVALUATION.md`, `P9A_EVALUATION.md`, `P9B_EVALUATION.md`, a mechanically rendered `P8_RESULTS.md`, deterministic/security/automation records, trusted-metadata runtime measurements, paired real-boundary summaries, paired rsync summaries, environment metadata, release notes, reproducibility instructions, and the pinned NaCl and wasm2c manifests.
 
 The package script verifies the required P8 files before creating the archive and rejects a deterministic report that is not complete.
 
 No license is inferred or added by the packaging script. Publication under a particular software license should be an explicit project decision rather than an artifact generation side effect.
 
-## 10. Publish a tagged GitHub research preview
+## 11. Publish a tagged GitHub research preview
 
-`.github/workflows/release.yml` regenerates P8 deterministic and RLBox evidence before building the same validated archive when a version tag is pushed. The tag must match the CMake project version exactly and must point at the current `main` head.
+`.github/workflows/release.yml` regenerates P8 deterministic and NaCl evidence and independently reruns the complete P9b wasm2c integration before building the validated archive when a version tag is pushed. The release job cannot start unless both backend gates pass. The tag must match the CMake project version exactly and must point at the current `main` head.
 
 For the current preview, the expected tag is:
 

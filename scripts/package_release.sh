@@ -62,11 +62,14 @@ cp -a "$stage"/. "$package"/
 mkdir -p "$package/share/interspec-typed-allocator"
 for doc in README.md P6_EVALUATION.md P6_RESULTS.md P7A_PROVENANCE.md \
            P7B_NATIVE_INTEGRATION.md P7C_GENERALIZATION.md P7C_RESULTS.md \
-           P8_EVALUATION.md RELEASE_NOTES.md REPRODUCIBILITY.md; do
+           P8_EVALUATION.md P9A_EVALUATION.md P9B_EVALUATION.md \
+           RELEASE_NOTES.md REPRODUCIBILITY.md; do
   cp "$root/$doc" "$package/share/interspec-typed-allocator/"
 done
 cp "$root/backends/rlbox_nacl/manifest.json" \
   "$package/share/interspec-typed-allocator/rlbox_nacl_manifest.json"
+cp "$root/backends/rlbox_wasm2c/manifest.json" \
+  "$package/share/interspec-typed-allocator/rlbox_wasm2c_manifest.json"
 cp "$root/integration/p7c_manifest.json" \
   "$package/share/interspec-typed-allocator/p7c_manifest.json"
 
@@ -98,6 +101,10 @@ cp "$package/share/interspec-typed-allocator/P8_RESULTS.md" "$p8_share/P8_RESULT
 
 for path in \
   "$package/share/interspec-typed-allocator/P8_EVALUATION.md" \
+  "$package/share/interspec-typed-allocator/P9A_EVALUATION.md" \
+  "$package/share/interspec-typed-allocator/P9B_EVALUATION.md" \
+  "$package/share/interspec-typed-allocator/rlbox_nacl_manifest.json" \
+  "$package/share/interspec-typed-allocator/rlbox_wasm2c_manifest.json" \
   "$package/share/interspec-typed-allocator/P8_RESULTS.md" \
   "$p8_share/p8-deterministic.json" \
   "$p8_share/p8-automation.csv" \

@@ -35,6 +35,7 @@ jobs:
     needs:
       - evaluation
       - rlbox-nacl
+      - rlbox-wasm2c
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -135,3 +136,26 @@ jobs:
           name: p9a-rlbox-only-results
           if-no-files-found: ignore
           path: p9a-rlbox-results
+
+  rlbox-wasm2c:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Install build tools
+        run: |
+          sudo apt-get update
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y \
+            autoconf automake build-essential ca-certificates git libpopt-dev python3
+      - uses: actions/checkout@v4
+      - name: Run P9b RLBox wasm2c integration
+        run: |
+          set -o pipefail
+          chmod +x ./scripts/run_rlbox_wasm2c_poc.sh
+          ./scripts/run_rlbox_wasm2c_poc.sh 2>&1 | tee /tmp/interspec-p9b-wasm2c.log
+      - name: Upload P9b wasm2c diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: p9b-wasm2c-diagnostics
+          if-no-files-found: ignore
+          path: /tmp/interspec-p9b-wasm2c.log

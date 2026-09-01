@@ -59,12 +59,30 @@ class Runtime {
     return true;
   }
 
+  /*
+   * Backends with immutable direct-call identities, such as wasm2c, do not
+   * need to authorize allocation from a native program-counter range.  They
+   * bind a trusted site identifier directly to its inferred type instead.
+   * The identifier itself is never accepted from ordinary U data; the backend
+   * must embed it in a trusted host import/callback implementation.
+   */
+  bool register_allocation_site_id(SiteId id, TypeId type_id) {
+    std::unique_lock<std::shared_mutex> lock(mu_);
+    const auto type = types_.find(type_id);
+    if (id == 0 || type == types_.end() ||
+        site_types_.find(id) != site_types_.end())
+      return false;
+    site_types_.emplace(id, type->second);
+    return true;
+  }
+
   bool register_allocation_site(SiteId id, uintptr_t begin, uintptr_t end,
                                 TypeId type_id) {
     std::unique_lock<std::shared_mutex> lock(mu_);
     const auto type = types_.find(type_id);
     if (id == 0 || begin == 0 || begin >= end || type == types_.end() ||
-        sites_by_id_.find(id) != sites_by_id_.end())
+        sites_by_id_.find(id) != sites_by_id_.end() ||
+        site_types_.find(id) != site_types_.end())
       return false;
 
     auto next = sites_.lower_bound(begin);
@@ -78,6 +96,7 @@ class Runtime {
     const auto inserted = sites_.emplace(begin, site);
     if (!inserted.second) return false;
     sites_by_id_.emplace(id, begin);
+    site_types_.emplace(id, type->second);
     return true;
   }
 
@@ -90,9 +109,9 @@ class Runtime {
 
   uintptr_t allocate_from_site(size_t size, SiteId site_id) {
     std::unique_lock<std::shared_mutex> lock(mu_);
-    const AllocationSite* site = find_site_by_id_unlocked(site_id);
-    if (!site || size == 0) return 0;
-    return allocate_with_hash_unlocked(size, site->type_hash, site->id);
+    const auto site = site_types_.find(site_id);
+    if (site == site_types_.end() || size == 0) return 0;
+    return allocate_with_hash_unlocked(size, site->second, site_id);
   }
 
   uintptr_t allocate_from_pc(size_t size, uintptr_t caller_pc) {
@@ -113,7 +132,7 @@ class Runtime {
 
   size_t allocation_site_count() const {
     std::shared_lock<std::shared_mutex> lock(mu_);
-    return sites_.size();
+    return site_types_.size();
   }
 
   bool release(uintptr_t ptr) {
@@ -247,6 +266,7 @@ class Runtime {
   std::unordered_map<uint64_t, TypeId> type_ids_;
   std::map<uintptr_t, AllocationSite> sites_;
   std::unordered_map<SiteId, uintptr_t> sites_by_id_;
+  std::unordered_map<SiteId, uint64_t> site_types_;
   std::map<uintptr_t, Allocation> allocations_;
 };
 
