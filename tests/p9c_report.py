@@ -15,6 +15,7 @@ report = module.build(
     ROOT,
     ROOT / "evaluation" / "p9c" / "interspec_paper_integrity_coverage.csv",
     ROOT / "evaluation" / "p9c" / "paper_sp3_manifest.json",
+    ROOT / "evaluation" / "p9c" / "source_reconstruction_audit.json",
 )
 
 assert report["paper_source_integrity"]
@@ -27,7 +28,14 @@ assert report["classification"]["ineligible"] == 0
 assert report["classification"]["insufficient_source_metadata"] == 32
 assert not report["capability_resolution_complete"]
 assert not report["source_fidelity_complete"]
+assert report["source_reconstruction_audit_complete"]
+assert report["source_fidelity_limit_acknowledged"]
+assert report["p9c_evaluation_complete"]
 assert report["prototype"]["demonstrated_exact_paper_cases"] == 0
+assert report["coverage_claim"]["paper_denominator"] == 32
+assert report["coverage_claim"]["exact_case_level_percentage_supported"] is False
+assert report["coverage_claim"]["exact_eligible_lower_bound"] == 0
+assert report["coverage_claim"]["exact_demonstrated_lower_bound"] == 0
 
 expected = {
     "ffmpeg/libvpx": 2,

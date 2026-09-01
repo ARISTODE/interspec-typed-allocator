@@ -15,6 +15,8 @@ def render(report, cases):
     paper = report["paper"]
     classification = report["classification"]
     prototype = report["prototype"]
+    claim = report["coverage_claim"]
+    audit = report.get("source_reconstruction_audit") or {}
 
     lines = [
         "# P9c SP3 Coverage Reconciliation",
@@ -34,9 +36,7 @@ def render(report, cases):
         "| --- | ---: | --- |",
     ]
     for row in paper["boundaries"]:
-        lines.append(
-            f"| {row['boundary']} | {row['sp3_fields']} | {row['raw_alignment']} |"
-        )
+        lines.append(f"| {row['boundary']} | {row['sp3_fields']} | {row['raw_alignment']} |")
 
     lines += [
         "",
@@ -47,13 +47,40 @@ def render(report, cases):
         f"Cases explicitly classified as insufficient source metadata: "
         f"**{classification['insufficient_source_metadata']}**.",
         "",
-        "The current result intentionally does not turn matching raw row counts into paper field "
-        "identities. The processed paper artifact preserves aggregate SP3 counts, while the packaged "
-        "raw reports come from report paths whose cardinality or semantics are not consistently "
-        "paper aligned. Therefore a precise Extended SP3 coverage percentage over the 32 paper fields "
-        "is not yet supported by the preserved evidence.",
+        "A paper case is not promoted merely because a raw report has the same row count or because "
+        "its boundary has an Extended SP3 prototype. Exact field identity is required first.",
         "",
-        "## 3. Existing prototype evidence",
+        "## 3. Source reconstruction audit",
+        "",
+    ]
+
+    conclusion = audit.get("conclusion", {})
+    if report.get("source_reconstruction_audit_complete"):
+        lines += [
+            "The reconstruction audit concludes that the preserved final-paper artifact does not "
+            "contain a recoverable one-row-per-paper-field identity map for all 32 SP3 fields. "
+            "The processed table is aggregate-only, while preserved raw reports differ in granularity, "
+            "cardinality, report version, or boundary coverage.",
+            "",
+            f"Audit checks recorded: **{len(audit.get('checks', []))}**. "
+            f"Exact case-level percentage supported: **no**.",
+            "",
+        ]
+    else:
+        lines += ["The source reconstruction audit is incomplete.", ""]
+
+    lines += [
+        "## 4. Defensible coverage claim",
+        "",
+        f"Paper denominator: **{claim['paper_denominator']}** SP3 fields. "
+        f"Exact eligible lower bound: **{claim['exact_eligible_lower_bound']}**. "
+        f"Exact demonstrated lower bound: **{claim['exact_demonstrated_lower_bound']}**.",
+        "",
+        "These lower bounds are provenance bounds, not estimates of actual applicability. "
+        "P9c therefore does **not** report an Extended SP3 percentage over the 32 paper fields. "
+        "Doing so would require inventing field identities that the preserved evidence does not establish.",
+        "",
+        "## 5. Existing prototype evidence",
         "",
         f"Exact paper cases mechanically mapped to a demonstrated prototype use: "
         f"**{prototype['demonstrated_exact_paper_cases']}**.",
@@ -68,22 +95,32 @@ def render(report, cases):
             f"{'yes' if row['exact_paper_case_mapping'] else 'no'} |"
         )
 
+    examples = audit.get("paper_named_examples", [])
+    if examples:
+        lines += [
+            "",
+            "The paper also names concrete SP3 examples that correspond to pointer shapes demonstrated "
+            "by the prototype. P9c records these as semantic corroboration only, not as exact case mappings:",
+            "",
+        ]
+        for example in examples:
+            lines.append(f"* **{example['boundary']}**: {example['prototype_relationship']}")
+
     lines += [
         "",
-        "These boundary integrations are valid mechanism evidence, but P9c does not count them as "
-        "coverage of a particular paper field until the original field identity is reconstructed and "
-        "bound to that trusted use.",
-        "",
-        "## 4. Machine-readable case units",
+        "## 6. Machine-readable case units",
         "",
         f"`p9c-cases.csv` contains **{len(cases)} rows**, one stable count-unit identifier for every "
         "SP3 field reported by the paper. A generated identifier is not a claim about the original "
-        "source field name. Its purpose is to make unresolved evidence explicit instead of inventing "
-        "a mapping.",
+        "source field name.",
         "",
-        "P9c can move a case from `insufficient_source_metadata` to `eligible` or `ineligible` only "
-        "through a manifest override that records the reconstructed identity and source basis. "
-        "A demonstrated prototype claim additionally requires an exact paper-case mapping.",
+        f"P9c evaluation complete: **{'yes' if report['p9c_evaluation_complete'] else 'no'}**. "
+        f"Capability resolution complete: **{'yes' if report['capability_resolution_complete'] else 'no'}**. "
+        f"Source fidelity complete: **{'yes' if report['source_fidelity_complete'] else 'no'}**.",
+        "",
+        "The evaluation is complete in source-fidelity-limitation mode: the denominator is reproduced "
+        "exactly, unresolved identities remain explicit, and the result refuses an unsupported precise "
+        "coverage fraction.",
         "",
     ]
     return "\n".join(lines)

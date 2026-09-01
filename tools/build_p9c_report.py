@@ -45,8 +45,9 @@ def read_coverage(path):
     return rows
 
 
-def build(root, coverage_path, manifest_path):
+def build(root, coverage_path, manifest_path, audit_path=None):
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    audit = json.loads(audit_path.read_text(encoding="utf-8")) if audit_path else None
     coverage = read_coverage(coverage_path)
 
     manifest_counts = {
@@ -148,9 +149,7 @@ def build(root, coverage_path, manifest_path):
     identity_counts = Counter(case["identity_status"] for case in cases)
 
     resolved = capability_counts["eligible"] + capability_counts["ineligible"]
-    capability_resolution_complete = (
-        explicit_classification and resolved == expected_total
-    )
+    capability_resolution_complete = explicit_classification and resolved == expected_total
     source_fidelity_complete = (
         explicit_classification
         and identity_counts["aggregate_only"] == 0
@@ -158,6 +157,38 @@ def build(root, coverage_path, manifest_path):
             case["identity_status"] not in {"unknown", "aggregate_only"}
             for case in cases
         )
+    )
+
+    audit_complete = False
+    source_limit = False
+    coverage_claim = {
+        "paper_denominator": expected_total,
+        "exact_case_level_percentage_supported": source_fidelity_complete,
+        "exact_eligible_lower_bound": capability_counts["eligible"],
+        "exact_demonstrated_lower_bound": prototype_counts["demonstrated"],
+    }
+    if audit is not None:
+        conclusion = audit.get("conclusion", {})
+        source_limit = (
+            conclusion.get("status") == "source_fidelity_limitation"
+            and conclusion.get("exact_field_identity_map_recoverable_from_preserved_artifact") is False
+            and conclusion.get("exact_case_level_percentage_supported") is False
+            and int(conclusion.get("paper_denominator", -1)) == expected_total
+        )
+        audit_complete = source_limit and bool(audit.get("checks"))
+        if source_limit:
+            coverage_claim = {
+                "paper_denominator": expected_total,
+                "exact_case_level_percentage_supported": False,
+                "exact_eligible_lower_bound": int(conclusion.get("exact_eligible_lower_bound", 0)),
+                "exact_demonstrated_lower_bound": int(conclusion.get("exact_demonstrated_lower_bound", 0)),
+                "interpretation": conclusion.get("interpretation", ""),
+            }
+
+    p9c_evaluation_complete = (
+        explicit_classification
+        and not failures
+        and (capability_resolution_complete or audit_complete)
     )
 
     paper_rows = []
@@ -175,11 +206,14 @@ def build(root, coverage_path, manifest_path):
         )
 
     return {
-        "schema_version": 1,
+        "schema_version": 2,
         "paper_source_integrity": not failures,
         "classification_explicit": explicit_classification,
         "capability_resolution_complete": capability_resolution_complete,
         "source_fidelity_complete": source_fidelity_complete,
+        "source_reconstruction_audit_complete": audit_complete,
+        "source_fidelity_limit_acknowledged": source_limit,
+        "p9c_evaluation_complete": p9c_evaluation_complete,
         "paper": {
             "source": manifest["source"],
             "boundary_count": len(coverage_counts),
@@ -201,6 +235,8 @@ def build(root, coverage_path, manifest_path):
             "unresolved_mapping": prototype_counts["unresolved_mapping"],
             "boundary_evidence": manifest.get("prototype_boundary_evidence", []),
         },
+        "coverage_claim": coverage_claim,
+        "source_reconstruction_audit": audit,
         "completion_failures": failures,
         "cases": cases,
     }
@@ -224,17 +260,23 @@ def main():
         "--manifest",
         default="evaluation/p9c/paper_sp3_manifest.json",
     )
+    parser.add_argument(
+        "--audit",
+        default="evaluation/p9c/source_reconstruction_audit.json",
+    )
     parser.add_argument("--output-dir", required=True)
     parser.add_argument("--require-source-integrity", action="store_true")
     parser.add_argument("--require-resolved", action="store_true")
+    parser.add_argument("--require-complete", action="store_true")
     args = parser.parse_args()
 
     coverage = (ROOT / args.coverage).resolve()
     manifest = (ROOT / args.manifest).resolve()
+    audit = (ROOT / args.audit).resolve() if args.audit else None
     out = Path(args.output_dir).resolve()
     out.mkdir(parents=True, exist_ok=True)
 
-    report = build(ROOT, coverage, manifest)
+    report = build(ROOT, coverage, manifest, audit)
     (out / "p9c-report.json").write_text(
         json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8"
     )
@@ -245,6 +287,8 @@ def main():
     ):
         raise SystemExit(1)
     if args.require_resolved and not report["capability_resolution_complete"]:
+        raise SystemExit(1)
+    if args.require_complete and not report["p9c_evaluation_complete"]:
         raise SystemExit(1)
 
 

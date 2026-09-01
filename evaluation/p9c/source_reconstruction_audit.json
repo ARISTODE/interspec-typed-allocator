@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "audit_scope": "reconstruct the exact identities of the 32 SP3 pointer fields reported by the final InterSpec evaluation",
+  "paper_artifact": {
+    "repository": "ARISTODE/interspec-artifact",
+    "commit": "2b2d2fd4de69ee44a4363e69f8cfb82ceed132db",
+    "paper_source_commit": "c692d9581e17689ca1dc20545c48a355c6a86ff6"
+  },
+  "checks": [
+    {
+      "source": "data/processed/paper/integrity_coverage.csv",
+      "observation": "Preserves the final per-boundary SP3 counts and total 32, but contains no field identity column."
+    },
+    {
+      "source": "scripts/reproduce_paper_tables.py",
+      "observation": "Reproduces and checks aggregate counts only; it does not reconstruct the 32 field identities."
+    },
+    {
+      "source": "docs/CLAIMS_TO_ARTIFACTS.md",
+      "observation": "Maps the paper's integrity coverage claim to the aggregate processed table and pointer figure data, not to a one-row-per-paper-field case list."
+    },
+    {
+      "source": "data/raw/policy_reports/boundary_pointer_fields.html",
+      "observation": "The preserved raw pointer analysis is a separate report path. It explicitly excludes nginx/openssl and reports 53 SP3 path-level cases across nine benchmarks, so it is not the final paper's 32-field identity list."
+    },
+    {
+      "source": "data/raw/policy_reports/magick_libpng/sp3_cases.csv",
+      "observation": "Contains two raw rows while the final paper table counts three SP3 fields."
+    },
+    {
+      "source": "data/raw/policy_reports/ffmpeg_libvpx",
+      "observation": "Does not preserve a paper-aligned two-row SP3 case list for the two fields counted in the final paper."
+    },
+    {
+      "source": "data/raw/policy_reports/nginx_openssl/sp3_cases.csv",
+      "observation": "Contains many path-level candidates with several target classes and is not a five-row final-paper field list."
+    },
+    {
+      "source": "docs/provenance/nginx_openssl_sp3_unknown_audit.md",
+      "observation": "Documents 100 raw unknown target-domain cases in the analysis report, whereas the final paper table reports 11 unknown pointer fields, confirming a granularity/report-version mismatch."
+    },
+    {
+      "source": "ARISTODE/Automatic-Access-Policy-Enforcement commit 1808d90ecc0063fe72e15c8c88a036800b63e111",
+      "observation": "The historical SP3 listing moved by this commit is an enforcement example, not a listing of the 32 evaluated field identities."
+    }
+  ],
+  "paper_named_examples": [
+    {
+      "boundary": "rsync/popt",
+      "paper_example": "The security assessment corrupts the parsed string pointer written into g_slot and reports SP3 rejection before trusted code reads through it.",
+      "prototype_relationship": "The Extended SP3 prototype demonstrates the returned-string pointer shape on the rsync/popt boundary, but the preserved evidence does not bind that trusted use to one numbered field in the aggregate paper table.",
+      "count_as_exact_mapping": false
+    },
+    {
+      "boundary": "nginx/libpcre",
+      "paper_example": "The paper describes the compiled regular-expression name-table pointer as an SP3 case and the security assessment corrupts that pointer before trusted code reads the table.",
+      "prototype_relationship": "The Extended SP3 prototype demonstrates the interior name-table pointer shape on the nginx/libpcre boundary, but the preserved source snapshots do not establish an exact one-to-one field identity binding to the aggregate paper row.",
+      "count_as_exact_mapping": false
+    }
+  ],
+  "conclusion": {
+    "status": "source_fidelity_limitation",
+    "exact_field_identity_map_recoverable_from_preserved_artifact": false,
+    "exact_case_level_percentage_supported": false,
+    "paper_denominator": 32,
+    "exact_eligible_lower_bound": 0,
+    "exact_demonstrated_lower_bound": 0,
+    "interpretation": "Zero is a provenance lower bound, not an estimate of mechanism applicability. Boundary and semantic-shape demonstrations remain valid mechanism evidence, but cannot be converted into a precise fraction of the paper's 32 fields without inventing field identities."
+  }
+}
