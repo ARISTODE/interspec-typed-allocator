@@ -32,6 +32,12 @@ def transform(text):
     )
     text = replace_once(
         text,
+        '#include "interspec_popt_t_policy.h"',
+        '#include "interspec_t_policy.h"',
+        "wasm policy header",
+    )
+    text = replace_once(
+        text,
         "using SandboxType = rlbox::rlbox_nacl_sandbox;",
         "using SandboxType = rlbox::rlbox_wasm2c_sandbox;",
         "sandbox type",
