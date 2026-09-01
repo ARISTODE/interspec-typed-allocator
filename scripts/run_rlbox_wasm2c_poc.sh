@@ -29,15 +29,26 @@ cp "$popt_generated/interspec_u_policy.h" "$popt_wasm/interspec_popt_u_policy.h"
 cp "$root/integration/rsync_popt/popt_typed_shim_wasm.c" "$work/c_src/"
 cp "$root/integration/rsync_popt/p4c_bridge_untrusted.c" "$work/c_src/"
 cp "$root/integration/rsync_popt/popt_help_stub.c" "$work/c_src/"
+cp "$root/integration/rsync_popt/p9b_wasi_compat.c" "$work/c_src/"
+cp "$root/integration/rsync_popt/p9b_wasi_compat.h" "$work/c_src/"
 cp "$popt_generated/interspec_wasm_imports.c" "$work/src/"
 
+# WASI intentionally omits process credential and exec interfaces that bundled
+# popt references in paths outside the evaluated parser workloads. Provide
+# declarations and deterministic stubs so the real parser can be compiled while
+# preserving the relevant safety check: real and effective IDs remain equal.
 python3 - "$popt_wasm/popt.c" <<'PY'
 from pathlib import Path
 import sys
 path = Path(sys.argv[1])
 text = path.read_text()
 needle = '#include "system.h"\n'
-insert = needle + '#include <stdint.h>\n#include "interspec_popt_u_policy.h"\n'
+insert = (
+    needle
+    + '#include <stdint.h>\n'
+    + '#include "interspec_popt_u_policy.h"\n'
+    + '#include "p9b_wasi_compat.h"\n'
+)
 assert needle in text
 path.write_text(text.replace(needle, insert, 1))
 PY
@@ -49,6 +60,13 @@ path = Path(sys.argv[1])
 text = path.read_text()
 needle = '#endif  /* defined(HAVE_MCHECK_H) && defined(__GNUC__) */\n'
 insert = needle + r'''
+
+#ifndef POPT_SYSCONFDIR
+#define POPT_SYSCONFDIR "/etc"
+#endif
+#ifndef PACKAGE
+#define PACKAGE "rsync"
+#endif
 
 #ifdef INTERSPEC_TYPED_POPT
 void interspec_typed_free(void *ptr);
@@ -86,7 +104,8 @@ new = '''set(C_SOURCE_FILES
     "${CMAKE_SOURCE_DIR}/c_src/rsync-popt/poptint.c"
     "${CMAKE_SOURCE_DIR}/c_src/popt_typed_shim_wasm.c"
     "${CMAKE_SOURCE_DIR}/c_src/p4c_bridge_untrusted.c"
-    "${CMAKE_SOURCE_DIR}/c_src/popt_help_stub.c")'''
+    "${CMAKE_SOURCE_DIR}/c_src/popt_help_stub.c"
+    "${CMAKE_SOURCE_DIR}/c_src/p9b_wasi_compat.c")'''
 assert old in text
 text = text.replace(old, new, 1)
 source = '${CMAKE_SOURCE_DIR}/c_src/wasm2c_sandbox_wrapper.c\n                            ${rlbox_SOURCE_DIR}/code/tests/rlbox_glue/lib/libtest.c'
@@ -100,8 +119,6 @@ extra = '''                            -O3
                             -DHAVE_STPCPY=1
                             -DHAVE_STRERROR=1
                             -DINTERSPEC_TYPED_POPT=1
-                            -DPOPT_SYSCONFDIR=\"/etc\"
-                            -DPACKAGE=\"rsync\"
 '''
 assert text.count(flag) == 2
 text = text.replace(flag, extra)
