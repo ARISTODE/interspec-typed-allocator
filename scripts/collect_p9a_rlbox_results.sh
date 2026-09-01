@@ -12,11 +12,32 @@ cp "$raw" "$out/rsync-performance.csv"
 python3 "$root/tools/summarize_p9a_application.py" \
   --input "$out/rsync-performance.csv" \
   --output "$out/rsync-performance-summary.csv"
-"$root/scripts/write_p8_rlbox_environment.sh" "$out/environment.txt"
-reference_commit=$(git -C "$root" rev-parse HEAD 2>/dev/null || echo unknown)
+
+commit=${GITHUB_SHA:-}
+if [[ -z "$commit" ]]; then
+  commit=$(git -C "$root" rev-parse HEAD 2>/dev/null || true)
+fi
+if [[ -z "$commit" ]]; then
+  commit=unknown
+fi
+cpu=$(awk -F: '/^model name[[:space:]]*:/ {sub(/^[[:space:]]+/, "", $2); print $2; exit}' /proc/cpuinfo 2>/dev/null || true)
+if [[ -z "$cpu" ]]; then
+  cpu=unknown
+fi
+{
+  echo "commit=$commit"
+  echo "kernel=$(uname -srmo)"
+  echo "cpu=$cpu"
+  echo "application_repetitions=${INTERSPEC_P9A_APP_REPETITIONS:-${INTERSPEC_P8_APP_REPETITIONS:-9}}"
+  echo "rlbox_baseline=rlbox_only"
+  echo "tracking_configuration=tracked_no_check"
+  echo "security_configuration=extended_sp3"
+  echo "note=rlbox_only disables the active InterSpec typed-allocation/provenance runtime path and final Extended-SP3 validation for the measured rsync/popt boundary"
+} > "$out/environment.txt"
+
 python3 "$root/tools/render_p9a_results.py" \
   --summary "$out/rsync-performance-summary.csv" \
-  --commit "$reference_commit" \
+  --commit "$commit" \
   --environment "$out/environment.txt" \
   --output "$out/P9A_RESULTS.md"
 
