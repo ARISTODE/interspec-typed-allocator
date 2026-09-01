@@ -31,9 +31,22 @@ jobs:
           name: p8-evaluation-results
           path: p8-results
 
+  p9c-coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Reconcile P9c paper SP3 coverage
+        run: bash ./scripts/run_p9c_evaluation.sh p9c-results
+      - name: Upload P9c SP3 coverage reconciliation
+        uses: actions/upload-artifact@v4
+        with:
+          name: p9c-sp3-coverage-results
+          path: p9c-results
+
   release-smoke:
     needs:
       - evaluation
+      - p9c-coverage
       - rlbox-nacl
       - rlbox-wasm2c
     runs-on: ubuntu-latest
