@@ -35,6 +35,7 @@ jobs:
     needs:
       - evaluation
       - rlbox-nacl
+      - rlbox-wasm2c
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -148,6 +149,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Run P9b RLBox wasm2c integration
         run: |
+          set -o pipefail
           chmod +x ./scripts/run_rlbox_wasm2c_poc.sh
           ./scripts/run_rlbox_wasm2c_poc.sh 2>&1 | tee /tmp/interspec-p9b-wasm2c.log
       - name: Upload P9b wasm2c diagnostics
