@@ -103,6 +103,7 @@ jobs:
     env:
       INTERSPEC_P8_BOUNDARY_ITERATIONS: 20000
       INTERSPEC_P8_APP_REPETITIONS: 9
+      INTERSPEC_P9A_APP_REPETITIONS: 9
     steps:
       - name: Install build tools
         run: |
@@ -111,13 +112,15 @@ jobs:
             autoconf automake build-essential ca-certificates cmake cargo curl \
             g++-multilib gawk git libpopt-dev python2 python3 util-linux
       - uses: actions/checkout@v4
-      - name: Run RLBox NaCl, P4c, P7c, and P8 measurements
+      - name: Run RLBox NaCl, P4c, P7c, P8, and P9a measurements
         run: |
           chmod +x ./scripts/run_rlbox_nacl_poc.sh \
             ./scripts/run_yaml_libyaml_rlbox_extension.sh \
             ./scripts/write_p8_rlbox_environment.sh \
-            ./scripts/run_p8_rlbox_evaluation.sh
+            ./scripts/run_p8_rlbox_evaluation.sh \
+            ./scripts/collect_p9a_rlbox_results.sh
           ./scripts/run_p8_rlbox_evaluation.sh p8-rlbox-results
+          ./scripts/collect_p9a_rlbox_results.sh p9a-rlbox-results
       - name: Upload P8 RLBox measurements and diagnostics
         if: always()
         uses: actions/upload-artifact@v4
@@ -125,3 +128,10 @@ jobs:
           name: p8-rlbox-results
           if-no-files-found: ignore
           path: p8-rlbox-results
+      - name: Upload P9a RLBox-only baseline
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: p9a-rlbox-only-results
+          if-no-files-found: ignore
+          path: p9a-rlbox-results

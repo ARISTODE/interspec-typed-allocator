@@ -66,3 +66,9 @@ add_test(NAME p8_application_summary COMMAND ${Python3_EXECUTABLE}
   ${CMAKE_CURRENT_SOURCE_DIR}/tests/p8_application.py)
 add_test(NAME p8_result_renderer COMMAND ${Python3_EXECUTABLE}
   ${CMAKE_CURRENT_SOURCE_DIR}/tests/p8_render.py)
+add_test(NAME p9a_bridge_transform COMMAND ${Python3_EXECUTABLE}
+  ${CMAKE_CURRENT_SOURCE_DIR}/tests/p9a_bridge_transform.py)
+add_test(NAME p9a_application_summary COMMAND ${Python3_EXECUTABLE}
+  ${CMAKE_CURRENT_SOURCE_DIR}/tests/p9a_application.py)
+add_test(NAME p9a_result_renderer COMMAND ${Python3_EXECUTABLE}
+  ${CMAKE_CURRENT_SOURCE_DIR}/tests/p9a_render.py)
