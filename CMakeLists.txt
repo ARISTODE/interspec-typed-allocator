@@ -38,6 +38,9 @@ add_test(NAME runtime_hardening COMMAND runtime_hardening)
 add_executable(policy_runtime tests/policy_runtime.cpp)
 target_link_libraries(policy_runtime PRIVATE interspec::runtime)
 add_test(NAME policy_runtime COMMAND policy_runtime)
+add_executable(p9b_wasm_runtime tests/p9b_wasm_runtime.cpp)
+target_link_libraries(p9b_wasm_runtime PRIVATE interspec::runtime)
+add_test(NAME p9b_wasm_runtime COMMAND p9b_wasm_runtime)
 add_executable(p6_security_eval evaluation/security_eval.cpp)
 target_link_libraries(p6_security_eval PRIVATE interspec::runtime)
 add_test(NAME p6_security_eval COMMAND p6_security_eval)
@@ -54,6 +57,8 @@ add_test(NAME policy_codegen_hardening COMMAND ${Python3_EXECUTABLE}
   ${CMAKE_CURRENT_SOURCE_DIR}/tests/policy_codegen_hardening.py)
 add_test(NAME boundary_codegen COMMAND ${Python3_EXECUTABLE}
   ${CMAKE_CURRENT_SOURCE_DIR}/tests/boundary_codegen.py)
+add_test(NAME p9b_wasm_codegen COMMAND ${Python3_EXECUTABLE}
+  ${CMAKE_CURRENT_SOURCE_DIR}/tests/p9b_wasm_codegen.py)
 add_test(NAME p7c_report COMMAND ${Python3_EXECUTABLE}
   ${CMAKE_CURRENT_SOURCE_DIR}/tests/p7c_report.py)
 add_test(NAME p7c_report_complete COMMAND ${Python3_EXECUTABLE}
