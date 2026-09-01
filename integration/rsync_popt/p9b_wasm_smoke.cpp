@@ -9,7 +9,7 @@
 #include "rlbox_wasm2c_sandbox.hpp"
 
 #include "interspec/policy_runtime.h"
-#include "interspec_popt_t_policy.h"
+#include "interspec_t_policy.h"
 
 #include <cassert>
 #include <cstdint>
