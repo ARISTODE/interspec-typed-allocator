@@ -1,6 +1,6 @@
 # InterSpec Typed Allocator Research Preview
 
-This release packages the completed P0 through P7c typed allocator proof of concept for extending InterSpec SP3 with trusted allocation metadata.
+This release packages the Extended-SP3 research prototype through P9b. The artifact strengthens InterSpec's pointer-domain policy with trusted allocation metadata so covered trusted uses can require a live tracked allocation, the expected trusted type, and a byte extent contained within that allocation.
 
 The release demonstrates:
 
@@ -8,7 +8,7 @@ The release demonstrates:
 
 • tracked U allocations with trusted base, size, type, and allocation-site provenance
 
-• expected type and allocation-bounded pointer validation before T use
+• expected-type and allocation-bounded pointer validation before T use
 
 • logical lifetime invalidation across free and realloc
 
@@ -16,20 +16,22 @@ The release demonstrates:
 
 • P7a allocation-site authority derived from trusted NaCl callback execution state rather than a TypeId selected by U
 
-• P7b `interspec::PolicyRuntime` and composable boundary-policy generation, removing trusted type/site registration and callback-PC dispatch logic from application-specific bridges
+• P7b `interspec::PolicyRuntime` and composable boundary-policy generation, removing trusted type/site registration and provenance dispatch logic from application-specific bridges
 
 • P7c multi-boundary generalization across rsync/popt, memcached/bipbuffer, PCRE name-table metadata, and libyaml structured scalar output, including runtime-sized interior-pointer validation
 
-• boundary-global helper-site symbols namespaced by generated policy so multiple policies can coexist in one NaCl module
+• P8 deterministic security, automation, performance, and packaging evidence with mechanically rendered paper-facing summaries
 
-• a pinned RLBox + NaCl backend and complete rsync-as-T / real bundled popt-as-U application path
+• P9a a three-way rsync/popt reference measurement separating the RLBox-only runtime path, typed allocation/provenance without final validation, and full Extended SP3 on the NaCl prototype backend
 
-• P5 concurrency, arithmetic, collision, and scalability hardening
+• P9b a pinned RLBox wasm2c backend and complete rsync-as-T / real bundled popt-as-U path using wasm-direct allocation-site provenance
 
-• P6 security evaluation, runtime microbenchmarks, reproducibility metadata, and an installable CMake package
+P9b gives each authorized allocation site a unique direct Wasm import. The module supplies only the requested allocation size. The trusted host wrapper for that immutable import embeds the corresponding SiteId and dispatches to T's SiteId-to-TypeId policy. This avoids trusting a TypeId or SiteId selected by U while using a provenance primitive natural to wasm2c rather than NaCl callback program counters.
 
-P7c reports inferred and explicit helper allocation sites separately. The memcached/bipbuffer allocation is a precise direct-malloc site inferred from real source. PCRE and libyaml use allocator abstractions (`pcre_malloc` and `YAML_MALLOC`), so their selected object allocations are represented honestly as explicit generated boundary helper sites rather than as direct-malloc inference.
+The P9b security smoke verifies valid tracked use together with spatial-overflow, same-domain untracked-pointer, wrong-type, and stale-pointer rejection. The complete pinned rsync executable also runs its option-parsing and local dry-run workloads with the real bundled popt implementation inside RLBox wasm2c.
 
-The artifact remains a research preview rather than a claim of production completeness. P7c generalizes Extended-SP3 security-policy/runtime integration, not arbitrary library API marshalling. Address reuse is intentionally disabled. Allocation-site provenance is not general control-flow integrity, U-controlled object contents remain untrusted, and the runtime does not prove intended-object identity among multiple simultaneously live allocations of the same trusted type.
+P7c/P8 report inferred and explicit helper allocation sites separately. The memcached/bipbuffer allocation is a precise direct-malloc site inferred from real source. PCRE and libyaml use allocator abstractions (`pcre_malloc` and `YAML_MALLOC`), so their selected object allocations are represented as explicit generated boundary helper sites rather than direct-malloc inference.
 
-See `P6_EVALUATION.md`, `P6_RESULTS.md`, `P7A_PROVENANCE.md`, `P7B_NATIVE_INTEGRATION.md`, `P7C_GENERALIZATION.md`, `P7C_RESULTS.md`, and `REPRODUCIBILITY.md` for the detailed scope, design, evaluation, and reproduction commands.
+The artifact remains a research preview rather than a claim of production completeness. Address reuse is intentionally disabled. Allocation-site provenance is not general control-flow integrity. U-controlled object contents remain untrusted. The runtime does not prove intended-object identity among multiple simultaneously live allocations of the same trusted type. Hosted CI timings are reproducibility references; final publication performance numbers require controlled-hardware evaluation.
+
+See `P6_EVALUATION.md`, `P7A_PROVENANCE.md`, `P7B_NATIVE_INTEGRATION.md`, `P7C_GENERALIZATION.md`, `P8_EVALUATION.md`, `P9A_EVALUATION.md`, `P9B_EVALUATION.md`, and `REPRODUCIBILITY.md` for the detailed scope, design, evaluation, and reproduction commands.
