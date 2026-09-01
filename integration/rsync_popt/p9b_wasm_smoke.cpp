@@ -72,7 +72,7 @@ class Engine {
     return result;
   }
 
-  uint32_t address(const void* ptr) const {
+  uint32_t address(const void* ptr) {
     return sandbox_.get_sandbox_impl()->sandbox_address(ptr);
   }
 
