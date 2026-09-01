@@ -1,0 +1,11 @@
+boundary,fields,sp2_fields,pointer_fields,pointer_sp2_fields,not_dereferenced_by_t_fields,sp3_fields,unknown_fields,field_covered_fields,field_coverage_pct,pointer_covered_fields,pointer_coverage_pct
+ffmpeg/libvpx,345,138,74,31,41,2,0,181,52.5,74,100.0
+magick/libpng,418,178,96,42,51,3,0,232,55.5,96,100.0
+memcached/bipbuffer,80,7,12,7,3,2,0,12,15.0,12,100.0
+memcached/hash,86,33,26,15,7,4,0,44,51.2,26,100.0
+nginx/libpcre,57,14,31,14,15,2,0,31,54.4,31,100.0
+nginx/openssl,1485,651,512,214,282,5,11,938,63.2,501,97.9
+rsync/popt,767,116,37,15,15,7,0,138,18.0,37,100.0
+ucl/libucl,152,8,64,8,53,3,0,64,42.1,64,100.0
+yaml/libyaml,1903,1194,461,198,262,1,0,1457,76.6,461,100.0
+zip/libzip,2230,947,653,271,379,3,0,1329,59.6,653,100.0

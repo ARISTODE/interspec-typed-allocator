@@ -1,0 +1,136 @@
+{
+  "schema_version": 1,
+  "source": {
+    "repository": "ARISTODE/interspec-artifact",
+    "commit": "2b2d2fd4de69ee44a4363e69f8cfb82ceed132db",
+    "processed_table": "data/processed/paper/integrity_coverage.csv",
+    "processed_table_blob_sha": "5c5f0e9b4b4a5b548504653680d0cf158d2db613",
+    "paper_section": "7.2",
+    "coverage_unit": "interface pointer field"
+  },
+  "expected_sp3_total": 32,
+  "boundaries": [
+    {
+      "boundary": "ffmpeg/libvpx",
+      "sp3_fields": 2,
+      "raw_case_path": "data/raw/policy_reports/ffmpeg_libvpx",
+      "raw_alignment": "not_paper_aligned",
+      "raw_alignment_note": "The packaged main report has no paper-aligned one-row-per-field SP3 case list; single-interface case files are empty."
+    },
+    {
+      "boundary": "magick/libpng",
+      "sp3_fields": 3,
+      "raw_case_path": "data/raw/policy_reports/magick_libpng/sp3_cases.csv",
+      "raw_alignment": "cardinality_mismatch",
+      "raw_alignment_note": "The packaged raw file contains 2 rows while the paper table counts 3 SP3 fields."
+    },
+    {
+      "boundary": "memcached/bipbuffer",
+      "sp3_fields": 2,
+      "raw_case_path": "data/raw/policy_reports/memcached_bipbuffer/sp3_cases.csv",
+      "raw_alignment": "same_cardinality_only",
+      "raw_alignment_note": "The raw file has the same row count, but the processed paper table is the authoritative field-count source and does not preserve a row-to-paper-field mapping."
+    },
+    {
+      "boundary": "memcached/hash",
+      "sp3_fields": 4,
+      "raw_case_path": "data/raw/policy_reports/memcached_hash/sp3_cases.csv",
+      "raw_alignment": "same_cardinality_only",
+      "raw_alignment_note": "The raw file has the same row count, but the processed paper table is the authoritative field-count source and does not preserve a row-to-paper-field mapping."
+    },
+    {
+      "boundary": "nginx/libpcre",
+      "sp3_fields": 2,
+      "raw_case_path": "data/raw/policy_reports/nginx_libpcre/sp3_cases.csv",
+      "raw_alignment": "same_cardinality_only",
+      "raw_alignment_note": "The raw file has the same row count, but the preserved case semantics are from a separate report path and are not declared as the paper field identities."
+    },
+    {
+      "boundary": "nginx/openssl",
+      "sp3_fields": 5,
+      "raw_case_path": "data/raw/policy_reports/nginx_openssl/sp3_cases.csv",
+      "raw_alignment": "cardinality_mismatch",
+      "raw_alignment_note": "The raw report contains many path-level candidates and unknown-domain cases, while the paper table counts 5 SP3 fields and 11 unknown fields."
+    },
+    {
+      "boundary": "rsync/popt",
+      "sp3_fields": 7,
+      "raw_case_path": "data/raw/policy_reports/rsync_popt/sp3_cases.csv",
+      "raw_alignment": "same_cardinality_only",
+      "raw_alignment_note": "The raw file has the same row count, but it includes target classes that do not constitute an explicit paper-field identity mapping."
+    },
+    {
+      "boundary": "ucl/libucl",
+      "sp3_fields": 3,
+      "raw_case_path": "data/raw/policy_reports/ucl_libucl/sp3_cases.csv",
+      "raw_alignment": "same_cardinality_only",
+      "raw_alignment_note": "The raw file has the same row count, but the processed paper table does not bind its rows to the 3 paper coverage units."
+    },
+    {
+      "boundary": "yaml/libyaml",
+      "sp3_fields": 1,
+      "raw_case_path": "data/raw/policy_reports/yaml_libyaml/sp3_cases.csv",
+      "raw_alignment": "same_cardinality_only",
+      "raw_alignment_note": "The raw file has the same row count, but P9c does not infer an exact paper-field identity without an explicit source binding."
+    },
+    {
+      "boundary": "zip/libzip",
+      "sp3_fields": 3,
+      "raw_case_path": "data/raw/policy_reports/zip_libzip/sp3_cases.csv",
+      "raw_alignment": "same_cardinality_only",
+      "raw_alignment_note": "The raw file has the same row count, but the processed paper table does not bind its rows to the 3 paper coverage units."
+    }
+  ],
+  "prototype_boundary_evidence": [
+    {
+      "boundary": "rsync/popt",
+      "pointer_shape": "returned_string",
+      "backend_evidence": [
+        "RLBox NaCl",
+        "RLBox wasm2c"
+      ],
+      "exact_paper_case_mapping": false,
+      "evidence": [
+        "integration/rsync_popt/rsync_popt.inc.cpp",
+        "integration/rsync_popt/p9b_wasm_smoke.cpp"
+      ]
+    },
+    {
+      "boundary": "memcached/bipbuffer",
+      "pointer_shape": "buffer_with_extent",
+      "backend_evidence": [
+        "RLBox NaCl"
+      ],
+      "exact_paper_case_mapping": false,
+      "evidence": [
+        "integration/memcached_bipbuffer/interspec_trusted_uses.c",
+        "integration/memcached_bipbuffer/memcached_bipbuffer.inc.cpp"
+      ]
+    },
+    {
+      "boundary": "nginx/libpcre",
+      "pointer_shape": "interior_u_object",
+      "backend_evidence": [
+        "RLBox NaCl"
+      ],
+      "exact_paper_case_mapping": false,
+      "evidence": [
+        "integration/nginx_libpcre/interspec_trusted_uses.c",
+        "integration/nginx_libpcre/nginx_libpcre.inc.cpp"
+      ]
+    },
+    {
+      "boundary": "yaml/libyaml",
+      "pointer_shape": "structured_u_output",
+      "backend_evidence": [
+        "RLBox NaCl"
+      ],
+      "exact_paper_case_mapping": false,
+      "evidence": [
+        "integration/yaml_libyaml/interspec_trusted_uses.c",
+        "integration/yaml_libyaml/yaml_libyaml.inc.cpp"
+      ]
+    }
+  ],
+  "case_overrides": []
+}

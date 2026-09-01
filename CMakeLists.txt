@@ -77,3 +77,5 @@ add_test(NAME p9a_application_summary COMMAND ${Python3_EXECUTABLE}
   ${CMAKE_CURRENT_SOURCE_DIR}/tests/p9a_application.py)
 add_test(NAME p9a_result_renderer COMMAND ${Python3_EXECUTABLE}
   ${CMAKE_CURRENT_SOURCE_DIR}/tests/p9a_render.py)
+add_test(NAME p9c_report COMMAND ${Python3_EXECUTABLE}
+  ${CMAKE_CURRENT_SOURCE_DIR}/tests/p9c_report.py)
