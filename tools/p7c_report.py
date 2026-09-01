@@ -30,7 +30,6 @@ def boundary_metrics(root, entry):
         missing.append("boundary_policy")
     if not entry.get("source_revision"):
         missing.append("source_revision")
-
     if missing:
         result["complete"] = False
         result["missing"] = missing
@@ -45,17 +44,24 @@ def boundary_metrics(root, entry):
     if boundary_path:
         boundary = load_json(root, boundary_path)
         helpers = boundary.get("helper_sites", [])
+    integration_helpers = [h for h in helpers if h.get("role", "integration") == "integration"]
+    adversarial_helpers = [h for h in helpers if h.get("role", "integration") == "adversarial"]
+    unknown_roles = [h.get("role") for h in helpers if h.get("role", "integration") not in {"integration", "adversarial"}]
+    if unknown_roles:
+        result["complete"] = False
+        result["missing"] = ["valid helper-site role"]
+        return result
 
     result.update({
         "complete": True,
         "allocation_sites": len(allocations) + len(helpers),
         "inferred_allocation_sites": len(allocations),
         "precise_source_allocation_sites": len(precise),
-        "precise_source_fraction": (
-            len(precise) / len(allocations) if allocations else 0.0
-        ),
+        "precise_source_fraction": len(precise) / len(allocations) if allocations else 0.0,
         "trusted_uses": len(uses),
         "helper_sites": len(helpers),
+        "integration_helper_sites": len(integration_helpers),
+        "adversarial_helper_sites": len(adversarial_helpers),
         "adversarial": entry.get("adversarial", []),
         "source_revision": entry["source_revision"],
     })
@@ -71,13 +77,7 @@ def build_report(root, manifest):
     required_shapes = sorted(manifest.get("required_pointer_shapes", []))
     missing_shapes = sorted(set(required_shapes) - set(shapes))
     required_count = manifest.get("required_new_boundaries", 0)
-
-    complete = (
-        len(full_p7c) >= required_count
-        and not missing_shapes
-        and all(m.get("complete") for m in p7c)
-    )
-
+    complete = len(full_p7c) >= required_count and not missing_shapes and all(m.get("complete") for m in p7c)
     return {
         "schema_version": manifest.get("schema_version", 1),
         "complete": complete,
@@ -92,14 +92,12 @@ def build_report(root, manifest):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "--manifest", default="integration/p7c_manifest.json",
-        help="manifest path relative to repository root")
+    parser.add_argument("--manifest", default="integration/p7c_manifest.json",
+                        help="manifest path relative to repository root")
     parser.add_argument("--root", default=None)
     parser.add_argument("--output")
     parser.add_argument("--require-complete", action="store_true")
     args = parser.parse_args()
-
     root = Path(args.root).resolve() if args.root else Path(__file__).resolve().parents[1]
     manifest = load_json(root, args.manifest)
     report = build_report(root, manifest)
@@ -108,7 +106,6 @@ def main():
         Path(args.output).write_text(text)
     else:
         print(text, end="")
-
     if args.require_complete and not report["complete"]:
         raise SystemExit(1)
 

@@ -58,3 +58,11 @@ add_test(NAME p7c_report COMMAND ${Python3_EXECUTABLE}
   ${CMAKE_CURRENT_SOURCE_DIR}/tests/p7c_report.py)
 add_test(NAME p7c_report_complete COMMAND ${Python3_EXECUTABLE}
   ${CMAKE_CURRENT_SOURCE_DIR}/tools/p7c_report.py --require-complete)
+add_test(NAME p8_report COMMAND ${Python3_EXECUTABLE}
+  ${CMAKE_CURRENT_SOURCE_DIR}/tests/p8_report.py)
+add_test(NAME p8_performance_summary COMMAND ${Python3_EXECUTABLE}
+  ${CMAKE_CURRENT_SOURCE_DIR}/tests/p8_performance.py)
+add_test(NAME p8_application_summary COMMAND ${Python3_EXECUTABLE}
+  ${CMAKE_CURRENT_SOURCE_DIR}/tests/p8_application.py)
+add_test(NAME p8_result_renderer COMMAND ${Python3_EXECUTABLE}
+  ${CMAKE_CURRENT_SOURCE_DIR}/tests/p8_render.py)

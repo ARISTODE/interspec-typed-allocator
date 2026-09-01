@@ -5,11 +5,13 @@
   "helper_sites": [
     {
       "name": "scalar_value",
-      "type": "yaml_scalar_value"
+      "type": "yaml_scalar_value",
+      "role": "integration"
     },
     {
       "name": "wrong_type",
-      "type": "char"
+      "type": "char",
+      "role": "adversarial"
     }
   ]
 }
