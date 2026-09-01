@@ -47,6 +47,20 @@ jobs:
           name: release-p8-rlbox-results
           path: p8-rlbox-results
 
+  p9c-evidence:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Generate P9c coverage reconciliation evidence
+        run: bash ./scripts/run_p9c_evaluation.sh p9c-results
+      - name: Upload P9c coverage evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-p9c-sp3-coverage-results
+          path: p9c-results
+
   p9b-wasm2c:
     runs-on: ubuntu-latest
     timeout-minutes: 45
@@ -76,6 +90,7 @@ jobs:
     needs:
       - p8-evidence
       - p9b-wasm2c
+      - p9c-evidence
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -105,11 +120,17 @@ jobs:
         with:
           name: release-p8-rlbox-results
           path: p8-rlbox-results
+      - name: Download P9c coverage evidence
+        uses: actions/download-artifact@v4
+        with:
+          name: release-p9c-sp3-coverage-results
+          path: p9c-results
 
       - name: Build release archive
         env:
           INTERSPEC_P8_EVAL_DIR: ${{ github.workspace }}/p8-results
           INTERSPEC_P8_RLBOX_DIR: ${{ github.workspace }}/p8-rlbox-results
+          INTERSPEC_P9C_EVAL_DIR: ${{ github.workspace }}/p9c-results
         run: bash ./scripts/package_release.sh dist
 
       - name: Publish GitHub release

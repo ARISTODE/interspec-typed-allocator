@@ -62,10 +62,16 @@ jobs:
         with:
           name: p8-rlbox-results
           path: p8-rlbox-results
+      - name: Download P9c coverage evidence
+        uses: actions/download-artifact@v4
+        with:
+          name: p9c-sp3-coverage-results
+          path: p9c-results
       - name: Build installable research preview
         env:
           INTERSPEC_P8_EVAL_DIR: ${{ github.workspace }}/p8-results
           INTERSPEC_P8_RLBOX_DIR: ${{ github.workspace }}/p8-rlbox-results
+          INTERSPEC_P9C_EVAL_DIR: ${{ github.workspace }}/p9c-results
         run: bash ./scripts/package_release.sh dist
       - name: Upload research preview archive
         uses: actions/upload-artifact@v4
