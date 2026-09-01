@@ -193,7 +193,7 @@ No license is inferred or added by the packaging script. Publication under a par
 
 ## 11. Publish a tagged GitHub research preview
 
-`.github/workflows/release.yml` regenerates P8 deterministic and RLBox evidence before building the same validated archive when a version tag is pushed. The tag must match the CMake project version exactly and must point at the current `main` head.
+`.github/workflows/release.yml` regenerates P8 deterministic and NaCl evidence and independently reruns the complete P9b wasm2c integration before building the validated archive when a version tag is pushed. The release job cannot start unless both backend gates pass. The tag must match the CMake project version exactly and must point at the current `main` head.
 
 For the current preview, the expected tag is:
 
