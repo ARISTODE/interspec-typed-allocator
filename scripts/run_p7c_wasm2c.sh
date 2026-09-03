@@ -131,7 +131,27 @@ import sys
 p = Path(sys.argv[1])
 s = p.read_text()
 old = 'set(C_SOURCE_FILES "${CMAKE_SOURCE_DIR}/c_src/wasm2c_sandbox_wrapper.c")'
-new = r'''file(GLOB INTERSPEC_PCRE_SOURCES "${CMAKE_SOURCE_DIR}/c_src/pcre-src/pcre_*.c")
+new = r'''set(INTERSPEC_PCRE_SOURCES
+    "${CMAKE_SOURCE_DIR}/c_src/pcre-src/pcre_byte_order.c"
+    "${CMAKE_SOURCE_DIR}/c_src/pcre-src/pcre_chartables.c"
+    "${CMAKE_SOURCE_DIR}/c_src/pcre-src/pcre_compile.c"
+    "${CMAKE_SOURCE_DIR}/c_src/pcre-src/pcre_config.c"
+    "${CMAKE_SOURCE_DIR}/c_src/pcre-src/pcre_dfa_exec.c"
+    "${CMAKE_SOURCE_DIR}/c_src/pcre-src/pcre_exec.c"
+    "${CMAKE_SOURCE_DIR}/c_src/pcre-src/pcre_fullinfo.c"
+    "${CMAKE_SOURCE_DIR}/c_src/pcre-src/pcre_get.c"
+    "${CMAKE_SOURCE_DIR}/c_src/pcre-src/pcre_globals.c"
+    "${CMAKE_SOURCE_DIR}/c_src/pcre-src/pcre_maketables.c"
+    "${CMAKE_SOURCE_DIR}/c_src/pcre-src/pcre_newline.c"
+    "${CMAKE_SOURCE_DIR}/c_src/pcre-src/pcre_ord2utf8.c"
+    "${CMAKE_SOURCE_DIR}/c_src/pcre-src/pcre_refcount.c"
+    "${CMAKE_SOURCE_DIR}/c_src/pcre-src/pcre_string_utils.c"
+    "${CMAKE_SOURCE_DIR}/c_src/pcre-src/pcre_study.c"
+    "${CMAKE_SOURCE_DIR}/c_src/pcre-src/pcre_tables.c"
+    "${CMAKE_SOURCE_DIR}/c_src/pcre-src/pcre_ucd.c"
+    "${CMAKE_SOURCE_DIR}/c_src/pcre-src/pcre_valid_utf8.c"
+    "${CMAKE_SOURCE_DIR}/c_src/pcre-src/pcre_version.c"
+    "${CMAKE_SOURCE_DIR}/c_src/pcre-src/pcre_xclass.c")
 file(GLOB INTERSPEC_YAML_SOURCES "${CMAKE_SOURCE_DIR}/c_src/libyaml-src/src/*.c")
 set(C_SOURCE_FILES
     "${CMAKE_SOURCE_DIR}/c_src/wasm2c_sandbox_wrapper.c"
