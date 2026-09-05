@@ -22,6 +22,9 @@ from tools.generate_policy import (
 )
 
 
+MAX_SITE_ID = (1 << 32) - 1
+
+
 def c_stem(namespace_name):
     return symbol(namespace_name).lower()
 
@@ -33,19 +36,28 @@ def import_stem(namespace_name):
     return value
 
 
-def site_import_name(namespace_name, site_id):
-    return f"interspecWasmAlloc{import_stem(namespace_name)}Site{site_id}"
+def site_import_name(namespace_name, local_site_id):
+    return f"interspecWasmAlloc{import_stem(namespace_name)}Site{local_site_id}"
 
 
-def site_c_name(namespace_name, site_id):
-    return f"interspec_wasm_alloc_{c_stem(namespace_name)}_site_{site_id}"
+def site_c_name(namespace_name, local_site_id):
+    return f"interspec_wasm_alloc_{c_stem(namespace_name)}_site_{local_site_id}"
 
 
 def helper_macro(name):
     return f"INTERSPEC_SITE_{macro(name)}_ALLOC"
 
 
-def instrument_site(source, allocation, site_id, namespace_name):
+def runtime_site_id(site_id_base, local_site_id):
+    if not isinstance(site_id_base, int) or site_id_base < 0 or site_id_base > MAX_SITE_ID:
+        raise ValueError("wasm site-id base must fit uint32_t")
+    site_id = site_id_base + local_site_id
+    if site_id <= 0 or site_id > MAX_SITE_ID:
+        raise ValueError("wasm site-id range overflows uint32_t")
+    return site_id
+
+
+def instrument_site(source, allocation, local_site_id, namespace_name):
     site = allocation["site"]
     anchor_start = source_offset(
         source, int(site["start_line"]), int(site["start_column"])
@@ -65,7 +77,7 @@ def instrument_site(source, allocation, site_id, namespace_name):
         raise ValueError(
             f"malloc call escapes function {allocation['function']}"
         )
-    alloc = site_c_name(namespace_name, site_id)
+    alloc = site_c_name(namespace_name, local_site_id)
     replacement = (
         f"(void*)(uintptr_t){alloc}((uint32_t)({size_expr}))"
     )
@@ -85,7 +97,7 @@ def prepare_policy(policy, boundary):
     return composed
 
 
-def site_records(policy, boundary, namespace_name):
+def site_records(policy, boundary, namespace_name, site_id_base=0):
     records = []
     precise_count = 0
     for allocation in policy["allocations"]:
@@ -94,11 +106,13 @@ def site_records(policy, boundary, namespace_name):
                 "wasm-direct provenance requires a precise source allocation site"
             )
         precise_count += 1
+        local_site_id = precise_count
         records.append({
-            "site_id": precise_count,
+            "site_id": runtime_site_id(site_id_base, local_site_id),
+            "local_site_id": local_site_id,
             "type": allocation["type"],
-            "import_name": site_import_name(namespace_name, precise_count),
-            "c_name": site_c_name(namespace_name, precise_count),
+            "import_name": site_import_name(namespace_name, local_site_id),
+            "c_name": site_c_name(namespace_name, local_site_id),
             "helper": False,
         })
     seen = set()
@@ -107,12 +121,13 @@ def site_records(policy, boundary, namespace_name):
         if name in seen:
             raise ValueError(f"duplicate helper site: {name}")
         seen.add(name)
-        site_id = precise_count + index
+        local_site_id = precise_count + index
         records.append({
-            "site_id": site_id,
+            "site_id": runtime_site_id(site_id_base, local_site_id),
+            "local_site_id": local_site_id,
             "type": helper["type"],
-            "import_name": site_import_name(namespace_name, site_id),
-            "c_name": site_c_name(namespace_name, site_id),
+            "import_name": site_import_name(namespace_name, local_site_id),
+            "c_name": site_c_name(namespace_name, local_site_id),
             "helper": True,
             "helper_name": name,
         })
@@ -160,7 +175,7 @@ def generate_u_header(types, records):
     return "\n".join(lines)
 
 
-def generate_t_header(policy, records, precise_count, namespace_name):
+def generate_t_header(policy, records, precise_count, namespace_name, site_id_base=0):
     ids = {name: index + 1 for index, name in enumerate(policy["types"])}
     hashes = {}
     for name in ids:
@@ -200,6 +215,8 @@ def generate_t_header(policy, records, precise_count, namespace_name):
             f"constexpr uint64_t kTypeHash{ident} = UINT64_C({hash_type(name)});",
         ]
     lines += [
+        "",
+        f"constexpr SiteId kWasmSiteIdBase = UINT32_C({site_id_base});",
         "",
         "inline bool register_types(Runtime& runtime)",
         "{",
@@ -310,7 +327,7 @@ def generate_host_imports(records):
     return "\n".join(lines)
 
 
-def generate_wasm_boundary(policy, source, namespace_name, boundary=None):
+def generate_wasm_boundary(policy, source, namespace_name, boundary=None, site_id_base=0):
     policy = prepare_policy(policy, boundary)
     known_types = set(policy["types"])
     for allocation in policy["allocations"]:
@@ -320,7 +337,9 @@ def generate_wasm_boundary(policy, source, namespace_name, boundary=None):
         if helper["type"] not in known_types:
             raise ValueError(f"unknown helper site type: {helper['type']}")
 
-    records, precise_count = site_records(policy, boundary, namespace_name)
+    records, precise_count = site_records(
+        policy, boundary, namespace_name, site_id_base
+    )
     precise = list(enumerate(policy["allocations"], start=1))
     precise.sort(
         key=lambda entry: (
@@ -330,17 +349,29 @@ def generate_wasm_boundary(policy, source, namespace_name, boundary=None):
         reverse=True,
     )
     instrumented = source
-    for site_id, allocation in precise:
+    for local_site_id, allocation in precise:
         instrumented = instrument_site(
-            instrumented, allocation, site_id, namespace_name
+            instrumented, allocation, local_site_id, namespace_name
         )
 
     return (
         instrumented,
         generate_u_header(policy["types"], records),
-        generate_t_header(policy, records, precise_count, namespace_name),
+        generate_t_header(
+            policy, records, precise_count, namespace_name, site_id_base
+        ),
         generate_host_imports(records),
     )
+
+
+def parse_site_id_base(value):
+    try:
+        parsed = int(value, 0)
+    except ValueError as error:
+        raise argparse.ArgumentTypeError("site-id base must be an integer") from error
+    if parsed < 0 or parsed > MAX_SITE_ID:
+        raise argparse.ArgumentTypeError("site-id base must fit uint32_t")
+    return parsed
 
 
 def main():
@@ -350,13 +381,23 @@ def main():
     parser.add_argument("--out-dir", required=True)
     parser.add_argument("--namespace", default="interspec::generated")
     parser.add_argument("--boundary")
+    parser.add_argument(
+        "--site-id-base",
+        type=parse_site_id_base,
+        default=0,
+        help="trusted numeric namespace for composing multiple wasm policies",
+    )
     args = parser.parse_args()
 
     policy = json.loads(Path(args.policy).read_text())
     boundary = json.loads(Path(args.boundary).read_text()) if args.boundary else None
     source_path = Path(args.source)
     instrumented, u_header, t_header, host_imports = generate_wasm_boundary(
-        policy, source_path.read_text(), args.namespace, boundary
+        policy,
+        source_path.read_text(),
+        args.namespace,
+        boundary,
+        args.site_id_base,
     )
     out = Path(args.out_dir)
     out.mkdir(parents=True, exist_ok=True)
