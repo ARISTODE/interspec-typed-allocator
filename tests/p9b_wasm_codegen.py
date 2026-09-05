@@ -60,6 +60,7 @@ void* make_value(size_t n) {
     assert 'INTERSPEC_WASM_IMPORT("env", "interspecWasmAllocInterspecSampleGeneratedSite2")' in u_header
     assert "INTERSPEC_SITE_TYPED_COPY_ALLOC" in u_header
     assert "interspecWasmRelease" in u_header
+    assert "kWasmSiteIdBase = UINT32_C(0)" in t_header
     assert "kWasmPreciseAllocationSiteCount = 1" in t_header
     assert "kWasmHelperAllocationSiteCount = 1" in t_header
     assert "register_allocation_site_id" in t_header
@@ -70,6 +71,30 @@ void* make_value(size_t n) {
     assert "UINT32_C(2), size" in imports
     assert "w2c_env_interspecWasmReallocate" in imports
     assert "site_id" not in instrumented
+
+    # Multi-policy Wasm modules give each generated policy a trusted numeric
+    # namespace. Import names remain source-site local while runtime SiteIds are
+    # disjoint, so reaching an import from a foreign policy cannot be replayed
+    # as an authorized site in the active PolicyRuntime.
+    _, namespaced_u, namespaced_t, namespaced_imports = generate_wasm_boundary(
+        policy, source, namespace, boundary, site_id_base=0x10000
+    )
+    assert namespaced_u == u_header
+    assert "kWasmSiteIdBase = UINT32_C(65536)" in namespaced_t
+    assert "{65537, kTypeIdChar" in namespaced_t
+    assert "{65538, kTypeIdChar" in namespaced_t
+    assert "UINT32_C(65537), size" in namespaced_imports
+    assert "UINT32_C(65538), size" in namespaced_imports
+    assert "interspecWasmAllocInterspecSampleGeneratedSite1" in namespaced_imports
+    assert "interspecWasmAllocInterspecSampleGeneratedSite2" in namespaced_imports
+
+    try:
+        generate_wasm_boundary(
+            policy, source, namespace, boundary, site_id_base=0xFFFFFFFF
+        )
+        raise AssertionError("overflowing site-id namespace should be rejected")
+    except ValueError as error:
+        assert "overflows uint32_t" in str(error)
 
     try:
         bad = dict(policy)

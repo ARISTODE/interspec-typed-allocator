@@ -63,7 +63,7 @@ mkdir -p "$package/share/interspec-typed-allocator"
 for doc in README.md P6_EVALUATION.md P6_RESULTS.md P7A_PROVENANCE.md \
            P7B_NATIVE_INTEGRATION.md P7C_GENERALIZATION.md P7C_RESULTS.md \
            P8_EVALUATION.md P9A_EVALUATION.md P9B_EVALUATION.md \
-           RELEASE_NOTES.md REPRODUCIBILITY.md; do
+           P10_WASM2C_P7C.md RELEASE_NOTES.md REPRODUCIBILITY.md; do
   cp "$root/$doc" "$package/share/interspec-typed-allocator/"
 done
 cp "$root/backends/rlbox_nacl/manifest.json" \
@@ -103,6 +103,7 @@ for path in \
   "$package/share/interspec-typed-allocator/P8_EVALUATION.md" \
   "$package/share/interspec-typed-allocator/P9A_EVALUATION.md" \
   "$package/share/interspec-typed-allocator/P9B_EVALUATION.md" \
+  "$package/share/interspec-typed-allocator/P10_WASM2C_P7C.md" \
   "$package/share/interspec-typed-allocator/rlbox_nacl_manifest.json" \
   "$package/share/interspec-typed-allocator/rlbox_wasm2c_manifest.json" \
   "$package/share/interspec-typed-allocator/P8_RESULTS.md" \

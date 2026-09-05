@@ -72,10 +72,36 @@ jobs:
           if-no-files-found: ignore
           path: /tmp/interspec-p9b-wasm2c-release.log
 
+  p10-wasm2c-p7c:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Install build tools
+        run: |
+          sudo apt-get update
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y \
+            autoconf automake build-essential ca-certificates git python3
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Validate P10 P7c boundaries on RLBox wasm2c
+        run: |
+          set -o pipefail
+          chmod +x ./scripts/run_p7c_wasm2c.sh
+          ./scripts/run_p7c_wasm2c.sh 2>&1 | tee /tmp/interspec-p10-wasm2c-release.log
+      - name: Upload P10 wasm2c diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-p10-wasm2c-diagnostics
+          if-no-files-found: ignore
+          path: /tmp/interspec-p10-wasm2c-release.log
+
   release:
     needs:
       - p8-evidence
       - p9b-wasm2c
+      - p10-wasm2c-p7c
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
