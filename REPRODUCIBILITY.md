@@ -1,12 +1,12 @@
 # Reproducibility
 
-This repository pins the external source revisions used by the RLBox + NaCl and RLBox + wasm2c proofs and provides a reproducible path from policy inference through P8/P9/P10 backend evidence and release packaging.
+This repository pins the external source revisions used by the RLBox + NaCl and RLBox + wasm2c proofs and provides a reproducible path from policy inference through P8/P9/P10/P11 backend evidence and release packaging.
 
 ## 1. Required environment
 
 The lightweight runtime, policy generation, P6 evaluation, and deterministic P8 report use a C++17 compiler, CMake, Python 3, and pthread support.
 
-The full RLBox + NaCl integration is tested in repository CI with Ubuntu 20.04. The P9b and P10 RLBox + wasm2c integrations are tested on the repository's current Ubuntu GitHub-hosted runner. Each job installs the build dependencies listed in the workflow before invoking its integration driver.
+The full RLBox + NaCl integration is tested in repository CI with Ubuntu 20.04. The P9b, P10, and P11 RLBox + wasm2c paths are tested on the repository's current Ubuntu GitHub-hosted runner. Each job installs the build dependencies listed in the workflow before invoking its integration driver.
 
 ## 2. Pinned external revisions
 
@@ -31,21 +31,21 @@ repository: https://github.com/PLSysSec/rlbox_wasm2c_sandbox.git
 commit: c4f18c48cea47421617f72ba5edc95c68aa85671
 ```
 
-RLBox API used by P9b/P10:
+RLBox API used by P9b/P10/P11:
 
 ```text
 repository: https://github.com/PLSysSec/rlbox.git
 commit: b0157dc84f86ffbe4549e32ed5cbdfad79c17f43
 ```
 
-WABT / wasm2c used by P9b/P10:
+WABT / wasm2c used by P9b/P10/P11:
 
 ```text
 repository: https://github.com/WebAssembly/wabt.git
 commit: 974221b1ef82f6393d004e5da6116f2ad3e44005
 ```
 
-P9b/P10 use wasi-sdk 21.0 through the pinned upstream wasm2c build path.
+P9b/P10/P11 use wasi-sdk 21.0 through the pinned upstream wasm2c build path.
 
 Real-boundary source revisions:
 
@@ -66,7 +66,7 @@ cmake --build build --parallel
 ctest --test-dir build --output-on-failure
 ```
 
-This runs the mechanism PoC, runtime hardening tests, policy generation tests, P6 security evaluation, P7c report checks, P8 report/rendering tests, the P9a baseline aggregation tests, and the P9b wasm-direct provenance/code-generation tests.
+This runs the mechanism PoC, runtime hardening tests, policy generation tests, P6 security evaluation, P7c report checks, P8 report/rendering tests, P9a baseline aggregation tests, P9b wasm-direct provenance/code-generation tests, and the P11 wasm2c RLBox-only bridge transformation test.
 
 ## 4. Source policy inference
 
@@ -185,7 +185,31 @@ InterSpec P10: all P7c generalization boundaries passed on wasm2c
 
 The dedicated `.github/workflows/p10-wasm2c-p7c.yml` workflow runs this command for every push and pull request. The tagged release workflow independently reruns P10 before publication.
 
-## 10. Install and external consumer test
+## 10. P11 final wasm2c performance evaluation
+
+P11 moves the P9a three-way cost decomposition to the final wasm2c path. Run the short reference form with:
+
+```bash
+chmod +x scripts/run_p11_wasm2c_performance.sh
+./scripts/run_p11_wasm2c_performance.sh p11-wasm2c-results
+```
+
+The driver reuses the complete P9b preparation path, then builds immutable `rlbox_only`, `tracked_no_check`, and `extended_sp3` rsync binaries. The RLBox-only module restores pinned uninstrumented bundled popt, disables typed allocator interposition, uses ordinary sandbox input allocation, does not reserve the typed region or initialize `PolicyRuntime`, and bypasses the final Extended-SP3 check for known-valid benchmark data.
+
+Each repetition contains all three modes and rotates through all six execution orders. The artifact contains raw complete-process timings, a mechanical summary, a rendered table, and host metadata.
+
+For publication-quality data, run the same driver on a controlled host, for example:
+
+```bash
+INTERSPEC_P11_REPETITIONS=31 \
+INTERSPEC_P11_WARMUPS=3 \
+INTERSPEC_P11_CPU=2 \
+./scripts/run_p11_wasm2c_performance.sh p11-wasm2c-results
+```
+
+The script records the observed CPU, kernel, frequency governor, turbo/boost state when exposed, affinity request, repetition count, and source revisions. It does not change power-management settings. GitHub-hosted P11 results are reference evidence only and must not be presented as the final controlled-hardware numbers.
+
+## 11. Install and external consumer test
 
 ```bash
 cmake -S . -B build-install -DCMAKE_BUILD_TYPE=Release
@@ -200,9 +224,9 @@ cmake --build build-consumer --parallel
 
 This verifies that the installed public header and exported `interspec::runtime` CMake target can be consumed outside the source tree.
 
-## 11. Build the complete research preview archive
+## 12. Build the complete research preview archive
 
-The release archive intentionally requires both P8 evidence directories so a green packaging job cannot silently publish a pre-P8 artifact. The package also records the P9a/P9b/P10 evaluation documentation and both backend manifests; hosted timing artifacts remain CI evidence rather than a release prerequisite.
+The release archive intentionally requires both P8 evidence directories so a green packaging job cannot silently publish a pre-P8 artifact. The package records the P9a/P9b/P10/P11 evaluation documentation and both backend manifests. P11 timing artifacts remain separate CI or controlled-host evidence rather than a release prerequisite because hosted timing is not the publication result.
 
 ```bash
 ./scripts/run_p8_evaluation.sh p8-results
@@ -213,15 +237,15 @@ INTERSPEC_P8_RLBOX_DIR="$PWD/p8-rlbox-results" \
 ./scripts/package_release.sh dist
 ```
 
-The default artifact is named `interspec-typed-allocator-0.1.0.tar.gz` and is accompanied by a SHA256 checksum. In addition to the installed runtime and earlier P6/P7 documentation, the archive contains `P8_EVALUATION.md`, `P9A_EVALUATION.md`, `P9B_EVALUATION.md`, `P10_WASM2C_P7C.md`, a mechanically rendered `P8_RESULTS.md`, deterministic/security/automation records, trusted-metadata runtime measurements, paired real-boundary summaries, paired rsync summaries, environment metadata, release notes, reproducibility instructions, and the pinned NaCl and wasm2c manifests.
+The default artifact is named `interspec-typed-allocator-0.1.0.tar.gz` and is accompanied by a SHA256 checksum. In addition to the installed runtime and earlier P6/P7 documentation, the archive contains `P8_EVALUATION.md`, `P9A_EVALUATION.md`, `P9B_EVALUATION.md`, `P10_WASM2C_P7C.md`, `P11_EVALUATION.md`, a mechanically rendered `P8_RESULTS.md`, deterministic/security/automation records, trusted-metadata runtime measurements, paired real-boundary summaries, paired rsync summaries, environment metadata, release notes, reproducibility instructions, and the pinned NaCl and wasm2c manifests.
 
-The package script verifies the required P8 files and P10 documentation before creating the archive and rejects a deterministic report that is not complete.
+The package script verifies the required P8 files and P10/P11 documentation before creating the archive and rejects a deterministic report that is not complete.
 
 No license is inferred or added by the packaging script. Publication under a particular software license should be an explicit project decision rather than an artifact generation side effect.
 
-## 12. Publish a tagged GitHub research preview
+## 13. Publish a tagged GitHub research preview
 
-`.github/workflows/release.yml` regenerates P8 deterministic and NaCl evidence and independently reruns the complete P9b and P10 wasm2c integrations before building the validated archive when a version tag is pushed. The release job cannot start unless all backend gates pass. The tag must match the CMake project version exactly and must point at the current `main` head.
+`.github/workflows/release.yml` regenerates P8 deterministic and NaCl evidence and independently reruns the complete P9b and P10 wasm2c integrations before building the validated archive when a version tag is pushed. P11 methodology is packaged, but the release workflow intentionally does not manufacture a hosted performance number and call it controlled-hardware evidence. The tag must match the CMake project version exactly and must point at the current `main` head.
 
 For the current preview, the expected tag is:
 

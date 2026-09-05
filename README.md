@@ -143,6 +143,21 @@ Each boundary executes its valid path and rejects wrong-type tracked memory, unt
 bash scripts/run_p7c_wasm2c.sh
 ```
 
+## P11 final wasm2c performance evaluation
+
+P11 moves the P9a three-way cost decomposition to the final RLBox wasm2c path. It builds matched `rlbox_only`, `tracked_no_check`, and `extended_sp3` complete-rsync binaries and measures the same option-parsing and local dry-run workloads in one paired session.
+
+The resulting decomposition reports trusted allocation/provenance overhead, final validation overhead, and total Extended-SP3 overhead over the RLBox-only runtime path. Execution order rotates through all six permutations of the three variants, and the raw per-repetition CSV remains the source of truth.
+
+```bash
+INTERSPEC_P11_REPETITIONS=31 \
+INTERSPEC_P11_WARMUPS=3 \
+INTERSPEC_P11_CPU=2 \
+bash scripts/run_p11_wasm2c_performance.sh p11-wasm2c-results
+```
+
+GitHub-hosted CI runs a shorter reference experiment to validate the harness and artifact format. Publication numbers should be regenerated on controlled hardware with the same driver. The exact baseline semantics, controlled-hardware protocol, and output files are documented in `P11_EVALUATION.md`.
+
 ## Current security scope
 
 T reserves a dedicated read/write region inside U's sandbox address space. U can access object bytes, but T owns the authoritative allocation metadata. Before trusted pointer consumption, T validates liveness, expected type, and spatial extent.

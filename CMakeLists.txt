@@ -59,6 +59,8 @@ add_test(NAME boundary_codegen COMMAND ${Python3_EXECUTABLE}
   ${CMAKE_CURRENT_SOURCE_DIR}/tests/boundary_codegen.py)
 add_test(NAME p9b_wasm_codegen COMMAND ${Python3_EXECUTABLE}
   ${CMAKE_CURRENT_SOURCE_DIR}/tests/p9b_wasm_codegen.py)
+add_test(NAME p11_wasm_bridge_transform COMMAND ${Python3_EXECUTABLE}
+  ${CMAKE_CURRENT_SOURCE_DIR}/tests/p11_wasm_bridge_transform.py)
 add_test(NAME p7c_report COMMAND ${Python3_EXECUTABLE}
   ${CMAKE_CURRENT_SOURCE_DIR}/tests/p7c_report.py)
 add_test(NAME p7c_report_complete COMMAND ${Python3_EXECUTABLE}

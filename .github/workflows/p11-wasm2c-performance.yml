@@ -1,0 +1,46 @@
+name: p11-wasm2c-performance
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/run_p11_wasm2c_performance.sh'
+      - 'tools/build_p11_wasm2c_rlbox_only_bridge.py'
+      - 'tests/p11_wasm_bridge_transform.py'
+      - 'P11_EVALUATION.md'
+      - '.github/workflows/p11-wasm2c-performance.yml'
+      - 'CMakeLists.txt'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  reference:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      INTERSPEC_P11_REPETITIONS: 5
+      INTERSPEC_P11_WARMUPS: 1
+    steps:
+      - name: Install build tools
+        run: |
+          sudo apt-get update
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y \
+            autoconf automake build-essential ca-certificates cmake git \
+            libpopt-dev python3 util-linux
+      - uses: actions/checkout@v4
+      - name: Run P11 three-way wasm2c reference evaluation
+        run: |
+          set -o pipefail
+          chmod +x ./scripts/run_p11_wasm2c_performance.sh
+          ./scripts/run_p11_wasm2c_performance.sh p11-wasm2c-results \
+            2>&1 | tee /tmp/interspec-p11-wasm2c.log
+      - name: Upload P11 wasm2c reference artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: p11-wasm2c-performance-reference
+          if-no-files-found: ignore
+          path: |
+            p11-wasm2c-results
+            /tmp/interspec-p11-wasm2c.log
