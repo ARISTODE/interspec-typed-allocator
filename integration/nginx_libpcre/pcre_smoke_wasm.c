@@ -14,6 +14,18 @@ pcre *interspec_wasm_pcre_compile_named(void)
     return pcre_compile("(?<word>abc)", 0, &error, &error_offset, NULL);
 }
 
+/*
+ * P10 composition probe. A compromised U can reach authorized import sites
+ * that exist anywhere in the linked Wasm module. When this PCRE import is
+ * invoked while another boundary's PolicyRuntime is active, its namespaced
+ * SiteId must be unregistered and the allocation must fail closed.
+ */
+void *interspec_wasm_pcre_foreign_site_probe(uint32_t size)
+{
+    uint32_t raw = INTERSPEC_SITE_COMPILED_REGEX_ALLOC(size);
+    return (void *)(uintptr_t)raw;
+}
+
 unsigned char *interspec_wasm_pcre_name_table(pcre *compiled)
 {
     unsigned char *table = NULL;
