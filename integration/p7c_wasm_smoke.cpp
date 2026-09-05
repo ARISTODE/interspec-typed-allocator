@@ -34,6 +34,7 @@ unsigned char* interspec_wasm_bipbuf_peek_oversized(void*);
 uint32_t interspec_wasm_bipbuf_last_size(void);
 
 void* interspec_wasm_pcre_compile_named(void);
+void* interspec_wasm_pcre_foreign_site_probe(uint32_t);
 unsigned char* interspec_wasm_pcre_name_table(void*);
 unsigned char* interspec_wasm_pcre_name_table_wrong_type(void);
 unsigned char* interspec_wasm_pcre_name_table_untracked(void);
@@ -103,7 +104,19 @@ static uint32_t realloc_cb(void* context, uint32_t ptr, uint32_t size) {
 
 void test_bipbuffer() {
   namespace P = interspec::memcached_bipbuffer_generated;
+  static_assert(P::kWasmSiteIdBase == UINT32_C(0x00100000));
   Engine engine(P::register_types, P::register_wasm_allocation_policy);
+
+  /*
+   * The combined CI module also contains PCRE's authorized allocation imports.
+   * A compromised U may reach those instructions, but their disjoint SiteIds
+   * are not registered in the memcached policy and therefore fail closed.
+   */
+  auto foreign = engine.sandbox().invoke_sandbox_function(
+      interspec_wasm_pcre_foreign_site_probe, 32u);
+  assert(foreign.UNSAFE_unverified() == nullptr);
+  assert(engine.runtime().allocation_count() == 0);
+
   auto owner = engine.sandbox().invoke_sandbox_function(interspec_wasm_bipbuf_make_and_fill);
   assert(owner.UNSAFE_unverified() != nullptr);
   const uint32_t owner_addr = engine.address(owner.UNSAFE_unverified());
@@ -129,6 +142,7 @@ void test_bipbuffer() {
 
 void test_pcre() {
   namespace P = interspec::nginx_libpcre_generated;
+  static_assert(P::kWasmSiteIdBase == UINT32_C(0x00200000));
   Engine engine(P::register_types, P::register_wasm_allocation_policy);
   auto compiled = engine.sandbox().invoke_sandbox_function(interspec_wasm_pcre_compile_named);
   assert(compiled.UNSAFE_unverified() != nullptr);
@@ -154,6 +168,7 @@ void test_pcre() {
 
 void test_yaml() {
   namespace P = interspec::yaml_libyaml_generated;
+  static_assert(P::kWasmSiteIdBase == UINT32_C(0x00300000));
   Engine engine(P::register_types, P::register_wasm_allocation_policy);
   auto event = engine.sandbox().invoke_sandbox_function(interspec_wasm_yaml_make_scalar);
   assert(event.UNSAFE_unverified() != nullptr);
