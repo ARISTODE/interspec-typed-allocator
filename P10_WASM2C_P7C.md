@@ -18,6 +18,10 @@ P10 reuses P9b's wasm-direct allocation-site provenance. Each authorized precise
 
 Precise source-derived sites and explicit helper sites remain distinct. The memcached/bipbuffer object allocation is source-derived. PCRE and libyaml use explicit generated helper sites because their selected allocations occur through allocator abstractions rather than direct `malloc` syntax.
 
+P10 also closes a composition issue exposed by linking multiple generated policies into one Wasm regression module. Local SiteIds such as 1 and 2 are sufficient when a module carries one policy, but they can collide when several generated policies share one module. The wasm policy generator therefore accepts a trusted SiteId base and emits runtime SiteIds from a disjoint numeric namespace while keeping the source-site import names unchanged. The combined P10 module assigns separate namespaces to bipbuffer, PCRE, and libyaml. A dedicated adversarial probe reaches a PCRE allocation import while only the bipbuffer policy is registered and verifies that the allocation fails closed rather than being reinterpreted as a bipbuffer site.
+
+The SiteId namespace is build-time trusted composition metadata. It does not encode or replace the inferred type policy, and U cannot choose it as ordinary data.
+
 ## Security acceptance
 
 For each P7c boundary, the wasm2c integration exercises the valid trusted-use path and rejects the P7c adversarial classes applicable to that pointer shape:
@@ -26,7 +30,7 @@ For each P7c boundary, the wasm2c integration exercises the valid trusted-use pa
 2. ordinary same-domain sandbox memory without trusted metadata is rejected with `untracked`;
 3. a valid pointer paired with a corrupted runtime extent is rejected with `out_of_bounds`.
 
-P9b already exercises logical lifetime invalidation and stale-pointer rejection on the same wasm2c runtime path. P10 focuses on reproducing P7c's multi-boundary type and spatial checks on wasm2c.
+The combined-module test additionally requires foreign-policy allocation-site replay to fail closed. P9b already exercises logical lifetime invalidation and stale-pointer rejection on the same wasm2c runtime path. P10 focuses on reproducing P7c's multi-boundary type and spatial checks and validating safe multi-policy composition on wasm2c.
 
 ## Reproduction
 
@@ -35,7 +39,7 @@ chmod +x scripts/run_p7c_wasm2c.sh
 ./scripts/run_p7c_wasm2c.sh
 ```
 
-The driver clones the pinned RLBox wasm2c backend and the pinned upstream source revision for each boundary, regenerates wasm-direct policy artifacts, builds one combined Wasm module, and runs `integration/p7c_wasm_smoke.cpp`.
+The driver clones the pinned RLBox wasm2c backend and the pinned upstream source revision for each boundary, regenerates wasm-direct policy artifacts, assigns disjoint trusted SiteId namespaces, builds one combined Wasm module, and runs `integration/p7c_wasm_smoke.cpp`.
 
 A successful run ends with:
 
@@ -46,9 +50,9 @@ InterSpec P10: yaml/libyaml passed in RLBox wasm2c
 InterSpec P10: all P7c generalization boundaries passed on wasm2c
 ```
 
-## Completion evidence
+## Completion criteria
 
-P10 is complete on commit `196ed706cb4f32a27a4330d4054219ada17a8aaf` of the implementation branch. GitHub Actions run `33720131714` completed successfully and produced the four success markers above. The repository's existing `ci` workflow also completed successfully for the same commit, preserving core tests, CodeQL policy regeneration, the NaCl P7c regression, P8 evaluation, P9a, and the original P9b rsync/popt wasm2c path.
+P10 is complete when the dedicated wasm2c workflow succeeds on the final branch head and the repository's existing CI workflow remains green. This jointly checks the three P7c wasm2c boundaries, the foreign-site replay probe, core runtime/code-generation tests, CodeQL policy regeneration, the NaCl P7c regression, P8 evaluation, P9a, and the original P9b rsync/popt wasm2c path.
 
 ## Preserved limitations
 
