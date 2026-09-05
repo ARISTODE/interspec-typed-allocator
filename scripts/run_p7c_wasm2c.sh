@@ -9,6 +9,13 @@ git clone -q https://github.com/PLSysSec/rlbox_wasm2c_sandbox.git "$work"
 git -C "$work" checkout -q c4f18c48cea47421617f72ba5edc95c68aa85671
 python3 "$root/backends/rlbox_wasm2c/apply_backend.py" --root "$work"
 
+# The three policies are linked into one CI module for efficient regression
+# testing. Give each policy a disjoint trusted SiteId namespace so an authorized
+# import from one boundary cannot be replayed as a site in another PolicyRuntime.
+BIPBUF_SITE_BASE=0x00100000
+PCRE_SITE_BASE=0x00200000
+YAML_SITE_BASE=0x00300000
+
 # ---------------------------------------------------------------------------
 # memcached / bipbuffer: one precise direct malloc site plus a helper site.
 # ---------------------------------------------------------------------------
@@ -22,7 +29,8 @@ python3 "$root/tools/generate_wasm_boundary_policy.py" \
   --boundary "$root/integration/memcached_bipbuffer/boundary.json" \
   --source "$memcached_src/bipbuffer.c" \
   --out-dir "$bip_generated" \
-  --namespace "interspec::memcached_bipbuffer_generated"
+  --namespace "interspec::memcached_bipbuffer_generated" \
+  --site-id-base "$BIPBUF_SITE_BASE"
 python3 - "$bip_generated/bipbuffer.c" <<'PY'
 from pathlib import Path
 import sys
@@ -51,7 +59,8 @@ python3 "$root/tools/generate_wasm_boundary_policy.py" \
   --boundary "$root/integration/nginx_libpcre/boundary.json" \
   --source "$pcre_src/pcre_compile.c" \
   --out-dir "$pcre_generated" \
-  --namespace "interspec::nginx_libpcre_generated"
+  --namespace "interspec::nginx_libpcre_generated" \
+  --site-id-base "$PCRE_SITE_BASE"
 python3 - "$pcre_generated/pcre_compile.c" <<'PY'
 from pathlib import Path
 import sys
@@ -91,7 +100,8 @@ python3 "$root/tools/generate_wasm_boundary_policy.py" \
   --boundary "$root/integration/yaml_libyaml/boundary.json" \
   --source "$yaml_src/src/api.c" \
   --out-dir "$yaml_generated" \
-  --namespace "interspec::yaml_libyaml_generated"
+  --namespace "interspec::yaml_libyaml_generated" \
+  --site-id-base "$YAML_SITE_BASE"
 python3 - "$yaml_generated/api.c" <<'PY'
 from pathlib import Path
 import sys
