@@ -1,0 +1,49 @@
+{
+  "events": {
+    "allocate_from_site": 74,
+    "check": 436,
+    "buffer_role": 37,
+    "lru_hold": 128,
+    "peek_all": 62,
+    "lru_take": 128,
+    "poll": 35,
+    "release": 52
+  },
+  "roles": {
+    "worker": 7,
+    "lru": 4,
+    "watcher": 26
+  },
+  "allocations": [
+    {
+      "site_id": 1048578,
+      "bytes": 131072,
+      "count": 4
+    },
+    {
+      "site_id": 1048577,
+      "bytes": 131092,
+      "count": 4
+    },
+    {
+      "site_id": 1048578,
+      "bytes": 262144,
+      "count": 26
+    },
+    {
+      "site_id": 1048577,
+      "bytes": 262164,
+      "count": 26
+    },
+    {
+      "site_id": 1048578,
+      "bytes": 65536,
+      "count": 7
+    },
+    {
+      "site_id": 1048577,
+      "bytes": 65556,
+      "count": 7
+    }
+  ]
+}

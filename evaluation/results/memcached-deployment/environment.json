@@ -1,0 +1,75 @@
+{
+  "label": "shared_container_pilot",
+  "host": {
+    "system": "Linux",
+    "node": "c1216321d9fb",
+    "release": "6.18.44",
+    "version": "#1 SMP Sat Sep 26 20:02:31 UTC 2026",
+    "machine": "x86_64",
+    "processor": "x86_64"
+  },
+  "parameters": {
+    "work": "/tmp/interspec-memcached-deployment",
+    "out": "results/memcached-deployment/pilot",
+    "seconds": 3.0,
+    "warmup": 1.0,
+    "repetitions": 5,
+    "clients": 2,
+    "pipeline": 1,
+    "value_bytes": 256,
+    "keys": 1024,
+    "get_percent": 50,
+    "server_cpus": null,
+    "client_cpus": null,
+    "label": "shared_container_pilot",
+    "correctness_summary": "results/memcached-deployment/final/summary.json"
+  },
+  "build": {
+    "project_commit": "5112d9ccc3d7b73439b1d7f42525e40d0d612c38",
+    "project_dirty": false,
+    "memcached_revision": "2d51e364799bc9698bd4b11728ea978cea12da6e",
+    "rlbox_wasm2c_revision": "c4f18c48cea47421617f72ba5edc95c68aa85671",
+    "configure": [
+      "--disable-extstore",
+      "--disable-proxy",
+      "--disable-docs"
+    ],
+    "host_cflags": "-O2 -g",
+    "wasm_cflags": "-O3",
+    "bridge_source_sha256": "11fe0f6e4da60758e5a2d5cded4700a5bf5f417e59406f317524c4ace74cc0d4",
+    "untrusted_source_sha256": "2d884138d6b25565b1226c7d3838c6372740ca9a7cb5ccc11307fee5bbb7fa1e",
+    "generated_policy_sha256": "52f7b0d3c4b668557ff7f80b155daa8997c6d2e1a997846473c70642e68c0fec",
+    "binary_sha256": {
+      "memcached-diagnostics": "3b640a3cf181a0d73fc1f09d5d93597dc43cf6f0334cb50790aadf50f7e9e774",
+      "memcached-interspec": "2b5d9501f9d5af8405b4b7288ffae5faf22ed862747e1a3f1a9c5fb4b6d2502d",
+      "memcached-interspec-debug": "9bcdb561ffad27693611766843792a11d6ce31b089b41df36ad69b0b6e277d33",
+      "memcached-native": "9c26edaf986a4f3e76dd3970bb965328b851a199ecfd58a26a868f7cdf1be6fd",
+      "memcached-native-debug": "f2c3209e629cf0beb68cf0bff5f60e3f9bcd8acb100521cb2eb793925d3ff9bc",
+      "memcached-rlbox-only": "4fbcf638768278c3402bca5f155dd5e0ab1338d70c317cfa3bf35dfad66e3704",
+      "memcached-tracked-no-check": "8f801c0fa61e0047d8762af659011cad53e814e51b265d036aa7e52ec203b012"
+    }
+  },
+  "client_sha256": "4433cd9c8a72a1c380e4a8d5a60669355fbea8b6ee8ee0996a904bc8821cc0ef",
+  "collector_sha256": "21cb95abb39044b1433da947953a4e065427aaf9e753c63ae259ce49d29335c8",
+  "cpuinfo": "processor\t: 0\nvendor_id\t: AuthenticAMD\ncpu family\t: 25\nmodel\t\t: 17\nmodel name\t: AMD EPYC 9V74 80-Core Processor\nstepping\t: 1\nmicrocode\t: 0x1000065\ncpu MHz\t\t: 2596.140\ncache size\t: 1024 KB\nphysical id\t: 0\nsiblings\t: 9\ncore id\t\t: 0\ncpu cores\t: 9\napicid\t\t: 0\ninitial apicid\t: 0\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 28\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology nonstop_tsc cpuid extd_apicid tsc_known_freq pni pclmulqdq ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm cmp_legacy cr8_legacy abm sse4a misalignsse 3dnowprefetch osvw topoext vmmcall fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves avx512_bf16 clzero xsaveerptr arat npt nrip_save tsc_scale vmcb_clean flushbyasid pausefilter pfthreshold v_vmsave_vmload avx512vbmi umip avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid fsrm arch_capabilities\nbugs\t\t: sysret_ss_attrs null_seg spectre_v1 spectre_v2 spec_store_bypass srso spectre_v2_user tsa\nbogomips\t: 5192.28\nTLB size\t: 3584 4K pages\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 46 bits physical, 48 bits virtual\npower management:",
+  "affinity": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "measurement": "loopback closed-loop ASCII clients; per-response latency includes pipelining; traces and fault hooks compiled out",
+  "buffer_configuration_kib": {
+    "worker": 1024,
+    "watcher": 4096
+  },
+  "governor": "unavailable",
+  "intel_no_turbo": "unavailable",
+  "cpu_quota": "800000 100000",
+  "memory_limit": "8589934592"
+}
