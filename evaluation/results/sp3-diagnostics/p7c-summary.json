@@ -1,0 +1,17 @@
+{
+  "returncode": 0,
+  "scope": "three real library boundaries in one wasm2c driver, not complete applications",
+  "boundaries": [
+    "bipbuffer",
+    "pcre",
+    "yaml"
+  ],
+  "check_results": {
+    "ok": 6,
+    "wrong_type": 3,
+    "untracked": 3,
+    "out_of_bounds": 3
+  },
+  "foreign_site_rejected": true,
+  "binary_sha256": "f9cc396f43e6e85dde839d5758848307a4d84e8bc330c1457e4dab542507de99"
+}
