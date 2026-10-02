@@ -1,5 +1,9 @@
 # InterSpec Typed Allocator
 
+The complete memcached cache-server deployment, real watcher-path corruption
+tests, and four-way performance collection are described in
+[MEMCACHED_DEPLOYMENT.md](MEMCACHED_DEPLOYMENT.md).
+
 Research proof of concept for extending InterSpec SP3 with trusted allocation metadata and allocation-site provenance.
 
 The implementation supports RLBox with both the NaCl SFI prototype backend and the wasm2c backend used by the InterSpec evaluation family. U may corrupt object bytes, while T owns authoritative allocation metadata `{base, size, type_hash, site_id}` and validates U-controlled pointers before trusted use.

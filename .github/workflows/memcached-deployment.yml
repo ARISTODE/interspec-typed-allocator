@@ -1,0 +1,42 @@
+name: memcached-deployment
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  server:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y \
+            autoconf automake build-essential ca-certificates git python3 \
+            libevent-dev libio-socket-inet6-perl
+      - name: Build all server variants
+        run: bash scripts/build_memcached_deployment.sh
+      - name: Validate actual server and source-corruption paths
+        run: python3 tools/test_memcached_deployment.py --out memcached-results/correctness
+      - name: Exercise performance collection
+        run: |
+          python3 tools/benchmark_memcached.py \
+            --out memcached-results/performance --seconds 1 --warmup 0.3 \
+            --repetitions 3 --label hosted_ci_reference \
+            --correctness-summary memcached-results/correctness/summary.json
+      - name: Upload results and build provenance
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: memcached-deployment-evidence
+          if-no-files-found: ignore
+          path: |
+            memcached-results
+            /tmp/interspec-memcached-deployment/logs
+            /tmp/interspec-memcached-deployment/build-manifest.json
