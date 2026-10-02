@@ -14,8 +14,34 @@ import traceback
 from memcached_common import Client, Server
 
 
+def activate_lru(server):
+    """Populate COLD_LRU and trigger the actual asynchronous item bump path."""
+    with Client(server.port) as c:
+        assert c.command(b"lru tune 1 1 0.1 0.1") == b"OK\r\n"
+        for i in range(512):
+            assert c.store(f"lru-{i}".encode(), b"z"*256) == b"STORED\r\n"
+        def total(suffix):
+            return sum(int(v) for k, v in c.stats(b"items").items() if k.endswith(suffix))
+        deadline = time.monotonic() + 5
+        while total(":number_cold") < 100:
+            assert time.monotonic() < deadline, "items did not reach COLD_LRU"
+            time.sleep(.02)
+        before = total(":moves_to_warm")
+        for i in range(128):
+            key = f"lru-{i}".encode()
+            for _ in range(2): assert c.get(key)[key]["data"] == b"z"*256
+        deadline = time.monotonic() + 5
+        while total(":moves_to_warm") <= before:
+            assert time.monotonic() < deadline, "LRU bump did not complete"
+            time.sleep(.02)
+
+
 def normal(server, output):
     completed = []
+    # Start with a fresh item population so cold items from earlier scenarios
+    # cannot satisfy the LRU counters without exercising this queue.
+    activate_lru(server)
+    completed.append("lru_async_item_bumps")
     with Client(server.port) as c:
         assert c.store(b"alpha", b"value", flags=17) == b"STORED\r\n"
         assert c.get(b"alpha")[b"alpha"] == {"data": b"value", "flags": 17, "cas": None}
@@ -103,10 +129,18 @@ def normal(server, output):
     return completed
 
 
-def fault_case(server, mode):
+def fault_case(server, mode, role=1):
     # Mutation can trigger on watcher greeting, worker write, worker read, or
     # watcher output. A rejection may race with successful cache responses.
     try:
+        if role == 3:
+            activate_lru(server)
+            if mode == 5:
+                assert server.proc.poll() is None
+                return
+            server.proc.wait(timeout=4)
+            assert server.proc.returncode == -6, server.proc.returncode
+            return
         with Client(server.port, timeout=3) as watcher:
             assert watcher.command(b"watch fetchers mutations") == b"OK\r\n"
             with Client(server.port, timeout=3) as client:
@@ -157,35 +191,39 @@ def main():
                 for op in ("check", "request", "peek_all", "poll", "release"):
                     # request emits runtime check; only copied read ops have names.
                     if op != "request": assert f"event={op} " in text, op
+                for op in ("lru_hold", "lru_take"):
+                    assert f"event={op} " in text, op
             elif variant != "native": assert "INTERSPEC seq=" not in text
             return {"checks": checks, "checks_passed": len(checks)}
         run(f"normal-{variant}", test)
 
-    for role in (1, 2):
+    for role in (1, 2, 3):
         for target in (1, 2, 3):
             for mode, reason in ((1, "wrong_type"), (2, "untracked"), (3, "untracked"), (4, "out_of_bounds")):
                 def test(role=role, target=target, mode=mode, reason=reason):
                     name = f"fault-r{role}-t{target}-m{mode}"
                     with Server(args.work / "bin/memcached-diagnostics", args.out / "faults", name,
                                 trace=True, fault={"role": role, "target": target, "fault": mode}) as server:
-                        fault_case(server, mode)
+                        fault_case(server, mode, role)
                     text = server.logpath.read_text()
                     assert f"mode={mode} target={target}" in text
                     assert f"reason={reason}" in text, text[-1500:]
                     return {"role": role, "target": target, "mode": mode, "reason": reason, "exit_code": server.proc.returncode}
                 run(f"fault-r{role}-t{target}-m{mode}", test)
 
-    for role, mode in ((1, 5), (2, 5), (1, 6)):
+    for role, mode in ((1, 5), (2, 5), (3, 5), (1, 6), (3, 6), (3, 7), (3, 8)):
         def test(role=role, mode=mode):
             name = f"control-r{role}-m{mode}"
             with Server(args.work / "bin/memcached-diagnostics", args.out / "faults", name,
                         trace=True, fault={"role": role, "target": 2, "fault": mode}) as server:
-                fault_case(server, mode)
+                fault_case(server, mode, role)
             text = server.logpath.read_text()
             assert f"mode={mode} target=2" in text
             if mode == 5: assert "INTERSPEC_REJECT" not in text
-            else: assert "reason=malformed_record" in text
-            return {"mode": mode, "role": role, "outcome": "accepted_same_type" if mode == 5 else "rejected_malformed_record"}
+            else:
+                reason = "unknown_handle" if (role, mode) == (3, 6) else "wrong_item_hash" if mode == 7 else "malformed_record"
+                assert f"reason={reason}" in text
+            return {"mode": mode, "role": role, "outcome": "accepted_same_type" if mode == 5 else f"rejected_{reason}"}
         run(f"control-r{role}-m{mode}", test)
 
     if not args.skip_upstream:

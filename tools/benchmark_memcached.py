@@ -54,10 +54,31 @@ class Watcher:
 
 
 def usage(pid):
+    def status(path):
+        return {line.split(':', 1)[0]: line.split(':', 1)[1].strip()
+                for line in path.read_text().splitlines() if ':' in line}
+    # Some managed PID namespaces expose a host-mounted /proc. Resolve only
+    # this process's own children, and verify both parent and namespace PID.
+    own = status(Path('/proc/self/status'))
+    candidates = [pid]
+    for children in Path('/proc/self/task').glob('*/children'):
+        candidates.extend(map(int, children.read_text().split()))
+    # Kernels without CONFIG_CHECKPOINT_RESTORE omit task/*/children.
+    # PPid and NSpid below still restrict selection to our exact child.
+    candidates.extend(int(path.name) for path in Path('/proc').iterdir() if path.name.isdecimal())
+    record = None
+    for candidate in candidates:
+        path = Path(f'/proc/{candidate}/status')
+        try: current = status(path)
+        except (FileNotFoundError, ProcessLookupError, PermissionError): continue
+        namespace_pid = current.get('NSpid', current['Pid']).split()[-1]
+        if current['PPid'] == own['Pid'] and int(namespace_pid) == pid:
+            record = current
+            break
+    if record is None: raise RuntimeError(f'cannot resolve server PID {pid} in /proc')
     result = {}
-    for line in Path(f"/proc/{pid}/status").read_text().splitlines():
-        if line.startswith(("VmRSS:", "VmHWM:", "VmSize:")):
-            result[line.split(":")[0] + "_kib"] = int(line.split()[1])
+    for key in ('VmRSS', 'VmHWM', 'VmSize'):
+        result[key + '_kib'] = int(record[key].split()[0])
     return result
 
 
@@ -79,7 +100,7 @@ def main():
     p.add_argument("--correctness-summary", type=Path, required=True)
     a = p.parse_args()
     gate = json.loads(a.correctness_summary.read_text())
-    assert gate["passed"] == gate["total"] == 34, "correctness gate failed/incomplete"
+    assert gate["passed"] == gate["total"] == 50, "correctness gate failed/incomplete"
     for variant in VARIANTS:
         binary = a.work / "bin" / f"memcached-{variant}"
         assert hashlib.sha256(binary.read_bytes()).hexdigest() == gate["binary_sha256"][binary.name], "binary changed since correctness validation"
@@ -91,13 +112,12 @@ def main():
     environment = {"label": a.label, "host": platform.uname()._asdict(), "parameters": {k: str(v) if isinstance(v, Path) else v for k, v in vars(a).items()},
         "build": json.loads((a.work/"build-manifest.json").read_text()),
         "client_sha256": hashlib.sha256(client.read_bytes()).hexdigest(),
+        "collector_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
         "cpuinfo": Path("/proc/cpuinfo").read_text().split("\n\n")[0],
         "affinity": sorted(os.sched_getaffinity(0)),
-        "cpu_quota": Path("/sys/fs/cgroup/cpu.max").read_text().strip(),
-        "memory_limit": Path("/sys/fs/cgroup/memory.max").read_text().strip(),
         "measurement": "loopback closed-loop ASCII clients; per-response latency includes pipelining; traces and fault hooks compiled out",
         "buffer_configuration_kib": {"worker": 1024, "watcher": 4096}}
-    for key, path in {"governor": "/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor", "intel_no_turbo": "/sys/devices/system/cpu/intel_pstate/no_turbo"}.items():
+    for key, path in {"governor": "/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor", "intel_no_turbo": "/sys/devices/system/cpu/intel_pstate/no_turbo", "cpu_quota": "/sys/fs/cgroup/cpu.max", "memory_limit": "/sys/fs/cgroup/memory.max"}.items():
         environment[key] = Path(path).read_text().strip() if Path(path).exists() else "unavailable"
     (a.out/"environment.json").write_text(json.dumps(environment, indent=2)+"\n")
     rows = []
@@ -129,10 +149,11 @@ def main():
                         row = {"workload": workload, "repetition": rep, "order": rank, "variant": variant, **measured, **usage(server.proc.pid), "startup_ms": server.startup_ns/1e6}
                         row["server_cpu_s"] = sum(float(after[k])-float(before[k]) for k in ("rusage_user", "rusage_system"))
                         row["cpu_us_per_op"] = row["server_cpu_s"]*1e6/row["operations"]
-                        for key in ("log_worker_written", "log_worker_dropped", "log_watcher_sent", "log_watcher_skipped"):
+                        for key in ("log_worker_written", "log_worker_dropped", "log_watcher_sent", "log_watcher_skipped", "lru_bumps_dropped", "moves_to_warm"):
                             row[key] = int(after[key])-int(before[key])
                         row["watcher_bytes_including_warmup"] = watcher.bytes if watcher else 0
                         row["valid_no_log_loss"] = row["log_worker_dropped"] == row["log_watcher_skipped"] == 0
+                        row["valid_no_lru_loss"] = row["lru_bumps_dropped"] == 0
                         if watcher: assert row["log_worker_written"] > 0 and watcher.bytes > 0
                         (a.out/"logs"/f"{name}.stats.json").write_text(json.dumps({"before": before, "after": after}, indent=2)+"\n")
                     finally:
@@ -147,7 +168,7 @@ def main():
         selected = [r for r in rows if r["workload"] == workload]
         for variant in VARIANTS:
             samples = [r for r in selected if r["variant"] == variant]
-            summary = {"workload": workload, "variant": variant, "n": len(samples), "all_no_log_loss": all(r["valid_no_log_loss"] for r in samples)}
+            summary = {"workload": workload, "variant": variant, "n": len(samples), "all_no_log_loss": all(r["valid_no_log_loss"] for r in samples), "all_no_lru_loss": all(r["valid_no_lru_loss"] for r in samples)}
             for key in ("ops_per_s", "p50_us", "p95_us", "p99_us", "VmRSS_kib", "VmHWM_kib", "server_cpu_s", "cpu_us_per_op", "startup_ms"):
                 summary[key+"_median"] = statistics.median(r[key] for r in samples)
                 summary[key+"_min"] = min(r[key] for r in samples)

@@ -15,6 +15,7 @@
 #include <memory>
 #include <mutex>
 #include <stdexcept>
+#include <unordered_map>
 #include <vector>
 
 extern "C" {
@@ -64,6 +65,9 @@ struct Buffer {
     Pointer input;
     std::vector<unsigned char> write_copy, read_copy;
     uint32_t pending = 0;
+    struct ItemReference { void *item; uint32_t hash; };
+    std::unordered_map<uintptr_t, ItemReference> item_references;
+    uintptr_t next_reference = 1;
 
     explicit Buffer(uint32_t size) : capacity(size), write_copy(size), read_copy(size) {
         if (!sandbox.create_sandbox()) throw std::runtime_error("sandbox_creation");
@@ -159,7 +163,7 @@ bipbuf_t *bipbuf_new(unsigned int size) {
     catch (const std::exception &e) { reject("new", e.what()); }
 }
 
-/* role: 1=worker logger, 2=watcher output. Test configuration is supplied by T,
+/* role: 1=worker logger, 2=watcher output, 3=LRU bump queue. Configuration is T,
  * and the mutations themselves execute in compiled U source. */
 void interspec_bipbuf_role(bipbuf_t *ptr, unsigned int role) {
     guarded([&] {
@@ -176,8 +180,47 @@ void interspec_bipbuf_role(bipbuf_t *ptr, unsigned int role) {
 #else
         (void)role;
 #endif
-        b.event("buffer_role", role == 1 ? "worker" : "watcher", b.capacity);
+        b.event("buffer_role", role == 1 ? "worker" : role == 2 ? "watcher" : "lru", b.capacity);
     });
+}
+
+/* LRU entries originally carry native item pointers through bipbuffer. U gets
+ * only one-use integer handles; T retains the item reference and its lock hash.
+ * Upstream's refcount_incr keeps the item alive until the handle is consumed or
+ * cancelled. A token is meaningful only within its originating queue. */
+uintptr_t interspec_lru_hold(bipbuf_t *ptr, void *item, uint32_t hash) {
+    return guarded([&] {
+        auto &b = get(ptr);
+        std::lock_guard<std::mutex> lock(b.mutex);
+        if (!b.next_reference) reject("lru_hold", "handle_exhaustion");
+        uintptr_t token = b.next_reference++;
+        b.item_references.emplace(token, Buffer::ItemReference{item, hash});
+        b.event("lru_hold", "ok", 1);
+        return token;
+    });
+}
+void interspec_lru_cancel(bipbuf_t *ptr, uintptr_t token) {
+    guarded([&] {
+        auto &b = get(ptr);
+        std::lock_guard<std::mutex> lock(b.mutex);
+        if (b.item_references.erase(token) != 1) reject("lru_cancel", "unknown_handle");
+    });
+}
+void *interspec_lru_take(bipbuf_t *ptr, uintptr_t token, uint32_t hash) {
+    return guarded([&]() -> void * {
+        auto &b = get(ptr);
+        std::lock_guard<std::mutex> lock(b.mutex);
+        auto found = b.item_references.find(token);
+        if (found == b.item_references.end()) reject("lru_take", "unknown_handle");
+        if (found->second.hash != hash) reject("lru_take", "wrong_item_hash");
+        void *item = found->second.item;
+        b.item_references.erase(found);
+        b.event("lru_take", "ok", 1);
+        return item;
+    });
+}
+void interspec_lru_extent(unsigned int bytes, unsigned int entry_size) {
+    if (!bytes || !entry_size || bytes % entry_size) reject("lru_extent", "malformed_record");
 }
 void bipbuf_free(bipbuf_t *ptr) {
     if (!ptr) return;

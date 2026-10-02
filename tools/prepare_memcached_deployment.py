@@ -25,3 +25,22 @@ replace("        e = (logentry *) (data + pos);",
         "        e = interspec_checked_log(data + pos, size - pos, safe_entry.bytes);")
 s.write_text(text)
 shutil.copyfile(a.root / "integration/memcached_server/logger_validate.h", a.source / "interspec_logger_validate.h")
+
+# LRU bump records also use bipbuffer and originally contain native pointers.
+# Preserve T ownership with one-use, per-buffer handles before bytes enter U.
+s = a.source / "items.c"
+text = s.read_text()
+replace('static bool lru_bump_async(lru_bump_buf *b, item *it, uint32_t hv);', '''extern void interspec_bipbuf_role(bipbuf_t *, unsigned int);
+extern uintptr_t interspec_lru_hold(bipbuf_t *, void *, uint32_t);
+extern void interspec_lru_cancel(bipbuf_t *, uintptr_t);
+extern void *interspec_lru_take(bipbuf_t *, uintptr_t, uint32_t);
+extern void interspec_lru_extent(unsigned int, unsigned int);
+_Static_assert(sizeof(void *) == 8, "LRU wire handles require a 64-bit host");
+static bool lru_bump_async(lru_bump_buf *b, item *it, uint32_t hv);''')
+replace('    pthread_mutex_init(&b->mutex, NULL);', '    interspec_bipbuf_role(b->buf, 3);\n    pthread_mutex_init(&b->mutex, NULL);')
+replace('        be->it = it;', '        uintptr_t token = interspec_lru_hold(b->buf, it, hv);\n        be->it = (item *)token;')
+replace('        if (bipbuf_push(b->buf, sizeof(lru_bump_entry)) == 0) {',
+        '        if (bipbuf_push(b->buf, sizeof(lru_bump_entry)) == 0) {\n            interspec_lru_cancel(b->buf, token);')
+replace('        todo = size;', '        interspec_lru_extent(size, sizeof(lru_bump_entry));\n        todo = size;')
+replace('            item_lock(be->hv);', '            be->it = interspec_lru_take(b->buf, (uintptr_t)be->it, be->hv);\n            item_lock(be->hv);')
+s.write_text(text)

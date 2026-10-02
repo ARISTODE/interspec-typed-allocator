@@ -55,6 +55,12 @@ static unsigned char *mutate(unsigned char *ptr, uint32_t target) {
     case 6: /* Malformed record contents: handled by T's format validator. */
         memset(ptr, 0xff, last_size < 4 ? last_size : 4);
         break;
+    case 7: /* Corrupt the hash next to an opaque 64-bit LRU handle. */
+        if (last_size >= 12) ptr[8] ^= 1;
+        break;
+    case 8: /* A tracked, in-bounds extent that splits an LRU record. */
+        if (last_size) --last_size;
+        break;
     default: abort();
     }
     fprintf(stderr, "FAULT_INJECTION boundary=memcached_bipbuffer mode=%u target=%u original=0x%x replacement=0x%x bytes=%u\n",

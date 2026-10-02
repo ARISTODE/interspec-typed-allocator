@@ -46,8 +46,8 @@ class Client:
             values[fields[1]] = {"flags": int(fields[2]), "data": data,
                                "cas": int(fields[4]) if len(fields) > 4 else None}
 
-    def stats(self):
-        self.send(b"stats\r\n")
+    def stats(self, kind=b""):
+        self.send(b"stats" + (b" " + kind if kind else b"") + b"\r\n")
         result = {}
         while True:
             line = self.line()

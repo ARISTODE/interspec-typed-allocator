@@ -3,15 +3,16 @@
 This integration runs the actual memcached 1.6.45 server at revision
 `2d51e364799bc9698bd4b11728ea978cea12da6e`. The cache server is T; its bundled
 bipbuffer implementation is U, compiled into an RLBox wasm2c sandbox.
-The deployment includes the cache server and asynchronous `watch` subsystem.
+The deployment includes the cache server, asynchronous `watch` subsystem, and
+LRU maintenance queues.
 The supported build disables extstore and proxy; TLS and SASL are not enabled.
 
 ## Boundary and enforcement
 
-Memcached uses bipbuffer for worker log queues and watcher output queues, not
-for its ordinary key/value item storage. A GET/SET-only benchmark without an
-active watcher is therefore a control workload with little boundary activity.
-The `watch_active` workload exercises the protected path throughout the run.
+Memcached uses bipbuffer for worker logs, watcher output, and asynchronous LRU
+bump queues. A GET/SET-only benchmark without an active watcher exercises the
+LRU boundary when items move through the cold queue. The `watch_active` workload
+additionally exercises the logging boundary throughout the run.
 
 Each queue has its own sandbox, typed arena, trusted metadata, mutex, and
 separate T read/write staging buffers. Existing memcached locks still govern
@@ -42,6 +43,16 @@ and are distinct from the SP3 allocation checks. Valid same-type substitutions
 and semantically false but structurally valid log entries remain outside SP3's
 guarantee. Rejection aborts the server; availability against a malicious U is
 not claimed.
+
+LRU records originally carried native `item *` pointers and their lock hashes
+through bipbuffer. The bridge now sends one-use integer handles into U, while
+T retains the item pointer and expected hash in a per-queue registry. The
+upstream item reference count keeps that item alive. On return, T checks the
+record extent, resolves a live handle from that same queue, validates its hash,
+and consumes the handle before using the native pointer. Failed queue pushes
+cancel the handle and retain upstream's reference-count rollback. Forged or
+replayed handles cannot turn into native pointers. These application checks
+are also present in the RLBox-only and tracking-only baselines.
 
 This is a bridge for memcached's existing uses, including opaque handles
 created through `bipbuf_new`. It is not a general binary-compatible substitute
@@ -75,9 +86,10 @@ The correctness matrix comprises:
 * Five server variants, each checked against explicit expected cache results,
   binary values, CAS, expiry, malformed commands, watcher records, concurrent
   cache traffic, and watcher churn.
-* Twenty-four source-injected pointer attacks: two queue roles, three actual
+* Thirty-six source-injected pointer attacks: three queue roles, three actual
   server paths, and four errors per path.
-* Two same-type substitution controls and one malformed log-record control.
+* Three same-type substitution controls, one malformed log-record control,
+  and LRU controls for a forged handle, wrong item hash, and split record extent.
 * Upstream `watcher.t` and `watcher_connid.t` for native and SP3 debug servers.
   Their 47 assertions are unchanged; their copied launch helper selects
   loopback TCP so the suite also runs where Unix sockets are unavailable.
@@ -93,13 +105,14 @@ only to configure the test. The corruption itself is compiled into U.
 
 | Variable | Values |
 | --- | --- |
-| `INTERSPEC_TEST_ROLE` | `1` worker queue; `2` watcher queue |
+| `INTERSPEC_TEST_ROLE` | `1` worker queue; `2` watcher queue; `3` LRU queue |
 | `INTERSPEC_TEST_TARGET` | `1` request/write; `2` peek/read; `3` poll/consume |
-| `INTERSPEC_TEST_FAULT` | `1` wrong type; `2` untracked; `3` released; `4` excessive extent; `5` same-type control; `6` invalid event field |
+| `INTERSPEC_TEST_FAULT` | `1` wrong type; `2` untracked; `3` released; `4` excessive extent; `5` same-type control; `6` invalid event/handle; `7` wrong LRU hash; `8` split LRU record |
 | `INTERSPEC_TRACE` | `1` enables diagnostic metadata and copy events |
 
-Modes 5 and 6 are evaluated on target 2; malformed event contents are evaluated
-on the worker queue. The runner drives real socket traffic and verifies the
+Modes 5 through 8 are evaluated on target 2; malformed event contents are evaluated
+on the worker queue, while handle/hash/split-record controls target the LRU
+queue. The runner drives real socket traffic and verifies the
 expected rejection and process exit. The diagnostic module and its export
 never appear in the timed release binary.
 

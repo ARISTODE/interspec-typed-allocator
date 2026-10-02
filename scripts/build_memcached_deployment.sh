@@ -41,11 +41,12 @@ mv "$work/bin/memcached-native-debug.new" "$work/bin/memcached-native-debug"
 # Build the unchanged server except for the library bridge and log-data checks.
 if [[ ! -d "$work/server" ]]; then cp -a "$src" "$work/server"; fi
 git -C "$src" show "$revision:logger.c" > "$work/server/logger.c"
+git -C "$src" show "$revision:items.c" > "$work/server/items.c"
 python3 "$root/tools/prepare_memcached_deployment.py" --source "$work/server" --root "$root"
 if [[ ! -f "$work/server/Makefile" ]]; then
   (cd "$work/server" && ./configure --disable-extstore --disable-proxy --disable-docs CFLAGS='-O2 -g') > "$work/logs/server-configure.log" 2>&1
 fi
-make -C "$work/server" -j"$jobs" memcached-logger.o memcached_debug-logger.o > "$work/logs/server-build.log" 2>&1
+make -C "$work/server" -j"$jobs" memcached-logger.o memcached_debug-logger.o memcached-items.o memcached_debug-items.o > "$work/logs/server-build.log" 2>&1
 
 generated="$work/generated"
 python3 "$root/tools/generate_wasm_boundary_policy.py" \
@@ -107,10 +108,10 @@ fi
 
 server_objects=()
 for obj in "$work/native"/memcached-*.o; do
-  [[ $(basename "$obj") != memcached-bipbuffer.o && $(basename "$obj") != memcached-logger.o ]] || continue
+  [[ $(basename "$obj") != memcached-bipbuffer.o && $(basename "$obj") != memcached-logger.o && $(basename "$obj") != memcached-items.o ]] || continue
   server_objects+=("$obj")
 done
-server_objects+=("$work/server/memcached-logger.o")
+server_objects+=("$work/server/memcached-logger.o" "$work/server/memcached-items.o")
 for variant in rlbox-only tracked-no-check interspec diagnostics; do
   module=typed
   flags=(-DINTERSPEC_TRACKING=1 -DINTERSPEC_CHECKS=0)
@@ -127,10 +128,10 @@ for variant in rlbox-only tracked-no-check interspec diagnostics; do
 done
 debug_objects=()
 for obj in "$work/native"/memcached_debug-*.o; do
-  [[ $(basename "$obj") != memcached_debug-bipbuffer.o && $(basename "$obj") != memcached_debug-logger.o ]] || continue
+  [[ $(basename "$obj") != memcached_debug-bipbuffer.o && $(basename "$obj") != memcached_debug-logger.o && $(basename "$obj") != memcached_debug-items.o ]] || continue
   debug_objects+=("$obj")
 done
-g++ "${debug_objects[@]}" "$work/server/memcached_debug-logger.o" "$work/interspec-bridge.o" "$work/typed/module.a" \
+g++ "${debug_objects[@]}" "$work/server/memcached_debug-logger.o" "$work/server/memcached_debug-items.o" "$work/interspec-bridge.o" "$work/typed/module.a" \
   --coverage -levent -pthread -ldl -lrt -lm -o "$work/bin/memcached-interspec-debug.new"
 mv "$work/bin/memcached-interspec-debug.new" "$work/bin/memcached-interspec-debug"
 python3 - "$work" "$root" "$deps" <<'PY'
