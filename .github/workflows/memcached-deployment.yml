@@ -30,6 +30,29 @@ jobs:
             --out memcached-results/performance --seconds 1 --warmup 0.3 \
             --repetitions 3 --label hosted_ci_reference \
             --correctness-summary memcached-results/correctness/summary.json
+      - name: Exercise representative native RLBox InterSpec matrix
+        run: |
+          python3 tools/benchmark_memcached_matrix.py \
+            --out memcached-results/overhead-matrix --preset smoke \
+            --correctness-summary memcached-results/correctness/summary.json \
+            --label hosted_ci_matrix
+      - name: Profile SP3 check frequency
+        run: |
+          python3 tools/profile_memcached_checks.py \
+            --out memcached-results/check-frequency --operations 1000 --key-cap 512 \
+            --correctness-summary memcached-results/correctness/summary.json
+      - name: Run SP3 primitive microbenchmarks
+        run: |
+          python3 tools/run_runtime_microbench.py \
+            --out memcached-results/runtime-microbench \
+            --repetitions 5 --iterations 200000
+      - name: Render correlated performance report
+        run: |
+          python3 tools/render_memcached_overhead_study.py \
+            --matrix memcached-results/overhead-matrix/final-summary.json \
+            --checks memcached-results/check-frequency/check-frequency.json \
+            --microbench memcached-results/runtime-microbench/summary.json \
+            --output memcached-results/PERFORMANCE_STUDY.md
       - name: Upload results and build provenance
         if: always()
         uses: actions/upload-artifact@v4

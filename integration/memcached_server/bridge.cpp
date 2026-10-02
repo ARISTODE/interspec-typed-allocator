@@ -118,7 +118,10 @@ struct Buffer {
             bytes > sandbox.get_total_memory() - address)
             reject(op, "outside_sandbox");
 #if INTERSPEC_CHECKS
+        interspec::DiagnosticEvent sp3_event(this, op);
+        sp3_event.requested = bytes;
         auto result = runtime->check(address, bytes, is_input ? P::kTypeHashChar : P::kTypeHashBipbufT);
+        sp3_event.result = result == interspec::CheckResult::ok ? "sp3_ok" : interspec::check_result_name(result);
         if (result != interspec::CheckResult::ok) {
             runtime->dump_allocations();
             reject(op, interspec::check_result_name(result));

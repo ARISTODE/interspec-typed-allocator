@@ -34,14 +34,15 @@ static void expect(int fd, const std::string &expected, std::vector<char> &buffe
     if (std::memcmp(buffer.data(), expected.data(), got)) throw std::runtime_error("response_mismatch");
 }
 int main(int argc, char **argv) {
-    if (argc != 8) {
-        std::fprintf(stderr, "usage: client PORT SECONDS CLIENTS PIPELINE VALUE_BYTES KEYS GET_PERCENT\n");
+    if (argc != 8 && argc != 9) {
+        std::fprintf(stderr, "usage: client PORT SECONDS CLIENTS PIPELINE VALUE_BYTES KEYS GET_PERCENT [TOTAL_OPERATIONS]\n");
         return 2;
     }
     int port = std::stoi(argv[1]), clients = std::stoi(argv[3]), pipeline = std::stoi(argv[4]);
     double seconds = std::stod(argv[2]);
     int value_bytes = std::stoi(argv[5]), keys = std::stoi(argv[6]), get_percent = std::stoi(argv[7]);
-    if (seconds <= 0 || clients < 1 || pipeline < 1 || value_bytes < 1 || keys < 1 || get_percent < 0 || get_percent > 100) return 2;
+    uint64_t total_operations = argc == 9 ? std::stoull(argv[8]) : 0;
+    if ((seconds <= 0 && total_operations == 0) || clients < 1 || pipeline < 1 || value_bytes < 1 || keys < 1 || get_percent < 0 || get_percent > 100) return 2;
     std::vector<std::string> sets, gets, responses;
     for (int i = 0; i < keys; ++i) {
         auto key = "bench" + std::to_string(i);
@@ -53,6 +54,7 @@ int main(int argc, char **argv) {
     const std::string stored = "STORED\r\n";
     std::atomic<int> ready{0}, errors{0};
     std::atomic<bool> go{false};
+    std::atomic<uint64_t> next_operation{0};
     Clock::time_point deadline;
     std::vector<std::vector<double>> latencies(clients);
     std::vector<std::thread> threads;
@@ -79,18 +81,29 @@ int main(int argc, char **argv) {
             ready++; announced = true;
             while (!go.load()) std::this_thread::yield();
             uint64_t n = worker * 997;
-            while (Clock::now() < deadline) {
+            while (true) {
+                int batch_count = pipeline;
+                uint64_t first = n;
+                if (total_operations) {
+                    first = next_operation.fetch_add(static_cast<uint64_t>(pipeline));
+                    if (first >= total_operations) break;
+                    batch_count = static_cast<int>(std::min<uint64_t>(
+                        static_cast<uint64_t>(pipeline), total_operations - first));
+                } else if (Clock::now() >= deadline) {
+                    break;
+                }
                 batch.clear();
-                for (int j = 0; j < pipeline; ++j, ++n) {
+                for (int j = 0; j < batch_count; ++j) {
+                    uint64_t op = total_operations ? first + static_cast<uint64_t>(j) : n++;
                     // Deterministic key permutation; identical mix for all variants.
-                    auto key = (n * 104729) % keys;
-                    bool get = (n * 37) % 100 < static_cast<uint64_t>(get_percent);
+                    auto key = (op * 104729) % keys;
+                    bool get = (op * 37) % 100 < static_cast<uint64_t>(get_percent);
                     batch += get ? gets[key] : sets[key];
                     expected[j] = get ? &responses[key] : &stored;
                 }
                 auto start = Clock::now();
                 send_all(fd, batch);
-                for (int j = 0; j < pipeline; ++j) {
+                for (int j = 0; j < batch_count; ++j) {
                     expect(fd, *expected[j], buffer);
                     samples.push_back(std::chrono::duration<double, std::micro>(Clock::now() - start).count());
                 }
@@ -104,7 +117,7 @@ int main(int argc, char **argv) {
     });
     while (ready.load() != clients) std::this_thread::yield();
     auto start = Clock::now();
-    deadline = start + std::chrono::duration_cast<Clock::duration>(std::chrono::duration<double>(seconds));
+    deadline = total_operations ? Clock::time_point::max() : start + std::chrono::duration_cast<Clock::duration>(std::chrono::duration<double>(seconds));
     go = true;
     for (auto &thread : threads) thread.join();
     double elapsed = std::chrono::duration<double>(Clock::now() - start).count();
