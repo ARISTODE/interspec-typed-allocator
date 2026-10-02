@@ -94,14 +94,23 @@ def main():
     p.add_argument("--value-bytes", type=int, default=256)
     p.add_argument("--keys", type=int, default=1024)
     p.add_argument("--get-percent", type=int, default=50)
+    p.add_argument("--variants", default=",".join(VARIANTS),
+                   help="comma-separated subset of native,rlbox-only,tracked-no-check,interspec")
+    p.add_argument("--workloads", default="cache_only,watch_active",
+                   help="comma-separated subset of cache_only,watch_active")
     p.add_argument("--server-cpus")
     p.add_argument("--client-cpus")
     p.add_argument("--label", default="shared_container_pilot")
     p.add_argument("--correctness-summary", type=Path, required=True)
     a = p.parse_args()
+    variants = [v.strip() for v in a.variants.split(",") if v.strip()]
+    workloads = [w.strip() for w in a.workloads.split(",") if w.strip()]
+    assert variants and len(set(variants)) == len(variants) and all(v in VARIANTS for v in variants)
+    assert workloads and len(set(workloads)) == len(workloads) and all(w in ("cache_only", "watch_active") for w in workloads)
+    assert "native" in variants, "native baseline required"
     gate = json.loads(a.correctness_summary.read_text())
     assert gate["passed"] == gate["total"] == 50, "correctness gate failed/incomplete"
-    for variant in VARIANTS:
+    for variant in variants:
         binary = a.work / "bin" / f"memcached-{variant}"
         assert hashlib.sha256(binary.read_bytes()).hexdigest() == gate["binary_sha256"][binary.name], "binary changed since correctness validation"
     assert a.repetitions >= 3 and a.seconds > 0 and a.warmup > 0
@@ -122,9 +131,9 @@ def main():
     (a.out/"environment.json").write_text(json.dumps(environment, indent=2)+"\n")
     rows = []
     rng = random.Random(20261002)
-    for workload in ("cache_only", "watch_active"):
+    for workload in workloads:
         for rep in range(a.repetitions):
-            order = VARIANTS.copy(); rng.shuffle(order)
+            order = variants.copy(); rng.shuffle(order)
             for rank, variant in enumerate(order):
                 name = f"{workload}-{rep}-{variant}"
                 watcher = None
@@ -164,9 +173,9 @@ def main():
                     writer = csv.DictWriter(f, fieldnames=list(row)); writer.writeheader(); writer.writerows(rows)
                 print(json.dumps(row), flush=True)
     summaries = []
-    for workload in ("cache_only", "watch_active"):
+    for workload in workloads:
         selected = [r for r in rows if r["workload"] == workload]
-        for variant in VARIANTS:
+        for variant in variants:
             samples = [r for r in selected if r["variant"] == variant]
             summary = {"workload": workload, "variant": variant, "n": len(samples), "all_no_log_loss": all(r["valid_no_log_loss"] for r in samples), "all_no_lru_loss": all(r["valid_no_lru_loss"] for r in samples)}
             for key in ("ops_per_s", "p50_us", "p95_us", "p99_us", "VmRSS_kib", "VmHWM_kib", "server_cpu_s", "cpu_us_per_op", "startup_ms"):
@@ -174,6 +183,7 @@ def main():
                 summary[key+"_min"] = min(r[key] for r in samples)
                 summary[key+"_max"] = max(r[key] for r in samples)
             for base in ("native", "rlbox-only", "tracked-no-check"):
+                if base not in variants: continue
                 baseline = {r["repetition"]: r for r in selected if r["variant"] == base}
                 loss = [(1-r["ops_per_s"]/baseline[r["repetition"]]["ops_per_s"])*100 for r in samples]
                 summary[f"throughput_loss_vs_{base}_paired_median_pct"] = statistics.median(loss)
