@@ -1,5 +1,9 @@
 #include <stdint.h>
 #include <stdlib.h>
+#ifdef INTERSPEC_FAULT_TESTS
+#include <stdio.h>
+#include <string.h>
+#endif
 
 #include "popt.h"
 
@@ -29,6 +33,47 @@ struct interspec_p4c_argv {
   uint32_t argc;
   const char** argv;
 };
+
+#ifdef INTERSPEC_FAULT_TESTS
+// Test builds only. Allocation policy and trusted checks are unchanged.
+static uint32_t fault_mode, fault_target, fault_fired;
+static void* fault_context;
+static struct interspec_p4c_table* fault_table;
+static uintptr_t fault_decoy;
+extern void interspec_typed_free(void*);
+
+void interspec_test_set_fault(uint32_t mode, uint32_t target)
+{
+  fault_mode = mode;
+  fault_target = target;
+  fault_fired = 0;
+}
+
+static char* inject_pointer(char* value, uint32_t target)
+{
+  if (!value || fault_fired || !fault_mode || fault_mode > 5 ||
+      fault_target != target) return value;
+  char* replacement = value;
+  size_t size = strlen(value) + 1;
+  if (fault_mode == 1) replacement = (char*)fault_context;
+  if (fault_mode == 2) {
+    replacement = malloc(size);
+    if (!replacement) abort();
+    memcpy(replacement, value, size);
+  }
+  if (fault_mode == 3) interspec_typed_free(value);
+  if (fault_mode == 4) memset(value, 'X', size);
+  if (fault_mode == 5) {
+    replacement = interspec_typed_strdup(value);
+    if (!replacement) abort();
+  }
+  fault_fired = 1;
+  fprintf(stderr, "FAULT_INJECTION mode=%u target=%u original=%p replacement=%p\n",
+          fault_mode, target, (void*)value, (void*)replacement);
+  fflush(stderr);
+  return replacement;
+}
+#endif
 
 char* interspec_p4c_typed_copy(const char* src)
 {
@@ -134,7 +179,11 @@ char* interspec_p4c_slot_get_string(void* opaque, uint32_t index)
   if (!table || index >= table->slot_count ||
       table->slots[index].kind != INTERSPEC_P4C_SLOT_STRING)
     return NULL;
+#ifdef INTERSPEC_FAULT_TESTS
+  return inject_pointer(table->slots[index].value.s, 2);
+#else
   return table->slots[index].value.s;
+#endif
 }
 
 void* interspec_p4c_argv_new(uint32_t argc)
@@ -169,17 +218,39 @@ void* interspec_p4c_context_new(char* name,
   struct interspec_p4c_argv* argv = argv_opaque;
   struct interspec_p4c_table* table = table_opaque;
   if (!argv || !table || argc < 0 || (uint32_t)argc != argv->argc) return NULL;
-  return poptGetContext(name, argc, argv->argv, table->options, flags);
+  void* context = poptGetContext(name, argc, argv->argv, table->options, flags);
+#ifdef INTERSPEC_FAULT_TESTS
+  fault_context = context;
+  fault_table = table;
+#endif
+  return context;
 }
 
 int interspec_p4c_next(void* opaque)
 {
-  return poptGetNextOpt((poptContext)opaque);
+  int result = poptGetNextOpt((poptContext)opaque);
+#ifdef INTERSPEC_FAULT_TESTS
+  if (fault_mode == 6 && !fault_fired && fault_table) {
+    for (uint32_t i = 0; i < fault_table->option_count; ++i)
+      if (fault_table->options[i].arg)
+        fault_table->options[i].arg = &fault_decoy;
+    fault_fired = 1;
+    fprintf(stderr, "FAULT_INJECTION mode=6 target=option_destination replacement=%p\n",
+            (void*)&fault_decoy);
+    fflush(stderr);
+  }
+#endif
+  return result;
 }
 
 char* interspec_p4c_opt_arg(void* opaque)
 {
-  return poptGetOptArg((poptContext)opaque);
+  char* value = poptGetOptArg((poptContext)opaque);
+#ifdef INTERSPEC_FAULT_TESTS
+  return inject_pointer(value, 1);
+#else
+  return value;
+#endif
 }
 
 char* interspec_p4c_bad_option(void* opaque, uint32_t flags)
@@ -202,7 +273,11 @@ char* interspec_p4c_args_at(void* opaque, uint32_t index)
   if (!args) return NULL;
   for (uint32_t i = 0; i < index; ++i)
     if (!args[i]) return NULL;
+#ifdef INTERSPEC_FAULT_TESTS
+  return inject_pointer((char*)args[index], 3);
+#else
   return (char*)args[index];
+#endif
 }
 
 void interspec_p4c_context_free(void* opaque)

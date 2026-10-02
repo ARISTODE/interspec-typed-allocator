@@ -1,0 +1,21 @@
+{
+  "base_commit": "333801ecf677d89d49db0503a2a611a69562471d",
+  "source_tree": "f517fc3e4603516fe1b2befbf026a263f9ae35b6",
+  "platform": "Linux-6.18.44-x86_64-with-glibc2.39",
+  "machine": "x86_64",
+  "gcc": "g++ (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0",
+  "cmake": "cmake version 3.31.10",
+  "python": "3.12.14",
+  "allocation_policy_sha256": "b80361ee64e2c9caf037764d3bac10429f3c01061f6c183bbd74472d35b090e1",
+  "dependencies": {
+    "rlbox_wasm2c": "c4f18c48cea47421617f72ba5edc95c68aa85671",
+    "rlbox": "b0157dc84f86ffbe4549e32ed5cbdfad79c17f43",
+    "wabt": "974221b1ef82f6393d004e5da6116f2ad3e44005",
+    "rsync": "7c20b077c980036a19587701cec320cc88e42a4a",
+    "memcached": "2d51e364799bc9698bd4b11728ea978cea12da6e",
+    "pcre": "e67dabe61b327bd2d888954b0e74a7c9cfd0a195",
+    "libyaml": "90a56d4500aa1a1798514c5cb55c3ad4cb095f94"
+  },
+  "source_commit": "a74810cbdb1e730aac222d6b6d1815c701fc7d42",
+  "pull_request": "https://github.com/ARISTODE/interspec-typed-allocator/pull/15"
+}

@@ -1,0 +1,984 @@
+{
+  "utc": "2026-10-02T03:13:52.181503+00:00",
+  "platform": "Linux-6.18.44-x86_64-with-glibc2.39",
+  "binaries": {
+    "integrated": {
+      "path": "/tmp/interspec-rlbox-wasm2c/rsync-interspec",
+      "sha256": "2523ba09cdb1cd2af9ea1ddc7eae9dce2c0778cccffe552bd62323b2c0ea9608"
+    },
+    "native": {
+      "path": "/tmp/interspec-rlbox-wasm2c/rsync-native",
+      "sha256": "377d1ec3105a9d2da8bb17683559fd650bd623783f9af9bb86662905357dd6af"
+    },
+    "canary": {
+      "path": "/tmp/interspec-rlbox-wasm2c/copyback-canary",
+      "sha256": "b625ee3a10ba476c5407e26ff569bc33a4cb07380dd0620aed21a2747ff9a5ba"
+    },
+    "smoke": {
+      "path": "/tmp/interspec-rlbox-wasm2c/p9b-wasm-smoke",
+      "sha256": "2ca95ec60c9dac154e56d0276a8fdf4ce6fc8b4ce2e79bde9c3bbbdc0aa3d32b"
+    }
+  },
+  "cases": [
+    {
+      "name": "archive_transfer",
+      "pass": true,
+      "entries": 10,
+      "regular_files": 7,
+      "returncodes": {
+        "native": 0,
+        "integrated": 0
+      },
+      "manifests_equal": true
+    },
+    {
+      "name": "size_filter",
+      "pass": true,
+      "entries": 9,
+      "regular_files": 6,
+      "returncodes": {
+        "native": 0,
+        "integrated": 0
+      },
+      "manifests_equal": true
+    },
+    {
+      "name": "dry_run",
+      "pass": true,
+      "entries": 0,
+      "regular_files": 0,
+      "returncodes": {
+        "native": 0,
+        "integrated": 0
+      },
+      "manifests_equal": true
+    },
+    {
+      "name": "update_delete_backup",
+      "pass": true,
+      "returncodes": {
+        "native": 0,
+        "integrated": 0
+      },
+      "backup_entries": 3
+    },
+    {
+      "name": "invalid_numeric_option",
+      "pass": true,
+      "returncodes": {
+        "native": 1,
+        "integrated": 1
+      }
+    },
+    {
+      "name": "unknown_option",
+      "pass": true,
+      "returncodes": {
+        "native": 1,
+        "integrated": 1
+      }
+    },
+    {
+      "name": "fault-target1-mode1",
+      "pass": true,
+      "expected": "wrong_type",
+      "returncode": -6,
+      "injection_reached": true,
+      "returned_pointer": "0x1023e8",
+      "matching_trusted_decision": true,
+      "copied": false,
+      "prior_release": false,
+      "destination_entries": 0
+    },
+    {
+      "name": "fault-target1-mode2",
+      "pass": true,
+      "expected": "untracked",
+      "returncode": -6,
+      "injection_reached": true,
+      "returned_pointer": "0x11036c0",
+      "matching_trusted_decision": true,
+      "copied": false,
+      "prior_release": false,
+      "destination_entries": 0
+    },
+    {
+      "name": "fault-target1-mode3",
+      "pass": true,
+      "expected": "untracked",
+      "returncode": -6,
+      "injection_reached": true,
+      "returned_pointer": "0x102590",
+      "matching_trusted_decision": true,
+      "copied": false,
+      "prior_release": true,
+      "destination_entries": 0
+    },
+    {
+      "name": "fault-target1-mode4",
+      "pass": true,
+      "expected": "unterminated_string",
+      "returncode": -6,
+      "injection_reached": true,
+      "returned_pointer": "0x102590",
+      "matching_trusted_decision": true,
+      "copied": false,
+      "prior_release": false,
+      "destination_entries": 0
+    },
+    {
+      "name": "fault-target1-mode5",
+      "pass": true,
+      "expected": "copied",
+      "returncode": 0,
+      "injection_reached": true,
+      "returned_pointer": "0x1025a0",
+      "matching_trusted_decision": true,
+      "copied": true,
+      "prior_release": false,
+      "destination_entries": 8
+    },
+    {
+      "name": "fault-target2-mode1",
+      "pass": true,
+      "expected": "wrong_type",
+      "returncode": -6,
+      "injection_reached": true,
+      "returned_pointer": "0x1023e8",
+      "matching_trusted_decision": true,
+      "copied": false,
+      "prior_release": false,
+      "destination_entries": 0
+    },
+    {
+      "name": "fault-target2-mode2",
+      "pass": true,
+      "expected": "untracked",
+      "returncode": -6,
+      "injection_reached": true,
+      "returned_pointer": "0x1103680",
+      "matching_trusted_decision": true,
+      "copied": false,
+      "prior_release": false,
+      "destination_entries": 0
+    },
+    {
+      "name": "fault-target2-mode3",
+      "pass": true,
+      "expected": "untracked",
+      "returncode": -6,
+      "injection_reached": true,
+      "returned_pointer": "0x1015b0",
+      "matching_trusted_decision": true,
+      "copied": false,
+      "prior_release": true,
+      "destination_entries": 0
+    },
+    {
+      "name": "fault-target2-mode4",
+      "pass": true,
+      "expected": "unterminated_string",
+      "returncode": -6,
+      "injection_reached": true,
+      "returned_pointer": "0x1015b0",
+      "matching_trusted_decision": true,
+      "copied": false,
+      "prior_release": false,
+      "destination_entries": 0
+    },
+    {
+      "name": "fault-target2-mode5",
+      "pass": true,
+      "expected": "copied",
+      "returncode": 0,
+      "injection_reached": true,
+      "returned_pointer": "0x102590",
+      "matching_trusted_decision": true,
+      "copied": true,
+      "prior_release": false,
+      "destination_entries": 8
+    },
+    {
+      "name": "fault-target3-mode1",
+      "pass": true,
+      "expected": "wrong_type",
+      "returncode": -6,
+      "injection_reached": true,
+      "returned_pointer": "0x1023e8",
+      "matching_trusted_decision": true,
+      "copied": false,
+      "prior_release": false,
+      "destination_entries": 0
+    },
+    {
+      "name": "fault-target3-mode2",
+      "pass": true,
+      "expected": "untracked",
+      "returncode": -6,
+      "injection_reached": true,
+      "returned_pointer": "0x11036d0",
+      "matching_trusted_decision": true,
+      "copied": false,
+      "prior_release": false,
+      "destination_entries": 0
+    },
+    {
+      "name": "fault-target3-mode3",
+      "pass": true,
+      "expected": "untracked",
+      "returncode": -6,
+      "injection_reached": true,
+      "returned_pointer": "0x1025c0",
+      "matching_trusted_decision": true,
+      "copied": false,
+      "prior_release": true,
+      "destination_entries": 0
+    },
+    {
+      "name": "fault-target3-mode4",
+      "pass": true,
+      "expected": "unterminated_string",
+      "returncode": -6,
+      "injection_reached": true,
+      "returned_pointer": "0x1025c0",
+      "matching_trusted_decision": true,
+      "copied": false,
+      "prior_release": false,
+      "destination_entries": 0
+    },
+    {
+      "name": "fault-target3-mode5",
+      "pass": true,
+      "expected": "copied",
+      "returncode": 0,
+      "injection_reached": true,
+      "returned_pointer": "0x102620",
+      "matching_trusted_decision": true,
+      "copied": true,
+      "prior_release": false,
+      "destination_entries": 8
+    },
+    {
+      "name": "copyback-mode0",
+      "pass": true,
+      "returncode": 0,
+      "fixed_destination": true,
+      "stdout": "copyback_canary=pass destination_value=expected guards_unchanged=true"
+    },
+    {
+      "name": "copyback-mode6",
+      "pass": true,
+      "returncode": 0,
+      "fixed_destination": true,
+      "stdout": "copyback_canary=pass destination_value=expected guards_unchanged=true"
+    },
+    {
+      "name": "shadow_refresh",
+      "pass": true,
+      "returncode": 0,
+      "stdout": "shadow_refresh=pass counter=99 text=First"
+    },
+    {
+      "name": "wasm_boundary_smoke",
+      "pass": true,
+      "returncode": 0,
+      "observed_check_results": [
+        "ok",
+        "out_of_bounds",
+        "untracked",
+        "wrong_type"
+      ],
+      "scope": "real sandbox allocations with a boundary driver, not a complete application extent attack"
+    }
+  ],
+  "commands": [
+    {
+      "name": "archive_transfer-native",
+      "command": [
+        "/tmp/interspec-rlbox-wasm2c/rsync-native",
+        "-aH",
+        "--checksum",
+        "--block-size=1024",
+        "/tmp/interspec-sp3-data-y2wi2gz1/src/",
+        "/tmp/interspec-sp3-data-y2wi2gz1/archive_transfer-native/"
+      ],
+      "fault_mode": 0,
+      "fault_target": 1,
+      "returncode": 0,
+      "events": {},
+      "results": {}
+    },
+    {
+      "name": "archive_transfer-integrated",
+      "command": [
+        "/tmp/interspec-rlbox-wasm2c/rsync-interspec",
+        "-aH",
+        "--checksum",
+        "--block-size=1024",
+        "/tmp/interspec-sp3-data-y2wi2gz1/src/",
+        "/tmp/interspec-sp3-data-y2wi2gz1/archive_transfer-integrated/"
+      ],
+      "fault_mode": 0,
+      "fault_target": 1,
+      "returncode": 0,
+      "events": {
+        "allocate_from_site": 269,
+        "remaining_bytes": 7,
+        "copy_checked": 7,
+        "release": 11
+      },
+      "results": {
+        "ok": 281,
+        "copied": 7,
+        "failed": 6
+      }
+    },
+    {
+      "name": "size_filter-native",
+      "command": [
+        "/tmp/interspec-rlbox-wasm2c/rsync-native",
+        "-aH",
+        "--checksum",
+        "--block-size=1024",
+        "--max-size=1M",
+        "/tmp/interspec-sp3-data-y2wi2gz1/src/",
+        "/tmp/interspec-sp3-data-y2wi2gz1/size_filter-native/"
+      ],
+      "fault_mode": 0,
+      "fault_target": 1,
+      "returncode": 0,
+      "events": {},
+      "results": {}
+    },
+    {
+      "name": "size_filter-integrated",
+      "command": [
+        "/tmp/interspec-rlbox-wasm2c/rsync-interspec",
+        "-aH",
+        "--checksum",
+        "--block-size=1024",
+        "--max-size=1M",
+        "/tmp/interspec-sp3-data-y2wi2gz1/src/",
+        "/tmp/interspec-sp3-data-y2wi2gz1/size_filter-integrated/"
+      ],
+      "fault_mode": 0,
+      "fault_target": 1,
+      "returncode": 0,
+      "events": {
+        "allocate_from_site": 274,
+        "remaining_bytes": 10,
+        "copy_checked": 10,
+        "release": 14
+      },
+      "results": {
+        "ok": 291,
+        "copied": 10,
+        "failed": 7
+      }
+    },
+    {
+      "name": "dry_run-native",
+      "command": [
+        "/tmp/interspec-rlbox-wasm2c/rsync-native",
+        "-aH",
+        "--checksum",
+        "--block-size=1024",
+        "--dry-run",
+        "--itemize-changes",
+        "/tmp/interspec-sp3-data-y2wi2gz1/src/",
+        "/tmp/interspec-sp3-data-y2wi2gz1/dry_run-native/"
+      ],
+      "fault_mode": 0,
+      "fault_target": 1,
+      "returncode": 0,
+      "events": {},
+      "results": {}
+    },
+    {
+      "name": "dry_run-integrated",
+      "command": [
+        "/tmp/interspec-rlbox-wasm2c/rsync-interspec",
+        "-aH",
+        "--checksum",
+        "--block-size=1024",
+        "--dry-run",
+        "--itemize-changes",
+        "/tmp/interspec-sp3-data-y2wi2gz1/src/",
+        "/tmp/interspec-sp3-data-y2wi2gz1/dry_run-integrated/"
+      ],
+      "fault_mode": 0,
+      "fault_target": 1,
+      "returncode": 0,
+      "events": {
+        "allocate_from_site": 271,
+        "remaining_bytes": 8,
+        "copy_checked": 8,
+        "release": 13
+      },
+      "results": {
+        "ok": 284,
+        "copied": 8,
+        "failed": 8
+      }
+    },
+    {
+      "name": "update_backup-native",
+      "command": [
+        "/tmp/interspec-rlbox-wasm2c/rsync-native",
+        "-aH",
+        "--checksum",
+        "--delete",
+        "--backup",
+        "--backup-dir=/tmp/interspec-sp3-data-y2wi2gz1/backup-native",
+        "/tmp/interspec-sp3-data-y2wi2gz1/src/",
+        "/tmp/interspec-sp3-data-y2wi2gz1/archive_transfer-native/"
+      ],
+      "fault_mode": 0,
+      "fault_target": 1,
+      "returncode": 0,
+      "events": {},
+      "results": {}
+    },
+    {
+      "name": "update_backup-integrated",
+      "command": [
+        "/tmp/interspec-rlbox-wasm2c/rsync-interspec",
+        "-aH",
+        "--checksum",
+        "--delete",
+        "--backup",
+        "--backup-dir=/tmp/interspec-sp3-data-y2wi2gz1/backup-integrated",
+        "/tmp/interspec-sp3-data-y2wi2gz1/src/",
+        "/tmp/interspec-sp3-data-y2wi2gz1/archive_transfer-integrated/"
+      ],
+      "fault_mode": 0,
+      "fault_target": 1,
+      "returncode": 0,
+      "events": {
+        "allocate_from_site": 272,
+        "remaining_bytes": 6,
+        "copy_checked": 6,
+        "release": 14
+      },
+      "results": {
+        "ok": 284,
+        "copied": 6,
+        "failed": 8
+      }
+    },
+    {
+      "name": "invalid_numeric_option-native",
+      "command": [
+        "/tmp/interspec-rlbox-wasm2c/rsync-native",
+        "--block-size=not-a-size",
+        "--version"
+      ],
+      "fault_mode": 0,
+      "fault_target": 1,
+      "returncode": 1,
+      "events": {},
+      "results": {}
+    },
+    {
+      "name": "invalid_numeric_option-integrated",
+      "command": [
+        "/tmp/interspec-rlbox-wasm2c/rsync-interspec",
+        "--block-size=not-a-size",
+        "--version"
+      ],
+      "fault_mode": 0,
+      "fault_target": 1,
+      "returncode": 1,
+      "events": {
+        "allocate_from_site": 264,
+        "remaining_bytes": 2,
+        "copy_checked": 2,
+        "release": 6
+      },
+      "results": {
+        "ok": 269,
+        "copied": 2,
+        "failed": 3
+      }
+    },
+    {
+      "name": "unknown_option-native",
+      "command": [
+        "/tmp/interspec-rlbox-wasm2c/rsync-native",
+        "--interspec-option-does-not-exist"
+      ],
+      "fault_mode": 0,
+      "fault_target": 1,
+      "returncode": 1,
+      "events": {},
+      "results": {}
+    },
+    {
+      "name": "unknown_option-integrated",
+      "command": [
+        "/tmp/interspec-rlbox-wasm2c/rsync-interspec",
+        "--interspec-option-does-not-exist"
+      ],
+      "fault_mode": 0,
+      "fault_target": 1,
+      "returncode": 1,
+      "events": {
+        "allocate_from_site": 261,
+        "remaining_bytes": 2,
+        "copy_checked": 2,
+        "release": 4
+      },
+      "results": {
+        "ok": 265,
+        "copied": 2,
+        "failed": 2
+      }
+    },
+    {
+      "name": "fault-target1-mode1",
+      "command": [
+        "/tmp/interspec-rlbox-wasm2c/rsync-interspec",
+        "-aH",
+        "--block-size=1024",
+        "--max-size=1M",
+        "/tmp/interspec-sp3-data-y2wi2gz1/src/",
+        "/tmp/interspec-sp3-data-y2wi2gz1/fault-target1-mode1/"
+      ],
+      "fault_mode": 1,
+      "fault_target": 1,
+      "returncode": -6,
+      "events": {
+        "allocate_from_site": 267,
+        "remaining_bytes": 4,
+        "copy_checked": 4
+      },
+      "results": {
+        "ok": 270,
+        "copied": 3,
+        "wrong_type": 2
+      }
+    },
+    {
+      "name": "fault-target1-mode2",
+      "command": [
+        "/tmp/interspec-rlbox-wasm2c/rsync-interspec",
+        "-aH",
+        "--block-size=1024",
+        "--max-size=1M",
+        "/tmp/interspec-sp3-data-y2wi2gz1/src/",
+        "/tmp/interspec-sp3-data-y2wi2gz1/fault-target1-mode2/"
+      ],
+      "fault_mode": 2,
+      "fault_target": 1,
+      "returncode": -6,
+      "events": {
+        "allocate_from_site": 267,
+        "remaining_bytes": 4,
+        "copy_checked": 4
+      },
+      "results": {
+        "ok": 270,
+        "copied": 3,
+        "untracked": 2
+      }
+    },
+    {
+      "name": "fault-target1-mode3",
+      "command": [
+        "/tmp/interspec-rlbox-wasm2c/rsync-interspec",
+        "-aH",
+        "--block-size=1024",
+        "--max-size=1M",
+        "/tmp/interspec-sp3-data-y2wi2gz1/src/",
+        "/tmp/interspec-sp3-data-y2wi2gz1/fault-target1-mode3/"
+      ],
+      "fault_mode": 3,
+      "fault_target": 1,
+      "returncode": -6,
+      "events": {
+        "allocate_from_site": 267,
+        "remaining_bytes": 4,
+        "copy_checked": 4,
+        "release": 1
+      },
+      "results": {
+        "ok": 271,
+        "copied": 3,
+        "untracked": 2
+      }
+    },
+    {
+      "name": "fault-target1-mode4",
+      "command": [
+        "/tmp/interspec-rlbox-wasm2c/rsync-interspec",
+        "-aH",
+        "--block-size=1024",
+        "--max-size=1M",
+        "/tmp/interspec-sp3-data-y2wi2gz1/src/",
+        "/tmp/interspec-sp3-data-y2wi2gz1/fault-target1-mode4/"
+      ],
+      "fault_mode": 4,
+      "fault_target": 1,
+      "returncode": -6,
+      "events": {
+        "allocate_from_site": 267,
+        "remaining_bytes": 4,
+        "copy_checked": 4
+      },
+      "results": {
+        "ok": 271,
+        "copied": 3,
+        "unterminated_string": 1
+      }
+    },
+    {
+      "name": "fault-target1-mode5",
+      "command": [
+        "/tmp/interspec-rlbox-wasm2c/rsync-interspec",
+        "-aH",
+        "--block-size=1024",
+        "--max-size=1M",
+        "/tmp/interspec-sp3-data-y2wi2gz1/src/",
+        "/tmp/interspec-sp3-data-y2wi2gz1/fault-target1-mode5/"
+      ],
+      "fault_mode": 5,
+      "fault_target": 1,
+      "returncode": 0,
+      "events": {
+        "allocate_from_site": 274,
+        "remaining_bytes": 10,
+        "copy_checked": 10,
+        "release": 13
+      },
+      "results": {
+        "ok": 291,
+        "copied": 10,
+        "failed": 6
+      }
+    },
+    {
+      "name": "fault-target2-mode1",
+      "command": [
+        "/tmp/interspec-rlbox-wasm2c/rsync-interspec",
+        "-aH",
+        "--block-size=1024",
+        "--max-size=1M",
+        "/tmp/interspec-sp3-data-y2wi2gz1/src/",
+        "/tmp/interspec-sp3-data-y2wi2gz1/fault-target2-mode1/"
+      ],
+      "fault_mode": 1,
+      "fault_target": 2,
+      "returncode": -6,
+      "events": {
+        "allocate_from_site": 265,
+        "remaining_bytes": 1,
+        "copy_checked": 1
+      },
+      "results": {
+        "ok": 265,
+        "wrong_type": 2
+      }
+    },
+    {
+      "name": "fault-target2-mode2",
+      "command": [
+        "/tmp/interspec-rlbox-wasm2c/rsync-interspec",
+        "-aH",
+        "--block-size=1024",
+        "--max-size=1M",
+        "/tmp/interspec-sp3-data-y2wi2gz1/src/",
+        "/tmp/interspec-sp3-data-y2wi2gz1/fault-target2-mode2/"
+      ],
+      "fault_mode": 2,
+      "fault_target": 2,
+      "returncode": -6,
+      "events": {
+        "allocate_from_site": 265,
+        "remaining_bytes": 1,
+        "copy_checked": 1
+      },
+      "results": {
+        "ok": 265,
+        "untracked": 2
+      }
+    },
+    {
+      "name": "fault-target2-mode3",
+      "command": [
+        "/tmp/interspec-rlbox-wasm2c/rsync-interspec",
+        "-aH",
+        "--block-size=1024",
+        "--max-size=1M",
+        "/tmp/interspec-sp3-data-y2wi2gz1/src/",
+        "/tmp/interspec-sp3-data-y2wi2gz1/fault-target2-mode3/"
+      ],
+      "fault_mode": 3,
+      "fault_target": 2,
+      "returncode": -6,
+      "events": {
+        "allocate_from_site": 265,
+        "release": 1,
+        "remaining_bytes": 1,
+        "copy_checked": 1
+      },
+      "results": {
+        "ok": 266,
+        "untracked": 2
+      }
+    },
+    {
+      "name": "fault-target2-mode4",
+      "command": [
+        "/tmp/interspec-rlbox-wasm2c/rsync-interspec",
+        "-aH",
+        "--block-size=1024",
+        "--max-size=1M",
+        "/tmp/interspec-sp3-data-y2wi2gz1/src/",
+        "/tmp/interspec-sp3-data-y2wi2gz1/fault-target2-mode4/"
+      ],
+      "fault_mode": 4,
+      "fault_target": 2,
+      "returncode": -6,
+      "events": {
+        "allocate_from_site": 265,
+        "remaining_bytes": 1,
+        "copy_checked": 1
+      },
+      "results": {
+        "ok": 266,
+        "unterminated_string": 1
+      }
+    },
+    {
+      "name": "fault-target2-mode5",
+      "command": [
+        "/tmp/interspec-rlbox-wasm2c/rsync-interspec",
+        "-aH",
+        "--block-size=1024",
+        "--max-size=1M",
+        "/tmp/interspec-sp3-data-y2wi2gz1/src/",
+        "/tmp/interspec-sp3-data-y2wi2gz1/fault-target2-mode5/"
+      ],
+      "fault_mode": 5,
+      "fault_target": 2,
+      "returncode": 0,
+      "events": {
+        "allocate_from_site": 274,
+        "remaining_bytes": 10,
+        "copy_checked": 10,
+        "release": 13
+      },
+      "results": {
+        "ok": 291,
+        "copied": 10,
+        "failed": 6
+      }
+    },
+    {
+      "name": "fault-target3-mode1",
+      "command": [
+        "/tmp/interspec-rlbox-wasm2c/rsync-interspec",
+        "-aH",
+        "--block-size=1024",
+        "--max-size=1M",
+        "/tmp/interspec-sp3-data-y2wi2gz1/src/",
+        "/tmp/interspec-sp3-data-y2wi2gz1/fault-target3-mode1/"
+      ],
+      "fault_mode": 1,
+      "fault_target": 3,
+      "returncode": -6,
+      "events": {
+        "allocate_from_site": 273,
+        "remaining_bytes": 9,
+        "copy_checked": 9
+      },
+      "results": {
+        "ok": 281,
+        "copied": 8,
+        "wrong_type": 2
+      }
+    },
+    {
+      "name": "fault-target3-mode2",
+      "command": [
+        "/tmp/interspec-rlbox-wasm2c/rsync-interspec",
+        "-aH",
+        "--block-size=1024",
+        "--max-size=1M",
+        "/tmp/interspec-sp3-data-y2wi2gz1/src/",
+        "/tmp/interspec-sp3-data-y2wi2gz1/fault-target3-mode2/"
+      ],
+      "fault_mode": 2,
+      "fault_target": 3,
+      "returncode": -6,
+      "events": {
+        "allocate_from_site": 273,
+        "remaining_bytes": 9,
+        "copy_checked": 9
+      },
+      "results": {
+        "ok": 281,
+        "copied": 8,
+        "untracked": 2
+      }
+    },
+    {
+      "name": "fault-target3-mode3",
+      "command": [
+        "/tmp/interspec-rlbox-wasm2c/rsync-interspec",
+        "-aH",
+        "--block-size=1024",
+        "--max-size=1M",
+        "/tmp/interspec-sp3-data-y2wi2gz1/src/",
+        "/tmp/interspec-sp3-data-y2wi2gz1/fault-target3-mode3/"
+      ],
+      "fault_mode": 3,
+      "fault_target": 3,
+      "returncode": -6,
+      "events": {
+        "allocate_from_site": 273,
+        "remaining_bytes": 9,
+        "copy_checked": 9,
+        "release": 1
+      },
+      "results": {
+        "ok": 282,
+        "copied": 8,
+        "untracked": 2
+      }
+    },
+    {
+      "name": "fault-target3-mode4",
+      "command": [
+        "/tmp/interspec-rlbox-wasm2c/rsync-interspec",
+        "-aH",
+        "--block-size=1024",
+        "--max-size=1M",
+        "/tmp/interspec-sp3-data-y2wi2gz1/src/",
+        "/tmp/interspec-sp3-data-y2wi2gz1/fault-target3-mode4/"
+      ],
+      "fault_mode": 4,
+      "fault_target": 3,
+      "returncode": -6,
+      "events": {
+        "allocate_from_site": 273,
+        "remaining_bytes": 9,
+        "copy_checked": 9
+      },
+      "results": {
+        "ok": 282,
+        "copied": 8,
+        "unterminated_string": 1
+      }
+    },
+    {
+      "name": "fault-target3-mode5",
+      "command": [
+        "/tmp/interspec-rlbox-wasm2c/rsync-interspec",
+        "-aH",
+        "--block-size=1024",
+        "--max-size=1M",
+        "/tmp/interspec-sp3-data-y2wi2gz1/src/",
+        "/tmp/interspec-sp3-data-y2wi2gz1/fault-target3-mode5/"
+      ],
+      "fault_mode": 5,
+      "fault_target": 3,
+      "returncode": 0,
+      "events": {
+        "allocate_from_site": 274,
+        "remaining_bytes": 10,
+        "copy_checked": 10,
+        "release": 13
+      },
+      "results": {
+        "ok": 291,
+        "copied": 10,
+        "failed": 6
+      }
+    },
+    {
+      "name": "copyback-mode0",
+      "command": [
+        "/tmp/interspec-rlbox-wasm2c/copyback-canary"
+      ],
+      "fault_mode": 0,
+      "fault_target": 1,
+      "returncode": 0,
+      "events": {
+        "allocate_from_site": 9,
+        "remaining_bytes": 1,
+        "copy_checked": 1,
+        "release": 7
+      },
+      "results": {
+        "ok": 14,
+        "copied": 1,
+        "failed": 3
+      }
+    },
+    {
+      "name": "copyback-mode6",
+      "command": [
+        "/tmp/interspec-rlbox-wasm2c/copyback-canary"
+      ],
+      "fault_mode": 6,
+      "fault_target": 1,
+      "returncode": 0,
+      "events": {
+        "allocate_from_site": 9,
+        "remaining_bytes": 1,
+        "copy_checked": 1,
+        "release": 7
+      },
+      "results": {
+        "ok": 14,
+        "copied": 1,
+        "failed": 3
+      }
+    },
+    {
+      "name": "shadow_refresh",
+      "command": [
+        "/tmp/interspec-rlbox-wasm2c/copyback-canary",
+        "refresh"
+      ],
+      "fault_mode": 0,
+      "fault_target": 1,
+      "returncode": 0,
+      "events": {
+        "allocate_from_site": 11,
+        "remaining_bytes": 2,
+        "copy_checked": 2,
+        "release": 6
+      },
+      "results": {
+        "ok": 15,
+        "copied": 2,
+        "failed": 4
+      }
+    },
+    {
+      "name": "wasm_boundary_smoke",
+      "command": [
+        "/tmp/interspec-rlbox-wasm2c/p9b-wasm-smoke"
+      ],
+      "fault_mode": 0,
+      "fault_target": 1,
+      "returncode": 0,
+      "events": {
+        "allocate_from_site": 5,
+        "check": 5,
+        "release": 4
+      },
+      "results": {
+        "ok": 8,
+        "out_of_bounds": 1,
+        "untracked": 2,
+        "wrong_type": 1,
+        "failed": 2
+      }
+    }
+  ],
+  "passed": 25,
+  "total": 25
+}

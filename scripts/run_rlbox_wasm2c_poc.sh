@@ -93,6 +93,7 @@ PY
 python3 - "$work/CMakeLists.txt" <<'PY'
 from pathlib import Path
 import sys
+import os
 path = Path(sys.argv[1])
 text = path.read_text()
 old = 'set(C_SOURCE_FILES "${CMAKE_SOURCE_DIR}/c_src/wasm2c_sandbox_wrapper.c")'
@@ -121,6 +122,8 @@ extra = '''                            -O3
                             -DINTERSPEC_TYPED_POPT=1
 '''
 assert text.count(flag) == 2
+if os.environ.get('INTERSPEC_FAULT_TESTS') == '1':
+    extra += '                            -DINTERSPEC_FAULT_TESTS=1\n'
 text = text.replace(flag, extra)
 needle = 'set(WASM2C_RUNTIME_CODE ${WASM2C_RUNTIME_SOURCE_DIR}/wasm-rt-impl.c\n                        ${WASM2C_RUNTIME_SOURCE_DIR}/wasm-rt-mem-impl.c\n                        ${CMAKE_SOURCE_DIR}/src/wasm2c_rt_minwasi.c\n                        ${CMAKE_SOURCE_DIR}/src/wasm2c_rt_mem.c)'
 replacement = 'set(WASM2C_RUNTIME_CODE ${WASM2C_RUNTIME_SOURCE_DIR}/wasm-rt-impl.c\n                        ${WASM2C_RUNTIME_SOURCE_DIR}/wasm-rt-mem-impl.c\n                        ${CMAKE_SOURCE_DIR}/src/wasm2c_rt_minwasi.c\n                        ${CMAKE_SOURCE_DIR}/src/wasm2c_rt_mem.c\n                        ${CMAKE_SOURCE_DIR}/src/interspec_wasm_imports.c)'
@@ -146,6 +149,12 @@ common_includes=(
   -I"$rsync_src/popt"
 )
 common_libs=("$wasm_lib" -pthread -ldl -lrt -lm)
+if [[ ${INTERSPEC_DIAGNOSTICS:-0} == 1 ]]; then
+  common_includes+=(-DINTERSPEC_ENABLE_TRACE=1)
+fi
+if [[ ${INTERSPEC_FAULT_TESTS:-0} == 1 ]]; then
+  common_includes+=(-DINTERSPEC_FAULT_TESTS=1)
+fi
 
 # Security smoke: valid helper allocation, spatial overflow, ordinary untracked
 # allocation, wrong-type poptContext, and stale context after free.
@@ -199,3 +208,21 @@ printf 'InterSpec P9b wasm2c\n' > "$data/src/input.txt"
 "$rsync_src/rsync" --dry-run -a "$data/src/" "$data/dst/" >/dev/null
 
 echo "InterSpec P9b: complete rsync executable ran with popt inside RLBox wasm2c"
+
+if [[ ${INTERSPEC_FAULT_TESTS:-0} == 1 ]]; then
+  g++ -std=c++17 -O2 \
+    "$root/integration/rsync_popt/copyback_canary.cpp" "$bridge_obj" \
+    "${common_includes[@]}" "${common_libs[@]}" \
+    -o "$work/copyback-canary"
+  # Native reference uses this same rsync revision and its bundled popt source.
+  cp "$rsync_src/rsync" "$work/rsync-interspec"
+  native_src="$work/rsync-native-src"
+  git -C "$rsync_src" worktree add --detach "$native_src" \
+    7c20b077c980036a19587701cec320cc88e42a4a
+  cd "$native_src"
+  ./configure --with-included-popt --disable-md2man --disable-xxhash \
+    --disable-zstd --disable-lz4 --disable-openssl --disable-idn \
+    --disable-roll-simd --disable-roll-asm --disable-md5-asm
+  make -j2 rsync
+  cp "$native_src/rsync" "$work/rsync-native"
+fi

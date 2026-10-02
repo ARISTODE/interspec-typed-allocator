@@ -11,11 +11,14 @@
 
 #include <algorithm>
 #include <cstdint>
+#include <cstdio>
 #include <cstdlib>
 #include <cstring>
+#include <exception>
 #include <limits>
 #include <memory>
 #include <stdexcept>
+#include <string>
 #include <unordered_map>
 #include <utility>
 #include <vector>
@@ -33,6 +36,9 @@ using p4c_size_fn = uint32_t (*)(uint32_t);
 using p4c_realloc_fn = uint32_t (*)(uint32_t, uint32_t);
 
 extern "C" {
+#ifdef INTERSPEC_FAULT_TESTS
+void interspec_test_set_fault(uint32_t, uint32_t);
+#endif
 void interspec_popt_init_lifetime(uint32_t,
                                   p4c_release_fn,
                                   p4c_size_fn,
@@ -139,6 +145,7 @@ class Engine {
 
     char* raw = source.UNSAFE_unverified();
     if (!raw) return nullptr;
+    interspec::DiagnosticEvent event(this, "copy_checked");
 
 #ifdef INTERSPEC_P8_MEASURE_NO_VALIDATION
     /*
@@ -151,21 +158,33 @@ class Engine {
 #else
     const uintptr_t sandbox_ptr =
       sandbox_.get_sandbox_impl()->sandbox_address(raw);
+    event.runtime = &runtime();
+    event.ptr = sandbox_ptr;
+    event.expected_type = kTypeHashChar;
     size_t remaining = 0;
     const auto result = runtime().remaining_bytes(
       sandbox_ptr, kTypeHashChar, remaining);
-    if (result != interspec::CheckResult::ok || remaining == 0)
-      throw std::runtime_error("InterSpec rejected popt char pointer");
+    event.remaining = remaining;
+    if (result != interspec::CheckResult::ok || remaining == 0) {
+      event.result = interspec::check_result_name(result);
+      if (std::getenv("INTERSPEC_TRACE_DUMP")) runtime().dump_allocations();
+      throw std::runtime_error(std::string("InterSpec rejected popt char pointer: ") +
+                               event.result);
+    }
 
     const void* end = std::memchr(raw, '\0', remaining);
-    if (!end)
+    if (!end) {
+      event.result = "unterminated_string";
       throw std::runtime_error("InterSpec rejected unterminated popt string");
+    }
 
     const size_t bytes =
       static_cast<const char*>(end) - raw + 1;
 #endif
     auto copy = std::make_unique<char[]>(bytes);
     std::memcpy(copy.get(), raw, bytes);
+    event.requested = bytes;
+    event.result = "copied";
     char* result_ptr = copy.get();
     trusted_strings_.push_back(std::move(copy));
     return result_ptr;
@@ -230,6 +249,9 @@ struct SlotBinding {
   void* trusted_address;
   SlotKind kind;
   uint32_t index;
+  int last_integer = 0;
+  bool last_string_null = true;
+  std::string last_string;
 };
 
 struct TrustedContext {
@@ -239,6 +261,14 @@ struct TrustedContext {
   std::vector<SlotBinding> slots;
   std::vector<const char*> args_cache;
 };
+
+static void trace_binding(const char* operation, const SlotBinding& binding) {
+  if (!interspec::DiagnosticEvent::enabled()) return;
+  std::fprintf(stderr, "INTERSPEC_BINDING event=%s slot=%u destination=%p kind=%s\n",
+               operation, binding.index, binding.trusted_address,
+               binding.kind == SlotKind::integer ? "integer" : "string");
+  std::fflush(stderr);
+}
 
 static TrustedContext* unwrap(poptContext context) {
   return reinterpret_cast<TrustedContext*>(context);
@@ -265,7 +295,7 @@ static uint32_t option_count(const struct poptOption* options) {
 
 static void sync_slots(TrustedContext& context) {
   Engine& e = engine();
-  for (const auto& binding : context.slots) {
+  for (auto& binding : context.slots) {
     if (binding.kind == SlotKind::integer) {
       const int value = e.sandbox()
                           .invoke_sandbox_function(interspec_p4c_slot_get_int,
@@ -273,6 +303,7 @@ static void sync_slots(TrustedContext& context) {
                                                    binding.index)
                           .UNSAFE_unverified();
       std::memcpy(binding.trusted_address, &value, sizeof(value));
+      binding.last_integer = value;
     } else {
       auto value = e.sandbox().invoke_sandbox_function(
         interspec_p4c_slot_get_string,
@@ -280,7 +311,41 @@ static void sync_slots(TrustedContext& context) {
         binding.index);
       char* copy = e.copy_checked(value);
       std::memcpy(binding.trusted_address, &copy, sizeof(copy));
+      binding.last_string_null = copy == nullptr;
+      binding.last_string = copy ? copy : "";
     }
+    trace_binding("copyback", binding);
+  }
+}
+
+// Native popt observes changes T makes between parser calls through the shared
+// option destinations. Refresh changed shadows before invoking sandboxed popt,
+// otherwise copying every shadow back can erase T's handling of options like -a.
+// All destination addresses and previous values remain private to T.
+static void refresh_slots(TrustedContext& context) {
+  Engine& e = engine();
+  for (auto& binding : context.slots) {
+    int ok = 1;
+    if (binding.kind == SlotKind::integer) {
+      int value = 0;
+      std::memcpy(&value, binding.trusted_address, sizeof(value));
+      if (value == binding.last_integer) continue;
+      ok = e.sandbox().invoke_sandbox_function(interspec_p4c_slot_set_int,
+        context.untrusted_table, binding.index, value).UNSAFE_unverified();
+      binding.last_integer = value;
+    } else {
+      const char* value = nullptr;
+      std::memcpy(&value, binding.trusted_address, sizeof(value));
+      if ((value == nullptr) == binding.last_string_null &&
+          (!value || binding.last_string == value)) continue;
+      auto copy = e.copy_to_u(value);
+      ok = e.sandbox().invoke_sandbox_function(interspec_p4c_slot_set_string,
+        context.untrusted_table, binding.index, copy).UNSAFE_unverified();
+      binding.last_string_null = value == nullptr;
+      binding.last_string = value ? value : "";
+    }
+    if (!ok) throw std::runtime_error("failed to refresh popt shadow slot");
+    trace_binding("refresh", binding);
   }
 }
 
@@ -324,6 +389,7 @@ static std::unique_ptr<TrustedContext> make_context(
     const uint32_t index = entry.second;
     const SlotKind kind = kinds[index];
     context->slots.push_back({entry.first, kind, index});
+    trace_binding("bind", context->slots.back());
 
     if (kind == SlotKind::integer) {
       int initial = 0;
@@ -335,6 +401,7 @@ static std::unique_ptr<TrustedContext> make_context(
                                                 initial)
                        .UNSAFE_unverified();
       if (!ok) throw std::runtime_error("failed to initialize popt int slot");
+      context->slots.back().last_integer = initial;
     } else {
       const char* initial = nullptr;
       std::memcpy(&initial, entry.first, sizeof(initial));
@@ -346,6 +413,8 @@ static std::unique_ptr<TrustedContext> make_context(
                                                 copied)
                        .UNSAFE_unverified();
       if (!ok) throw std::runtime_error("failed to initialize popt string slot");
+      context->slots.back().last_string_null = initial == nullptr;
+      context->slots.back().last_string = initial ? initial : "";
     }
   }
 
@@ -409,10 +478,31 @@ static std::unique_ptr<TrustedContext> make_context(
   if (context->untrusted_context.UNSAFE_unverified() == nullptr)
     return nullptr;
 
+#ifdef INTERSPEC_FAULT_TESTS
+  // Only the U fault selector changes. T's policy and checks stay identical.
+  const char* mode_setting = std::getenv("INTERSPEC_TEST_FAULT");
+  const char* target_setting = std::getenv("INTERSPEC_TEST_TARGET");
+  const uint32_t mode = mode_setting ? static_cast<uint32_t>(std::stoul(mode_setting)) : 0;
+  const uint32_t target = target_setting ? static_cast<uint32_t>(std::stoul(target_setting)) : 1;
+  if (mode > 6 || target < 1 || target > 3)
+    throw std::runtime_error("invalid test fault selector");
+  e.sandbox().invoke_sandbox_function(interspec_test_set_fault, mode, target);
+#endif
+
   return context;
 }
 
 [[noreturn]] static void bridge_failure() {
+  const auto exception = std::current_exception();
+  try {
+    if (exception) std::rethrow_exception(exception);
+    std::fprintf(stderr, "INTERSPEC_REJECT reason=bridge_invariant_failure\n");
+  } catch (const std::exception& error) {
+    std::fprintf(stderr, "INTERSPEC_REJECT reason=%s\n", error.what());
+  } catch (...) {
+    std::fprintf(stderr, "INTERSPEC_REJECT reason=unknown_exception\n");
+  }
+  std::fflush(stderr);
   std::abort();
 }
 
@@ -435,6 +525,7 @@ extern "C" int poptGetNextOpt(poptContext opaque) {
   try {
     TrustedContext* context = unwrap(opaque);
     if (!context) return POPT_ERROR_NULLARG;
+    refresh_slots(*context);
     const int result = engine().sandbox()
                          .invoke_sandbox_function(interspec_p4c_next,
                                                   context->untrusted_context)

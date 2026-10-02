@@ -36,8 +36,7 @@ cp "$generated/interspec_u_policy.h" "$work/c_src/"
 cp "$generated/interspec_t_policy.h" "$work/test/"
 cp "$root/poc/typed_poc.inc.cpp" "$work/test/"
 mkdir -p "$work/test/interspec"
-cp "$root/include/interspec/runtime.h" "$work/test/interspec/"
-cp "$root/include/interspec/policy_runtime.h" "$work/test/interspec/"
+cp "$root/include/interspec/"*.h "$work/test/interspec/"
 
 # P4/P7b: compile and execute the real bundled popt implementation used by
 # rsync. CodeQL-derived sites and boundary-helper sites are emitted through one

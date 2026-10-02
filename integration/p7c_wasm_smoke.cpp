@@ -15,6 +15,7 @@
 
 #include <cassert>
 #include <cstdint>
+#include <cstdio>
 #include <cstring>
 #include <limits>
 #include <memory>
@@ -138,6 +139,7 @@ void test_bipbuffer() {
   auto oversized = engine.sandbox().invoke_sandbox_function(interspec_wasm_bipbuf_peek_oversized, owner);
   const uint32_t oversized_len = engine.sandbox().invoke_sandbox_function(interspec_wasm_bipbuf_last_size).UNSAFE_unverified();
   assert(P::check(engine.runtime(), engine.address(oversized.UNSAFE_unverified()), oversized_len, P::kUseBipbufPeekAllRange) == interspec::CheckResult::out_of_bounds);
+  engine.runtime().dump_allocations();
 }
 
 void test_pcre() {
@@ -164,6 +166,7 @@ void test_pcre() {
   auto oversized = engine.sandbox().invoke_sandbox_function(interspec_wasm_pcre_name_table_oversized, compiled);
   const uint32_t oversized_len = engine.sandbox().invoke_sandbox_function(interspec_wasm_pcre_name_table_size).UNSAFE_unverified();
   assert(P::check(engine.runtime(), engine.address(oversized.UNSAFE_unverified()), oversized_len, P::kUsePcreNameTableRange) == interspec::CheckResult::out_of_bounds);
+  engine.runtime().dump_allocations();
 }
 
 void test_yaml() {
@@ -189,12 +192,16 @@ void test_yaml() {
   auto oversized = engine.sandbox().invoke_sandbox_function(interspec_wasm_yaml_scalar_oversized, event);
   const uint32_t oversized_len = engine.sandbox().invoke_sandbox_function(interspec_wasm_yaml_scalar_size).UNSAFE_unverified();
   assert(P::check(engine.runtime(), engine.address(oversized.UNSAFE_unverified()), oversized_len, P::kUseYamlScalarValueRange) == interspec::CheckResult::out_of_bounds);
+  engine.runtime().dump_allocations();
 }
 }  // namespace
 
 int main() {
   test_bipbuffer();
+  std::puts("boundary=bipbuffer valid=ok wrong_type=wrong_type untracked=untracked oversized=out_of_bounds foreign_site=rejected result=pass");
   test_pcre();
+  std::puts("boundary=pcre valid=ok wrong_type=wrong_type untracked=untracked oversized=out_of_bounds result=pass");
   test_yaml();
+  std::puts("boundary=yaml valid=ok wrong_type=wrong_type untracked=untracked oversized=out_of_bounds result=pass");
   return 0;
 }
