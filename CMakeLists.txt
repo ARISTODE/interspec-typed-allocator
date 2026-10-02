@@ -48,6 +48,11 @@ add_executable(p6_runtime_bench evaluation/runtime_bench.cpp)
 target_link_libraries(p6_runtime_bench PRIVATE interspec::runtime Threads::Threads)
 
 find_package(Python3 REQUIRED COMPONENTS Interpreter)
+add_executable(diagnostics tests/diagnostics.cpp)
+target_link_libraries(diagnostics PRIVATE interspec::runtime Threads::Threads)
+target_compile_definitions(diagnostics PRIVATE INTERSPEC_ENABLE_TRACE=1)
+add_test(NAME diagnostics COMMAND ${Python3_EXECUTABLE}
+  ${CMAKE_CURRENT_SOURCE_DIR}/tests/diagnostics.py $<TARGET_FILE:diagnostics>)
 add_test(NAME policy_codegen COMMAND ${Python3_EXECUTABLE}
   ${CMAKE_CURRENT_SOURCE_DIR}/tools/generate_policy.py
   --policy ${CMAKE_CURRENT_SOURCE_DIR}/policy/poc_policy.json

@@ -214,6 +214,9 @@ common_includes=(
   -I"$root/include"
   -I"$work"
 )
+if [[ ${INTERSPEC_DIAGNOSTICS:-0} == 1 ]]; then
+  common_includes+=(-DINTERSPEC_ENABLE_TRACE=1)
+fi
 
 g++ -std=c++17 -O2 \
   "$root/integration/p7c_wasm_smoke.cpp" \

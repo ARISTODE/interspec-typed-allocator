@@ -19,6 +19,9 @@ jobs:
             autoconf automake build-essential ca-certificates git python3
       - uses: actions/checkout@v4
       - name: Run P7c boundaries on RLBox wasm2c
+        env:
+          INTERSPEC_DIAGNOSTICS: 1
+          INTERSPEC_TRACE: 1
         run: |
           set -o pipefail
           chmod +x ./scripts/run_p7c_wasm2c.sh
