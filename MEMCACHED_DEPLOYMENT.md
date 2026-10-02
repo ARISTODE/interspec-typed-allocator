@@ -94,6 +94,9 @@ The correctness matrix comprises:
   Their 47 assertions are unchanged; their copied launch helper selects
   loopback TCP so the suite also runs where Unix sockets are unavailable.
 
+The current 50-case results and pilot measurements are recorded in
+[MEMCACHED_RESULTS.md](MEMCACHED_RESULTS.md).
+
 Raw stdout/stderr and machine-readable results are retained separately.
 Each summary records the tested binary hashes. Performance collection refuses
 an incomplete/failing correctness suite or binaries changed since validation.

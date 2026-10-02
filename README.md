@@ -3,6 +3,8 @@
 The complete memcached cache-server deployment, real watcher-path corruption
 tests, and four-way performance collection are described in
 [MEMCACHED_DEPLOYMENT.md](MEMCACHED_DEPLOYMENT.md).
+Measured correctness, enforcement, and performance pilot evidence is in
+[MEMCACHED_RESULTS.md](MEMCACHED_RESULTS.md).
 
 Research proof of concept for extending InterSpec SP3 with trusted allocation metadata and allocation-site provenance.
 
