@@ -187,4 +187,6 @@ The executor's own timestamps and process identifiers are recorded in the raw ev
 | Same type object identity and semantic correctness | Same type substitutions accepted as expected | Per-operation object binding or application validation if these are required claims |
 | Low deployment overhead | Existing performance machinery remains available | Rerun native/RLBox/tracking/full comparisons after the synchronization fix, with diagnostics and fault hooks disabled |
 
+GitHub CI additionally detected a legacy NaCl staging issue: that script copied the two old runtime headers individually, omitting the new diagnostics header. The staging command was changed to copy all runtime headers. Compiling and running the core test using only that staged include directory passed. The full NaCl rerun is tracked on the pull request; it is not included in the local wasm2c experiment counts.
+
 The changes are on a review branch, not merged into main. GitHub CI is a separate verification run; its status should be checked on the pull request rather than inferred from the local results.
