@@ -109,3 +109,55 @@ python3 tools/render_memcached_overhead_study.py \
   --microbench results/microbench/summary.json \
   --output results/MEMCACHED_PERFORMANCE_STUDY.md
 ```
+
+
+## Remaining data collection TODO
+
+### Priority 1: explain Native → RLBox overhead
+
+Add dedicated boundary microbenchmarks on the same controlled host used for final application measurements:
+
+* empty native call vs. empty RLBox/wasm2c invocation,
+* wrapper mutex lock/unlock,
+* RLBox pointer-confinement operations,
+* T → U and U → T copies at 64 B, 256 B, 1 KiB, and 4 KiB,
+* complete `request + push`, `offer`, `peek_all`, and `poll` operations under Native, RLBox, and InterSpec.
+
+Report **ns/op** or **ns/call** with repeated measurements and raw samples.
+
+### Priority 2: measure boundary frequency in real workloads
+
+Extend the fixed-operation profiler to record, per client operation:
+
+* RLBox sandbox invocations,
+* T → U bytes copied,
+* U → T bytes copied,
+* SP3 checks by wrapper operation.
+
+This allows direct correlation between microbenchmark cost and end-to-end overhead.
+
+### Priority 3: fix write-heavy coverage
+
+The current short `write_heavy` profile observes no protected LRU operation. Increase the profiling duration/operation count or adjust the workload until LRU activity is observed and verified by counters. Do not use this workload in the check-frequency correlation until the protected path is demonstrably exercised.
+
+### Priority 4: controlled end-to-end publication run
+
+Run the six workload scenarios with:
+
+* 5 s warmup,
+* 30 s measured interval,
+* 15 paired repetitions,
+* disjoint server/client CPU affinity,
+* fixed host configuration,
+* zero logger/watcher/LRU drops,
+* raw throughput, p99 latency, CPU/op, and RSS samples.
+
+Report paired overheads and run-level variation; add confidence intervals if the controlled data supports them.
+
+### Priority 5: repeat microbenchmarks on the publication host
+
+Rerun the InterSpec runtime microbenchmarks and new RLBox/copy microbenchmarks on the same machine as the end-to-end experiment. The paper should correlate numbers collected under one hardware/software environment.
+
+### Priority 6: add the second complete application
+
+After memcached is finalized, extend rsync/popt to include a matched Native baseline and light/medium/heavy end-to-end workloads. Keep memcached as the detailed running case study and use rsync as generalization evidence.
