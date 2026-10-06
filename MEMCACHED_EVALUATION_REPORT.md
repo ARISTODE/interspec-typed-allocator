@@ -92,3 +92,107 @@ The primary metric is **throughput in Kops/s**. We additionally report:
 * resident memory usage in **MiB**.
 
 For final publication measurements, Native, RLBox, and InterSpec will be measured in paired repetitions on the same controlled host with identical workload parameters and disjoint server/client CPU affinity. Existing GitHub Actions results are treated as reference measurements for validating the experimental pipeline, not as final publication numbers.
+
+
+## 2. Threat Model and Implementation
+
+### 2.1 Threat model
+
+We model memcached as the trusted compartment \(T\) and bipbuffer as the untrusted compartment \(U\). We assume the RLBox sandbox correctly prevents U from directly reading or writing T memory. The trusted computing base includes memcached, RLBox and its wasm2c runtime, the InterSpec runtime and metadata, and the OS.
+
+U may nevertheless be fully compromised by a memory-safety or concurrency bug and may execute arbitrary behavior within its sandbox. In particular, U may corrupt values returned across the interface, including pointers and lengths.
+
+Our focus is therefore **interface safety after isolation has already succeeded**. A pointer can remain inside U's sandbox and still be unsafe for T to consume if it refers to:
+
+* an untracked address,
+* a freed allocation,
+* an allocation of the wrong type, or
+* a valid allocation with an extent that exceeds the object boundary.
+
+Side channels, general control-flow integrity, and substitution between two simultaneously live objects of the same trusted type are outside the current SP3 guarantee.
+
+### 2.2 RLBox wasm2c isolation and data transfer
+
+We use RLBox's **wasm2c** backend. Bipbuffer is compiled to WebAssembly and executed in an isolated Wasm linear-memory region inside the memcached process. T invokes U only through the RLBox boundary; U cannot directly dereference native memcached pointers.
+
+The deployment retains explicit copy-based data transfer:
+
+* **T → U:** `bipbuf_request/push` uses a trusted `write_copy` staging buffer, and `bipbuf_offer` copies input into a sandbox allocation.
+* **U → T:** `bipbuf_peek`, `bipbuf_peek_all`, and `bipbuf_poll` return a U pointer; T validates the pointer and copies the requested bytes into a trusted `read_copy` buffer before parsing them.
+* **Object handle:** the `bipbuf_t *` visible to memcached is an opaque T-side handle. The actual `bipbuf_t` object resides inside the Wasm sandbox.
+
+For example, a read from the isolated queue follows:
+
+```text
+bipbuf_peek_all() in U
+        ↓
+U-controlled pointer + length
+        ↓
+sandbox confinement check
+        ↓
+InterSpec allocation/type/extent check
+        ↓
+memcpy(U → T read_copy)
+        ↓
+memcached consumes stable T data
+```
+
+Copying prevents T from parsing data that U can modify concurrently after validation.
+
+### 2.3 Why a trusted typed allocator is required
+
+RLBox confinement establishes that a pointer belongs to sandbox memory, but not that it refers to the **intended live object**. A compromised U could redirect a pointer to another address in the same sandbox and still pass a sandbox-range check.
+
+InterSpec therefore reserves a typed region inside U's Wasm memory and lets T manage suballocations. For every live allocation, T records trusted metadata:
+
+```text
+{ base, size, type_hash, allocation_site }
+```
+
+U may read and write the object bytes, but cannot modify this metadata.
+
+Allocation types are not selected by U. Each authorized allocation site is assigned a trusted SiteId during policy generation. In the wasm2c backend, the site is represented by a dedicated direct Wasm import whose trusted host wrapper embeds that SiteId. U supplies the requested size; T maps the SiteId to the inferred type before creating the allocation record.
+
+In the normal memcached queue, two persistent typed allocations are tracked:
+
+* the `bipbuf_t` object, inferred from the upstream allocation site, and
+* a persistent character buffer used for T → U input copying.
+
+This keeps allocation/lifetime bookkeeping off the per-record hot path.
+
+### 2.4 SP3 enforcement
+
+Before T consumes a U-controlled pointer, the bridge performs two levels of validation.
+
+1. **Sandbox confinement:** the pointer must refer to valid Wasm sandbox memory.
+2. **InterSpec SP3:** the pointer must belong to a live tracked allocation of the expected type, and the complete requested byte range must remain inside that allocation.
+
+The runtime therefore evaluates:
+
+```text
+check(pointer, requested_bytes, expected_type)
+```
+
+and returns one of `ok`, `untracked`, `wrong_type`, or `out_of_bounds`. A pointer to a released allocation becomes `untracked`.
+
+| Corruption | Enforcement |
+| --- | --- |
+| Pointer outside sandbox | RLBox / bridge confinement |
+| Pointer to ordinary untracked U memory | InterSpec: `untracked` |
+| Pointer to allocation of another type | InterSpec: `wrong_type` |
+| Pointer to released allocation | InterSpec: `untracked` |
+| Valid pointer with excessive length | InterSpec: `out_of_bounds` |
+| Different live object of the same type | Not prevented by current SP3 |
+
+### 2.5 Native pointers in the LRU queue
+
+Memcached's LRU bump records originally contain native `item *` pointers. Passing these T pointers directly through U would violate the isolation boundary and would not be made safe by checking only the outer bipbuffer.
+
+Our deployment therefore keeps each native item pointer in T and passes a one-use integer handle through U. On return, T:
+
+* resolves the handle in the originating queue,
+* verifies the associated item hash,
+* consumes the handle so it cannot be replayed, and
+* only then recovers the native pointer.
+
+This application-specific handling complements SP3: the generic allocator validates U-owned pointers, while native T pointers are never exposed to U in the first place.
