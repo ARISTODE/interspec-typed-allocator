@@ -301,3 +301,82 @@ The reference measurements suggest that the incremental cost of InterSpec over a
 Negative overheads are treated as measurement noise rather than speedups. The short hosted runs also show enough run-to-run variation that these numbers should not yet be used as publication claims.
 
 The next section decomposes this end-to-end cost into the operations that execute at the boundary: RLBox invocation and copying, trusted allocator operations, SP3 validation, and the frequency of each SP3 check in the application.
+
+
+## 4. Microbenchmarks
+
+The microbenchmarks answer two questions: **how much does one enforcement operation cost, and how often does it execute in a real workload?**
+
+```mermaid
+flowchart LR
+    A["Primitive cost<br/>ns / check"] --> C["Estimated direct SP3 cost<br/>ns / client operation"]
+    B["Application frequency<br/>checks / client operation"] --> C
+    C --> D["Compare with end-to-end<br/>InterSpec vs. RLBox overhead"]
+```
+
+### 4.1 InterSpec runtime operations
+
+We measure the trusted metadata operations directly. A normal memcached queue has two tracked allocations, so **population = 2** is the representative lookup case.
+
+| Operation | Median (ns/op) | Min–max (ns/op) | Purpose |
+| --- | ---: | ---: | --- |
+| Shared metadata lock | 7.60 | 7.53–7.70 | Acquire/release the runtime read lock |
+| Allocation lookup | 4.44 | 4.32–4.49 | Find the live allocation containing a pointer |
+| Type comparison | 1.55 | 1.54–1.68 | Compare actual and expected type hashes |
+| Bounds check | 1.54 | 1.54–1.72 | Verify the requested extent |
+| **Full `Runtime::check`** | **11.70** | **11.67–12.45** | Lock + lookup + type + bounds |
+| Interior-pointer check | 12.05 | 11.89–12.10 | Full check for a pointer inside an allocation |
+| Remaining-extent query | 11.86 | 11.80–12.11 | Lookup/type check and return remaining bytes |
+| Typed allocation | 77.41 | 76.84–78.31 | Register a typed allocation at setup |
+| Metadata release | 36.90 | 36.82–36.92 | Remove a live allocation record |
+
+The primitive rows are measured independently and are **not additive**. The optimized `Runtime::check` is the relevant per-validation cost; the smaller measurements explain its components.
+
+Typed allocation and release are more expensive, but normal memcached traffic does not allocate a new typed object per queue record. The two persistent queue allocations are created during setup and reused.
+
+### 4.2 SP3 check frequency
+
+We profile a fixed 1,000 client operations and count successful SP3 validations only during the measured interval.
+
+| Workload | SP3 checks | Checks / client op | Checks / 1K ops | Dominant protected operations |
+| --- | ---: | ---: | ---: | --- |
+| Light: balanced 1c | 50 | 0.050 | 50 | 24 `request`, 24 `push` |
+| Medium: balanced 8c | 56 | 0.056 | 56 | 24 `request`, 24 `push` |
+| Read heavy, 1 KiB | 718 | 0.718 | 718 | 353 `request`, 353 `push` |
+| Watcher light | 6,081 | 6.081 | 6,081 | 3,029 `request`, 1,529 `push`, 1,500 `offer_input` |
+| Heavy: watcher moderate | 6,076 | 6.076 | 6,076 | 3,029 `request`, 1,529 `push`, 1,500 `offer_input` |
+
+The current short `write_heavy` profiling run observed no protected LRU operation during its 1,000-operation window. We therefore exclude it from the SP3 frequency correlation rather than interpreting zero checks as a property of the workload.
+
+### 4.3 Relating microbenchmarks to application cost
+
+Using the measured **11.70 ns** cost of one complete `Runtime::check`, we estimate the direct metadata-validation work per client operation:
+
+[
+C_{SP3/op} = N_{checks/op} \times 11.70\text{ ns}
+]
+
+| Workload | Checks / op | Estimated direct SP3 cost (ns/client op) |
+| --- | ---: | ---: |
+| Light: balanced 1c | 0.050 | 0.58 |
+| Medium: balanced 8c | 0.056 | 0.66 |
+| Read heavy, 1 KiB | 0.718 | 8.40 |
+| Watcher light | 6.081 | 71.15 |
+| Heavy: watcher moderate | 6.076 | 71.09 |
+
+This estimate isolates **InterSpec metadata validation only**. It is not expected to equal the end-to-end throughput delta because complete execution also includes RLBox calls, copies, wrapper synchronization, cache effects, batching, and background logging/LRU work.
+
+### 4.4 Boundary-operation microbenchmarks
+
+The current artifact does **not yet separately measure** the mechanisms that dominate the Native → RLBox transition. To complete the decomposition, we will measure the following on the same controlled host as the final end-to-end experiment:
+
+| Boundary operation | Planned unit |
+| --- | --- |
+| Empty RLBox/wasm2c invocation | ns/call |
+| Trusted wrapper lock/unlock | ns/op |
+| T → U copy: 64 B, 256 B, 1 KiB | ns/copy |
+| U → T copy: 64 B, 256 B, 1 KiB | ns/copy |
+| `request + push` pair | ns/pair |
+| `peek + poll` pair | ns/pair |
+
+These measurements will explain **RLBox vs. Native**, while the runtime table and check-frequency profile explain the incremental **InterSpec vs. RLBox** cost.
