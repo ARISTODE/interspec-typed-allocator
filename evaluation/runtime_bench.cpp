@@ -7,6 +7,8 @@
 #include <iomanip>
 #include <iostream>
 #include <memory>
+#include <map>
+#include <shared_mutex>
 #include <thread>
 #include <vector>
 
@@ -77,6 +79,66 @@ uint64_t measure(size_t iterations, Fn fn) {
       std::chrono::duration_cast<std::chrono::nanoseconds>(stop - start).count());
 }
 
+#if defined(__GNUC__) || defined(__clang__)
+#define INTERSPEC_NOINLINE __attribute__((noinline))
+#else
+#define INTERSPEC_NOINLINE
+#endif
+
+INTERSPEC_NOINLINE bool primitive_type_compare(uint64_t actual, uint64_t expected) {
+  return actual == expected;
+}
+
+INTERSPEC_NOINLINE bool primitive_bounds_check(uintptr_t ptr, uintptr_t base,
+                                               size_t object_size, size_t bytes) {
+  const size_t offset = static_cast<size_t>(ptr - base);
+  const size_t remaining = object_size - offset;
+  return bytes <= remaining;
+}
+
+void benchmark_primitives(size_t population, size_t iterations) {
+  std::shared_mutex mutex;
+  const uint64_t lock_ns = measure(iterations, [&](size_t) {
+    std::shared_lock<std::shared_mutex> lock(mutex);
+    return 1u;
+  });
+  print_result("shared_lock", population, 1, iterations, lock_ns);
+
+  std::map<uintptr_t, interspec::Allocation> allocations;
+  for (size_t i = 0; i < population; ++i) {
+    const uintptr_t base = kBase + i * 64;
+    allocations.emplace(base, interspec::Allocation{base, kObjectSize, kItem, 1});
+  }
+  const uintptr_t target = kBase + (population - 1) * 64 + 8;
+  const uint64_t lookup_ns = measure(iterations, [&](size_t) {
+    auto it = allocations.upper_bound(target);
+    if (it == allocations.begin()) return 0u;
+    --it;
+    const auto& allocation = it->second;
+    return target >= allocation.base &&
+                   target - allocation.base < allocation.size
+               ? 1u
+               : 0u;
+  });
+  print_result("metadata_lookup", population, 1, iterations, lookup_ns);
+
+  if (population == 2) {
+    const uint64_t type_ns = measure(iterations, [&](size_t i) {
+      return primitive_type_compare(kItem, (i & 1023) == 1023 ? kOther : kItem)
+                 ? 1u
+                 : 0u;
+    });
+    print_result("type_compare", population, 1, iterations, type_ns);
+
+    const uintptr_t base = kBase + 64;
+    const uint64_t bounds_ns = measure(iterations, [&](size_t i) {
+      const uintptr_t ptr = base + (i & 7);
+      return primitive_bounds_check(ptr, base, kObjectSize, 8) ? 1u : 0u;
+    });
+    print_result("bounds_check", population, 1, iterations, bounds_ns);
+  }
+}
+
 void benchmark_lookup(size_t population, size_t iterations) {
   std::vector<uintptr_t> objects;
   auto runtime = make_runtime(population, objects);
@@ -122,6 +184,39 @@ void benchmark_allocation(size_t population) {
   print_result("allocate", population, 1, population, total_ns);
 }
 
+void benchmark_site_allocation_and_release(size_t population) {
+  Runtime runtime(kBase, (population + 16) * 64);
+  constexpr interspec::SiteId kSite = 0x100001;
+  if (!runtime.register_type(kItemId, kItem) ||
+      !runtime.register_allocation_site_id(kSite, kItemId))
+    std::abort();
+
+  std::vector<uintptr_t> objects;
+  objects.reserve(population);
+  const auto allocation_start = Clock::now();
+  for (size_t i = 0; i < population; ++i) {
+    const uintptr_t ptr = runtime.allocate_from_site(kObjectSize, kSite);
+    if (!ptr) std::abort();
+    objects.push_back(ptr);
+  }
+  const auto allocation_stop = Clock::now();
+  const uint64_t allocation_ns = static_cast<uint64_t>(
+      std::chrono::duration_cast<std::chrono::nanoseconds>(
+          allocation_stop - allocation_start).count());
+  print_result("allocate_from_site", population, 1, population, allocation_ns);
+
+  const auto release_start = Clock::now();
+  uint64_t released = 0;
+  for (const uintptr_t ptr : objects)
+    released += runtime.release(ptr) ? 1u : 0u;
+  const auto release_stop = Clock::now();
+  sink.fetch_add(released, std::memory_order_relaxed);
+  const uint64_t release_ns = static_cast<uint64_t>(
+      std::chrono::duration_cast<std::chrono::nanoseconds>(
+          release_stop - release_start).count());
+  print_result("release", population, 1, population, release_ns);
+}
+
 void benchmark_concurrent_checks(size_t population, size_t iterations,
                                  size_t thread_count) {
   std::vector<uintptr_t> objects;
@@ -154,11 +249,14 @@ int main() {
   const size_t iterations = iterations_from_env();
   std::cout << "metric,population,threads,operations,total_ns,ns_per_op,ops_per_sec\n";
 
-  for (const size_t population : {size_t{1}, size_t{16}, size_t{256},
-                                  size_t{4096}, size_t{16384}})
+  for (const size_t population : {size_t{2}, size_t{16}, size_t{256},
+                                  size_t{4096}, size_t{16384}}) {
+    benchmark_primitives(population, iterations);
     benchmark_lookup(population, iterations);
+  }
 
   benchmark_allocation(16384);
+  benchmark_site_allocation_and_release(16384);
 
   for (const size_t threads : {size_t{1}, size_t{2}, size_t{4}, size_t{8}})
     benchmark_concurrent_checks(4096, iterations / 4 + 1, threads);
