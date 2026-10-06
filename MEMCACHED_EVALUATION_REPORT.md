@@ -380,3 +380,37 @@ The current artifact does **not yet separately measure** the mechanisms that dom
 | `peek + poll` pair | ns/pair |
 
 These measurements will explain **RLBox vs. Native**, while the runtime table and check-frequency profile explain the incremental **InterSpec vs. RLBox** cost.
+
+
+## 5. Security Validation
+
+We validate the deployment with the real memcached server and source-injected corruptions inside U. The current suite passes **50/50 top-level cases**.
+
+| Validation | Result |
+| --- | --- |
+| Normal-operation groups | 5 configurations × 16 checks pass |
+| Pointer corruption | 36/36 rejected |
+| Same-type substitution controls | 3/3 accepted, as expected |
+| Application-level controls | 4/4 rejected |
+| Upstream watcher tests | 47/47 assertions for Native and 47/47 for InterSpec |
+
+The 36 pointer attacks cover three queue roles and three real server paths, with four SP3 violations per path: **wrong type, untracked pointer, released pointer, and excessive extent**. The application-level controls additionally exercise malformed log records and forged, mismatched, or malformed LRU records.
+
+A rejection occurs before T consumes the corrupted pointer or record. Same-type substitution remains an explicit negative control because current SP3 validates liveness, type, and extent, not intended-object identity.
+
+## 6. Limitations
+
+The current prototype has several limitations:
+
+* SP3 does not distinguish between two simultaneously live allocations of the same trusted type.
+* It does not provide general control-flow integrity or protect against side channels.
+* Released typed-region addresses are not reused; the allocator is therefore not yet a general reclaiming allocator.
+* Invalid boundary data currently aborts the server; availability under a malicious U is not claimed.
+* The memcached deployment excludes extstore, proxy, TLS, and SASL.
+* Current performance numbers are hosted-CI reference measurements. Publication claims require the controlled-host experiment described in Section 3.
+
+## 7. Summary
+
+The memcached deployment isolates the real bipbuffer module using RLBox wasm2c while preserving copy-based boundary transfer. InterSpec adds T-owned allocation metadata and validates U-controlled pointers for **liveness, expected type, and spatial extent** before trusted use.
+
+The measured production `Runtime::check` costs approximately **11.7 ns** in the representative two-allocation configuration. Current reference measurements show small incremental InterSpec overhead over RLBox, but final conclusions will use controlled-hardware results and the remaining boundary-operation microbenchmarks.
