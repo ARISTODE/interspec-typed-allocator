@@ -5,6 +5,7 @@ on:
     paths:
       - 'scripts/run_p11_wasm2c_performance.sh'
       - 'tools/build_p11_wasm2c_rlbox_only_bridge.py'
+      - 'tools/summarize_p11_report.py'
       - 'tests/p11_wasm_bridge_transform.py'
       - 'P11_EVALUATION.md'
       - '.github/workflows/p11-wasm2c-performance.yml'
@@ -29,7 +30,7 @@ jobs:
             autoconf automake build-essential ca-certificates cmake git \
             libpopt-dev python3 util-linux
       - uses: actions/checkout@v4
-      - name: Run P11 three-way wasm2c reference evaluation
+      - name: Run P11 four-way wasm2c reference evaluation
         run: |
           set -o pipefail
           chmod +x ./scripts/run_p11_wasm2c_performance.sh
