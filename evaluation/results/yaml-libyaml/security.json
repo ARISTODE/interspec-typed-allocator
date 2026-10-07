@@ -1,0 +1,13 @@
+{
+  "passed": true,
+  "rejections": {
+    "1": "wrong_type",
+    "2": "untracked",
+    "3": "untracked",
+    "4": "out_of_bounds"
+  },
+  "same_type_substitution": {
+    "accepted": true,
+    "contents_match_native": true
+  }
+}

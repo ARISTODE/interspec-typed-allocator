@@ -1,0 +1,50 @@
+{
+  "passed": true,
+  "iterations": 2,
+  "variants": {
+    "native": {
+      "mode": "native",
+      "iterations": "2",
+      "input_bytes": "1048576",
+      "events": "1036",
+      "scalars": "1024",
+      "scalar_bytes": "2051072",
+      "hash": "ee078a6ead8e6373",
+      "checks": "0",
+      "elapsed_ns": "13756604"
+    },
+    "rlbox_only": {
+      "mode": "rlbox_only",
+      "iterations": "2",
+      "input_bytes": "1048576",
+      "events": "1036",
+      "scalars": "1024",
+      "scalar_bytes": "2051072",
+      "hash": "ee078a6ead8e6373",
+      "checks": "0",
+      "elapsed_ns": "24925460"
+    },
+    "tracked_no_check": {
+      "mode": "tracked_no_check",
+      "iterations": "2",
+      "input_bytes": "1048576",
+      "events": "1036",
+      "scalars": "1024",
+      "scalar_bytes": "2051072",
+      "hash": "ee078a6ead8e6373",
+      "checks": "0",
+      "elapsed_ns": "24881221"
+    },
+    "extended_sp3": {
+      "mode": "extended_sp3",
+      "iterations": "2",
+      "input_bytes": "1048576",
+      "events": "1036",
+      "scalars": "1024",
+      "scalar_bytes": "2051072",
+      "hash": "ee078a6ead8e6373",
+      "checks": "1024",
+      "elapsed_ns": "26494601"
+    }
+  }
+}

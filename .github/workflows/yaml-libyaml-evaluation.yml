@@ -1,0 +1,59 @@
+name: yaml-libyaml-evaluation
+
+on:
+  push:
+    paths:
+      - 'integration/yaml_libyaml/**'
+      - 'tools/run_yaml_libyaml_benchmarks.py'
+      - 'scripts/run_yaml_libyaml_evaluation.sh'
+      - 'backends/rlbox_wasm2c/**'
+      - 'include/interspec/**'
+      - '.github/workflows/yaml-libyaml-evaluation.yml'
+  pull_request:
+    paths:
+      - 'integration/yaml_libyaml/**'
+      - 'tools/run_yaml_libyaml_benchmarks.py'
+      - 'scripts/run_yaml_libyaml_evaluation.sh'
+      - 'backends/rlbox_wasm2c/**'
+      - 'include/interspec/**'
+      - '.github/workflows/yaml-libyaml-evaluation.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: yaml-libyaml-evaluation-${{ github.event.pull_request.head.ref || github.ref_name }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  yaml-libyaml:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      INTERSPEC_YAML_CORRECTNESS_ITERATIONS: 2
+      INTERSPEC_YAML_ITERATIONS: 1000
+      INTERSPEC_YAML_REPETITIONS: 15
+      INTERSPEC_YAML_WARMUPS: 2
+    steps:
+      - name: Install build tools
+        run: |
+          sudo apt-get update
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y \
+            autoconf automake build-essential ca-certificates cmake git python3
+      - uses: actions/checkout@v4
+      - name: Run YAML/libyaml application evaluation
+        run: |
+          set -o pipefail
+          chmod +x ./scripts/run_yaml_libyaml_evaluation.sh
+          ./scripts/run_yaml_libyaml_evaluation.sh yaml-libyaml-results \
+            2>&1 | tee /tmp/interspec-yaml-libyaml.log
+      - name: Upload YAML/libyaml evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: yaml-libyaml-evaluation
+          if-no-files-found: ignore
+          path: |
+            yaml-libyaml-results
+            /tmp/interspec-yaml-libyaml.log
