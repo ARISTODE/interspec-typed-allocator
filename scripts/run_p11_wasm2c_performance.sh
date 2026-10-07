@@ -341,7 +341,7 @@ def pct(v):
 lines = [
     "# P11 RLBox wasm2c Performance Results",
     "",
-    "This file is mechanically rendered from the P11 three-way complete-rsync measurement stream.",
+    "This file is mechanically rendered from the P11 four-way complete-rsync measurement stream.",
     "Hosted CI values are reproducibility references only; use the same driver on controlled hardware for publication numbers.",
     "",
     "Reference commit:", "", "```text", commit, "```", "",
@@ -373,7 +373,7 @@ cat > "$out/README.txt" <<'EOF'
 P11 RLBox wasm2c performance artifact
 
 rsync-performance.csv
-  Raw paired three-way complete-process samples.
+  Raw paired four-way complete-process samples.
 
 rsync-performance-summary.csv
   Median/mean timing and paired tracking, validation, and total overhead.
@@ -402,4 +402,4 @@ Hosted CI timing is a reproducibility reference, not a publication result.
 EOF
 
 cat "$summary"
-echo "InterSpec P11: wasm2c three-way performance results written to $out"
+echo "InterSpec P11: wasm2c four-way performance results written to $out"
