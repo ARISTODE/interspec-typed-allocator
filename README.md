@@ -1,5 +1,7 @@
 # InterSpec Typed Allocator
 
+The complete rsync/popt application validation and four-way Native/RLBox/tracking/Extended-SP3 performance matrix are documented in [RSYNC_RESULTS.md](RSYNC_RESULTS.md). The 194 MiB file-sync workload is the primary rsync report workload; hosted CI numbers remain reference measurements pending the controlled-hardware publication run.
+
 The complete memcached cache-server deployment, real watcher-path corruption
 tests, and four-way performance collection are described in
 [MEMCACHED_DEPLOYMENT.md](MEMCACHED_DEPLOYMENT.md).

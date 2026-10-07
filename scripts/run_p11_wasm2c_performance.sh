@@ -161,20 +161,41 @@ compile_bridge "$baseline_bridge_src" "$baseline_bridge_obj" \
 rlbox_only_rsync="$work/rsync-p11-rlbox-only"
 link_rsync "$baseline_bridge_obj" "$baseline_wasm_snapshot" "$rlbox_only_rsync"
 
+# Build a native reference from the same pinned rsync revision with its
+# unmodified bundled popt. This gives the report a true Native denominator
+# while preserving the existing RLBox-only / tracking / Extended-SP3
+# decomposition.
+native_src="$work/rsync-p11-native-src"
+git -C "$rsync_src" worktree remove --force "$native_src" >/dev/null 2>&1 || true
+git -C "$rsync_src" worktree add --detach "$native_src" "$rsync_revision" >/dev/null
+(
+  cd "$native_src"
+  ./configure --with-included-popt --disable-md2man --disable-xxhash \
+    --disable-zstd --disable-lz4 --disable-openssl --disable-idn \
+    --disable-roll-simd --disable-roll-asm --disable-md5-asm >/dev/null
+  make -j2 rsync >/dev/null
+)
+native_rsync="$work/rsync-p11-native"
+cp "$native_src/rsync" "$native_rsync"
+
 backup="$work/p11-backup"
 data="$work/p11-data"
 mkdir -p "$backup" "$data/src" "$data/dst"
 printf 'InterSpec P11 wasm2c performance\n' > "$data/src/input.txt"
+# Preserve the workload used by the original InterSpec evaluation: one
+# 194 MiB local file synchronization. The file is deterministic and is
+# recreated once, outside all measured intervals.
+dd if=/dev/zero of="$data/src/sync-194mb.bin" bs=1M count=194 status=none
 
 # Correctness gate before timing. Every performance configuration must execute
 # the same valid complete-process workloads successfully.
-for binary in "$rlbox_only_rsync" "$tracked_rsync" "$extended_rsync"; do
+for binary in "$native_rsync" "$rlbox_only_rsync" "$tracked_rsync" "$extended_rsync"; do
   "$binary" --backup-dir="$backup" --max-size=1M --block-size=1024 --version >/dev/null
   "$binary" --dry-run -a "$data/src/" "$data/dst/" >/dev/null
 done
 
 raw="$out/rsync-performance.csv"
-python3 - "$rlbox_only_rsync" "$tracked_rsync" "$extended_rsync" \
+python3 - "$native_rsync" "$rlbox_only_rsync" "$tracked_rsync" "$extended_rsync" \
   "$backup" "$data/src/" "$data/dst/" "$raw" <<'PY'
 import csv
 import os
@@ -183,7 +204,7 @@ import subprocess
 import sys
 import time
 
-rlbox_only, tracked, extended, backup, src, dst, output = sys.argv[1:]
+native, rlbox_only, tracked, extended, backup, src, dst, output = sys.argv[1:]
 repetitions = int(os.environ.get("INTERSPEC_P11_REPETITIONS", "15"))
 warmups = int(os.environ.get("INTERSPEC_P11_WARMUPS", "2"))
 if repetitions < 3:
@@ -202,40 +223,53 @@ if cpu:
 env = os.environ.copy()
 env["LC_ALL"] = "C"
 workloads = {
-    "option_parse": [
-        f"--backup-dir={backup}", "--max-size=1M", "--block-size=1024", "--version"
-    ],
-    "local_dry_run": ["--dry-run", "-a", src, dst],
+    "option_parse": {
+        "args": [f"--backup-dir={backup}", "--max-size=1M", "--block-size=1024", "--version"],
+        "reset_destination": False,
+    },
+    "local_dry_run": {
+        "args": ["--dry-run", "-a", src, dst],
+        "reset_destination": False,
+    },
+    "file_sync_194mb": {
+        "args": ["-a", "--checksum", "--block-size=1024", src, dst],
+        "reset_destination": True,
+    },
 }
 variants = [
+    ("native", native),
     ("rlbox_only", rlbox_only),
     ("tracked_no_check", tracked),
     ("extended_sp3", extended),
 ]
-orders = [
-    variants,
-    [variants[1], variants[2], variants[0]],
-    [variants[2], variants[0], variants[1]],
-    list(reversed(variants)),
-    [variants[1], variants[0], variants[2]],
-    [variants[0], variants[2], variants[1]],
-]
+# Four cyclic rotations plus their reversed rotations ensure that over each
+# eight-repetition block every mode appears equally often in each position.
+rotations = [variants[i:] + variants[:i] for i in range(len(variants))]
+orders = rotations + [list(reversed(order)) for order in rotations]
+
+def prepare(workload):
+    if workloads[workload]["reset_destination"]:
+        path = os.path.abspath(dst)
+        shutil.rmtree(path, ignore_errors=True)
+        os.makedirs(path, exist_ok=True)
 
 def run(binary, args):
     subprocess.run(prefix + [binary, *args], check=True, env=env,
                    stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
-for _, args in workloads.items():
+for workload, spec in workloads.items():
     for _ in range(warmups):
         for _, binary in variants:
-            run(binary, args)
+            prepare(workload)
+            run(binary, spec["args"])
 
 rows = []
-for workload, args in workloads.items():
+for workload, spec in workloads.items():
     for rep in range(repetitions):
         for mode, binary in orders[rep % len(orders)]:
+            prepare(workload)
             begin = time.perf_counter_ns()
-            run(binary, args)
+            run(binary, spec["args"])
             elapsed = time.perf_counter_ns() - begin
             rows.append((workload, mode, rep, elapsed))
 
@@ -246,7 +280,7 @@ with open(output, "w", newline="") as f:
 PY
 
 summary="$out/rsync-performance-summary.csv"
-python3 "$root/tools/summarize_p9a_application.py" \
+python3 "$root/tools/summarize_p11_report.py" \
   --input "$raw" \
   --output "$summary"
 
@@ -279,7 +313,9 @@ hosted_ci=${GITHUB_ACTIONS:-false}
   echo "warmups=${INTERSPEC_P11_WARMUPS:-2}"
   echo "hosted_ci=$hosted_ci"
   echo "measurement=complete process wall time via time.perf_counter_ns"
+  echo "native_baseline=native bundled popt"
   echo "rlbox_baseline=rlbox_only"
+  echo "file_sync_workload=194 MiB local file, empty destination each measured invocation"
   echo "tracking_configuration=tracked_no_check"
   echo "security_configuration=extended_sp3"
   echo "rlbox_wasm2c_revision=c4f18c48cea47421617f72ba5edc95c68aa85671"
@@ -305,25 +341,28 @@ def pct(v):
 lines = [
     "# P11 RLBox wasm2c Performance Results",
     "",
-    "This file is mechanically rendered from the P11 three-way complete-rsync measurement stream.",
+    "This file is mechanically rendered from the P11 four-way complete-rsync measurement stream.",
     "Hosted CI values are reproducibility references only; use the same driver on controlled hardware for publication numbers.",
     "",
     "Reference commit:", "", "```text", commit, "```", "",
     "Environment:", "", "```text", Path(environment).read_text().strip(), "```", "",
-    "| Workload | RLBox only median (ms) | Tracking/no-check median (ms) | Extended SP3 median (ms) | Tracking/provenance overhead | Validation overhead | Total Extended-SP3 overhead |",
-    "| --- | ---: | ---: | ---: | ---: | ---: | ---: |",
+    "| Workload | Native median (ms) | RLBox only median (ms) | Tracking/no-check median (ms) | Extended SP3 median (ms) | RLBox vs Native | Tracking/provenance | Validation | InterSpec vs RLBox | InterSpec vs Native |",
+    "| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
 ]
 for row in rows:
     lines.append(
-        f"| {row['workload']} | {num(row['rlbox_median_ms'])} | "
-        f"{num(row['tracked_median_ms'])} | {num(row['extended_median_ms'])} | "
+        f"| {row['workload']} | {num(row['native_median_ms'])} | "
+        f"{num(row['rlbox_median_ms'])} | {num(row['tracked_median_ms'])} | "
+        f"{num(row['extended_median_ms'])} | "
+        f"{pct(row['isolation_overhead_median_pct'])} | "
         f"{pct(row['tracking_overhead_median_pct'])} | "
         f"{pct(row['validation_overhead_median_pct'])} | "
-        f"{pct(row['total_overhead_median_pct'])} |"
+        f"{pct(row['total_overhead_median_pct'])} | "
+        f"{pct(row['interspec_vs_native_median_pct'])} |"
     )
 lines += [
     "",
-    "Tracking/provenance is computed per repetition as `tracked_no_check / rlbox_only - 1`; validation as `extended_sp3 / tracked_no_check - 1`; total overhead as `extended_sp3 / rlbox_only - 1`.",
+    "RLBox isolation is computed per repetition as `rlbox_only / native - 1`; tracking/provenance as `tracked_no_check / rlbox_only - 1`; validation as `extended_sp3 / tracked_no_check - 1`; InterSpec vs RLBox as `extended_sp3 / rlbox_only - 1`; and InterSpec vs Native as `extended_sp3 / native - 1`.",
     "The component percentages are not additive because their denominators differ.",
     "",
 ]
@@ -334,7 +373,7 @@ cat > "$out/README.txt" <<'EOF'
 P11 RLBox wasm2c performance artifact
 
 rsync-performance.csv
-  Raw paired three-way complete-process samples.
+  Raw paired four-way complete-process samples.
 
 rsync-performance-summary.csv
   Median/mean timing and paired tracking, validation, and total overhead.
@@ -348,13 +387,19 @@ environment.txt
 p9b-prepare.log
   Complete preparation log for the typed wasm2c implementation.
 
-The RLBox-only path uses pinned uninstrumented bundled popt, ordinary sandbox
-allocation, no typed arena, no PolicyRuntime initialization, no allocation-site
-callback installation, and no final Extended-SP3 pointer check. Dormant backend
-support code may remain linked, matching the P9a runtime-path-baseline model.
+The Native path uses the same pinned rsync revision and its bundled unmodified
+popt. The RLBox-only path uses pinned uninstrumented bundled popt, ordinary
+sandbox allocation, no typed arena, no PolicyRuntime initialization, no
+allocation-site callback installation, and no final Extended-SP3 pointer check.
+Dormant backend support code may remain linked, matching the P9a
+runtime-path-baseline model.
+
+The report workload includes a fresh-destination local synchronization of one
+194 MiB file so the result is comparable in shape to the original InterSpec
+rsync evaluation in addition to the option-parse and dry-run measurements.
 
 Hosted CI timing is a reproducibility reference, not a publication result.
 EOF
 
 cat "$summary"
-echo "InterSpec P11: wasm2c three-way performance results written to $out"
+echo "InterSpec P11: wasm2c four-way performance results written to $out"
