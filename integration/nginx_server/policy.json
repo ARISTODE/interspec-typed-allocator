@@ -1,0 +1,9 @@
+{
+  "types": ["const pcre", "char", "int"],
+  "allocations": [],
+  "uses": [
+    {"name": "pcre_name_table_range", "type": "const pcre", "offset": 0, "dynamic_bytes": true},
+    {"name": "capture_offsets", "type": "int", "offset": 0, "dynamic_bytes": true},
+    {"name": "subject_input", "type": "char", "offset": 0, "dynamic_bytes": true}
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "implementation_commit": "9019f8d3394db8bf46579cb23572a3fd032c54af",
+  "build_sources_match_commit": {
+    "integration/nginx_server/boundary.json": true,
+    "integration/nginx_server/bridge.cpp": true,
+    "integration/nginx_server/pcre_u.c": true,
+    "integration/nginx_server/policy.json": true
+  },
+  "local_fresh_script_run": false,
+  "local_build_note": "The module compilation and final server link were run in successive local stages. The committed clean build workflow remains pending remote approval.",
+  "driver_sha256": {
+    "tools/nginx_common.py": "3999543e028207fd66fec520781b9df97e3355f051b6f625fc7f6d782ca571c9",
+    "tools/test_nginx_deployment.py": "30727fbaa4a0cb94a86dfe6f7086f3fbd68fa2762dcc3c3ba342f030b8c9e063",
+    "tools/benchmark_nginx.py": "9216bb2efe36a76bfe04e2874d0031552692de5502aa43ae64241b90990ddecb"
+  },
+  "wrk_revision": "a211dd5a7050b1f9e8a9870b95513060e72ac4a0",
+  "wrk_sha256": "edff98554d64709c6739d64a90c81c94a57f5960a18e95a722cf099d066361b7"
+}

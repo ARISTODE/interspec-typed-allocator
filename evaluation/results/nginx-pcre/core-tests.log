@@ -1,0 +1,46 @@
+Internal ctest changing into directory: /workspace/scratch/521dc1dee07c/interspec-typed-allocator/build-nginx-core
+Test project /workspace/scratch/521dc1dee07c/interspec-typed-allocator/build-nginx-core
+      Start  1: core_poc
+ 1/20 Test  #1: core_poc .........................   Passed    0.00 sec
+      Start  2: runtime_hardening
+ 2/20 Test  #2: runtime_hardening ................   Passed    0.02 sec
+      Start  3: policy_runtime
+ 3/20 Test  #3: policy_runtime ...................   Passed    0.00 sec
+      Start  4: p9b_wasm_runtime
+ 4/20 Test  #4: p9b_wasm_runtime .................   Passed    0.00 sec
+      Start  5: p6_security_eval
+ 5/20 Test  #5: p6_security_eval .................   Passed    0.00 sec
+      Start  6: diagnostics
+ 6/20 Test  #6: diagnostics ......................   Passed    0.02 sec
+      Start  7: policy_codegen
+ 7/20 Test  #7: policy_codegen ...................   Passed    0.03 sec
+      Start  8: policy_codegen_hardening
+ 8/20 Test  #8: policy_codegen_hardening .........   Passed    0.02 sec
+      Start  9: boundary_codegen
+ 9/20 Test  #9: boundary_codegen .................   Passed    0.03 sec
+      Start 10: p9b_wasm_codegen
+10/20 Test #10: p9b_wasm_codegen .................   Passed    0.03 sec
+      Start 11: p11_wasm_bridge_transform
+11/20 Test #11: p11_wasm_bridge_transform ........   Passed    0.02 sec
+      Start 12: p7c_report
+12/20 Test #12: p7c_report .......................   Passed    0.03 sec
+      Start 13: p7c_report_complete
+13/20 Test #13: p7c_report_complete ..............   Passed    0.03 sec
+      Start 14: p8_report
+14/20 Test #14: p8_report ........................   Passed    0.03 sec
+      Start 15: p8_performance_summary
+15/20 Test #15: p8_performance_summary ...........   Passed    0.04 sec
+      Start 16: p8_application_summary
+16/20 Test #16: p8_application_summary ...........   Passed    0.03 sec
+      Start 17: p8_result_renderer
+17/20 Test #17: p8_result_renderer ...............   Passed    0.03 sec
+      Start 18: p9a_bridge_transform
+18/20 Test #18: p9a_bridge_transform .............   Passed    0.02 sec
+      Start 19: p9a_application_summary
+19/20 Test #19: p9a_application_summary ..........   Passed    0.03 sec
+      Start 20: p9a_result_renderer
+20/20 Test #20: p9a_result_renderer ..............   Passed    0.02 sec
+
+100% tests passed, 0 tests failed out of 20
+
+Total Test time (real) =   0.47 sec

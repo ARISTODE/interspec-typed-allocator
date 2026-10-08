@@ -1,0 +1,158 @@
+{
+  "passed": true,
+  "cases": [
+    {
+      "name": "normal/native",
+      "passed": true,
+      "detail": {
+        "http_cases": 11,
+        "keepalive_requests": 20,
+        "concurrent_requests": 240,
+        "reloads": 0,
+        "startup_ms": 23.076642995874863
+      }
+    },
+    {
+      "name": "normal/rlbox-only",
+      "passed": true,
+      "detail": {
+        "http_cases": 11,
+        "keepalive_requests": 20,
+        "concurrent_requests": 240,
+        "reloads": 0,
+        "startup_ms": 22.772658994654194
+      }
+    },
+    {
+      "name": "normal/tracked-no-check",
+      "passed": true,
+      "detail": {
+        "http_cases": 11,
+        "keepalive_requests": 20,
+        "concurrent_requests": 240,
+        "reloads": 0,
+        "startup_ms": 22.10014400043292
+      }
+    },
+    {
+      "name": "normal/interspec",
+      "passed": true,
+      "detail": {
+        "http_cases": 11,
+        "keepalive_requests": 20,
+        "concurrent_requests": 240,
+        "reloads": 0,
+        "startup_ms": 22.420417997636832
+      }
+    },
+    {
+      "name": "normal/diagnostics",
+      "passed": true,
+      "detail": {
+        "http_cases": 11,
+        "keepalive_requests": 20,
+        "concurrent_requests": 240,
+        "reloads": 0,
+        "startup_ms": 22.12087500083726
+      }
+    },
+    {
+      "name": "invalid-config/native",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "invalid-config/rlbox-only",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "invalid-config/tracked-no-check",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "invalid-config/interspec",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "invalid-config/diagnostics",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "fault/1/1",
+      "passed": true,
+      "detail": "wrong_type"
+    },
+    {
+      "name": "fault/1/2",
+      "passed": true,
+      "detail": "untracked"
+    },
+    {
+      "name": "fault/1/3",
+      "passed": true,
+      "detail": "untracked"
+    },
+    {
+      "name": "fault/1/4",
+      "passed": true,
+      "detail": "out_of_bounds"
+    },
+    {
+      "name": "fault/1/5",
+      "passed": true,
+      "detail": "same-type substitution accepted with preserved contents"
+    },
+    {
+      "name": "fault/2/1",
+      "passed": true,
+      "detail": "wrong_type"
+    },
+    {
+      "name": "fault/2/2",
+      "passed": true,
+      "detail": "untracked"
+    },
+    {
+      "name": "fault/2/3",
+      "passed": true,
+      "detail": "untracked"
+    },
+    {
+      "name": "fault/2/4",
+      "passed": true,
+      "detail": "out_of_bounds"
+    },
+    {
+      "name": "fault/2/5",
+      "passed": true,
+      "detail": "same-type substitution accepted with preserved contents"
+    },
+    {
+      "name": "fault/2/6",
+      "passed": true,
+      "detail": "malformed_offsets"
+    },
+    {
+      "name": "check-frequency",
+      "passed": true,
+      "detail": {
+        "requests": 100,
+        "sp3_checks": 1800,
+        "checks_per_request": 18.0,
+        "typed_allocations_during_requests": 0
+      }
+    }
+  ],
+  "binary_sha256": {
+    "native": "e5adbb23b0470391348c598262161e0c7b5274e283eaaee90ce9dbe373102684",
+    "rlbox-only": "c4c0dfa4dbfb67817cfcc513b4c5e7b90865ae3a68b87ec98a8bfdfa4342a9de",
+    "tracked-no-check": "1e55a71820c0d3f2b9e5a81c5de08df8c40a0753451148987e009d8030b4b639",
+    "interspec": "92a5e60567e03e1a2d3bdd6eaf483c7b2d2a7ba60c8cfaedca8e4b7e7ebe4282",
+    "diagnostics": "c12f7dfab9e100a3800a802dcd22c41374d64b7f733379218f1b8dcea770e31b"
+  },
+  "worker_reload_tested": false
+}
