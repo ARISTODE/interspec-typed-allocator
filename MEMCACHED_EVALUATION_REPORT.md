@@ -1,5 +1,7 @@
 # InterSpec Memcached Evaluation
 
+This detailed report retains its original hosted reference dataset. For the currently selected run and imported raw samples, see [SELECTED_EVALUATION_RESULTS.md](SELECTED_EVALUATION_RESULTS.md) and `evaluation/results/memcached-overhead/hosted-37593628863/`. The runs are kept separate.
+
 This report uses memcached as a running case study to evaluate the cost and behavior of InterSpec. Additional applications will be added after matched end-to-end results are available.
 
 ## 1. Benchmark and Workloads

@@ -1,0 +1,220 @@
+{
+  "passed": true,
+  "cases": [
+    {
+      "name": "normal/native",
+      "passed": true,
+      "detail": {
+        "http_cases": 11,
+        "keepalive_requests": 20,
+        "concurrent_requests": 240,
+        "reloads": 0,
+        "startup_ms": 24.118232999967404,
+        "worker_generations": [],
+        "concurrent_requests_after_reload": 0
+      }
+    },
+    {
+      "name": "normal/rlbox-only",
+      "passed": true,
+      "detail": {
+        "http_cases": 11,
+        "keepalive_requests": 20,
+        "concurrent_requests": 240,
+        "reloads": 0,
+        "startup_ms": 23.579667000035442,
+        "worker_generations": [],
+        "concurrent_requests_after_reload": 0
+      }
+    },
+    {
+      "name": "normal/tracked-no-check",
+      "passed": true,
+      "detail": {
+        "http_cases": 11,
+        "keepalive_requests": 20,
+        "concurrent_requests": 240,
+        "reloads": 0,
+        "startup_ms": 23.022241999910875,
+        "worker_generations": [],
+        "concurrent_requests_after_reload": 0
+      }
+    },
+    {
+      "name": "normal/interspec",
+      "passed": true,
+      "detail": {
+        "http_cases": 11,
+        "keepalive_requests": 20,
+        "concurrent_requests": 240,
+        "reloads": 0,
+        "startup_ms": 23.00202200001422,
+        "worker_generations": [],
+        "concurrent_requests_after_reload": 0
+      }
+    },
+    {
+      "name": "normal/diagnostics",
+      "passed": true,
+      "detail": {
+        "http_cases": 11,
+        "keepalive_requests": 20,
+        "concurrent_requests": 240,
+        "reloads": 0,
+        "startup_ms": 22.973660000047857,
+        "worker_generations": [],
+        "concurrent_requests_after_reload": 0
+      }
+    },
+    {
+      "name": "workers-reload/native",
+      "passed": true,
+      "detail": {
+        "http_cases": 11,
+        "keepalive_requests": 20,
+        "concurrent_requests": 240,
+        "reloads": 2,
+        "startup_ms": 23.17160799998419,
+        "worker_generations": [
+          [
+            "10748",
+            "10749"
+          ],
+          [
+            "10758",
+            "10759"
+          ],
+          [
+            "10768",
+            "10769"
+          ]
+        ],
+        "concurrent_requests_after_reload": 160
+      }
+    },
+    {
+      "name": "workers-reload/interspec",
+      "passed": true,
+      "detail": {
+        "http_cases": 11,
+        "keepalive_requests": 20,
+        "concurrent_requests": 240,
+        "reloads": 2,
+        "startup_ms": 22.955644000035136,
+        "worker_generations": [
+          [
+            "10779",
+            "10780"
+          ],
+          [
+            "10789",
+            "10790"
+          ],
+          [
+            "10799",
+            "10800"
+          ]
+        ],
+        "concurrent_requests_after_reload": 160
+      }
+    },
+    {
+      "name": "invalid-config/native",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "invalid-config/rlbox-only",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "invalid-config/tracked-no-check",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "invalid-config/interspec",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "invalid-config/diagnostics",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "fault/1/1",
+      "passed": true,
+      "detail": "wrong_type"
+    },
+    {
+      "name": "fault/1/2",
+      "passed": true,
+      "detail": "untracked"
+    },
+    {
+      "name": "fault/1/3",
+      "passed": true,
+      "detail": "untracked"
+    },
+    {
+      "name": "fault/1/4",
+      "passed": true,
+      "detail": "out_of_bounds"
+    },
+    {
+      "name": "fault/1/5",
+      "passed": true,
+      "detail": "same-type substitution accepted with preserved contents"
+    },
+    {
+      "name": "fault/2/1",
+      "passed": true,
+      "detail": "wrong_type"
+    },
+    {
+      "name": "fault/2/2",
+      "passed": true,
+      "detail": "untracked"
+    },
+    {
+      "name": "fault/2/3",
+      "passed": true,
+      "detail": "untracked"
+    },
+    {
+      "name": "fault/2/4",
+      "passed": true,
+      "detail": "out_of_bounds"
+    },
+    {
+      "name": "fault/2/5",
+      "passed": true,
+      "detail": "same-type substitution accepted with preserved contents"
+    },
+    {
+      "name": "fault/2/6",
+      "passed": true,
+      "detail": "malformed_offsets"
+    },
+    {
+      "name": "check-frequency",
+      "passed": true,
+      "detail": {
+        "requests": 100,
+        "sp3_checks": 1800,
+        "checks_per_request": 18.0,
+        "typed_allocations_during_requests": 0
+      }
+    }
+  ],
+  "binary_sha256": {
+    "native": "e274e96a00bf0db240f863c4d2629732328663ac2bcc86c1a029c080cd8d8004",
+    "rlbox-only": "1bf6e709b10dab81833ad7aa966c04c02556ae93e2d478313581e36fe1305272",
+    "tracked-no-check": "fff624d8b16521a9c679aaa593b7ccd872bbd7430defaa237bf9fb7276608062",
+    "interspec": "8dd664f1e33c16b2838f93a559b924244526e036674b6caea2967ad03e9140b7",
+    "diagnostics": "90ade7dc5431c9659b49090c82e0e49c4a6f2e198e0b577ec87f043e96b8fd26"
+  },
+  "worker_reload_tested": true
+}

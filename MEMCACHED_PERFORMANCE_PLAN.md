@@ -138,7 +138,7 @@ This allows direct correlation between microbenchmark cost and end-to-end overhe
 
 ### Priority 3: fix write-heavy coverage
 
-The current short `write_heavy` profile observes no protected LRU operation. Increase the profiling duration/operation count or adjust the workload until LRU activity is observed and verified by counters. Do not use this workload in the check-frequency correlation until the protected path is demonstrably exercised.
+The current short `write_heavy` profile observes no protected LRU operation. Increase the profiling duration/operation count or adjust the workload until LRU activity is observed and verified by counters. Do not use this workload in the check-frequency correlation until the protected path is demonstrably exercised. The selected timed reference already records nonzero `moves_to_warm` deltas (29, 121, and 21) in its three InterSpec write-heavy measurements with zero LRU drops. Those application counters do not replace direct SP3 counts in the separate profiling window.
 
 ### Priority 4: controlled end-to-end publication run
 

@@ -1,0 +1,125 @@
+[
+  {
+    "name": "balanced_1c",
+    "mode": "cache_only",
+    "clients": 1,
+    "pipeline": 10,
+    "value_bytes": 256,
+    "keys": 10000,
+    "get_percent": 50,
+    "purpose": "low-concurrency balanced cache traffic; preserves the paper's 1-client, 1:1, pipeline-10 shape",
+    "profile_keys": 512,
+    "operations": 1000,
+    "runtime_checks": 50,
+    "checks_per_operation": 0.05,
+    "checks_per_1000_operations": 50.0,
+    "check_operations": {
+      "peek_all": 1,
+      "poll": 1,
+      "push": 24,
+      "request": 24
+    }
+  },
+  {
+    "name": "balanced_8c",
+    "mode": "cache_only",
+    "clients": 8,
+    "pipeline": 10,
+    "value_bytes": 256,
+    "keys": 10000,
+    "get_percent": 50,
+    "purpose": "higher-concurrency balanced cache traffic; preserves the paper's 8-client, 1:1, pipeline-10 shape",
+    "profile_keys": 512,
+    "operations": 1000,
+    "runtime_checks": 56,
+    "checks_per_operation": 0.056,
+    "checks_per_1000_operations": 56.0,
+    "check_operations": {
+      "peek_all": 4,
+      "poll": 4,
+      "push": 24,
+      "request": 24
+    }
+  },
+  {
+    "name": "read_heavy_1k",
+    "mode": "cache_only",
+    "clients": 8,
+    "pipeline": 16,
+    "value_bytes": 1024,
+    "keys": 10000,
+    "get_percent": 95,
+    "purpose": "read-mostly object-cache scenario with 1 KiB values",
+    "profile_keys": 512,
+    "operations": 1000,
+    "runtime_checks": 718,
+    "checks_per_operation": 0.718,
+    "checks_per_1000_operations": 718.0,
+    "check_operations": {
+      "peek_all": 6,
+      "poll": 6,
+      "push": 353,
+      "request": 353
+    }
+  },
+  {
+    "name": "write_heavy",
+    "mode": "cache_only",
+    "clients": 8,
+    "pipeline": 8,
+    "value_bytes": 256,
+    "keys": 10000,
+    "get_percent": 10,
+    "purpose": "mutation-heavy scenario stressing SET paths and asynchronous LRU activity",
+    "profile_keys": 512,
+    "operations": 1000,
+    "runtime_checks": 0,
+    "checks_per_operation": 0.0,
+    "checks_per_1000_operations": 0.0,
+    "check_operations": {}
+  },
+  {
+    "name": "watch_light",
+    "mode": "watch_active",
+    "clients": 1,
+    "pipeline": 1,
+    "value_bytes": 256,
+    "keys": 10000,
+    "get_percent": 50,
+    "purpose": "lossless active-observability scenario with a live watcher",
+    "profile_keys": 512,
+    "operations": 1000,
+    "runtime_checks": 6081,
+    "checks_per_operation": 6.081,
+    "checks_per_1000_operations": 6081.0,
+    "check_operations": {
+      "offer_input": 1500,
+      "peek_all": 13,
+      "poll": 10,
+      "push": 1529,
+      "request": 3029
+    }
+  },
+  {
+    "name": "watch_moderate",
+    "mode": "watch_active",
+    "clients": 2,
+    "pipeline": 2,
+    "value_bytes": 256,
+    "keys": 10000,
+    "get_percent": 50,
+    "purpose": "moderate active-observability load with worker and watcher queues exercised continuously",
+    "profile_keys": 512,
+    "operations": 1000,
+    "runtime_checks": 6076,
+    "checks_per_operation": 6.076,
+    "checks_per_1000_operations": 6076.0,
+    "check_operations": {
+      "offer_input": 1500,
+      "peek_all": 10,
+      "poll": 8,
+      "push": 1529,
+      "request": 3029
+    }
+  }
+]

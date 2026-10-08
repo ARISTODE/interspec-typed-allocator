@@ -1,0 +1,587 @@
+{
+  "implementation_commit": "e9ab46322a2a8faf9444d9bd93f8f8f4d151cea2",
+  "core": {
+    "run_id": 37835790921,
+    "job_id": 113512342904,
+    "passed": 20,
+    "total": 20
+  },
+  "memcached": {
+    "run_id": 37835790903,
+    "job_id": 113512341321,
+    "passed": 50,
+    "total": 50,
+    "cases": [
+      {
+        "case": "normal-native",
+        "pass": true,
+        "seconds": 3.0218086989999904,
+        "checks": [
+          "lru_async_item_bumps",
+          "set_get_flags",
+          "add_replace",
+          "cas",
+          "append_prepend",
+          "incr_decr",
+          "binary_256k",
+          "multiget",
+          "touch_delete",
+          "fragmented_request",
+          "invalid_commands",
+          "expiry",
+          "flush_all",
+          "watch_log_content",
+          "concurrent_cache_2000_ops",
+          "watcher_churn_25"
+        ],
+        "checks_passed": 16
+      },
+      {
+        "case": "normal-rlbox-only",
+        "pass": true,
+        "seconds": 3.048631238000013,
+        "checks": [
+          "lru_async_item_bumps",
+          "set_get_flags",
+          "add_replace",
+          "cas",
+          "append_prepend",
+          "incr_decr",
+          "binary_256k",
+          "multiget",
+          "touch_delete",
+          "fragmented_request",
+          "invalid_commands",
+          "expiry",
+          "flush_all",
+          "watch_log_content",
+          "concurrent_cache_2000_ops",
+          "watcher_churn_25"
+        ],
+        "checks_passed": 16
+      },
+      {
+        "case": "normal-tracked-no-check",
+        "pass": true,
+        "seconds": 3.034639161000001,
+        "checks": [
+          "lru_async_item_bumps",
+          "set_get_flags",
+          "add_replace",
+          "cas",
+          "append_prepend",
+          "incr_decr",
+          "binary_256k",
+          "multiget",
+          "touch_delete",
+          "fragmented_request",
+          "invalid_commands",
+          "expiry",
+          "flush_all",
+          "watch_log_content",
+          "concurrent_cache_2000_ops",
+          "watcher_churn_25"
+        ],
+        "checks_passed": 16
+      },
+      {
+        "case": "normal-interspec",
+        "pass": true,
+        "seconds": 3.0370917269999893,
+        "checks": [
+          "lru_async_item_bumps",
+          "set_get_flags",
+          "add_replace",
+          "cas",
+          "append_prepend",
+          "incr_decr",
+          "binary_256k",
+          "multiget",
+          "touch_delete",
+          "fragmented_request",
+          "invalid_commands",
+          "expiry",
+          "flush_all",
+          "watch_log_content",
+          "concurrent_cache_2000_ops",
+          "watcher_churn_25"
+        ],
+        "checks_passed": 16
+      },
+      {
+        "case": "normal-diagnostics",
+        "pass": true,
+        "seconds": 3.0497254269999985,
+        "checks": [
+          "lru_async_item_bumps",
+          "set_get_flags",
+          "add_replace",
+          "cas",
+          "append_prepend",
+          "incr_decr",
+          "binary_256k",
+          "multiget",
+          "touch_delete",
+          "fragmented_request",
+          "invalid_commands",
+          "expiry",
+          "flush_all",
+          "watch_log_content",
+          "concurrent_cache_2000_ops",
+          "watcher_churn_25"
+        ],
+        "checks_passed": 16
+      },
+      {
+        "case": "fault-r1-t1-m1",
+        "pass": true,
+        "seconds": 0.2672888680000085,
+        "role": 1,
+        "target": 1,
+        "mode": 1,
+        "reason": "wrong_type",
+        "exit_code": -6
+      },
+      {
+        "case": "fault-r1-t1-m2",
+        "pass": true,
+        "seconds": 0.24253298799999357,
+        "role": 1,
+        "target": 1,
+        "mode": 2,
+        "reason": "untracked",
+        "exit_code": -6
+      },
+      {
+        "case": "fault-r1-t1-m3",
+        "pass": true,
+        "seconds": 0.2599511060000168,
+        "role": 1,
+        "target": 1,
+        "mode": 3,
+        "reason": "untracked",
+        "exit_code": -6
+      },
+      {
+        "case": "fault-r1-t1-m4",
+        "pass": true,
+        "seconds": 0.2927362359999961,
+        "role": 1,
+        "target": 1,
+        "mode": 4,
+        "reason": "out_of_bounds",
+        "exit_code": -6
+      },
+      {
+        "case": "fault-r1-t2-m1",
+        "pass": true,
+        "seconds": 0.3201207140000122,
+        "role": 1,
+        "target": 2,
+        "mode": 1,
+        "reason": "wrong_type",
+        "exit_code": -6
+      },
+      {
+        "case": "fault-r1-t2-m2",
+        "pass": true,
+        "seconds": 0.2794059210000057,
+        "role": 1,
+        "target": 2,
+        "mode": 2,
+        "reason": "untracked",
+        "exit_code": -6
+      },
+      {
+        "case": "fault-r1-t2-m3",
+        "pass": true,
+        "seconds": 0.2703746370000033,
+        "role": 1,
+        "target": 2,
+        "mode": 3,
+        "reason": "untracked",
+        "exit_code": -6
+      },
+      {
+        "case": "fault-r1-t2-m4",
+        "pass": true,
+        "seconds": 0.320783012999982,
+        "role": 1,
+        "target": 2,
+        "mode": 4,
+        "reason": "out_of_bounds",
+        "exit_code": -6
+      },
+      {
+        "case": "fault-r1-t3-m1",
+        "pass": true,
+        "seconds": 0.28125704999999357,
+        "role": 1,
+        "target": 3,
+        "mode": 1,
+        "reason": "wrong_type",
+        "exit_code": -6
+      },
+      {
+        "case": "fault-r1-t3-m2",
+        "pass": true,
+        "seconds": 0.3359308950000184,
+        "role": 1,
+        "target": 3,
+        "mode": 2,
+        "reason": "untracked",
+        "exit_code": -6
+      },
+      {
+        "case": "fault-r1-t3-m3",
+        "pass": true,
+        "seconds": 0.2999568700000168,
+        "role": 1,
+        "target": 3,
+        "mode": 3,
+        "reason": "untracked",
+        "exit_code": -6
+      },
+      {
+        "case": "fault-r1-t3-m4",
+        "pass": true,
+        "seconds": 0.37081471600001237,
+        "role": 1,
+        "target": 3,
+        "mode": 4,
+        "reason": "out_of_bounds",
+        "exit_code": -6
+      },
+      {
+        "case": "fault-r2-t1-m1",
+        "pass": true,
+        "seconds": 0.32416358499997955,
+        "role": 2,
+        "target": 1,
+        "mode": 1,
+        "reason": "wrong_type",
+        "exit_code": -6
+      },
+      {
+        "case": "fault-r2-t1-m2",
+        "pass": true,
+        "seconds": 0.29574371999999016,
+        "role": 2,
+        "target": 1,
+        "mode": 2,
+        "reason": "untracked",
+        "exit_code": -6
+      },
+      {
+        "case": "fault-r2-t1-m3",
+        "pass": true,
+        "seconds": 0.32718190899998945,
+        "role": 2,
+        "target": 1,
+        "mode": 3,
+        "reason": "untracked",
+        "exit_code": -6
+      },
+      {
+        "case": "fault-r2-t1-m4",
+        "pass": true,
+        "seconds": 0.32050267400001076,
+        "role": 2,
+        "target": 1,
+        "mode": 4,
+        "reason": "out_of_bounds",
+        "exit_code": -6
+      },
+      {
+        "case": "fault-r2-t2-m1",
+        "pass": true,
+        "seconds": 0.3556677509999986,
+        "role": 2,
+        "target": 2,
+        "mode": 1,
+        "reason": "wrong_type",
+        "exit_code": -6
+      },
+      {
+        "case": "fault-r2-t2-m2",
+        "pass": true,
+        "seconds": 0.3874380039999892,
+        "role": 2,
+        "target": 2,
+        "mode": 2,
+        "reason": "untracked",
+        "exit_code": -6
+      },
+      {
+        "case": "fault-r2-t2-m3",
+        "pass": true,
+        "seconds": 0.3235862139999881,
+        "role": 2,
+        "target": 2,
+        "mode": 3,
+        "reason": "untracked",
+        "exit_code": -6
+      },
+      {
+        "case": "fault-r2-t2-m4",
+        "pass": true,
+        "seconds": 0.39727191700001185,
+        "role": 2,
+        "target": 2,
+        "mode": 4,
+        "reason": "out_of_bounds",
+        "exit_code": -6
+      },
+      {
+        "case": "fault-r2-t3-m1",
+        "pass": true,
+        "seconds": 0.2952631800000063,
+        "role": 2,
+        "target": 3,
+        "mode": 1,
+        "reason": "wrong_type",
+        "exit_code": -6
+      },
+      {
+        "case": "fault-r2-t3-m2",
+        "pass": true,
+        "seconds": 0.3145736399999919,
+        "role": 2,
+        "target": 3,
+        "mode": 2,
+        "reason": "untracked",
+        "exit_code": -6
+      },
+      {
+        "case": "fault-r2-t3-m3",
+        "pass": true,
+        "seconds": 0.3346342849999928,
+        "role": 2,
+        "target": 3,
+        "mode": 3,
+        "reason": "untracked",
+        "exit_code": -6
+      },
+      {
+        "case": "fault-r2-t3-m4",
+        "pass": true,
+        "seconds": 0.32445663299998273,
+        "role": 2,
+        "target": 3,
+        "mode": 4,
+        "reason": "out_of_bounds",
+        "exit_code": -6
+      },
+      {
+        "case": "fault-r3-t1-m1",
+        "pass": true,
+        "seconds": 0.35741193300000873,
+        "role": 3,
+        "target": 1,
+        "mode": 1,
+        "reason": "wrong_type",
+        "exit_code": -6
+      },
+      {
+        "case": "fault-r3-t1-m2",
+        "pass": true,
+        "seconds": 0.528877102999985,
+        "role": 3,
+        "target": 1,
+        "mode": 2,
+        "reason": "untracked",
+        "exit_code": -6
+      },
+      {
+        "case": "fault-r3-t1-m3",
+        "pass": true,
+        "seconds": 0.4575677629999859,
+        "role": 3,
+        "target": 1,
+        "mode": 3,
+        "reason": "untracked",
+        "exit_code": -6
+      },
+      {
+        "case": "fault-r3-t1-m4",
+        "pass": true,
+        "seconds": 0.3394737339999949,
+        "role": 3,
+        "target": 1,
+        "mode": 4,
+        "reason": "out_of_bounds",
+        "exit_code": -6
+      },
+      {
+        "case": "fault-r3-t2-m1",
+        "pass": true,
+        "seconds": 0.3690249320000021,
+        "role": 3,
+        "target": 2,
+        "mode": 1,
+        "reason": "wrong_type",
+        "exit_code": -6
+      },
+      {
+        "case": "fault-r3-t2-m2",
+        "pass": true,
+        "seconds": 0.38757746099997803,
+        "role": 3,
+        "target": 2,
+        "mode": 2,
+        "reason": "untracked",
+        "exit_code": -6
+      },
+      {
+        "case": "fault-r3-t2-m3",
+        "pass": true,
+        "seconds": 0.3703626920000147,
+        "role": 3,
+        "target": 2,
+        "mode": 3,
+        "reason": "untracked",
+        "exit_code": -6
+      },
+      {
+        "case": "fault-r3-t2-m4",
+        "pass": true,
+        "seconds": 0.3245751949999942,
+        "role": 3,
+        "target": 2,
+        "mode": 4,
+        "reason": "out_of_bounds",
+        "exit_code": -6
+      },
+      {
+        "case": "fault-r3-t3-m1",
+        "pass": true,
+        "seconds": 0.304370734999992,
+        "role": 3,
+        "target": 3,
+        "mode": 1,
+        "reason": "wrong_type",
+        "exit_code": -6
+      },
+      {
+        "case": "fault-r3-t3-m2",
+        "pass": true,
+        "seconds": 0.32233657199998333,
+        "role": 3,
+        "target": 3,
+        "mode": 2,
+        "reason": "untracked",
+        "exit_code": -6
+      },
+      {
+        "case": "fault-r3-t3-m3",
+        "pass": true,
+        "seconds": 0.3300608930000237,
+        "role": 3,
+        "target": 3,
+        "mode": 3,
+        "reason": "untracked",
+        "exit_code": -6
+      },
+      {
+        "case": "fault-r3-t3-m4",
+        "pass": true,
+        "seconds": 0.33548688100000845,
+        "role": 3,
+        "target": 3,
+        "mode": 4,
+        "reason": "out_of_bounds",
+        "exit_code": -6
+      },
+      {
+        "case": "control-r1-m5",
+        "pass": true,
+        "seconds": 1.049992562,
+        "mode": 5,
+        "role": 1,
+        "outcome": "accepted_same_type"
+      },
+      {
+        "case": "control-r2-m5",
+        "pass": true,
+        "seconds": 1.046636996000018,
+        "mode": 5,
+        "role": 2,
+        "outcome": "accepted_same_type"
+      },
+      {
+        "case": "control-r3-m5",
+        "pass": true,
+        "seconds": 1.0114023770000244,
+        "mode": 5,
+        "role": 3,
+        "outcome": "accepted_same_type"
+      },
+      {
+        "case": "control-r1-m6",
+        "pass": true,
+        "seconds": 0.31026801200002296,
+        "mode": 6,
+        "role": 1,
+        "outcome": "rejected_malformed_record"
+      },
+      {
+        "case": "control-r3-m6",
+        "pass": true,
+        "seconds": 0.3329148709999856,
+        "mode": 6,
+        "role": 3,
+        "outcome": "rejected_unknown_handle"
+      },
+      {
+        "case": "control-r3-m7",
+        "pass": true,
+        "seconds": 0.334353268000001,
+        "mode": 7,
+        "role": 3,
+        "outcome": "rejected_wrong_item_hash"
+      },
+      {
+        "case": "control-r3-m8",
+        "pass": true,
+        "seconds": 0.36347627700001794,
+        "mode": 8,
+        "role": 3,
+        "outcome": "rejected_malformed_record"
+      },
+      {
+        "case": "upstream-native",
+        "pass": true,
+        "seconds": 13.714412296999996,
+        "tests": [
+          "t/watcher.t",
+          "t/watcher_connid.t"
+        ],
+        "transport": "loopback_tcp",
+        "test_assertions": "unmodified",
+        "launcher_sha256": "4fd28c15cc2cf110a20bf16753b35056d99f1c19984f11af1826e19e0160a795"
+      },
+      {
+        "case": "upstream-interspec",
+        "pass": true,
+        "seconds": 16.209582525000002,
+        "tests": [
+          "t/watcher.t",
+          "t/watcher_connid.t"
+        ],
+        "transport": "loopback_tcp",
+        "test_assertions": "unmodified",
+        "launcher_sha256": "4fd28c15cc2cf110a20bf16753b35056d99f1c19984f11af1826e19e0160a795"
+      }
+    ]
+  },
+  "p10": {
+    "run_id": 37835790953,
+    "job_id": 113512341502,
+    "boundaries": [
+      "memcached/bipbuffer",
+      "nginx/libpcre",
+      "yaml/libyaml"
+    ],
+    "conclusion": "success"
+  }
+}

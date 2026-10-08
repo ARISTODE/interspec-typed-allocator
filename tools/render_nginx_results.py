@@ -13,9 +13,11 @@ def main():
     p.add_argument('--output',type=Path,required=True)
     a=p.parse_args()
     gate=json.loads((a.results/'correctness/summary.json').read_text())
-    env=json.loads((a.results/'reference/environment.json').read_text())
-    summary=json.loads((a.results/'reference/summary.json').read_text())
-    rows=list(csv.DictReader((a.results/'reference/samples.csv').open()))
+    timing=a.results/('performance' if (a.results/'performance').is_dir() else 'reference')
+    env=json.loads((timing/'environment.json').read_text())
+    summary=json.loads((timing/'summary.json').read_text())
+    with (timing/'samples.csv').open(newline='') as stream:
+        rows=list(csv.DictReader(stream))
     assert gate['passed'] and all(c['passed'] for c in gate['cases'])
     assert len(rows)==4*env['repetitions']*len(env['threads'])
     assert all(int(r['bad'])==0 and int(r['validated'])==int(r['requests']) for r in rows)
@@ -63,8 +65,9 @@ def main():
               '## Evidence and scope','',
               'Raw samples, generated summaries, correctness cases, per-case traces, HTTP configurations, wrk outputs, binary hashes, and environment metadata are retained under `evaluation/results/nginx-pcre/`. '
               'Every timed binary matches the correctness gate. The implementation and reproduction steps are in [NGINX_DEPLOYMENT.md](NGINX_DEPLOYMENT.md).','',
-              'This deployment is PCRE8 without JIT. It does not complete PCRE2/OpenSSL/TLS evaluation, general threaded PCRE API support, or same-type object identity enforcement. '
-              'The nginx worker/reload CI gate and controlled-hardware publication runs remain separate from local functional completion.','']
+              'This deployment is PCRE8 without JIT. It does not complete PCRE2/OpenSSL/TLS evaluation, general threaded PCRE API support, or same-type object identity enforcement. ' +
+              ('The worker/reload CI gate passed; controlled-hardware publication runs remain outstanding.' if gate['worker_reload_tested'] else
+               'The nginx worker/reload CI gate and controlled-hardware publication runs remain separate from local functional completion.'),'']
     a.output.write_text('\n'.join(lines))
 
 

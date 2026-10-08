@@ -1,0 +1,72 @@
+{
+  "label": "hosted_ci_matrix:balanced_8c",
+  "host": {
+    "system": "Linux",
+    "node": "runnervm8df0l",
+    "release": "6.17.0-1022-azure",
+    "version": "#22-Ubuntu SMP Mon Jul 27 17:24:03 UTC 2026",
+    "machine": "x86_64",
+    "processor": "x86_64"
+  },
+  "parameters": {
+    "work": "/tmp/interspec-memcached-deployment",
+    "out": "memcached-results/overhead-matrix/balanced_8c",
+    "seconds": 1.0,
+    "warmup": 0.3,
+    "repetitions": 3,
+    "clients": 8,
+    "pipeline": 10,
+    "value_bytes": 256,
+    "keys": 10000,
+    "get_percent": 50,
+    "variants": "native,rlbox-only,interspec",
+    "workloads": "cache_only",
+    "server_cpus": null,
+    "client_cpus": null,
+    "label": "hosted_ci_matrix:balanced_8c",
+    "correctness_summary": "memcached-results/correctness/summary.json"
+  },
+  "build": {
+    "project_commit": "cdef5b825e7c2db213127fcb9cb228270cf2667d",
+    "project_dirty": false,
+    "memcached_revision": "2d51e364799bc9698bd4b11728ea978cea12da6e",
+    "rlbox_wasm2c_revision": "c4f18c48cea47421617f72ba5edc95c68aa85671",
+    "configure": [
+      "--disable-extstore",
+      "--disable-proxy",
+      "--disable-docs"
+    ],
+    "host_cflags": "-O2 -g",
+    "wasm_cflags": "-O3",
+    "bridge_source_sha256": "4e079f22679267077231a60d7d172d32fe95dad5d775f290eb9574545bc4d841",
+    "untrusted_source_sha256": "2d884138d6b25565b1226c7d3838c6372740ca9a7cb5ccc11307fee5bbb7fa1e",
+    "generated_policy_sha256": "52f7b0d3c4b668557ff7f80b155daa8997c6d2e1a997846473c70642e68c0fec",
+    "binary_sha256": {
+      "memcached-diagnostics": "90f18a6622299b15b69230a1e552066219dde8a7b4f32ed39d56e3e2005357c0",
+      "memcached-interspec": "b5172c7a35507fb1bedf90410d17dbe11bee0a39f5b9f719b3aa28947592d09d",
+      "memcached-interspec-debug": "5dcde4fd2d0947f56137c43952ee04ccce8b2f0db5d6a17bd368d381bc29c08b",
+      "memcached-native": "f3781c29fce882b0ebbe2dfcc9607c2f8746fa3e9c89b92144b184e76f02025e",
+      "memcached-native-debug": "8ce3d6569d782a2403af5bb8d4ee9ddc5c0e499a6023cfe1262995f42c6f6b20",
+      "memcached-rlbox-only": "3a65e5d20b49d2f7c03cf3927ee2b119ca9f0ef1f82ac4a63f2f52d5f523342f",
+      "memcached-tracked-no-check": "b957f22172c0968fa2626c684c2b02ff16d6116980d33efbadf00a90374d8b90"
+    }
+  },
+  "client_sha256": "1556de303cb99790e4bcc84786b1678b95e9d1b957c4016a3fb217a80bdbe6e2",
+  "collector_sha256": "c6f4b0a8a9a4cd2213563e6a507229b71b32664178412c3489f742fc7097e793",
+  "cpuinfo": "processor\t: 0\nvendor_id\t: AuthenticAMD\ncpu family\t: 25\nmodel\t\t: 1\nmodel name\t: AMD EPYC 7763 64-Core Processor\nstepping\t: 1\nmicrocode\t: 0xffffffff\ncpu MHz\t\t: 3242.279\ncache size\t: 512 KB\nphysical id\t: 0\nsiblings\t: 4\ncore id\t\t: 0\ncpu cores\t: 2\napicid\t\t: 0\ninitial apicid\t: 0\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 13\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pdpe1gb rdtscp lm constant_tsc rep_good nopl tsc_reliable nonstop_tsc cpuid extd_apicid aperfmperf tsc_known_freq pni pclmulqdq ssse3 fma cx16 pcid sse4_1 sse4_2 movbe popcnt aes xsave avx f16c rdrand hypervisor lahf_lm cmp_legacy svm cr8_legacy abm sse4a misalignsse 3dnowprefetch osvw topoext vmmcall fsgsbase bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb sha_ni xsaveopt xsavec xgetbv1 xsaves user_shstk clzero xsaveerptr rdpru arat npt nrip_save tsc_scale vmcb_clean flushbyasid decodeassists pausefilter pfthreshold v_vmsave_vmload umip vaes vpclmulqdq rdpid fsrm\nbugs\t\t: sysret_ss_attrs null_seg spectre_v1 spectre_v2 spec_store_bypass srso spectre_v2_user tsa\nbogomips\t: 4890.86\nTLB size\t: 2560 4K pages\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 48 bits physical, 48 bits virtual\npower management:",
+  "affinity": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "measurement": "loopback closed-loop ASCII clients; per-response latency includes pipelining; traces and fault hooks compiled out",
+  "buffer_configuration_kib": {
+    "worker": 1024,
+    "watcher": 4096
+  },
+  "governor": "unavailable",
+  "intel_no_turbo": "unavailable",
+  "cpu_quota": "unavailable",
+  "memory_limit": "unavailable"
+}

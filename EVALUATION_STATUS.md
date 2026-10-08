@@ -1,75 +1,62 @@
 # Selected application evaluation status
 
-Audit date: 2026-10-08 UTC. Selected boundaries are rsync/popt,
-memcached/bipbuffer, YAML/libyaml, and nginx/PCRE. This selection does not include
-all ten boundaries in the attached InterSpec manuscript.
+Verified on 2026-10-08. The selected Extended-SP3 boundaries are rsync/popt,
+memcached/bipbuffer, YAML/libyaml, and nginx/PCRE8.
 
-## Existing application evidence at 255c877
+The nginx implementation is published in [draft PR #20](https://github.com/ARISTODE/interspec-typed-allocator/pull/20),
+stacked on PR #19. The measured implementation commit is `e9ab463`.
 
-| Boundary | Application isolation and implementation | Existing evidence | Remaining publication work |
+## Implementation and validation
+
+| Boundary | Application integration | Verified evidence | Remaining evaluation |
 | --- | --- | --- | --- |
-| rsync/popt | Real transfers with popt in RLBox wasm2c | Application correctness; 12 rejected pointer attacks; four configurations; 15 paired hosted repetitions for 194 MiB sync | Controlled hardware rerun; review/merge |
-| memcached/bipbuffer | Worker logs, watchers, and asynchronous LRU queues isolated | 50/50 deployment cases; six-workload hosted matrix; primitive costs and check frequencies | Native-to-RLBox boundary-cost decomposition; controlled longer runs; nonzero protected-LRU coverage for the write-heavy frequency profile; review/merge |
-| YAML/libyaml | Full parser workload in RLBox wasm2c | Matching outputs; four pointer rejection controls; four configurations; 1 MiB × 1,000 parses | Controlled hardware rerun; review/merge |
-| nginx/PCRE8 | Real nginx server with PCRE in RLBox wasm2c, locally validated | Fresh clean build of five variants; 22/22 application cases; 40 timed runs, four configurations, 4/8 wrk threads, five paired repetitions | Worker/reload and remote CI; controlled hardware; publication of local branch |
+| rsync/popt | Real transfers with popt isolated in RLBox wasm2c | 12 rejected pointer attacks; four configurations; 15 paired repetitions for each of three workloads | Controlled hardware rerun |
+| memcached/bipbuffer | Worker logs, watchers, and asynchronous LRU queues isolated | 50/50 deployment cases; six-scenario reference matrix; primitive costs and diagnostic counts | Longer controlled runs; direct write-heavy check-frequency profile; Native-to-RLBox cost breakdown |
+| YAML/libyaml | Full parser workload in RLBox wasm2c | Matching outputs; four rejected pointer controls; 15 paired repetitions of 1 MiB × 1,000 parses | Controlled hardware rerun |
+| nginx/PCRE8 | Real nginx server with isolated PCRE | Clean CI build of five variants; 24/24 cases including workers/reloads; 40 valid timed runs; CPU/RSS/p99 collected | Controlled hardware rerun |
 
-The existing implementation work remains in the open draft stack #15 → #16 →
-#17 → #18 → #19. It is not all merged into main. The latest YAML branch's CI,
-memcached deployment, P10 boundary tests, and YAML workflow all succeeded.
-The nginx continuation is on `evaluation/nginx-pcre-full`. Its local clean build
-and 22 application cases passed again at `1b8cbc6`; remote CI and worker/reload
-validation are pending. The reload gate now requires new worker
-PIDs, successful responses through a changed regex route after each reload,
-concurrent requests on both new configurations, and successful worker exits.
-Native nginx workers report `initgroups(root, 0)` permission failures locally.
-Automatic approval review rejected the GitHub push because explicit permission
-to publish the repository contents was required. No nginx PR was opened.
+The nginx worker/reload validation gap is closed. Native and InterSpec both
+pass two-worker operation and two graceful reloads. The tests require distinct
+worker generations, changed regex routes, concurrent requests after reload,
+and clean worker exits.
 
-## Timing evidence must be identified by run
+## Reference numbers
 
-Rsync's checked-in reference reports 613.280 / 613.998 / 614.371 / 616.161 ms
-for Native / RLBox / tracking / InterSpec on the 194 MiB workload. Its paired
-incremental InterSpec overhead is +0.37% versus RLBox.
+[SELECTED_EVALUATION_RESULTS.md](SELECTED_EVALUATION_RESULTS.md) is the consolidated
+12-row table. [The CSV](evaluation/results/selected/summary.csv) and
+[JSON](evaluation/results/selected/summary.json) are generated from paired raw
+samples; the source SHA-256 manifest is checked in alongside them.
 
-The checked-in YAML report is a five-repetition run at 5061877 and reports
-+2.48%. A newer passing run at the PR merge revision cdef5b8 completed **15**
-paired repetitions, each with **1,000 parses**, and reports:
+| Main reference | Native | RLBox | InterSpec | Paired InterSpec delta vs RLBox |
+| --- | ---: | ---: | ---: | ---: |
+| rsync, 194 MiB transfer (ms) | 613.280 | 613.998 | 616.161 | +0.37% runtime |
+| YAML, 1 MiB × 1,000 parses (ms) | 4287.155 | 5813.376 | 5810.707 | +0.01% runtime |
+| nginx, four wrk threads (Kreq/s) | 62.724 | 54.895 | 54.881 | -0.58% throughput loss |
+| nginx, eight wrk threads (Kreq/s) | 60.305 | 53.672 | 54.518 | -0.77% throughput loss |
 
-| Native ms | RLBox ms | Tracking ms | InterSpec ms | Paired InterSpec versus RLBox |
-| ---: | ---: | ---: | ---: | ---: |
-| 4287.155 | 5813.376 | 5766.793 | 5810.707 | +0.01% |
+Memcached's six rows are in the consolidated table. They use one-second smoke
+measurements with three paired repetitions, not its planned 30-second,
+15-repetition publication protocol. The timed write-heavy measurements record
+nonzero LRU moves with no drops; the separate 1,000-operation diagnostic profile
+still observes zero direct SP3 checks and cannot support a check-cost correlation.
 
-Source: [YAML workflow 37593628736](https://github.com/ARISTODE/interspec-typed-allocator/actions/runs/37593628736),
-job 112700820709, artifact 11471505440. This audit checked the workflow log;
-the older checked-in sample files remain their original run's evidence. Do not
-mix their samples or present the newer timing as a controlled-machine result.
+Paired percentages need not equal ratios of the displayed medians. Negative
+values and small differences are not established speedups. The earlier local
+nginx reference and older five-repetition YAML reference remain separate datasets.
 
-Memcached's latest checked branch also passed
-[workflow 37593628863](https://github.com/ARISTODE/interspec-typed-allocator/actions/runs/37593628863),
-including the six-scenario matrix, check-frequency profile, and microbenchmark
-steps. `MEMCACHED_EVALUATION_REPORT.md` and `MEMCACHED_PERFORMANCE_PLAN.md`
-explicitly retain the write-heavy coverage gap. A zero in that short profile
-does not establish that the workload never exercises SP3.
+## CI evidence on the published implementation
 
-GitHub status was rechecked on 2026-10-08: draft PRs #15 through #19 remain open
-and mergeable; the latest YAML-head CI, memcached, P10, and YAML jobs succeeded.
-The nginx evidence archive's SHA-256 matches its recorded checksum, and its
-40 raw timing rows match the two five-repetition, four-variant summaries.
+* [Nginx 37835791042](https://github.com/ARISTODE/interspec-typed-allocator/actions/runs/37835791042): build, all 24 application cases, full timing matrix, and artifact upload succeeded.
+* [Core CI 37835790921](https://github.com/ARISTODE/interspec-typed-allocator/actions/runs/37835790921): all jobs passed, including 20/20 core tests and the application corruption experiments.
+* [Memcached 37835790903](https://github.com/ARISTODE/interspec-typed-allocator/actions/runs/37835790903): 50/50 deployment cases and the measurement pipeline passed.
+* [P10 37835790953](https://github.com/ARISTODE/interspec-typed-allocator/actions/runs/37835790953): memcached, nginx, and YAML library boundaries passed.
 
-Application deployment, hosted reference measurements, and controlled
-publication evaluation are separate milestones. The first three selected
-applications have implementation and reference numbers; it is not accurate to
-say that every final evaluation number is complete.
+The selected timing datasets are pinned independently: YAML workflow 37593628736,
+memcached workflow 37593628863, nginx workflow 37835791042, and the checked-in
+rsync paired CSV. Original hosted artifacts and their checksums are preserved.
 
-## New nginx reference
-
-The local full reference uses 100 connections, 30-second windows, and five paired
-repetitions for 4 and 8 wrk threads. Median paired InterSpec throughput loss
-versus RLBox is +5.17% and +3.55%, respectively. Every response in all 40 timed
-runs passed validation. Nginx runs as one event loop in this reference.
-
-The configuration-time name-table check and the adapter's steady-state subject
-and capture-buffer checks are both implemented. The latter execute 18 checks
-per selected request. `NGINX_RESULTS.md` reports the full four-way comparison,
-paired ranges, p99 latency, and missing CPU/RSS counters. This local result does
-not complete the pending worker/reload CI or controlled-hardware gate.
+All selected applications now have implementations and reference numbers.
+Publication evaluation is still incomplete: controlled hardware and the
+specified memcached follow-ups remain necessary. The draft stack #15 through
+#20 also remains unmerged. This selection does not cover all ten manuscript
+boundaries or constitute a fresh evaluation of all original SP1/SP2/SP3 policies.
