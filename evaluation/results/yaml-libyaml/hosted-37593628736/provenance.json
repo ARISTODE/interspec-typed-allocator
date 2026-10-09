@@ -1,0 +1,9 @@
+{
+  "workflow_run_id": 37593628736,
+  "artifact_id": 11471505440,
+  "artifact_sha256": "54f3ee426164017448a887ea8dc382e50f4a99b04296a4f3c4af190632b54a5b",
+  "head_sha": "255c877abce65b39ee0392c56c889cdfb665759b",
+  "source_url": "https://github.com/ARISTODE/interspec-typed-allocator/actions/runs/37593628736",
+  "classification": "hosted reference; not controlled hardware",
+  "execution_commit": "cdef5b825e7c2db213127fcb9cb228270cf2667d"
+}

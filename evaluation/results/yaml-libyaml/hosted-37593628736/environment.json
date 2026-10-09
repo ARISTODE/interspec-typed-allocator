@@ -1,0 +1,17 @@
+{
+  "commit": "cdef5b825e7c2db213127fcb9cb228270cf2667d",
+  "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+  "cpu_count": 4,
+  "iterations": 1000,
+  "repetitions": 15,
+  "warmups": 2,
+  "input_bytes": 1048576,
+  "hosted_ci": "true",
+  "measurement": "parse loop; sandboxed variants include per-iteration T-to-U input copy",
+  "native_baseline": "native libyaml parser",
+  "rlbox_baseline": "RLBox wasm2c with boundary scalar copy",
+  "tracking_configuration": "typed scalar staging allocation, final SP3 check disabled",
+  "security_configuration": "typed scalar staging allocation plus liveness/type/extent check",
+  "rlbox_wasm2c_revision": "c4f18c48cea47421617f72ba5edc95c68aa85671",
+  "libyaml_revision": "90a56d4500aa1a1798514c5cb55c3ad4cb095f94"
+}

@@ -1,0 +1,8 @@
+{
+  "types": ["char", "int"],
+  "helper_sites": [
+    {"name": "compiled_regex", "type": "const pcre", "role": "integration"},
+    {"name": "subject_input", "type": "char", "role": "integration"},
+    {"name": "capture_offsets", "type": "int", "role": "integration"}
+  ]
+}

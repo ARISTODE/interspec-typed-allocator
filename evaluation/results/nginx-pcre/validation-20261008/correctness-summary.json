@@ -1,0 +1,168 @@
+{
+  "passed": true,
+  "cases": [
+    {
+      "name": "normal/native",
+      "passed": true,
+      "detail": {
+        "http_cases": 11,
+        "keepalive_requests": 20,
+        "concurrent_requests": 240,
+        "reloads": 0,
+        "startup_ms": 23.537219999525405,
+        "worker_generations": [],
+        "concurrent_requests_after_reload": 0
+      }
+    },
+    {
+      "name": "normal/rlbox-only",
+      "passed": true,
+      "detail": {
+        "http_cases": 11,
+        "keepalive_requests": 20,
+        "concurrent_requests": 240,
+        "reloads": 0,
+        "startup_ms": 22.752005999791436,
+        "worker_generations": [],
+        "concurrent_requests_after_reload": 0
+      }
+    },
+    {
+      "name": "normal/tracked-no-check",
+      "passed": true,
+      "detail": {
+        "http_cases": 11,
+        "keepalive_requests": 20,
+        "concurrent_requests": 240,
+        "reloads": 0,
+        "startup_ms": 22.67824099999416,
+        "worker_generations": [],
+        "concurrent_requests_after_reload": 0
+      }
+    },
+    {
+      "name": "normal/interspec",
+      "passed": true,
+      "detail": {
+        "http_cases": 11,
+        "keepalive_requests": 20,
+        "concurrent_requests": 240,
+        "reloads": 0,
+        "startup_ms": 22.780332999900565,
+        "worker_generations": [],
+        "concurrent_requests_after_reload": 0
+      }
+    },
+    {
+      "name": "normal/diagnostics",
+      "passed": true,
+      "detail": {
+        "http_cases": 11,
+        "keepalive_requests": 20,
+        "concurrent_requests": 240,
+        "reloads": 0,
+        "startup_ms": 22.734990000571997,
+        "worker_generations": [],
+        "concurrent_requests_after_reload": 0
+      }
+    },
+    {
+      "name": "invalid-config/native",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "invalid-config/rlbox-only",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "invalid-config/tracked-no-check",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "invalid-config/interspec",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "invalid-config/diagnostics",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "fault/1/1",
+      "passed": true,
+      "detail": "wrong_type"
+    },
+    {
+      "name": "fault/1/2",
+      "passed": true,
+      "detail": "untracked"
+    },
+    {
+      "name": "fault/1/3",
+      "passed": true,
+      "detail": "untracked"
+    },
+    {
+      "name": "fault/1/4",
+      "passed": true,
+      "detail": "out_of_bounds"
+    },
+    {
+      "name": "fault/1/5",
+      "passed": true,
+      "detail": "same-type substitution accepted with preserved contents"
+    },
+    {
+      "name": "fault/2/1",
+      "passed": true,
+      "detail": "wrong_type"
+    },
+    {
+      "name": "fault/2/2",
+      "passed": true,
+      "detail": "untracked"
+    },
+    {
+      "name": "fault/2/3",
+      "passed": true,
+      "detail": "untracked"
+    },
+    {
+      "name": "fault/2/4",
+      "passed": true,
+      "detail": "out_of_bounds"
+    },
+    {
+      "name": "fault/2/5",
+      "passed": true,
+      "detail": "same-type substitution accepted with preserved contents"
+    },
+    {
+      "name": "fault/2/6",
+      "passed": true,
+      "detail": "malformed_offsets"
+    },
+    {
+      "name": "check-frequency",
+      "passed": true,
+      "detail": {
+        "requests": 100,
+        "sp3_checks": 1800,
+        "checks_per_request": 18.0,
+        "typed_allocations_during_requests": 0
+      }
+    }
+  ],
+  "binary_sha256": {
+    "native": "e5adbb23b0470391348c598262161e0c7b5274e283eaaee90ce9dbe373102684",
+    "rlbox-only": "19159406d6cee024ac328ca533e391bd7cfd1580901b9753f31f4a8d9a013d93",
+    "tracked-no-check": "9a35ca8f2df9eb66447f01740eefc8fec9e3c58b6bb5abb396f017bfd774f721",
+    "interspec": "80c8653ca07e04e67319eefba71f4448733df080b5c239cbd320f8a20759c2d2",
+    "diagnostics": "bd0721ea325024a23cadab135cbfb4a7a463a83790cd6a8530b8cb96aa69e541"
+  },
+  "worker_reload_tested": false
+}

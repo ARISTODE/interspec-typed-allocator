@@ -1,0 +1,80 @@
+{
+  "work": "/tmp/interspec-nginx-deployment",
+  "out": "/tmp/interspec-nginx-results/reference",
+  "correctness": "/tmp/interspec-nginx-results/correctness/summary.json",
+  "wrk": "/tmp/interspec-nginx-wrk/wrk",
+  "seconds": 30,
+  "repetitions": 5,
+  "warmup_seconds": 3,
+  "threads": [
+    4,
+    8
+  ],
+  "connections": 100,
+  "workers": 0,
+  "server_cpus": null,
+  "client_cpus": null,
+  "platform": "Linux-6.18.44-x86_64-with-glibc2.39",
+  "cpu_count": 9,
+  "affinity": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "binary_sha256": {
+    "native": "e5adbb23b0470391348c598262161e0c7b5274e283eaaee90ce9dbe373102684",
+    "rlbox-only": "c4c0dfa4dbfb67817cfcc513b4c5e7b90865ae3a68b87ec98a8bfdfa4342a9de",
+    "tracked-no-check": "1e55a71820c0d3f2b9e5a81c5de08df8c40a0753451148987e009d8030b4b639",
+    "interspec": "92a5e60567e03e1a2d3bdd6eaf483c7b2d2a7ba60c8cfaedca8e4b7e7ebe4282"
+  },
+  "hosted_ci": "false",
+  "measurement": "closed-loop wrk with every response body checked; 16 preceding regex locations",
+  "publication_ready": false,
+  "build_manifest": {
+    "project_commit": "255c877abce65b39ee0392c56c889cdfb665759b",
+    "project_dirty": true,
+    "nginx_revision": "1be0fb0c9f9bc3489c7b40576efd6afe6b2eccd5",
+    "pcre_revision": "e67dabe61b327bd2d888954b0e74a7c9cfd0a195",
+    "source_sha256": {
+      "integration/nginx_server/boundary.json": "6303d7c40f5caf5d7696c207ba6b00c7e20fb4b2c2f59a3a89f67d903ab0d426",
+      "integration/nginx_server/bridge.cpp": "3c67c3fc329c361df9f09dc9e7b0782d81a54e7e8a957e2485bcbd8aa864230f",
+      "integration/nginx_server/pcre_u.c": "a61bc5ff63529aabf8806801a0f330b1574b02e4af6478581929a6d4d25d1ae6",
+      "integration/nginx_server/policy.json": "a50e6add37445e3ceafbe7c6fdebaacaefd9c8c59199fec7206691d87e709661",
+      "scripts/build_nginx_deployment.sh": "f553979b6383190205a4411346db38a0131a0bc36cf8aff874eb6006a704156b",
+      "tools/prepare_nginx_deployment.py": "c48b4160a0374e7db01f5acda27bbdf752372fe0855aa440342b098f6bbed678",
+      "tools/generate_wasm_boundary_policy.py": "e6fe54b18a81c8fb05295cfe2dad69354093cae6076f69c31dc37280fa7179d5",
+      "tools/nginx_common.py": "3999543e028207fd66fec520781b9df97e3355f051b6f625fc7f6d782ca571c9",
+      "tools/test_nginx_deployment.py": "afa17d7d05c25bc55e62f8af353f6a4567c4a87c29789157aae3080cf4b2b9ba",
+      "tools/benchmark_nginx.py": "5b8c22c37d9bd3d562ad20afd50225311cb1f6e5211112feef2d6b2270ac70dc"
+    },
+    "binary_sha256": {
+      "nginx-diagnostics": "c12f7dfab9e100a3800a802dcd22c41374d64b7f733379218f1b8dcea770e31b",
+      "nginx-interspec": "92a5e60567e03e1a2d3bdd6eaf483c7b2d2a7ba60c8cfaedca8e4b7e7ebe4282",
+      "nginx-native": "e5adbb23b0470391348c598262161e0c7b5274e283eaaee90ce9dbe373102684",
+      "nginx-rlbox-only": "c4c0dfa4dbfb67817cfcc513b4c5e7b90865ae3a68b87ec98a8bfdfa4342a9de",
+      "nginx-tracked-no-check": "1e55a71820c0d3f2b9e5a81c5de08df8c40a0753451148987e009d8030b4b639"
+    },
+    "scope": "PCRE8 interpreter; HTTP; nginx event loop; no TLS, PCRE2, JIT, or threaded third-party regex calls",
+    "limits": {
+      "subject_bytes": 65536,
+      "offset_ints": 4096,
+      "typed_arena_bytes_per_regex": 1048576
+    },
+    "generated_sha256": {
+      "interspec_pcre_t_policy.h": "b8e497a419fc2679272c52157e3d290244a1e17dc31ae9666a551395f1fd7ace",
+      "interspec_pcre_u_policy.h": "4de5b69dd0ac88362eeb3da32bd6d2d18c6c871b0c44d3750907e6352aa0b04b",
+      "interspec_t_policy.h": "b8e497a419fc2679272c52157e3d290244a1e17dc31ae9666a551395f1fd7ace",
+      "interspec_u_policy.h": "4de5b69dd0ac88362eeb3da32bd6d2d18c6c871b0c44d3750907e6352aa0b04b",
+      "interspec_wasm_imports.c": "e9c5da939e2797388352c19dc81444cf2fa0ceedfcf720131805bcff2b4fa40c",
+      "pcre_compile.c": "e42b87598adf10964e7993e21dd5297147ea92d131849f0b1e3991eb3543617f"
+    }
+  },
+  "/sys/fs/cgroup/cpu.max": "800000 100000",
+  "/sys/fs/cgroup/memory.max": "8589934592"
+}

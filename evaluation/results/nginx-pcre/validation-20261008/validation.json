@@ -1,0 +1,13 @@
+{
+  "build_commit": "1b8cbc6d95a7fd37ca1a089ead1fa389856743ab",
+  "clean_build": true,
+  "build_command": "PATH=/tmp/interspec-audit-python/cmake/data/bin:$PATH CMAKE_BUILD_PARALLEL_LEVEL=2 INTERSPEC_BUILD_JOBS=2 bash scripts/build_nginx_deployment.sh",
+  "application_cases_passed": 22,
+  "application_cases_total": 22,
+  "worker_reload_tested": false,
+  "worker_environment_blocker": "Native nginx workers report initgroups(root, 0) failed (1: Operation not permitted); see native-worker-environment.log",
+  "timings_recollected": false,
+  "reference_samples_audited": 40,
+  "reference_paired_summaries_recomputed": true,
+  "reference_archive_checksum_verified": true
+}

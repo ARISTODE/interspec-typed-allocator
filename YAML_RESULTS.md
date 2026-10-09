@@ -2,45 +2,47 @@
 
 The full libyaml parser processes a deterministic 1 MiB YAML document. Hosted CI values are reference measurements; publication numbers require the same driver on controlled hardware.
 
-Reference benchmark commit: `5061877dd2a1ee349faf5d3b249471a6c955cd00`.
+Reference commit: cdef5b825e7c2db213127fcb9cb228270cf2667d
 
 ## Correctness and security
 
-Native, RLBox-only, tracking-only, and Extended-SP3 produce identical event counts, scalar counts, scalar byte counts, and scalar-content hashes. The benchmark produces **512 scalar boundary values per parse**, so the 1,000-iteration performance workload executes **512,000 SP3 validations** in the full configuration.
+* Native, RLBox-only, tracking-only, and Extended-SP3 outputs match.
+* Wrong-type, ordinary untracked, released, and excessive-extent scalar pointers are rejected before trusted copying.
+* A live same-type substitution is accepted with unchanged contents, matching the current SP3 scope.
+* The benchmark produces 512 scalar boundary values per parse.
 
-Wrong-type, ordinary untracked, released, and excessive-extent scalar pointers are rejected before trusted copying. A live same-type substitution is accepted with unchanged contents, which matches the current SP3 scope and demonstrates that intended-object identity is not enforced.
-
-## Full 1,000-parse hosted reference
-
-Configuration: exactly 1 MiB input, 1,000 parses per timed run, 5 paired repetitions, 1 warmup. Sandboxed variants include the per-iteration T-to-U copy of the 1 MiB input. One-time sandbox creation occurs before the timed loop.
+## Performance
 
 | Native median (ms) | RLBox median (ms) | Tracking median (ms) | InterSpec median (ms) | RLBox vs Native | Tracking vs RLBox | Validation vs Tracking | InterSpec vs RLBox | InterSpec vs Native |
 | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| 6846.004 | 11611.379 | 11890.698 | 11899.511 | +69.51% | +2.41% | +0.07% | +2.48% | +73.82% |
+| 4287.155 | 5813.376 | 5766.793 | 5810.707 | 34.77% | -0.37% | -0.09% | 0.01% | 34.29% |
 
-Overheads are medians of paired per-repetition ratios, rather than ratios of the displayed medians.
+Overheads are medians of paired per-repetition ratios. Negative values are not interpreted as speedups.
 
-The key InterSpec result is the incremental cost over an already isolated RLBox deployment: **+2.48% total**. Of that, the final liveness/type/extent validation itself contributes only **+0.07%** over tracking-only in this workload; most of the incremental cost is associated with the typed boundary-staging configuration. RLBox isolation and copy-based marshalling account for the much larger Native-to-RLBox delta.
+## Environment
 
-Across all five repetitions, InterSpec-vs-RLBox ranged from **+2.37% to +2.60%**, and InterSpec-vs-Native ranged from **+73.48% to +74.12%**, so the full hosted workload is substantially more stable than the short smoke run.
+{
+  "commit": "cdef5b825e7c2db213127fcb9cb228270cf2667d",
+  "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+  "cpu_count": 4,
+  "iterations": 1000,
+  "repetitions": 15,
+  "warmups": 2,
+  "input_bytes": 1048576,
+  "hosted_ci": "true",
+  "measurement": "parse loop; sandboxed variants include per-iteration T-to-U input copy",
+  "native_baseline": "native libyaml parser",
+  "rlbox_baseline": "RLBox wasm2c with boundary scalar copy",
+  "tracking_configuration": "typed scalar staging allocation, final SP3 check disabled",
+  "security_configuration": "typed scalar staging allocation plus liveness/type/extent check",
+  "rlbox_wasm2c_revision": "c4f18c48cea47421617f72ba5edc95c68aa85671",
+  "libyaml_revision": "90a56d4500aa1a1798514c5cb55c3ad4cb095f94"
+}
 
-## Raw paired samples
+## Reference selection and variation
 
-| Repetition | Native (ms) | RLBox (ms) | Tracking (ms) | InterSpec (ms) |
-| ---: | ---: | ---: | ---: | ---: |
-| 0 | 6846.004 | 11624.484 | 11890.698 | 11899.511 |
-| 1 | 6857.923 | 11610.946 | 11891.023 | 11897.276 |
-| 2 | 6844.467 | 11627.120 | 11886.027 | 11917.827 |
-| 3 | 6853.658 | 11611.379 | 11890.807 | 11913.306 |
-| 4 | 6844.364 | 11601.812 | 11887.791 | 11889.405 |
+This report selects hosted workflow [37593628736](https://github.com/ARISTODE/interspec-typed-allocator/actions/runs/37593628736), artifact 11471505440, with 15 paired repetitions and two warmups. The artifact ZIP checksum was verified against GitHub before importing the samples into `evaluation/results/yaml-libyaml/hosted-37593628736/`.
 
-## Publication protocol
+Paired InterSpec runtime change versus RLBox ranges from -6.44% to +4.66%, with a median of +0.01%. This variation does not establish a speedup or a precisely zero overhead.
 
-The final controlled-host run uses the same benchmark and 1,000-parse workload with 15 paired repetitions:
-
-    INTERSPEC_YAML_ITERATIONS=1000
-    INTERSPEC_YAML_REPETITIONS=15
-    INTERSPEC_YAML_WARMUPS=2
-    bash scripts/run_yaml_libyaml_evaluation.sh yaml-libyaml-results
-
-Hosted CI establishes correctness, security behavior, workload stability, and the complete measurement pipeline. Controlled-hardware numbers remain the publication source of truth.
+The older five-repetition reference at 5061877 reported +2.48%. Its original CSV files remain under `evaluation/results/yaml-libyaml/`; they are not pooled with the newer run. See [SELECTED_EVALUATION_RESULTS.md](SELECTED_EVALUATION_RESULTS.md) for the current cross-application table.

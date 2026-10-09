@@ -1,0 +1,65 @@
+{
+  "audit_date": "2026-10-09",
+  "selected_applications": 4,
+  "application_workloads": 12,
+  "application_samples": 334,
+  "runtime_configurations": 39,
+  "runtime_samples": 195,
+  "runtime_repetitions": 5,
+  "runtime_iterations": 200000,
+  "p8_boundary_summaries": 4,
+  "p8_boundary_backend": "NaCl",
+  "p8_boundary_raw_locally_verified": false,
+  "latest_single_pass_runtime_samples": 39,
+  "check_frequency_scenarios": 6,
+  "check_frequency_uncovered": [
+    "write_heavy"
+  ],
+  "all_application_reference_results_present": true,
+  "all_planned_results_ready": false,
+  "publication_ready": false,
+  "artifacts": [
+    {
+      "path": "evaluation/results/memcached-overhead/hosted-37593628863/artifact.zip",
+      "sha256": "b41651d1b2c26da6ef9eea02e878dcb3edd2031e9558f1606bc81c1bb383b703",
+      "workflow_run_id": 37593628863
+    },
+    {
+      "path": "evaluation/results/yaml-libyaml/hosted-37593628736/artifact.zip",
+      "sha256": "54f3ee426164017448a887ea8dc382e50f4a99b04296a4f3c4af190632b54a5b",
+      "workflow_run_id": 37593628736
+    },
+    {
+      "path": "evaluation/results/nginx-pcre/hosted-37835791042/artifact.zip",
+      "sha256": "5d348a20f0912637036fb414ba2eaf2e28dd9216febb265b16b8edb21a94ed45",
+      "workflow_run_id": 37835791042
+    }
+  ],
+  "gaps": [
+    {
+      "id": "memcached_tracking_matrix",
+      "status": "missing",
+      "detail": "Tracking-only samples are absent from the selected six-scenario matrix; the separate two-workload pilot does not fill these cells."
+    },
+    {
+      "id": "write_heavy_frequency",
+      "status": "coverage_gap",
+      "detail": "The 1,000-operation write-heavy diagnostic profile records zero successful checks; no direct check-cost estimate is valid."
+    },
+    {
+      "id": "wasm2c_boundary_decomposition",
+      "status": "not_collected",
+      "detail": "Empty native versus RLBox call, wrapper mutex, pointer confinement, both copy directions at 64/256/1024/4096 bytes, and complete request+push/offer/peek_all/poll operation costs are outstanding."
+    },
+    {
+      "id": "boundary_frequency",
+      "status": "not_collected",
+      "detail": "RLBox invocations and T-to-U/U-to-T bytes per client operation are not recorded; existing counts cover SP3 checks only."
+    },
+    {
+      "id": "controlled_hardware",
+      "status": "not_run",
+      "detail": "All application and microbenchmark publication measurements must use the documented controlled host protocol; memcached needs 30-second intervals, 5-second warmups, 15 pairs and disjoint CPU affinity."
+    }
+  ]
+}
