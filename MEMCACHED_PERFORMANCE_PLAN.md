@@ -113,6 +113,14 @@ python3 tools/render_memcached_overhead_study.py \
 
 ## Remaining data collection TODO
 
+Current completeness audit: [EVALUATION_READINESS.md](EVALUATION_READINESS.md).
+The retained six-scenario smoke matrix has Native, RLBox-only, and InterSpec
+samples. Its tracking-only cells still need collection using
+`--include-tracking`; tracking numbers from the separate two-workload pilot
+must not be substituted. The 39-configuration runtime microbenchmark reference
+has five raw repetitions per configuration and has been independently
+recomputed from its archived samples.
+
 ### Priority 1: explain Native → RLBox overhead
 
 Add dedicated boundary microbenchmarks on the same controlled host used for final application measurements:
@@ -158,6 +166,9 @@ Report paired overheads and run-level variation; add confidence intervals if the
 
 Rerun the InterSpec runtime microbenchmarks and new RLBox/copy microbenchmarks on the same machine as the end-to-end experiment. The paper should correlate numbers collected under one hardware/software environment.
 
-### Priority 6: add the second complete application
+### Completed follow-up: additional complete applications
 
-After memcached is finalized, extend rsync/popt to include a matched Native baseline and light/medium/heavy end-to-end workloads. Keep memcached as the detailed running case study and use rsync as generalization evidence.
+Rsync/popt now has matched Native, RLBox-only, tracking-only and Extended-SP3
+results for option parsing, local dry-run and 194 MiB transfers. YAML/libyaml
+and nginx/PCRE also have complete application integrations and reference
+measurements. Their controlled-hardware publication runs remain outstanding.

@@ -82,14 +82,19 @@ def main():
         if not profile:
             lines.append(f"| {row['name']} | n/a | n/a | n/a | n/a | n/a |")
             continue
-        estimate = profile["checks_per_operation"] * check_ns
+        # A short profile that never reached a protected path cannot establish
+        # its cost. Keep the observed zero count but exclude it from correlation.
+        estimate = (f"{profile['checks_per_operation'] * check_ns:.2f}"
+                    if profile["runtime_checks"] > 0 else "unavailable (path not observed)")
         lines.append(
             f"| {row['name']} | {profile['operations']} | {profile['runtime_checks']} | "
             f"{profile['checks_per_operation']:.4f} | {profile['checks_per_1000_operations']:.1f} | "
-            f"{estimate:.2f} |"
+            f"{estimate} |"
         )
 
     lines += [
+        "",
+        "A zero observed check count is retained as a coverage gap and is excluded from the cost correlation. It does not establish zero enforcement cost for that workload.",
         "",
         "Interpretation: the microbenchmark establishes the cost of one metadata validation, while the fixed-operation profiler establishes how frequently real memcached paths invoke it. The end-to-end table then measures the actual aggregate effect. The estimate should explain direction and scale, not exactly equal the throughput delta, because checks execute concurrently and interact with sandbox transitions, copies, locks, cache effects, batching, and background logger/LRU work.",
         "",

@@ -1,7 +1,14 @@
 # Selected application evaluation status
 
-Verified on 2026-10-08. The selected Extended-SP3 boundaries are rsync/popt,
+Verified on 2026-10-09. The selected Extended-SP3 boundaries are rsync/popt,
 memcached/bipbuffer, YAML/libyaml, and nginx/PCRE8.
+
+[EVALUATION_READINESS.md](EVALUATION_READINESS.md) now audits the application
+results and microbenchmarks together. All four application references are
+present, but all planned results are **not** ready. The audit revalidated 334
+application samples, 195 repeated runtime samples across 39 configurations,
+and the four P8 boundary summaries. The audited published head `9d99966` passed
+the core, memcached, P10 and nginx PR workflows.
 
 The nginx implementation is published in [draft PR #20](https://github.com/ARISTODE/interspec-typed-allocator/pull/20),
 stacked on PR #19. The measured implementation commit is `e9ab463`.
@@ -11,7 +18,7 @@ stacked on PR #19. The measured implementation commit is `e9ab463`.
 | Boundary | Application integration | Verified evidence | Remaining evaluation |
 | --- | --- | --- | --- |
 | rsync/popt | Real transfers with popt isolated in RLBox wasm2c | 12 rejected pointer attacks; four configurations; 15 paired repetitions for each of three workloads | Controlled hardware rerun |
-| memcached/bipbuffer | Worker logs, watchers, and asynchronous LRU queues isolated | 50/50 deployment cases; six-scenario reference matrix; primitive costs and diagnostic counts | Longer controlled runs; direct write-heavy check-frequency profile; Native-to-RLBox cost breakdown |
+| memcached/bipbuffer | Worker logs, watchers, and asynchronous LRU queues isolated | 50/50 deployment cases; six-scenario reference matrix; primitive costs and diagnostic counts | Tracking-only matrix cells; longer controlled runs; direct write-heavy check-frequency profile; Native-to-RLBox cost and boundary-frequency breakdown |
 | YAML/libyaml | Full parser workload in RLBox wasm2c | Matching outputs; four rejected pointer controls; 15 paired repetitions of 1 MiB × 1,000 parses | Controlled hardware rerun |
 | nginx/PCRE8 | Real nginx server with isolated PCRE | Clean CI build of five variants; 24/24 cases including workers/reloads; 40 valid timed runs; CPU/RSS/p99 collected | Controlled hardware rerun |
 
@@ -45,6 +52,10 @@ values and small differences are not established speedups. The earlier local
 nginx reference and older five-repetition YAML reference remain separate datasets.
 
 ## CI evidence on the published implementation
+
+The [2026-10-09 CI audit](evaluation/results/selected/ci-audit-20261009.json)
+records passing PR workflows at `9d99966`. The runs below identify the
+implementation validation associated with the selected nginx timing artifact.
 
 * [Nginx 37835791042](https://github.com/ARISTODE/interspec-typed-allocator/actions/runs/37835791042): build, all 24 application cases, full timing matrix, and artifact upload succeeded.
 * [Core CI 37835790921](https://github.com/ARISTODE/interspec-typed-allocator/actions/runs/37835790921): all jobs passed, including 20/20 core tests and the application corruption experiments.

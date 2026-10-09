@@ -1,0 +1,27 @@
+{
+  "audit_date": "2026-10-09",
+  "run_id": 37840970704,
+  "source_url": "https://github.com/ARISTODE/interspec-typed-allocator/actions/runs/37840970704",
+  "head_sha": "9d99966ce55477f67475e7dc93982f469d3cf2e1",
+  "execution_commit": "66edacf",
+  "jobs": {
+    "boundary": 113529933478,
+    "runtime": 113529933270
+  },
+  "artifacts": [
+    {
+      "id": 11578180429,
+      "name": "p8-evaluation-results",
+      "digest": "sha256:8cfb7ece0dbface07b1d8da51200ac39299c7125403e407d41dabed06b6e7fc2",
+      "expired": false
+    },
+    {
+      "id": 11577986711,
+      "name": "p8-rlbox-results",
+      "digest": "sha256:82bf2539e47d13d5f8e611a6693eee434a707bf946fc225e559e190d1e3da967",
+      "expired": false
+    }
+  ],
+  "retrieval": "Timestamped CSV output retrieved from decoded job logs. Original artifact download URLs returned HTTP 403 in this workspace. Boundary paired raw samples are in the upstream p8-rlbox-results artifact and have not been locally revalidated.",
+  "classification": "hosted reference; NaCl boundary validation and trusted runtime only; not wasm2c transition/copy decomposition"
+}

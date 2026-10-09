@@ -1,0 +1,20 @@
+{
+  "host": {
+    "system": "Linux",
+    "node": "runnervm8df0l",
+    "release": "6.17.0-1022-azure",
+    "version": "#22-Ubuntu SMP Mon Jul 27 17:24:03 UTC 2026",
+    "machine": "x86_64",
+    "processor": "x86_64"
+  },
+  "repetitions": 5,
+  "iterations": 200000,
+  "cpus": null,
+  "affinity": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "compiler": "g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0"
+}

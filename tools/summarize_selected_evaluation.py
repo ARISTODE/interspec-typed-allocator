@@ -156,6 +156,7 @@ def main():
 
     lines = ['# Selected application evaluation results', '',
              'All four selected Extended-SP3 applications have reference measurements. These are hosted or shared-environment results. Final controlled-hardware publication measurements remain outstanding.', '',
+             '[EVALUATION_READINESS.md](EVALUATION_READINESS.md) audits these application results together with runtime and boundary microbenchmarks, and lists every outstanding result class.', '',
              '## Verified reference numbers', '',
              'Values are medians of individual runs. Deltas and ranges are computed from paired runs, so they need not equal ratios of the displayed medians.', '',
              '| Application | Workload | Unit | Native | RLBox | Tracking | InterSpec | Paired delta vs RLBox | Paired range | Repetitions |',
