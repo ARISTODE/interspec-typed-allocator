@@ -47,6 +47,18 @@ def main():
             f"{'yes' if row['valid_lossless'] else 'NO'} |"
         )
 
+    if "tracked-no-check" in matrix["variants"]:
+        lines += ["", "## Allocation tracking decomposition", "",
+                  "All variants share the same experiment and repetition pairing. Positive percentages mean lower throughput. These costs cannot be added.", "",
+                  "| Scenario | Tracking Kops/s | Tracking loss vs RLBox | InterSpec loss vs tracking | Tracking p99 µs | Tracking CPU µs/op | Tracking RSS MiB |",
+                  "| --- | ---: | ---: | ---: | ---: | ---: | ---: |"]
+        for row in matrix["scenarios"]:
+            lines.append(f"| {row['name']} | {row['tracking_ops_per_s']/1000:.1f} | "
+                         f"{row['tracking_loss_vs_rlbox_pct']:+.2f}% | "
+                         f"{row['interspec_loss_vs_tracking_pct']:+.2f}% | "
+                         f"{row['tracking_p99_us']:.1f} | {row['tracking_cpu_us_per_op']:.3f} | "
+                         f"{row['tracking_rss_mib']:.2f} |")
+
     lines += [
         "",
         "## SP3 primitive microbenchmark",
@@ -85,13 +97,23 @@ def main():
         # A short profile that never reached a protected path cannot establish
         # its cost. Keep the observed zero count but exclude it from correlation.
         estimate = (f"{profile['checks_per_operation'] * check_ns:.2f}"
-                    if profile["runtime_checks"] > 0 else "unavailable (path not observed)")
+                    if profile["runtime_checks"] > 0 and profile.get("coverage_valid", True)
+                    else "unavailable (coverage or loss gate failed)")
         lines.append(
             f"| {row['name']} | {profile['operations']} | {profile['runtime_checks']} | "
             f"{profile['checks_per_operation']:.4f} | {profile['checks_per_1000_operations']:.1f} | "
             f"{estimate} |"
         )
 
+    if all("sandbox_calls" in profile for profile in checks.values()):
+        lines += ["", "## Observed boundary activity", "",
+                  "Counts come from a separate diagnostic build and include the declared asynchronous drain. They are not timing results. Profile key counts are shown because they can differ from the timing matrix.", "",
+                  "| Scenario | Profile keys | Client ops | Sandbox calls/op | Bytes into U/op | Bytes from U/op | Protected coverage valid |",
+                  "| --- | ---: | ---: | ---: | ---: | ---: | --- |"]
+        for profile in checks.values():
+            lines.append(f"| {profile['name']} | {profile['profile_keys']} | {profile['operations']} | "
+                         f"{profile['sandbox_calls_per_operation']:.4f} | {profile['bytes_into_u_per_operation']:.4f} | "
+                         f"{profile['bytes_from_u_per_operation']:.4f} | {profile['coverage_valid']} |")
     lines += [
         "",
         "A zero observed check count is retained as a coverage gap and is excluded from the cost correlation. It does not establish zero enforcement cost for that workload.",

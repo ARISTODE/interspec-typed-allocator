@@ -1,4 +1,6 @@
-# Evaluation readiness audit
+# Archived selected reference audit
+
+This verifies the earlier retained dataset. Current completion status and subsequent experiments are in [EVALUATION_COMPLETION.md](EVALUATION_COMPLETION.md). The gaps below describe this historical dataset and are not a fresh assessment of newer experiments.
 
 Verified on 2026-10-09 against published PR #20 at `9d99966`.
 
@@ -71,7 +73,7 @@ These NaCl measurements reuse a valid U object and time trusted copy/use with ve
 
 Source: [CI run 37840970704](https://github.com/ARISTODE/interspec-typed-allocator/actions/runs/37840970704), job 113529933478, artifact 11577986711. The timestamped summary is retained locally. Its paired raw CSV exists in that CI artifact; artifact download returned HTTP 403 in this workspace, so those pairs were not independently recomputed here. Runtime raw data above was independently verified from the already retained memcached archive.
 
-## Remaining results
+## Missing results in this archived dataset
 
 1. Tracking-only samples are absent from the selected six-scenario matrix; the separate two-workload pilot does not fill these cells.
 2. The 1,000-operation write-heavy diagnostic profile records zero successful checks; no direct check-cost estimate is valid.

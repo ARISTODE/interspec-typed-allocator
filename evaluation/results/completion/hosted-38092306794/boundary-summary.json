@@ -1,0 +1,884 @@
+[
+  {
+    "variant": "interspec",
+    "metric": "copy_from_u",
+    "bytes": 64,
+    "n": 7,
+    "median_ns": 3.0893,
+    "min_ns": 3.08625,
+    "max_ns": 3.39685
+  },
+  {
+    "variant": "interspec",
+    "metric": "copy_from_u",
+    "bytes": 256,
+    "n": 7,
+    "median_ns": 3.70695,
+    "min_ns": 3.7049,
+    "max_ns": 4.64575
+  },
+  {
+    "variant": "interspec",
+    "metric": "copy_from_u",
+    "bytes": 1024,
+    "n": 7,
+    "median_ns": 12.60805,
+    "min_ns": 12.35215,
+    "max_ns": 13.38395
+  },
+  {
+    "variant": "interspec",
+    "metric": "copy_from_u",
+    "bytes": 4096,
+    "n": 7,
+    "median_ns": 1407.32305,
+    "min_ns": 1389.0719,
+    "max_ns": 1462.08955
+  },
+  {
+    "variant": "interspec",
+    "metric": "copy_into_u",
+    "bytes": 64,
+    "n": 7,
+    "median_ns": 2.7787,
+    "min_ns": 2.7772,
+    "max_ns": 3.57115
+  },
+  {
+    "variant": "interspec",
+    "metric": "copy_into_u",
+    "bytes": 256,
+    "n": 7,
+    "median_ns": 4.32305,
+    "min_ns": 4.31905,
+    "max_ns": 6.15945
+  },
+  {
+    "variant": "interspec",
+    "metric": "copy_into_u",
+    "bytes": 1024,
+    "n": 7,
+    "median_ns": 11.1613,
+    "min_ns": 11.1164,
+    "max_ns": 18.48345
+  },
+  {
+    "variant": "interspec",
+    "metric": "copy_into_u",
+    "bytes": 4096,
+    "n": 7,
+    "median_ns": 1476.3071,
+    "min_ns": 1398.5296,
+    "max_ns": 1842.92715
+  },
+  {
+    "variant": "interspec",
+    "metric": "empty_call",
+    "bytes": 0,
+    "n": 7,
+    "median_ns": 1.85395,
+    "min_ns": 1.8515,
+    "max_ns": 2.8062
+  },
+  {
+    "variant": "interspec",
+    "metric": "offer",
+    "bytes": 64,
+    "n": 7,
+    "median_ns": 35.36195,
+    "min_ns": 34.65555,
+    "max_ns": 37.19375
+  },
+  {
+    "variant": "interspec",
+    "metric": "offer",
+    "bytes": 256,
+    "n": 7,
+    "median_ns": 36.74405,
+    "min_ns": 36.3606,
+    "max_ns": 38.8512
+  },
+  {
+    "variant": "interspec",
+    "metric": "offer",
+    "bytes": 1024,
+    "n": 7,
+    "median_ns": 57.18265,
+    "min_ns": 55.26635,
+    "max_ns": 59.6505
+  },
+  {
+    "variant": "interspec",
+    "metric": "offer",
+    "bytes": 4096,
+    "n": 7,
+    "median_ns": 174.71735,
+    "min_ns": 173.21675,
+    "max_ns": 177.00405
+  },
+  {
+    "variant": "interspec",
+    "metric": "peek_all",
+    "bytes": 64,
+    "n": 7,
+    "median_ns": 29.44335,
+    "min_ns": 29.0242,
+    "max_ns": 31.4491
+  },
+  {
+    "variant": "interspec",
+    "metric": "peek_all",
+    "bytes": 256,
+    "n": 7,
+    "median_ns": 30.1235,
+    "min_ns": 29.6988,
+    "max_ns": 30.84435
+  },
+  {
+    "variant": "interspec",
+    "metric": "peek_all",
+    "bytes": 1024,
+    "n": 7,
+    "median_ns": 35.5216,
+    "min_ns": 35.1042,
+    "max_ns": 39.0768
+  },
+  {
+    "variant": "interspec",
+    "metric": "peek_all",
+    "bytes": 4096,
+    "n": 7,
+    "median_ns": 1412.5823,
+    "min_ns": 1411.5155,
+    "max_ns": 1444.79135
+  },
+  {
+    "variant": "interspec",
+    "metric": "pointer_confinement",
+    "bytes": 64,
+    "n": 7,
+    "median_ns": 0.72235,
+    "min_ns": 0.7223,
+    "max_ns": 1.53135
+  },
+  {
+    "variant": "interspec",
+    "metric": "poll",
+    "bytes": 64,
+    "n": 7,
+    "median_ns": 28.63615,
+    "min_ns": 28.12135,
+    "max_ns": 30.32985
+  },
+  {
+    "variant": "interspec",
+    "metric": "poll",
+    "bytes": 256,
+    "n": 7,
+    "median_ns": 29.38035,
+    "min_ns": 28.9402,
+    "max_ns": 31.64435
+  },
+  {
+    "variant": "interspec",
+    "metric": "poll",
+    "bytes": 1024,
+    "n": 7,
+    "median_ns": 39.822,
+    "min_ns": 39.20165,
+    "max_ns": 41.78725
+  },
+  {
+    "variant": "interspec",
+    "metric": "poll",
+    "bytes": 4096,
+    "n": 7,
+    "median_ns": 1443.07545,
+    "min_ns": 1420.6965,
+    "max_ns": 1466.6123
+  },
+  {
+    "variant": "interspec",
+    "metric": "request_push",
+    "bytes": 64,
+    "n": 7,
+    "median_ns": 58.19455,
+    "min_ns": 56.89025,
+    "max_ns": 59.70625
+  },
+  {
+    "variant": "interspec",
+    "metric": "request_push",
+    "bytes": 256,
+    "n": 7,
+    "median_ns": 59.6849,
+    "min_ns": 59.05365,
+    "max_ns": 64.05005
+  },
+  {
+    "variant": "interspec",
+    "metric": "request_push",
+    "bytes": 1024,
+    "n": 7,
+    "median_ns": 77.35985,
+    "min_ns": 76.07945,
+    "max_ns": 81.3005
+  },
+  {
+    "variant": "interspec",
+    "metric": "request_push",
+    "bytes": 4096,
+    "n": 7,
+    "median_ns": 1506.45285,
+    "min_ns": 1494.67265,
+    "max_ns": 1548.48745
+  },
+  {
+    "variant": "interspec",
+    "metric": "wrapper_mutex",
+    "bytes": 0,
+    "n": 7,
+    "median_ns": 8.33,
+    "min_ns": 8.1492,
+    "max_ns": 13.41
+  },
+  {
+    "variant": "native",
+    "metric": "empty_call",
+    "bytes": 0,
+    "n": 7,
+    "median_ns": 1.8565,
+    "min_ns": 1.85595,
+    "max_ns": 2.0223
+  },
+  {
+    "variant": "native",
+    "metric": "offer",
+    "bytes": 64,
+    "n": 7,
+    "median_ns": 4.7567,
+    "min_ns": 4.6641,
+    "max_ns": 5.83395
+  },
+  {
+    "variant": "native",
+    "metric": "offer",
+    "bytes": 256,
+    "n": 7,
+    "median_ns": 6.9846,
+    "min_ns": 6.5781,
+    "max_ns": 7.39175
+  },
+  {
+    "variant": "native",
+    "metric": "offer",
+    "bytes": 1024,
+    "n": 7,
+    "median_ns": 18.35285,
+    "min_ns": 17.8104,
+    "max_ns": 21.33685
+  },
+  {
+    "variant": "native",
+    "metric": "offer",
+    "bytes": 4096,
+    "n": 7,
+    "median_ns": 78.30265,
+    "min_ns": 76.48925,
+    "max_ns": 80.6204
+  },
+  {
+    "variant": "native",
+    "metric": "peek_all",
+    "bytes": 64,
+    "n": 7,
+    "median_ns": 1.87035,
+    "min_ns": 1.8696,
+    "max_ns": 3.11625
+  },
+  {
+    "variant": "native",
+    "metric": "peek_all",
+    "bytes": 256,
+    "n": 7,
+    "median_ns": 1.9239,
+    "min_ns": 1.9205,
+    "max_ns": 1.9608
+  },
+  {
+    "variant": "native",
+    "metric": "peek_all",
+    "bytes": 1024,
+    "n": 7,
+    "median_ns": 2.07455,
+    "min_ns": 2.06505,
+    "max_ns": 2.9759
+  },
+  {
+    "variant": "native",
+    "metric": "peek_all",
+    "bytes": 4096,
+    "n": 7,
+    "median_ns": 2.8386,
+    "min_ns": 2.82525,
+    "max_ns": 3.1375
+  },
+  {
+    "variant": "native",
+    "metric": "poll",
+    "bytes": 64,
+    "n": 7,
+    "median_ns": 2.18395,
+    "min_ns": 2.18205,
+    "max_ns": 2.19265
+  },
+  {
+    "variant": "native",
+    "metric": "poll",
+    "bytes": 256,
+    "n": 7,
+    "median_ns": 2.24165,
+    "min_ns": 2.24015,
+    "max_ns": 2.45175
+  },
+  {
+    "variant": "native",
+    "metric": "poll",
+    "bytes": 1024,
+    "n": 7,
+    "median_ns": 2.49085,
+    "min_ns": 2.4798,
+    "max_ns": 4.11675
+  },
+  {
+    "variant": "native",
+    "metric": "poll",
+    "bytes": 4096,
+    "n": 7,
+    "median_ns": 3.15495,
+    "min_ns": 3.15155,
+    "max_ns": 3.61005
+  },
+  {
+    "variant": "native",
+    "metric": "request_push",
+    "bytes": 64,
+    "n": 7,
+    "median_ns": 6.52625,
+    "min_ns": 6.51115,
+    "max_ns": 8.05245
+  },
+  {
+    "variant": "native",
+    "metric": "request_push",
+    "bytes": 256,
+    "n": 7,
+    "median_ns": 7.8165,
+    "min_ns": 7.3262,
+    "max_ns": 8.80755
+  },
+  {
+    "variant": "native",
+    "metric": "request_push",
+    "bytes": 1024,
+    "n": 7,
+    "median_ns": 19.05075,
+    "min_ns": 18.40885,
+    "max_ns": 19.4793
+  },
+  {
+    "variant": "native",
+    "metric": "request_push",
+    "bytes": 4096,
+    "n": 7,
+    "median_ns": 75.77155,
+    "min_ns": 74.64505,
+    "max_ns": 76.34695
+  },
+  {
+    "variant": "rlbox-only",
+    "metric": "copy_from_u",
+    "bytes": 64,
+    "n": 7,
+    "median_ns": 2.77865,
+    "min_ns": 2.7777,
+    "max_ns": 3.27615
+  },
+  {
+    "variant": "rlbox-only",
+    "metric": "copy_from_u",
+    "bytes": 256,
+    "n": 7,
+    "median_ns": 4.75285,
+    "min_ns": 4.32255,
+    "max_ns": 6.1766
+  },
+  {
+    "variant": "rlbox-only",
+    "metric": "copy_from_u",
+    "bytes": 1024,
+    "n": 7,
+    "median_ns": 13.59885,
+    "min_ns": 12.03695,
+    "max_ns": 18.5744
+  },
+  {
+    "variant": "rlbox-only",
+    "metric": "copy_from_u",
+    "bytes": 4096,
+    "n": 7,
+    "median_ns": 81.93425,
+    "min_ns": 68.26575,
+    "max_ns": 101.08475
+  },
+  {
+    "variant": "rlbox-only",
+    "metric": "copy_into_u",
+    "bytes": 64,
+    "n": 7,
+    "median_ns": 3.08675,
+    "min_ns": 3.08625,
+    "max_ns": 4.2996
+  },
+  {
+    "variant": "rlbox-only",
+    "metric": "copy_into_u",
+    "bytes": 256,
+    "n": 7,
+    "median_ns": 4.38615,
+    "min_ns": 3.70345,
+    "max_ns": 6.48465
+  },
+  {
+    "variant": "rlbox-only",
+    "metric": "copy_into_u",
+    "bytes": 1024,
+    "n": 7,
+    "median_ns": 12.02795,
+    "min_ns": 10.4966,
+    "max_ns": 19.55115
+  },
+  {
+    "variant": "rlbox-only",
+    "metric": "copy_into_u",
+    "bytes": 4096,
+    "n": 7,
+    "median_ns": 58.2331,
+    "min_ns": 51.37575,
+    "max_ns": 92.8238
+  },
+  {
+    "variant": "rlbox-only",
+    "metric": "empty_call",
+    "bytes": 0,
+    "n": 7,
+    "median_ns": 2.08385,
+    "min_ns": 1.85295,
+    "max_ns": 2.61945
+  },
+  {
+    "variant": "rlbox-only",
+    "metric": "offer",
+    "bytes": 64,
+    "n": 7,
+    "median_ns": 20.097,
+    "min_ns": 19.81955,
+    "max_ns": 36.01585
+  },
+  {
+    "variant": "rlbox-only",
+    "metric": "offer",
+    "bytes": 256,
+    "n": 7,
+    "median_ns": 21.6171,
+    "min_ns": 21.2486,
+    "max_ns": 41.7257
+  },
+  {
+    "variant": "rlbox-only",
+    "metric": "offer",
+    "bytes": 1024,
+    "n": 7,
+    "median_ns": 48.31605,
+    "min_ns": 39.9015,
+    "max_ns": 59.59345
+  },
+  {
+    "variant": "rlbox-only",
+    "metric": "offer",
+    "bytes": 4096,
+    "n": 7,
+    "median_ns": 157.0585,
+    "min_ns": 156.7366,
+    "max_ns": 161.9771
+  },
+  {
+    "variant": "rlbox-only",
+    "metric": "peek_all",
+    "bytes": 64,
+    "n": 7,
+    "median_ns": 15.90075,
+    "min_ns": 15.1429,
+    "max_ns": 25.95325
+  },
+  {
+    "variant": "rlbox-only",
+    "metric": "peek_all",
+    "bytes": 256,
+    "n": 7,
+    "median_ns": 16.3227,
+    "min_ns": 15.2114,
+    "max_ns": 28.62865
+  },
+  {
+    "variant": "rlbox-only",
+    "metric": "peek_all",
+    "bytes": 1024,
+    "n": 7,
+    "median_ns": 24.1609,
+    "min_ns": 23.3891,
+    "max_ns": 37.0859
+  },
+  {
+    "variant": "rlbox-only",
+    "metric": "peek_all",
+    "bytes": 4096,
+    "n": 7,
+    "median_ns": 81.04755,
+    "min_ns": 80.59125,
+    "max_ns": 81.49455
+  },
+  {
+    "variant": "rlbox-only",
+    "metric": "pointer_confinement",
+    "bytes": 64,
+    "n": 7,
+    "median_ns": 0.99835,
+    "min_ns": 0.92725,
+    "max_ns": 1.72975
+  },
+  {
+    "variant": "rlbox-only",
+    "metric": "poll",
+    "bytes": 64,
+    "n": 7,
+    "median_ns": 14.95695,
+    "min_ns": 13.93335,
+    "max_ns": 25.97135
+  },
+  {
+    "variant": "rlbox-only",
+    "metric": "poll",
+    "bytes": 256,
+    "n": 7,
+    "median_ns": 15.3268,
+    "min_ns": 14.83065,
+    "max_ns": 29.96775
+  },
+  {
+    "variant": "rlbox-only",
+    "metric": "poll",
+    "bytes": 1024,
+    "n": 7,
+    "median_ns": 26.95705,
+    "min_ns": 26.5202,
+    "max_ns": 30.90235
+  },
+  {
+    "variant": "rlbox-only",
+    "metric": "poll",
+    "bytes": 4096,
+    "n": 7,
+    "median_ns": 95.32175,
+    "min_ns": 94.04625,
+    "max_ns": 97.38295
+  },
+  {
+    "variant": "rlbox-only",
+    "metric": "request_push",
+    "bytes": 64,
+    "n": 7,
+    "median_ns": 33.91425,
+    "min_ns": 29.1854,
+    "max_ns": 54.0395
+  },
+  {
+    "variant": "rlbox-only",
+    "metric": "request_push",
+    "bytes": 256,
+    "n": 7,
+    "median_ns": 32.26595,
+    "min_ns": 31.2665,
+    "max_ns": 59.6866
+  },
+  {
+    "variant": "rlbox-only",
+    "metric": "request_push",
+    "bytes": 1024,
+    "n": 7,
+    "median_ns": 51.2301,
+    "min_ns": 50.13915,
+    "max_ns": 83.02945
+  },
+  {
+    "variant": "rlbox-only",
+    "metric": "request_push",
+    "bytes": 4096,
+    "n": 7,
+    "median_ns": 1528.80945,
+    "min_ns": 1493.47245,
+    "max_ns": 1577.1098
+  },
+  {
+    "variant": "rlbox-only",
+    "metric": "wrapper_mutex",
+    "bytes": 0,
+    "n": 7,
+    "median_ns": 8.62755,
+    "min_ns": 7.8246,
+    "max_ns": 11.53015
+  },
+  {
+    "variant": "tracked-no-check",
+    "metric": "copy_from_u",
+    "bytes": 64,
+    "n": 7,
+    "median_ns": 3.49355,
+    "min_ns": 3.08575,
+    "max_ns": 4.2023
+  },
+  {
+    "variant": "tracked-no-check",
+    "metric": "copy_from_u",
+    "bytes": 256,
+    "n": 7,
+    "median_ns": 3.7049,
+    "min_ns": 3.70395,
+    "max_ns": 9.7577
+  },
+  {
+    "variant": "tracked-no-check",
+    "metric": "copy_from_u",
+    "bytes": 1024,
+    "n": 7,
+    "median_ns": 12.80535,
+    "min_ns": 12.31345,
+    "max_ns": 16.09655
+  },
+  {
+    "variant": "tracked-no-check",
+    "metric": "copy_from_u",
+    "bytes": 4096,
+    "n": 7,
+    "median_ns": 1393.78745,
+    "min_ns": 1388.558,
+    "max_ns": 1618.8774
+  },
+  {
+    "variant": "tracked-no-check",
+    "metric": "copy_into_u",
+    "bytes": 64,
+    "n": 7,
+    "median_ns": 2.7787,
+    "min_ns": 2.7777,
+    "max_ns": 3.56715
+  },
+  {
+    "variant": "tracked-no-check",
+    "metric": "copy_into_u",
+    "bytes": 256,
+    "n": 7,
+    "median_ns": 4.32205,
+    "min_ns": 4.32005,
+    "max_ns": 5.7788
+  },
+  {
+    "variant": "tracked-no-check",
+    "metric": "copy_into_u",
+    "bytes": 1024,
+    "n": 7,
+    "median_ns": 11.12325,
+    "min_ns": 11.1127,
+    "max_ns": 12.1747
+  },
+  {
+    "variant": "tracked-no-check",
+    "metric": "copy_into_u",
+    "bytes": 4096,
+    "n": 7,
+    "median_ns": 1460.6008,
+    "min_ns": 1438.58225,
+    "max_ns": 2077.74015
+  },
+  {
+    "variant": "tracked-no-check",
+    "metric": "empty_call",
+    "bytes": 0,
+    "n": 7,
+    "median_ns": 1.85395,
+    "min_ns": 1.85195,
+    "max_ns": 2.49365
+  },
+  {
+    "variant": "tracked-no-check",
+    "metric": "offer",
+    "bytes": 64,
+    "n": 7,
+    "median_ns": 19.25555,
+    "min_ns": 18.85515,
+    "max_ns": 19.371
+  },
+  {
+    "variant": "tracked-no-check",
+    "metric": "offer",
+    "bytes": 256,
+    "n": 7,
+    "median_ns": 22.39065,
+    "min_ns": 21.65605,
+    "max_ns": 23.50545
+  },
+  {
+    "variant": "tracked-no-check",
+    "metric": "offer",
+    "bytes": 1024,
+    "n": 7,
+    "median_ns": 44.33405,
+    "min_ns": 42.91835,
+    "max_ns": 47.71375
+  },
+  {
+    "variant": "tracked-no-check",
+    "metric": "offer",
+    "bytes": 4096,
+    "n": 7,
+    "median_ns": 159.62805,
+    "min_ns": 158.3215,
+    "max_ns": 171.4697
+  },
+  {
+    "variant": "tracked-no-check",
+    "metric": "peek_all",
+    "bytes": 64,
+    "n": 7,
+    "median_ns": 14.56255,
+    "min_ns": 14.52315,
+    "max_ns": 14.99705
+  },
+  {
+    "variant": "tracked-no-check",
+    "metric": "peek_all",
+    "bytes": 256,
+    "n": 7,
+    "median_ns": 15.21165,
+    "min_ns": 15.20755,
+    "max_ns": 15.6162
+  },
+  {
+    "variant": "tracked-no-check",
+    "metric": "peek_all",
+    "bytes": 1024,
+    "n": 7,
+    "median_ns": 24.3948,
+    "min_ns": 23.47185,
+    "max_ns": 24.78955
+  },
+  {
+    "variant": "tracked-no-check",
+    "metric": "peek_all",
+    "bytes": 4096,
+    "n": 7,
+    "median_ns": 1397.99635,
+    "min_ns": 1396.3616,
+    "max_ns": 1768.80525
+  },
+  {
+    "variant": "tracked-no-check",
+    "metric": "pointer_confinement",
+    "bytes": 64,
+    "n": 7,
+    "median_ns": 0.7003,
+    "min_ns": 0.6978,
+    "max_ns": 1.20275
+  },
+  {
+    "variant": "tracked-no-check",
+    "metric": "poll",
+    "bytes": 64,
+    "n": 7,
+    "median_ns": 13.4394,
+    "min_ns": 13.3173,
+    "max_ns": 14.4171
+  },
+  {
+    "variant": "tracked-no-check",
+    "metric": "poll",
+    "bytes": 256,
+    "n": 7,
+    "median_ns": 14.85325,
+    "min_ns": 14.7058,
+    "max_ns": 15.12395
+  },
+  {
+    "variant": "tracked-no-check",
+    "metric": "poll",
+    "bytes": 1024,
+    "n": 7,
+    "median_ns": 26.92865,
+    "min_ns": 26.6272,
+    "max_ns": 29.257
+  },
+  {
+    "variant": "tracked-no-check",
+    "metric": "poll",
+    "bytes": 4096,
+    "n": 7,
+    "median_ns": 1457.5292,
+    "min_ns": 1404.72905,
+    "max_ns": 1501.096
+  },
+  {
+    "variant": "tracked-no-check",
+    "metric": "request_push",
+    "bytes": 64,
+    "n": 7,
+    "median_ns": 30.63155,
+    "min_ns": 30.09145,
+    "max_ns": 31.172
+  },
+  {
+    "variant": "tracked-no-check",
+    "metric": "request_push",
+    "bytes": 256,
+    "n": 7,
+    "median_ns": 32.884,
+    "min_ns": 32.0497,
+    "max_ns": 33.8496
+  },
+  {
+    "variant": "tracked-no-check",
+    "metric": "request_push",
+    "bytes": 1024,
+    "n": 7,
+    "median_ns": 54.40375,
+    "min_ns": 53.2513,
+    "max_ns": 56.01205
+  },
+  {
+    "variant": "tracked-no-check",
+    "metric": "request_push",
+    "bytes": 4096,
+    "n": 7,
+    "median_ns": 1488.6251,
+    "min_ns": 1473.42605,
+    "max_ns": 1552.27185
+  },
+  {
+    "variant": "tracked-no-check",
+    "metric": "wrapper_mutex",
+    "bytes": 0,
+    "n": 7,
+    "median_ns": 7.9879,
+    "min_ns": 7.5416,
+    "max_ns": 8.9292
+  }
+]

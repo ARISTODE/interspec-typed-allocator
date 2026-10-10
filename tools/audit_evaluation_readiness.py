@@ -159,7 +159,7 @@ def main():
         dict(id="boundary_frequency", status="not_collected", detail="RLBox invocations and T-to-U/U-to-T bytes per client operation are not recorded; existing counts cover SP3 checks only."),
         dict(id="controlled_hardware", status="not_run", detail="All application and microbenchmark publication measurements must use the documented controlled host protocol; memcached needs 30-second intervals, 5-second warmups, 15 pairs and disjoint CPU affinity."),
     ]
-    readiness = dict(audit_date="2026-10-09", selected_applications=4, application_workloads=len(applications),
+    readiness = dict(scope="archived_selected_reference", current_completion_ledger="EVALUATION_COMPLETION.md", audit_date="2026-10-09", selected_applications=4, application_workloads=len(applications),
                      application_samples=app_samples, runtime_configurations=len(summary),
                      runtime_samples=len(raw), runtime_repetitions=env["repetitions"],
                      runtime_iterations=env["iterations"], p8_boundary_summaries=len(boundaries),
@@ -178,7 +178,7 @@ def main():
     (destination / "audit-source-sha256.json").write_text(json.dumps(
         {str(path.relative_to(ROOT)): digest(path) for path in sources}, indent=2) + "\n")
 
-    lines = ["# Evaluation readiness audit", "", "Verified on 2026-10-09 against published PR #20 at `9d99966`.", "",
+    lines = ["# Archived selected reference audit", "", "This verifies the earlier retained dataset. Current completion status and subsequent experiments are in [EVALUATION_COMPLETION.md](EVALUATION_COMPLETION.md). The gaps below describe this historical dataset and are not a fresh assessment of newer experiments.", "", "Verified on 2026-10-09 against published PR #20 at `9d99966`.", "",
              "All four selected applications have working integrations and reference results. **All planned evaluation results are not yet ready.** The remaining gaps are listed below; controlled publication measurements are still outstanding.", "",
              "## Evidence inventory", "",
              "| Evidence | Verified coverage | Readiness |", "| --- | --- | --- |",
@@ -217,7 +217,7 @@ def main():
         lines.append(f"| {row['boundary']} | {float(row['baseline_median_ns']):.3f} | {float(row['extended_median_ns']):.3f} | {row['repetitions']} |")
     lines += ["", "These NaCl measurements reuse a valid U object and time trusted copy/use with versus without the final check. They retain allocation tracking in both modes and do not time a sandbox transition in each iteration. They do not replace the outstanding wasm2c Native-to-RLBox decomposition or measure total application overhead.", "",
               "Source: [CI run 37840970704](https://github.com/ARISTODE/interspec-typed-allocator/actions/runs/37840970704), job 113529933478, artifact 11577986711. The timestamped summary is retained locally. Its paired raw CSV exists in that CI artifact; artifact download returned HTTP 403 in this workspace, so those pairs were not independently recomputed here. Runtime raw data above was independently verified from the already retained memcached archive.", "",
-              "## Remaining results", ""]
+              "## Missing results in this archived dataset", ""]
     for index, gap in enumerate(gaps, 1):
         lines.append(f"{index}. {gap['detail']}")
     lines += ["", "The missing wasm2c breakdown is distinct from the completed P8 boundary validation measurements. An observed zero in a short diagnostic profile establishes missing coverage, not zero check overhead.", "",
@@ -228,7 +228,7 @@ def main():
     (ROOT / "EVALUATION_READINESS.md").write_text("\n".join(lines))
     print(f"Verified {app_samples} application samples, {len(raw)} repeated runtime samples, "
           f"{len(latest_runtime)} CI smoke samples and {len(boundaries)} boundary summaries; "
-          f"{len(gaps)} outstanding result classes.")
+          f"{len(gaps)} result gaps in this archived dataset; see EVALUATION_COMPLETION.md for current status.")
 
 
 if __name__ == "__main__":

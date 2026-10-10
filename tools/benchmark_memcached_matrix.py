@@ -134,7 +134,7 @@ def main():
         native, rlbox, interspec = rows["native"], rows["rlbox-only"], rows["interspec"]
         valid = all(
             row["all_no_log_loss"] and row["all_no_lru_loss"]
-            for row in (native, rlbox, interspec)
+            for row in rows.values()
         )
         if not valid:
             invalid.append(scenario["name"])
@@ -157,6 +157,16 @@ def main():
             "rlbox_rss_mib": rlbox["VmRSS_kib_median"] / 1024.0,
             "interspec_rss_mib": interspec["VmRSS_kib_median"] / 1024.0,
         })
+        if args.include_tracking:
+            tracked = rows["tracked-no-check"]
+            combined[-1].update({
+                "tracking_ops_per_s": tracked["ops_per_s_median"],
+                "tracking_loss_vs_rlbox_pct": tracked["throughput_loss_vs_rlbox-only_paired_median_pct"],
+                "interspec_loss_vs_tracking_pct": interspec["throughput_loss_vs_tracked-no-check_paired_median_pct"],
+                "tracking_p99_us": tracked["p99_us_median"],
+                "tracking_cpu_us_per_op": tracked["cpu_us_per_op_median"],
+                "tracking_rss_mib": tracked["VmRSS_kib_median"] / 1024.0,
+            })
         with (out / "samples.csv").open(newline="") as f:
             for row in csv.DictReader(f):
                 all_samples.append({"scenario": scenario["name"], **row})
@@ -195,6 +205,16 @@ def main():
             f"{row['native_p99_us']:.1f}/{row['rlbox_p99_us']:.1f}/{row['interspec_p99_us']:.1f} | "
             f"{'yes' if row['valid_lossless'] else 'NO'} |"
         )
+    if args.include_tracking:
+        lines += ["", "## Allocation tracking decomposition", "",
+                  "All four variants are collected in the same paired experiment. Percentages describe throughput loss; these paired medians must not be added.", "",
+                  "| Scenario | Tracking Kops/s | Tracking loss vs RLBox | InterSpec loss vs tracking | Tracking p99 µs | Lossless across all variants |",
+                  "| --- | ---: | ---: | ---: | ---: | --- |"]
+        for row in combined:
+            lines.append(f"| {row['name']} | {row['tracking_ops_per_s']/1000:.1f} | "
+                         f"{row['tracking_loss_vs_rlbox_pct']:+.2f}% | "
+                         f"{row['interspec_loss_vs_tracking_pct']:+.2f}% | "
+                         f"{row['tracking_p99_us']:.1f} | {'yes' if row['valid_lossless'] else 'NO'} |")
     lines += [
         "",
         "The balanced 1-client and 8-client scenarios preserve the original InterSpec memcached/bipbuffer workload shape of a 1:1 GET/SET ratio with pipeline depth 10 while making value size and working-set size explicit.",
@@ -202,8 +222,8 @@ def main():
         "",
     ]
     (args.out / "FINAL_TABLE.md").write_text("\n".join(lines))
-    if args.preset == "paper" and invalid:
-        raise SystemExit("paper matrix contains lossy scenarios: " + ", ".join(invalid))
+    if invalid:
+        raise SystemExit("matrix contains lossy scenarios; raw evidence retained: " + ", ".join(invalid))
 
 
 if __name__ == "__main__":

@@ -11,6 +11,10 @@
 static bipbuf_t *owner;
 static unsigned char *input;
 static uint32_t capacity, last_size;
+#ifdef INTERSPEC_BOUNDARY_BENCH
+/* Exported only by the separate measurement module, never the server module. */
+uint32_t interspec_mc_bench_noop(uint32_t value) { return value + 1; }
+#endif
 #ifdef INTERSPEC_FAULT_TESTS
 static uint32_t fault_mode, fault_target, fault_fired;
 void interspec_mc_fault(uint32_t mode, uint32_t target) {

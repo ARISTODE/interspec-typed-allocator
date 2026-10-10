@@ -1,4 +1,6 @@
 {
+  "scope": "archived_selected_reference",
+  "current_completion_ledger": "EVALUATION_COMPLETION.md",
   "audit_date": "2026-10-09",
   "selected_applications": 4,
   "application_workloads": 12,

@@ -17,6 +17,9 @@
 #include <stdexcept>
 #include <unordered_map>
 #include <vector>
+#ifdef INTERSPEC_BOUNDARY_BENCH
+#include <chrono>
+#endif
 
 extern "C" {
 #include "bipbuffer.h"
@@ -33,12 +36,29 @@ int interspec_mc_unused();
 int interspec_mc_empty();
 void interspec_mc_reset(uint32_t);
 void interspec_mc_free();
+#ifdef INTERSPEC_BOUNDARY_BENCH
+uint32_t interspec_mc_bench_noop(uint32_t);
+#endif
 #ifdef INTERSPEC_FAULT_TESTS
 void interspec_mc_fault(uint32_t, uint32_t);
 #endif
 }
 
 namespace {
+/* Count completed boundary calls only in diagnostic builds. The lambda and
+ * helper inline away in release builds; trace code is preprocessor excluded. */
+template <class B, class F>
+decltype(auto) invoke_observed(B &buffer, const char *name, F &&fn) {
+#ifdef INTERSPEC_ENABLE_TRACE
+    interspec::DiagnosticEvent event(&buffer, "sandbox_call");
+    event.result = name;
+#else
+    (void)buffer; (void)name;
+#endif
+    return fn();
+}
+#define MC_CALL(buffer, fn, ...) invoke_observed(buffer, #fn, [&]() { \
+    return (buffer).sandbox.invoke_sandbox_function(fn, ##__VA_ARGS__); })
 using Backend = rlbox::rlbox_wasm2c_sandbox;
 using Sandbox = rlbox::rlbox_sandbox<Backend>;
 using Pointer = rlbox::tainted<unsigned char *, Backend>;
@@ -98,7 +118,7 @@ struct Buffer {
                 return static_cast<Buffer *>(ctx)->runtime->reallocate(ptr, bytes);
             });
 #endif
-        input = sandbox.invoke_sandbox_function(interspec_mc_new, size);
+        input = MC_CALL(*this, interspec_mc_new, size);
         if (!input.UNSAFE_unverified()) throw std::bad_alloc();
         validate(input, capacity, "input", true);
         } catch (...) {
@@ -138,6 +158,7 @@ struct Buffer {
         auto *ptr = validate(pointer, bytes, op);
         std::memcpy(read_copy.data(), ptr, bytes);
         event(op, "copied", bytes);
+        event("copy_from_u", op, bytes);
         return read_copy.data();
     }
     void event(const char *op, const char *result, uint32_t bytes) {
@@ -178,7 +199,7 @@ void interspec_bipbuf_role(bipbuf_t *ptr, unsigned int role) {
             return s ? static_cast<uint32_t>(std::strtoul(s, nullptr, 10)) : fallback;
         };
         if (role == value("INTERSPEC_TEST_ROLE", 1))
-            b.sandbox.invoke_sandbox_function(interspec_mc_fault,
+            MC_CALL(b, interspec_mc_fault,
                 value("INTERSPEC_TEST_FAULT", 0), value("INTERSPEC_TEST_TARGET", 2));
 #else
         (void)role;
@@ -230,7 +251,7 @@ void bipbuf_free(bipbuf_t *ptr) {
     guarded([&] {
         auto &b = get(ptr);
         { std::lock_guard<std::mutex> lock(b.mutex);
-          b.sandbox.invoke_sandbox_function(interspec_mc_free); }
+          MC_CALL(b, interspec_mc_free); }
         delete &b;
     });
 }
@@ -240,7 +261,7 @@ unsigned char *bipbuf_request(bipbuf_t *ptr, int size) {
         std::lock_guard<std::mutex> lock(b.mutex);
         b.pending = 0;
         if (size < 0 || static_cast<uint32_t>(size) > b.capacity) return nullptr;
-        auto result = b.sandbox.invoke_sandbox_function(interspec_mc_request, static_cast<uint32_t>(size));
+        auto result = MC_CALL(b, interspec_mc_request, static_cast<uint32_t>(size));
         if (!result.UNSAFE_unverified()) return nullptr;
         b.validate(result, size, "request");
         b.pending = size;
@@ -252,11 +273,12 @@ int bipbuf_push(bipbuf_t *ptr, int size) {
         auto &b = get(ptr);
         std::lock_guard<std::mutex> lock(b.mutex);
         if (size < 0 || static_cast<uint32_t>(size) > b.pending) reject("push", "unreserved_write");
-        auto result = b.sandbox.invoke_sandbox_function(interspec_mc_request, static_cast<uint32_t>(size));
+        auto result = MC_CALL(b, interspec_mc_request, static_cast<uint32_t>(size));
         auto *destination = b.validate(result, size, "push");
         std::memcpy(destination, b.write_copy.data(), size);
+        b.event("copy_into_u", "push", size);
         b.pending = 0;
-        int written = b.sandbox.invoke_sandbox_function(interspec_mc_push, static_cast<uint32_t>(size)).UNSAFE_unverified();
+        int written = MC_CALL(b, interspec_mc_push, static_cast<uint32_t>(size)).UNSAFE_unverified();
         if (written != 0 && written != size) reject("push", "invalid_count");
         return written;
     });
@@ -268,7 +290,8 @@ int bipbuf_offer(bipbuf_t *ptr, const unsigned char *data, int size) {
         b.pending = 0;
         if (size < 0 || static_cast<uint32_t>(size) > b.capacity) return 0;
         std::memcpy(b.validate(b.input, size, "offer_input", true), data, size);
-        int written = b.sandbox.invoke_sandbox_function(interspec_mc_offer, static_cast<uint32_t>(size)).UNSAFE_unverified();
+        b.event("copy_into_u", "offer", size);
+        int written = MC_CALL(b, interspec_mc_offer, static_cast<uint32_t>(size)).UNSAFE_unverified();
         if (written != 0 && written != size) reject("offer", "invalid_count");
         return written;
     });
@@ -277,8 +300,8 @@ unsigned char *bipbuf_peek_all(const bipbuf_t *ptr, unsigned int *size) {
     return guarded([&]() -> unsigned char * {
         auto &b = get(ptr);
         std::lock_guard<std::mutex> lock(b.mutex);
-        auto result = b.sandbox.invoke_sandbox_function(interspec_mc_peek_all);
-        *size = b.sandbox.invoke_sandbox_function(interspec_mc_last_size).UNSAFE_unverified();
+        auto result = MC_CALL(b, interspec_mc_peek_all);
+        *size = MC_CALL(b, interspec_mc_last_size).UNSAFE_unverified();
         if (!result.UNSAFE_unverified()) { *size = 0; return nullptr; }
         return b.snapshot(result, *size, "peek_all");
     });
@@ -287,14 +310,14 @@ unsigned char *bipbuf_peek(const bipbuf_t *ptr, unsigned int size) {
     return guarded([&] {
         auto &b = get(ptr);
         std::lock_guard<std::mutex> lock(b.mutex);
-        return b.snapshot(b.sandbox.invoke_sandbox_function(interspec_mc_peek, size), size, "peek");
+        return b.snapshot(MC_CALL(b, interspec_mc_peek, size), size, "peek");
     });
 }
 unsigned char *bipbuf_poll(bipbuf_t *ptr, unsigned int size) {
     return guarded([&] {
         auto &b = get(ptr);
         std::lock_guard<std::mutex> lock(b.mutex);
-        return b.snapshot(b.sandbox.invoke_sandbox_function(interspec_mc_poll, size), size, "poll");
+        return b.snapshot(MC_CALL(b, interspec_mc_poll, size), size, "poll");
     });
 }
 void bipbuf_init(bipbuf_t *ptr, unsigned int size) {
@@ -303,18 +326,80 @@ void bipbuf_init(bipbuf_t *ptr, unsigned int size) {
         std::lock_guard<std::mutex> lock(b.mutex);
         if (size != b.capacity) reject("init", "capacity_change");
         b.pending = 0;
-        b.sandbox.invoke_sandbox_function(interspec_mc_reset, size);
+        MC_CALL(b, interspec_mc_reset, size);
     });
 }
 int bipbuf_size(const bipbuf_t *ptr) { return get(ptr).capacity; }
 #define COUNT_WRAPPER(name, fn, max) \
 int name(const bipbuf_t *ptr) { return guarded([&] { \
     auto &b = get(ptr); std::lock_guard<std::mutex> lock(b.mutex); \
-    int value = b.sandbox.invoke_sandbox_function(fn).UNSAFE_unverified(); \
+    int value = MC_CALL(b, fn).UNSAFE_unverified(); \
     if (value < 0 || static_cast<uint32_t>(value) > (max)) reject(#name, "invalid_count"); \
     return value; }); }
 COUNT_WRAPPER(bipbuf_used, interspec_mc_used, b.capacity)
 COUNT_WRAPPER(bipbuf_unused, interspec_mc_unused, b.capacity)
 COUNT_WRAPPER(bipbuf_is_empty, interspec_mc_empty, 1u)
 #undef COUNT_WRAPPER
+
+#ifdef INTERSPEC_BOUNDARY_BENCH
+/* These exports exist only in the separate microbenchmark binary. Production
+ * Buffer, RLBox backend, confinement and copy buffers are used unchanged. */
+uint64_t interspec_bench_primitive(bipbuf_t *ptr, unsigned metric,
+                                  unsigned bytes, unsigned iterations,
+                                  uint64_t *checksum) {
+    auto &b = get(ptr);
+    if (!iterations || bytes > b.capacity) reject("bench", "invalid_parameters");
+    auto *input = b.validate(b.input, bytes, "bench_input", true);
+    for (unsigned i = 0; i < bytes; ++i) b.write_copy[i] = static_cast<unsigned char>(i * 13 + 7);
+    std::memcpy(input, b.write_copy.data(), bytes);
+    uint64_t sum = 0;
+    auto begin = std::chrono::steady_clock::now();
+    switch (metric) {
+    case 0:
+        for (unsigned i = 0; i < iterations; ++i) {
+            auto value = MC_CALL(b, interspec_mc_bench_noop, i).UNSAFE_unverified();
+            asm volatile("" : : "r"(value) : "memory");
+            sum += value;
+        }
+        break;
+    case 1:
+        for (unsigned i = 0; i < iterations; ++i) {
+            std::lock_guard<std::mutex> lock(b.mutex);
+            asm volatile("" : : "r"(&b) : "memory");
+        }
+        break;
+    case 2:
+        for (unsigned i = 0; i < iterations; ++i) {
+            uint32_t address = b.sandbox.get_sandbox_impl()->sandbox_address(input);
+            bool valid = b.sandbox.is_pointer_in_sandbox_memory(input) &&
+                         bytes <= b.sandbox.get_total_memory() - address;
+            asm volatile("" : : "r"(valid) : "memory");
+            sum += valid;
+        }
+        break;
+    case 3:
+        for (unsigned i = 0; i < iterations; ++i) {
+            std::memcpy(input, b.write_copy.data(), bytes);
+            asm volatile("" : : "r"(input) : "memory");
+        }
+        break;
+    case 4:
+        for (unsigned i = 0; i < iterations; ++i) {
+            std::memcpy(b.read_copy.data(), input, bytes);
+            asm volatile("" : : "r"(b.read_copy.data()) : "memory");
+        }
+        break;
+    default: reject("bench", "unknown_metric");
+    }
+    auto elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(
+        std::chrono::steady_clock::now() - begin).count();
+    if (metric == 0 && sum != uint64_t(iterations) * (iterations + 1) / 2)
+        reject("bench", "call_checksum");
+    if (metric == 2 && sum != iterations) reject("bench", "confinement_checksum");
+    if (metric == 3 && std::memcmp(input, b.write_copy.data(), bytes)) reject("bench", "copy_into_u");
+    if (metric == 4 && std::memcmp(b.read_copy.data(), b.write_copy.data(), bytes)) reject("bench", "copy_from_u");
+    *checksum = sum;
+    return elapsed;
+}
+#endif
 }
