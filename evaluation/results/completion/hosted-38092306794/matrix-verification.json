@@ -1,0 +1,675 @@
+{
+  "validated": true,
+  "publication_ready": false,
+  "limitation": "Hosted reference; controlled publication protocol remains required.",
+  "source_commit": "d1546785002fc9f9005d2d17360bddaf4839e4a4",
+  "samples": 120,
+  "variants": [
+    "native",
+    "rlbox-only",
+    "tracked-no-check",
+    "interspec"
+  ],
+  "repetitions": 5,
+  "results": [
+    {
+      "scenario": "balanced_1c",
+      "samples": 20,
+      "paired_throughput_loss_pct": {
+        "rlbox_loss_vs_native_pct": {
+          "paired_values": [
+            -3.7153674481782195,
+            -2.9268807168076894,
+            -3.869558673965634,
+            0.7590731473432366,
+            0.3937702131078913
+          ],
+          "median": -2.9268807168076894,
+          "min": -3.869558673965634,
+          "max": 0.7590731473432366
+        },
+        "interspec_loss_vs_native_pct": {
+          "paired_values": [
+            0.5087511443894077,
+            -1.413021450061902,
+            2.4716160541084164,
+            2.1764189889862617,
+            -0.48632574913900495
+          ],
+          "median": 0.5087511443894077,
+          "min": -1.413021450061902,
+          "max": 2.4716160541084164
+        },
+        "interspec_loss_vs_rlbox_pct": {
+          "paired_values": [
+            4.072799139122962,
+            1.4708104007455702,
+            6.1049404744062175,
+            1.4281868243203433,
+            -0.8835752182668299
+          ],
+          "median": 1.4708104007455702,
+          "min": -0.8835752182668299,
+          "max": 6.1049404744062175
+        },
+        "tracking_loss_vs_rlbox_pct": {
+          "paired_values": [
+            2.6506445203500095,
+            4.024011477373602,
+            4.358059313887952,
+            0.4541150757616297,
+            -0.746509572705345
+          ],
+          "median": 2.6506445203500095,
+          "min": -0.746509572705345,
+          "max": 4.358059313887952
+        },
+        "interspec_loss_vs_tracking_pct": {
+          "paired_values": [
+            1.4608772824081462,
+            -2.6602498353284654,
+            1.8264802533141444,
+            0.9785153342100061,
+            -0.13605001914489545
+          ],
+          "median": 0.9785153342100061,
+          "min": -2.6602498353284654,
+          "max": 1.8264802533141444
+        }
+      }
+    },
+    {
+      "scenario": "balanced_8c",
+      "samples": 20,
+      "paired_throughput_loss_pct": {
+        "rlbox_loss_vs_native_pct": {
+          "paired_values": [
+            -2.1015766846781636,
+            1.1464841852400043,
+            2.8558249036247263,
+            2.4609693667872135,
+            -0.3557435074775128
+          ],
+          "median": 1.1464841852400043,
+          "min": -2.1015766846781636,
+          "max": 2.8558249036247263
+        },
+        "interspec_loss_vs_native_pct": {
+          "paired_values": [
+            -0.21797980066011746,
+            3.6390387548592695,
+            5.586873682428795,
+            1.6872370437039153,
+            2.098576616713199
+          ],
+          "median": 2.098576616713199,
+          "min": -0.21797980066011746,
+          "max": 5.586873682428795
+        },
+        "interspec_loss_vs_rlbox_pct": {
+          "paired_values": [
+            1.8448264416476068,
+            2.5214627411836554,
+            2.8113356010225354,
+            -0.7932540625637863,
+            2.4456199898592157
+          ],
+          "median": 2.4456199898592157,
+          "min": -0.7932540625637863,
+          "max": 2.8113356010225354
+        },
+        "tracking_loss_vs_rlbox_pct": {
+          "paired_values": [
+            2.170327342284173,
+            0.6716469809906034,
+            -0.06519960170678907,
+            -0.9528348622799498,
+            1.5687753069384858
+          ],
+          "median": 0.6716469809906034,
+          "min": -0.9528348622799498,
+          "max": 2.170327342284173
+        },
+        "interspec_loss_vs_tracking_pct": {
+          "paired_values": [
+            -0.33272205844481206,
+            1.862324003136373,
+            2.8746609352491292,
+            0.15807460972628862,
+            0.8908196414857183
+          ],
+          "median": 0.8908196414857183,
+          "min": -0.33272205844481206,
+          "max": 2.8746609352491292
+        }
+      }
+    },
+    {
+      "scenario": "read_heavy_1k",
+      "samples": 20,
+      "paired_throughput_loss_pct": {
+        "rlbox_loss_vs_native_pct": {
+          "paired_values": [
+            1.4411096238432952,
+            0.2720926222649078,
+            1.675273175963543,
+            3.008543392997487,
+            3.235916169458297
+          ],
+          "median": 1.675273175963543,
+          "min": 0.2720926222649078,
+          "max": 3.235916169458297
+        },
+        "interspec_loss_vs_native_pct": {
+          "paired_values": [
+            4.1707457139727016,
+            4.500561851249419,
+            4.605785292179865,
+            5.022575095438031,
+            2.8648418838433387
+          ],
+          "median": 4.500561851249419,
+          "min": 2.8648418838433387,
+          "max": 5.022575095438031
+        },
+        "interspec_loss_vs_rlbox_pct": {
+          "paired_values": [
+            2.76954831746945,
+            4.2400059724190475,
+            2.9804426728393674,
+            2.076504233358567,
+            -0.383483489870895
+          ],
+          "median": 2.76954831746945,
+          "min": -0.383483489870895,
+          "max": 4.2400059724190475
+        },
+        "tracking_loss_vs_rlbox_pct": {
+          "paired_values": [
+            1.0574433083091694,
+            0.7888254707398956,
+            2.606574064857625,
+            -2.3426290502563285,
+            0.9227589414921744
+          ],
+          "median": 0.9227589414921744,
+          "min": -2.3426290502563285,
+          "max": 2.606574064857625
+        },
+        "interspec_loss_vs_tracking_pct": {
+          "paired_values": [
+            1.7304030403168968,
+            3.4786207481711795,
+            0.38387458331193836,
+            4.317979051959709,
+            -1.3184081605498887
+          ],
+          "median": 1.7304030403168968,
+          "min": -1.3184081605498887,
+          "max": 4.317979051959709
+        }
+      }
+    },
+    {
+      "scenario": "write_heavy",
+      "samples": 20,
+      "paired_throughput_loss_pct": {
+        "rlbox_loss_vs_native_pct": {
+          "paired_values": [
+            3.1175095073706083,
+            -1.834523825360379,
+            0.3488228843418373,
+            -2.235926137121025,
+            0.029261218102016873
+          ],
+          "median": 0.029261218102016873,
+          "min": -2.235926137121025,
+          "max": 3.1175095073706083
+        },
+        "interspec_loss_vs_native_pct": {
+          "paired_values": [
+            2.5845609636813816,
+            0.25765260066207274,
+            3.297522629282179,
+            0.23663587520104112,
+            -1.3571258364870609
+          ],
+          "median": 0.25765260066207274,
+          "min": -1.3571258364870609,
+          "max": 3.297522629282179
+        },
+        "interspec_loss_vs_rlbox_pct": {
+          "paired_values": [
+            -0.5500978979579019,
+            2.0544863838224514,
+            2.9590214890467315,
+            2.4184864418461016,
+            -1.3867928470686852
+          ],
+          "median": 2.0544863838224514,
+          "min": -1.3867928470686852,
+          "max": 2.9590214890467315
+        },
+        "tracking_loss_vs_rlbox_pct": {
+          "paired_values": [
+            -1.7543401812033288,
+            2.52476783763268,
+            -0.49811636223890954,
+            1.1603971533898472,
+            -0.15857418231632892
+          ],
+          "median": -0.15857418231632892,
+          "min": -1.7543401812033288,
+          "max": 2.52476783763268
+        },
+        "interspec_loss_vs_tracking_pct": {
+          "paired_values": [
+            1.1834800177573879,
+            -0.4824625121455206,
+            3.4400026352977786,
+            1.2728595140236276,
+            -1.226274110608494
+          ],
+          "median": 1.1834800177573879,
+          "min": -1.226274110608494,
+          "max": 3.4400026352977786
+        }
+      }
+    },
+    {
+      "scenario": "watch_light",
+      "samples": 20,
+      "paired_throughput_loss_pct": {
+        "rlbox_loss_vs_native_pct": {
+          "paired_values": [
+            -0.2917889497356718,
+            2.6963477395618995,
+            1.7027607437139602,
+            1.5550103136112825,
+            2.604896333843887
+          ],
+          "median": 1.7027607437139602,
+          "min": -0.2917889497356718,
+          "max": 2.6963477395618995
+        },
+        "interspec_loss_vs_native_pct": {
+          "paired_values": [
+            0.764315478995925,
+            -2.7189984000485223,
+            -0.15045215334645867,
+            2.691725091121,
+            1.8745440961088988
+          ],
+          "median": 0.764315478995925,
+          "min": -2.7189984000485223,
+          "max": 2.691725091121
+        },
+        "interspec_loss_vs_rlbox_pct": {
+          "paired_values": [
+            1.0530317983069248,
+            -5.565408917145254,
+            -1.8853153059859684,
+            1.1546700153363787,
+            -0.7498859904071065
+          ],
+          "median": -0.7498859904071065,
+          "min": -5.565408917145254,
+          "max": 1.1546700153363787
+        },
+        "tracking_loss_vs_rlbox_pct": {
+          "paired_values": [
+            3.4449001589356154,
+            -1.6346422134140726,
+            -1.254486441107927,
+            1.7079110216635662,
+            -5.06466891143631
+          ],
+          "median": -1.254486441107927,
+          "min": -5.06466891143631,
+          "max": 3.4449001589356154
+        },
+        "interspec_loss_vs_tracking_pct": {
+          "paired_values": [
+            -2.4772056210038196,
+            -3.867546161551183,
+            -0.6230132481536588,
+            -0.5628540527296444,
+            4.106787720110095
+          ],
+          "median": -0.6230132481536588,
+          "min": -3.867546161551183,
+          "max": 4.106787720110095
+        }
+      }
+    },
+    {
+      "scenario": "watch_moderate",
+      "samples": 20,
+      "paired_throughput_loss_pct": {
+        "rlbox_loss_vs_native_pct": {
+          "paired_values": [
+            3.8035991023388838,
+            1.5814033101366642,
+            4.16799453286597,
+            1.4470926448755694,
+            0.5794631021514451
+          ],
+          "median": 1.5814033101366642,
+          "min": 0.5794631021514451,
+          "max": 4.16799453286597
+        },
+        "interspec_loss_vs_native_pct": {
+          "paired_values": [
+            4.556565963328696,
+            3.126413803987582,
+            5.363956041926521,
+            3.856586425414932,
+            4.499088416759156
+          ],
+          "median": 4.499088416759156,
+          "min": 3.126413803987582,
+          "max": 5.363956041926521
+        },
+        "interspec_loss_vs_rlbox_pct": {
+          "paired_values": [
+            0.7827391190974531,
+            1.5698359312311227,
+            1.2479771275064278,
+            2.4448733631540875,
+            3.9424704763312612
+          ],
+          "median": 1.5698359312311227,
+          "min": 0.7827391190974531,
+          "max": 3.9424704763312612
+        },
+        "tracking_loss_vs_rlbox_pct": {
+          "paired_values": [
+            -0.37662579100459226,
+            1.0831891593274023,
+            0.7298432469378335,
+            0.8793973433922408,
+            0.6243387075822948
+          ],
+          "median": 0.7298432469378335,
+          "min": -0.37662579100459226,
+          "max": 1.0831891593274023
+        },
+        "interspec_loss_vs_tracking_pct": {
+          "paired_values": [
+            1.1550148263759885,
+            0.49197580044060274,
+            0.5219432481178288,
+            1.5793649128479026,
+            3.3389783027306885
+          ],
+          "median": 1.1550148263759885,
+          "min": 0.49197580044060274,
+          "max": 3.3389783027306885
+        }
+      }
+    }
+  ],
+  "source_sha256": {
+    "correctness/summary.json": "f98405a74c843aae5a92d9dcaf26c9104a97891c7ed793e560d20f1ebc87ea3c",
+    "overhead-matrix/final-summary.json": "0d8c0f54f48e6f9400194d7e9ac4a999e51e9c53379cb004201d787c6149d9f5",
+    "overhead-matrix/all-samples.csv": "3e8ac1e238087f425a7bb828e69cf4c1a411af760b4573568866258a31ad8b84",
+    "overhead-matrix/balanced_1c/logs/cache_only-0-interspec.stats.json": "5bdce939f8c01e9d954d9671c7bf0da80a8950df1d67b42438a9f7d53c400df1",
+    "overhead-matrix/balanced_1c/logs/cache_only-0-interspec.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/balanced_1c/logs/cache_only-0-native.stats.json": "f58253215f2feefdbc8e43e4091477d8a1be2005c0dfa6b302298318f6f301a7",
+    "overhead-matrix/balanced_1c/logs/cache_only-0-native.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/balanced_1c/logs/cache_only-0-tracked-no-check.stats.json": "4bb91743f7a9374cb171760534d0091d67f231d56bd59db1d14c00e08ebbb22e",
+    "overhead-matrix/balanced_1c/logs/cache_only-0-tracked-no-check.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/balanced_1c/logs/cache_only-0-rlbox-only.stats.json": "7ade93af29512e2d26b4d7f34cf3dae4ec05b5539142a6982c1173c997a0fae4",
+    "overhead-matrix/balanced_1c/logs/cache_only-0-rlbox-only.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/balanced_1c/logs/cache_only-1-native.stats.json": "e8b3dfd0716cf3cb9d37f11be7eb33159d9cc2aa297f9c642c443e2b328e0dce",
+    "overhead-matrix/balanced_1c/logs/cache_only-1-native.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/balanced_1c/logs/cache_only-1-interspec.stats.json": "e65ed025f9fa5886b285873f6c4d4890edc2f689777021bddcccaf567e383547",
+    "overhead-matrix/balanced_1c/logs/cache_only-1-interspec.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/balanced_1c/logs/cache_only-1-rlbox-only.stats.json": "160831706d87d969ff082ff83e74643ea28489fbe3bc465c4fa10df4516f9669",
+    "overhead-matrix/balanced_1c/logs/cache_only-1-rlbox-only.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/balanced_1c/logs/cache_only-1-tracked-no-check.stats.json": "8895c4b25395d4e9b93bdc9b6a9c3284482f7e24b36531a15f42132f8aac1191",
+    "overhead-matrix/balanced_1c/logs/cache_only-1-tracked-no-check.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/balanced_1c/logs/cache_only-2-interspec.stats.json": "9b6d24345eb456988f7ae9ca154a8b8e3ba28ad817ef7a4ad3386e88552a570d",
+    "overhead-matrix/balanced_1c/logs/cache_only-2-interspec.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/balanced_1c/logs/cache_only-2-rlbox-only.stats.json": "beb80d660ebd000296f2726cc868fda3ee59ffb4babc307b2c8d0f58eeb6526a",
+    "overhead-matrix/balanced_1c/logs/cache_only-2-rlbox-only.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/balanced_1c/logs/cache_only-2-tracked-no-check.stats.json": "c631ad36963951ceb3f24855818e58de79c912093fea93f5abc1704fb49cc6d0",
+    "overhead-matrix/balanced_1c/logs/cache_only-2-tracked-no-check.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/balanced_1c/logs/cache_only-2-native.stats.json": "d42e87a8e140f54790d366359831efff744f4d8b7bf9439a0498d35ba3314471",
+    "overhead-matrix/balanced_1c/logs/cache_only-2-native.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/balanced_1c/logs/cache_only-3-native.stats.json": "926a0b7d1f92020a03b395a2961328152cbb608d71c2805d651d7c86e1962821",
+    "overhead-matrix/balanced_1c/logs/cache_only-3-native.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/balanced_1c/logs/cache_only-3-interspec.stats.json": "d5ad619241362109dc1ee514560f35aa6dd87d6e83a1e2299181d7d30c75cd82",
+    "overhead-matrix/balanced_1c/logs/cache_only-3-interspec.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/balanced_1c/logs/cache_only-3-rlbox-only.stats.json": "6d792d3882a6bd8159fa975c70edeaea6653c47ac13ce4383d98089d2832b483",
+    "overhead-matrix/balanced_1c/logs/cache_only-3-rlbox-only.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/balanced_1c/logs/cache_only-3-tracked-no-check.stats.json": "07c948f9dafbe3ee0a637243f31ba8df1cf32b0042e75e22ab3936e7be586e20",
+    "overhead-matrix/balanced_1c/logs/cache_only-3-tracked-no-check.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/balanced_1c/logs/cache_only-4-interspec.stats.json": "b11fa9ccdfed5f24f770d380c65a3398ca7430c59e4bece49f5edbf4ddd78f67",
+    "overhead-matrix/balanced_1c/logs/cache_only-4-interspec.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/balanced_1c/logs/cache_only-4-rlbox-only.stats.json": "99ff37e2ecd7eae093423c0060f03e14e4eb4823e52ad844cca292151bcaeb61",
+    "overhead-matrix/balanced_1c/logs/cache_only-4-rlbox-only.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/balanced_1c/logs/cache_only-4-native.stats.json": "674f8c8375f7f4817a0d4c1b581031d4122b538568ffd3a2cefd91485c67db00",
+    "overhead-matrix/balanced_1c/logs/cache_only-4-native.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/balanced_1c/logs/cache_only-4-tracked-no-check.stats.json": "649404707ffdca5ce2f7ae33d19d3ef1ad87c6cf1d496b03e01aaf95f34f7b27",
+    "overhead-matrix/balanced_1c/logs/cache_only-4-tracked-no-check.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/balanced_1c/samples.csv": "b1fe09b33b283b4aa668bb404f59a9082b61072f75fbee849c3cafa3e15c0285",
+    "overhead-matrix/balanced_1c/summary.json": "0643e5fb0757f5e7a4282930d5d4670c1332cbc23eb696cfe3381d9c74370bcf",
+    "overhead-matrix/balanced_1c/environment.json": "f5b2cb437adb7ac79ec5aae85efa9c48657fe37670bb0e724269755f22f790f1",
+    "overhead-matrix/balanced_8c/logs/cache_only-0-interspec.stats.json": "9f0ad748c3c36ffc80a2b729dd97dfdaa8f94a8a8669f2dd969f527d98a74064",
+    "overhead-matrix/balanced_8c/logs/cache_only-0-interspec.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/balanced_8c/logs/cache_only-0-native.stats.json": "bcd1f3ea6d628cbd471c8bf69ae07ed393c5f73d89c67044d6abdcfc8f734472",
+    "overhead-matrix/balanced_8c/logs/cache_only-0-native.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/balanced_8c/logs/cache_only-0-tracked-no-check.stats.json": "f66ce6d0f454118e7e15f1cbc92f9649ac43dc80ab1e504821ef64d7425929d6",
+    "overhead-matrix/balanced_8c/logs/cache_only-0-tracked-no-check.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/balanced_8c/logs/cache_only-0-rlbox-only.stats.json": "6fc311fe940327346611b950194bf6fa6ba75d3dcf55f51967139208b5ec7f86",
+    "overhead-matrix/balanced_8c/logs/cache_only-0-rlbox-only.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/balanced_8c/logs/cache_only-1-native.stats.json": "3439f6a50aea4fe2480c7e2e5a39ded011beb0b60cd2a028d2f69290d5d538e7",
+    "overhead-matrix/balanced_8c/logs/cache_only-1-native.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/balanced_8c/logs/cache_only-1-interspec.stats.json": "80b123ce54d0d3c62a0e0b04a16f75bcd1cb3d3946445c273fc9747b8e156dca",
+    "overhead-matrix/balanced_8c/logs/cache_only-1-interspec.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/balanced_8c/logs/cache_only-1-rlbox-only.stats.json": "178255d6e87ef24b6e789fc5e49bb5d4ee1b52023a3622c251b63ec430a6fbfe",
+    "overhead-matrix/balanced_8c/logs/cache_only-1-rlbox-only.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/balanced_8c/logs/cache_only-1-tracked-no-check.stats.json": "116ce673e0ff3b2a5ac31288a22cd17ff516f4df00f0bb3f590b487341631394",
+    "overhead-matrix/balanced_8c/logs/cache_only-1-tracked-no-check.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/balanced_8c/logs/cache_only-2-interspec.stats.json": "b0fb953af9e108f3b558418d1c8d9711c5237f2df3edcaf48d1c617abe1c0273",
+    "overhead-matrix/balanced_8c/logs/cache_only-2-interspec.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/balanced_8c/logs/cache_only-2-rlbox-only.stats.json": "2c4f572db7af4561496e9da2366cafbfc7fa493bc2ca09baeffb2966eba9861a",
+    "overhead-matrix/balanced_8c/logs/cache_only-2-rlbox-only.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/balanced_8c/logs/cache_only-2-tracked-no-check.stats.json": "cc0cd641ecb79bd5e011504b14f5cf62ddb36f156f334040e8538cbcfc170835",
+    "overhead-matrix/balanced_8c/logs/cache_only-2-tracked-no-check.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/balanced_8c/logs/cache_only-2-native.stats.json": "415d9348e72bda7bb4a1b981b2cbc92212dae4d7ddf43341d45e1046dae7a52e",
+    "overhead-matrix/balanced_8c/logs/cache_only-2-native.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/balanced_8c/logs/cache_only-3-native.stats.json": "db83221db39c65366f9e61d92778eedb89d535a4d4a64d6525a1873066cc96dd",
+    "overhead-matrix/balanced_8c/logs/cache_only-3-native.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/balanced_8c/logs/cache_only-3-interspec.stats.json": "a66a33af89d2f8f4a1dddf95e1ea9ee18ff8a59a6bb30adb53d55573645ad980",
+    "overhead-matrix/balanced_8c/logs/cache_only-3-interspec.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/balanced_8c/logs/cache_only-3-rlbox-only.stats.json": "c879bc77f17b54c161c96e48001a19e12716187d50785491a9971693af8014a4",
+    "overhead-matrix/balanced_8c/logs/cache_only-3-rlbox-only.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/balanced_8c/logs/cache_only-3-tracked-no-check.stats.json": "73f07d0e03176cf5f503b61999474b10ca6cfaeabd78a416a67e620b70be692a",
+    "overhead-matrix/balanced_8c/logs/cache_only-3-tracked-no-check.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/balanced_8c/logs/cache_only-4-interspec.stats.json": "24c2e7b31eb898e9586be7657565f4ea64c5f0454b3c4c62d1b7579aa11a496f",
+    "overhead-matrix/balanced_8c/logs/cache_only-4-interspec.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/balanced_8c/logs/cache_only-4-rlbox-only.stats.json": "69dc336010a06dbd937268d6963c427279a9138a0e4cd31c2c2d5790addf28ae",
+    "overhead-matrix/balanced_8c/logs/cache_only-4-rlbox-only.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/balanced_8c/logs/cache_only-4-native.stats.json": "601941b45263d0188a835c72c656e64974e9ab91f755e7a057b58b868fe1c678",
+    "overhead-matrix/balanced_8c/logs/cache_only-4-native.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/balanced_8c/logs/cache_only-4-tracked-no-check.stats.json": "dd32e7c9e6b797a25125f96a710463ab383dc192cf7f68937078de5181128046",
+    "overhead-matrix/balanced_8c/logs/cache_only-4-tracked-no-check.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/balanced_8c/samples.csv": "8c98882d4a4feee7725f2dfd5c8fdbfcf598a921adb396300ed017692551d002",
+    "overhead-matrix/balanced_8c/summary.json": "d47a2f632b69f92ee225751ecbd53b0f994b078a89aaac4efc42f125a99eff1c",
+    "overhead-matrix/balanced_8c/environment.json": "f42c2e2620621228c035a80332667b108c13611b4cad65591d348185f195aede",
+    "overhead-matrix/read_heavy_1k/logs/cache_only-0-interspec.stats.json": "a3761b5ae4ce2a14f57950576c809762f23b9cea79eafcfa2dd6636dee240907",
+    "overhead-matrix/read_heavy_1k/logs/cache_only-0-interspec.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/read_heavy_1k/logs/cache_only-0-native.stats.json": "7c95527db4dee5a98fdd55eac9ae11696c3f344b232ab2c780e8375a217db2a2",
+    "overhead-matrix/read_heavy_1k/logs/cache_only-0-native.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/read_heavy_1k/logs/cache_only-0-tracked-no-check.stats.json": "0f43d8e43cd3c49cfdf8ae9d4835b4e1ab39d4cabc86424782bb84ba01489898",
+    "overhead-matrix/read_heavy_1k/logs/cache_only-0-tracked-no-check.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/read_heavy_1k/logs/cache_only-0-rlbox-only.stats.json": "94d1ec67d17904787dc79b1408e010ada8e8831d4a097247ea62ded549cf934c",
+    "overhead-matrix/read_heavy_1k/logs/cache_only-0-rlbox-only.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/read_heavy_1k/logs/cache_only-1-native.stats.json": "578e137c8168277f1c4135b2fb7b6807880f243234d0959ac54b84b083fd8228",
+    "overhead-matrix/read_heavy_1k/logs/cache_only-1-native.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/read_heavy_1k/logs/cache_only-1-interspec.stats.json": "07d2aa615f0039f1a2f5e33baf4c80c9936978cdaa78a822b35c7eda719ac665",
+    "overhead-matrix/read_heavy_1k/logs/cache_only-1-interspec.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/read_heavy_1k/logs/cache_only-1-rlbox-only.stats.json": "9ce676276a6a20114f466d2596efd7b766a47bfc524c90dfebf1082c3d21de39",
+    "overhead-matrix/read_heavy_1k/logs/cache_only-1-rlbox-only.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/read_heavy_1k/logs/cache_only-1-tracked-no-check.stats.json": "54f0c76ac27a6bd7e7f324fd84e29317b868f4f9de725c81b59a63dd3d647f8c",
+    "overhead-matrix/read_heavy_1k/logs/cache_only-1-tracked-no-check.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/read_heavy_1k/logs/cache_only-2-interspec.stats.json": "6029df986ed058dfb2966150bae367b4bea0dd6db4ec2d8a926715fd81eb91a4",
+    "overhead-matrix/read_heavy_1k/logs/cache_only-2-interspec.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/read_heavy_1k/logs/cache_only-2-rlbox-only.stats.json": "c405226bccfacdb4986ba0b329dcefc9e62c6ae115a5822df691ddfa7f36a9af",
+    "overhead-matrix/read_heavy_1k/logs/cache_only-2-rlbox-only.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/read_heavy_1k/logs/cache_only-2-tracked-no-check.stats.json": "59b18db4eb6702503ffc0672bee7513daa273e276721bf05ceebdbda249866ee",
+    "overhead-matrix/read_heavy_1k/logs/cache_only-2-tracked-no-check.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/read_heavy_1k/logs/cache_only-2-native.stats.json": "8aab9d164d7fb119aa72c3ca3199843368be23c729154d33a10660b82dc00100",
+    "overhead-matrix/read_heavy_1k/logs/cache_only-2-native.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/read_heavy_1k/logs/cache_only-3-native.stats.json": "738dcdf8a87ed589b2e90a4c754f4ac3a20817c96e1fc045ecb372ca4e968a3e",
+    "overhead-matrix/read_heavy_1k/logs/cache_only-3-native.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/read_heavy_1k/logs/cache_only-3-interspec.stats.json": "3a5c8109826a37d6722da5d43d9f521888e170de84479211fddbb147288c1d9c",
+    "overhead-matrix/read_heavy_1k/logs/cache_only-3-interspec.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/read_heavy_1k/logs/cache_only-3-rlbox-only.stats.json": "9cc17bb5892aee67b37032cde65117b376faef21a1d8ec82832e2c37e9c606d6",
+    "overhead-matrix/read_heavy_1k/logs/cache_only-3-rlbox-only.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/read_heavy_1k/logs/cache_only-3-tracked-no-check.stats.json": "5cf8700cbbe1d03bc3c88f3192717d5300efecf618a3de8cda93260c8d67f982",
+    "overhead-matrix/read_heavy_1k/logs/cache_only-3-tracked-no-check.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/read_heavy_1k/logs/cache_only-4-interspec.stats.json": "658854877db497c09e0cae7e1d4de0d77695183f03fea9a0a1f8590efc2ace06",
+    "overhead-matrix/read_heavy_1k/logs/cache_only-4-interspec.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/read_heavy_1k/logs/cache_only-4-rlbox-only.stats.json": "2b6b19a45c7130d5b7593ab34efadda03562e4ace29c6a40bca39d9d57016d70",
+    "overhead-matrix/read_heavy_1k/logs/cache_only-4-rlbox-only.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/read_heavy_1k/logs/cache_only-4-native.stats.json": "3c7ff8837042acbd08d4a0d5b729efb3db5e9dbbc9735218185aefd8434c005e",
+    "overhead-matrix/read_heavy_1k/logs/cache_only-4-native.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/read_heavy_1k/logs/cache_only-4-tracked-no-check.stats.json": "78248b86e559a72734531b9296063759826dffbcf40c5d3b96950848910a7903",
+    "overhead-matrix/read_heavy_1k/logs/cache_only-4-tracked-no-check.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/read_heavy_1k/samples.csv": "c5c221bb64c6704b34daa689424aaab5b9706ec7f45d6fb5c00a5d8e2c7a4e70",
+    "overhead-matrix/read_heavy_1k/summary.json": "d56e2b3a30701616cf9ad9b9e142a4da969fe9d73797bcb4858f31436d357548",
+    "overhead-matrix/read_heavy_1k/environment.json": "9ffe264c1ff4c80f29044310098db8ef3ef2b3b1837046cae83374fa4068e357",
+    "overhead-matrix/write_heavy/logs/cache_only-0-interspec.stats.json": "7ba9374c9eecefe429146a94324d0d4778c1e1484b372c3dfc2529bf39d41f3e",
+    "overhead-matrix/write_heavy/logs/cache_only-0-interspec.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/write_heavy/logs/cache_only-0-native.stats.json": "aed0bd2cb32087a3bb22fd6a1bc010a9b133b5051ffc766d115c7af5e6de0f91",
+    "overhead-matrix/write_heavy/logs/cache_only-0-native.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/write_heavy/logs/cache_only-0-tracked-no-check.stats.json": "4753131a2df3e66f60530d7e9078787839986166b61a846cb6a626d58cc4ad7d",
+    "overhead-matrix/write_heavy/logs/cache_only-0-tracked-no-check.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/write_heavy/logs/cache_only-0-rlbox-only.stats.json": "46a7b724582c2b686574c8f8041d498b8940ded3144b1d2d978154444651f398",
+    "overhead-matrix/write_heavy/logs/cache_only-0-rlbox-only.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/write_heavy/logs/cache_only-1-native.stats.json": "9aed1d1d1544b962496c44b3e16c32684cd646fd8a71b414563ac90989c0a1ae",
+    "overhead-matrix/write_heavy/logs/cache_only-1-native.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/write_heavy/logs/cache_only-1-interspec.stats.json": "fdbd4a29dbed41c4739eeee08a9ce67e11412be5899fbbd2b846b1eb6a96cdc0",
+    "overhead-matrix/write_heavy/logs/cache_only-1-interspec.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/write_heavy/logs/cache_only-1-rlbox-only.stats.json": "142508c36e25338e5ae536edbe520af761c5e3b0b8ad79d28d49c186e255d35b",
+    "overhead-matrix/write_heavy/logs/cache_only-1-rlbox-only.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/write_heavy/logs/cache_only-1-tracked-no-check.stats.json": "ed0178fcca70c9dbd59ec3da7cd352c3ca6e99e27830431952642d6d9302d0e7",
+    "overhead-matrix/write_heavy/logs/cache_only-1-tracked-no-check.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/write_heavy/logs/cache_only-2-interspec.stats.json": "8a098568f03b717516f9cb0240c7d2c3df1c97171d950d385e95c34c123a8025",
+    "overhead-matrix/write_heavy/logs/cache_only-2-interspec.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/write_heavy/logs/cache_only-2-rlbox-only.stats.json": "00731f8b77bd6b823ac2f120b506a4caee42b5934e92ecec4c704f9365ad32e8",
+    "overhead-matrix/write_heavy/logs/cache_only-2-rlbox-only.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/write_heavy/logs/cache_only-2-tracked-no-check.stats.json": "ccd28e50ec948da2debf4e59fe39cf80f50bbd6535f40c55876c7a689cf086a0",
+    "overhead-matrix/write_heavy/logs/cache_only-2-tracked-no-check.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/write_heavy/logs/cache_only-2-native.stats.json": "93524c66563577d07a96634bd6ff4b1dc8eb4a9364297804d037c4e98980fd5d",
+    "overhead-matrix/write_heavy/logs/cache_only-2-native.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/write_heavy/logs/cache_only-3-native.stats.json": "5a58bdb2173a92bdf707e37b5f1ebdc385f99d693765ae178d52aa951659da00",
+    "overhead-matrix/write_heavy/logs/cache_only-3-native.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/write_heavy/logs/cache_only-3-interspec.stats.json": "ee89275ec9568b868990fe6aee77de65338f099452a77fbd80f29a1eff12fe4d",
+    "overhead-matrix/write_heavy/logs/cache_only-3-interspec.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/write_heavy/logs/cache_only-3-rlbox-only.stats.json": "fa7f26bff9e583978fba7a522c88fb3b785f2fb2c7aad6717b75c986a3d3b543",
+    "overhead-matrix/write_heavy/logs/cache_only-3-rlbox-only.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/write_heavy/logs/cache_only-3-tracked-no-check.stats.json": "193cf4268020f263197266e03d2aa3ee6e141b706a8e777564e540f1740cc4e3",
+    "overhead-matrix/write_heavy/logs/cache_only-3-tracked-no-check.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/write_heavy/logs/cache_only-4-interspec.stats.json": "40756acc0f35218204600269add9da8b7313899cd45d8f10f56b5c621f14b25d",
+    "overhead-matrix/write_heavy/logs/cache_only-4-interspec.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/write_heavy/logs/cache_only-4-rlbox-only.stats.json": "b43117cba5bd7ea89089d2dc69fb7c5ebcdeabfa73c0b945299224a32089ca41",
+    "overhead-matrix/write_heavy/logs/cache_only-4-rlbox-only.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/write_heavy/logs/cache_only-4-native.stats.json": "1ec3d62245dfe1143283e561e66403f972d8f5c6129fc088fd4d1ea7e6857c91",
+    "overhead-matrix/write_heavy/logs/cache_only-4-native.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/write_heavy/logs/cache_only-4-tracked-no-check.stats.json": "684a10612655a9b7655ae38f9e598b8c454a33a626cb9a1834b17808a11a38be",
+    "overhead-matrix/write_heavy/logs/cache_only-4-tracked-no-check.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/write_heavy/samples.csv": "c61d12cc91801a5212063a649564334d9e0cc5a5e1ef94d116026103e8b19d87",
+    "overhead-matrix/write_heavy/summary.json": "d856da15ae2e6937e4e227e98ea3c36dabe01b57e4a2543c9c7c84f3892a678a",
+    "overhead-matrix/write_heavy/environment.json": "e5499418e309e3a7397d0a4ab5b6c39ac247bda104626a61368aae4c5ce594b2",
+    "overhead-matrix/watch_light/logs/watch_active-0-interspec.stats.json": "6081d7b70344a30a3623c6e22349894d174d6f6d64a325257dfabda0488b88ef",
+    "overhead-matrix/watch_light/logs/watch_active-0-interspec.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/watch_light/logs/watch_active-0-native.stats.json": "ab9c4888885db46c3c041d59ecfe066fe94395a72f2eed0747dde28bd34fac6e",
+    "overhead-matrix/watch_light/logs/watch_active-0-native.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/watch_light/logs/watch_active-0-tracked-no-check.stats.json": "7c136e483858bf9b6a268208ef41f72bf6f054ce960cb3a892f7f8b6ddde3e45",
+    "overhead-matrix/watch_light/logs/watch_active-0-tracked-no-check.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/watch_light/logs/watch_active-0-rlbox-only.stats.json": "31b33883866f33e6cda51cc410369a0ac499ea06a9030a68e63dfcf7dbc9cedc",
+    "overhead-matrix/watch_light/logs/watch_active-0-rlbox-only.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/watch_light/logs/watch_active-1-native.stats.json": "06b1c9bb4a4fa43b427e7aee43b495d5b28102fb05d2258f9161d24ed7905863",
+    "overhead-matrix/watch_light/logs/watch_active-1-native.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/watch_light/logs/watch_active-1-interspec.stats.json": "167238bafc148d204a28468245da97e7414b04b83861734428f82c6e85d60405",
+    "overhead-matrix/watch_light/logs/watch_active-1-interspec.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/watch_light/logs/watch_active-1-rlbox-only.stats.json": "14a5f0175f5c0cedc1b931140622c081d6fc6ca0cb81b766ea04a8221dc608b1",
+    "overhead-matrix/watch_light/logs/watch_active-1-rlbox-only.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/watch_light/logs/watch_active-1-tracked-no-check.stats.json": "a8185a85f7708c9b3496a5ef32b032e7c9512a94449f5a62bd1f6f74ce9bf419",
+    "overhead-matrix/watch_light/logs/watch_active-1-tracked-no-check.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/watch_light/logs/watch_active-2-interspec.stats.json": "745cca043f583307cc06dfa95192b834da325a730842597e1d3e7ee10f457dae",
+    "overhead-matrix/watch_light/logs/watch_active-2-interspec.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/watch_light/logs/watch_active-2-rlbox-only.stats.json": "538cd59f25555caadeccba88fc4292324486c1fc4c24dddd09c10c47eef1b254",
+    "overhead-matrix/watch_light/logs/watch_active-2-rlbox-only.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/watch_light/logs/watch_active-2-tracked-no-check.stats.json": "bda7c95a069d4ede4116a2de758859443a1b0003756ff21ed8c84812438dbe75",
+    "overhead-matrix/watch_light/logs/watch_active-2-tracked-no-check.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/watch_light/logs/watch_active-2-native.stats.json": "7371d73f01dddc5de0f73e2b84a6704a783a95b9d0a0e4fd147fa3286a3802ce",
+    "overhead-matrix/watch_light/logs/watch_active-2-native.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/watch_light/logs/watch_active-3-native.stats.json": "485dc947d68733120b6447e4a9dab958ee430eb6a8553d2791266545587461c5",
+    "overhead-matrix/watch_light/logs/watch_active-3-native.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/watch_light/logs/watch_active-3-interspec.stats.json": "bb76dae2d9f0e3f53adbe13e24bd8c9d7366ddfdbf2cda7285da6d9c8e4f09d5",
+    "overhead-matrix/watch_light/logs/watch_active-3-interspec.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/watch_light/logs/watch_active-3-rlbox-only.stats.json": "c9b037d0ba33ca740e2fd8a9f8e12f5c2608ecad40620a9ea6a30042e60d21fc",
+    "overhead-matrix/watch_light/logs/watch_active-3-rlbox-only.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/watch_light/logs/watch_active-3-tracked-no-check.stats.json": "599c50f7cd022dbf3efd0c1f03fb3b508f5da8db1dd8b544e41a12ef521d1c72",
+    "overhead-matrix/watch_light/logs/watch_active-3-tracked-no-check.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/watch_light/logs/watch_active-4-interspec.stats.json": "5ad697d40c1b1723d85900e5fbf0a65b7fc38890f59ef1e3c62b1e4f8be73c40",
+    "overhead-matrix/watch_light/logs/watch_active-4-interspec.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/watch_light/logs/watch_active-4-rlbox-only.stats.json": "13a8995f6f6322dbc92cdd33e921995baa1aa28905022fe75d9adc15de00676d",
+    "overhead-matrix/watch_light/logs/watch_active-4-rlbox-only.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/watch_light/logs/watch_active-4-native.stats.json": "02f2673049a48599a5e354bce6e018c140024d390dcd2f544a39317ef44ae1c4",
+    "overhead-matrix/watch_light/logs/watch_active-4-native.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/watch_light/logs/watch_active-4-tracked-no-check.stats.json": "c29bbc93bbcd086d679d439d12c1de2ac0ca0a62c51adf4f42688b8393682d40",
+    "overhead-matrix/watch_light/logs/watch_active-4-tracked-no-check.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/watch_light/samples.csv": "ba64f9c68633ed54186a982353e05f914e0b21f321d01a301831ba45f0f581ee",
+    "overhead-matrix/watch_light/summary.json": "7ba51636903e3e6bf8cc07b685d1c7b9e2f97f55e7a9665f535837b8377fe349",
+    "overhead-matrix/watch_light/environment.json": "7024b0e0e8887e4c19af97a8dd68948a7b89f80e53b24b28eb8b8f215741937f",
+    "overhead-matrix/watch_moderate/logs/watch_active-0-interspec.stats.json": "11692c35cc2a357ef63ed26933a288b3edf79ca55d7e03cc5b35bd6f8dda1f36",
+    "overhead-matrix/watch_moderate/logs/watch_active-0-interspec.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/watch_moderate/logs/watch_active-0-native.stats.json": "868e64a3ec9437db5dd70298e895814bce0b94242ea435c0349e5fe17e089f8a",
+    "overhead-matrix/watch_moderate/logs/watch_active-0-native.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/watch_moderate/logs/watch_active-0-tracked-no-check.stats.json": "bce3218c552d71d858c297d083345cfdd34a9adfc187a55ec53fe368dd22bbd9",
+    "overhead-matrix/watch_moderate/logs/watch_active-0-tracked-no-check.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/watch_moderate/logs/watch_active-0-rlbox-only.stats.json": "1c0aad15e454310c847e90def88158f5004ae88fe0330e3250eee72b858bdef7",
+    "overhead-matrix/watch_moderate/logs/watch_active-0-rlbox-only.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/watch_moderate/logs/watch_active-1-native.stats.json": "61b18f1955657f3efb3068d8cb3cedc9461b4ec57b5f121b750063b1bf013e3c",
+    "overhead-matrix/watch_moderate/logs/watch_active-1-native.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/watch_moderate/logs/watch_active-1-interspec.stats.json": "d71a625a1f5b2fc9e5a3c269f6207efb2bfd8f504ed22c1f9043cfc1eb307684",
+    "overhead-matrix/watch_moderate/logs/watch_active-1-interspec.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/watch_moderate/logs/watch_active-1-rlbox-only.stats.json": "f260c140e7438a5fb7e915dbf4ed0ad2d7a86d929316a600fac7df04a5b7253b",
+    "overhead-matrix/watch_moderate/logs/watch_active-1-rlbox-only.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/watch_moderate/logs/watch_active-1-tracked-no-check.stats.json": "0feb41490d34acbe9241a1a54369230d55b8283cde7b90853b9b5e02d43ba542",
+    "overhead-matrix/watch_moderate/logs/watch_active-1-tracked-no-check.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/watch_moderate/logs/watch_active-2-interspec.stats.json": "73d5b77d93f102ea1a56f4b28aad714df107038d8595fad31e82943d1f1e0adc",
+    "overhead-matrix/watch_moderate/logs/watch_active-2-interspec.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/watch_moderate/logs/watch_active-2-rlbox-only.stats.json": "565e6a41630b3de109930665ea7ea02653d4f03bb6324966ae32d192ca8466be",
+    "overhead-matrix/watch_moderate/logs/watch_active-2-rlbox-only.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/watch_moderate/logs/watch_active-2-tracked-no-check.stats.json": "5a8b5ecd4c4837d9be03cfa764d2cb0a1ef92b13f4a4a70b023764081781059e",
+    "overhead-matrix/watch_moderate/logs/watch_active-2-tracked-no-check.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/watch_moderate/logs/watch_active-2-native.stats.json": "2c50bc90b222ef50d0461565dc95a13597be6b74d57c4f0bc9a98c11b9517ad2",
+    "overhead-matrix/watch_moderate/logs/watch_active-2-native.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/watch_moderate/logs/watch_active-3-native.stats.json": "5d4c75b1dd16946eb570411b9a953a2e90d43586c474eef1ea78280c516321f5",
+    "overhead-matrix/watch_moderate/logs/watch_active-3-native.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/watch_moderate/logs/watch_active-3-interspec.stats.json": "9875a8be006e101095da61519604b56865d7bee43c950054c0b0958cf80aa6d4",
+    "overhead-matrix/watch_moderate/logs/watch_active-3-interspec.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/watch_moderate/logs/watch_active-3-rlbox-only.stats.json": "72ad5654f1cd3a3b99e8d48862cd153440012f19e1d757889f03bd106fb02ffd",
+    "overhead-matrix/watch_moderate/logs/watch_active-3-rlbox-only.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/watch_moderate/logs/watch_active-3-tracked-no-check.stats.json": "cffdbdf2a679239cefc24355fb89402d3545192997552c28d39d18d6f5b97d79",
+    "overhead-matrix/watch_moderate/logs/watch_active-3-tracked-no-check.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/watch_moderate/logs/watch_active-4-interspec.stats.json": "af27fc2b0067b4244442ced845ad178bda8f240e09033dce67c9c175b027ba32",
+    "overhead-matrix/watch_moderate/logs/watch_active-4-interspec.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/watch_moderate/logs/watch_active-4-rlbox-only.stats.json": "5f5d465d2c85f9dd5a1a75d3dd757e5bc1521772fd00d2ac9d8b0b34d21343f4",
+    "overhead-matrix/watch_moderate/logs/watch_active-4-rlbox-only.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/watch_moderate/logs/watch_active-4-native.stats.json": "1972c94c64bf1014f984bbb3b198b6da427381ed24744ed98cd80cc67f53a843",
+    "overhead-matrix/watch_moderate/logs/watch_active-4-native.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/watch_moderate/logs/watch_active-4-tracked-no-check.stats.json": "c409fc6c22900ad46a5667b4e2ee7a08d58c33aa79729d88880b1a92d22dcdd4",
+    "overhead-matrix/watch_moderate/logs/watch_active-4-tracked-no-check.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "overhead-matrix/watch_moderate/samples.csv": "c2720f8b8e58be78c2d4f4cb128e657cfb89c51133529f1cc79d2a801bab3cb9",
+    "overhead-matrix/watch_moderate/summary.json": "ef10ce95a53c2315c128d95714a9362bd19e41c459c41544c113a05bbf1eb744",
+    "overhead-matrix/watch_moderate/environment.json": "4d52f0d1c5dc959365fc0d00576268ab544460fd0888b474f38977152af50b24"
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "parameters": {
+    "work": "/tmp/interspec-memcached-deployment",
+    "out": "memcached-results/check-frequency",
+    "correctness_summary": "memcached-results/correctness/summary.json",
+    "operations": 5000,
+    "write_operations": 200000,
+    "write_key_cap": 10000,
+    "require_coverage": true,
+    "key_cap": 512
+  },
+  "host": {
+    "system": "Linux",
+    "node": "runnervmmprz5",
+    "release": "6.17.0-1022-azure",
+    "version": "#22-Ubuntu SMP Mon Jul 27 17:24:03 UTC 2026",
+    "machine": "x86_64",
+    "processor": "x86_64"
+  },
+  "build": {
+    "project_commit": "d1546785002fc9f9005d2d17360bddaf4839e4a4",
+    "project_dirty": false,
+    "memcached_revision": "2d51e364799bc9698bd4b11728ea978cea12da6e",
+    "rlbox_wasm2c_revision": "c4f18c48cea47421617f72ba5edc95c68aa85671",
+    "configure": [
+      "--disable-extstore",
+      "--disable-proxy",
+      "--disable-docs"
+    ],
+    "host_cflags": "-O2 -g",
+    "wasm_cflags": "-O3",
+    "bridge_source_sha256": "3c5e1357b610cd27ed7fdf0d7b20489bd31c5d16392d530192a5cd195a0e5df2",
+    "untrusted_source_sha256": "c33dfd496767e49c7e88b5935789609061ab4193038ee44a2bc9d863be7fa934",
+    "generated_policy_sha256": "52f7b0d3c4b668557ff7f80b155daa8997c6d2e1a997846473c70642e68c0fec",
+    "binary_sha256": {
+      "memcached-diagnostics": "1e3a76314140b958a649f170911c19b7b753a7004c18b01c47bef29e1821a3ae",
+      "memcached-interspec": "b417bff262289eafe49ae98c039e92bf25eabc0dbcd16b10a61c94773c40fb3f",
+      "memcached-interspec-debug": "10a158a323c462e69e910e3fa10856ae77302c9d5b942d1a648102e0b4675f4f",
+      "memcached-native": "f3781c29fce882b0ebbe2dfcc9607c2f8746fa3e9c89b92144b184e76f02025e",
+      "memcached-native-debug": "f510261ea0d8936c5fdc073213ee17b2e8f487817fe9cd66cd6408547abe2d08",
+      "memcached-rlbox-only": "6585b7d0dcc98677f605326c422e35ed31deb748d1c3d1ee4b91dc10468f504f",
+      "memcached-tracked-no-check": "a62b680852a6f03797ca60f58d1942784d54a0af5bddb2658c58b39f4e480c64"
+    }
+  },
+  "diagnostic_sha256": "1e3a76314140b958a649f170911c19b7b753a7004c18b01c47bef29e1821a3ae",
+  "client_sha256": "1556de303cb99790e4bcc84786b1678b95e9d1b957c4016a3fb217a80bdbe6e2",
+  "collector_sha256": "2f60f4a40920b8790e4a6b5f76acdd65d3bfc0319b50f6fa763a874d23eb2a04",
+  "interval": "client traffic plus 0.5 second asynchronous drain; preload and setup excluded; instrumented diagnostic, not timing evidence"
+}

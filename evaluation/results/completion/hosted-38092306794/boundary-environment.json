@@ -1,0 +1,40 @@
+{
+  "build": {
+    "source_commit": "d1546785002fc9f9005d2d17360bddaf4839e4a4",
+    "source_dirty": false,
+    "binary_sha256": {
+      "native": "ae751873738285992d28bfd8791f7156326f998746e6aad359f26a564815deed",
+      "rlbox-only": "be6497854c1658b54d0b34e2012c18ea434cf2566c14598ea3f0b6750d59dd2a",
+      "tracked-no-check": "cb907626b8521391bf1dc92b6985540de5e4e498965c1cbbda5d6bf6bb425a9a",
+      "interspec": "b506a570966d0acfad901cb5c3718528174222d1717ca1018bd50c8d1f687d3a"
+    },
+    "source_sha256": {
+      "integration/memcached_server/bridge.cpp": "3c5e1357b610cd27ed7fdf0d7b20489bd31c5d16392d530192a5cd195a0e5df2",
+      "integration/memcached_server/bipbuffer_u.c": "c33dfd496767e49c7e88b5935789609061ab4193038ee44a2bc9d863be7fa934",
+      "evaluation/native_empty_call.c": "6dfea47392eb18f6327e95bfe13ae2d15c6de35701c54b192de987673546fbec",
+      "evaluation/memcached_boundary_bench.cpp": "a714c17aba75f83a474438c6b620194e2ccf9eb9b3f929d2dce087793f2f60b3",
+      "scripts/build_memcached_boundary_bench.sh": "b989b73c31533a3b6be75f87065010cfeb56cae1a285153901fa1ad803ee24aa"
+    },
+    "cflags": "-O2; WASI -O3; no LTO; diagnostics and faults disabled"
+  },
+  "host": {
+    "system": "Linux",
+    "node": "runnervmmprz5",
+    "release": "6.17.0-1022-azure",
+    "version": "#22-Ubuntu SMP Mon Jul 27 17:24:03 UTC 2026",
+    "machine": "x86_64",
+    "processor": "x86_64"
+  },
+  "affinity": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "requested_cpu": null,
+  "repetitions": 7,
+  "iterations": 20000,
+  "warmup_operations": 1000,
+  "clock": "steady_clock",
+  "publication_ready": false
+}

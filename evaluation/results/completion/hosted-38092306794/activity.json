@@ -1,0 +1,326 @@
+[
+  {
+    "name": "balanced_1c",
+    "mode": "cache_only",
+    "clients": 1,
+    "pipeline": 10,
+    "value_bytes": 256,
+    "keys": 10000,
+    "get_percent": 50,
+    "purpose": "low-concurrency balanced cache traffic; preserves the paper's 1-client, 1:1, pipeline-10 shape",
+    "profile_keys": 512,
+    "operations": 5000,
+    "runtime_checks": 54,
+    "checks_per_operation": 0.0108,
+    "checks_per_1000_operations": 10.8,
+    "check_operations": {
+      "peek_all": 1,
+      "poll": 1,
+      "push": 26,
+      "request": 26
+    },
+    "coverage_valid": true,
+    "loss_counters": {
+      "log_worker_dropped": 0,
+      "log_watcher_skipped": 0,
+      "lru_bumps_dropped": 0
+    },
+    "moves_to_warm": 30,
+    "lru_holds": 26,
+    "lru_takes": 26,
+    "sandbox_calls": 207,
+    "sandbox_calls_per_operation": 0.0414,
+    "sandbox_call_functions": {
+      "interspec_mc_last_size": 64,
+      "interspec_mc_peek_all": 64,
+      "interspec_mc_poll": 1,
+      "interspec_mc_push": 26,
+      "interspec_mc_request": 52
+    },
+    "bytes_into_u": 416,
+    "bytes_from_u": 832,
+    "bytes_into_u_per_operation": 0.0832,
+    "bytes_from_u_per_operation": 0.1664,
+    "copy_into_u_operations": {
+      "push": 416
+    },
+    "copy_from_u_operations": {
+      "peek_all": 416,
+      "poll": 416
+    },
+    "trace_start_offset": 288612,
+    "trace_end_offset": 383338,
+    "trace_sha256": "475cdbfa89e3886a065edf88cfde34c3aa29d1ce202853a19cab068b885bee38"
+  },
+  {
+    "name": "balanced_8c",
+    "mode": "cache_only",
+    "clients": 8,
+    "pipeline": 10,
+    "value_bytes": 256,
+    "keys": 10000,
+    "get_percent": 50,
+    "purpose": "higher-concurrency balanced cache traffic; preserves the paper's 8-client, 1:1, pipeline-10 shape",
+    "profile_keys": 512,
+    "operations": 5000,
+    "runtime_checks": 60,
+    "checks_per_operation": 0.012,
+    "checks_per_1000_operations": 12.0,
+    "check_operations": {
+      "peek_all": 4,
+      "poll": 4,
+      "push": 26,
+      "request": 26
+    },
+    "coverage_valid": true,
+    "loss_counters": {
+      "log_worker_dropped": 0,
+      "log_watcher_skipped": 0,
+      "lru_bumps_dropped": 0
+    },
+    "moves_to_warm": 30,
+    "lru_holds": 26,
+    "lru_takes": 26,
+    "sandbox_calls": 202,
+    "sandbox_calls_per_operation": 0.0404,
+    "sandbox_call_functions": {
+      "interspec_mc_last_size": 60,
+      "interspec_mc_peek_all": 60,
+      "interspec_mc_poll": 4,
+      "interspec_mc_push": 26,
+      "interspec_mc_request": 52
+    },
+    "bytes_into_u": 416,
+    "bytes_from_u": 832,
+    "bytes_into_u_per_operation": 0.0832,
+    "bytes_from_u_per_operation": 0.1664,
+    "copy_into_u_operations": {
+      "push": 416
+    },
+    "copy_from_u_operations": {
+      "peek_all": 416,
+      "poll": 416
+    },
+    "trace_start_offset": 300219,
+    "trace_end_offset": 399094,
+    "trace_sha256": "69f2ebf5624a39888394de1f5255a4bc4a7702df8c518883dafea88a8f02791a"
+  },
+  {
+    "name": "read_heavy_1k",
+    "mode": "cache_only",
+    "clients": 8,
+    "pipeline": 16,
+    "value_bytes": 1024,
+    "keys": 10000,
+    "get_percent": 95,
+    "purpose": "read-mostly object-cache scenario with 1 KiB values",
+    "profile_keys": 512,
+    "operations": 5000,
+    "runtime_checks": 748,
+    "checks_per_operation": 0.1496,
+    "checks_per_1000_operations": 149.6,
+    "check_operations": {
+      "peek_all": 4,
+      "poll": 4,
+      "push": 370,
+      "request": 370
+    },
+    "coverage_valid": true,
+    "loss_counters": {
+      "log_worker_dropped": 0,
+      "log_watcher_skipped": 0,
+      "lru_bumps_dropped": 0
+    },
+    "moves_to_warm": 461,
+    "lru_holds": 370,
+    "lru_takes": 370,
+    "sandbox_calls": 1234,
+    "sandbox_calls_per_operation": 0.2468,
+    "sandbox_call_functions": {
+      "interspec_mc_last_size": 60,
+      "interspec_mc_peek_all": 60,
+      "interspec_mc_poll": 4,
+      "interspec_mc_push": 370,
+      "interspec_mc_request": 740
+    },
+    "bytes_into_u": 5920,
+    "bytes_from_u": 11840,
+    "bytes_into_u_per_operation": 1.184,
+    "bytes_from_u_per_operation": 2.368,
+    "copy_into_u_operations": {
+      "push": 5920
+    },
+    "copy_from_u_operations": {
+      "peek_all": 5920,
+      "poll": 5920
+    },
+    "trace_start_offset": 307986,
+    "trace_end_offset": 1219915,
+    "trace_sha256": "1bde901a7a33484b0c9b825ed10696140114224b66d99bb6edc0290a16b17eba"
+  },
+  {
+    "name": "write_heavy",
+    "mode": "cache_only",
+    "clients": 8,
+    "pipeline": 8,
+    "value_bytes": 256,
+    "keys": 10000,
+    "get_percent": 10,
+    "purpose": "mutation-heavy scenario stressing SET paths and asynchronous LRU activity",
+    "profile_keys": 10000,
+    "operations": 200000,
+    "runtime_checks": 2070,
+    "checks_per_operation": 0.01035,
+    "checks_per_1000_operations": 10.35,
+    "check_operations": {
+      "peek_all": 35,
+      "poll": 35,
+      "push": 1000,
+      "request": 1000
+    },
+    "coverage_valid": true,
+    "loss_counters": {
+      "log_worker_dropped": 0,
+      "log_watcher_skipped": 0,
+      "lru_bumps_dropped": 0
+    },
+    "moves_to_warm": 1000,
+    "lru_holds": 1000,
+    "lru_takes": 1000,
+    "sandbox_calls": 31323,
+    "sandbox_calls_per_operation": 0.156615,
+    "sandbox_call_functions": {
+      "interspec_mc_last_size": 14144,
+      "interspec_mc_peek_all": 14144,
+      "interspec_mc_poll": 35,
+      "interspec_mc_push": 1000,
+      "interspec_mc_request": 2000
+    },
+    "bytes_into_u": 16000,
+    "bytes_from_u": 32000,
+    "bytes_into_u_per_operation": 0.08,
+    "bytes_from_u_per_operation": 0.16,
+    "copy_into_u_operations": {
+      "push": 16000
+    },
+    "copy_from_u_operations": {
+      "peek_all": 16000,
+      "poll": 16000
+    },
+    "trace_start_offset": 2952403,
+    "trace_end_offset": 12283505,
+    "trace_sha256": "f9645cc288fc8cbbb145aab6a45881260d5b9177140fcba80697394698e49fa8"
+  },
+  {
+    "name": "watch_light",
+    "mode": "watch_active",
+    "clients": 1,
+    "pipeline": 1,
+    "value_bytes": 256,
+    "keys": 10000,
+    "get_percent": 50,
+    "purpose": "lossless active-observability scenario with a live watcher",
+    "profile_keys": 512,
+    "operations": 5000,
+    "runtime_checks": 36164,
+    "checks_per_operation": 7.2328,
+    "checks_per_1000_operations": 7232.8,
+    "check_operations": {
+      "offer_input": 7500,
+      "peek_all": 3326,
+      "poll": 2300,
+      "push": 7769,
+      "request": 15269
+    },
+    "coverage_valid": true,
+    "loss_counters": {
+      "log_worker_dropped": 0,
+      "log_watcher_skipped": 0,
+      "lru_bumps_dropped": 0
+    },
+    "moves_to_warm": 269,
+    "lru_holds": 269,
+    "lru_takes": 269,
+    "sandbox_calls": 71563,
+    "sandbox_calls_per_operation": 14.3126,
+    "sandbox_call_functions": {
+      "interspec_mc_last_size": 15478,
+      "interspec_mc_offer": 7500,
+      "interspec_mc_peek_all": 15478,
+      "interspec_mc_poll": 2300,
+      "interspec_mc_push": 7769,
+      "interspec_mc_request": 23038
+    },
+    "bytes_into_u": 1226688,
+    "bytes_from_u": 3197375,
+    "bytes_into_u_per_operation": 245.3376,
+    "bytes_from_u_per_operation": 639.475,
+    "copy_into_u_operations": {
+      "offer": 743999,
+      "push": 482689
+    },
+    "copy_from_u_operations": {
+      "peek_all": 1970687,
+      "poll": 1226688
+    },
+    "trace_start_offset": 460962,
+    "trace_end_offset": 41872512,
+    "trace_sha256": "b5cbb2adbe19c50e61a8d8055f4783230dcc414b180e57019e5a75c3bbf993d0"
+  },
+  {
+    "name": "watch_moderate",
+    "mode": "watch_active",
+    "clients": 2,
+    "pipeline": 2,
+    "value_bytes": 256,
+    "keys": 10000,
+    "get_percent": 50,
+    "purpose": "moderate active-observability load with worker and watcher queues exercised continuously",
+    "profile_keys": 512,
+    "operations": 5000,
+    "runtime_checks": 31063,
+    "checks_per_operation": 6.2126,
+    "checks_per_1000_operations": 6212.6,
+    "check_operations": {
+      "offer_input": 7500,
+      "peek_all": 266,
+      "poll": 259,
+      "push": 7769,
+      "request": 15269
+    },
+    "coverage_valid": true,
+    "loss_counters": {
+      "log_worker_dropped": 0,
+      "log_watcher_skipped": 0,
+      "lru_bumps_dropped": 0
+    },
+    "moves_to_warm": 269,
+    "lru_holds": 269,
+    "lru_takes": 269,
+    "sandbox_calls": 47900,
+    "sandbox_calls_per_operation": 9.58,
+    "sandbox_call_functions": {
+      "interspec_mc_last_size": 4667,
+      "interspec_mc_offer": 7500,
+      "interspec_mc_peek_all": 4667,
+      "interspec_mc_poll": 259,
+      "interspec_mc_push": 7769,
+      "interspec_mc_request": 23038
+    },
+    "bytes_into_u": 1226588,
+    "bytes_from_u": 3197075,
+    "bytes_into_u_per_operation": 245.3176,
+    "bytes_from_u_per_operation": 639.415,
+    "copy_into_u_operations": {
+      "offer": 743899,
+      "push": 482689
+    },
+    "copy_from_u_operations": {
+      "peek_all": 1970487,
+      "poll": 1226588
+    },
+    "trace_start_offset": 468035,
+    "trace_end_offset": 31185770,
+    "trace_sha256": "3be206f38394de16ca52d477720f3cd3996653c06839ebdd6a17ee74b7f617c4"
+  }
+]

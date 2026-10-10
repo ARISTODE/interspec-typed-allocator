@@ -1,0 +1,35 @@
+{
+  "source": {
+    "run_id": 38092306794,
+    "artifact_id": 11684499204,
+    "artifact_sha256": "05644f047af9c0e25d8995e7447b934f3f16ecb59d383aed124dea3d36545fe8",
+    "created_at": "2026-10-10T22:56:44Z",
+    "head_sha": "2f005c7641fda32c47511c1fc94a92acf08f5623",
+    "url": "https://github.com/ARISTODE/interspec-typed-allocator/actions/runs/38092306794",
+    "execution_commit": "d1546785002fc9f9005d2d17360bddaf4839e4a4",
+    "execution_tree": "5e020bd09cc8bd3efe7c0d17290a0ebaad612506",
+    "execution_tree_matches_head": true
+  },
+  "files": {
+    "matrix-raw.csv": "3e8ac1e238087f425a7bb828e69cf4c1a411af760b4573568866258a31ad8b84",
+    "matrix-summary.json": "0d8c0f54f48e6f9400194d7e9ac4a999e51e9c53379cb004201d787c6149d9f5",
+    "matrix-verification.json": "9afd5135420627c793dcdc9dffb8128dac36db909dc00b12608ba354a30ec2a0",
+    "boundary-raw.csv": "6e8d8a64971c766ce34f23b6ec441dac8da49d857f387f49690fdb751935f4e4",
+    "boundary-summary.json": "25ebd5e55eb1db7d3a8d86a4d9a536d3c707309011c80aa3ab7cd3dc0e56ce91",
+    "boundary-verification.json": "9abc46bf1a88048ef39da29732933a3b4e3cc68f124ed7d39c74f33b61459095",
+    "boundary-environment.json": "c26b72301a516e3191301af39a55d82dd3eaf729a8e945ab4065d536b5689d84",
+    "boundary-results.md": "6946047bd7e123e7416c090c2e2bf3d75180ddc28a4f455814b563bb1ecf92f1",
+    "activity.json": "3707cc616587f71e57bbd240b62d31581b1c85982ea85945fc8bc359c2bae55a",
+    "activity-verification.json": "53edba4300d5c8681e91d64df383eb64d3d5b9b102ff0f9e6a260fb6bd5000a2",
+    "activity-report.md": "baa2d24fb8514fc4f05393fcec06abccefc4a62916ea80c9e56f806dd78d55a2",
+    "profile-environment.json": "1d801ac65234e47f668508863b1ef598e9cc148df3b3768024982bb7249f40e0",
+    "correctness.json": "f98405a74c843aae5a92d9dcaf26c9104a97891c7ed793e560d20f1ebc87ea3c",
+    "runtime-raw.csv": "933676f7af4c429e0345f53a8d2bb025146b5c1589b5beb96afe22263a85d55a",
+    "runtime-summary.json": "b1b180c156e2fcde2f4ee0930056baa5709ce0af762ad9cfe4890ac628ec4b6f",
+    "runtime-environment.json": "a87bea034efd39efb51b52b931fff09a5c90e950c8031fd4e9b9338b363f9e4f",
+    "performance-report.md": "d41c2d1d654173c234f53617e303421c3cb6bf79f63648e6583c96c2b4afbdd5"
+  },
+  "full_archive": "https://interspec-results-explorer.upbeatfairy10.chatgpt.site/evidence/memcached-38092306794/artifact.zip",
+  "archive_access": "owner private; complete traces and server logs retained",
+  "publication_ready": false
+}

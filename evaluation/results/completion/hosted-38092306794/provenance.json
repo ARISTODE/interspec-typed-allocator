@@ -1,0 +1,11 @@
+{
+  "run_id": 38092306794,
+  "artifact_id": 11684499204,
+  "artifact_sha256": "05644f047af9c0e25d8995e7447b934f3f16ecb59d383aed124dea3d36545fe8",
+  "created_at": "2026-10-10T22:56:44Z",
+  "head_sha": "2f005c7641fda32c47511c1fc94a92acf08f5623",
+  "url": "https://github.com/ARISTODE/interspec-typed-allocator/actions/runs/38092306794",
+  "execution_commit": "d1546785002fc9f9005d2d17360bddaf4839e4a4",
+  "execution_tree": "5e020bd09cc8bd3efe7c0d17290a0ebaad612506",
+  "execution_tree_matches_head": true
+}
