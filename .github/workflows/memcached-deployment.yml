@@ -14,6 +14,8 @@ jobs:
     timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
+      - name: Verify evidence validator rejects incomplete or corrupted data
+        run: python3 tests/memcached_matrix_evidence.py
       - name: Install dependencies
         run: |
           sudo apt-get update
@@ -30,12 +32,18 @@ jobs:
             --out memcached-results/performance --seconds 1 --warmup 0.3 \
             --repetitions 3 --label hosted_ci_reference \
             --correctness-summary memcached-results/correctness/summary.json
-      - name: Exercise representative native RLBox InterSpec matrix
+      - name: Collect all four variants in the same six scenario experiment
         run: |
           python3 tools/benchmark_memcached_matrix.py \
-            --out memcached-results/overhead-matrix --preset smoke \
+            --out memcached-results/overhead-matrix --preset smoke --include-tracking \
+            --repetitions 5 --seconds 3 --warmup 1 \
             --correctness-summary memcached-results/correctness/summary.json \
             --label hosted_ci_matrix
+      - name: Independently validate every matrix sample and summary
+        run: |
+          python3 tools/verify_memcached_matrix.py \
+            --matrix memcached-results/overhead-matrix \
+            --correctness-summary memcached-results/correctness/summary.json
       - name: Profile SP3 check frequency
         run: |
           python3 tools/profile_memcached_checks.py \

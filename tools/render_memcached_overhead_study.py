@@ -47,6 +47,18 @@ def main():
             f"{'yes' if row['valid_lossless'] else 'NO'} |"
         )
 
+    if "tracked-no-check" in matrix["variants"]:
+        lines += ["", "## Allocation tracking decomposition", "",
+                  "All variants share the same experiment and repetition pairing. Positive percentages mean lower throughput. These costs cannot be added.", "",
+                  "| Scenario | Tracking Kops/s | Tracking loss vs RLBox | InterSpec loss vs tracking | Tracking p99 µs | Tracking CPU µs/op | Tracking RSS MiB |",
+                  "| --- | ---: | ---: | ---: | ---: | ---: | ---: |"]
+        for row in matrix["scenarios"]:
+            lines.append(f"| {row['name']} | {row['tracking_ops_per_s']/1000:.1f} | "
+                         f"{row['tracking_loss_vs_rlbox_pct']:+.2f}% | "
+                         f"{row['interspec_loss_vs_tracking_pct']:+.2f}% | "
+                         f"{row['tracking_p99_us']:.1f} | {row['tracking_cpu_us_per_op']:.3f} | "
+                         f"{row['tracking_rss_mib']:.2f} |")
+
     lines += [
         "",
         "## SP3 primitive microbenchmark",
