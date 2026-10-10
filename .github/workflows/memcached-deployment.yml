@@ -14,6 +14,11 @@ jobs:
     timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
+      - name: Verify evidence validator rejects incomplete or corrupted data
+        run: |
+          python3 tests/memcached_matrix_evidence.py
+          python3 tests/memcached_boundary_evidence.py
+          python3 tests/memcached_profile_evidence.py
       - name: Install dependencies
         run: |
           sudo apt-get update
@@ -30,17 +35,35 @@ jobs:
             --out memcached-results/performance --seconds 1 --warmup 0.3 \
             --repetitions 3 --label hosted_ci_reference \
             --correctness-summary memcached-results/correctness/summary.json
-      - name: Exercise representative native RLBox InterSpec matrix
+      - name: Collect all four variants in the same six scenario experiment
         run: |
           python3 tools/benchmark_memcached_matrix.py \
-            --out memcached-results/overhead-matrix --preset smoke \
+            --out memcached-results/overhead-matrix --preset smoke --include-tracking \
+            --repetitions 5 --seconds 3 --warmup 1 \
             --correctness-summary memcached-results/correctness/summary.json \
             --label hosted_ci_matrix
+      - name: Independently validate every matrix sample and summary
+        run: |
+          python3 tools/verify_memcached_matrix.py \
+            --matrix memcached-results/overhead-matrix \
+            --correctness-summary memcached-results/correctness/summary.json
       - name: Profile SP3 check frequency
         run: |
           python3 tools/profile_memcached_checks.py \
-            --out memcached-results/check-frequency --operations 1000 --key-cap 512 \
+            --out memcached-results/check-frequency --operations 5000 --key-cap 512 \
+            --write-operations 200000 --write-key-cap 10000 --require-coverage \
             --correctness-summary memcached-results/correctness/summary.json
+          python3 tools/verify_memcached_profile.py \
+            --profile memcached-results/check-frequency \
+            --correctness-summary memcached-results/correctness/summary.json
+      - name: Build separate boundary measurement binaries
+        run: bash scripts/build_memcached_boundary_bench.sh
+      - name: Collect and independently validate actual wasm2c boundary costs
+        run: |
+          python3 tools/run_memcached_boundary_bench.py \
+            --out memcached-results/boundary-microbench --repetitions 7 --iterations 20000
+          python3 tools/verify_memcached_boundary_bench.py \
+            --results memcached-results/boundary-microbench
       - name: Run SP3 primitive microbenchmarks
         run: |
           python3 tools/run_runtime_microbench.py \
