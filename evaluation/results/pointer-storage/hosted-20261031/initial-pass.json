@@ -1,0 +1,1884 @@
+{
+  "schema": 1,
+  "status": "exploratory; independent artifact revalidation pending",
+  "source_commit": "cbfdb80afbf3f14064bd2b8053f77687440f7739",
+  "as_of_date_utc": "2026-10-31",
+  "run_ids": {
+    "rsync_ci": 41170210318,
+    "memcached": 41170210249,
+    "nginx": 41170210351,
+    "yaml": 41170210392
+  },
+  "raw_result_source": "GitHub Actions stdout and uploaded artifacts",
+  "notes": [
+    "Observations are boundary pointer-use events, not distinct pointers or all U-internal objects",
+    "T pointers copied or tokenized, never passed by raw address to U",
+    "VMA categories are mapping provenance, not object identity or lifetime",
+    "U fault probes are adversarial source-level injections, not prevalence in normal workloads",
+    "memcached fixed-operation counts include 0.5 seconds of asynchronous drain and exclude preload"
+  ],
+  "rsync": {
+    "boundary": "rsync_popt",
+    "by_direction": {
+      "t_adapter_only": 690,
+      "t_to_u": 1577,
+      "u_to_t": 35
+    },
+    "by_site": [
+      {
+        "direction": "t_adapter_only",
+        "observations": 690,
+        "site": "shadow_destination",
+        "storage": "t_image_static"
+      },
+      {
+        "direction": "t_to_u",
+        "observations": 1,
+        "site": "string_copy_source",
+        "storage": "t_brk_heap_vma"
+      },
+      {
+        "direction": "t_to_u",
+        "observations": 1542,
+        "site": "string_copy_source",
+        "storage": "t_image_static"
+      },
+      {
+        "direction": "t_to_u",
+        "observations": 34,
+        "site": "string_copy_source",
+        "storage": "t_other_stack_vma"
+      },
+      {
+        "direction": "u_to_t",
+        "observations": 35,
+        "site": "checked_string_result",
+        "storage": "u_tracked_heap"
+      }
+    ],
+    "by_storage": {
+      "t_brk_heap_vma": 1,
+      "t_image_static": 2232,
+      "t_other_stack_vma": 34,
+      "u_tracked_heap": 35
+    },
+    "cases": [
+      {
+        "log": "archive_transfer-integrated.stderr",
+        "observations": 385,
+        "sha256": "01efdbe42424d7b271024c5496271af110a1c139d1615c460cec9470625c8fcc"
+      },
+      {
+        "log": "size_filter-integrated.stderr",
+        "observations": 390,
+        "sha256": "7bf3534291ccd6ef987579cf8d21b45357a1878b008a39bc14bc0bd65db4fdaa"
+      },
+      {
+        "log": "dry_run-integrated.stderr",
+        "observations": 388,
+        "sha256": "3baf247b6263f5030009511d36cf9c5a3b913802ae39ee90e1e6ef0c6e4c463e"
+      },
+      {
+        "log": "update_backup-integrated.stderr",
+        "observations": 386,
+        "sha256": "907e96674f15971e518f380654607431e32e703fae0234f80ef81df6fb88668f"
+      },
+      {
+        "log": "invalid_numeric_option-integrated.stderr",
+        "observations": 377,
+        "sha256": "6161c942a058efcd39bb4881a6416b30bbaac3d034daffc81ce57529f0237b38"
+      },
+      {
+        "log": "unknown_option-integrated.stderr",
+        "observations": 376,
+        "sha256": "ffcbd210023597aad2b55fef84c560dca26f868cf239e58da5e0a88b11255b60"
+      }
+    ],
+    "limitations": [
+      "t_stack identifies only the executing T thread's stack range",
+      "t_image_static denotes readable nonexecutable ELF image storage, not proven named globals",
+      "VMA classes identify mapping regions, not allocation identity, object type, or lifetime",
+      "t_anon_vma may include malloc arenas and other-thread stacks; it is not a proof of heap ownership",
+      "unknown means maps inspection unavailable; t_unmapped means no covering VMA was found",
+      "uninstrumented pointers are not counted",
+      "u_tracked_heap requires a successful SP3 check; U stack and globals remain unclassified",
+      "counts denote pointer observations, not unique objects",
+      "T pointer addresses remain in T and are copied or tokenized, not passed raw into U"
+    ],
+    "schema": 1,
+    "scope": "normal correctness cases; adapter pointer arguments and copies; checked sandbox results",
+    "total_observations": 2302,
+    "trusted_image_static_observations": 2232,
+    "trusted_observations": 2267,
+    "trusted_stack_observations": 0,
+    "trusted_stack_or_image_static_fraction": 0.984561093956771,
+    "trusted_unknown_or_null_observations": 0,
+    "trusted_unmapped_observations": 0,
+    "trusted_vma_attributed_observations": 35
+  },
+  "memcached": {
+    "boundary": "memcached_bipbuffer",
+    "by_direction": {
+      "t_adapter_only": 1348,
+      "t_to_u": 164,
+      "u_to_t": 464
+    },
+    "by_site": [
+      {
+        "direction": "t_adapter_only",
+        "observations": 128,
+        "site": "lru_item_tokenized",
+        "storage": "t_anon_vma"
+      },
+      {
+        "direction": "t_adapter_only",
+        "observations": 1220,
+        "site": "peek_all_size_output",
+        "storage": "t_stack"
+      },
+      {
+        "direction": "t_to_u",
+        "observations": 26,
+        "site": "offer_copy_source",
+        "storage": "t_image_static"
+      },
+      {
+        "direction": "t_to_u",
+        "observations": 5,
+        "site": "offer_copy_source",
+        "storage": "t_stack"
+      },
+      {
+        "direction": "t_to_u",
+        "observations": 133,
+        "site": "push_copy_source",
+        "storage": "t_anon_vma"
+      },
+      {
+        "direction": "u_to_t",
+        "observations": 37,
+        "site": "input",
+        "storage": "u_tracked_heap"
+      },
+      {
+        "direction": "u_to_t",
+        "observations": 31,
+        "site": "offer_input",
+        "storage": "u_tracked_heap"
+      },
+      {
+        "direction": "u_to_t",
+        "observations": 76,
+        "site": "peek_all",
+        "storage": "u_tracked_heap"
+      },
+      {
+        "direction": "u_to_t",
+        "observations": 49,
+        "site": "poll",
+        "storage": "u_tracked_heap"
+      },
+      {
+        "direction": "u_to_t",
+        "observations": 133,
+        "site": "push",
+        "storage": "u_tracked_heap"
+      },
+      {
+        "direction": "u_to_t",
+        "observations": 138,
+        "site": "request",
+        "storage": "u_tracked_heap"
+      }
+    ],
+    "by_storage": {
+      "t_anon_vma": 261,
+      "t_image_static": 26,
+      "t_stack": 1225,
+      "u_tracked_heap": 464
+    },
+    "cases": [
+      {
+        "log": "interspec/normal.stderr",
+        "observations": 1976,
+        "sha256": "427cc3b47eb4075a9d4856b3a902971fe07f138754d1d39422a224a21a098302"
+      }
+    ],
+    "limitations": [
+      "t_stack identifies only the executing T thread's stack range",
+      "t_image_static denotes readable nonexecutable ELF image storage, not proven named globals",
+      "VMA classes identify mapping regions, not allocation identity, object type, or lifetime",
+      "t_anon_vma may include malloc arenas and other-thread stacks; it is not a proof of heap ownership",
+      "unknown means maps inspection unavailable; t_unmapped means no covering VMA was found",
+      "uninstrumented pointers are not counted",
+      "u_tracked_heap requires a successful SP3 check; U stack and globals remain unclassified",
+      "counts denote pointer observations, not unique objects",
+      "T pointer addresses remain in T and are copied or tokenized, not passed raw into U"
+    ],
+    "schema": 1,
+    "scope": "normal correctness cases; adapter pointer arguments and copies; checked sandbox results",
+    "total_observations": 1976,
+    "trusted_image_static_observations": 26,
+    "trusted_observations": 1512,
+    "trusted_stack_observations": 1225,
+    "trusted_stack_or_image_static_fraction": 0.8273809523809523,
+    "trusted_unknown_or_null_observations": 0,
+    "trusted_unmapped_observations": 0,
+    "trusted_vma_attributed_observations": 261
+  },
+  "u_synthetic_faults": {
+    "total": 18,
+    "passed": 18,
+    "cases": [
+      {
+        "actual_runtime_result": "untracked",
+        "case": "u-origin-r1-t1-m9",
+        "fault_mode": 9,
+        "log_sha256": "efcdcc403bab6e83ce42a51d0b4be9bbf180e2be6dba45e821783a1072c34c09",
+        "passed": true,
+        "rejection_census_events": 1,
+        "role": 1,
+        "server_exit_code": -6,
+        "source_provenance": "u_static_global_untracked",
+        "target": 1
+      },
+      {
+        "actual_runtime_result": "untracked",
+        "case": "u-origin-r1-t1-m10",
+        "fault_mode": 10,
+        "log_sha256": "068e959ca54f9938a29033fbd1349fa39c3b6c104f82228e0199749b69cb9a05",
+        "passed": true,
+        "rejection_census_events": 1,
+        "role": 1,
+        "server_exit_code": -6,
+        "source_provenance": "u_escaped_stack_untracked",
+        "target": 1
+      },
+      {
+        "actual_runtime_result": "untracked",
+        "case": "u-origin-r1-t2-m9",
+        "fault_mode": 9,
+        "log_sha256": "55a8dd1808320bcda3f50330e49b423cc38ef9b7c4616b061940a918dfc3f200",
+        "passed": true,
+        "rejection_census_events": 1,
+        "role": 1,
+        "server_exit_code": -6,
+        "source_provenance": "u_static_global_untracked",
+        "target": 2
+      },
+      {
+        "actual_runtime_result": "untracked",
+        "case": "u-origin-r1-t2-m10",
+        "fault_mode": 10,
+        "log_sha256": "b51369c187a92d7eeb12ca41960301081363ac3cec2fad4867c2c36d7315b5ee",
+        "passed": true,
+        "rejection_census_events": 1,
+        "role": 1,
+        "server_exit_code": -6,
+        "source_provenance": "u_escaped_stack_untracked",
+        "target": 2
+      },
+      {
+        "actual_runtime_result": "untracked",
+        "case": "u-origin-r1-t3-m9",
+        "fault_mode": 9,
+        "log_sha256": "de8906febfcabf6a308cbd63a261ef18eea732171665c5dec3a0b1ed8c7695af",
+        "passed": true,
+        "rejection_census_events": 1,
+        "role": 1,
+        "server_exit_code": -6,
+        "source_provenance": "u_static_global_untracked",
+        "target": 3
+      },
+      {
+        "actual_runtime_result": "untracked",
+        "case": "u-origin-r1-t3-m10",
+        "fault_mode": 10,
+        "log_sha256": "33a6bf2ae52160c667ae833de4d2ccf697995a474e4d9c71f125e2256302a61c",
+        "passed": true,
+        "rejection_census_events": 1,
+        "role": 1,
+        "server_exit_code": -6,
+        "source_provenance": "u_escaped_stack_untracked",
+        "target": 3
+      },
+      {
+        "actual_runtime_result": "untracked",
+        "case": "u-origin-r2-t1-m9",
+        "fault_mode": 9,
+        "log_sha256": "997eec2d8821782cba4ae7a153c16b776f367a34e6d1eeaf3a52de9be5fbf2c4",
+        "passed": true,
+        "rejection_census_events": 1,
+        "role": 2,
+        "server_exit_code": -6,
+        "source_provenance": "u_static_global_untracked",
+        "target": 1
+      },
+      {
+        "actual_runtime_result": "untracked",
+        "case": "u-origin-r2-t1-m10",
+        "fault_mode": 10,
+        "log_sha256": "63a025c943d4339d0cdd9be44bbdc83b81fd7a0004ea12db0b914daa619b3ef1",
+        "passed": true,
+        "rejection_census_events": 1,
+        "role": 2,
+        "server_exit_code": -6,
+        "source_provenance": "u_escaped_stack_untracked",
+        "target": 1
+      },
+      {
+        "actual_runtime_result": "untracked",
+        "case": "u-origin-r2-t2-m9",
+        "fault_mode": 9,
+        "log_sha256": "08714973ecc83cf3862e8cfb926fe78dfa421cb40fc828164eb8d36c15d73c82",
+        "passed": true,
+        "rejection_census_events": 1,
+        "role": 2,
+        "server_exit_code": -6,
+        "source_provenance": "u_static_global_untracked",
+        "target": 2
+      },
+      {
+        "actual_runtime_result": "untracked",
+        "case": "u-origin-r2-t2-m10",
+        "fault_mode": 10,
+        "log_sha256": "380008fbaa99e7d0c41b67ab672e1d02ae84d14dfdd9dfc14734b96c707179e0",
+        "passed": true,
+        "rejection_census_events": 1,
+        "role": 2,
+        "server_exit_code": -6,
+        "source_provenance": "u_escaped_stack_untracked",
+        "target": 2
+      },
+      {
+        "actual_runtime_result": "untracked",
+        "case": "u-origin-r2-t3-m9",
+        "fault_mode": 9,
+        "log_sha256": "6bfee03aa1135332b7b2a202975c0859dd0fbb16f36550b346350928190e97d4",
+        "passed": true,
+        "rejection_census_events": 1,
+        "role": 2,
+        "server_exit_code": -6,
+        "source_provenance": "u_static_global_untracked",
+        "target": 3
+      },
+      {
+        "actual_runtime_result": "untracked",
+        "case": "u-origin-r2-t3-m10",
+        "fault_mode": 10,
+        "log_sha256": "a5666e28b62923e98a171074c25d8711dee74e4ccc5ea358d081206840b94516",
+        "passed": true,
+        "rejection_census_events": 1,
+        "role": 2,
+        "server_exit_code": -6,
+        "source_provenance": "u_escaped_stack_untracked",
+        "target": 3
+      },
+      {
+        "actual_runtime_result": "untracked",
+        "case": "u-origin-r3-t1-m9",
+        "fault_mode": 9,
+        "log_sha256": "f7554dcd548991144035f34513733bba01beff74d5c5589881042cd8e7fb2ab2",
+        "passed": true,
+        "rejection_census_events": 1,
+        "role": 3,
+        "server_exit_code": -6,
+        "source_provenance": "u_static_global_untracked",
+        "target": 1
+      },
+      {
+        "actual_runtime_result": "untracked",
+        "case": "u-origin-r3-t1-m10",
+        "fault_mode": 10,
+        "log_sha256": "d740aad3319b184ff7f518a3b28435768ee4bdab9b5b6e1b51e64d92092c78b2",
+        "passed": true,
+        "rejection_census_events": 1,
+        "role": 3,
+        "server_exit_code": -6,
+        "source_provenance": "u_escaped_stack_untracked",
+        "target": 1
+      },
+      {
+        "actual_runtime_result": "untracked",
+        "case": "u-origin-r3-t2-m9",
+        "fault_mode": 9,
+        "log_sha256": "2c4a4a4296822101c69ebf4abc9a2eac711c9bc409ecac6e078e266a5666b09f",
+        "passed": true,
+        "rejection_census_events": 1,
+        "role": 3,
+        "server_exit_code": -6,
+        "source_provenance": "u_static_global_untracked",
+        "target": 2
+      },
+      {
+        "actual_runtime_result": "untracked",
+        "case": "u-origin-r3-t2-m10",
+        "fault_mode": 10,
+        "log_sha256": "95cb15ed0738a11b01d4d2b0f770ec783cbf0f895e11ca2fbf395d77032b1b9d",
+        "passed": true,
+        "rejection_census_events": 1,
+        "role": 3,
+        "server_exit_code": -6,
+        "source_provenance": "u_escaped_stack_untracked",
+        "target": 2
+      },
+      {
+        "actual_runtime_result": "untracked",
+        "case": "u-origin-r3-t3-m9",
+        "fault_mode": 9,
+        "log_sha256": "5f8fcfadefacd2a91a41b9760d797ae21fca5a0bd730ec01cc4c3462f5d53f09",
+        "passed": true,
+        "rejection_census_events": 1,
+        "role": 3,
+        "server_exit_code": -6,
+        "source_provenance": "u_static_global_untracked",
+        "target": 3
+      },
+      {
+        "actual_runtime_result": "untracked",
+        "case": "u-origin-r3-t3-m10",
+        "fault_mode": 10,
+        "log_sha256": "906cad9df4af2e15d08d1c46e17b9c37791226e6997c1995e6c019700543389a",
+        "passed": true,
+        "rejection_census_events": 1,
+        "role": 3,
+        "server_exit_code": -6,
+        "source_provenance": "u_escaped_stack_untracked",
+        "target": 3
+      }
+    ]
+  },
+  "memcached_repeated": {
+    "scenarios": [
+      {
+        "client_operations_per_repeat": 2500,
+        "loss_free_and_no_rejections": true,
+        "observations_per_1000_operations": {
+          "maximum": 69.6,
+          "median": 69.6,
+          "minimum": 69.6,
+          "population_stdev": 0,
+          "repetitions": 5
+        },
+        "purpose": "low-concurrency balanced cache traffic; preserves the paper's 1-client, 1:1, pipeline-10 shape",
+        "repetitions": 5,
+        "scenario": "balanced_1c",
+        "site_per_1000_operations": [
+          {
+            "direction": "t_adapter_only",
+            "per_1000_operations": {
+              "maximum": 10.4,
+              "median": 10.4,
+              "minimum": 10.4,
+              "population_stdev": 0,
+              "repetitions": 5
+            },
+            "site": "lru_item_tokenized",
+            "storage": "t_anon_vma"
+          },
+          {
+            "direction": "t_adapter_only",
+            "per_1000_operations": {
+              "maximum": 27.2,
+              "median": 27.2,
+              "minimum": 27.2,
+              "population_stdev": 0,
+              "repetitions": 5
+            },
+            "site": "peek_all_size_output",
+            "storage": "t_stack"
+          },
+          {
+            "direction": "t_to_u",
+            "per_1000_operations": {
+              "maximum": 10.4,
+              "median": 10.4,
+              "minimum": 10.4,
+              "population_stdev": 0,
+              "repetitions": 5
+            },
+            "site": "push_copy_source",
+            "storage": "t_anon_vma"
+          },
+          {
+            "direction": "u_to_t",
+            "per_1000_operations": {
+              "maximum": 0.4,
+              "median": 0.4,
+              "minimum": 0.4,
+              "population_stdev": 0,
+              "repetitions": 5
+            },
+            "site": "peek_all",
+            "storage": "u_tracked_heap"
+          },
+          {
+            "direction": "u_to_t",
+            "per_1000_operations": {
+              "maximum": 0.4,
+              "median": 0.4,
+              "minimum": 0.4,
+              "population_stdev": 0,
+              "repetitions": 5
+            },
+            "site": "poll",
+            "storage": "u_tracked_heap"
+          },
+          {
+            "direction": "u_to_t",
+            "per_1000_operations": {
+              "maximum": 10.4,
+              "median": 10.4,
+              "minimum": 10.4,
+              "population_stdev": 0,
+              "repetitions": 5
+            },
+            "site": "push",
+            "storage": "u_tracked_heap"
+          },
+          {
+            "direction": "u_to_t",
+            "per_1000_operations": {
+              "maximum": 10.4,
+              "median": 10.4,
+              "minimum": 10.4,
+              "population_stdev": 0,
+              "repetitions": 5
+            },
+            "site": "request",
+            "storage": "u_tracked_heap"
+          }
+        ],
+        "storage_per_1000_operations": {
+          "t_anon_vma": {
+            "maximum": 20.8,
+            "median": 20.8,
+            "minimum": 20.8,
+            "population_stdev": 0,
+            "repetitions": 5
+          },
+          "t_stack": {
+            "maximum": 27.2,
+            "median": 27.2,
+            "minimum": 27.2,
+            "population_stdev": 0,
+            "repetitions": 5
+          },
+          "u_tracked_heap": {
+            "maximum": 21.6,
+            "median": 21.6,
+            "minimum": 21.6,
+            "population_stdev": 0,
+            "repetitions": 5
+          }
+        }
+      },
+      {
+        "client_operations_per_repeat": 2500,
+        "loss_free_and_no_rejections": true,
+        "observations_per_1000_operations": {
+          "maximum": 72,
+          "median": 72,
+          "minimum": 72,
+          "population_stdev": 0,
+          "repetitions": 5
+        },
+        "purpose": "higher-concurrency balanced cache traffic; preserves the paper's 8-client, 1:1, pipeline-10 shape",
+        "repetitions": 5,
+        "scenario": "balanced_8c",
+        "site_per_1000_operations": [
+          {
+            "direction": "t_adapter_only",
+            "per_1000_operations": {
+              "maximum": 10.4,
+              "median": 10.4,
+              "minimum": 10.4,
+              "population_stdev": 0,
+              "repetitions": 5
+            },
+            "site": "lru_item_tokenized",
+            "storage": "t_anon_vma"
+          },
+          {
+            "direction": "t_adapter_only",
+            "per_1000_operations": {
+              "maximum": 27.2,
+              "median": 27.2,
+              "minimum": 27.2,
+              "population_stdev": 0,
+              "repetitions": 5
+            },
+            "site": "peek_all_size_output",
+            "storage": "t_stack"
+          },
+          {
+            "direction": "t_to_u",
+            "per_1000_operations": {
+              "maximum": 10.4,
+              "median": 10.4,
+              "minimum": 10.4,
+              "population_stdev": 0,
+              "repetitions": 5
+            },
+            "site": "push_copy_source",
+            "storage": "t_anon_vma"
+          },
+          {
+            "direction": "u_to_t",
+            "per_1000_operations": {
+              "maximum": 1.6,
+              "median": 1.6,
+              "minimum": 1.6,
+              "population_stdev": 0,
+              "repetitions": 5
+            },
+            "site": "peek_all",
+            "storage": "u_tracked_heap"
+          },
+          {
+            "direction": "u_to_t",
+            "per_1000_operations": {
+              "maximum": 1.6,
+              "median": 1.6,
+              "minimum": 1.6,
+              "population_stdev": 0,
+              "repetitions": 5
+            },
+            "site": "poll",
+            "storage": "u_tracked_heap"
+          },
+          {
+            "direction": "u_to_t",
+            "per_1000_operations": {
+              "maximum": 10.4,
+              "median": 10.4,
+              "minimum": 10.4,
+              "population_stdev": 0,
+              "repetitions": 5
+            },
+            "site": "push",
+            "storage": "u_tracked_heap"
+          },
+          {
+            "direction": "u_to_t",
+            "per_1000_operations": {
+              "maximum": 10.4,
+              "median": 10.4,
+              "minimum": 10.4,
+              "population_stdev": 0,
+              "repetitions": 5
+            },
+            "site": "request",
+            "storage": "u_tracked_heap"
+          }
+        ],
+        "storage_per_1000_operations": {
+          "t_anon_vma": {
+            "maximum": 20.8,
+            "median": 20.8,
+            "minimum": 20.8,
+            "population_stdev": 0,
+            "repetitions": 5
+          },
+          "t_stack": {
+            "maximum": 27.2,
+            "median": 27.2,
+            "minimum": 27.2,
+            "population_stdev": 0,
+            "repetitions": 5
+          },
+          "u_tracked_heap": {
+            "maximum": 24,
+            "median": 24,
+            "minimum": 24,
+            "population_stdev": 0,
+            "repetitions": 5
+          }
+        }
+      },
+      {
+        "client_operations_per_repeat": 2500,
+        "loss_free_and_no_rejections": true,
+        "observations_per_1000_operations": {
+          "maximum": 1004,
+          "median": 622.4,
+          "minimum": 622.4,
+          "population_stdev": 152.64000000000001,
+          "repetitions": 5
+        },
+        "purpose": "read-mostly object-cache scenario with 1 KiB values",
+        "repetitions": 5,
+        "scenario": "read_heavy_1k",
+        "site_per_1000_operations": [
+          {
+            "direction": "t_adapter_only",
+            "per_1000_operations": {
+              "maximum": 238.4,
+              "median": 148,
+              "minimum": 148,
+              "population_stdev": 36.160000000000004,
+              "repetitions": 5
+            },
+            "site": "lru_item_tokenized",
+            "storage": "t_anon_vma"
+          },
+          {
+            "direction": "t_adapter_only",
+            "per_1000_operations": {
+              "maximum": 40,
+              "median": 27.2,
+              "minimum": 27.2,
+              "population_stdev": 5.12,
+              "repetitions": 5
+            },
+            "site": "peek_all_size_output",
+            "storage": "t_stack"
+          },
+          {
+            "direction": "t_to_u",
+            "per_1000_operations": {
+              "maximum": 238.4,
+              "median": 148,
+              "minimum": 148,
+              "population_stdev": 36.160000000000004,
+              "repetitions": 5
+            },
+            "site": "push_copy_source",
+            "storage": "t_anon_vma"
+          },
+          {
+            "direction": "u_to_t",
+            "per_1000_operations": {
+              "maximum": 5.2,
+              "median": 1.6,
+              "minimum": 1.6,
+              "population_stdev": 1.44,
+              "repetitions": 5
+            },
+            "site": "peek_all",
+            "storage": "u_tracked_heap"
+          },
+          {
+            "direction": "u_to_t",
+            "per_1000_operations": {
+              "maximum": 5.2,
+              "median": 1.6,
+              "minimum": 1.6,
+              "population_stdev": 1.44,
+              "repetitions": 5
+            },
+            "site": "poll",
+            "storage": "u_tracked_heap"
+          },
+          {
+            "direction": "u_to_t",
+            "per_1000_operations": {
+              "maximum": 238.4,
+              "median": 148,
+              "minimum": 148,
+              "population_stdev": 36.160000000000004,
+              "repetitions": 5
+            },
+            "site": "push",
+            "storage": "u_tracked_heap"
+          },
+          {
+            "direction": "u_to_t",
+            "per_1000_operations": {
+              "maximum": 238.4,
+              "median": 148,
+              "minimum": 148,
+              "population_stdev": 36.160000000000004,
+              "repetitions": 5
+            },
+            "site": "request",
+            "storage": "u_tracked_heap"
+          }
+        ],
+        "storage_per_1000_operations": {
+          "t_anon_vma": {
+            "maximum": 476.8,
+            "median": 296,
+            "minimum": 296,
+            "population_stdev": 72.32000000000001,
+            "repetitions": 5
+          },
+          "t_stack": {
+            "maximum": 40,
+            "median": 27.2,
+            "minimum": 27.2,
+            "population_stdev": 5.12,
+            "repetitions": 5
+          },
+          "u_tracked_heap": {
+            "maximum": 487.2,
+            "median": 299.2,
+            "minimum": 299.2,
+            "population_stdev": 75.2,
+            "repetitions": 5
+          }
+        }
+      },
+      {
+        "client_operations_per_repeat": 20000,
+        "loss_free_and_no_rejections": true,
+        "observations_per_1000_operations": {
+          "maximum": 39.6,
+          "median": 39.4,
+          "minimum": 39.4,
+          "population_stdev": 0.08000000000000114,
+          "repetitions": 5
+        },
+        "purpose": "mutation-heavy scenario stressing SET paths and asynchronous LRU activity",
+        "repetitions": 5,
+        "scenario": "write_heavy",
+        "site_per_1000_operations": [
+          {
+            "direction": "t_adapter_only",
+            "per_1000_operations": {
+              "maximum": 8.05,
+              "median": 8.05,
+              "minimum": 8.05,
+              "population_stdev": 0,
+              "repetitions": 5
+            },
+            "site": "lru_item_tokenized",
+            "storage": "t_anon_vma"
+          },
+          {
+            "direction": "t_adapter_only",
+            "per_1000_operations": {
+              "maximum": 7,
+              "median": 6.8,
+              "minimum": 6.8,
+              "population_stdev": 0.08000000000000007,
+              "repetitions": 5
+            },
+            "site": "peek_all_size_output",
+            "storage": "t_stack"
+          },
+          {
+            "direction": "t_to_u",
+            "per_1000_operations": {
+              "maximum": 8.05,
+              "median": 8.05,
+              "minimum": 8.05,
+              "population_stdev": 0,
+              "repetitions": 5
+            },
+            "site": "push_copy_source",
+            "storage": "t_anon_vma"
+          },
+          {
+            "direction": "u_to_t",
+            "per_1000_operations": {
+              "maximum": 0.2,
+              "median": 0.2,
+              "minimum": 0.2,
+              "population_stdev": 0,
+              "repetitions": 5
+            },
+            "site": "peek_all",
+            "storage": "u_tracked_heap"
+          },
+          {
+            "direction": "u_to_t",
+            "per_1000_operations": {
+              "maximum": 0.2,
+              "median": 0.2,
+              "minimum": 0.2,
+              "population_stdev": 0,
+              "repetitions": 5
+            },
+            "site": "poll",
+            "storage": "u_tracked_heap"
+          },
+          {
+            "direction": "u_to_t",
+            "per_1000_operations": {
+              "maximum": 8.05,
+              "median": 8.05,
+              "minimum": 8.05,
+              "population_stdev": 0,
+              "repetitions": 5
+            },
+            "site": "push",
+            "storage": "u_tracked_heap"
+          },
+          {
+            "direction": "u_to_t",
+            "per_1000_operations": {
+              "maximum": 8.05,
+              "median": 8.05,
+              "minimum": 8.05,
+              "population_stdev": 0,
+              "repetitions": 5
+            },
+            "site": "request",
+            "storage": "u_tracked_heap"
+          }
+        ],
+        "storage_per_1000_operations": {
+          "t_anon_vma": {
+            "maximum": 16.1,
+            "median": 16.1,
+            "minimum": 16.1,
+            "population_stdev": 0,
+            "repetitions": 5
+          },
+          "t_stack": {
+            "maximum": 7,
+            "median": 6.8,
+            "minimum": 6.8,
+            "population_stdev": 0.08000000000000007,
+            "repetitions": 5
+          },
+          "u_tracked_heap": {
+            "maximum": 16.5,
+            "median": 16.5,
+            "minimum": 16.5,
+            "population_stdev": 0,
+            "repetitions": 5
+          }
+        }
+      },
+      {
+        "client_operations_per_repeat": 2500,
+        "loss_free_and_no_rejections": true,
+        "observations_per_1000_operations": {
+          "maximum": 15508,
+          "median": 14900.8,
+          "minimum": 14366.4,
+          "population_stdev": 384.40570235104485,
+          "repetitions": 5
+        },
+        "purpose": "lossless active-observability scenario with a live watcher",
+        "repetitions": 5,
+        "scenario": "watch_light",
+        "site_per_1000_operations": [
+          {
+            "direction": "t_adapter_only",
+            "per_1000_operations": {
+              "maximum": 47.6,
+              "median": 47.6,
+              "minimum": 47.6,
+              "population_stdev": 0,
+              "repetitions": 5
+            },
+            "site": "lru_item_tokenized",
+            "storage": "t_anon_vma"
+          },
+          {
+            "direction": "t_adapter_only",
+            "per_1000_operations": {
+              "maximum": 4405.6,
+              "median": 4005.6,
+              "minimum": 3662,
+              "population_stdev": 249.02467026381152,
+              "repetitions": 5
+            },
+            "site": "peek_all_size_output",
+            "storage": "t_stack"
+          },
+          {
+            "direction": "t_to_u",
+            "per_1000_operations": {
+              "maximum": 1500,
+              "median": 1500,
+              "minimum": 1500,
+              "population_stdev": 0,
+              "repetitions": 5
+            },
+            "site": "offer_copy_source",
+            "storage": "t_stack"
+          },
+          {
+            "direction": "t_to_u",
+            "per_1000_operations": {
+              "maximum": 1547.6,
+              "median": 1547.6,
+              "minimum": 1547.6,
+              "population_stdev": 0,
+              "repetitions": 5
+            },
+            "site": "push_copy_source",
+            "storage": "t_anon_vma"
+          },
+          {
+            "direction": "u_to_t",
+            "per_1000_operations": {
+              "maximum": 1500,
+              "median": 1500,
+              "minimum": 1500,
+              "population_stdev": 0,
+              "repetitions": 5
+            },
+            "site": "offer_input",
+            "storage": "u_tracked_heap"
+          },
+          {
+            "direction": "u_to_t",
+            "per_1000_operations": {
+              "maximum": 1138.8,
+              "median": 1014.4,
+              "minimum": 900,
+              "population_stdev": 81.27661410270484,
+              "repetitions": 5
+            },
+            "site": "peek_all",
+            "storage": "u_tracked_heap"
+          },
+          {
+            "direction": "u_to_t",
+            "per_1000_operations": {
+              "maximum": 773.2,
+              "median": 690.4,
+              "minimum": 614,
+              "population_stdev": 54.21297261726202,
+              "repetitions": 5
+            },
+            "site": "poll",
+            "storage": "u_tracked_heap"
+          },
+          {
+            "direction": "u_to_t",
+            "per_1000_operations": {
+              "maximum": 1547.6,
+              "median": 1547.6,
+              "minimum": 1547.6,
+              "population_stdev": 0,
+              "repetitions": 5
+            },
+            "site": "push",
+            "storage": "u_tracked_heap"
+          },
+          {
+            "direction": "u_to_t",
+            "per_1000_operations": {
+              "maximum": 3047.6,
+              "median": 3047.6,
+              "minimum": 3047.6,
+              "population_stdev": 0,
+              "repetitions": 5
+            },
+            "site": "request",
+            "storage": "u_tracked_heap"
+          }
+        ],
+        "storage_per_1000_operations": {
+          "t_anon_vma": {
+            "maximum": 1595.2,
+            "median": 1595.2,
+            "minimum": 1595.2,
+            "population_stdev": 0,
+            "repetitions": 5
+          },
+          "t_stack": {
+            "maximum": 5905.6,
+            "median": 5505.6,
+            "minimum": 5162,
+            "population_stdev": 249.02467026381152,
+            "repetitions": 5
+          },
+          "u_tracked_heap": {
+            "maximum": 8007.2,
+            "median": 7800,
+            "minimum": 7609.2,
+            "population_stdev": 135.4895361273335,
+            "repetitions": 5
+          }
+        }
+      },
+      {
+        "client_operations_per_repeat": 2500,
+        "loss_free_and_no_rejections": true,
+        "observations_per_1000_operations": {
+          "maximum": 10258,
+          "median": 10115.6,
+          "minimum": 10094.4,
+          "population_stdev": 76.690505279337,
+          "repetitions": 5
+        },
+        "purpose": "moderate active-observability load with worker and watcher queues exercised continuously",
+        "repetitions": 5,
+        "scenario": "watch_moderate",
+        "site_per_1000_operations": [
+          {
+            "direction": "t_adapter_only",
+            "per_1000_operations": {
+              "maximum": 47.6,
+              "median": 47.6,
+              "minimum": 47.6,
+              "population_stdev": 0,
+              "repetitions": 5
+            },
+            "site": "lru_item_tokenized",
+            "storage": "t_anon_vma"
+          },
+          {
+            "direction": "t_adapter_only",
+            "per_1000_operations": {
+              "maximum": 758.8,
+              "median": 670.4,
+              "minimum": 654.4,
+              "population_stdev": 47.14125157439076,
+              "repetitions": 5
+            },
+            "site": "peek_all_size_output",
+            "storage": "t_stack"
+          },
+          {
+            "direction": "t_to_u",
+            "per_1000_operations": {
+              "maximum": 1500,
+              "median": 1500,
+              "minimum": 1500,
+              "population_stdev": 0,
+              "repetitions": 5
+            },
+            "site": "offer_copy_source",
+            "storage": "t_stack"
+          },
+          {
+            "direction": "t_to_u",
+            "per_1000_operations": {
+              "maximum": 1547.6,
+              "median": 1547.6,
+              "minimum": 1547.6,
+              "population_stdev": 0,
+              "repetitions": 5
+            },
+            "site": "push_copy_source",
+            "storage": "t_anon_vma"
+          },
+          {
+            "direction": "u_to_t",
+            "per_1000_operations": {
+              "maximum": 1500,
+              "median": 1500,
+              "minimum": 1500,
+              "population_stdev": 0,
+              "repetitions": 5
+            },
+            "site": "offer_input",
+            "storage": "u_tracked_heap"
+          },
+          {
+            "direction": "u_to_t",
+            "per_1000_operations": {
+              "maximum": 174.4,
+              "median": 141.6,
+              "minimum": 137.6,
+              "population_stdev": 16.477669738163826,
+              "repetitions": 5
+            },
+            "site": "peek_all",
+            "storage": "u_tracked_heap"
+          },
+          {
+            "direction": "u_to_t",
+            "per_1000_operations": {
+              "maximum": 139.6,
+              "median": 113.2,
+              "minimum": 110.8,
+              "population_stdev": 13.180349009036139,
+              "repetitions": 5
+            },
+            "site": "poll",
+            "storage": "u_tracked_heap"
+          },
+          {
+            "direction": "u_to_t",
+            "per_1000_operations": {
+              "maximum": 1547.6,
+              "median": 1547.6,
+              "minimum": 1547.6,
+              "population_stdev": 0,
+              "repetitions": 5
+            },
+            "site": "push",
+            "storage": "u_tracked_heap"
+          },
+          {
+            "direction": "u_to_t",
+            "per_1000_operations": {
+              "maximum": 3047.6,
+              "median": 3047.6,
+              "minimum": 3047.6,
+              "population_stdev": 0,
+              "repetitions": 5
+            },
+            "site": "request",
+            "storage": "u_tracked_heap"
+          }
+        ],
+        "storage_per_1000_operations": {
+          "t_anon_vma": {
+            "maximum": 1595.2,
+            "median": 1595.2,
+            "minimum": 1595.2,
+            "population_stdev": 0,
+            "repetitions": 5
+          },
+          "t_stack": {
+            "maximum": 2258.8,
+            "median": 2170.4,
+            "minimum": 2154.4,
+            "population_stdev": 47.14125157439079,
+            "repetitions": 5
+          },
+          "u_tracked_heap": {
+            "maximum": 6409.2,
+            "median": 6350,
+            "minimum": 6343.6,
+            "population_stdev": 29.655731317908792,
+            "repetitions": 5
+          }
+        }
+      }
+    ],
+    "per_run_coarse_stats": [
+      {
+        "by_storage": {
+          "t_anon_vma": 52,
+          "t_stack": 68,
+          "u_tracked_heap": 54
+        },
+        "loss_counters": {
+          "log_watcher_skipped": 0,
+          "log_worker_dropped": 0,
+          "lru_bumps_dropped": 0
+        },
+        "observations": 174,
+        "operations": 2500,
+        "repetition": 1,
+        "scenario": "balanced_1c"
+      },
+      {
+        "by_storage": {
+          "t_anon_vma": 52,
+          "t_stack": 68,
+          "u_tracked_heap": 54
+        },
+        "loss_counters": {
+          "log_watcher_skipped": 0,
+          "log_worker_dropped": 0,
+          "lru_bumps_dropped": 0
+        },
+        "observations": 174,
+        "operations": 2500,
+        "repetition": 2,
+        "scenario": "balanced_1c"
+      },
+      {
+        "by_storage": {
+          "t_anon_vma": 52,
+          "t_stack": 68,
+          "u_tracked_heap": 54
+        },
+        "loss_counters": {
+          "log_watcher_skipped": 0,
+          "log_worker_dropped": 0,
+          "lru_bumps_dropped": 0
+        },
+        "observations": 174,
+        "operations": 2500,
+        "repetition": 3,
+        "scenario": "balanced_1c"
+      },
+      {
+        "by_storage": {
+          "t_anon_vma": 52,
+          "t_stack": 68,
+          "u_tracked_heap": 54
+        },
+        "loss_counters": {
+          "log_watcher_skipped": 0,
+          "log_worker_dropped": 0,
+          "lru_bumps_dropped": 0
+        },
+        "observations": 174,
+        "operations": 2500,
+        "repetition": 4,
+        "scenario": "balanced_1c"
+      },
+      {
+        "by_storage": {
+          "t_anon_vma": 52,
+          "t_stack": 68,
+          "u_tracked_heap": 54
+        },
+        "loss_counters": {
+          "log_watcher_skipped": 0,
+          "log_worker_dropped": 0,
+          "lru_bumps_dropped": 0
+        },
+        "observations": 174,
+        "operations": 2500,
+        "repetition": 5,
+        "scenario": "balanced_1c"
+      },
+      {
+        "by_storage": {
+          "t_anon_vma": 52,
+          "t_stack": 68,
+          "u_tracked_heap": 60
+        },
+        "loss_counters": {
+          "log_watcher_skipped": 0,
+          "log_worker_dropped": 0,
+          "lru_bumps_dropped": 0
+        },
+        "observations": 180,
+        "operations": 2500,
+        "repetition": 1,
+        "scenario": "balanced_8c"
+      },
+      {
+        "by_storage": {
+          "t_anon_vma": 52,
+          "t_stack": 68,
+          "u_tracked_heap": 60
+        },
+        "loss_counters": {
+          "log_watcher_skipped": 0,
+          "log_worker_dropped": 0,
+          "lru_bumps_dropped": 0
+        },
+        "observations": 180,
+        "operations": 2500,
+        "repetition": 2,
+        "scenario": "balanced_8c"
+      },
+      {
+        "by_storage": {
+          "t_anon_vma": 52,
+          "t_stack": 68,
+          "u_tracked_heap": 60
+        },
+        "loss_counters": {
+          "log_watcher_skipped": 0,
+          "log_worker_dropped": 0,
+          "lru_bumps_dropped": 0
+        },
+        "observations": 180,
+        "operations": 2500,
+        "repetition": 3,
+        "scenario": "balanced_8c"
+      },
+      {
+        "by_storage": {
+          "t_anon_vma": 52,
+          "t_stack": 68,
+          "u_tracked_heap": 60
+        },
+        "loss_counters": {
+          "log_watcher_skipped": 0,
+          "log_worker_dropped": 0,
+          "lru_bumps_dropped": 0
+        },
+        "observations": 180,
+        "operations": 2500,
+        "repetition": 4,
+        "scenario": "balanced_8c"
+      },
+      {
+        "by_storage": {
+          "t_anon_vma": 52,
+          "t_stack": 68,
+          "u_tracked_heap": 60
+        },
+        "loss_counters": {
+          "log_watcher_skipped": 0,
+          "log_worker_dropped": 0,
+          "lru_bumps_dropped": 0
+        },
+        "observations": 180,
+        "operations": 2500,
+        "repetition": 5,
+        "scenario": "balanced_8c"
+      },
+      {
+        "by_storage": {
+          "t_anon_vma": 740,
+          "t_stack": 68,
+          "u_tracked_heap": 748
+        },
+        "loss_counters": {
+          "log_watcher_skipped": 0,
+          "log_worker_dropped": 0,
+          "lru_bumps_dropped": 0
+        },
+        "observations": 1556,
+        "operations": 2500,
+        "repetition": 1,
+        "scenario": "read_heavy_1k"
+      },
+      {
+        "by_storage": {
+          "t_anon_vma": 740,
+          "t_stack": 68,
+          "u_tracked_heap": 748
+        },
+        "loss_counters": {
+          "log_watcher_skipped": 0,
+          "log_worker_dropped": 0,
+          "lru_bumps_dropped": 0
+        },
+        "observations": 1556,
+        "operations": 2500,
+        "repetition": 2,
+        "scenario": "read_heavy_1k"
+      },
+      {
+        "by_storage": {
+          "t_anon_vma": 740,
+          "t_stack": 68,
+          "u_tracked_heap": 748
+        },
+        "loss_counters": {
+          "log_watcher_skipped": 0,
+          "log_worker_dropped": 0,
+          "lru_bumps_dropped": 0
+        },
+        "observations": 1556,
+        "operations": 2500,
+        "repetition": 3,
+        "scenario": "read_heavy_1k"
+      },
+      {
+        "by_storage": {
+          "t_anon_vma": 1192,
+          "t_stack": 100,
+          "u_tracked_heap": 1218
+        },
+        "loss_counters": {
+          "log_watcher_skipped": 0,
+          "log_worker_dropped": 0,
+          "lru_bumps_dropped": 0
+        },
+        "observations": 2510,
+        "operations": 2500,
+        "repetition": 4,
+        "scenario": "read_heavy_1k"
+      },
+      {
+        "by_storage": {
+          "t_anon_vma": 740,
+          "t_stack": 68,
+          "u_tracked_heap": 748
+        },
+        "loss_counters": {
+          "log_watcher_skipped": 0,
+          "log_worker_dropped": 0,
+          "lru_bumps_dropped": 0
+        },
+        "observations": 1556,
+        "operations": 2500,
+        "repetition": 5,
+        "scenario": "read_heavy_1k"
+      },
+      {
+        "by_storage": {
+          "t_anon_vma": 322,
+          "t_stack": 136,
+          "u_tracked_heap": 330
+        },
+        "loss_counters": {
+          "log_watcher_skipped": 0,
+          "log_worker_dropped": 0,
+          "lru_bumps_dropped": 0
+        },
+        "observations": 788,
+        "operations": 20000,
+        "repetition": 1,
+        "scenario": "write_heavy"
+      },
+      {
+        "by_storage": {
+          "t_anon_vma": 322,
+          "t_stack": 136,
+          "u_tracked_heap": 330
+        },
+        "loss_counters": {
+          "log_watcher_skipped": 0,
+          "log_worker_dropped": 0,
+          "lru_bumps_dropped": 0
+        },
+        "observations": 788,
+        "operations": 20000,
+        "repetition": 2,
+        "scenario": "write_heavy"
+      },
+      {
+        "by_storage": {
+          "t_anon_vma": 322,
+          "t_stack": 136,
+          "u_tracked_heap": 330
+        },
+        "loss_counters": {
+          "log_watcher_skipped": 0,
+          "log_worker_dropped": 0,
+          "lru_bumps_dropped": 0
+        },
+        "observations": 788,
+        "operations": 20000,
+        "repetition": 3,
+        "scenario": "write_heavy"
+      },
+      {
+        "by_storage": {
+          "t_anon_vma": 322,
+          "t_stack": 140,
+          "u_tracked_heap": 330
+        },
+        "loss_counters": {
+          "log_watcher_skipped": 0,
+          "log_worker_dropped": 0,
+          "lru_bumps_dropped": 0
+        },
+        "observations": 792,
+        "operations": 20000,
+        "repetition": 4,
+        "scenario": "write_heavy"
+      },
+      {
+        "by_storage": {
+          "t_anon_vma": 322,
+          "t_stack": 136,
+          "u_tracked_heap": 330
+        },
+        "loss_counters": {
+          "log_watcher_skipped": 0,
+          "log_worker_dropped": 0,
+          "lru_bumps_dropped": 0
+        },
+        "observations": 788,
+        "operations": 20000,
+        "repetition": 5,
+        "scenario": "write_heavy"
+      },
+      {
+        "by_storage": {
+          "t_anon_vma": 3988,
+          "t_stack": 13808,
+          "u_tracked_heap": 19515
+        },
+        "loss_counters": {
+          "log_watcher_skipped": 0,
+          "log_worker_dropped": 0,
+          "lru_bumps_dropped": 0
+        },
+        "observations": 37311,
+        "operations": 2500,
+        "repetition": 1,
+        "scenario": "watch_light"
+      },
+      {
+        "by_storage": {
+          "t_anon_vma": 3988,
+          "t_stack": 13764,
+          "u_tracked_heap": 19500
+        },
+        "loss_counters": {
+          "log_watcher_skipped": 0,
+          "log_worker_dropped": 0,
+          "lru_bumps_dropped": 0
+        },
+        "observations": 37252,
+        "operations": 2500,
+        "repetition": 2,
+        "scenario": "watch_light"
+      },
+      {
+        "by_storage": {
+          "t_anon_vma": 3988,
+          "t_stack": 13302,
+          "u_tracked_heap": 19201
+        },
+        "loss_counters": {
+          "log_watcher_skipped": 0,
+          "log_worker_dropped": 0,
+          "lru_bumps_dropped": 0
+        },
+        "observations": 36491,
+        "operations": 2500,
+        "repetition": 3,
+        "scenario": "watch_light"
+      },
+      {
+        "by_storage": {
+          "t_anon_vma": 3988,
+          "t_stack": 12905,
+          "u_tracked_heap": 19023
+        },
+        "loss_counters": {
+          "log_watcher_skipped": 0,
+          "log_worker_dropped": 0,
+          "lru_bumps_dropped": 0
+        },
+        "observations": 35916,
+        "operations": 2500,
+        "repetition": 4,
+        "scenario": "watch_light"
+      },
+      {
+        "by_storage": {
+          "t_anon_vma": 3988,
+          "t_stack": 14764,
+          "u_tracked_heap": 20018
+        },
+        "loss_counters": {
+          "log_watcher_skipped": 0,
+          "log_worker_dropped": 0,
+          "lru_bumps_dropped": 0
+        },
+        "observations": 38770,
+        "operations": 2500,
+        "repetition": 5,
+        "scenario": "watch_light"
+      },
+      {
+        "by_storage": {
+          "t_anon_vma": 3988,
+          "t_stack": 5647,
+          "u_tracked_heap": 16009
+        },
+        "loss_counters": {
+          "log_watcher_skipped": 0,
+          "log_worker_dropped": 0,
+          "lru_bumps_dropped": 0
+        },
+        "observations": 25644,
+        "operations": 2500,
+        "repetition": 1,
+        "scenario": "watch_moderate"
+      },
+      {
+        "by_storage": {
+          "t_anon_vma": 3988,
+          "t_stack": 5393,
+          "u_tracked_heap": 15859
+        },
+        "loss_counters": {
+          "log_watcher_skipped": 0,
+          "log_worker_dropped": 0,
+          "lru_bumps_dropped": 0
+        },
+        "observations": 25240,
+        "operations": 2500,
+        "repetition": 2,
+        "scenario": "watch_moderate"
+      },
+      {
+        "by_storage": {
+          "t_anon_vma": 3988,
+          "t_stack": 5634,
+          "u_tracked_heap": 16023
+        },
+        "loss_counters": {
+          "log_watcher_skipped": 0,
+          "log_worker_dropped": 0,
+          "lru_bumps_dropped": 0
+        },
+        "observations": 25645,
+        "operations": 2500,
+        "repetition": 3,
+        "scenario": "watch_moderate"
+      },
+      {
+        "by_storage": {
+          "t_anon_vma": 3988,
+          "t_stack": 5426,
+          "u_tracked_heap": 15875
+        },
+        "loss_counters": {
+          "log_watcher_skipped": 0,
+          "log_worker_dropped": 0,
+          "lru_bumps_dropped": 0
+        },
+        "observations": 25289,
+        "operations": 2500,
+        "repetition": 4,
+        "scenario": "watch_moderate"
+      },
+      {
+        "by_storage": {
+          "t_anon_vma": 3988,
+          "t_stack": 5386,
+          "u_tracked_heap": 15862
+        },
+        "loss_counters": {
+          "log_watcher_skipped": 0,
+          "log_worker_dropped": 0,
+          "lru_bumps_dropped": 0
+        },
+        "observations": 25236,
+        "operations": 2500,
+        "repetition": 5,
+        "scenario": "watch_moderate"
+      }
+    ]
+  },
+  "artifacts": {
+    "rsync": {
+      "id": 13030283440,
+      "digest": "sha256:ba67c7d29aa0ae490ebc9d82a22f93414ba27ddde471434acce323ea93e39c39"
+    },
+    "memcached": {
+      "id": 13031072924,
+      "digest": "sha256:8bf58a899666e410d756e227b4561434cd83c40e1ea2665abc62b2aaebb77715"
+    },
+    "yaml": {
+      "id": 13030898736,
+      "digest": "sha256:b94044b6385660c174a70937a1ed2e973d390d1c5dc98ecb82d2ddc264494035"
+    },
+    "nginx": {
+      "id": 13031134357,
+      "digest": "sha256:d9a8ed6e2e417851d547d3c1e18e2531d0113d27ae95856b5b90e1f99f063991"
+    }
+  },
+  "yaml": {
+    "boundary": "yaml_libyaml",
+    "by_direction": {
+      "t_to_u": 2,
+      "u_to_t": 1024
+    },
+    "by_site": [
+      {
+        "direction": "t_to_u",
+        "observations": 2,
+        "site": "document_copy_source",
+        "storage": "t_anon_vma"
+      },
+      {
+        "direction": "u_to_t",
+        "observations": 1024,
+        "site": "checked_scalar_result",
+        "storage": "u_tracked_heap"
+      }
+    ],
+    "by_storage": {
+      "t_anon_vma": 2,
+      "u_tracked_heap": 1024
+    },
+    "cases": [
+      {
+        "log": "correctness-extended_sp3.stderr",
+        "observations": 1026,
+        "sha256": "dde5674ef39f32786335ac17e8308625dd24466e94fb3b394c688e3a0bc1355d"
+      }
+    ],
+    "limitations": [
+      "t_stack identifies only the executing T thread's stack range",
+      "t_image_static denotes readable nonexecutable ELF image storage, not proven named globals",
+      "VMA classes identify mapping regions, not allocation identity, object type, or lifetime",
+      "t_anon_vma may include malloc arenas and other-thread stacks; it is not a proof of heap ownership",
+      "unknown means maps inspection unavailable; t_unmapped means no covering VMA was found",
+      "uninstrumented pointers are not counted",
+      "u_tracked_heap requires a successful SP3 check; U stack and globals remain unclassified",
+      "counts denote pointer observations, not unique objects",
+      "T pointer addresses remain in T and are copied or tokenized, not passed raw into U"
+    ],
+    "schema": 1,
+    "scope": "normal correctness cases; adapter pointer arguments and copies; checked sandbox results",
+    "total_observations": 1026,
+    "trusted_image_static_observations": 0,
+    "trusted_observations": 2,
+    "trusted_stack_observations": 0,
+    "trusted_stack_or_image_static_fraction": 0,
+    "trusted_unknown_or_null_observations": 0,
+    "trusted_unmapped_observations": 0,
+    "trusted_vma_attributed_observations": 2
+  },
+  "nginx": {
+    "boundary": "nginx_pcre",
+    "by_direction": {
+      "t_adapter_only": 12382,
+      "t_to_u": 12294,
+      "u_to_t": 13088
+    },
+    "by_site": [
+      {
+        "direction": "t_adapter_only",
+        "observations": 12206,
+        "site": "capture_offsets_output",
+        "storage": "t_brk_heap_vma"
+      },
+      {
+        "direction": "t_adapter_only",
+        "observations": 88,
+        "site": "compile_error_output",
+        "storage": "t_stack"
+      },
+      {
+        "direction": "t_adapter_only",
+        "observations": 88,
+        "site": "compile_offset_output",
+        "storage": "t_stack"
+      },
+      {
+        "direction": "t_to_u",
+        "observations": 12294,
+        "site": "pattern_or_subject_copy_source",
+        "storage": "t_brk_heap_vma"
+      },
+      {
+        "direction": "u_to_t",
+        "observations": 702,
+        "site": "checked_capture_offsets",
+        "storage": "u_tracked_heap"
+      },
+      {
+        "direction": "u_to_t",
+        "observations": 12382,
+        "site": "checked_input_staging",
+        "storage": "u_tracked_heap"
+      },
+      {
+        "direction": "u_to_t",
+        "observations": 4,
+        "site": "checked_name_table",
+        "storage": "u_tracked_heap"
+      }
+    ],
+    "by_storage": {
+      "t_brk_heap_vma": 24500,
+      "t_stack": 176,
+      "u_tracked_heap": 13088
+    },
+    "cases": [
+      {
+        "log": "interspec-w0/stderr.log",
+        "observations": 14319,
+        "sha256": "aeb61bfaeb015aba71deda098d0530ff2901b5700192b96ab04c1c17503bc3e3"
+      },
+      {
+        "log": "interspec-w2/stderr.log",
+        "observations": 23445,
+        "sha256": "e2edc369895afe8e16e328574fa884e6241fa978a246b42018205311b95ecc7c"
+      }
+    ],
+    "limitations": [
+      "t_stack identifies only the executing T thread's stack range",
+      "t_image_static denotes readable nonexecutable ELF image storage, not proven named globals",
+      "VMA classes identify mapping regions, not allocation identity, object type, or lifetime",
+      "t_anon_vma may include malloc arenas and other-thread stacks; it is not a proof of heap ownership",
+      "unknown means maps inspection unavailable; t_unmapped means no covering VMA was found",
+      "uninstrumented pointers are not counted",
+      "u_tracked_heap requires a successful SP3 check; U stack and globals remain unclassified",
+      "counts denote pointer observations, not unique objects",
+      "T pointer addresses remain in T and are copied or tokenized, not passed raw into U"
+    ],
+    "schema": 1,
+    "scope": "normal correctness cases; adapter pointer arguments and copies; checked sandbox results",
+    "total_observations": 37764,
+    "trusted_image_static_observations": 0,
+    "trusted_observations": 24676,
+    "trusted_stack_observations": 176,
+    "trusted_stack_or_image_static_fraction": 0.007132436375425514,
+    "trusted_unknown_or_null_observations": 0,
+    "trusted_unmapped_observations": 0,
+    "trusted_vma_attributed_observations": 24500
+  }
+}
