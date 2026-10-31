@@ -132,6 +132,12 @@ def replace_once(text, old, new, label):
 
 def transform(text):
     text = replace_once(text, CONSTRUCTOR, RLBOX_ONLY_CONSTRUCTOR, "Engine constructor")
+    # The diagnostic-only T pointer observation is absent in the published
+    # RLBox-only baseline bridge. Keep the exact core transform stable.
+    census_lines = ('    // Record original T pointee; only its bytes enter the sandbox.\n'
+                    '    interspec::census::trusted_input("rsync_popt", "string_copy_source", src);\n')
+    if census_lines in text:
+        text = text.replace(census_lines, "", 1)
     text = replace_once(text, COPY_TO_U, RLBOX_ONLY_COPY_TO_U, "copy_to_u")
     text = replace_once(text, P8_NO_CHECK, P9A_AND_P8_NO_CHECK, "copy_checked baseline")
     return text
