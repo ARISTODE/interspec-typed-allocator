@@ -1,0 +1,391 @@
+{
+  "schema": 1,
+  "generated_from": "GitHub Actions retained stdout pointer census and hashed raw logs",
+  "event_date_utc": "2026-10-31",
+  "source_commit": "34dfc042b09d6955dd51731dbbdd2490b2e6ac13",
+  "paper_status": "exploratory; variability and unknown origins require further work",
+  "per_boundary": {
+    "rsync_popt": {
+      "boundary": "rsync_popt",
+      "by_direction": {
+        "t_adapter_only": 690,
+        "t_to_u": 1577,
+        "u_to_t": 35
+      },
+      "by_site": [
+        {
+          "direction": "t_adapter_only",
+          "observations": 690,
+          "site": "shadow_destination",
+          "storage": "t_image_static"
+        },
+        {
+          "direction": "t_to_u",
+          "observations": 1542,
+          "site": "string_copy_source",
+          "storage": "t_image_static"
+        },
+        {
+          "direction": "t_to_u",
+          "observations": 8,
+          "site": "string_copy_source",
+          "storage": "t_stack"
+        },
+        {
+          "direction": "t_to_u",
+          "observations": 27,
+          "site": "string_copy_source",
+          "storage": "unknown"
+        },
+        {
+          "direction": "u_to_t",
+          "observations": 35,
+          "site": "checked_string_result",
+          "storage": "u_tracked_heap"
+        }
+      ],
+      "by_storage": {
+        "t_image_static": 2232,
+        "t_stack": 8,
+        "u_tracked_heap": 35,
+        "unknown": 27
+      },
+      "cases": [
+        {
+          "log": "archive_transfer-integrated.stderr",
+          "observations": 385,
+          "sha256": "74d5ead219567f7b8338ea15cfeb5440c8e035e96f6a692933c07fa05bee7199"
+        },
+        {
+          "log": "size_filter-integrated.stderr",
+          "observations": 390,
+          "sha256": "49fc02eeeb3ef7db526db9577a0264b5e6083510b7bc34161d6ecc7a3bf61adb"
+        },
+        {
+          "log": "dry_run-integrated.stderr",
+          "observations": 388,
+          "sha256": "1d47d2356eb2572c657541ab6954cf012488a8ebf0b5f6165f582c7eadc24874"
+        },
+        {
+          "log": "update_backup-integrated.stderr",
+          "observations": 386,
+          "sha256": "1abda0996a2665b19ba4ba1fbc809fbcdbba0f5dabc9c5797cd7bf50fc6fc44c"
+        },
+        {
+          "log": "invalid_numeric_option-integrated.stderr",
+          "observations": 377,
+          "sha256": "b4c2befddb4a59fb7e57ca5d6c61744b813d545a3f184e48ccd2029690e2d3e8"
+        },
+        {
+          "log": "unknown_option-integrated.stderr",
+          "observations": 376,
+          "sha256": "00304317f8ce63855e573021e493d1f97f653bfb0fada1bdbff43b7411ba112b"
+        }
+      ],
+      "limitations": [
+        "t_stack identifies only the executing T thread's stack range",
+        "t_image_static denotes readable nonexecutable ELF image storage, not proven named globals",
+        "unknown does not imply heap; uninstrumented pointers are not counted",
+        "u_tracked_heap requires a successful SP3 check; U stack and globals remain unclassified",
+        "counts denote pointer observations, not unique objects",
+        "T pointer addresses remain in T and are copied or tokenized, not passed raw into U"
+      ],
+      "schema": 1,
+      "scope": "normal correctness cases; adapter pointer arguments and copies; checked sandbox results",
+      "total_observations": 2302,
+      "trusted_image_static_observations": 2232,
+      "trusted_observations": 2267,
+      "trusted_stack_observations": 8,
+      "trusted_stack_or_image_static_fraction": 0.9880899867666519,
+      "trusted_unknown_or_null_observations": 27,
+      "provenance": {
+        "run_id": 41160844051,
+        "job": "rlbox-wasm2c",
+        "artifact_id": 13026524659,
+        "artifact_sha256": "a7f1945b30a442003c0e5501c8ce35684376266d714a24c5eba65808ed548635",
+        "workflow_url": "https://github.com/ARISTODE/interspec-typed-allocator/actions/runs/41160844051"
+      }
+    },
+    "yaml_libyaml": {
+      "boundary": "yaml_libyaml",
+      "by_direction": {
+        "t_to_u": 2,
+        "u_to_t": 1024
+      },
+      "by_site": [
+        {
+          "direction": "t_to_u",
+          "observations": 2,
+          "site": "document_copy_source",
+          "storage": "unknown"
+        },
+        {
+          "direction": "u_to_t",
+          "observations": 1024,
+          "site": "checked_scalar_result",
+          "storage": "u_tracked_heap"
+        }
+      ],
+      "by_storage": {
+        "u_tracked_heap": 1024,
+        "unknown": 2
+      },
+      "cases": [
+        {
+          "log": "correctness-extended_sp3.stderr",
+          "observations": 1026,
+          "sha256": "f2dcf240e08fec4bdddf03e1c0d2395b03d579dfb31e166712c46261d07999e2"
+        }
+      ],
+      "limitations": [
+        "t_stack identifies only the executing T thread's stack range",
+        "t_image_static denotes readable nonexecutable ELF image storage, not proven named globals",
+        "unknown does not imply heap; uninstrumented pointers are not counted",
+        "u_tracked_heap requires a successful SP3 check; U stack and globals remain unclassified",
+        "counts denote pointer observations, not unique objects",
+        "T pointer addresses remain in T and are copied or tokenized, not passed raw into U"
+      ],
+      "schema": 1,
+      "scope": "normal correctness cases; adapter pointer arguments and copies; checked sandbox results",
+      "total_observations": 1026,
+      "trusted_image_static_observations": 0,
+      "trusted_observations": 2,
+      "trusted_stack_observations": 0,
+      "trusted_stack_or_image_static_fraction": 0,
+      "trusted_unknown_or_null_observations": 2,
+      "provenance": {
+        "run_id": 41160843991,
+        "job": "yaml-libyaml",
+        "artifact_id": 13027427008,
+        "artifact_sha256": "978f0c29c32e87bca5c49fd0497bba85ffc66c592aaf2a7aa4c9f22350b4c898",
+        "workflow_url": "https://github.com/ARISTODE/interspec-typed-allocator/actions/runs/41160843991"
+      }
+    },
+    "nginx_pcre": {
+      "boundary": "nginx_pcre",
+      "by_direction": {
+        "t_adapter_only": 12382,
+        "t_to_u": 12294,
+        "u_to_t": 13088
+      },
+      "by_site": [
+        {
+          "direction": "t_adapter_only",
+          "observations": 12206,
+          "site": "capture_offsets_output",
+          "storage": "unknown"
+        },
+        {
+          "direction": "t_adapter_only",
+          "observations": 88,
+          "site": "compile_error_output",
+          "storage": "t_stack"
+        },
+        {
+          "direction": "t_adapter_only",
+          "observations": 88,
+          "site": "compile_offset_output",
+          "storage": "t_stack"
+        },
+        {
+          "direction": "t_to_u",
+          "observations": 12294,
+          "site": "pattern_or_subject_copy_source",
+          "storage": "unknown"
+        },
+        {
+          "direction": "u_to_t",
+          "observations": 702,
+          "site": "checked_capture_offsets",
+          "storage": "u_tracked_heap"
+        },
+        {
+          "direction": "u_to_t",
+          "observations": 12382,
+          "site": "checked_input_staging",
+          "storage": "u_tracked_heap"
+        },
+        {
+          "direction": "u_to_t",
+          "observations": 4,
+          "site": "checked_name_table",
+          "storage": "u_tracked_heap"
+        }
+      ],
+      "by_storage": {
+        "t_stack": 176,
+        "u_tracked_heap": 13088,
+        "unknown": 24500
+      },
+      "cases": [
+        {
+          "log": "interspec-w0/stderr.log",
+          "observations": 14319,
+          "sha256": "49b7a4469c0854b1019e253c33a2c8973f37348f88bbd91afa9f5f99bd4cf8e3"
+        },
+        {
+          "log": "interspec-w2/stderr.log",
+          "observations": 23445,
+          "sha256": "d8447586c877ea1509ce93b5f5c31856979bee41cfb6f7e52c7d810fefb60c8a"
+        }
+      ],
+      "limitations": [
+        "t_stack identifies only the executing T thread's stack range",
+        "t_image_static denotes readable nonexecutable ELF image storage, not proven named globals",
+        "unknown does not imply heap; uninstrumented pointers are not counted",
+        "u_tracked_heap requires a successful SP3 check; U stack and globals remain unclassified",
+        "counts denote pointer observations, not unique objects",
+        "T pointer addresses remain in T and are copied or tokenized, not passed raw into U"
+      ],
+      "schema": 1,
+      "scope": "normal correctness cases; adapter pointer arguments and copies; checked sandbox results",
+      "total_observations": 37764,
+      "trusted_image_static_observations": 0,
+      "trusted_observations": 24676,
+      "trusted_stack_observations": 176,
+      "trusted_stack_or_image_static_fraction": 0.007132436375425514,
+      "trusted_unknown_or_null_observations": 24500,
+      "provenance": {
+        "run_id": 41160844095,
+        "job": "nginx",
+        "artifact_id": 13027813419,
+        "artifact_sha256": "d7bfecc9106b322289a43a8a7963f09609b4c72453782b67ccfdcaa8ee906723",
+        "workflow_url": "https://github.com/ARISTODE/interspec-typed-allocator/actions/runs/41160844095"
+      }
+    },
+    "memcached_bipbuffer": {
+      "boundary": "memcached_bipbuffer",
+      "by_direction": {
+        "t_adapter_only": 1481,
+        "t_to_u": 165,
+        "u_to_t": 462
+      },
+      "by_site": [
+        {
+          "direction": "t_adapter_only",
+          "observations": 129,
+          "site": "lru_item_tokenized",
+          "storage": "unknown"
+        },
+        {
+          "direction": "t_adapter_only",
+          "observations": 1352,
+          "site": "peek_all_size_output",
+          "storage": "t_stack"
+        },
+        {
+          "direction": "t_to_u",
+          "observations": 26,
+          "site": "offer_copy_source",
+          "storage": "t_image_static"
+        },
+        {
+          "direction": "t_to_u",
+          "observations": 5,
+          "site": "offer_copy_source",
+          "storage": "t_stack"
+        },
+        {
+          "direction": "t_to_u",
+          "observations": 134,
+          "site": "push_copy_source",
+          "storage": "unknown"
+        },
+        {
+          "direction": "u_to_t",
+          "observations": 37,
+          "site": "input",
+          "storage": "u_tracked_heap"
+        },
+        {
+          "direction": "u_to_t",
+          "observations": 31,
+          "site": "offer_input",
+          "storage": "u_tracked_heap"
+        },
+        {
+          "direction": "u_to_t",
+          "observations": 74,
+          "site": "peek_all",
+          "storage": "u_tracked_heap"
+        },
+        {
+          "direction": "u_to_t",
+          "observations": 47,
+          "site": "poll",
+          "storage": "u_tracked_heap"
+        },
+        {
+          "direction": "u_to_t",
+          "observations": 134,
+          "site": "push",
+          "storage": "u_tracked_heap"
+        },
+        {
+          "direction": "u_to_t",
+          "observations": 139,
+          "site": "request",
+          "storage": "u_tracked_heap"
+        }
+      ],
+      "by_storage": {
+        "t_image_static": 26,
+        "t_stack": 1357,
+        "u_tracked_heap": 462,
+        "unknown": 263
+      },
+      "cases": [
+        {
+          "log": "interspec/normal.stderr",
+          "observations": 2108,
+          "sha256": "ab644fa353e3915246718bef9fe51ba1228ec969da59fe7b8bc3f28b1fdc51f8"
+        }
+      ],
+      "limitations": [
+        "t_stack identifies only the executing T thread's stack range",
+        "t_image_static denotes readable nonexecutable ELF image storage, not proven named globals",
+        "unknown does not imply heap; uninstrumented pointers are not counted",
+        "u_tracked_heap requires a successful SP3 check; U stack and globals remain unclassified",
+        "counts denote pointer observations, not unique objects",
+        "T pointer addresses remain in T and are copied or tokenized, not passed raw into U"
+      ],
+      "schema": 1,
+      "scope": "normal correctness cases; adapter pointer arguments and copies; checked sandbox results",
+      "total_observations": 2108,
+      "trusted_image_static_observations": 26,
+      "trusted_observations": 1646,
+      "trusted_stack_observations": 1357,
+      "trusted_stack_or_image_static_fraction": 0.8402187120291617,
+      "trusted_unknown_or_null_observations": 263,
+      "provenance": {
+        "run_id": 41160843977,
+        "job": "server",
+        "artifact_id": 13028015694,
+        "artifact_sha256": "b2ecb8c563c0cacd7100ab013e6775880698d28f6c39194a191e57",
+        "workflow_url": "https://github.com/ARISTODE/interspec-typed-allocator/actions/runs/41160843977"
+      }
+    }
+  },
+  "repeatability": {
+    "rsync": {
+      "other_run_id": 41159824909,
+      "total": 2302,
+      "storage": {
+        "t_stack": 13,
+        "t_image_static": 2232,
+        "unknown": 22,
+        "u_tracked_heap": 35
+      }
+    },
+    "memcached": {
+      "other_run_id": 41159824889,
+      "total": 3643,
+      "storage": {
+        "t_stack": 1365,
+        "t_image_static": 26,
+        "unknown": 655,
+        "u_tracked_heap": 1597
+      }
+    }
+  }
+}
