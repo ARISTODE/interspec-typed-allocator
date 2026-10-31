@@ -39,6 +39,24 @@ jobs:
           python3 tools/audit_behavioral_parity.py --app memcached \
             --evidence memcached-results/correctness/summary.json \
             --out memcached-results/correctness/parity-audit.json
+      - name: Reject U global and escaped-stack pointers at checked returns
+        run: |
+          python3 tools/test_u_storage_faults.py \
+            --out memcached-results/u-storage-faults \
+            --correctness-summary memcached-results/correctness/summary.json
+          python3 tools/verify_u_storage_faults.py \
+            --results memcached-results/u-storage-faults \
+            --correctness-summary memcached-results/correctness/summary.json
+      - name: Repeat fixed-operation pointer census with dispersion
+        run: |
+          python3 tools/profile_pointer_origin_repeats.py \
+            --out memcached-results/pointer-origin-repeats \
+            --correctness-summary memcached-results/correctness/summary.json \
+            --repetitions 5 --operations 2500 --write-operations 20000 \
+            --key-cap 512 --write-key-cap 2000 --drain-seconds 0.5
+          python3 tools/verify_pointer_origin_repeats.py \
+            --results memcached-results/pointer-origin-repeats \
+            --correctness-summary memcached-results/correctness/summary.json
       - name: Exercise performance collection
         run: |
           python3 tools/benchmark_memcached.py \

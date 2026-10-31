@@ -144,6 +144,7 @@ struct Buffer {
         auto result = runtime->check(address, bytes, is_input ? P::kTypeHashChar : P::kTypeHashBipbufT);
         sp3_event.result = result == interspec::CheckResult::ok ? "sp3_ok" : interspec::check_result_name(result);
         if (result != interspec::CheckResult::ok) {
+            interspec::census::sandbox_result("memcached_bipbuffer", op, address, false);
             runtime->dump_allocations();
             reject(op, interspec::check_result_name(result));
         }

@@ -64,7 +64,7 @@ class Client:
 
 
 class Server:
-    def __init__(self, binary, logdir, name, *, trace=False, fault=None, extra=(), cpu=None):
+    def __init__(self, binary, logdir, name, *, trace=False, fault=None, extra=(), cpu=None, census=False):
         logdir = Path(logdir)
         logdir.mkdir(parents=True, exist_ok=True)
         self.logpath = logdir / f"{name}.stderr"
@@ -75,6 +75,7 @@ class Server:
         env = {k: v for k, v in os.environ.items() if not k.startswith("INTERSPEC_TEST_") and k != "INTERSPEC_TRACE"}
         env["LC_ALL"] = "C"
         if trace: env["INTERSPEC_TRACE"] = "1"
+        if census: env["INTERSPEC_POINTER_CENSUS"] = "1"
         if fault: env.update({f"INTERSPEC_TEST_{k.upper()}": str(v) for k, v in fault.items()})
         self.args = [str(binary), "-l", "127.0.0.1", "-p", str(self.port), "-U", "0", "-m", "64", "-t", "4",
                      "-u", pwd.getpwuid(os.getuid()).pw_name, *extra]
