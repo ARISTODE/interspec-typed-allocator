@@ -149,6 +149,12 @@ def main():
                 "scenario": scenario["name"], "repetition": repetition,
                 "client_operations": target, "preloaded_keys": keys,
                 "client_report": measured, "loss_counters": losses,
+                "monitored_stats_before": {
+                    key: int(before[key]) for key in losses
+                },
+                "monitored_stats_after": {
+                    key: int(after[key]) for key in losses
+                },
                 "observations": sum(directions.values()),
                 "observations_per_1000_ops": 1000.0 * sum(directions.values()) / target,
                 "trace_sha256": hashlib.sha256(raw).hexdigest(),

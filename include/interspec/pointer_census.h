@@ -83,8 +83,8 @@ inline const char* host_storage(const void* ptr) {
         (name[6] == '\n' || name[6] == '\0')) {
       origin = "t_brk_heap_vma";
     } else if (std::strncmp(name, "[stack", 6) == 0) {
-      // A foreign thread stack may not be explicitly named in maps.
-      origin = "t_other_stack_vma";
+      // [stack] can denote the main thread; other stacks may be unnamed.
+      origin = "t_stack_named_vma";
     } else if (name[0] == '/' ) {
       origin = "t_file_vma";
     } else if (name[0] == '[') {
