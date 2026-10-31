@@ -62,6 +62,40 @@ inline const char* host_storage(const void* ptr) {
     return 0;
   }, &lookup);
   if (lookup.found) return "t_image_static";
+
+  // /proc/self/maps identifies a VMA, not the beginning, type, or lifetime
+  // of an allocated C object. In particular, anonymous VMAs may contain
+  // malloc arenas, mapped buffers, and stacks of other threads.
+  FILE* maps = std::fopen("/proc/self/maps", "r");
+  if (!maps) return "unknown";
+  char line[1024];
+  const char* origin = "t_unmapped";
+  while (std::fgets(line, sizeof(line), maps)) {
+    unsigned long long start = 0, end = 0, offset = 0, inode = 0;
+    char perms[5] = {}, device[32] = {};
+    int path_offset = 0;
+    if (std::sscanf(line, "%llx-%llx %4s %llx %31s %llu %n",
+                    &start, &end, perms, &offset, device, &inode,
+                    &path_offset) != 6 || path_offset <= 0) continue;
+    if (address < start || address >= end) continue;
+    const char* name = line + path_offset;
+    if (std::strncmp(name, "[heap]", 6) == 0 &&
+        (name[6] == '\n' || name[6] == '\0')) {
+      origin = "t_brk_heap_vma";
+    } else if (std::strncmp(name, "[stack", 6) == 0) {
+      // A foreign thread stack may not be explicitly named in maps.
+      origin = "t_other_stack_vma";
+    } else if (name[0] == '/' ) {
+      origin = "t_file_vma";
+    } else if (name[0] == '[') {
+      origin = "t_named_vma";
+    } else {
+      origin = "t_anon_vma";
+    }
+    break;
+  }
+  std::fclose(maps);
+  return origin;
 #endif
   return "unknown";
 }

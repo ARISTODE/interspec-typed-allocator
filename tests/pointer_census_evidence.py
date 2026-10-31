@@ -73,6 +73,17 @@ class PointerEvidenceTests(unittest.TestCase):
             out.write(line("yaml_libyaml", "document_copy_source", "t_to_u", "unknown"))
         self.assertEqual(summarize("yaml_libyaml", self.root)["by_storage"]["unknown"], 1)
 
+    def test_extended_vma_categories(self):
+        path = self.populate("yaml_libyaml")
+        with path.open("a") as out:
+            for origin in ("t_brk_heap_vma", "t_anon_vma", "t_file_vma",
+                           "t_other_stack_vma", "t_named_vma", "t_unmapped"):
+                out.write(line("yaml_libyaml", "document_copy_source", "t_to_u", origin))
+        by_storage = summarize("yaml_libyaml", self.root)["by_storage"]
+        for origin in ("t_brk_heap_vma", "t_anon_vma", "t_file_vma",
+                       "t_other_stack_vma", "t_named_vma", "t_unmapped"):
+            self.assertEqual(by_storage[origin], 1)
+
     def test_wrong_boundary_rejected(self):
         path = self.populate("yaml_libyaml")
         with path.open("a") as out:

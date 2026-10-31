@@ -17,6 +17,11 @@ uint32_t interspec_mc_bench_noop(uint32_t value) { return value + 1; }
 #endif
 #ifdef INTERSPEC_FAULT_TESTS
 static uint32_t fault_mode, fault_target, fault_fired;
+/* Two adversarial U pointer origins, compiled into the fault-only WASM module.
+ * The trusted side must reject both before attempting to read their contents.
+ * These do not represent the prevalence of such pointers in normal traffic. */
+static unsigned char global_fault_probe[64];
+static volatile uintptr_t escaped_stack_probe;
 void interspec_mc_fault(uint32_t mode, uint32_t target) {
     fault_mode = mode;
     fault_target = target;
@@ -65,6 +70,17 @@ static unsigned char *mutate(unsigned char *ptr, uint32_t target) {
     case 8: /* A tracked, in-bounds extent that splits an LRU record. */
         if (last_size) --last_size;
         break;
+    case 9:
+        ptr = global_fault_probe; /* Untracked U static-duration object. */
+        break;
+    case 10: {
+        /* Deliberately escape a U stack address as an integer. No T
+         * dereference is permitted; this is a rejected-lifetime probe. */
+        volatile unsigned char stack_fault_probe[64] = {0};
+        escaped_stack_probe = (uintptr_t)&stack_fault_probe[0];
+        ptr = (unsigned char *)(uintptr_t)escaped_stack_probe;
+        break;
+    }
     default: abort();
     }
     fprintf(stderr, "FAULT_INJECTION boundary=memcached_bipbuffer mode=%u target=%u original=0x%x replacement=0x%x bytes=%u\n",

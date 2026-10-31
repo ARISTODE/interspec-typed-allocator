@@ -30,7 +30,11 @@ REQUIRED = {
     "nginx_pcre": {"pattern_or_subject_copy_source", "capture_offsets_output", "checked_input_staging"},
     "memcached_bipbuffer": {"offer_copy_source", "push_copy_source", "lru_item_tokenized", "peek_all_size_output"},
 }
-ORIGINS = {"t_stack", "t_image_static", "unknown", "null", "u_tracked_heap", "u_unclassified"}
+ORIGINS = {
+    "t_stack", "t_image_static", "t_brk_heap_vma", "t_other_stack_vma",
+    "t_file_vma", "t_named_vma", "t_anon_vma", "t_unmapped",
+    "unknown", "null", "u_tracked_heap", "u_unclassified",
+}
 DIRECTIONS = {"t_to_u", "t_adapter_only", "u_to_t"}
 
 
@@ -96,7 +100,10 @@ def summarize(boundary, root):
         "limitations": [
             "t_stack identifies only the executing T thread's stack range",
             "t_image_static denotes readable nonexecutable ELF image storage, not proven named globals",
-            "unknown does not imply heap; uninstrumented pointers are not counted",
+            "VMA classes identify mapping regions, not allocation identity, object type, or lifetime",
+            "t_anon_vma may include malloc arenas and other-thread stacks; it is not a proof of heap ownership",
+            "unknown means maps inspection unavailable; t_unmapped means no covering VMA was found",
+            "uninstrumented pointers are not counted",
             "u_tracked_heap requires a successful SP3 check; U stack and globals remain unclassified",
             "counts denote pointer observations, not unique objects",
             "T pointer addresses remain in T and are copied or tokenized, not passed raw into U",
@@ -106,6 +113,11 @@ def summarize(boundary, root):
         "trusted_stack_observations": stack,
         "trusted_image_static_observations": image,
         "trusted_unknown_or_null_observations": storage["unknown"] + storage["null"],
+        "trusted_unmapped_observations": storage["t_unmapped"],
+        "trusted_vma_attributed_observations": sum(
+            storage[origin] for origin in ("t_brk_heap_vma", "t_other_stack_vma",
+                                         "t_file_vma", "t_named_vma", "t_anon_vma")
+        ),
         "trusted_stack_or_image_static_fraction": (stack + image) / trusted if trusted else None,
         "by_direction": dict(sorted(directions.items())),
         "by_storage": dict(sorted(storage.items())),
