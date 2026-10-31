@@ -125,11 +125,8 @@ def main():
     report = summarize(args.app, args.root)
     args.out.parent.mkdir(parents=True, exist_ok=True)
     args.out.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n")
-    print(json.dumps({"boundary": args.app,
-                      "observations": report["total_observations"],
-                      "trusted_stack": report["trusted_stack_observations"],
-                      "trusted_image_static": report["trusted_image_static_observations"],
-                      "trusted_unknown_or_null": report["trusted_unknown_or_null_observations"]}))
+    # Make the full provenance-grouped stats inspectable even without ZIP access.
+    print("INTERSPEC_POINTER_SUMMARY " + json.dumps(report, sort_keys=True))
 
 
 if __name__ == "__main__":
