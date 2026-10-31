@@ -9,6 +9,7 @@
 #include "rlbox_wasm2c_sandbox.hpp"
 
 #include "interspec/policy_runtime.h"
+#include "interspec/pointer_census.h"
 #include "interspec_yaml_t_policy.h"
 #include "yaml.h"
 
@@ -133,6 +134,7 @@ class Engine {
     std::vector<unsigned char> snapshot(8192);
 
     for (uint32_t iteration = 0; iteration < iterations; ++iteration) {
+      interspec::census::trusted_input("yaml_libyaml", "document_copy_source", input.data());
       std::memcpy(input_raw_, input.data(), input.size());
       const int begin =
           sandbox_.invoke_sandbox_function(interspec_yaml_begin)
@@ -181,6 +183,7 @@ class Engine {
                 P::kUseYamlScalarValueRange);
             if (result != interspec::CheckResult::ok)
               reject(interspec::check_result_name(result));
+            interspec::census::sandbox_result("yaml_libyaml", "checked_scalar_result", address, true);
           }
 
           if (bytes > snapshot.size())

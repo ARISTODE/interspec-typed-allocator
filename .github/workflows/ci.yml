@@ -148,9 +148,17 @@ jobs:
             autoconf automake build-essential ca-certificates git libpopt-dev python3
       - uses: actions/checkout@v4
       - name: Run P9b integration and SP3 application corruption experiments
+        env:
+          INTERSPEC_POINTER_CENSUS: "1"
         run: |
           set -o pipefail
           bash ./scripts/run_sp3_diagnostics.sh sp3-diagnostics-results 2>&1 | tee /tmp/interspec-p9b-wasm2c.log
+          python3 tools/summarize_pointer_census.py --app rsync_popt \
+            --root sp3-diagnostics-results \
+            --out sp3-diagnostics-results/pointer-census.json
+          python3 tools/audit_behavioral_parity.py --app rsync \
+            --evidence sp3-diagnostics-results/summary.json \
+            --out sp3-diagnostics-results/parity-audit.json
       - name: Upload P9b wasm2c diagnostics
         if: always()
         uses: actions/upload-artifact@v4

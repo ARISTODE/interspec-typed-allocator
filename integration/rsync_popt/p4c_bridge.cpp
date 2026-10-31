@@ -6,6 +6,7 @@
 #include "rlbox_nacl_sandbox.hpp"
 
 #include "interspec/policy_runtime.h"
+#include "interspec/pointer_census.h"
 #include "interspec_popt_t_policy.h"
 #include "popt.h"
 
@@ -123,6 +124,8 @@ class Engine {
 
   UCharPtr copy_to_u(const char* src) {
     if (!src) return UCharPtr(nullptr);
+    // Record original T pointee; only its bytes enter the sandbox.
+    interspec::census::trusted_input("rsync_popt", "string_copy_source", src);
 
     const size_t bytes = std::strlen(src) + 1;
     if (bytes > std::numeric_limits<uint32_t>::max())
@@ -165,6 +168,8 @@ class Engine {
     const auto result = runtime().remaining_bytes(
       sandbox_ptr, kTypeHashChar, remaining);
     event.remaining = remaining;
+    if (result == interspec::CheckResult::ok && remaining != 0)
+      interspec::census::sandbox_result("rsync_popt", "checked_string_result", sandbox_ptr, true);
     if (result != interspec::CheckResult::ok || remaining == 0) {
       event.result = interspec::check_result_name(result);
       if (std::getenv("INTERSPEC_TRACE_DUMP")) runtime().dump_allocations();
@@ -263,6 +268,9 @@ struct TrustedContext {
 };
 
 static void trace_binding(const char* operation, const SlotBinding& binding) {
+  // The T destination is retained inside T; U receives a shadow slot.
+  if (std::strcmp(operation, "bind") == 0)
+    interspec::census::trusted_adapter_reference("rsync_popt", "shadow_destination", binding.trusted_address);
   if (!interspec::DiagnosticEvent::enabled()) return;
   std::fprintf(stderr, "INTERSPEC_BINDING event=%s slot=%u destination=%p kind=%s\n",
                operation, binding.index, binding.trusted_address,

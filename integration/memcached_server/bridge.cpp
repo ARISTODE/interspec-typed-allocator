@@ -5,6 +5,7 @@
 #include "rlbox.hpp"
 #include "rlbox_wasm2c_sandbox.hpp"
 #include "interspec/runtime.h"
+#include "interspec/pointer_census.h"
 #if INTERSPEC_TRACKING
 #include "interspec_bipbuffer_t_policy.h"
 #endif
@@ -146,6 +147,7 @@ struct Buffer {
             runtime->dump_allocations();
             reject(op, interspec::check_result_name(result));
         }
+        interspec::census::sandbox_result("memcached_bipbuffer", op, address, true);
 #else
         (void)is_input;
 #endif
@@ -213,6 +215,7 @@ void interspec_bipbuf_role(bipbuf_t *ptr, unsigned int role) {
  * Upstream's refcount_incr keeps the item alive until the handle is consumed or
  * cancelled. A token is meaningful only within its originating queue. */
 uintptr_t interspec_lru_hold(bipbuf_t *ptr, void *item, uint32_t hash) {
+    interspec::census::trusted_adapter_reference("memcached_bipbuffer", "lru_item_tokenized", item);
     return guarded([&] {
         auto &b = get(ptr);
         std::lock_guard<std::mutex> lock(b.mutex);
@@ -275,6 +278,7 @@ int bipbuf_push(bipbuf_t *ptr, int size) {
         if (size < 0 || static_cast<uint32_t>(size) > b.pending) reject("push", "unreserved_write");
         auto result = MC_CALL(b, interspec_mc_request, static_cast<uint32_t>(size));
         auto *destination = b.validate(result, size, "push");
+        interspec::census::trusted_input("memcached_bipbuffer", "push_copy_source", b.write_copy.data());
         std::memcpy(destination, b.write_copy.data(), size);
         b.event("copy_into_u", "push", size);
         b.pending = 0;
@@ -289,6 +293,7 @@ int bipbuf_offer(bipbuf_t *ptr, const unsigned char *data, int size) {
         std::lock_guard<std::mutex> lock(b.mutex);
         b.pending = 0;
         if (size < 0 || static_cast<uint32_t>(size) > b.capacity) return 0;
+        interspec::census::trusted_input("memcached_bipbuffer", "offer_copy_source", data);
         std::memcpy(b.validate(b.input, size, "offer_input", true), data, size);
         b.event("copy_into_u", "offer", size);
         int written = MC_CALL(b, interspec_mc_offer, static_cast<uint32_t>(size)).UNSAFE_unverified();
@@ -297,6 +302,7 @@ int bipbuf_offer(bipbuf_t *ptr, const unsigned char *data, int size) {
     });
 }
 unsigned char *bipbuf_peek_all(const bipbuf_t *ptr, unsigned int *size) {
+    interspec::census::trusted_adapter_reference("memcached_bipbuffer", "peek_all_size_output", size);
     return guarded([&]() -> unsigned char * {
         auto &b = get(ptr);
         std::lock_guard<std::mutex> lock(b.mutex);
