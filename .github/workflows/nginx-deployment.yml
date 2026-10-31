@@ -39,7 +39,17 @@ jobs:
       - name: Build actual nginx server variants
         run: bash scripts/build_nginx_deployment.sh
       - name: Validate application, corruption, workers, and reload
+        env:
+          INTERSPEC_POINTER_CENSUS: "1"
         run: python3 tools/test_nginx_deployment.py --out nginx-results/correctness --workers 2
+      - name: Summarize nginx pointer origins from normal traffic
+        run: |
+          python3 tools/summarize_pointer_census.py --app nginx_pcre \
+            --root nginx-results/correctness \
+            --out nginx-results/correctness/pointer-census.json
+          python3 tools/audit_behavioral_parity.py --app nginx \
+            --evidence nginx-results/correctness/summary.json \
+            --out nginx-results/correctness/parity-audit.json
       - name: Collect full workload reference
         run: |
           python3 tools/benchmark_nginx.py --out nginx-results/performance \

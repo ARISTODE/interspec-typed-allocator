@@ -84,3 +84,11 @@ add_test(NAME p9a_application_summary COMMAND ${Python3_EXECUTABLE}
   ${CMAKE_CURRENT_SOURCE_DIR}/tests/p9a_application.py)
 add_test(NAME p9a_result_renderer COMMAND ${Python3_EXECUTABLE}
   ${CMAKE_CURRENT_SOURCE_DIR}/tests/p9a_render.py)
+
+add_executable(pointer_census tests/pointer_census.cpp)
+target_link_libraries(pointer_census PRIVATE interspec::runtime Threads::Threads ${CMAKE_DL_LIBS})
+add_test(NAME pointer_census COMMAND pointer_census)
+add_test(NAME pointer_census_evidence COMMAND ${Python3_EXECUTABLE}
+  ${CMAKE_CURRENT_SOURCE_DIR}/tests/pointer_census_evidence.py)
+add_test(NAME behavioral_parity_evidence COMMAND ${Python3_EXECUTABLE}
+  ${CMAKE_CURRENT_SOURCE_DIR}/tests/behavioral_parity_evidence.py)

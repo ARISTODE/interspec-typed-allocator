@@ -20,8 +20,12 @@ def parse_line(stdout):
     return dict(item.split("=", 1) for item in lines[0].split()[1:])
 
 
-def run(command, check=True):
-    completed = subprocess.run(command, text=True, capture_output=True)
+def run(command, check=True, census=False):
+    # Enable observations only in correctness runs; exclude from performance.
+    env = {key: value for key, value in os.environ.items() if key != "INTERSPEC_POINTER_CENSUS"}
+    if census:
+        env["INTERSPEC_POINTER_CENSUS"] = "1"
+    completed = subprocess.run(command, text=True, capture_output=True, env=env)
     if check and completed.returncode != 0:
         raise RuntimeError(
             f"command failed ({completed.returncode}): {command}\n"
@@ -136,7 +140,8 @@ def main():
     correctness = {}
     reference = None
     for mode in MODES:
-        completed = run(mode_command(args, mode, input_path, correctness_iterations))
+        completed = run(mode_command(args, mode, input_path, correctness_iterations),
+                        census=mode == "extended_sp3" and os.environ.get("INTERSPEC_YAML_CENSUS_CORRECTNESS") == "1")
         row = parse_line(completed.stdout)
         correctness[mode] = row
         (out / f"correctness-{mode}.stdout").write_text(completed.stdout)
@@ -156,6 +161,12 @@ def main():
             indent=2,
         )
     )
+
+    if os.environ.get("INTERSPEC_YAML_CENSUS_CORRECTNESS") == "1":
+        from summarize_pointer_census import summarize as summarize_pointers
+        census_result = summarize_pointers("yaml_libyaml", out)
+        (out / "pointer-census.json").write_text(json.dumps(census_result, indent=2) + "\n")
+        print("INTERSPEC_POINTER_SUMMARY " + json.dumps(census_result, sort_keys=True), flush=True)
 
     expected = {1: "wrong_type", 2: "untracked", 3: "untracked", 4: "out_of_bounds"}
     rejections = {}

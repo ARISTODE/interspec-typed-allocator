@@ -28,7 +28,17 @@ jobs:
       - name: Build all server variants
         run: bash scripts/build_memcached_deployment.sh
       - name: Validate actual server and source-corruption paths
+        env:
+          INTERSPEC_POINTER_CENSUS: "1"
         run: python3 tools/test_memcached_deployment.py --out memcached-results/correctness
+      - name: Summarize memcached pointer origins from normal traffic
+        run: |
+          python3 tools/summarize_pointer_census.py --app memcached_bipbuffer \
+            --root memcached-results/correctness \
+            --out memcached-results/correctness/pointer-census.json
+          python3 tools/audit_behavioral_parity.py --app memcached \
+            --evidence memcached-results/correctness/summary.json \
+            --out memcached-results/correctness/parity-audit.json
       - name: Exercise performance collection
         run: |
           python3 tools/benchmark_memcached.py \

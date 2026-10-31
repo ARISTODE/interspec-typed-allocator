@@ -43,11 +43,18 @@ jobs:
             autoconf automake build-essential ca-certificates cmake git python3
       - uses: actions/checkout@v4
       - name: Run YAML/libyaml application evaluation
+        env:
+          INTERSPEC_YAML_CENSUS_CORRECTNESS: "1"
         run: |
           set -o pipefail
           chmod +x ./scripts/run_yaml_libyaml_evaluation.sh
           ./scripts/run_yaml_libyaml_evaluation.sh yaml-libyaml-results \
             2>&1 | tee /tmp/interspec-yaml-libyaml.log
+      - name: Audit YAML native-versus-isolated semantics
+        run: |
+          python3 tools/audit_behavioral_parity.py --app yaml \
+            --evidence yaml-libyaml-results/correctness.json \
+            --out yaml-libyaml-results/parity-audit.json
       - name: Upload YAML/libyaml evidence
         if: always()
         uses: actions/upload-artifact@v4

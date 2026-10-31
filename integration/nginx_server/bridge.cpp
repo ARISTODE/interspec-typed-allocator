@@ -6,6 +6,7 @@
 #include "rlbox.hpp"
 #include "rlbox_wasm2c_sandbox.hpp"
 #include "interspec/runtime.h"
+#include "interspec/pointer_census.h"
 #include "pcre.h"
 #if INTERSPEC_TRACKING
 #include "interspec_pcre_t_policy.h"
@@ -115,11 +116,13 @@ struct Regex {
                             use == Use::offsets ? P::kUseCaptureOffsets : P::kUseSubjectInput;
         const auto result = P::check(*runtime, address, bytes, policy);
         if (result != interspec::CheckResult::ok) reject(operation, interspec::check_result_name(result));
+        interspec::census::sandbox_result("nginx_pcre", use == Use::names ? "checked_name_table" : use == Use::offsets ? "checked_capture_offsets" : "checked_input_staging", address, true);
 #endif
         return ptr;
     }
     void copy_input(const char *subject, uint32_t bytes) {
         if (bytes > InputCapacity) throw std::runtime_error("subject_capacity");
+        interspec::census::trusted_input("nginx_pcre", "pattern_or_subject_copy_source", subject);
         std::memcpy(validate(input, bytes, Use::input), subject, bytes);
     }
     bool compile(const char *pattern, int options) {
@@ -150,6 +153,7 @@ struct Regex {
     int exec(const char *subject, int length, int start, int options, int *target, int count) {
         if (length < 0 || length > static_cast<int>(InputCapacity) || start < 0 || start > length ||
             count < 0 || count > static_cast<int>(OffsetCapacity) || (count && !target)) return PCRE_ERROR_BADLENGTH;
+        if (count) interspec::census::trusted_adapter_reference("nginx_pcre", "capture_offsets_output", target);
         copy_input(subject, static_cast<uint32_t>(length));
         int rc = sandbox.invoke_sandbox_function(interspec_nginx_exec, length, start, options, count).UNSAFE_unverified();
         if (rc < 0) return rc;
@@ -180,6 +184,8 @@ extern "C" {
 void *(*pcre_malloc)(size_t) = std::malloc;
 void (*pcre_free)(void *) = std::free;
 pcre *pcre_compile(const char *pattern, int options, const char **error, int *offset, const unsigned char *tables) {
+    if (error) interspec::census::trusted_adapter_reference("nginx_pcre", "compile_error_output", error);
+    if (offset) interspec::census::trusted_adapter_reference("nginx_pcre", "compile_offset_output", offset);
     if (error) *error = "sandbox PCRE compilation failed";
     if (offset) *offset = 0;
     if (!pattern || tables) return nullptr;

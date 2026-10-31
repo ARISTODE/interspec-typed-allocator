@@ -21,6 +21,7 @@ worker_processes {workers or 1};
 pid {directory}/nginx.pid;
 error_log stderr notice;
 env INTERSPEC_TRACE;
+env INTERSPEC_POINTER_CENSUS;
 env INTERSPEC_NGINX_FAULT_PATH;
 env INTERSPEC_NGINX_FAULT_KIND;
 events {{ worker_connections 2048; }}
