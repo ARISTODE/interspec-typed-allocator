@@ -70,18 +70,25 @@ inline void emit(const char* boundary, const char* direction,
                  const char* site, const char* storage,
                  uintptr_t address, const char* result = "observed") {
   if (!enabled()) return;
-  long pid = 0;
 #if defined(__linux__)
-  pid = static_cast<long>(getpid());
-  flockfile(stderr);
-#endif
+  // One kernel write prevents record interleaving between nginx workers.
+  // stdio locks synchronize threads, not independently forked processes.
+  char line[384];
+  const int count = std::snprintf(
+      line, sizeof(line),
+      "INTERSPEC_POINTER_CENSUS schema=1 pid=%ld boundary=%s direction=%s "
+      "site=%s storage=%s address=0x%zx result=%s\n",
+      static_cast<long>(getpid()), boundary, direction, site, storage,
+      static_cast<size_t>(address), result);
+  if (count > 0 && static_cast<size_t>(count) < sizeof(line)) {
+    (void)::write(STDERR_FILENO, line, static_cast<size_t>(count));
+  }
+#else
   std::fprintf(stderr,
-               "INTERSPEC_POINTER_CENSUS schema=1 pid=%ld boundary=%s direction=%s "
+               "INTERSPEC_POINTER_CENSUS schema=1 pid=0 boundary=%s direction=%s "
                "site=%s storage=%s address=0x%zx result=%s\n",
-               pid, boundary, direction, site, storage,
+               boundary, direction, site, storage,
                static_cast<size_t>(address), result);
-#if defined(__linux__)
-  funlockfile(stderr);
 #endif
 }
 

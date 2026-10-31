@@ -163,9 +163,10 @@ def main():
     )
 
     if os.environ.get("INTERSPEC_YAML_CENSUS_CORRECTNESS") == "1":
-        from summarize_pointer_census import summarize
-        census_result = summarize("yaml_libyaml", out)
+        from summarize_pointer_census import summarize as summarize_pointers
+        census_result = summarize_pointers("yaml_libyaml", out)
         (out / "pointer-census.json").write_text(json.dumps(census_result, indent=2) + "\n")
+        print("INTERSPEC_POINTER_SUMMARY " + json.dumps(census_result, sort_keys=True), flush=True)
 
     expected = {1: "wrong_type", 2: "untracked", 3: "untracked", 4: "out_of_bounds"}
     rejections = {}
