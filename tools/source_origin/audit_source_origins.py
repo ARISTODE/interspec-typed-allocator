@@ -100,10 +100,17 @@ def study(root):
         raise ValueError("original popt error producer missing")
     for path in ("options.c", "tls.c"):
         src = sources(root, "rsync", path)
+        # The deployed P4c bridge isolates poptBadOption and copies its return.
+        # The original source invokes poptStrerror too, but the P4c build
+        # deliberately leaves this standalone helper in trusted host libpopt.
+        for line, args in calls(src, "poptBadOption"):
+            if len(args) == 2:
+                add("boundary_use", "rsync_popt", "U_argv_or_alias_pointer",
+                    "rsync", path, line, "poptBadOption")
         for line, args in calls(src, "poptStrerror"):
             if len(args) == 1:
-                add("boundary_use", "rsync_popt", "U_literal_or_i18n",
-                    "rsync", path, line, "poptStrerror(opt)")
+                add("host_helper_excluded", "rsync_popt", "T_literal_or_i18n",
+                    "rsync", path, line, "poptStrerror")
 
     logger = sources(root, "memcached", "logger.c")
     if "char scratch[LOGGER_PARSE_SCRATCH];" not in logger:
@@ -146,7 +153,8 @@ def study(root):
         ("library_candidate", "yaml_libyaml", "U_static"): 103,
         ("boundary_use", "nginx_pcre", "T_stack"): 3,
         ("boundary_use", "nginx_pcre", "U_static"): 2,
-        ("boundary_use", "rsync_popt", "U_literal_or_i18n"): 3,
+        ("boundary_use", "rsync_popt", "U_argv_or_alias_pointer"): 3,
+        ("host_helper_excluded", "rsync_popt", "T_literal_or_i18n"): 3,
         ("boundary_use", "memcached_bipbuffer", "T_stack"): 5,
         ("boundary_use", "memcached_bipbuffer", "T_static"): 1,
     }
@@ -158,6 +166,7 @@ def study(root):
         "pinned_revisions": PINS,
         "boundary_uses": sum(r["kind"] == "boundary_use" for r in records),
         "library_candidates_excluded": sum(r["kind"] == "library_candidate" for r in records),
+        "host_helpers_excluded": sum(r["kind"] == "host_helper_excluded" for r in records),
         "counts": [{"kind": k, "boundary": b, "origin": o, "sites": n}
                    for (k, b, o), n in sorted(result.items())],
         "records": sorted(records, key=lambda r: (r["kind"], r["boundary"],
@@ -175,6 +184,7 @@ def main():
         args.output.write_text(rendered)
         print(json.dumps({"boundary_uses": result["boundary_uses"],
                           "library_candidates_excluded": result["library_candidates_excluded"],
+                          "host_helpers_excluded": result["host_helpers_excluded"],
                           "output": str(args.output)}))
     else:
         print(rendered)

@@ -1,4 +1,4 @@
-name: Original rsync application error pointer events
+name: Original rsync isolated API versus host helper pointers
 
 on:
   pull_request:
@@ -40,10 +40,11 @@ jobs:
           mv "$base/build/rsync" "$base/baseline/rsync"
           mv "$base/build/tls" "$base/baseline/tls"
           cc -std=gnu11 -O0 -g -fno-omit-frame-pointer \
+            -I "$base/source/popt" \
             -c tools/source_origin/rsync_original_trace.c \
             -o "$base/build/original-popt-trace.o"
           make -C "$base/build" -j2 rsync tls \
-            LDFLAGS="-no-pie -rdynamic -Wl,--wrap=poptStrerror $base/build/original-popt-trace.o"
+            LDFLAGS="-no-pie -rdynamic -Wl,--wrap=poptBadOption -Wl,--wrap=poptStrerror $base/build/original-popt-trace.o"
           cp "$base/build/rsync" "$base/traced/rsync"
           cp "$base/build/tls" "$base/traced/tls"
           file "$base"/{baseline,traced}/{rsync,tls}
@@ -55,7 +56,7 @@ jobs:
           python3 tools/source_origin/run_rsync_native_origin.py \
             --baseline-dir "$base/baseline" --traced-dir "$base/traced" \
             --output original-rsync-results
-      - name: Attribute error pointer return events to upstream application C
+      - name: Attribute original isolated API and host helper pointers separately
         shell: bash
         run: |
           set -euo pipefail
