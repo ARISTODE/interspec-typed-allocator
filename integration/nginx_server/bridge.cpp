@@ -16,12 +16,17 @@
 #include <cstdlib>
 #include <cstring>
 #include <memory>
+#include <mutex>
+#include <set>
 #include <stdexcept>
+#include <string>
 #include <vector>
 
 extern "C" {
 unsigned char *interspec_nginx_setup(void);
 int interspec_nginx_compile(int);
+uint32_t interspec_nginx_compile_error_bytes(void);
+int interspec_nginx_compile_error_offset(void);
 int interspec_nginx_info(int);
 int interspec_nginx_study(void);
 unsigned char *interspec_nginx_names(void);
@@ -42,12 +47,29 @@ using Pointer = rlbox::tainted<unsigned char *, Backend>;
 namespace P = interspec::nginx_server_generated;
 #endif
 constexpr uint32_t InputCapacity = 65536, OffsetCapacity = 4096;
+constexpr uint32_t CompileErrorCapacity = 512;
 static_assert(sizeof(int) == 4, "nginx PCRE Wasm capture ABI requires 32-bit int");
 enum class Use { input, names, offsets };
 [[noreturn]] void reject(const char *operation, const char *reason) {
     std::fprintf(stderr, "INTERSPEC_REJECT boundary=nginx_pcre operation=%s reason=%s\n", operation, reason);
     std::fflush(stderr);
     std::abort();
+}
+
+/* PCRE8's native error strings have static lifetime. Intern the bounded
+ * copies in T so nginx can safely use the returned const char* even after
+ * the failed Regex and its sandbox are destroyed. The cap prevents a
+ * compromised U from exhausting T memory with arbitrary distinct errors. */
+const char *stable_compile_error(const std::string &message) {
+    static constexpr const char *fallback = "sandbox PCRE compilation failed";
+    if (message.empty()) return fallback;
+    static std::mutex lock;
+    static std::set<std::string> messages;
+    std::lock_guard<std::mutex> guard(lock);
+    const auto existing = messages.find(message);
+    if (existing != messages.end()) return existing->c_str();
+    if (messages.size() >= 128) return fallback;
+    return messages.insert(message).first->c_str();
 }
 
 /* Nginx's event loop is single threaded. Each expression owns an independent
@@ -59,6 +81,8 @@ struct Regex {
     int captures = 0, named = 0, entry = 0;
     std::vector<unsigned char> names;
     std::vector<int> offsets;
+    std::string compile_failure_message;
+    int compile_failure_offset = 0;
 #if INTERSPEC_TRACKING
     std::unique_ptr<interspec::Runtime> runtime;
 #endif
@@ -129,7 +153,28 @@ struct Regex {
         const size_t size = std::strlen(pattern) + 1;
         if (size > InputCapacity) return false;
         copy_input(pattern, static_cast<uint32_t>(size));
-        if (!sandbox.invoke_sandbox_function(interspec_nginx_compile, options).UNSAFE_unverified()) return false;
+        if (!sandbox.invoke_sandbox_function(interspec_nginx_compile, options).UNSAFE_unverified()) {
+            const uint32_t bytes = sandbox.invoke_sandbox_function(
+                interspec_nginx_compile_error_bytes).UNSAFE_unverified();
+            const int offset = sandbox.invoke_sandbox_function(
+                interspec_nginx_compile_error_offset).UNSAFE_unverified();
+            if (!bytes) {
+                if (offset) reject("compile_error", "malformed_offset");
+                return false;
+            }
+            if (bytes > CompileErrorCapacity) reject("compile_error", "malformed_extent");
+            if (offset < 0 || static_cast<size_t>(offset) >= size)
+                reject("compile_error", "malformed_offset");
+            const unsigned char *raw = validate(input, bytes, Use::input);
+            if (raw[bytes - 1] != '\0' || std::memchr(raw, '\0', bytes - 1))
+                reject("compile_error", "malformed_termination");
+            for (uint32_t i = 0; i + 1 < bytes; ++i)
+                if (raw[i] < 0x20 || raw[i] == 0x7f)
+                    reject("compile_error", "malformed_text");
+            compile_failure_message.assign(reinterpret_cast<const char *>(raw), bytes - 1);
+            compile_failure_offset = offset;
+            return false;
+        }
         captures = sandbox.invoke_sandbox_function(interspec_nginx_info, PCRE_INFO_CAPTURECOUNT).UNSAFE_unverified();
         named = sandbox.invoke_sandbox_function(interspec_nginx_info, PCRE_INFO_NAMECOUNT).UNSAFE_unverified();
         entry = sandbox.invoke_sandbox_function(interspec_nginx_info, PCRE_INFO_NAMEENTRYSIZE).UNSAFE_unverified();
@@ -191,7 +236,11 @@ pcre *pcre_compile(const char *pattern, int options, const char **error, int *of
     if (!pattern || tables) return nullptr;
     try {
         auto regex = std::make_unique<Regex>();
-        if (!regex->compile(pattern, options)) return nullptr;
+        if (!regex->compile(pattern, options)) {
+            if (error) *error = stable_compile_error(regex->compile_failure_message);
+            if (offset) *offset = regex->compile_failure_offset;
+            return nullptr;
+        }
         if (error) *error = nullptr;
         return reinterpret_cast<pcre *>(regex.release());
     } catch (const std::exception &e) {
