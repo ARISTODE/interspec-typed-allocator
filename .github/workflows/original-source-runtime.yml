@@ -1,0 +1,77 @@
+name: Original memcached application pointer events
+
+on:
+  pull_request:
+    paths:
+      - 'tools/source_origin/**'
+      - '.github/workflows/original-source-runtime.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  native-original-memcached:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install original upstream build dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y \
+            autoconf automake build-essential ca-certificates git libevent-dev \
+            libio-socket-inet6-perl
+      - name: Build identical native original source, baseline and linker-traced
+        shell: bash
+        run: |
+          set -euo pipefail
+          base="$RUNNER_TEMP/original-memcached"
+          mkdir -p "$base"
+          git clone -q --filter=blob:none https://github.com/memcached/memcached.git "$base/source"
+          git -C "$base/source" switch -q --detach 2d51e364799bc9698bd4b11728ea978cea12da6e
+          (cd "$base/source" && ./autogen.sh)
+          mkdir -p "$base/native"
+          (cd "$base/native" && "$base/source/configure" \
+            --disable-extstore --disable-proxy --disable-docs \
+            CFLAGS='-O0 -g -fno-omit-frame-pointer')
+          make -C "$base/native" -j2 memcached
+          mv "$base/native/memcached" "$base/memcached-baseline"
+          cc -std=gnu11 -O0 -g -fno-omit-frame-pointer -pthread \
+            -I "$base/source" \
+            -c tools/source_origin/memcached_original_trace.c \
+            -o "$base/native/original-source-trace.o"
+          make -C "$base/native" -j2 memcached \
+            memcached_LDADD="$base/native/original-source-trace.o" \
+            memcached_LDFLAGS='-no-pie -rdynamic -Wl,--wrap=bipbuf_offer -Wl,--wrap=bipbuf_peek_all -Wl,--wrap=bipbuf_request -Wl,--wrap=bipbuf_poll'
+          cp "$base/native/memcached" "$base/memcached-traced"
+          file "$base/memcached-baseline" "$base/memcached-traced"
+      - name: Run original native client traffic and protocol parity
+        shell: bash
+        run: |
+          set -euo pipefail
+          base="$RUNNER_TEMP/original-memcached"
+          python3 tools/source_origin/run_memcached_native_origin.py \
+            --baseline "$base/memcached-baseline" \
+            --traced "$base/memcached-traced" \
+            --output original-native-results
+      - name: Verify upstream callsite attribution and count pointer events
+        shell: bash
+        run: |
+          set -euo pipefail
+          base="$RUNNER_TEMP/original-memcached"
+          python3 tools/source_origin/verify_memcached_native_origin.py \
+            --binary "$base/memcached-traced" \
+            --source "$base/source" \
+            --events original-native-results/memcached-original-pointer-events.jsonl \
+            --parity original-native-results/native-parity.json \
+            --output original-native-results/source-only-runtime-summary.json
+          python3 -m json.tool original-native-results/source-only-runtime-summary.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: original-native-memcached-pointer-events
+          path: original-native-results/
+          if-no-files-found: warn
