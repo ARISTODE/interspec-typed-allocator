@@ -200,8 +200,12 @@ def main():
     parser.add_argument("--work", type=Path,
                         default=Path("/tmp/interspec-nginx-deployment"))
     parser.add_argument("--out", type=Path, required=True)
+    parser.add_argument("--require-parity", action="store_true",
+                        help="fail the CI job if any native versus isolated output differs")
     args = parser.parse_args()
-    run(args.work, args.out)
+    report = run(args.work, args.out)
+    if args.require_parity and report["native_isolated_parity"] != "pass":
+        raise SystemExit("native versus isolated Nginx semantic parity failed")
 
 
 if __name__ == "__main__":

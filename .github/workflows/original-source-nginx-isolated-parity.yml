@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - 'tools/source_origin/**'
+      - 'integration/nginx_server/**'
       - '.github/workflows/original-source-nginx-isolated-parity.yml'
   workflow_dispatch:
 
@@ -26,9 +27,13 @@ jobs:
       - name: Record and compare native versus isolated HTTP and regex error behavior
         run: |
           python3 tools/source_origin/compare_nginx_isolated_behavior.py \
-            --out original-nginx-isolated-parity
+            --out original-nginx-isolated-parity --require-parity
           python3 -m json.tool original-nginx-isolated-parity/native-versus-isolated.json \
             > /dev/null
+      - name: Reject forged U error lengths, offsets, termination, and control bytes
+        run: |
+          python3 tools/source_origin/test_nginx_compile_error_faults.py \
+            --out original-nginx-isolated-parity/faults
       - name: Upload full raw observations and explicit mismatch status
         if: always()
         uses: actions/upload-artifact@v4
