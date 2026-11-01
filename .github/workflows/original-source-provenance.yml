@@ -1,0 +1,68 @@
+name: Original upstream source pointer provenance
+
+on:
+  pull_request:
+    paths:
+      - 'tools/source_origin/**'
+      - '.github/workflows/original-source-provenance.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  source-provenance:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch exact original C sources
+        shell: bash
+        run: |
+          set -euo pipefail
+          base="$RUNNER_TEMP/original-sources"
+          mkdir -p "$base"
+          git clone -q --filter=blob:none https://github.com/nginx/nginx.git "$base/nginx"
+          git -C "$base/nginx" switch -q --detach 1be0fb0c9f9bc3489c7b40576efd6afe6b2eccd5
+          git clone -q --filter=blob:none https://github.com/nektro/pcre-8.45.git "$base/pcre"
+          git -C "$base/pcre" switch -q --detach e67dabe61b327bd2d888954b0e74a7c9cfd0a195
+          git clone -q --filter=blob:none https://github.com/RsyncProject/rsync.git "$base/rsync"
+          git -C "$base/rsync" switch -q --detach 7c20b077c980036a19587701cec320cc88e42a4a
+          git clone -q --filter=blob:none https://github.com/yaml/libyaml.git "$base/libyaml"
+          git -C "$base/libyaml" switch -q --detach 90a56d4500aa1a1798514c5cb55c3ad4cb095f94
+          git clone -q --filter=blob:none https://github.com/memcached/memcached.git "$base/memcached"
+          git -C "$base/memcached" switch -q --detach 2d51e364799bc9698bd4b11728ea978cea12da6e
+      - name: Audit source pointer expressions
+        run: |
+          python3 tools/source_origin/audit_source_origins.py \
+            --root "$RUNNER_TEMP/original-sources" \
+            --output "$RUNNER_TEMP/original-sources/source-origin-summary.json"
+      - name: Compile original library C sources
+        run: make -f tools/source_origin/native_probe.mk ROOT="$RUNNER_TEMP/original-sources" all -j2
+      - name: Native storage smoke validation (not frequency measurement)
+        shell: bash
+        run: |
+          set -euo pipefail
+          "$RUNNER_TEMP/original-sources/native-build/native_origin_probe" \
+            | tee "$RUNNER_TEMP/original-sources/native-probe.jsonl"
+          python3 - "$RUNNER_TEMP/original-sources/native-probe.jsonl" <<'PY'
+          import json, pathlib, sys
+          records = [json.loads(s) for s in pathlib.Path(sys.argv[1]).read_text().splitlines()]
+          expected = {
+              "pcre_compile_error": "readonly_mapping",
+              "pcre_study_error": "readonly_mapping",
+              "poptStrerror": "readonly_mapping",
+              "yaml_parser_problem": "readonly_mapping",
+              "bipbuf_peek_all": "heap_mapping",
+          }
+          assert len(records) == len(expected), records
+          assert {row["probe"]: row["mapping"] for row in records} == expected, records
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: original-source-pointer-study
+          path: |
+            ${{ runner.temp }}/original-sources/source-origin-summary.json
+            ${{ runner.temp }}/original-sources/native-probe.jsonl
+          if-no-files-found: warn
