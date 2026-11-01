@@ -1,0 +1,39 @@
+name: Original Memcached native versus isolated behavior audit
+
+on:
+  pull_request:
+    paths:
+      - 'tools/source_origin/**'
+      - '.github/workflows/original-source-memcached-isolated-parity.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  original-vs-isolated:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 70
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install actual Memcached build requirements
+        run: |
+          sudo apt-get update -qq
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y \
+            autoconf automake build-essential ca-certificates cmake git python3 \
+            libevent-dev
+      - name: Build pinned upstream Memcached and three actual isolated variants
+        run: bash scripts/build_memcached_deployment.sh
+      - name: Compare identical original Memcached protocol and watch workloads
+        run: |
+          python3 tools/source_origin/compare_memcached_isolated_behavior.py \
+            --out original-memcached-isolated-parity
+          python3 -m json.tool original-memcached-isolated-parity/native-versus-isolated.json \
+            > /dev/null
+      - name: Upload full protocol observations, binaries digests, and mismatch status
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: original-memcached-native-versus-isolated-parity
+          path: original-memcached-isolated-parity/
+          if-no-files-found: warn
