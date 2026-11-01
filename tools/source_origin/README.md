@@ -55,3 +55,14 @@ The driver and its arguments were **excluded** from all source-use counts. Mappi
 5. Do not use these preliminary site counts or previous adapter counts as paper prevalence figures.
 
 The official paper repository has not been changed.
+
+
+## Native original application runtime pilot: Memcached
+
+The separate [original-source-runtime workflow](../../.github/workflows/original-source-runtime.yml) uses the same pinned original memcached source twice: an ordinary native binary and a linker-intercepted native binary. The tracer intercepts the existing bipbuffer APIs **without modifying** original `logger.c`, `items.c`, `bipbuffer.c`, or `bipbuffer.h`. A deterministic TCP client exercises cache operations and the actual watcher event path, then checks native protocol parity.
+
+`memcached_original_trace.c` emits runtime pointer events. `verify_memcached_native_origin.py` resolves the original caller PC with `addr2line`, checks upstream file hashes against the pinned Git revision, and **accepts only events originating from the original logger.c/items.c callsites**. The tracer, verifier, workload client and adapter are not counted. Unrecognized source attribution fails verification.
+
+The CI artifact `original-native-memcached-pointer-events` contains the raw JSONL events, original file/line/API/role/origin counts, native behavior parity evidence, and SHA256s. Source sites and runtime events remain separate. Image classification is a memory-region observation, not an allocation-type guarantee.
+
+**Scope limitations:** This is a native observation of selected direct bipbuffer pointer arguments and return values. It is not a complete original-app pointer denominator, not a measurement of every indirect pointer reachable through those arguments, and not yet proof that the isolated implementation preserves all native behavior. The next experiments must compare native and isolated cases and run corresponding original-application traces for nginx/PCRE, rsync/popt and yaml/libyaml.
