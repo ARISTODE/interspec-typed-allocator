@@ -34,6 +34,7 @@ jobs:
           git -C "$base/source" switch -q --detach 7c20b077c980036a19587701cec320cc88e42a4a
           mkdir -p "$base/build" "$base/baseline" "$base/traced"
           (cd "$base/build" && "$base/source/configure" --with-included-popt \
+            --disable-md2man --disable-xxhash --disable-idn \
             CFLAGS='-O0 -g -fno-omit-frame-pointer')
           make -C "$base/build" -j2 rsync tls
           mv "$base/build/rsync" "$base/baseline/rsync"
