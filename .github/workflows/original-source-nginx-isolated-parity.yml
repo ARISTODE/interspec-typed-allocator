@@ -1,0 +1,38 @@
+name: Original Nginx native versus isolated behavior audit
+
+on:
+  pull_request:
+    paths:
+      - 'tools/source_origin/**'
+      - '.github/workflows/original-source-nginx-isolated-parity.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  original-vs-isolated:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 70
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install verified deployment dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y \
+            build-essential cmake git python3 libcrypt-dev
+      - name: Build the pinned upstream native and three actual isolated Nginx variants
+        run: bash scripts/build_nginx_deployment.sh
+      - name: Record and compare native versus isolated HTTP and regex error behavior
+        run: |
+          python3 tools/source_origin/compare_nginx_isolated_behavior.py \
+            --out original-nginx-isolated-parity
+          python3 -m json.tool original-nginx-isolated-parity/native-versus-isolated.json \
+            > /dev/null
+      - name: Upload full raw observations and explicit mismatch status
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: original-nginx-native-versus-isolated-parity
+          path: original-nginx-isolated-parity/
+          if-no-files-found: warn
