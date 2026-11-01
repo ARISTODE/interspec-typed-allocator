@@ -43,14 +43,28 @@ HTTP_CASES = (
 
 
 def error_detail(stderr):
-    """Extract the meaningful PCRE compiler error from an Nginx -t diagnostic."""
+    """Extract PCRE error reason, original pattern and reported error location.
+
+    Pinned upstream ngx_regex.c formats the error offset as an optional
+    at "<remaining pattern>" suffix. Keep that suffix in parity comparisons:
+    comparing only the reason would miss an observable offset regression.
+    """
+    import re
     for line in stderr.splitlines():
         marker = "pcre_compile() failed:"
-        if marker in line:
-            detail = line.split(marker, 1)[1].strip()
-            if ' in "' in detail:
-                detail = detail.split(' in "', 1)[0]
-            return detail
+        if marker not in line:
+            continue
+        match = re.search(
+            r'pcre_compile\(\) failed: (.*?) in "([^"]*)"(?: at "([^"]*)")?',
+            line,
+        )
+        if not match:
+            return {"unparsed_error_line": line}
+        return {
+            "reason": match.group(1),
+            "pattern": match.group(2),
+            "at_offset_suffix": match.group(3),
+        }
     return None
 
 
@@ -161,7 +175,7 @@ def run(work, output):
         "compiler_diagnostic_mismatches": divergence,
         "limits": [
             "This checks measured HTTP responses and Nginx config compiler errors, not all behavior.",
-            "The Nginx error offset is not independently exposed by this comparison.",
+            "This compares the Nginx-rendered error-offset suffix; it does not inspect the raw PCRE error-offset integer.",
             "No pointer-origin call sites are attributed to this test driver.",
         ],
         "binary_sha256": sha256,
