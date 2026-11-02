@@ -76,7 +76,7 @@ jobs:
       CLIENT_CPUS: ${{ inputs.client_cpus }}
       WORKLOAD: ${{ matrix.workload }}
       OUTPUT_DIR: controlled-evaluation/${{ matrix.workload }}
-      TMPDIR: ${{ runner.temp }}/interspec-controlled-${{ github.run_id }}-${{ matrix.workload }}
+      TMPDIR: /tmp/interspec-controlled-${{ github.run_id }}-${{ matrix.workload }}
     steps:
       - uses: actions/checkout@v4
         with:
