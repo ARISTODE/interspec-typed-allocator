@@ -10,6 +10,7 @@
 using interspec::CheckResult;
 using interspec::MemoryDomain;
 using interspec::NonheapKind;
+using interspec::ObjectStorage;
 using interspec::Runtime;
 using interspec::type_hash;
 
@@ -200,6 +201,30 @@ int main() {
   std::memcpy(&t_copy, &u_global, sizeof(Record));
   EXPECT_EQ(t_copy.tag, u_global.tag);
   EXPECT_EQ(t_copy.count, u_global.count);
+
+  // T heap pools shared with U are registered at trusted T allocation sites.
+  // Same-type neighboring objects are valid only when the trusted origin
+  // explicitly permits selecting them.
+  std::vector<Record> t_heap(2);
+  const uintptr_t heap_base =
+      reinterpret_cast<uintptr_t>(t_heap.data());
+  const uint64_t heap_token = runtime.register_external_array(
+      heap_base, t_heap.size(), kRecordId, MemoryDomain::trusted,
+      ObjectStorage::heap);
+  EXPECT_EQ(heap_token != uint64_t{0}, true);
+  EXPECT_EQ(runtime.check_nonheap_element(heap_base + sizeof(Record),
+                                          sizeof(Record), kRecord,
+                                          MemoryDomain::trusted, heap_token),
+            CheckResult::ok);
+  EXPECT_EQ(runtime.check_nonheap_element(heap_base + sizeof(Record),
+                                          sizeof(Record), kRecord,
+                                          MemoryDomain::trusted, heap_token,
+                                          heap_base),
+            CheckResult::wrong_object);
+  EXPECT_EQ(runtime.unregister_external(heap_token), true);
+  EXPECT_EQ(runtime.check_nonheap_element(heap_base, 1, kRecord,
+                                          MemoryDomain::trusted, heap_token),
+            CheckResult::untracked);
 
   // Expired stack registrations fail. Address reuse cannot resurrect an
   // old trusted token, even if the new object has the same type and base.
