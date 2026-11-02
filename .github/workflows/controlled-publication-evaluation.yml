@@ -1,0 +1,167 @@
+name: controlled-publication-evaluation
+
+# Manual only. This workload can occupy an expensive dedicated runner for hours.
+on:
+  workflow_dispatch:
+    inputs:
+      source_sha:
+        description: "Reviewed 40-character commit SHA of experimental implementation"
+        required: true
+        type: string
+        default: "be9947e8bd23213a6280c8ca272c1db4b7d2b90e"
+      runner_label:
+        description: "Existing dedicated Ubuntu runner label; never use ubuntu-latest for paper claims"
+        required: true
+        type: string
+      server_cpus:
+        description: "At least four distinct physical server cores, e.g. 0,2,4,6"
+        required: true
+        type: string
+      client_cpus:
+        description: "At least four non-sibling physical client cores, e.g. 8,10,12,14"
+        required: true
+        type: string
+      operator_confirms_dedicated:
+        description: "Operator has verified exclusive control of this runner during evaluation"
+        required: true
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: controlled-publication-evaluation
+  cancel-in-progress: false
+
+jobs:
+  validate-inputs:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      SOURCE_SHA: ${{ inputs.source_sha }}
+      RUNNER_LABEL: ${{ inputs.runner_label }}
+      SERVER_CPUS: ${{ inputs.server_cpus }}
+      CLIENT_CPUS: ${{ inputs.client_cpus }}
+      DEDICATED: ${{ inputs.operator_confirms_dedicated }}
+    steps:
+      - name: Refuse unpinned or unapproved runs
+        shell: bash
+        run: |
+          if [[ ! "$SOURCE_SHA" =~ ^[0-9a-f]{40}$ ]]; then
+            echo "source_sha must be a full immutable commit SHA" >&2
+            exit 1
+          fi
+          if [[ "$DEDICATED" != "true" || -z "$RUNNER_LABEL" || -z "$SERVER_CPUS" || -z "$CLIENT_CPUS" ]]; then
+            echo "Provide an existing runner label, disjoint CPU sets, and explicit dedicated-host confirmation" >&2
+            exit 1
+          fi
+          if [[ "$RUNNER_LABEL" == "ubuntu-latest" || "$RUNNER_LABEL" == "ubuntu-24.04" ]]; then
+            echo "Standard 4-vCPU hosted runners cannot satisfy the controlled CPU protocol" >&2
+            exit 1
+          fi
+
+  benchmark:
+    needs: validate-inputs
+    strategy:
+      fail-fast: false
+      max-parallel: 1
+      matrix:
+        workload: [memcached, nginx, rsync, yaml, microbench]
+    runs-on: ${{ inputs.runner_label }}
+    timeout-minutes: 360
+    env:
+      SOURCE_SHA: ${{ inputs.source_sha }}
+      SERVER_CPUS: ${{ inputs.server_cpus }}
+      CLIENT_CPUS: ${{ inputs.client_cpus }}
+      WORKLOAD: ${{ matrix.workload }}
+      OUTPUT_DIR: controlled-evaluation/${{ matrix.workload }}
+      TMPDIR: /tmp/interspec-controlled-${{ github.run_id }}-${{ matrix.workload }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.source_sha }}
+          persist-credentials: false
+      - name: Install pinned-protocol runtime prerequisites on clean Ubuntu runner
+        shell: bash
+        run: |
+          sudo apt-get update
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y autoconf automake build-essential ca-certificates cmake git libcrypt-dev libevent-dev libio-socket-inet6-perl libpopt-dev python3 util-linux wrk
+      - name: Record source and host before measurement
+        shell: bash
+        run: |
+          mkdir -p "$OUTPUT_DIR" "$TMPDIR"
+          test "$(git rev-parse HEAD)" = "$SOURCE_SHA"
+          test -z "$(git status --porcelain)"
+          git rev-parse HEAD > "$OUTPUT_DIR/source-sha.txt"
+          date -u --iso-8601=seconds > "$OUTPUT_DIR/start-utc.txt"
+          uname -a > "$OUTPUT_DIR/uname.txt"
+          lscpu -e=CPU,CORE,SOCKET,NODE,ONLINE > "$OUTPUT_DIR/lscpu.txt"
+          cat /proc/loadavg > "$OUTPUT_DIR/loadavg-before.txt"
+          python3 tools/publication_host_preflight.py --server-cpus "$SERVER_CPUS" --client-cpus "$CLIENT_CPUS" --operator-confirms-dedicated --out "$OUTPUT_DIR/host-before.json" || true
+          python3 -c 'import json,sys; d=json.load(open(sys.argv[1])); fatal=[e for e in d["errors"] if not e.startswith("frequency policy is not visible")]; print("Host preflight:",d["errors"]); sys.exit(1 if fatal else 0)' "$OUTPUT_DIR/host-before.json"
+          echo "Host and core topology accepted for measurement collection; publication_ready remains false pending operator review." >> "$GITHUB_STEP_SUMMARY"
+      - name: Choose one physical CPU for process-level experiments
+        id: cpu
+        shell: bash
+        run: |
+          first="$(python3 -c 'import sys; print(sys.argv[1].split(",")[0].split("-")[0])' "$SERVER_CPUS")"
+          echo "single=$first" >> "$GITHUB_OUTPUT"
+      - name: Run complete workload protocol, retaining every raw sample
+        shell: bash
+        env:
+          SINGLE_CPU: ${{ steps.cpu.outputs.single }}
+        run: |
+          case "$WORKLOAD" in
+            memcached)
+              bash scripts/build_memcached_deployment.sh
+              python3 tools/test_memcached_deployment.py --out "$OUTPUT_DIR/correctness"
+              python3 tools/audit_behavioral_parity.py --app memcached --evidence "$OUTPUT_DIR/correctness/summary.json" --out "$OUTPUT_DIR/parity-audit.json"
+              python3 tools/benchmark_memcached_matrix.py --preset paper --include-tracking --server-cpus "$SERVER_CPUS" --client-cpus "$CLIENT_CPUS" --correctness-summary "$OUTPUT_DIR/correctness/summary.json" --out "$OUTPUT_DIR/matrix" --label controlled_host_candidate
+              python3 tools/verify_memcached_matrix.py --matrix "$OUTPUT_DIR/matrix" --correctness-summary "$OUTPUT_DIR/correctness/summary.json"
+              python3 tools/profile_memcached_checks.py --out "$OUTPUT_DIR/check-profile" --operations 5000 --key-cap 512 --write-operations 200000 --write-key-cap 10000 --require-coverage --correctness-summary "$OUTPUT_DIR/correctness/summary.json"
+              python3 tools/verify_memcached_profile.py --profile "$OUTPUT_DIR/check-profile" --correctness-summary "$OUTPUT_DIR/correctness/summary.json"
+              ;;
+            nginx)
+              bash scripts/build_nginx_deployment.sh
+              python3 tools/test_nginx_deployment.py --out "$OUTPUT_DIR/correctness" --workers 2
+              python3 tools/audit_behavioral_parity.py --app nginx --evidence "$OUTPUT_DIR/correctness/summary.json" --out "$OUTPUT_DIR/parity-audit.json"
+              python3 tools/benchmark_nginx.py --out "$OUTPUT_DIR/performance" --correctness "$OUTPUT_DIR/correctness/summary.json" --seconds 30 --warmup-seconds 5 --repetitions 15 --threads 4 8 --connections 100 --server-cpus "$SERVER_CPUS" --client-cpus "$CLIENT_CPUS"
+              ;;
+            rsync)
+              export INTERSPEC_P11_REPETITIONS=15 INTERSPEC_P11_WARMUPS=2 INTERSPEC_P11_CPU="$SINGLE_CPU"
+              bash scripts/run_p11_wasm2c_performance.sh "$OUTPUT_DIR/p11"
+              ;;
+            yaml)
+              export INTERSPEC_YAML_ITERATIONS=1000 INTERSPEC_YAML_REPETITIONS=15 INTERSPEC_YAML_WARMUPS=2
+              taskset -c "$SERVER_CPUS" bash scripts/run_yaml_libyaml_evaluation.sh "$OUTPUT_DIR/yaml"
+              python3 tools/audit_behavioral_parity.py --app yaml --evidence "$OUTPUT_DIR/yaml/correctness.json" --out "$OUTPUT_DIR/parity-audit.json"
+              ;;
+            microbench)
+              bash scripts/build_memcached_boundary_bench.sh
+              python3 tools/run_memcached_boundary_bench.py --cpu "$SINGLE_CPU" --repetitions 15 --iterations 1000000 --out "$OUTPUT_DIR/boundary"
+              python3 tools/verify_memcached_boundary_bench.py --results "$OUTPUT_DIR/boundary"
+              python3 tools/run_runtime_microbench.py --cpus "$SERVER_CPUS,$CLIENT_CPUS" --repetitions 15 --iterations 1000000 --out "$OUTPUT_DIR/runtime"
+              ;;
+            *)
+              echo "Unsupported workload: $WORKLOAD" >&2
+              exit 1
+              ;;
+          esac
+      - name: Capture after-run environment and raw evidence checksums
+        if: always()
+        shell: bash
+        run: |
+          mkdir -p "$OUTPUT_DIR"
+          date -u --iso-8601=seconds > "$OUTPUT_DIR/finish-utc.txt"
+          cat /proc/loadavg > "$OUTPUT_DIR/loadavg-after.txt"
+          python3 tools/publication_host_preflight.py --server-cpus "$SERVER_CPUS" --client-cpus "$CLIENT_CPUS" --operator-confirms-dedicated --out "$OUTPUT_DIR/host-after.json" || true
+          find "$OUTPUT_DIR" -type f ! -name SHA256SUMS.txt -print0 | sort -z | xargs -0 -r sha256sum > "$OUTPUT_DIR/SHA256SUMS.txt"
+      - name: Preserve complete raw results including failed runs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: controlled-evaluation-${{ matrix.workload }}-${{ github.run_id }}
+          if-no-files-found: warn
+          retention-days: 90
+          path: controlled-evaluation/${{ matrix.workload }}
