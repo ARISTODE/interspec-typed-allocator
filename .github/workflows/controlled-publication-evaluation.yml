@@ -48,15 +48,15 @@ jobs:
       - name: Refuse unpinned or unapproved runs
         shell: bash
         run: |
-          if ${{ ! "$SOURCE_SHA" =~ ^[0-9a-f]{40}$ }}; then
+          if [[ ! "$SOURCE_SHA" =~ ^[0-9a-f]{40}$ ]]; then
             echo "source_sha must be a full immutable commit SHA" >&2
             exit 1
           fi
-          if ${{ "$DEDICATED" != "true" || -z "$RUNNER_LABEL" || -z "$SERVER_CPUS" || -z "$CLIENT_CPUS" }}; then
+          if [[ "$DEDICATED" != "true" || -z "$RUNNER_LABEL" || -z "$SERVER_CPUS" || -z "$CLIENT_CPUS" ]]; then
             echo "Provide an existing runner label, disjoint CPU sets, and explicit dedicated-host confirmation" >&2
             exit 1
           fi
-          if ${{ "$RUNNER_LABEL" == "ubuntu-latest" || "$RUNNER_LABEL" == "ubuntu-24.04" }}; then
+          if [[ "$RUNNER_LABEL" == "ubuntu-latest" || "$RUNNER_LABEL" == "ubuntu-24.04" ]]; then
             echo "Standard 4-vCPU hosted runners cannot satisfy the controlled CPU protocol" >&2
             exit 1
           fi
