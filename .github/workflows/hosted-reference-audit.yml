@@ -1,0 +1,30 @@
+name: Audited hosted reference results
+
+on:
+  pull_request:
+    paths:
+      - 'tools/audit_hosted_reference.py'
+      - 'evaluation/results/**'
+      - 'evaluation/HOSTED_REFERENCE_AUDIT_20261102.md'
+      - '.github/workflows/hosted-reference-audit.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Independently verify raw matrices, counters, and archive hashes
+        run: |
+          python3 tools/audit_hosted_reference.py --out hosted-reference-audit.json
+          python3 -m json.tool hosted-reference-audit.json > /dev/null
+      - name: Preserve recomputed audit and individual source hashes
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hosted-reference-audit
+          path: hosted-reference-audit.json
+          if-no-files-found: warn
