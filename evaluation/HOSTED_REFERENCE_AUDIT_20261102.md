@@ -1,4 +1,4 @@
-# InterSpec benchmark evidence audit, 2 November 2026
+# InterSpec benchmark evidence audit, 1 November 2026 (Pacific)
 
 ## Outcome
 
