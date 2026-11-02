@@ -30,7 +30,9 @@ struct Allocation {
 };
 
 enum class MemoryDomain { trusted, untrusted };
-enum class NonheapKind { stack, global };
+enum class ObjectStorage { heap, stack, global };
+// Kept for existing callers of the nonheap-specific registration API.
+using NonheapKind = ObjectStorage;
 
 struct TypeLayout {
   size_t element_size;
@@ -50,7 +52,7 @@ struct BorrowedObject {
   size_t element_size;
   uint64_t type_hash;
   MemoryDomain domain;
-  NonheapKind kind;
+  ObjectStorage kind;
   uint64_t token;
 };
 
@@ -245,8 +247,8 @@ class Runtime {
   // caller code with compiler-derived bounds and type. Never forward this
   // registration API to U, or accept U-supplied type/size/site metadata.
   // The opaque token binds checks to this registration instance (ABA defense).
-  uint64_t register_nonheap_array(uintptr_t ptr, size_t count, TypeId type_id,
-                                  MemoryDomain domain, NonheapKind kind) {
+  uint64_t register_external_array(uintptr_t ptr, size_t count, TypeId type_id,
+                                   MemoryDomain domain, ObjectStorage kind) {
     std::unique_lock<std::shared_mutex> lock(mu_);
     const auto type = types_.find(type_id);
     const auto layout = layouts_.find(type_id);
@@ -275,7 +277,12 @@ class Runtime {
     return token;
   }
 
-  bool unregister_nonheap(uint64_t token) {
+  uint64_t register_nonheap_array(uintptr_t ptr, size_t count, TypeId type_id,
+                                  MemoryDomain domain, NonheapKind kind) {
+    return register_external_array(ptr, count, type_id, domain, kind);
+  }
+
+  bool unregister_external(uint64_t token) {
     std::unique_lock<std::shared_mutex> lock(mu_);
     const auto it = borrowed_by_token_.find(token);
     if (it == borrowed_by_token_.end()) return false;
@@ -283,6 +290,8 @@ class Runtime {
     borrowed_by_token_.erase(it);
     return true;
   }
+
+  bool unregister_nonheap(uint64_t token) { return unregister_external(token); }
 
   uintptr_t base() const { return base_; }
   size_t capacity() const { return capacity_; }
