@@ -9,6 +9,7 @@
 /* One compiled expression per sandbox. No native nginx pointer enters U. */
 #define INPUT_CAPACITY 65536u
 #define OFFSET_CAPACITY 4096u
+#define COMPILE_ERROR_CAPACITY 512u
 static pcre *code;
 static pcre_extra *study;
 static unsigned char *input;
@@ -16,6 +17,8 @@ static int *offsets;
 static unsigned char *names;
 static uint32_t names_bytes, offsets_bytes;
 static int capture_count, name_count, entry_size;
+static uint32_t compile_error_bytes;
+static int compile_error_offset;
 #ifdef INTERSPEC_FAULT_TESTS
 static uint32_t fault_path, fault_kind;
 void interspec_nginx_fault(uint32_t path, uint32_t kind)
@@ -38,14 +41,55 @@ int interspec_nginx_compile(int options)
 {
     const char *error = NULL;
     int error_offset = 0;
+    compile_error_bytes = 0;
+    compile_error_offset = 0;
     code = pcre_compile((const char *)input, options, &error, &error_offset, NULL);
-    if (!code) return 0;
+    if (!code) {
+        /* PCRE8 returns error strings from U static storage. Stage the
+         * bounded bytes inside the existing typed U input allocation;
+         * the trusted bridge validates this allocation before copying.
+         * No U-global pointer address is returned to the host. */
+        if (error != NULL && input != NULL) {
+            size_t length = 0;
+            while (length < COMPILE_ERROR_CAPACITY && error[length] != '\0')
+                ++length;
+            if (length < COMPILE_ERROR_CAPACITY) {
+                memmove(input, error, length + 1);
+                compile_error_bytes = (uint32_t)(length + 1);
+                compile_error_offset = error_offset;
+            }
+        }
+        return 0;
+    }
     if (pcre_fullinfo(code, NULL, PCRE_INFO_CAPTURECOUNT, &capture_count) ||
         pcre_fullinfo(code, NULL, PCRE_INFO_NAMECOUNT, &name_count) ||
         pcre_fullinfo(code, NULL, PCRE_INFO_NAMEENTRYSIZE, &entry_size) ||
         pcre_fullinfo(code, NULL, PCRE_INFO_NAMETABLE, &names)) return 0;
     names_bytes = (uint32_t)name_count * (uint32_t)entry_size;
     return 1;
+}
+
+/* Scalar metadata only. The bytes remain in the registered typed allocation. */
+uint32_t interspec_nginx_compile_error_bytes(void)
+{
+#ifdef INTERSPEC_FAULT_TESTS
+    if (fault_path == 3 && fault_kind == 1)
+        return COMPILE_ERROR_CAPACITY + 1u;
+    if (fault_path == 3 && fault_kind == 2 && compile_error_bytes)
+        input[compile_error_bytes - 1] = 'X';
+    if (fault_path == 3 && fault_kind == 4 && compile_error_bytes > 1)
+        input[0] = '\n';
+#endif
+    return compile_error_bytes;
+}
+
+int interspec_nginx_compile_error_offset(void)
+{
+#ifdef INTERSPEC_FAULT_TESTS
+    if (fault_path == 3 && fault_kind == 3)
+        return INT32_MAX;
+#endif
+    return compile_error_offset;
 }
 
 int interspec_nginx_info(int what)

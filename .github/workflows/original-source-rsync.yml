@@ -1,0 +1,73 @@
+name: Original rsync isolated API versus host helper pointers
+
+on:
+  pull_request:
+    paths:
+      - 'tools/source_origin/**'
+      - '.github/workflows/original-source-rsync.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  native-original-rsync:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install original upstream build dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y \
+            autoconf automake build-essential ca-certificates git \
+            libacl1-dev libattr1-dev libssl-dev zlib1g-dev
+      - name: Build pinned unchanged upstream rsync with vendored original popt
+        shell: bash
+        run: |
+          set -euo pipefail
+          base="$RUNNER_TEMP/original-rsync"
+          mkdir -p "$base"
+          git clone -q --filter=blob:none https://github.com/RsyncProject/rsync.git "$base/source"
+          git -C "$base/source" switch -q --detach 7c20b077c980036a19587701cec320cc88e42a4a
+          mkdir -p "$base/build" "$base/baseline" "$base/traced"
+          (cd "$base/build" && "$base/source/configure" --with-included-popt \
+            --disable-md2man --disable-xxhash --disable-idn \
+            CFLAGS='-O0 -g -fno-omit-frame-pointer')
+          make -C "$base/build" -j2 rsync tls
+          mv "$base/build/rsync" "$base/baseline/rsync"
+          mv "$base/build/tls" "$base/baseline/tls"
+          cc -std=gnu11 -O0 -g -fno-omit-frame-pointer \
+            -I "$base/source/popt" \
+            -c tools/source_origin/rsync_original_trace.c \
+            -o "$base/build/original-popt-trace.o"
+          make -C "$base/build" -j2 rsync tls \
+            LDFLAGS="-no-pie -rdynamic -Wl,--wrap=poptBadOption -Wl,--wrap=poptStrerror $base/build/original-popt-trace.o"
+          cp "$base/build/rsync" "$base/traced/rsync"
+          cp "$base/build/tls" "$base/traced/tls"
+          file "$base"/{baseline,traced}/{rsync,tls}
+      - name: Run original rsync and tls native CLI parity
+        shell: bash
+        run: |
+          set -euo pipefail
+          base="$RUNNER_TEMP/original-rsync"
+          python3 tools/source_origin/run_rsync_native_origin.py \
+            --baseline-dir "$base/baseline" --traced-dir "$base/traced" \
+            --output original-rsync-results
+      - name: Attribute original isolated API and host helper pointers separately
+        shell: bash
+        run: |
+          set -euo pipefail
+          base="$RUNNER_TEMP/original-rsync"
+          python3 tools/source_origin/verify_rsync_native_origin.py \
+            --source "$base/source" --binary-dir "$base/traced" \
+            --output-dir original-rsync-results
+          python3 -m json.tool original-rsync-results/source-only-runtime-summary.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: original-native-rsync-pointer-events
+          path: original-rsync-results/
+          if-no-files-found: warn

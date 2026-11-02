@@ -1,0 +1,71 @@
+name: Original nginx PCRE application pointer events
+
+on:
+  pull_request:
+    paths:
+      - 'tools/source_origin/**'
+      - '.github/workflows/original-source-nginx.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  native-original-nginx-pcre:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install original upstream build dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y \
+            autoconf automake build-essential ca-certificates git libtool zlib1g-dev
+      - name: Build pinned original Nginx against pinned original PCRE1
+        shell: bash
+        run: |
+          set -euo pipefail
+          base="$RUNNER_TEMP/original-nginx"
+          mkdir -p "$base" "$base/baseline" "$base/traced"
+          git clone -q --filter=blob:none https://github.com/nginx/nginx.git "$base/nginx-source"
+          git -C "$base/nginx-source" switch -q --detach 1be0fb0c9f9bc3489c7b40576efd6afe6b2eccd5
+          git clone -q --filter=blob:none https://github.com/nektro/pcre-8.45.git "$base/pcre-source"
+          git -C "$base/pcre-source" switch -q --detach e67dabe61b327bd2d888954b0e74a7c9cfd0a195
+          cc -std=gnu11 -O0 -g -fno-omit-frame-pointer -pthread \
+            -I "$base/pcre-source" -c tools/source_origin/nginx_original_trace.c \
+            -o "$base/nginx-pcre-trace.o"
+          (cd "$base/nginx-source" && ./auto/configure \
+            --with-pcre="$base/pcre-source" \
+            --with-cc-opt='-O0 -g -fno-omit-frame-pointer' \
+            --with-ld-opt='-no-pie')
+          make -C "$base/nginx-source" -j2
+          mv "$base/nginx-source/objs/nginx" "$base/baseline/nginx"
+          (cd "$base/nginx-source" && make -f objs/Makefile objs/nginx \
+            LINK="cc -no-pie -rdynamic -Wl,--wrap=pcre_compile -Wl,--wrap=pcre_study $base/nginx-pcre-trace.o")
+          cp "$base/nginx-source/objs/nginx" "$base/traced/nginx"
+          file "$base/baseline/nginx" "$base/traced/nginx"
+      - name: Run unchanged original Nginx valid and invalid regex cases
+        shell: bash
+        run: |
+          set -euo pipefail
+          base="$RUNNER_TEMP/original-nginx"
+          python3 tools/source_origin/run_nginx_native_origin.py \
+            --baseline "$base/baseline/nginx" --traced "$base/traced/nginx" \
+            --output original-nginx-results
+      - name: Verify only original ngx_regex.c callsites were counted
+        shell: bash
+        run: |
+          set -euo pipefail
+          base="$RUNNER_TEMP/original-nginx"
+          python3 tools/source_origin/verify_nginx_native_origin.py \
+            --nginx-source "$base/nginx-source" --pcre-source "$base/pcre-source" \
+            --binary "$base/traced/nginx" --output-dir original-nginx-results
+          python3 -m json.tool original-nginx-results/source-only-runtime-summary.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: original-native-nginx-pcre-pointer-events
+          path: original-nginx-results/
+          if-no-files-found: warn
