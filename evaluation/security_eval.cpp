@@ -20,6 +20,10 @@ const char* result_name(CheckResult result) {
       return "wrong_type";
     case CheckResult::out_of_bounds:
       return "out_of_bounds";
+    case CheckResult::wrong_domain:
+      return "wrong_domain";
+    case CheckResult::wrong_object:
+      return "wrong_object";
   }
   return "unknown";
 }
