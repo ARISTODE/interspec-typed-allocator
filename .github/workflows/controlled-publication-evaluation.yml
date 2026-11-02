@@ -141,7 +141,7 @@ jobs:
               bash scripts/build_memcached_boundary_bench.sh
               python3 tools/run_memcached_boundary_bench.py --cpu "$SINGLE_CPU" --repetitions 15 --iterations 1000000 --out "$OUTPUT_DIR/boundary"
               python3 tools/verify_memcached_boundary_bench.py --results "$OUTPUT_DIR/boundary"
-              python3 tools/run_runtime_microbench.py --cpus "$SERVER_CPUS" --repetitions 15 --iterations 1000000 --out "$OUTPUT_DIR/runtime"
+              python3 tools/run_runtime_microbench.py --cpus "$SERVER_CPUS,$CLIENT_CPUS" --repetitions 15 --iterations 1000000 --out "$OUTPUT_DIR/runtime"
               ;;
             *)
               echo "Unsupported workload: $WORKLOAD" >&2
