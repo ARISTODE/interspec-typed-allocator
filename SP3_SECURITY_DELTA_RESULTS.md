@@ -27,8 +27,27 @@ T-specific capacity bound. No sanitizer error was observed in that case,
 and the difference alone does not establish security harm beyond arbitrary
 U-chosen content. The preregistered prediction has **not** been rewritten.
 
-H1 memcached/nginx/rsync and H2 libyaml are still being collected or repaired.
+H1 memcached/nginx and H2 libyaml are still being collected or repaired.
 Do not treat this partial YAML result as a global H1 conclusion.
+
+## Verified H1 rsync/popt observations
+
+[Workflow 42425295349](https://github.com/ARISTODE/interspec-typed-allocator/actions/runs/42425295349)
+retained [48 raw executions](https://github.com/ARISTODE/interspec-typed-allocator/actions/runs/42425295349/artifacts/13595014181)
+across 16 rsync/popt fault scenarios, including the copyback control. The
+independent verifier passed again on the downloaded artifact.
+
+Ten cases had the same trusted output files and stdout as the legitimate
+run, with no trusted sanitizer report. Six were inconclusive because their
+output changed; none generated a trusted sanitizer report. These are H1
+observations of the fault-only comparators, not proof that changing U-supplied
+command-line content is harmless in every possible context.
+
+The initial nginx H1 artifact contains 45 executions, but a known upstream
+zero-length `ngx_pstrdup` call triggered an unrelated UBSan nonnull-attribute
+diagnostic during ordinary startup. Those runs cannot support a security
+conclusion. They are preserved while a narrowly adjusted sanitizer build
+is prepared with ASan and the other UBSan checks still enabled.
 
 ## First memcached H2 observations and H1 validity warning
 

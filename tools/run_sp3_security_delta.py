@@ -198,6 +198,7 @@ def run_nginx_h1(nginx_work, out, name, variant, path, kind):
     start = time.monotonic()
     if path == 3:
         config = directory / "invalid.conf"
+        (directory / "logs").mkdir()
         config.write_text('events {} http { server { location ~ "[" { return 200; } } }\n')
         env = dict(os.environ, INTERSPEC_NGINX_FAULT_PATH="3",
                    INTERSPEC_NGINX_FAULT_KIND=str(kind))

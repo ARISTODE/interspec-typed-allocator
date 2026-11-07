@@ -13,8 +13,12 @@ git -C "$work/upstream" archive 1be0fb0c9f9bc3489c7b40576efd6afe6b2eccd5 | tar -
 # generated PCRE source. Reapplying it would fail its asserted source guards.
 # Reuse only the T-side nginx source edit for this new sanitized source tree.
 cp "$work/server/src/core/ngx_regex.c" "$server/src/core/ngx_regex.c"
+# Upstream nginx passes a NULL buffer into zero-length ngx_pstrdup. The
+# nonnull-attribute UBSan check aborts before configuration parsing even
+# though no bytes are read. Disable only this check; ASan and the rest of
+# UBSan stay active for the security experiments.
 (cd "$server" && ./auto/configure --without-pcre2 --without-http_gzip_module \
-  --with-cc-opt="-O1 -g -fsanitize=address,undefined -fno-omit-frame-pointer -I$work/pcre" \
+  --with-cc-opt="-O1 -g -fsanitize=address,undefined -fno-sanitize=nonnull-attribute -fno-omit-frame-pointer -I$work/pcre" \
   --with-ld-opt="-fsanitize=address,undefined -L$work/native-pcre" \
   --prefix="$work/prefix-security-asan") > "$work/logs/security-configure.log" 2>&1
 python3 - "$server/objs/Makefile" <<'PY'

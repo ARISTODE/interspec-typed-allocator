@@ -16,6 +16,37 @@ remain separate from new experiments. No missing cell is assigned zero.
 | 6. Original paper row provenance | Every claimed boundary/workload tied to source and binary revisions, policy configuration, raw repetitions and reproducible arithmetic; unresolved rows excluded from verified claims | Pending |
 | 7. Policy and coverage reconciliation | Effective SP1/SP2/SP3 ablations; generated wrapper coverage review; source-bound analysis census and reproducible field/origin transformations | Pending |
 | 8. Original PoCs | Observed executions of allowed and blocked controls; exact binary, configuration and source binding; preserved stdout/stderr and exit status | Pending |
+| 9. SP3 security delta | Preregistered H1/H2 application comparators; healthy legitimate controls; T sanitizer and protocol outcomes; post-scenario correctness gates; hash-checked raw evidence; independent replay | Partial: H2 memcached interior-pointer case confirmed; YAML H1 three no-delta and two inconclusive; rsync H1 ten no-delta and six inconclusive; initial H1 memcached and nginx controls invalid; remaining cases pending |
+
+### Extended-SP3 security delta evidence
+
+[Workflow 42423558556](https://github.com/ARISTODE/interspec-typed-allocator/actions/runs/42423558556)
+preserves 12 memcached H2 executions and two passing post-scenario 50-case
+gates. The independent verifier was also rerun locally against its downloaded
+raw evidence and passed. In the injected `item* + 1` case, the domain-only
+predicate accepted the forged T pointer and a trusted ASan report followed;
+Extended SP3 rejected before use. The original application-specific one-use
+handle also prevented the corruption. The `item* + 65536` case had no observed
+baseline harm and its harm-prevention delta is inconclusive.
+
+The separately verified H1 YAML artifact contains 15 executions. Modes 1,
+2, and 5 matched legitimate output, while modes 3 and 4 changed output but
+had no T sanitizer report. Mode 4 also refutes the plan's assumption of a
+T-specific scalar-length cap on that bridge. The first H1 memcached
+instrumented fault-binary legitimate cases hit a logger-format rejection,
+so they are not healthy controls despite the separate 50/50 application
+gate. The corrected H1 experiments are being rerun. No paper guarantee or
+numerical claim is changed by those unresolved cases. Results and artifact
+links are tracked in [`SP3_SECURITY_DELTA_RESULTS.md`](SP3_SECURITY_DELTA_RESULTS.md).
+
+The independently replayed
+[rsync H1 run 42425295349](https://github.com/ARISTODE/interspec-typed-allocator/actions/runs/42425295349)
+preserves 48 fault-comparator executions. Ten matched the legitimate
+filesystem and stdout; six were inconclusive, and no trusted sanitizer error
+was observed. Nginx's first 45 cases aborted on a native startup UBSan
+nonnull-attribute diagnostic in an upstream zero-byte copy before the PCRE
+boundary was exercised. The failed evidence is retained, and targeted
+sanitizer corrections are pending clean reruns.
 
 ## New memcached experiment
 
