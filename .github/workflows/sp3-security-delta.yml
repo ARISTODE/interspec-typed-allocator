@@ -1,0 +1,191 @@
+name: sp3-security-delta
+
+on:
+  push:
+    branches:
+      - claude/nifty-cray-ik99hh
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  runtime-and-verifier:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compile and execute T-object lookup tests
+        run: |
+          g++ -std=c++17 -O2 -Wall -Wextra -pedantic -pthread -Iinclude \
+            tests/runtime_object_layout.cpp -o /tmp/interspec-runtime-object-layout
+          /tmp/interspec-runtime-object-layout
+      - name: Reject incomplete and tampered security evidence
+        run: python3 tests/sp3_security_delta_evidence.py
+
+  memcached-h1-h2:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    env:
+      INTERSPEC_BUILD_JOBS: "4"
+      ASAN_OPTIONS: "detect_leaks=0:halt_on_error=1:abort_on_error=1"
+      UBSAN_OPTIONS: "halt_on_error=1:print_stacktrace=1"
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install pinned-build prerequisites
+        run: |
+          sudo apt-get update
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y \
+            autoconf automake build-essential ca-certificates git python3-venv \
+            libevent-dev libio-socket-inet6-perl
+          python3 -m venv .venv
+          .venv/bin/pip install 'cmake>=3.30,<4'
+          echo "$GITHUB_WORKSPACE/.venv/bin" >> "$GITHUB_PATH"
+      - name: Build fault-only U and fully sanitized T variants
+        run: bash scripts/build_memcached_security_delta.sh
+      - name: Recheck existing 50-case correctness baseline
+        run: |
+          python3 tools/test_memcached_deployment.py \
+            --out evaluation/results/sp3-security-delta/memcached-correctness
+      - name: Collect H1 memcached evidence and repeat correctness after every case
+        run: |
+          python3 tools/run_sp3_security_delta.py \
+            --scope h1 --post-case-gate \
+            --correctness-summary evaluation/results/sp3-security-delta/memcached-correctness/summary.json \
+            --out evaluation/results/sp3-security-delta/memcached-h1
+          python3 tools/verify_sp3_security_delta.py --scope h1 --require-post-gates \
+            --results evaluation/results/sp3-security-delta/memcached-h1
+      - name: Collect H2 LRU evidence and repeat correctness after every case
+        run: |
+          python3 tools/run_sp3_security_delta.py \
+            --scope h2_memcached --post-case-gate \
+            --correctness-summary evaluation/results/sp3-security-delta/memcached-correctness/summary.json \
+            --out evaluation/results/sp3-security-delta/memcached-h2
+          python3 tools/verify_sp3_security_delta.py --scope h2_memcached --require-post-gates \
+            --results evaluation/results/sp3-security-delta/memcached-h2
+      - name: Build and execute libyaml T read-handler comparison
+        run: |
+          bash scripts/build_yaml_t_domain_delta.sh
+          python3 tools/run_sp3_security_delta.py --scope h2_yaml \
+            --correctness-summary evaluation/results/sp3-security-delta/memcached-correctness/summary.json \
+            --out evaluation/results/sp3-security-delta/yaml-t-context
+          python3 tools/verify_sp3_security_delta.py --scope h2_yaml \
+            --results evaluation/results/sp3-security-delta/yaml-t-context
+      - name: Upload all raw outcomes, including failures
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sp3-delta-memcached-h2-yaml-evidence
+          if-no-files-found: ignore
+          retention-days: 90
+          path: |
+            evaluation/results/sp3-security-delta
+            /tmp/interspec-memcached-deployment/security-asan/build-manifest.json
+            /tmp/interspec-memcached-deployment/logs
+
+  nginx-h1:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    env:
+      INTERSPEC_BUILD_JOBS: "4"
+      ASAN_OPTIONS: "detect_leaks=0:halt_on_error=1:abort_on_error=1"
+      UBSAN_OPTIONS: "halt_on_error=1:print_stacktrace=1"
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install build prerequisites
+        run: |
+          sudo apt-get update
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y \
+            autoconf automake build-essential ca-certificates git python3-venv
+          python3 -m venv .venv
+          .venv/bin/pip install 'cmake>=3.30,<4'
+          echo "$GITHUB_WORKSPACE/.venv/bin" >> "$GITHUB_PATH"
+      - name: Build sanitized real nginx/PCRE8 comparators
+        run: bash scripts/build_nginx_security_delta.sh
+      - name: Collect and verify H1 nginx evidence
+        run: |
+          python3 tools/run_sp3_security_delta.py --scope h1_nginx \
+            --out evaluation/results/sp3-security-delta/nginx-h1
+          python3 tools/verify_sp3_security_delta.py --scope h1_nginx \
+            --results evaluation/results/sp3-security-delta/nginx-h1
+      - name: Upload all raw outcomes, including failures
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sp3-delta-nginx-evidence
+          if-no-files-found: ignore
+          retention-days: 90
+          path: |
+            evaluation/results/sp3-security-delta
+            /tmp/interspec-nginx-deployment/logs
+            /tmp/interspec-nginx-deployment/security-delta-manifest.json
+
+  rsync-h1:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    env:
+      ASAN_OPTIONS: "detect_leaks=0:halt_on_error=1:abort_on_error=1"
+      UBSAN_OPTIONS: "halt_on_error=1:print_stacktrace=1"
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install build prerequisites
+        run: |
+          sudo apt-get update
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y \
+            autoconf automake build-essential ca-certificates git python3-venv
+          python3 -m venv .venv
+          .venv/bin/pip install 'cmake>=3.30,<4'
+          echo "$GITHUB_WORKSPACE/.venv/bin" >> "$GITHUB_PATH"
+      - name: Build sanitized real rsync/popt comparators
+        run: bash scripts/build_rsync_security_delta.sh
+      - name: Collect and verify H1 rsync evidence
+        run: |
+          python3 tools/run_sp3_security_delta.py --scope h1_rsync \
+            --out evaluation/results/sp3-security-delta/rsync-h1
+          python3 tools/verify_sp3_security_delta.py --scope h1_rsync \
+            --results evaluation/results/sp3-security-delta/rsync-h1
+      - name: Upload all raw outcomes, including failures
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sp3-delta-rsync-evidence
+          if-no-files-found: ignore
+          retention-days: 90
+          path: |
+            evaluation/results/sp3-security-delta
+            /tmp/interspec-rlbox-wasm2c/security-delta-manifest.json
+            /tmp/interspec-rlbox-wasm2c/security-*.log
+
+  yaml-h1:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    env:
+      ASAN_OPTIONS: "detect_leaks=0:halt_on_error=1:abort_on_error=1"
+      UBSAN_OPTIONS: "halt_on_error=1:print_stacktrace=1"
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install build prerequisites
+        run: |
+          sudo apt-get update
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y \
+            autoconf automake build-essential ca-certificates git python3-venv
+          python3 -m venv .venv
+          .venv/bin/pip install 'cmake>=3.30,<4'
+          echo "$GITHUB_WORKSPACE/.venv/bin" >> "$GITHUB_PATH"
+      - name: Build separate YAML fault modules
+        run: INTERSPEC_SECURITY_DELTA_ONLY=1 bash scripts/run_yaml_libyaml_evaluation.sh
+      - name: Collect and verify H1 YAML evidence
+        run: |
+          python3 tools/run_sp3_security_delta.py --scope h1_yaml \
+            --out evaluation/results/sp3-security-delta/yaml-h1
+          python3 tools/verify_sp3_security_delta.py --scope h1_yaml \
+            --results evaluation/results/sp3-security-delta/yaml-h1
+      - name: Upload all raw outcomes, including failures
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sp3-delta-yaml-h1-evidence
+          if-no-files-found: ignore
+          retention-days: 90
+          path: evaluation/results/sp3-security-delta

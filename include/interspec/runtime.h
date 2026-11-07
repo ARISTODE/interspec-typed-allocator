@@ -454,17 +454,8 @@ class Runtime {
                                    uintptr_t expected_element_base = 0) const {
     std::shared_lock<std::shared_mutex> lock(mu_);
     const BorrowedObject* object = find_borrowed_unlocked(token);
-    if (!object) return CheckResult::untracked;
-    if (object->domain != expected_domain) return CheckResult::wrong_domain;
-    if (object->type_hash != expected_type) return CheckResult::wrong_type;
-    if (ptr < object->base || ptr - object->base >= object->size)
-      return CheckResult::out_of_bounds;
-    const size_t offset = static_cast<size_t>(ptr - object->base);
-    if (offset % object->element_size != 0 || bytes > object->element_size)
-      return CheckResult::out_of_bounds;
-    if (expected_element_base && ptr != expected_element_base)
-      return CheckResult::wrong_object;
-    return CheckResult::ok;
+    return check_borrowed_element_unlocked(object, ptr, bytes, expected_type,
+                                           expected_domain, expected_element_base);
   }
 
   CheckResult check_nonheap_field(uintptr_t ptr, size_t bytes,
@@ -475,17 +466,40 @@ class Runtime {
                                  uintptr_t expected_element_base = 0) const {
     std::shared_lock<std::shared_mutex> lock(mu_);
     const BorrowedObject* object = find_borrowed_unlocked(token);
-    if (!object) return CheckResult::untracked;
-    if (object->domain != expected_domain) return CheckResult::wrong_domain;
-    if (object->type_hash != expected_owner) return CheckResult::wrong_type;
-    if (ptr < object->base || ptr - object->base >= object->size)
-      return CheckResult::out_of_bounds;
-    const size_t delta = static_cast<size_t>(ptr - object->base);
-    const uintptr_t element_base = ptr - (delta % object->element_size);
-    if (expected_element_base && element_base != expected_element_base)
-      return CheckResult::wrong_object;
-    return check_field_unlocked(ptr, bytes, expected_owner, expected_field,
-                                object->base, object->element_size);
+    return check_borrowed_field_unlocked(object, ptr, bytes, expected_owner,
+                                         expected_field, expected_domain,
+                                         expected_element_base);
+  }
+
+  // Validates an external T/U object returned as a *raw address*, when the
+  // interface cannot carry an opaque registration token (e.g. a C callback
+  // data pointer or a queue entry). The metadata lookup happens in T, never
+  // from an untrusted token or type supplied by U. This rejects unknown,
+  // revoked, wrong-domain, wrong-type, interior and excessive-extent pointers.
+  //
+  // Address lookup alone cannot disambiguate an old address from a newly
+  // registered object at the same address (ABA). Use the token-taking APIs
+  // for temporal identity, or pass an authenticated expected_element_base for
+  // spatial object identity. Same-type substitution otherwise remains possible.
+  CheckResult check_external_element_by_address(
+      uintptr_t ptr, size_t bytes, uint64_t expected_type,
+      MemoryDomain expected_domain,
+      uintptr_t expected_element_base = 0) const {
+    std::shared_lock<std::shared_mutex> lock(mu_);
+    return check_borrowed_element_unlocked(find_borrowed_by_address_unlocked(ptr),
+                                           ptr, bytes, expected_type,
+                                           expected_domain, expected_element_base);
+  }
+
+  CheckResult check_external_field_by_address(
+      uintptr_t ptr, size_t bytes, uint64_t expected_owner,
+      uint64_t expected_field, MemoryDomain expected_domain,
+      uintptr_t expected_element_base = 0) const {
+    std::shared_lock<std::shared_mutex> lock(mu_);
+    return check_borrowed_field_unlocked(find_borrowed_by_address_unlocked(ptr),
+                                         ptr, bytes, expected_owner,
+                                         expected_field, expected_domain,
+                                         expected_element_base);
   }
 
   // Snapshot only trusted metadata while locked; emit after unlocking.
@@ -534,6 +548,48 @@ class Runtime {
     if (object == borrowed_.end() || object->second.token != token)
       return nullptr;
     return &object->second;
+  }
+
+  const BorrowedObject* find_borrowed_by_address_unlocked(uintptr_t ptr) const {
+    auto it = borrowed_.upper_bound(ptr);
+    if (it == borrowed_.begin()) return nullptr;
+    --it;
+    const BorrowedObject& object = it->second;
+    return ptr - object.base < object.size ? &object : nullptr;
+  }
+
+  CheckResult check_borrowed_element_unlocked(
+      const BorrowedObject* object, uintptr_t ptr, size_t bytes,
+      uint64_t expected_type, MemoryDomain expected_domain,
+      uintptr_t expected_element_base) const {
+    if (!object) return CheckResult::untracked;
+    if (object->domain != expected_domain) return CheckResult::wrong_domain;
+    if (object->type_hash != expected_type) return CheckResult::wrong_type;
+    if (ptr < object->base || ptr - object->base >= object->size)
+      return CheckResult::out_of_bounds;
+    const size_t offset = static_cast<size_t>(ptr - object->base);
+    if (offset % object->element_size != 0 || bytes > object->element_size)
+      return CheckResult::out_of_bounds;
+    if (expected_element_base && ptr != expected_element_base)
+      return CheckResult::wrong_object;
+    return CheckResult::ok;
+  }
+
+  CheckResult check_borrowed_field_unlocked(
+      const BorrowedObject* object, uintptr_t ptr, size_t bytes,
+      uint64_t expected_owner, uint64_t expected_field,
+      MemoryDomain expected_domain, uintptr_t expected_element_base) const {
+    if (!object) return CheckResult::untracked;
+    if (object->domain != expected_domain) return CheckResult::wrong_domain;
+    if (object->type_hash != expected_owner) return CheckResult::wrong_type;
+    if (ptr < object->base || ptr - object->base >= object->size)
+      return CheckResult::out_of_bounds;
+    const size_t delta = static_cast<size_t>(ptr - object->base);
+    const uintptr_t element_base = ptr - (delta % object->element_size);
+    if (expected_element_base && element_base != expected_element_base)
+      return CheckResult::wrong_object;
+    return check_field_unlocked(ptr, bytes, expected_owner, expected_field,
+                                object->base, object->element_size);
   }
 
   CheckResult check_field_unlocked(uintptr_t ptr, size_t bytes,

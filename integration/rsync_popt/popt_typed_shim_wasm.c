@@ -12,16 +12,26 @@ __attribute__((noinline)) char* interspec_typed_strdup(const char* src)
   const size_t size = strlen(src) + 1;
   if (size > UINT32_MAX) return NULL;
 
+#ifdef INTERSPEC_RLBOX_SECURITY_COMPARATOR
+  char* dst = malloc(size);
+  if (!dst) return NULL;
+  memcpy(dst, src, size);
+  return dst;
+#else
   const uint32_t dst = INTERSPEC_SITE_POPT_TYPED_STRDUP_ALLOC((uint32_t)size);
   if (!dst) return NULL;
 
   memcpy((void*)(uintptr_t)dst, src, size);
   return (char*)(uintptr_t)dst;
+#endif
 }
 
 void interspec_typed_free(void* ptr)
 {
   if (!ptr) return;
+#ifdef INTERSPEC_RLBOX_SECURITY_COMPARATOR
+  free(ptr);
+#else
 
   const uint32_t raw = (uint32_t)(uintptr_t)ptr;
   if (interspec_wasm_release(raw)) {
@@ -30,10 +40,14 @@ void interspec_typed_free(void* ptr)
   }
 
   free(ptr);
+#endif
 }
 
 void* interspec_typed_realloc(void* ptr, size_t size)
 {
+#ifdef INTERSPEC_RLBOX_SECURITY_COMPARATOR
+  return realloc(ptr, size);
+#else
   if (!ptr) return realloc(NULL, size);
   if (size > UINT32_MAX) return NULL;
 
@@ -54,6 +68,7 @@ void* interspec_typed_realloc(void* ptr, size_t size)
   }
 
   return realloc(ptr, size);
+#endif
 }
 
 char* interspec_popt_get_opt_arg(void* opaque)

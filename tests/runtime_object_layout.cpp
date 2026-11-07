@@ -221,10 +221,72 @@ int main() {
                                           MemoryDomain::trusted, heap_token,
                                           heap_base),
             CheckResult::wrong_object);
+  // Raw-pointer C interfaces have no token slot. T can look up a live,
+  // trusted registration by address, without accepting unknown or revoked
+  // addresses. Both element extent and subobject layout remain enforced.
+  EXPECT_EQ(runtime.check_external_element_by_address(
+                heap_base, sizeof(Record), kRecord, MemoryDomain::trusted),
+            CheckResult::ok);
+  EXPECT_EQ(runtime.check_external_element_by_address(
+                heap_base + sizeof(Record), sizeof(Record), kRecord,
+                MemoryDomain::trusted), CheckResult::ok);
+  EXPECT_EQ(runtime.check_external_element_by_address(
+                heap_base + sizeof(Record), sizeof(Record), kRecord,
+                MemoryDomain::trusted, heap_base), CheckResult::wrong_object);
+  EXPECT_EQ(runtime.check_external_element_by_address(
+                heap_base + 1, 1, kRecord, MemoryDomain::trusted),
+            CheckResult::out_of_bounds);
+  EXPECT_EQ(runtime.check_external_element_by_address(
+                heap_base + sizeof(Record), sizeof(Record) + 1, kRecord,
+                MemoryDomain::trusted), CheckResult::out_of_bounds);
+  EXPECT_EQ(runtime.check_external_element_by_address(
+                heap_base, 1, kRecord, MemoryDomain::untrusted),
+            CheckResult::wrong_domain);
+  EXPECT_EQ(runtime.check_external_element_by_address(
+                heap_base, 1, kCount, MemoryDomain::trusted),
+            CheckResult::wrong_type);
+  EXPECT_EQ(runtime.check_external_element_by_address(
+                heap_base + 2 * sizeof(Record), 1, kRecord,
+                MemoryDomain::trusted), CheckResult::untracked);
+  EXPECT_EQ(runtime.check_external_field_by_address(
+                heap_base + offsetof(Record, count), sizeof(Record::count),
+                kRecord, kCount, MemoryDomain::trusted), CheckResult::ok);
+  EXPECT_EQ(runtime.check_external_field_by_address(
+                heap_base + offsetof(Record, count) + 1, 1,
+                kRecord, kCount, MemoryDomain::trusted),
+            CheckResult::out_of_bounds);
+  EXPECT_EQ(runtime.check_external_field_by_address(
+                heap_base + offsetof(Record, payload) + 4, 5,
+                kRecord, kPayload, MemoryDomain::trusted), CheckResult::ok);
+  EXPECT_EQ(runtime.check_external_field_by_address(
+                heap_base + offsetof(Record, payload) + 4, 6,
+                kRecord, kPayload, MemoryDomain::trusted),
+            CheckResult::out_of_bounds);
+  EXPECT_EQ(runtime.check_external_element_by_address(
+                stack_ptr, 1, kRecord, MemoryDomain::trusted),
+            CheckResult::ok);
+  EXPECT_EQ(runtime.check_external_element_by_address(
+                global_ptr, 1, kRecord, MemoryDomain::trusted),
+            CheckResult::wrong_domain);
   EXPECT_EQ(runtime.unregister_external(heap_token), true);
   EXPECT_EQ(runtime.check_nonheap_element(heap_base, 1, kRecord,
                                           MemoryDomain::trusted, heap_token),
             CheckResult::untracked);
+  EXPECT_EQ(runtime.check_external_element_by_address(
+                heap_base, 1, kRecord, MemoryDomain::trusted),
+            CheckResult::untracked);
+  const uint64_t fresh_heap_token = runtime.register_external_array(
+      heap_base, t_heap.size(), kRecordId, MemoryDomain::trusted,
+      ObjectStorage::heap);
+  EXPECT_EQ(fresh_heap_token > heap_token, true);
+  EXPECT_EQ(runtime.check_nonheap_element(heap_base, 1, kRecord,
+                                          MemoryDomain::trusted, heap_token),
+            CheckResult::untracked);
+  EXPECT_EQ(runtime.check_external_element_by_address(
+                heap_base, 1, kRecord, MemoryDomain::trusted), CheckResult::ok);
+  // Address-only checks intentionally cannot distinguish an ABA reuse from
+  // the new live object; token-bound checks must be used for that guarantee.
+  EXPECT_EQ(runtime.unregister_external(fresh_heap_token), true);
 
   // Expired stack registrations fail. Address reuse cannot resurrect an
   // old trusted token, even if the new object has the same type and base.

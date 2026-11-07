@@ -150,7 +150,21 @@ class Engine {
     if (!raw) return nullptr;
     interspec::DiagnosticEvent event(this, "copy_checked");
 
-#ifdef INTERSPEC_P8_MEASURE_NO_VALIDATION
+#ifdef INTERSPEC_RLBOX_SECURITY_COMPARATOR
+    // Fault-only RLBox comparator. Confinement and T's bounded string copy
+    // remain active; there is no InterSpec allocation table or type check.
+    if (!sandbox_.is_pointer_in_sandbox_memory(raw))
+      throw std::runtime_error("RLBox rejected outside-sandbox popt string");
+    const uintptr_t address = sandbox_.get_sandbox_impl()->sandbox_address(raw);
+    const size_t total = sandbox_.get_total_memory();
+    if (address >= total)
+      throw std::runtime_error("RLBox rejected invalid popt address");
+    const size_t cap = std::min<size_t>(total - address, 1u << 20);
+    const char* end = static_cast<const char*>(std::memchr(raw, '\0', cap));
+    if (!end)
+      throw std::runtime_error("RLBox rejected unterminated bounded popt string");
+    const size_t bytes = end - raw + 1;
+#elif defined(INTERSPEC_P8_MEASURE_NO_VALIDATION)
     /*
      * Measurement-only baseline. The sandbox, marshalling, typed allocation,
      * provenance, and workload remain identical; only the final Extended-SP3

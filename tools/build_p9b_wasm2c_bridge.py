@@ -71,6 +71,7 @@ def transform(text):
     if (!sandbox_.create_sandbox())
       throw std::runtime_error("failed to create RLBox wasm2c sandbox");
 
+#ifndef INTERSPEC_RLBOX_SECURITY_COMPARATOR
     constexpr uint32_t kArenaSize = 16u * 1024u * 1024u;
     const uint32_t arena_base =
       sandbox_.get_sandbox_impl()->reserve_typed_arena(kArenaSize);
@@ -86,6 +87,7 @@ def transform(text):
     sandbox_.sandbox_storage = this;
     sandbox_.get_sandbox_impl()->set_interspec_runtime(
       this, p9b_allocate, p9b_release, p9b_size, p9b_reallocate);
+#endif
   }
 '''
     text = regex_once(

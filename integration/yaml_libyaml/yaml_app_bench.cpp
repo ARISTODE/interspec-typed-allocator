@@ -293,8 +293,13 @@ int main(int argc, char** argv) {
 
     if (iterations == 0)
       throw std::runtime_error("zero_iterations");
-    if (fault && mode != Mode::extended_sp3)
-      throw std::runtime_error("fault_requires_extended_sp3");
+#if INTERSPEC_FAULT_TESTS
+    if (fault && mode != Mode::extended_sp3 && mode != Mode::rlbox_only)
+      throw std::runtime_error("fault_requires_security_comparator");
+#else
+    if (fault)
+      throw std::runtime_error("fault_requires_separate_security_binary");
+#endif
 
     Engine engine(mode);
     engine.setup(input);

@@ -72,16 +72,20 @@ includes=(-I"$deps/include" -I"$deps/build/_deps/rlbox-src/code/include"
   -I"$wabt/wasm2c" -I"$wabt/third_party/simde" -I"$generated" -I"$root/include" -I"$src")
 defines=(-DWASM_RT_USE_MMAP=1 -DWASM_RT_SKIP_SIGNAL_RECOVERY=1 -DWASM_RT_NONCONFORMING_UNCHECKED_STACK_EXHAUSTION=1)
 
-for module in ordinary typed fault; do
+modules=(ordinary typed fault)
+if [[ ${INTERSPEC_SECURITY_DELTA_BUILD:-0} == 1 ]]; then
+  modules+=(fault-ordinary)
+fi
+for module in "${modules[@]}"; do
   out="$work/$module"
   mkdir -p "$out"
   flags=()
-  if [[ $module == ordinary ]]; then
+  if [[ $module == ordinary || $module == fault-ordinary ]]; then
     bip_source="$src/bipbuffer.c"; flags+=(-DINTERSPEC_TRACKING=0)
   else
     bip_source="$generated/bipbuffer.c"; flags+=(-DINTERSPEC_TRACKING=1)
   fi
-  [[ $module != fault ]] || flags+=(-DINTERSPEC_FAULT_TESTS=1)
+  [[ $module != fault && $module != fault-ordinary ]] || flags+=(-DINTERSPEC_FAULT_TESTS=1)
   "$wasi/bin/clang" --sysroot "$wasi/share/wasi-sysroot" -O3 \
     -I"$src" -I"$generated" "${flags[@]}" \
     -Wl,--export-all -Wl,--no-entry -Wl,--growable-table -Wl,--stack-first -Wl,-z,stack-size=1048576 -Wl,--import-memory -Wl,--import-table \
@@ -90,7 +94,7 @@ for module in ordinary typed fault; do
   "$wabt/build_release/wasm2c" -o "$out/glue_lib_wasm2c.c" "$out/glue_lib_wasm2c.wasm"
   sources=("$out/glue_lib_wasm2c.c" "$wabt/wasm2c/wasm-rt-impl.c" "$wabt/wasm2c/wasm-rt-mem-impl.c"
     "$deps/src/wasm2c_rt_minwasi.c" "$deps/src/wasm2c_rt_mem.c")
-  [[ $module == ordinary ]] || sources+=("$generated/interspec_wasm_imports.c")
+  [[ $module != typed && $module != fault ]] || sources+=("$generated/interspec_wasm_imports.c")
   objects=()
   for source in "${sources[@]}"; do
     obj="$out/$(basename "${source%.c}").o"
@@ -104,6 +108,14 @@ if grep -q 'interspecWasm' "$work/ordinary/glue_lib_wasm2c.h"; then
 fi
 if grep -q 'interspec_mc_fault' "$work/typed/glue_lib_wasm2c.h"; then
   echo 'Release module unexpectedly contains fault hooks' >&2; exit 1
+fi
+if [[ ${INTERSPEC_SECURITY_DELTA_BUILD:-0} == 1 ]]; then
+  if grep -q 'interspecWasm' "$work/fault-ordinary/glue_lib_wasm2c.h"; then
+    echo 'Fault-only RLBox comparator must not import InterSpec tracking' >&2; exit 1
+  fi
+  if ! grep -q 'interspec_mc_fault' "$work/fault-ordinary/glue_lib_wasm2c.h"; then
+    echo 'Fault-only RLBox comparator is missing U fault hooks' >&2; exit 1
+  fi
 fi
 
 server_objects=()

@@ -76,14 +76,18 @@ for stem in "${pcre_stems[@]}"; do
     -I"$pcre" -c "$pcre/pcre_$stem.c" -o "$obj"
   common_objects+=("$obj")
 done
-for module in ordinary typed fault; do
+modules=(ordinary typed fault)
+if [[ ${INTERSPEC_SECURITY_DELTA_BUILD:-0} == 1 ]]; then
+  modules+=(fault-ordinary)
+fi
+for module in "${modules[@]}"; do
   out="$work/$module"
   mkdir -p "$out"
   flags=(-DINTERSPEC_TRACKING=1)
-  [[ $module != ordinary ]] || flags=(-DINTERSPEC_TRACKING=0)
-  [[ $module != fault ]] || flags+=(-DINTERSPEC_FAULT_TESTS=1)
+  [[ $module != ordinary && $module != fault-ordinary ]] || flags=(-DINTERSPEC_TRACKING=0)
+  [[ $module != fault && $module != fault-ordinary ]] || flags+=(-DINTERSPEC_FAULT_TESTS=1)
   compile_source="$generated/pcre_compile.c"
-  [[ $module != ordinary ]] || compile_source="$pcre/pcre_compile.c"
+  [[ $module != ordinary && $module != fault-ordinary ]] || compile_source="$pcre/pcre_compile.c"
   "$wasi/bin/clang" --sysroot "$wasi/share/wasi-sysroot" -O3 -DHAVE_CONFIG_H=1 \
     -I"$pcre" -I"$generated" "${flags[@]}" \
     -Wl,--export-all -Wl,--no-entry -Wl,--growable-table -Wl,--stack-first \
@@ -93,7 +97,7 @@ for module in ordinary typed fault; do
   "$wabt/build_release/wasm2c" -o "$out/glue_lib_wasm2c.c" "$out/glue_lib_wasm2c.wasm"
   sources=("$out/glue_lib_wasm2c.c" "$wabt/wasm2c/wasm-rt-impl.c" "$wabt/wasm2c/wasm-rt-mem-impl.c"
     "$deps/src/wasm2c_rt_minwasi.c" "$deps/src/wasm2c_rt_mem.c")
-  [[ $module == ordinary ]] || sources+=("$generated/interspec_wasm_imports.c")
+  [[ $module != typed && $module != fault ]] || sources+=("$generated/interspec_wasm_imports.c")
   objects=()
   for source in "${sources[@]}"; do
     obj="$out/$(basename "${source%.c}").o"
@@ -107,6 +111,12 @@ if grep -q 'interspecWasm' "$work/ordinary/glue_lib_wasm2c.h"; then
 fi
 if grep -q 'interspec_nginx_fault' "$work/typed/glue_lib_wasm2c.h"; then
   echo 'Release module unexpectedly contains fault hooks' >&2; exit 1
+fi
+if [[ ${INTERSPEC_SECURITY_DELTA_BUILD:-0} == 1 ]]; then
+  if grep -q 'interspecWasm' "$work/fault-ordinary/glue_lib_wasm2c.h" ||
+     ! grep -q 'interspec_nginx_fault' "$work/fault-ordinary/glue_lib_wasm2c.h"; then
+    echo 'Fault-only RLBox comparator imported tracking or missed fault hooks' >&2; exit 1
+  fi
 fi
 
 # Link the unchanged nginx objects with the PCRE ABI bridge instead of libpcre.

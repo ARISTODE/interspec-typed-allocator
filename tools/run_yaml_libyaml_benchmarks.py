@@ -65,7 +65,8 @@ def mode_command(args, mode, input_path, iterations, fault=0):
         return [args.native, str(input_path), str(iterations)]
     if mode == "rlbox_only":
         return [args.rlbox, "rlbox_only", str(input_path), str(iterations)]
-    command = [args.typed, mode, str(input_path), str(iterations)]
+    command = [args.typed_fault if fault else args.typed,
+               mode, str(input_path), str(iterations)]
     if fault:
         command.append(str(fault))
     return command
@@ -127,6 +128,8 @@ def main():
     parser.add_argument("--native", required=True)
     parser.add_argument("--rlbox", required=True)
     parser.add_argument("--typed", required=True)
+    parser.add_argument("--typed-fault", required=True,
+                        help="separate fault-only binary, excluded from all timing samples")
     parser.add_argument("--out", required=True)
     parser.add_argument("--commit", default="unknown")
     args = parser.parse_args()

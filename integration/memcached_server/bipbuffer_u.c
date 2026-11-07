@@ -20,7 +20,7 @@ static uint32_t fault_mode, fault_target, fault_fired;
 /* Two adversarial U pointer origins, compiled into the fault-only WASM module.
  * The trusted side must reject both before attempting to read their contents.
  * These do not represent the prevalence of such pointers in normal traffic. */
-static unsigned char global_fault_probe[64];
+static unsigned char global_fault_probe[1u << 20];
 static volatile uintptr_t escaped_stack_probe;
 void interspec_mc_fault(uint32_t mode, uint32_t target) {
     fault_mode = mode;
@@ -44,21 +44,43 @@ static unsigned char *mutate(unsigned char *ptr, uint32_t target) {
     if (!ptr || fault_fired || !fault_mode || target != fault_target) return ptr;
     fault_fired = 1;
     unsigned char *original = ptr;
-    switch (fault_mode) {
-    case 1: ptr = input; break; /* Live tracked char allocation, wrong type. */
-    case 2: ptr = malloc(capacity); break; /* Ordinary untracked U storage. */
+    /* Modes 101..110 are matched-content controls: U alters the legitimate
+     * owner bytes/length but does not replace the return pointer. The T copy
+     * digest lets the independent verifier confirm actual byte equivalence. */
+    const int content_control = fault_mode >= 101 && fault_mode <= 110;
+    const uint32_t scenario = content_control ? fault_mode - 100 : fault_mode;
+    switch (scenario) {
+    case 1:
+        if (content_control) memcpy(ptr, input, last_size);
+        else ptr = input; /* Live char allocation, wrong expected type. */
+        break;
+    case 2:
+        if (!content_control) {
+            unsigned char *other = malloc(capacity);
+            if (!other || last_size > capacity) abort();
+            memcpy(other, ptr, last_size);
+            ptr = other; /* Untracked U heap with identical T-visible bytes. */
+        }
+        break;
     case 3:
+        if (content_control) break;
+#if INTERSPEC_TRACKING
         interspec_wasm_release((uint32_t)(uintptr_t)owner);
+#else
+        /* The RLBox-only comparator has no InterSpec allocation metadata.
+         * Releasing the ordinary U allocation models the same stale origin. */
+        free(owner);
+#endif
         break; /* Stale owner metadata; do not read this pointer afterwards. */
     case 4:
         if (target == 2) last_size = capacity + 1;
-        else ptr = owner->data + capacity - 1;
+        else if (!content_control) ptr = owner->data + capacity - 1;
         break;
     case 5: { /* Same-type substitution is an explicit accepted scope control. */
         bipbuf_t *replacement = bipbuf_new(capacity);
         if (!replacement) abort();
         memcpy(replacement->data, ptr, last_size);
-        ptr = replacement->data;
+        if (!content_control) ptr = replacement->data;
         break;
     }
     case 6: /* Malformed record contents: handled by T's format validator. */
@@ -71,21 +93,40 @@ static unsigned char *mutate(unsigned char *ptr, uint32_t target) {
         if (last_size) --last_size;
         break;
     case 9:
-        ptr = global_fault_probe; /* Untracked U static-duration object. */
+        if (last_size > sizeof(global_fault_probe)) abort();
+        if (content_control) memcpy(ptr, global_fault_probe, last_size);
+        else ptr = global_fault_probe; /* Untracked U static-duration object. */
         break;
     case 10: {
         /* Deliberately escape a U stack address as an integer. No T
          * dereference is permitted; this is a rejected-lifetime probe. */
         volatile unsigned char stack_fault_probe[64] = {0};
         escaped_stack_probe = (uintptr_t)&stack_fault_probe[0];
-        ptr = (unsigned char *)(uintptr_t)escaped_stack_probe;
+        if (content_control) memset(ptr, 0, last_size);
+        else ptr = (unsigned char *)(uintptr_t)escaped_stack_probe;
+        break;
+    }
+    case 11: { /* H2: retain the T domain but forge an interior item*. */
+        if (target != 2 || last_size < sizeof(uint64_t)) abort();
+        uint64_t address;
+        memcpy(&address, ptr, sizeof(address));
+        ++address;
+        memcpy(ptr, &address, sizeof(address));
+        break;
+    }
+    case 12: { /* H2: forge a T-domain address outside the queued object. */
+        if (target != 2 || last_size < sizeof(uint64_t)) abort();
+        uint64_t address;
+        memcpy(&address, ptr, sizeof(address));
+        address += 65536u;
+        memcpy(ptr, &address, sizeof(address));
         break;
     }
     default: abort();
     }
-    fprintf(stderr, "FAULT_INJECTION boundary=memcached_bipbuffer mode=%u target=%u original=0x%x replacement=0x%x bytes=%u\n",
-            fault_mode, target, (unsigned)(uintptr_t)original,
-            (unsigned)(uintptr_t)ptr, last_size);
+    fprintf(stderr, "FAULT_INJECTION boundary=memcached_bipbuffer mode=%u target=%u control=%u original=0x%x replacement=0x%x bytes=%u\n",
+            fault_mode, target, (unsigned)content_control,
+            (unsigned)(uintptr_t)original, (unsigned)(uintptr_t)ptr, last_size);
     fflush(stderr);
 #else
     (void)target;

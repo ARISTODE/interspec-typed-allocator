@@ -1,5 +1,6 @@
 #include "pcre.h"
 #include <stdint.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #if INTERSPEC_TRACKING
@@ -73,6 +74,8 @@ int interspec_nginx_compile(int options)
 uint32_t interspec_nginx_compile_error_bytes(void)
 {
 #ifdef INTERSPEC_FAULT_TESTS
+    if (fault_path == 3 && fault_kind)
+        fprintf(stderr, "FAULT_INJECTION boundary=nginx_pcre path=3 kind=%u\n", fault_kind);
     if (fault_path == 3 && fault_kind == 1)
         return COMPILE_ERROR_CAPACITY + 1u;
     if (fault_path == 3 && fault_kind == 2 && compile_error_bytes)
@@ -114,15 +117,34 @@ static void *corrupt(void *original, uint32_t bytes, uint32_t path)
     if (fault_path != path || !fault_kind) return p;
     if (fault_kind == 1) {
         /* A live allocation of the wrong expected type. */
+#if INTERSPEC_TRACKING
         p = (void *)(uintptr_t)INTERSPEC_SITE_SUBJECT_INPUT_ALLOC(bytes);
+#else
+        p = malloc(bytes);
+#endif
     } else if (fault_kind == 2) {
         p = malloc(bytes);
     } else if (fault_kind == 3 || fault_kind == 5) {
+#if INTERSPEC_TRACKING
         p = (void *)(uintptr_t)(path == 1 ? INTERSPEC_SITE_COMPILED_REGEX_ALLOC(bytes) :
                                                    INTERSPEC_SITE_CAPTURE_OFFSETS_ALLOC(bytes));
+#else
+        p = malloc(bytes);
+#endif
     }
     if (p && p != original) memcpy(p, original, bytes);
-    if (fault_kind == 3 && p) interspec_wasm_release((uint32_t)(uintptr_t)p);
+    if (fault_kind == 3 && p) {
+#if INTERSPEC_TRACKING
+        interspec_wasm_release((uint32_t)(uintptr_t)p);
+#else
+        free(p);
+#endif
+    }
+    fprintf(stderr, "FAULT_INJECTION boundary=nginx_pcre path=%u kind=%u "
+                    "original=0x%x replacement=0x%x bytes=%u\n",
+            path, fault_kind, (unsigned)(uintptr_t)original,
+            (unsigned)(uintptr_t)p, bytes);
+    fflush(stderr);
     return p;
 }
 #endif
@@ -138,7 +160,10 @@ unsigned char *interspec_nginx_names(void)
 uint32_t interspec_nginx_names_bytes(void)
 {
 #ifdef INTERSPEC_FAULT_TESTS
-    if (fault_path == 1 && fault_kind == 4) return names_bytes + 262144;
+    if (fault_path == 1 && fault_kind == 4) {
+        fprintf(stderr, "FAULT_INJECTION boundary=nginx_pcre path=1 kind=4\n");
+        return names_bytes + 262144;
+    }
 #endif
     return names_bytes;
 }
@@ -154,7 +179,10 @@ int interspec_nginx_exec(int length, int start, int options, int count)
 unsigned char *interspec_nginx_offsets(void)
 {
 #ifdef INTERSPEC_FAULT_TESTS
-    if (fault_path == 2 && fault_kind == 6 && offsets_bytes >= 8) offsets[1] = INT32_MAX;
+    if (fault_path == 2 && fault_kind == 6 && offsets_bytes >= 8) {
+        fprintf(stderr, "FAULT_INJECTION boundary=nginx_pcre path=2 kind=6\n");
+        offsets[1] = INT32_MAX;
+    }
     return corrupt(offsets, offsets_bytes, 2);
 #else
     return (unsigned char *)offsets;
@@ -163,7 +191,10 @@ unsigned char *interspec_nginx_offsets(void)
 uint32_t interspec_nginx_offsets_bytes(void)
 {
 #ifdef INTERSPEC_FAULT_TESTS
-    if (fault_path == 2 && fault_kind == 4) return offsets_bytes + 262144;
+    if (fault_path == 2 && fault_kind == 4) {
+        fprintf(stderr, "FAULT_INJECTION boundary=nginx_pcre path=2 kind=4\n");
+        return offsets_bytes + 262144;
+    }
 #endif
     return offsets_bytes;
 }

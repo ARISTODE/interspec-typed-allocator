@@ -2,11 +2,15 @@
 #include "interspec_yaml_u_policy.h"
 
 #include <stdint.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 #ifndef INTERSPEC_YAML_TYPED_COPY
 #define INTERSPEC_YAML_TYPED_COPY 0
+#endif
+#ifndef INTERSPEC_FAULT_TESTS
+#define INTERSPEC_FAULT_TESTS 0
 #endif
 
 #define INTERSPEC_YAML_STAGING_CAPACITY UINT32_C(8192)
@@ -70,8 +74,14 @@ static void clear_fault_buffers(void)
         g_alt_same_type = 0;
     }
 #else
-    g_wrong_type = 0;
-    g_alt_same_type = 0;
+    if (g_wrong_type) {
+        free((void *)(uintptr_t)g_wrong_type);
+        g_wrong_type = 0;
+    }
+    if (g_alt_same_type) {
+        free((void *)(uintptr_t)g_alt_same_type);
+        g_alt_same_type = 0;
+    }
 #endif
     if (g_untracked) {
         free((void *)(uintptr_t)g_untracked);
@@ -145,14 +155,19 @@ static int materialize_scalar(void)
     g_return_ptr = g_staging;
     g_return_len = length;
 
-#if INTERSPEC_YAML_TYPED_COPY
+#if INTERSPEC_FAULT_TESTS
     if (!g_fault_used && g_fault_mode != 0) {
         g_fault_used = 1;
 
         if (g_fault_mode == 1) {
             if (!g_wrong_type)
+#if INTERSPEC_YAML_TYPED_COPY
                 g_wrong_type = INTERSPEC_SITE_WRONG_TYPE_ALLOC(
                     INTERSPEC_YAML_STAGING_CAPACITY);
+#else
+                g_wrong_type = (uint32_t)(uintptr_t)
+                    malloc(INTERSPEC_YAML_STAGING_CAPACITY);
+#endif
             if (!g_wrong_type)
                 return 0;
             memcpy((void *)(uintptr_t)g_wrong_type,
@@ -168,27 +183,45 @@ static int materialize_scalar(void)
                    g_event.data.scalar.value, length);
             g_return_ptr = g_untracked;
         } else if (g_fault_mode == 3) {
+#if INTERSPEC_YAML_TYPED_COPY
             uint32_t stale = INTERSPEC_SITE_SCALAR_VALUE_ALLOC(
                 INTERSPEC_YAML_STAGING_CAPACITY);
+#else
+            uint32_t stale = (uint32_t)(uintptr_t)
+                malloc(INTERSPEC_YAML_STAGING_CAPACITY);
+#endif
             if (!stale)
                 return 0;
             memcpy((void *)(uintptr_t)stale,
                    g_event.data.scalar.value, length);
+#if INTERSPEC_YAML_TYPED_COPY
             if (!interspec_wasm_release(stale))
                 return 0;
+#else
+            free((void *)(uintptr_t)stale);
+#endif
             g_return_ptr = stale;
         } else if (g_fault_mode == 4) {
             g_return_len = INTERSPEC_YAML_STAGING_CAPACITY + 1;
         } else if (g_fault_mode == 5) {
             if (!g_alt_same_type)
+#if INTERSPEC_YAML_TYPED_COPY
                 g_alt_same_type = INTERSPEC_SITE_SCALAR_VALUE_ALLOC(
                     INTERSPEC_YAML_STAGING_CAPACITY);
+#else
+                g_alt_same_type = (uint32_t)(uintptr_t)
+                    malloc(INTERSPEC_YAML_STAGING_CAPACITY);
+#endif
             if (!g_alt_same_type)
                 return 0;
             memcpy((void *)(uintptr_t)g_alt_same_type,
                    g_event.data.scalar.value, length);
             g_return_ptr = g_alt_same_type;
         }
+        fprintf(stderr, "FAULT_INJECTION boundary=yaml_libyaml mode=%u original=0x%x "
+                        "replacement=0x%x bytes=%u\n", g_fault_mode,
+                g_staging, g_return_ptr, g_return_len);
+        fflush(stderr);
     }
 #endif
     return 1;

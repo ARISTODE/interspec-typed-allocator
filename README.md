@@ -1,5 +1,12 @@
 # InterSpec Typed Allocator
 
+The Extended-SP3 security-delta study is specified in
+[`docs/SP3_SECURITY_DELTA_PLAN.md`](docs/SP3_SECURITY_DELTA_PLAN.md),
+implemented and reproducible as described in
+[`docs/SP3_SECURITY_DELTA_IMPLEMENTATION.md`](docs/SP3_SECURITY_DELTA_IMPLEMENTATION.md),
+and tracked separately from predictions in
+[`SP3_SECURITY_DELTA_RESULTS.md`](SP3_SECURITY_DELTA_RESULTS.md).
+
 The complete rsync/popt application validation and four-way Native/RLBox/tracking/Extended-SP3 performance matrix are documented in [RSYNC_RESULTS.md](RSYNC_RESULTS.md). The 194 MiB file-sync workload is the primary rsync report workload; hosted CI numbers remain reference measurements pending the controlled-hardware publication run.
 
 The complete YAML/libyaml application evaluation, including the full 1,000-parse workload, is documented in [YAML_EVALUATION_REPORT.md](YAML_EVALUATION_REPORT.md) and [YAML_RESULTS.md](YAML_RESULTS.md).

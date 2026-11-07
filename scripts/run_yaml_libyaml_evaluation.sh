@@ -98,6 +98,19 @@ test -n "$baseline_wasm"
 baseline_snapshot="$work/libyaml-rlbox-baseline.a"
 cp "$baseline_wasm" "$baseline_snapshot"
 
+# Keep fault injection out of the timing modules. Build independent Wasm
+# snapshots so the RLBox-only comparator has the very same U fault selector.
+python3 - "$work/c_src/yaml_app_wasm.c" <<'PY'
+from pathlib import Path
+import sys
+p = Path(sys.argv[1])
+p.write_text("#define INTERSPEC_FAULT_TESTS 1\n" + p.read_text())
+PY
+cmake --build "$work/build" --target glue_lib_imported --parallel 2 >/dev/null
+baseline_fault_snapshot="$work/libyaml-rlbox-fault.a"
+cp "$baseline_wasm" "$baseline_fault_snapshot"
+
+cp "$root/integration/yaml_libyaml/yaml_app_wasm.c" "$work/c_src/yaml_app_wasm.c"
 python3 - "$work/c_src/yaml_app_wasm.c" <<'PY'
 from pathlib import Path
 import sys
@@ -109,6 +122,16 @@ typed_wasm=$(find "$work/build" -name 'libglue_lib_imported.a' -print -quit)
 test -n "$typed_wasm"
 typed_snapshot="$work/libyaml-interspec.a"
 cp "$typed_wasm" "$typed_snapshot"
+
+python3 - "$work/c_src/yaml_app_wasm.c" <<'PY'
+from pathlib import Path
+import sys
+p = Path(sys.argv[1])
+p.write_text("#define INTERSPEC_FAULT_TESTS 1\n" + p.read_text())
+PY
+cmake --build "$work/build" --target glue_lib_imported --parallel 2 >/dev/null
+typed_fault_snapshot="$work/libyaml-interspec-fault.a"
+cp "$typed_wasm" "$typed_fault_snapshot"
 
 native_obj="$work/native-obj"
 mkdir -p "$native_obj"
@@ -147,12 +170,31 @@ g++ -std=c++17 -O2 \
   "$typed_snapshot" -pthread -ldl -lrt -lm \
   -o "$work/yaml-typed-bench"
 
+for mode in rlbox typed; do
+  module="$baseline_fault_snapshot"
+  [[ $mode != typed ]] || module="$typed_fault_snapshot"
+  g++ -std=c++17 -O1 -g -fsanitize=address,undefined -fno-omit-frame-pointer \
+    -DINTERSPEC_FAULT_TESTS=1 \
+    "$root/integration/yaml_libyaml/yaml_app_bench.cpp" \
+    -I"$work/include" \
+    -I"$work/build/_deps/rlbox-src/code/include" \
+    -I"$work/build/_deps/wasm2c_compiler-src/wasm2c" \
+    -I"$work/build/_deps/wasm2c_compiler-src/third_party/simde" \
+    -I"$work/build/wasm_imported" \
+    -I"$root/include" -I"$yaml_src/include" -I"$work" \
+    "$module" -pthread -ldl -lrt -lm \
+    -o "$work/yaml-$mode-fault"
+done
+
 commit=$(git -C "$root" rev-parse HEAD)
-python3 "$root/tools/run_yaml_libyaml_benchmarks.py" \
-  --native "$work/yaml-native-bench" \
-  --rlbox "$work/yaml-rlbox-bench" \
-  --typed "$work/yaml-typed-bench" \
-  --out "$out" \
-  --commit "$commit"
+if [[ ${INTERSPEC_SECURITY_DELTA_ONLY:-0} != 1 ]]; then
+  python3 "$root/tools/run_yaml_libyaml_benchmarks.py" \
+    --native "$work/yaml-native-bench" \
+    --rlbox "$work/yaml-rlbox-bench" \
+    --typed "$work/yaml-typed-bench" \
+    --typed-fault "$work/yaml-typed-fault" \
+    --out "$out" \
+    --commit "$commit"
+fi
 
 echo "InterSpec YAML/libyaml full application evaluation passed"

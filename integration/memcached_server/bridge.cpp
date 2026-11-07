@@ -81,6 +81,15 @@ struct Buffer {
 #if INTERSPEC_TRACKING
     std::unique_ptr<interspec::Runtime> runtime;
 #endif
+#if INTERSPEC_T_OBJECTS
+    /* This table lives in T and is independent of the U typed arena. The
+     * original item allocation and its refcount remain under memcached's
+     * control; only trusted items.c can call the registration entrypoint. */
+    interspec::Runtime t_objects{0, 0};
+    struct TReference { uint64_t token; uint32_t pending; };
+    std::unordered_map<uintptr_t, TReference> t_references;
+    uint32_t t_item_size = 0, t_item_alignment = 0;
+#endif
     std::mutex mutex;
     const uint32_t capacity;
     Pointer input;
@@ -160,6 +169,15 @@ struct Buffer {
         if (!pointer.UNSAFE_unverified()) return nullptr;
         auto *ptr = validate(pointer, bytes, op);
         std::memcpy(read_copy.data(), ptr, bytes);
+#ifdef INTERSPEC_ENABLE_TRACE
+        uint64_t digest = UINT64_C(1469598103934665603);
+        for (uint32_t i = 0; i < bytes; ++i) {
+            digest ^= read_copy[i];
+            digest *= UINT64_C(1099511628211);
+        }
+        std::fprintf(stderr, "INTERSPEC_T_COPY boundary=memcached_bipbuffer operation=%s bytes=%u fnv64=%016llx\n",
+                     op, bytes, static_cast<unsigned long long>(digest));
+#endif
         event(op, "copied", bytes);
         event("copy_from_u", op, bytes);
         return read_copy.data();
@@ -245,6 +263,108 @@ void *interspec_lru_take(bipbuf_t *ptr, uintptr_t token, uint32_t hash) {
         b.item_references.erase(found);
         b.event("lru_take", "ok", 1);
         return item;
+    });
+}
+
+/* The security-delta variants preserve upstream's raw item* wire format.
+ * The domain-only variant implements the paper's outside-U check; the
+ * Extended-SP3 variant validates a live T registration by raw address and
+ * consumes one in-flight reference before T dereferences the pointer. */
+void interspec_lru_register_raw(bipbuf_t *ptr, void *item,
+                                unsigned int bytes, unsigned int alignment) {
+#if INTERSPEC_T_OBJECTS
+    guarded([&] {
+        auto &b = get(ptr);
+        std::lock_guard<std::mutex> lock(b.mutex);
+        if (!item || b.sandbox.is_pointer_in_sandbox_memory(static_cast<unsigned char *>(item)))
+            reject("lru_register", "wrong_domain");
+        if (!b.t_item_size) {
+            constexpr interspec::TypeId kItemId = 1;
+            if (!b.t_objects.register_type(kItemId, interspec::type_hash("memcached::item")) ||
+                !b.t_objects.register_type_layout(kItemId, bytes, alignment))
+                reject("lru_register", "layout_registration");
+            b.t_item_size = bytes;
+            b.t_item_alignment = alignment;
+        }
+        if (b.t_item_size != bytes || b.t_item_alignment != alignment)
+            reject("lru_register", "layout_mismatch");
+        uintptr_t address = reinterpret_cast<uintptr_t>(item);
+        auto found = b.t_references.find(address);
+        if (found != b.t_references.end()) {
+            if (found->second.pending == UINT32_MAX)
+                reject("lru_register", "reference_overflow");
+            ++found->second.pending;
+        } else {
+            uint64_t token = b.t_objects.register_external_array(
+                address, 1, 1, interspec::MemoryDomain::trusted,
+                interspec::ObjectStorage::heap);
+            if (!token) reject("lru_register", "object_registration");
+            b.t_references.emplace(address, Buffer::TReference{token, 1});
+        }
+#ifdef INTERSPEC_ENABLE_TRACE
+        std::fprintf(stderr, "INTERSPEC_T_DELTA boundary=memcached_lru event=register result=ok address=%p\n", item);
+#endif
+    });
+#else
+    (void)ptr; (void)item; (void)bytes; (void)alignment;
+    reject("lru_register", "registration_not_enabled");
+#endif
+}
+
+void interspec_lru_revoke_raw(bipbuf_t *ptr, void *item) {
+#if INTERSPEC_T_OBJECTS
+    guarded([&] {
+        auto &b = get(ptr);
+        std::lock_guard<std::mutex> lock(b.mutex);
+        const uintptr_t address = reinterpret_cast<uintptr_t>(item);
+        auto found = b.t_references.find(address);
+        if (found == b.t_references.end() || !found->second.pending)
+            reject("lru_revoke", "unknown_object");
+        if (!--found->second.pending) {
+            if (!b.t_objects.unregister_external(found->second.token))
+                reject("lru_revoke", "revocation_failed");
+            b.t_references.erase(found);
+        }
+#ifdef INTERSPEC_ENABLE_TRACE
+        std::fprintf(stderr, "INTERSPEC_T_DELTA boundary=memcached_lru event=revoke result=ok address=%p\n", item);
+#endif
+    });
+#else
+    (void)ptr; (void)item;
+    reject("lru_revoke", "registration_not_enabled");
+#endif
+}
+
+void interspec_lru_check_raw(bipbuf_t *ptr, void *item, unsigned int bytes) {
+    guarded([&] {
+        auto &b = get(ptr);
+        std::lock_guard<std::mutex> lock(b.mutex);
+        if (!item || b.sandbox.is_pointer_in_sandbox_memory(static_cast<unsigned char *>(item)))
+            reject("lru_check", "wrong_domain");
+#if INTERSPEC_T_OBJECTS
+        const auto result = b.t_objects.check_external_element_by_address(
+            reinterpret_cast<uintptr_t>(item), bytes,
+            interspec::type_hash("memcached::item"), interspec::MemoryDomain::trusted);
+#ifdef INTERSPEC_ENABLE_TRACE
+        std::fprintf(stderr, "INTERSPEC_T_DELTA boundary=memcached_lru event=check policy=extended_sp3 result=%s address=%p\n",
+                     interspec::check_result_name(result), item);
+#endif
+        if (result != interspec::CheckResult::ok)
+            reject("lru_check", interspec::check_result_name(result));
+        auto found = b.t_references.find(reinterpret_cast<uintptr_t>(item));
+        if (found == b.t_references.end() || !found->second.pending)
+            reject("lru_check", "unknown_object");
+        if (!--found->second.pending) {
+            if (!b.t_objects.unregister_external(found->second.token))
+                reject("lru_check", "revocation_failed");
+            b.t_references.erase(found);
+        }
+#else
+#ifdef INTERSPEC_ENABLE_TRACE
+        std::fprintf(stderr, "INTERSPEC_T_DELTA boundary=memcached_lru event=check policy=domain_sp3 result=ok address=%p\n", item);
+#endif
+        (void)bytes;
+#endif
     });
 }
 void interspec_lru_extent(unsigned int bytes, unsigned int entry_size) {
