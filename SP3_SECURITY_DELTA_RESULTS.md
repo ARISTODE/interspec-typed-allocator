@@ -27,8 +27,37 @@ T-specific capacity bound. No sanitizer error was observed in that case,
 and the difference alone does not establish security harm beyond arbitrary
 U-chosen content. The preregistered prediction has **not** been rewritten.
 
-H1 memcached/nginx/rsync and H2 memcached/libyaml are still being collected
-or repaired. Do not treat this partial YAML result as a global H1 conclusion.
+H1 memcached/nginx/rsync and H2 libyaml are still being collected or repaired.
+Do not treat this partial YAML result as a global H1 conclusion.
+
+## First memcached H2 observations and H1 validity warning
+
+The initial memcached run
+[`42423558556`](https://github.com/ARISTODE/interspec-typed-allocator/actions/runs/42423558556)
+preserved [52 raw executions and 12 repeated correctness gates](https://github.com/ARISTODE/interspec-typed-allocator/actions/runs/42423558556/artifacts/13595271042).
+The 40-case H1 and 12-case H2 collections each produced a verified JSON
+summary. Generation of the H2 Markdown report failed on an output-key bug;
+the logged raw data and summary remain available. This reporter bug is fixed
+in the working implementation and awaits a new CI run.
+
+| H2 LRU mutation | Domain-only result | Extended SP3 | Existing one-use handle | Initial interpretation |
+| --- | --- | --- | --- | --- |
+| Interior `item* + 1` | Accepted, then T ASan error | Rejected `out_of_bounds` before use | Rejected unknown handle | **Observed security delta** |
+| Outside object `item* + 65536` | Accepted; no observed T harm | Rejected `untracked` | Rejected unknown handle | **Inconclusive** as a harm-prevention claim |
+
+These outcomes are for injected raw LRU item pointer bytes, not naturally
+occurring exploitation. Because the existing one-use handle also rejects the
+corruption, this demonstrates protection supplied by the new general check,
+not a stronger guarantee than the existing application-specific handle.
+
+The initial H1 memcached run also exposed a test-harness validity defect:
+its nominally legitimate RLBox fault-only cases exited on the T logger's
+`malformed_record` rejection under the chosen watcher traffic. Even though
+the original 50/50 application correctness gate passed, H1 equivalence must
+**not** be inferred from two failing comparator runs. The replacement runner
+uses the proven three-event watcher workload, and the verifier now requires
+an independently healthy legitimate run before declaring a security delta
+absent. The first H1 summary remains preserved as diagnostic evidence only.
 
 ## Experiment matrix and outstanding work
 

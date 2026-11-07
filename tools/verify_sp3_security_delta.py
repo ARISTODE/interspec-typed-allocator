@@ -143,13 +143,22 @@ def classify_h1(role, target, mode, observations):
                                                             "out_of_bounds", "wrong_domain"))
     same_health = (control["execution"].get("alive_before_teardown") ==
                    baseline["execution"].get("alive_before_teardown"))
+    # A passing 50-case suite for the normal (nonfault) build cannot make a
+    # different instrumented fault-only binary's failed legitimate case valid.
+    # Inspect that legitimate run independently before comparing the faults.
+    legitimate_valid = (legit["execution"].get("alive_before_teardown") is True and
+                        legit["protocol"].get("version") is True and
+                        not legit["sanitizer"] and legit["reason"] is None and
+                        (legit["protocol"].get("lru_bump") == "completed" if role == 3 else
+                         legit["protocol"].get("watch_event_types") ==
+                         ["deleted", "item_get", "item_store"]))
     # A matching copy digest is not sufficient by itself: the observable
     # memcached protocol must also agree with the matched-content control.
     # This is deliberately strict. If asynchronous watch records differ or
     # the comparator cannot serve, retain an inconclusive result for review.
     same_protocol = control["protocol"] == baseline["protocol"]
     no_sanitizer = not baseline["sanitizer"] and not control["sanitizer"]
-    if not recognized:
+    if not recognized or not legitimate_valid:
         verdict = "incomplete"
     elif baseline["sanitizer"]:
         verdict = "T_sanitizer_harm"
@@ -169,6 +178,7 @@ def classify_h1(role, target, mode, observations):
             "extended_reason": extended_reason, "prediction_matches": expected_ok,
             "equal_content_at_T_copy": equal_content,
             "same_protocol_as_content_control": same_protocol,
+            "legitimate_valid": legitimate_valid,
             "same_non_sp3_bridge_rejection": same_bridge_rejection,
             "baseline_t_sanitizer": baseline["sanitizer"],
             "baseline_alive": baseline["execution"].get("alive_before_teardown"),
@@ -213,10 +223,16 @@ def classify_h1_nginx(path, kind, observations):
     ext_marker = re.search(r"FAULT_INJECTION boundary=nginx_pcre path=(\d+) kind=(\d+)", extended["stderr"])
     exercised = bool(marker and ext_marker and int(marker[1]) == int(ext_marker[1]) == path and
                      int(marker[2]) == int(ext_marker[2]) == kind)
-    same_http = (baseline["protocol"].get("route") == legitimate["protocol"].get("route") and
-                 baseline["execution"].get("alive_before_teardown") ==
-                     legitimate["execution"].get("alive_before_teardown"))
+    # Two empty/missing HTTP responses must never be called equivalence.
+    legitimate_route = legitimate["protocol"].get("route")
+    same_http = (isinstance(legitimate_route, list) and
+                 len(legitimate_route) == 2 and legitimate_route[0] == 200 and
+                 baseline["protocol"].get("route") == legitimate_route and
+                 baseline["execution"].get("alive_before_teardown") is True and
+                 legitimate["execution"].get("alive_before_teardown") is True)
     same_config_result = (path == 3 and
+                          isinstance(legitimate["execution"].get("exit_code_before_teardown"), int) and
+                          legitimate["execution"].get("exit_code_before_teardown") != 0 and
                           baseline["execution"].get("exit_code_before_teardown") ==
                               legitimate["execution"].get("exit_code_before_teardown"))
     no_harm = not baseline["sanitizer"] and not legitimate["sanitizer"]
@@ -252,7 +268,9 @@ def classify_h1_rsync(target, mode, observations):
     exercised = match and ext_match
     same_tree = baseline["filesystem"] == legit["filesystem"]
     same_stdout = baseline["stdout"] == legit["stdout"]
-    clean = baseline["execution"].get("exit_code_before_teardown") == 0 and not baseline["sanitizer"]
+    clean = (legit["execution"].get("exit_code_before_teardown") == 0 and
+             baseline["execution"].get("exit_code_before_teardown") == 0 and
+             not baseline["sanitizer"] and not legit["sanitizer"])
     verdict = "incomplete" if not exercised else "T_sanitizer_harm" if baseline["sanitizer"] else (
         "no_observed_delta" if clean and same_tree and same_stdout else
         "inconclusive")
@@ -290,7 +308,8 @@ def classify_h2_memcached(mode, observations):
     verdict = ("security_delta" if domain["domain_accept"] and
                domain["T_outcome_differs_from_legitimate"] and
                extended["extended_preuse_reject"] else "inconclusive")
-    return {"case": f"h2-lru-m{mode}", "verdict": verdict, "variants": rows}
+    return {"case": f"h2-lru-m{mode}", "mode": mode,
+            "verdict": verdict, "variants": rows}
 
 
 def classify_h2_yaml(scenario, observations):

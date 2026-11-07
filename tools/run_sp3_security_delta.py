@@ -10,6 +10,7 @@ import json
 import os
 from pathlib import Path
 import platform
+import re
 import resource
 import subprocess
 import sys
@@ -54,14 +55,23 @@ def exercise_memcached(server, role):
     else:
         try:
             with Client(server.port, timeout=2) as watcher:
-                outputs["watch"] = watcher.command(b"watch fetchers mutations").decode(errors="replace")
+                outputs["watch"] = watcher.command(b"watch fetchers mutations deletions").decode(errors="replace")
                 with Client(server.port, timeout=2) as client:
                     outputs["store"] = client.store(b"delta-key", b"value").decode(errors="replace")
                     outputs["get"] = str(client.get(b"delta-key"))
+                    outputs["delete"] = client.command(b"delete delta-key").decode(errors="replace")
                 try:
-                    outputs["watch_record"] = watcher.line().decode(errors="replace")
+                    events = set()
+                    for _ in range(12):
+                        line = watcher.line().decode(errors="replace")
+                        if "key=delta-key " in line:
+                            parsed = re.search(r"type=(\w+)", line)
+                            if parsed: events.add(parsed[1])
+                        if {"item_store", "item_get", "deleted"}.issubset(events):
+                            break
+                    outputs["watch_event_types"] = sorted(events)
                 except (OSError, EOFError) as error:
-                    outputs["watch_record"] = type(error).__name__
+                    outputs["watch_error"] = type(error).__name__
         except Exception as error:
             outputs["traffic_error"] = type(error).__name__ + ": " + str(error)
 

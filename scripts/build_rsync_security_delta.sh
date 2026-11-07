@@ -9,7 +9,7 @@ revision=7c20b077c980036a19587701cec320cc88e42a4a
 INTERSPEC_FAULT_TESTS=1 bash "$root/scripts/run_rlbox_wasm2c_poc.sh"
 module=$(find "$work/build" -name libglue_lib_imported.a -print -quit)
 [[ -f "$module" ]]
-cp "$module" "$work/rsync-typed-fault-module.a"
+cp "$module" "$work/rsync-extended-fault-module.a"
 
 # Source input is pinned upstream popt, not the generated typed-site rewrite.
 # Both variants retain the identical shadow-slot and copyback bridge.
