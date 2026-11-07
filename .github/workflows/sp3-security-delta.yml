@@ -44,6 +44,10 @@ jobs:
           echo "$GITHUB_WORKSPACE/.venv/bin" >> "$GITHUB_PATH"
       - name: Build fault-only U and fully sanitized T variants
         run: bash scripts/build_memcached_security_delta.sh
+      - name: Prove both fault-only legitimate controls survive before long gates
+        run: |
+          python3 tools/smoke_sp3_memcached_h1.py \
+            --out evaluation/results/sp3-security-delta/memcached-h1-smoke
       - name: Recheck existing 50-case correctness baseline
         run: |
           python3 tools/test_memcached_deployment.py \
@@ -54,7 +58,7 @@ jobs:
             --scope h1 --post-case-gate \
             --correctness-summary evaluation/results/sp3-security-delta/memcached-correctness/summary.json \
             --out evaluation/results/sp3-security-delta/memcached-h1
-          python3 tools/verify_sp3_security_delta.py --scope h1 --require-post-gates \
+          python3 tools/verify_sp3_security_delta.py --scope h1 --require-post-gates --fail-on-incomplete \
             --results evaluation/results/sp3-security-delta/memcached-h1
       - name: Collect H2 LRU evidence and repeat correctness after every case
         run: |
@@ -107,7 +111,7 @@ jobs:
         run: |
           python3 tools/run_sp3_security_delta.py --scope h1_nginx \
             --out evaluation/results/sp3-security-delta/nginx-h1
-          python3 tools/verify_sp3_security_delta.py --scope h1_nginx \
+          python3 tools/verify_sp3_security_delta.py --scope h1_nginx --fail-on-incomplete \
             --results evaluation/results/sp3-security-delta/nginx-h1
       - name: Upload all raw outcomes, including failures
         if: always()
@@ -143,7 +147,7 @@ jobs:
         run: |
           python3 tools/run_sp3_security_delta.py --scope h1_rsync \
             --out evaluation/results/sp3-security-delta/rsync-h1
-          python3 tools/verify_sp3_security_delta.py --scope h1_rsync \
+          python3 tools/verify_sp3_security_delta.py --scope h1_rsync --fail-on-incomplete \
             --results evaluation/results/sp3-security-delta/rsync-h1
       - name: Upload all raw outcomes, including failures
         if: always()
@@ -179,7 +183,7 @@ jobs:
         run: |
           python3 tools/run_sp3_security_delta.py --scope h1_yaml \
             --out evaluation/results/sp3-security-delta/yaml-h1
-          python3 tools/verify_sp3_security_delta.py --scope h1_yaml \
+          python3 tools/verify_sp3_security_delta.py --scope h1_yaml --fail-on-incomplete \
             --results evaluation/results/sp3-security-delta/yaml-h1
       - name: Upload all raw outcomes, including failures
         if: always()

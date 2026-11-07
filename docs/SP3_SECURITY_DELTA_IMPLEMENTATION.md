@@ -32,6 +32,16 @@ unmatched cases stay inconclusive. With `--post-case-gate`, the existing
 rsync, and yaml verifiers compare results against legitimate executions and
 report incomplete or unexpected observations.
 
+The memcached runner defaults to `--pointer-census` **off** for the controlled
+fault comparison, while keeping trusted copy digests, check decisions, fault
+markers, and process outcomes. Enabling the optional high-volume census adds
+substantial logging and is a separately labeled diagnostic, not silently
+intermixed with the primary comparator. The CI first runs
+`smoke_sp3_memcached_h1.py` to require clean legitimate operation from both
+fault-only binaries before executing the expensive fault and correctness
+matrix. `--fail-on-incomplete` makes invalid controls fail evidence CI; a
+genuinely inconclusive observed outcome remains in the report.
+
 ## H2 comparators
 
 The memcached variants share pinned upstream `items.c` and `logger.c` and

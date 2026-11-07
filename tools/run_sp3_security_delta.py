@@ -89,7 +89,7 @@ def exercise_memcached(server, role):
     return outputs, server.proc.poll()
 
 
-def run_memcached(work, out, name, variant, *, role, target, mode):
+def run_memcached(work, out, name, variant, *, role, target, mode, census=False):
     directory = out / "cases" / name
     directory.mkdir(parents=True, exist_ok=False)
     binary = work / "bin" / f"memcached-{variant}"
@@ -99,7 +99,7 @@ def run_memcached(work, out, name, variant, *, role, target, mode):
     protocol = {}
     start = time.monotonic()
     try:
-        with Server(binary, directory, "server", trace=True, census=True,
+        with Server(binary, directory, "server", trace=True, census=census,
                     fault={"role": role, "target": target, "fault": mode}) as server:
             protocol, process_code = exercise_memcached(server, role)
             record["exit_code_before_teardown"] = process_code
@@ -346,6 +346,8 @@ def main():
                         help="required for memcached experiments; optional for independent boundaries")
     parser.add_argument("--post-case-gate", action="store_true",
                         help="rerun all 50 correctness cases after every H1/H2 memcached scenario")
+    parser.add_argument("--pointer-census", action="store_true",
+                        help="extra diagnostic with high-volume census I/O; off for controlled fault comparison")
     parser.add_argument("--scope", choices=("all", "h1", "h1_yaml", "h1_nginx", "h1_rsync", "h2_memcached", "h2_yaml"), default="all")
     args = parser.parse_args()
     root = Path(__file__).resolve().parent.parent
@@ -368,6 +370,7 @@ def main():
     def save():
         write_json(args.out / "collection.json", {"schema": 1,
             "scope": args.scope, "post_case_gate": args.post_case_gate,
+            "pointer_census": args.pointer_census,
             "initial_correctness_gate_sha256": gate_sha,
             "cases": entries, "post_case_gates": gates})
 
@@ -377,6 +380,7 @@ def main():
                     ["git", "-C", str(root), "rev-parse", "HEAD"], text=True).strip(),
                 "project_dirty": bool(subprocess.check_output(
                     ["git", "-C", str(root), "status", "--porcelain"])),
+                "pointer_census": args.pointer_census,
                 "build_manifest_sha256": sha(args.work / "security-asan/build-manifest.json")
                     if needs_gate else "not_applicable",
                 "initial_correctness_gate_sha256": gate_sha,
@@ -405,7 +409,8 @@ def main():
                 label = "legitimate" if injected == 0 else "content-control" if injected > 100 else "fault"
                 name = f"{case}-{variant}-{label}"
                 entries.append(run_memcached(args.work, args.out, name, variant,
-                                             role=role, target=target, mode=injected))
+                                             role=role, target=target, mode=injected,
+                                             census=args.pointer_census))
                 save()
             if args.post_case_gate:
                 gates.append(repeat_correctness_gate(root, args.work, args.out, case))
@@ -445,13 +450,15 @@ def main():
     if args.scope in ("all", "h2_memcached"):
         for variant in H2_VARIANTS:
             entries.append(run_memcached(args.work, args.out, f"h2-{variant}-legitimate",
-                                         variant, role=3, target=2, mode=0))
+                                         variant, role=3, target=2, mode=0,
+                                         census=args.pointer_census))
             save()
         for mode in H2_MEMCACHED:
             case = f"h2-lru-m{mode}"
             for variant in H2_VARIANTS:
                 entries.append(run_memcached(args.work, args.out, f"{case}-{variant}",
-                                             variant, role=3, target=2, mode=mode))
+                                             variant, role=3, target=2, mode=mode,
+                                             census=args.pointer_census))
                 save()
             if args.post_case_gate:
                 gates.append(repeat_correctness_gate(root, args.work, args.out, case))

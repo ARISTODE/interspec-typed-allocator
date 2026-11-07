@@ -494,6 +494,8 @@ def main():
     parser.add_argument("--results", type=Path, required=True)
     parser.add_argument("--scope", choices=("all", "h1", "h1_yaml", "h1_nginx", "h1_rsync", "h2_memcached", "h2_yaml"), default="all")
     parser.add_argument("--require-post-gates", action="store_true")
+    parser.add_argument("--fail-on-incomplete", action="store_true",
+                        help="fail CI if a malformed/invalid legitimate control prevents classification")
     args = parser.parse_args()
     try:
         summary = verify(args.results, args.scope, args.require_post_gates)
@@ -501,6 +503,11 @@ def main():
         parser.exit(1, f"SP3_SECURITY_DELTA_EVIDENCE_INVALID: {error}\n")
     (args.results / "verified-summary.json").write_text(json.dumps(summary, indent=2) + "\n")
     (args.results / "SP3_SECURITY_DELTA_RESULTS.md").write_text(markdown(summary))
+    if args.fail_on_incomplete:
+        unresolved = [r["case"] for key in ("h1", "h1_yaml", "h1_nginx", "h1_rsync")
+                      for r in summary[key] if r["verdict"] == "incomplete"]
+        if unresolved:
+            parser.exit(2, "SP3_SECURITY_DELTA_INCOMPLETE_CONTROLS: " + ", ".join(unresolved) + "\n")
     print(f"Verified {summary['raw_executions']} immutable raw executions; "
           f"{len(summary['prediction_deviations'])} H1 prediction deviations", flush=True)
 

@@ -27,8 +27,9 @@ T-specific capacity bound. No sanitizer error was observed in that case,
 and the difference alone does not establish security harm beyond arbitrary
 U-chosen content. The preregistered prediction has **not** been rewritten.
 
-H1 memcached/nginx and H2 libyaml are still being collected or repaired.
-Do not treat this partial YAML result as a global H1 conclusion.
+H1 memcached remains under control-validity repair. The other H1 boundaries
+and the project-authored H2 libyaml driver have verified observations below.
+Do not treat the partial YAML result as a global H1 conclusion.
 
 ## Verified H1 rsync/popt observations
 
@@ -43,11 +44,22 @@ output changed; none generated a trusted sanitizer report. These are H1
 observations of the fault-only comparators, not proof that changing U-supplied
 command-line content is harmless in every possible context.
 
-The initial nginx H1 artifact contains 45 executions, but a known upstream
-zero-length `ngx_pstrdup` call triggered an unrelated UBSan nonnull-attribute
-diagnostic during ordinary startup. Those runs cannot support a security
-conclusion. They are preserved while a narrowly adjusted sanitizer build
-is prepared with ASan and the other UBSan checks still enabled.
+## Verified H1 nginx/libpcre observations
+
+[Workflow 42425810424](https://github.com/ARISTODE/interspec-typed-allocator/actions/runs/42425810424)
+retained [45 raw executions](https://github.com/ARISTODE/interspec-typed-allocator/actions/runs/42425810424/artifacts/13595598538)
+for 15 fault scenarios. Eight yielded the same observable trusted result as
+the legitimate nginx run. Seven were stopped by the existing trusted bridge
+format or extent checks. No trusted sanitizer error was observed. The more
+conservative verifier with `--fail-on-incomplete` passed independently against
+the downloaded artifact and reported no prediction deviation.
+
+An earlier nginx run was invalid because an upstream zero-length `ngx_pstrdup`
+call triggered a nonnull-attribute UBSan diagnostic during ordinary startup.
+The successful comparator disables only that false-positive check, retaining
+ASan and the remainder of UBSan; the first run remains archived. The new
+results apply to the tested PCRE return paths and do not cover nginx/OpenSSL
+or every possible U-domain pointer.
 
 ## First memcached H2 observations and H1 validity warning
 
@@ -56,8 +68,8 @@ The initial memcached run
 preserved [52 raw executions and 12 repeated correctness gates](https://github.com/ARISTODE/interspec-typed-allocator/actions/runs/42423558556/artifacts/13595271042).
 The 40-case H1 and 12-case H2 collections each produced a verified JSON
 summary. Generation of the H2 Markdown report failed on an output-key bug;
-the logged raw data and summary remain available. This reporter bug is fixed
-in the working implementation and awaits a new CI run.
+the logged raw data and summary remain available. This reporter bug was fixed
+before later CI executions; the original artifact remains archived.
 
 | H2 LRU mutation | Domain-only result | Extended SP3 | Existing one-use handle | Initial interpretation |
 | --- | --- | --- | --- | --- |
@@ -77,6 +89,38 @@ the original 50/50 application correctness gate passed, H1 equivalence must
 uses the proven three-event watcher workload, and the verifier now requires
 an independently healthy legitimate run before declaring a security delta
 absent. The first H1 summary remains preserved as diagnostic evidence only.
+
+The later [run 42425295349](https://github.com/ARISTODE/interspec-typed-allocator/actions/runs/42425295349)
+also collected and verified H1 memcached records under a three-event
+watcher workload. Eight role-1 legitimate cases still rejected
+`malformed_record` in the instrumented fault-only comparator and therefore
+remain **incomplete**, not validated no-delta evidence. Two role-3 LRU
+format-control cases had matching outcomes. The strict verifier rejected
+the eight invalid controls on independent local replay. The next evaluation
+will run a fail-fast legitimate smoke and remove optional high-volume
+pointer-census I/O from both primary comparators; separate census diagnostics
+remain available.
+
+## Verified H2 libyaml read-handler driver
+
+[Run 42425295349](https://github.com/ARISTODE/interspec-typed-allocator/actions/runs/42425295349)
+also preserved [12 libyaml T-context executions](https://github.com/ARISTODE/interspec-typed-allocator/actions/runs/42425295349/artifacts/13595569181).
+Local replay of the independent verifier passed.
+
+| T-context scenario | Domain-only behavior | Extended SP3 behavior | Interpretation |
+| --- | --- | --- | --- |
+| Legitimate | Accepted, parsed `trusted` | Accepted, parsed `trusted` | Valid control |
+| Untracked T object | Accepted, parsed `altered` | Rejected | Modeled security delta |
+| Revoked T object | Accepted, parsed `altered` | Rejected | Modeled security delta |
+| Wrong type | Accepted, parsed `altered` | Rejected | Modeled security delta |
+| Same type, different object | Accepted, parsed `altered` | Accepted | Expected identity limitation |
+| Same type, authenticated expected base | Accepted, parsed `altered` | Rejected | Modeled security delta with identity binding |
+
+The driver exercises the actual `yaml_parser_set_input` callback API and
+RLBox domain predicate, but the pointer mutation is explicitly
+**project-authored T-side test code**, not a malicious value crossing an
+upstream libyaml wasm2c boundary. Its security-delta result is a mechanism
+demonstration, not evidence of an existing libyaml exploit.
 
 ## Experiment matrix and outstanding work
 

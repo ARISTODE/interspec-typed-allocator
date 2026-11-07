@@ -16,7 +16,7 @@ remain separate from new experiments. No missing cell is assigned zero.
 | 6. Original paper row provenance | Every claimed boundary/workload tied to source and binary revisions, policy configuration, raw repetitions and reproducible arithmetic; unresolved rows excluded from verified claims | Pending |
 | 7. Policy and coverage reconciliation | Effective SP1/SP2/SP3 ablations; generated wrapper coverage review; source-bound analysis census and reproducible field/origin transformations | Pending |
 | 8. Original PoCs | Observed executions of allowed and blocked controls; exact binary, configuration and source binding; preserved stdout/stderr and exit status | Pending |
-| 9. SP3 security delta | Preregistered H1/H2 application comparators; healthy legitimate controls; T sanitizer and protocol outcomes; post-scenario correctness gates; hash-checked raw evidence; independent replay | Partial: H2 memcached interior-pointer case confirmed; YAML H1 three no-delta and two inconclusive; rsync H1 ten no-delta and six inconclusive; initial H1 memcached and nginx controls invalid; remaining cases pending |
+| 9. SP3 security delta | Preregistered H1/H2 application comparators; healthy legitimate controls; T sanitizer and protocol outcomes; post-scenario correctness gates; hash-checked raw evidence; independent replay | Partial: H2 memcached interior-pointer case confirmed, H2 libyaml T-driver mechanism confirmed; YAML H1 three no-delta and two inconclusive; rsync H1 ten no-delta and six inconclusive; nginx H1 eight no-delta and seven bridge-guarded; memcached H1 control validity pending |
 
 ### Extended-SP3 security delta evidence
 
@@ -45,8 +45,27 @@ preserves 48 fault-comparator executions. Ten matched the legitimate
 filesystem and stdout; six were inconclusive, and no trusted sanitizer error
 was observed. Nginx's first 45 cases aborted on a native startup UBSan
 nonnull-attribute diagnostic in an upstream zero-byte copy before the PCRE
-boundary was exercised. The failed evidence is retained, and targeted
-sanitizer corrections are pending clean reruns.
+boundary was exercised. The failed evidence is retained, and the corrected
+run below is used instead.
+
+The corrected [nginx H1 run 42425810424](https://github.com/ARISTODE/interspec-typed-allocator/actions/runs/42425810424)
+preserves 45 cases covering 15 PCRE fault scenarios. Eight showed no
+observable delta and seven were rejected by existing trusted bridge
+validation; none produced a trusted sanitizer error. The raw artifact passed
+independent local replay with the stricter incomplete-control check. The
+earlier invalid startup-sanitizer run is retained separately and does not
+contribute to the conclusions.
+
+Run [42425295349](https://github.com/ARISTODE/interspec-typed-allocator/actions/runs/42425295349)
+additionally provided 12 H2 libyaml T-context executions. Actual libyaml
+read-handler invocation and RLBox domain checking verified rejection of
+untracked, revoked, wrong-type, and identity-mismatched registered T objects;
+plain same-type substitution remained accepted. The mutation is modeled in
+project-authored trusted test code, not an observed upstream U return.
+The same run's H1 memcached role-1 legitimate comparator still rejected
+logger format under additional tracing, so those eight cases remain invalid
+and are not folded into no-delta counts. A fail-fast healthy-control smoke
+and separated optional census logging will be evaluated next.
 
 ## New memcached experiment
 
