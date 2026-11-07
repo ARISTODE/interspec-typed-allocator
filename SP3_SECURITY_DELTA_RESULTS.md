@@ -1,6 +1,36 @@
 # Extended SP3 security-delta results
 
-**Status: implementation and evidence collection prepared; independent experimental outcomes pending.**
+**Status: partial verified observations; remaining full integration experiments pending.**
+
+## First independently verified observations
+
+The H1 YAML job completed in GitHub Actions run
+[`42423558556`](https://github.com/ARISTODE/interspec-typed-allocator/actions/runs/42423558556).
+Its [unaltered raw artifact](https://github.com/ARISTODE/interspec-typed-allocator/actions/runs/42423558556/artifacts/13594930930)
+contains 15 executions, a SHA-checked manifest and an independently generated
+report. The verifier marked the evidence integrity as `verified`.
+
+| H1 YAML fault | RLBox-only versus legitimate | T sanitizer | Extended SP3 |
+| --- | --- | --- | --- |
+| 1, wrong type | Same T-visible YAML result | None | Rejected `wrong_type` |
+| 2, untracked | Same T-visible YAML result | None | Rejected `untracked` |
+| 3, stale allocation | Different output hash; **inconclusive** | None | Rejected `untracked` |
+| 4, excessive extent | Different output length/hash; **inconclusive** | None | Rejected `out_of_bounds` |
+| 5, same-type substitution | Same T-visible YAML result | None | Accepted |
+
+Mode 4 is particularly relevant to the preregistration: the RLBox-only
+driver processed 8,193 bytes for the injected scalar even though the U
+staging object's expected capacity is 8,192 bytes. Its existing bridge
+checks the sandbox's remaining memory, not a fixed T scalar-length cap.
+This contradicts the plan's premise that all evaluated bridges enforce a
+T-specific capacity bound. No sanitizer error was observed in that case,
+and the difference alone does not establish security harm beyond arbitrary
+U-chosen content. The preregistered prediction has **not** been rewritten.
+
+H1 memcached/nginx/rsync and H2 memcached/libyaml are still being collected
+or repaired. Do not treat this partial YAML result as a global H1 conclusion.
+
+## Experiment matrix and outstanding work
 
 The preregistered hypotheses and predicted results are in
 [`docs/SP3_SECURITY_DELTA_PLAN.md`](docs/SP3_SECURITY_DELTA_PLAN.md).
@@ -34,7 +64,7 @@ identity mechanism. Matching type/domain does not prove intended-object
 identity without an authenticated expected base. Same-type substitution is a
 documented limitation.
 
-Until raw outcomes are collected and verified, neither hypothesis has been
-confirmed. See [`docs/SP3_SECURITY_DELTA_IMPLEMENTATION.md`](docs/SP3_SECURITY_DELTA_IMPLEMENTATION.md)
+The partial observations do not establish either hypothesis across all
+boundaries. See [`docs/SP3_SECURITY_DELTA_IMPLEMENTATION.md`](docs/SP3_SECURITY_DELTA_IMPLEMENTATION.md)
 for reproduction commands and limits. Do not update manuscript guarantees or
 numerical claims from this placeholder.

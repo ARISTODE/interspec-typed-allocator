@@ -9,7 +9,10 @@ INTERSPEC_SECURITY_DELTA_BUILD=1 bash "$root/scripts/build_nginx_deployment.sh"
 server="$work/server-security-asan"
 mkdir -p "$server"
 git -C "$work/upstream" archive 1be0fb0c9f9bc3489c7b40576efd6afe6b2eccd5 | tar -x -C "$server"
-python3 "$root/tools/prepare_nginx_deployment.py" --nginx "$server" --generated "$work/generated"
+# The original build already applied the one-shot transformation to the
+# generated PCRE source. Reapplying it would fail its asserted source guards.
+# Reuse only the T-side nginx source edit for this new sanitized source tree.
+cp "$work/server/src/core/ngx_regex.c" "$server/src/core/ngx_regex.c"
 (cd "$server" && ./auto/configure --without-pcre2 --without-http_gzip_module \
   --with-cc-opt="-O1 -g -fsanitize=address,undefined -fno-omit-frame-pointer -I$work/pcre" \
   --with-ld-opt="-fsanitize=address,undefined -L$work/native-pcre" \
