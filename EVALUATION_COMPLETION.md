@@ -67,6 +67,14 @@ logger format under additional tracing, so those eight cases remain invalid
 and are not folded into no-delta counts. A fail-fast healthy-control smoke
 and separated optional census logging will be evaluated next.
 
+The [new H1 smoke run 42427415881](https://github.com/ARISTODE/interspec-typed-allocator/actions/runs/42427415881)
+failed both no-fault controls even without pointer census. Archived configure
+logs reveal that ASan/UBSan enables the upstream memcached `NEED_ALIGN` path,
+where a missing pair of parentheses in the logger's padding expression
+produces invalid records. The next security-only build corrects this upstream
+alignment arithmetic in its copied logger source. The trusted format check
+remains enabled; these cases are still incomplete pending hosted replay.
+
 ## New memcached experiment
 
 CI collects five paired repetitions of all four variants for each scenario,

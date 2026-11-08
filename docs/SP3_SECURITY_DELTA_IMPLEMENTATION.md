@@ -42,6 +42,16 @@ fault-only binaries before executing the expensive fault and correctness
 matrix. `--fail-on-incomplete` makes invalid controls fail evidence CI; a
 genuinely inconclusive observed outcome remains in the report.
 
+Sanitizer-specific build provenance: pinned memcached upstream source has a
+`NEED_ALIGN` padding expression missing parentheses in `logger.c`. The
+sanitizer `configure` run enables this path, unlike the ordinary build, and
+was observed to produce padding rejected by the existing T logger validator
+in clean, fault-mode-zero controls. `patch_memcached_sanitizer_logger.py`
+corrects the record alignment arithmetic only in the security experiment's
+copied `logger.c` sources. This makes ASan/UBSan instrumentation compatible
+with the original logger semantics; it does not relax any trusted format
+check or change normal application/performance binaries.
+
 ## H2 comparators
 
 The memcached variants share pinned upstream `items.c` and `logger.c` and

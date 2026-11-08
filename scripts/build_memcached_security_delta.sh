@@ -46,6 +46,10 @@ for mode in handle upstream domain extended; do
   git -C "$upstream" show "$revision:items.c" > "$server/items.c"
   python3 "$root/tools/prepare_memcached_deployment.py" \
     --source "$server" --root "$root" --lru-mode "$mode"
+  # Sanitizer configure enables NEED_ALIGN even when normal GCC builds do not.
+  # Patch only its pinned upstream logger padding precedence bug, preserving
+  # the real trusted logger format validator and unmodified timing binaries.
+  python3 "$root/tools/patch_memcached_sanitizer_logger.py" "$server/logger.c"
   if [[ ! -f "$server/Makefile" ]]; then
     (cd "$server" && ./configure --disable-extstore --disable-proxy \
       --disable-docs CFLAGS="$asan_cflags" LDFLAGS="$asan_ldflags") \
@@ -101,6 +105,7 @@ manifest = {
     "memcached_revision": subprocess.check_output(["git", "-C", str(work / "upstream"), "rev-parse", "HEAD"], text=True).strip(),
     "comparators": {name: sha(work / "bin" / f"memcached-{name}") for name in names},
     "host_instrumentation": ["AddressSanitizer", "UndefinedBehaviorSanitizer"],
+    "sanitizer_only_source_correction": "memcached logger.c NEED_ALIGN padding parentheses",
     "timing_permitted": False,
 }
 (work / "security-asan" / "build-manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")

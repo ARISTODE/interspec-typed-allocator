@@ -8,6 +8,7 @@ import tempfile
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "tools"))
 from verify_sp3_security_delta import EvidenceError, verify
+from patch_memcached_sanitizer_logger import UPSTREAM, SANITIZED, patch_source
 
 
 def dump(path, value):
@@ -60,6 +61,21 @@ def must_fail(fn):
 
 
 def main():
+    # Guard against silently dropping the source-specific sanitizer repair.
+    assert patch_source("before\n" + UPSTREAM + "\nafter") == (
+        "before\n" + SANITIZED + "\nafter")
+    try:
+        patch_source("no longer the pinned logger source")
+    except ValueError:
+        pass
+    else:
+        raise AssertionError("unmatched sanitizer source must fail closed")
+    for header_size in (32, 40, 48):
+        for payload_size in range(1, 1025):
+            rem = (header_size + payload_size) % 8
+            pad = 0 if rem == 0 else 8 - rem
+            assert 0 <= pad < 8
+            assert (header_size + payload_size + pad) % 8 == 0
     with tempfile.TemporaryDirectory(prefix="interspec-sp3-verifier-") as temp:
         root = Path(temp)
         fixture(root)

@@ -101,6 +101,19 @@ will run a fail-fast legitimate smoke and remove optional high-volume
 pointer-census I/O from both primary comparators; separate census diagnostics
 remain available.
 
+The [fail-fast smoke in run 42427415881](https://github.com/ARISTODE/interspec-typed-allocator/actions/runs/42427415881)
+[archived both failing legitimate controls](https://github.com/ARISTODE/interspec-typed-allocator/actions/runs/42427415881/artifacts/13595748739)
+even with pointer census disabled. The run's compiler configuration logs
+identify a specific upstream sanitizer-only compatibility issue:
+`checking for alignment... none` in the ordinary build but `need` under
+ASan/UBSan. The pinned `logger.c` has an unparenthesized `NEED_ALIGN`
+expression, `sizeof(logentry) + e->size % 8`; on this build it can generate
+an excessive padding byte that T's existing record validator rejects.
+The sanitizer-only source build now computes
+`(sizeof(logentry) + e->size) % 8`, without disabling the logger validator,
+changing the ordinary timing builds, or erasing the invalid runs. This
+diagnosis still needs a clean hosted legitimate-control rerun.
+
 ## Verified H2 libyaml read-handler driver
 
 [Run 42425295349](https://github.com/ARISTODE/interspec-typed-allocator/actions/runs/42425295349)
