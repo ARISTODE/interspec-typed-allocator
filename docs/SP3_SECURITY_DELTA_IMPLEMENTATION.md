@@ -41,6 +41,13 @@ intermixed with the primary comparator. The CI first runs
 fault-only binaries before executing the expensive fault and correctness
 matrix. `--fail-on-incomplete` makes invalid controls fail evidence CI; a
 genuinely inconclusive observed outcome remains in the report.
+After the primary H1 matrix, CI also executes the same H1 faults with
+`--pointer-census` in a separately named evidence directory. The independent
+verifier checks those cases without treating the extra logging as an
+interchangeable primary measurement. The ordinary 50-case post-scenario
+correctness gate remains attached to each primary H1 case.
+H2 memcached LRU runs use the pointer census in their primary evidence, with
+an independent verifier requirement for a structured census record per run.
 
 Sanitizer-specific build provenance: pinned memcached upstream source has a
 `NEED_ALIGN` padding expression missing parentheses in `logger.c`. The
@@ -78,12 +85,15 @@ case or build fails. An appropriately provisioned Linux host can also run:
 
 ```bash
 bash scripts/build_memcached_security_delta.sh
+python3 tools/smoke_sp3_memcached_h1.py \
+  --out evaluation/results/sp3-security-delta/local-smoke
 python3 tools/test_memcached_deployment.py \
   --out evaluation/results/sp3-security-delta/local-correctness
 python3 tools/run_sp3_security_delta.py --scope h1 --post-case-gate \
   --correctness-summary evaluation/results/sp3-security-delta/local-correctness/summary.json \
   --out evaluation/results/sp3-security-delta/local-memcached-h1
 python3 tools/verify_sp3_security_delta.py --scope h1 --require-post-gates \
+  --fail-on-incomplete \
   --results evaluation/results/sp3-security-delta/local-memcached-h1
 ```
 

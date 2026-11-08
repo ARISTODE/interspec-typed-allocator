@@ -173,9 +173,20 @@ def classify_h1(role, target, mode, observations):
     expected_ok = (not extended["sanitizer"] and
                    (extended_reason == expected_reason if expected_reason else
                     extended_reason is None if mode == 5 else extended_reason is not None))
+    # The H1 table separately predicts that the RLBox-only application keeps
+    # serving for modes 1..5, 9, 10. Its T bridge may instead deliberately
+    # abort on U-controlled malformed content. Record this prediction
+    # deviation even if another content control triggers the same rejection:
+    # matching aborts do not imply that the server remained available.
+    predicted_keeps_serving = mode in (1, 2, 3, 4, 5, 9, 10)
+    availability_prediction_matches = (
+        baseline["execution"].get("alive_before_teardown") is True
+        if predicted_keeps_serving else None)
     return {"case": prefix, "role": role, "target": target, "mode": mode,
             "verdict": verdict, "predicted_extended": prediction,
             "extended_reason": extended_reason, "prediction_matches": expected_ok,
+            "rlbox_predicted_keeps_serving": predicted_keeps_serving,
+            "rlbox_availability_prediction_matches": availability_prediction_matches,
             "equal_content_at_T_copy": equal_content,
             "same_protocol_as_content_control": same_protocol,
             "legitimate_valid": legitimate_valid,
@@ -197,14 +208,18 @@ def classify_h1_yaml(mode, observations):
         return tuple(fields.get(k) for k in ("events", "scalars", "scalar_bytes", "hash"))
     baseline_ok = (baseline["execution"].get("exit_code_before_teardown") == 0 and
                    not baseline["sanitizer"] and signature(baseline) is not None)
+    legitimate_valid = (legitimate["execution"].get("status") == "observed" and
+                        legitimate["execution"].get("exit_code_before_teardown") == 0 and
+                        not legitimate["sanitizer"] and signature(legitimate) is not None)
     same_content_outcome = baseline_ok and signature(baseline) == signature(legitimate)
     marker = re.search(r"FAULT_INJECTION boundary=yaml_libyaml mode=(\d+)", baseline["stderr"])
     ext_marker = re.search(r"FAULT_INJECTION boundary=yaml_libyaml mode=(\d+)", extended["stderr"])
     exercised = bool(marker and ext_marker and marker[1] == ext_marker[1] == str(mode))
-    verdict = "incomplete" if not exercised else "T_sanitizer_harm" if baseline["sanitizer"] else (
+    verdict = "incomplete" if not exercised or not legitimate_valid else "T_sanitizer_harm" if baseline["sanitizer"] else (
         "no_observed_delta" if same_content_outcome else "inconclusive")
     expected_reason = {1: "wrong_type", 2: "untracked", 3: "untracked", 4: "out_of_bounds"}.get(mode)
     return {"case": prefix, "mode": mode, "verdict": verdict,
+            "legitimate_valid": legitimate_valid,
             "same_observable_YAML_content": same_content_outcome,
             "baseline_T_sanitizer": baseline["sanitizer"],
             "baseline_exit": baseline["execution"].get("exit_code_before_teardown"),
@@ -235,16 +250,25 @@ def classify_h1_nginx(path, kind, observations):
                           legitimate["execution"].get("exit_code_before_teardown") != 0 and
                           baseline["execution"].get("exit_code_before_teardown") ==
                               legitimate["execution"].get("exit_code_before_teardown"))
+    legitimate_valid = (legitimate["execution"].get("status") == "observed" and
+                        not legitimate["sanitizer"] and
+                        ((path == 3 and
+                          legitimate["execution"].get("exit_code_before_teardown") == 1) or
+                         (path != 3 and legitimate["execution"].get("alive_before_teardown") is True and
+                          legitimate["protocol"].get("health") == [200, "ready"] and
+                          isinstance(legitimate_route, list) and
+                          legitimate_route == [200, "item:123:alpha"])))
     no_harm = not baseline["sanitizer"] and not legitimate["sanitizer"]
     bridge_reason = baseline["reason"] in ("malformed_extent", "malformed_offsets",
                                             "outside_sandbox", "malformed_termination",
                                             "malformed_text", "malformed_offset")
-    verdict = "incomplete" if not exercised else "T_sanitizer_harm" if baseline["sanitizer"] else (
+    verdict = "incomplete" if not exercised or not legitimate_valid else "T_sanitizer_harm" if baseline["sanitizer"] else (
         "no_observed_delta" if no_harm and (same_http or same_config_result) else
         "bridge_guarded" if no_harm and bridge_reason else "inconclusive")
     expected_reason = {1: "wrong_type", 2: "untracked", 3: "untracked",
                        4: "out_of_bounds", 6: "malformed_offsets"}.get(kind)
     return {"case": prefix, "path": path, "kind": kind,
+            "legitimate_valid": legitimate_valid,
             "verdict": verdict, "fault_fired_in_both": exercised,
             "same_http_as_legitimate": same_http,
             "T_sanitizer": baseline["sanitizer"],
@@ -271,10 +295,14 @@ def classify_h1_rsync(target, mode, observations):
     clean = (legit["execution"].get("exit_code_before_teardown") == 0 and
              baseline["execution"].get("exit_code_before_teardown") == 0 and
              not baseline["sanitizer"] and not legit["sanitizer"])
-    verdict = "incomplete" if not exercised else "T_sanitizer_harm" if baseline["sanitizer"] else (
+    legitimate_valid = (legit["execution"].get("status") == "observed" and
+                        legit["execution"].get("exit_code_before_teardown") == 0 and
+                        not legit["sanitizer"])
+    verdict = "incomplete" if not exercised or not legitimate_valid else "T_sanitizer_harm" if baseline["sanitizer"] else (
         "no_observed_delta" if clean and same_tree and same_stdout else
         "inconclusive")
     return {"case": prefix, "target": target, "mode": mode,
+            "legitimate_valid": legitimate_valid,
             "verdict": verdict, "fault_fired_in_both": exercised,
             "baseline_T_sanitizer": baseline["sanitizer"],
             "baseline_exit": baseline["execution"].get("exit_code_before_teardown"),
@@ -284,9 +312,16 @@ def classify_h1_rsync(target, mode, observations):
 
 def classify_h2_memcached(mode, observations):
     rows = []
+    healthy_controls = {}
     for variant in H2_VARIANTS:
         scenario = observations[f"h2-lru-m{mode}-{variant}"]
         legitimate = observations[f"h2-{variant}-legitimate"]
+        healthy_controls[variant] = (
+            legitimate["execution"].get("status") == "observed" and
+            legitimate["execution"].get("alive_before_teardown") is True and
+            legitimate["protocol"].get("lru_bump") == "completed" and
+            legitimate["protocol"].get("version") is True and
+            legitimate["reason"] is None and not legitimate["sanitizer"])
         delta_log = scenario["stderr"]
         accepted = bool(re.search(r"INTERSPEC_T_DELTA .*event=check policy=domain_sp3 result=ok", delta_log))
         rejected = bool(re.search(r"INTERSPEC_T_DELTA .*event=check policy=extended_sp3 "
@@ -305,11 +340,13 @@ def classify_h2_memcached(mode, observations):
                      "alive": scenario["execution"].get("alive_before_teardown")})
     domain = next(x for x in rows if x["variant"] == "h2-domain")
     extended = next(x for x in rows if x["variant"] == "h2-extended")
-    verdict = ("security_delta" if domain["domain_accept"] and
+    verdict = ("incomplete" if not all(healthy_controls.values()) else
+               "security_delta" if domain["domain_accept"] and
                domain["T_outcome_differs_from_legitimate"] and
                extended["extended_preuse_reject"] else "inconclusive")
     return {"case": f"h2-lru-m{mode}", "mode": mode,
-            "verdict": verdict, "variants": rows}
+            "verdict": verdict, "variants": rows,
+            "healthy_legitimate_controls": healthy_controls}
 
 
 def classify_h2_yaml(scenario, observations):
@@ -336,7 +373,10 @@ def classify_h2_yaml(scenario, observations):
         extended["decision"] == "reject" and extended["exit"] == 86 and
         not domain["T_sanitizer"] and not extended["T_sanitizer"]) else (
         "negative_scope_control" if scenario == "same_type" and
-        domain["decision"] == extended["decision"] == "accept" else (
+        domain["decision"] == extended["decision"] == "accept" and
+        domain["scalar"] == extended["scalar"] == "altered" and
+        domain["exit"] == extended["exit"] == 0 and
+        not domain["T_sanitizer"] and not extended["T_sanitizer"] else (
         "legitimate" if scenario == "legitimate" and
         domain["decision"] == extended["decision"] == "accept" else "inconclusive"))
     return {"case": f"h2-yaml-{scenario}", "scenario": scenario,
@@ -356,6 +396,12 @@ def markdown(summary):
         for r in summary["h1"]:
             lines.append(f"| {r['case']} | {r['verdict']} | {r['equal_content_at_T_copy']} "
                          f"| {r['baseline_t_sanitizer']} | {r['extended_reason']} |")
+        lines.append("")
+        lines.extend(["The preregistered RLBox-only prediction that the process "
+                      "would keep serving has explicit exceptions in this run:", ""])
+        for r in summary["h1"]:
+            if r["rlbox_availability_prediction_matches"] is False:
+                lines.append(f"* {r['case']}: the fault-only process exited before teardown.")
         lines.append("")
     if summary["h1_yaml"]:
         lines.extend(["## H1: yaml/libyaml U-domain comparisons", "",
@@ -411,7 +457,8 @@ def markdown(summary):
     return "\n".join(lines)
 
 
-def verify(root, expected_scope, require_post_gates=False):
+def verify(root, expected_scope, require_post_gates=False,
+           require_pointer_census=False):
     collection = data(root / "collection.json")
     provenance = data(root / "provenance.json")
     require(collection["schema"] == provenance["schema"] == 1, "unknown evidence schema")
@@ -468,6 +515,16 @@ def verify(root, expected_scope, require_post_gates=False):
             str(sorted(expected_names.symmetric_difference(observed))))
     require(all(x["execution"]["status"] == "observed" for x in observed.values()),
             "one or more executions are incomplete; raw logs retained")
+    if require_pointer_census:
+        require(all("INTERSPEC_POINTER_CENSUS schema=1" in x["stderr"]
+                    for x in observed.values()),
+                "pointer census missing in one or more raw executions")
+    if h2_yaml:
+        control = next(r for r in h2_yaml if r["scenario"] == "legitimate")
+        require(all(v["decision"] == "accept" and v["scalar"] == "trusted" and
+                    v["exit"] == 0 and not v["T_sanitizer"]
+                    for v in control["variants"].values()),
+                "invalid H2 libyaml legitimate T-context control")
     if require_post_gates:
         expected_gates = (len(H1_MODES) if expected_scope in ("all", "h1") else 0) + (
             2 if expected_scope in ("all", "h2_memcached") else 0)
@@ -486,7 +543,11 @@ def verify(root, expected_scope, require_post_gates=False):
             "h1_nginx": h1_nginx, "h1_rsync": h1_rsync,
             "h2_memcached": h2_memcached, "h2_yaml": h2_yaml,
             "post_case_gates": len(collection["post_case_gates"]),
-            "prediction_deviations": [x["case"] for x in h1 + h1_yaml + h1_nginx if not x["prediction_matches"]]}
+            "prediction_deviations": [x["case"] for x in h1 + h1_yaml + h1_nginx if not x["prediction_matches"]],
+            "extended_rejection_prediction_deviations": [
+                x["case"] for x in h1 + h1_yaml + h1_nginx if not x["prediction_matches"]],
+            "rlbox_availability_prediction_deviations": [
+                x["case"] for x in h1 if x["rlbox_availability_prediction_matches"] is False]}
 
 
 def main():
@@ -494,22 +555,27 @@ def main():
     parser.add_argument("--results", type=Path, required=True)
     parser.add_argument("--scope", choices=("all", "h1", "h1_yaml", "h1_nginx", "h1_rsync", "h2_memcached", "h2_yaml"), default="all")
     parser.add_argument("--require-post-gates", action="store_true")
+    parser.add_argument("--require-pointer-census", action="store_true",
+                        help="require a structured census record from every raw execution")
     parser.add_argument("--fail-on-incomplete", action="store_true",
                         help="fail CI if a malformed/invalid legitimate control prevents classification")
     args = parser.parse_args()
     try:
-        summary = verify(args.results, args.scope, args.require_post_gates)
+        summary = verify(args.results, args.scope, args.require_post_gates,
+                         args.require_pointer_census)
     except (EvidenceError, KeyError, ValueError, FileNotFoundError) as error:
         parser.exit(1, f"SP3_SECURITY_DELTA_EVIDENCE_INVALID: {error}\n")
     (args.results / "verified-summary.json").write_text(json.dumps(summary, indent=2) + "\n")
     (args.results / "SP3_SECURITY_DELTA_RESULTS.md").write_text(markdown(summary))
     if args.fail_on_incomplete:
-        unresolved = [r["case"] for key in ("h1", "h1_yaml", "h1_nginx", "h1_rsync")
+        unresolved = [r["case"] for key in ("h1", "h1_yaml", "h1_nginx", "h1_rsync", "h2_memcached")
                       for r in summary[key] if r["verdict"] == "incomplete"]
         if unresolved:
             parser.exit(2, "SP3_SECURITY_DELTA_INCOMPLETE_CONTROLS: " + ", ".join(unresolved) + "\n")
     print(f"Verified {summary['raw_executions']} immutable raw executions; "
-          f"{len(summary['prediction_deviations'])} H1 prediction deviations", flush=True)
+          f"{len(summary['extended_rejection_prediction_deviations'])} Extended rejection-code "
+          f"deviations; {len(summary['rlbox_availability_prediction_deviations'])} "
+          "RLBox availability prediction deviations", flush=True)
 
 
 if __name__ == "__main__":

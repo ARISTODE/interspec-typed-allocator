@@ -16,7 +16,7 @@ remain separate from new experiments. No missing cell is assigned zero.
 | 6. Original paper row provenance | Every claimed boundary/workload tied to source and binary revisions, policy configuration, raw repetitions and reproducible arithmetic; unresolved rows excluded from verified claims | Pending |
 | 7. Policy and coverage reconciliation | Effective SP1/SP2/SP3 ablations; generated wrapper coverage review; source-bound analysis census and reproducible field/origin transformations | Pending |
 | 8. Original PoCs | Observed executions of allowed and blocked controls; exact binary, configuration and source binding; preserved stdout/stderr and exit status | Pending |
-| 9. SP3 security delta | Preregistered H1/H2 application comparators; healthy legitimate controls; T sanitizer and protocol outcomes; post-scenario correctness gates; hash-checked raw evidence; independent replay | Partial: H2 memcached interior-pointer case confirmed, H2 libyaml T-driver mechanism confirmed; YAML H1 three no-delta and two inconclusive; rsync H1 ten no-delta and six inconclusive; nginx H1 eight no-delta and seven bridge-guarded; memcached H1 control validity pending |
+| 9. SP3 security delta | Preregistered H1/H2 application comparators; healthy legitimate controls; T sanitizer and protocol outcomes; post-scenario correctness gates; hash-checked raw evidence; independent replay | Primary case matrix executed and independently verified: H2 memcached interior-pointer harm prevention confirmed against domain-only; H2 libyaml project-authored T-driver mechanism confirmed; H1 YAML 3 no-delta/2 inconclusive, rsync 10 no-delta/6 inconclusive, nginx 8 no-delta/7 bridge-guarded, memcached 2 no-delta/8 inconclusive. No global H1 equivalence claim. Separately labeled pointer-census confirmation is pending CI rerun. |
 
 ### Extended-SP3 security delta evidence
 
@@ -35,8 +35,9 @@ had no T sanitizer report. Mode 4 also refutes the plan's assumption of a
 T-specific scalar-length cap on that bridge. The first H1 memcached
 instrumented fault-binary legitimate cases hit a logger-format rejection,
 so they are not healthy controls despite the separate 50/50 application
-gate. The corrected H1 experiments are being rerun. No paper guarantee or
-numerical claim is changed by those unresolved cases. Results and artifact
+gate. A later sanitized-source correction and valid run are documented below.
+No paper guarantee or numerical claim is changed by the inconclusive cases.
+Results and artifact
 links are tracked in [`SP3_SECURITY_DELTA_RESULTS.md`](SP3_SECURITY_DELTA_RESULTS.md).
 
 The independently replayed
@@ -65,7 +66,8 @@ project-authored trusted test code, not an observed upstream U return.
 The same run's H1 memcached role-1 legitimate comparator still rejected
 logger format under additional tracing, so those eight cases remain invalid
 and are not folded into no-delta counts. A fail-fast healthy-control smoke
-and separated optional census logging will be evaluated next.
+and separated optional census logging were evaluated in the subsequent
+passing run below.
 
 The [new H1 smoke run 42427415881](https://github.com/ARISTODE/interspec-typed-allocator/actions/runs/42427415881)
 failed both no-fault controls even without pointer census. Archived configure
@@ -73,7 +75,27 @@ logs reveal that ASan/UBSan enables the upstream memcached `NEED_ALIGN` path,
 where a missing pair of parentheses in the logger's padding expression
 produces invalid records. The next security-only build corrects this upstream
 alignment arithmetic in its copied logger source. The trusted format check
-remains enabled; these cases are still incomplete pending hosted replay.
+remains enabled; the older failed controls remain archived as invalid.
+
+The [corrected SP3 run 42427969783](https://github.com/ARISTODE/interspec-typed-allocator/actions/runs/42427969783)
+subsequently passed all five dedicated workflow jobs and archived
+[40 memcached H1 raw executions](https://github.com/ARISTODE/interspec-typed-allocator/actions/runs/42427969783/artifacts/13597002131).
+Both fault-disabled legitimate binaries were healthy; ten subsequent 50-case
+correctness gates passed, and all ten Extended rejection expectations matched
+the pre-registered predictions. The stricter independent verifier replayed the
+downloaded evidence and classified **two no-observed-delta, eight
+inconclusive, zero trusted sanitizer harm, and zero invalid controls**.
+Extended-SP3 rejection-code predictions all matched, but the preregistered
+RLBox-only expectation that T would keep serving was contradicted in five
+H1 modes (1, 3, 4, 9, 10): the existing T logger or staging validator
+aborted. This behavioral deviation is recorded separately rather than
+conflated with Extended check outcomes.
+The same artifact contains 12 H2 LRU executions and two more passing 50-case
+gates, plus 12 H2 libyaml T-driver executions, also independently replayed.
+The planned census-labeled repeat remains separate from these primary results.
+The observed results cannot justify a global claim that Extended SP3 is
+unnecessary for all U-domain pointers, nor a stronger T-domain guarantee
+than an already-deployed application-specific one-use handle.
 
 ## New memcached experiment
 

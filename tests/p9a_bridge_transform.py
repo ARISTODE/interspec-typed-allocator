@@ -19,6 +19,7 @@ def main():
     assert "invoke_sandbox_function(interspec_p4c_typed_copy, temporary)" not in generated
     assert "RLBox-only marshalling uses the sandbox's ordinary allocator" in generated
     assert "#ifdef INTERSPEC_P9A_RLBOX_ONLY" in generated
+    assert "#elif defined(INTERSPEC_RLBOX_SECURITY_COMPARATOR)" in generated
     assert "#elif defined(INTERSPEC_P8_MEASURE_NO_VALIDATION)" in generated
     print("P9a RLBox-only bridge transform tests: ok")
 

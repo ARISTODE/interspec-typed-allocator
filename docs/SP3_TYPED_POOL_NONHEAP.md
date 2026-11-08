@@ -50,6 +50,18 @@ The selected source-only provenance study excludes project wrappers and delibera
 Rejection of malformed U-domain pointers does not by itself prove a trusted
 security improvement beyond RLBox confinement and existing bridge checks.
 The preregistered H1 comparison evaluates T-visible outcomes and legitimate
-content controls; unresolved cases remain inconclusive. The libyaml H2
-read-handler test uses a real API with project-authored T-side corruption,
+content controls; unresolved cases remain inconclusive. In the corrected
+[hosted H1 memcached run](https://github.com/ARISTODE/interspec-typed-allocator/actions/runs/42427969783),
+all ten legitimate controls were healthy and all ten 50-case post-scenario
+correctness gates passed. Of ten H1 fault modes, two showed no observed delta
+and eight remained inconclusive because semantic/byte equivalence was not
+established; none produced a trusted sanitizer report. H1 rsync and YAML
+also retain inconclusive cases; the YAML scalar extent case disproved the
+assumed fixed T staging cap on that particular bridge. Five H1 memcached
+modes additionally contradicted the prediction that the
+fault-only T process would keep serving, because existing logger or staging
+validators terminated it. Relative no-delta classification is separate from
+application availability. Neither a broad U-domain equivalence guarantee nor
+a new H1 security contribution follows from these observations. The libyaml
+H2 read-handler test uses a real API with project-authored T-side corruption,
 not an upstream libyaml vulnerability or real U-to-T attack.

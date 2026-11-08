@@ -122,6 +122,20 @@ P9A_AND_P8_NO_CHECK = '''#ifdef INTERSPEC_P9A_RLBOX_ONLY
 #else
 '''
 
+# The security-delta experiment adds an RLBox fault-only branch before the
+# historical P8 measurement-only branch. P9a still needs a separate,
+# allocation-metadata-free option at the beginning of this same conditional.
+H1_SECURITY_OPEN = '#ifdef INTERSPEC_RLBOX_SECURITY_COMPARATOR\n'
+P9A_AND_H1_SECURITY_OPEN = '''#ifdef INTERSPEC_P9A_RLBOX_ONLY
+    /*
+     * P9a RLBox-only baseline. The sandbox and original trusted marshalling
+     * remain active, but this known-valid timing path does not query typed
+     * allocation metadata. This is not a security experiment comparator.
+     */
+    const size_t bytes = std::strlen(raw) + 1;
+#elif defined(INTERSPEC_RLBOX_SECURITY_COMPARATOR)
+'''
+
 
 def replace_once(text, old, new, label):
     count = text.count(old)
@@ -139,7 +153,12 @@ def transform(text):
     if census_lines in text:
         text = text.replace(census_lines, "", 1)
     text = replace_once(text, COPY_TO_U, RLBOX_ONLY_COPY_TO_U, "copy_to_u")
-    text = replace_once(text, P8_NO_CHECK, P9A_AND_P8_NO_CHECK, "copy_checked baseline")
+    if H1_SECURITY_OPEN in text:
+        text = replace_once(text, H1_SECURITY_OPEN, P9A_AND_H1_SECURITY_OPEN,
+                            "copy_checked with H1 comparator")
+    else:
+        text = replace_once(text, P8_NO_CHECK, P9A_AND_P8_NO_CHECK,
+                            "copy_checked baseline")
     return text
 
 

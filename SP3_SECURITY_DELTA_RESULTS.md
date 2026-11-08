@@ -1,6 +1,7 @@
 # Extended SP3 security-delta results
 
-**Status: partial verified observations; remaining full integration experiments pending.**
+**Status: all available H1/H2 application cases executed with independently
+verified primary evidence; some security interpretations remain inconclusive.**
 
 ## First independently verified observations
 
@@ -27,9 +28,9 @@ T-specific capacity bound. No sanitizer error was observed in that case,
 and the difference alone does not establish security harm beyond arbitrary
 U-chosen content. The preregistered prediction has **not** been rewritten.
 
-H1 memcached remains under control-validity repair. The other H1 boundaries
-and the project-authored H2 libyaml driver have verified observations below.
-Do not treat the partial YAML result as a global H1 conclusion.
+All four H1 boundaries and both available H2 T-context experiments have
+verified primary evidence below. None of the individual H1 outcomes by itself
+establishes the global H1 hypothesis.
 
 ## Verified H1 rsync/popt observations
 
@@ -111,8 +112,55 @@ expression, `sizeof(logentry) + e->size % 8`; on this build it can generate
 an excessive padding byte that T's existing record validator rejects.
 The sanitizer-only source build now computes
 `(sizeof(logentry) + e->size) % 8`, without disabling the logger validator,
-changing the ordinary timing builds, or erasing the invalid runs. This
-diagnosis still needs a clean hosted legitimate-control rerun.
+changing the ordinary timing builds, or erasing the invalid runs. The clean
+hosted controls and complete H1 matrix are documented immediately below.
+
+## Verified H1 memcached/bipbuffer outcomes
+
+The corrected [workflow run 42427969783](https://github.com/ARISTODE/interspec-typed-allocator/actions/runs/42427969783)
+passed all five SP3 CI jobs and preserved
+[40 H1 executions with their ten passing 50-case post-scenario gates](https://github.com/ARISTODE/interspec-typed-allocator/actions/runs/42427969783/artifacts/13597002131).
+Both no-fault sanitizer controls passed the new smoke test. Independent
+downloaded-artifact replay with the stricter verifier confirmed ten valid
+legitimate controls, no missing or altered raw evidence, no trusted sanitizer
+reports, and zero deviations in Extended SP3's preregistered rejection
+predictions.
+
+| Case | Result | Observed evidence |
+| --- | --- | --- |
+| Role 1, mode 9 (U global pointer) | No observed delta | Matching protocol; Extended rejected `untracked` |
+| Role 3, mode 7 (LRU hash corruption) | No observed delta | Same T-visible existing handle rejection |
+| Role 1, modes 1, 2, 3, 4, 5, 6 and 10 | Inconclusive | Clean T sanitizer, but T-copy digests and/or protocol differed from matched-content control |
+| Role 3, mode 8 (split LRU extent) | Inconclusive | Trusted format rejection, but strict matched-control equivalence was not established |
+
+The preregistration separately defined *no T harm* as the process continuing
+to serve. Its RLBox-only availability prediction was contradicted in **five**
+H1 memcached modes: 1, 3, 4, 9, and 10. Modes 1, 3, 9, and 10 terminated at
+the existing T logger `malformed_record` validator; mode 4 terminated at the
+existing T `staging_capacity` check. The remaining modes 2 and 5 continued
+serving; the mode 6/7/8 rows already predicted an application/handle
+rejection. This is a **behavioral prediction deviation**, distinct from the
+zero mismatches in Extended SP3's predicted rejection reasons. In particular,
+mode 9 remains a no-observed-*relative*-delta case because its matched-content
+control also terminated at the same existing T validator, **not** because T
+continued serving. These aborts do not automatically establish that Extended
+SP3 prevents harm relative to U writing the same invalid contents.
+
+**The result is 2 no-observed-delta and 8 inconclusive H1 scenarios, not
+10 no-delta scenarios.** The raw T-copy digests did not match for any of the
+ten independent process comparisons. Their logger buffers carry volatile
+metadata such as event sequence and timestamps, so equality across separately
+launched processes is a stringent condition; differences do not by themselves
+establish security harm or prove equivalence. The observed zero T sanitizer
+errors are not substituted for the preregistered matched-content decision
+rule. A deterministic replay or semantic event canonicalization would be a
+separate follow-up study, not a retroactive reinterpretation of these results.
+
+The same passing workflow independently collected 12 H2 memcached LRU
+executions with two additional passing 50-case gates and 12 H2 libyaml T
+context executions. Their conclusions agree with the earlier verified H2
+runs. The patched sanitizer build retains the trusted logger validator and
+the ordinary application/performance binaries are unchanged.
 
 ## Verified H2 libyaml read-handler driver
 
@@ -169,7 +217,10 @@ identity mechanism. Matching type/domain does not prove intended-object
 identity without an authenticated expected base. Same-type substitution is a
 documented limitation.
 
-The partial observations do not establish either hypothesis across all
-boundaries. See [`docs/SP3_SECURITY_DELTA_IMPLEMENTATION.md`](docs/SP3_SECURITY_DELTA_IMPLEMENTATION.md)
+These observations support the H2 object-check mechanism in the injected
+memcached LRU case and project-authored libyaml driver, but do not establish
+a universal H2 exploit class or a new advantage over existing one-use handles.
+H1 cannot be confirmed globally because multiple cases remain inconclusive.
+See [`docs/SP3_SECURITY_DELTA_IMPLEMENTATION.md`](docs/SP3_SECURITY_DELTA_IMPLEMENTATION.md)
 for reproduction commands and limits. Do not update manuscript guarantees or
-numerical claims from this placeholder.
+numerical claims beyond the defensible, explicitly scoped observations.

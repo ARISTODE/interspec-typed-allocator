@@ -82,6 +82,7 @@ def main():
         result = verify(root, "h2_yaml")
         assert result["raw_executions"] == 12
         assert sum(x["verdict"] == "security_delta" for x in result["h2_yaml"]) == 4
+        must_fail(lambda: verify(root, "h2_yaml", require_pointer_census=True))
         case = root / "cases/h2-yaml-wrong_type-domain_sp3/server.stdout"
         case.write_text(case.read_text().replace("altered", "trusted"))
         must_fail(lambda: verify(root, "h2_yaml"))
@@ -94,6 +95,19 @@ def main():
         dump(root / "collection.json", items)
         must_fail(lambda: verify(root, "h2_yaml"))
         case.unlink()
+        must_fail(lambda: verify(root, "h2_yaml"))
+    # A coherent, hash-updated recording of an unhealthy legitimate control
+    # must fail the semantic validity gate, not merely the hash audit.
+    with tempfile.TemporaryDirectory(prefix="interspec-sp3-invalid-control-") as temp:
+        root = Path(temp)
+        fixture(root)
+        case = root / "cases/h2-yaml-legitimate-domain_sp3/server.stdout"
+        case.write_text(case.read_text().replace("scalar=trusted", "scalar=altered"))
+        items = json.loads((root / "collection.json").read_text())
+        for item in items["cases"]:
+            if item["case"] == "h2-yaml-legitimate-domain_sp3":
+                item["stdout_sha256"] = sha(case)
+        dump(root / "collection.json", items)
         must_fail(lambda: verify(root, "h2_yaml"))
     print("SP3 security-delta verifier tamper tests: pass")
 

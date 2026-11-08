@@ -60,13 +60,21 @@ jobs:
             --out evaluation/results/sp3-security-delta/memcached-h1
           python3 tools/verify_sp3_security_delta.py --scope h1 --require-post-gates --fail-on-incomplete \
             --results evaluation/results/sp3-security-delta/memcached-h1
+      - name: Repeat H1 cases with explicitly labeled pointer census
+        run: |
+          python3 tools/run_sp3_security_delta.py --scope h1 --pointer-census \
+            --correctness-summary evaluation/results/sp3-security-delta/memcached-correctness/summary.json \
+            --out evaluation/results/sp3-security-delta/memcached-h1-census
+          python3 tools/verify_sp3_security_delta.py --scope h1 --fail-on-incomplete --require-pointer-census \
+            --results evaluation/results/sp3-security-delta/memcached-h1-census
       - name: Collect H2 LRU evidence and repeat correctness after every case
         run: |
           python3 tools/run_sp3_security_delta.py \
-            --scope h2_memcached --post-case-gate \
+            --scope h2_memcached --post-case-gate --pointer-census \
             --correctness-summary evaluation/results/sp3-security-delta/memcached-correctness/summary.json \
             --out evaluation/results/sp3-security-delta/memcached-h2
           python3 tools/verify_sp3_security_delta.py --scope h2_memcached --require-post-gates \
+            --require-pointer-census --fail-on-incomplete \
             --results evaluation/results/sp3-security-delta/memcached-h2
       - name: Build and execute libyaml T read-handler comparison
         run: |

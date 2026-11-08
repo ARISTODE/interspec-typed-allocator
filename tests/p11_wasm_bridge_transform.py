@@ -23,7 +23,10 @@ def main():
     assert "register_wasm_allocation_policy" not in baseline
     assert "sandbox_.malloc_in_sandbox<char>" in baseline
     assert "sandbox_.invoke_sandbox_function(interspec_p4c_typed_copy" not in baseline
-    assert "#ifdef INTERSPEC_P8_MEASURE_NO_VALIDATION" in baseline
+    # H1's fault-only conditional now precedes the historical P8 branch.
+    # P11 defines P8 in its timing build, so it still bypasses typed checks.
+    assert "#ifdef INTERSPEC_RLBOX_SECURITY_COMPARATOR" in baseline
+    assert "#elif defined(INTERSPEC_P8_MEASURE_NO_VALIDATION)" in baseline
     assert "P11 RLBox-only runtime-path baseline" in baseline
 
     print("InterSpec P11 wasm2c RLBox-only bridge transform: all checks passed")
