@@ -332,7 +332,8 @@ def classify_h2_memcached(mode, observations):
                    scenario["protocol"].get("lru_bump") != legitimate["protocol"].get("lru_bump"))
         marker = INJECTION.search(delta_log)
         rows.append({"case": f"h2-lru-m{mode}-{variant}", "variant": variant,
-                     "mode": mode, "fault_fired": bool(marker and int(marker[1]) == mode),
+                     "mode": mode, "fault_fired": bool(marker and int(marker[1]) == mode and
+                                                       int(marker[2]) == 2),
                      "domain_accept": accepted, "extended_preuse_reject": rejected,
                      "T_outcome_differs_from_legitimate": changed,
                      "T_sanitizer": scenario["sanitizer"],
@@ -340,7 +341,12 @@ def classify_h2_memcached(mode, observations):
                      "alive": scenario["execution"].get("alive_before_teardown")})
     domain = next(x for x in rows if x["variant"] == "h2-domain")
     extended = next(x for x in rows if x["variant"] == "h2-extended")
-    verdict = ("incomplete" if not all(healthy_controls.values()) else
+    # A decision log is not evidence that the requested mutation ran, nor
+    # that rejection prevented harm. Require the matched fault in every
+    # comparator and retain any Extended sanitizer finding as adverse evidence.
+    verdict = ("incomplete" if not all(healthy_controls.values()) or
+               not all(row["fault_fired"] for row in rows) else
+               "extended_T_sanitizer_harm" if extended["T_sanitizer"] else
                "security_delta" if domain["domain_accept"] and
                domain["T_outcome_differs_from_legitimate"] and
                extended["extended_preuse_reject"] else "inconclusive")

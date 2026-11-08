@@ -34,12 +34,13 @@ shutil.copyfile(a.root / "integration/memcached_server/logger_validate.h", a.sou
 s = a.source / "items.c"
 text = s.read_text()
 prologue = '''extern void interspec_bipbuf_role(bipbuf_t *, unsigned int);'''
+if a.lru_mode != "upstream":
+    prologue += '\nextern void interspec_lru_extent(unsigned int, unsigned int);'
 if a.lru_mode == "handle":
     prologue += '''
 extern uintptr_t interspec_lru_hold(bipbuf_t *, void *, uint32_t);
 extern void interspec_lru_cancel(bipbuf_t *, uintptr_t);
 extern void *interspec_lru_take(bipbuf_t *, uintptr_t, uint32_t);
-extern void interspec_lru_extent(unsigned int, unsigned int);
 _Static_assert(sizeof(void *) == 8, "LRU wire handles require a 64-bit host");'''
 elif a.lru_mode in ("domain", "extended"):
     prologue += '''
@@ -51,16 +52,22 @@ extern void interspec_lru_revoke_raw(bipbuf_t *, void *);'''
 prologue += '\nstatic bool lru_bump_async(lru_bump_buf *b, item *it, uint32_t hv);'
 replace('static bool lru_bump_async(lru_bump_buf *b, item *it, uint32_t hv);', prologue)
 replace('    pthread_mutex_init(&b->mutex, NULL);', '    interspec_bipbuf_role(b->buf, 3);\n    pthread_mutex_init(&b->mutex, NULL);')
+if a.lru_mode != "upstream":
+    # Validate the record container before reading be->it or be->hv. Apply
+    # this equally to both pointer-policy comparators; leave the explicitly
+    # upstream reference unchanged. Old archived runs predate this guard.
+    replace('        todo = size;', '        interspec_lru_extent(size, sizeof(lru_bump_entry));\n        todo = size;')
 if a.lru_mode == "handle":
     replace('        be->it = it;', '        uintptr_t token = interspec_lru_hold(b->buf, it, hv);\n        be->it = (item *)token;')
     replace('        if (bipbuf_push(b->buf, sizeof(lru_bump_entry)) == 0) {',
             '        if (bipbuf_push(b->buf, sizeof(lru_bump_entry)) == 0) {\n            interspec_lru_cancel(b->buf, token);')
-    replace('        todo = size;', '        interspec_lru_extent(size, sizeof(lru_bump_entry));\n        todo = size;')
     replace('            item_lock(be->hv);',
             '            be->it = interspec_lru_take(b->buf, (uintptr_t)be->it, be->hv);\n            item_lock(be->hv);')
 elif a.lru_mode in ("domain", "extended"):
     # A raw returned pointer is checked before *any* trusted item use. The
-    # independent format/capacity checks are unchanged across both variants.
+    # record-extent/capacity checks are identical across both variants. Raw
+    # H2 does not authenticate the item/hash association: it is a pointer
+    # experiment, not a replacement for the deployed one-use handle defense.
     replace('            item_lock(be->hv);',
             '            interspec_lru_check_raw(b->buf, be->it, sizeof(item));\n            item_lock(be->hv);')
     if a.lru_mode == "extended":

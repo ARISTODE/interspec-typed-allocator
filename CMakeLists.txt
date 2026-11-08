@@ -51,6 +51,11 @@ add_executable(p6_runtime_bench evaluation/runtime_bench.cpp)
 target_link_libraries(p6_runtime_bench PRIVATE interspec::runtime Threads::Threads)
 
 find_package(Python3 REQUIRED COMPONENTS Interpreter)
+add_test(NAME memcached_lru_transform COMMAND ${Python3_EXECUTABLE}
+  ${CMAKE_CURRENT_SOURCE_DIR}/tests/memcached_lru_transform.py
+  --compiler ${CMAKE_CXX_COMPILER})
+add_test(NAME sp3_security_delta_evidence COMMAND ${Python3_EXECUTABLE}
+  ${CMAKE_CURRENT_SOURCE_DIR}/tests/sp3_security_delta_evidence.py)
 add_executable(diagnostics tests/diagnostics.cpp)
 target_link_libraries(diagnostics PRIVATE interspec::runtime Threads::Threads)
 target_compile_definitions(diagnostics PRIVATE INTERSPEC_ENABLE_TRACE=1)

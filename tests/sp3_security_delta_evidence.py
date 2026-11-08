@@ -7,7 +7,9 @@ import sys
 import tempfile
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "tools"))
-from verify_sp3_security_delta import EvidenceError, verify
+from verify_sp3_security_delta import (
+    EvidenceError, H2_VARIANTS, classify_h2_memcached, verify,
+)
 from patch_memcached_sanitizer_logger import UPSTREAM, SANITIZED, patch_source
 
 
@@ -61,6 +63,34 @@ def must_fail(fn):
 
 
 def main():
+    # A coherent recording must not claim prevented harm from a rejection
+    # marker alone when the fault did not run or Extended itself was harmed.
+    observations = {}
+    for variant in H2_VARIANTS:
+        observations[f"h2-{variant}-legitimate"] = {
+            "execution": {"status": "observed", "alive_before_teardown": True},
+            "protocol": {"lru_bump": "completed", "version": True},
+            "reason": None, "sanitizer": False,
+        }
+        policy = "domain_sp3" if variant == "h2-domain" else "extended_sp3"
+        result = "ok" if variant == "h2-domain" else "out_of_bounds"
+        observations[f"h2-lru-m11-{variant}"] = {
+            "execution": {"status": "observed", "alive_before_teardown": False},
+            "protocol": {}, "reason": result, "sanitizer": False,
+            "stderr": "FAULT_INJECTION mode=11 target=2\n"
+                      f"INTERSPEC_T_DELTA event=check policy={policy} result={result}\n",
+        }
+    assert classify_h2_memcached(11, observations)["verdict"] == "security_delta"
+    extended = observations["h2-lru-m11-h2-extended"]
+    extended["sanitizer"] = True
+    assert classify_h2_memcached(11, observations)["verdict"] == "extended_T_sanitizer_harm"
+    extended["sanitizer"] = False
+    original = extended["stderr"]
+    for marker in ("", "FAULT_INJECTION mode=12 target=2\n",
+                   "FAULT_INJECTION mode=11 target=1\n"):
+        extended["stderr"] = marker + original.split("\n", 1)[1]
+        assert classify_h2_memcached(11, observations)["verdict"] == "incomplete"
+    extended["stderr"] = original
     # Guard against silently dropping the source-specific sanitizer repair.
     assert patch_source("before\n" + UPSTREAM + "\nafter") == (
         "before\n" + SANITIZED + "\nafter")

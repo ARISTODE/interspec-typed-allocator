@@ -70,6 +70,34 @@ The separate U fault module forges interior or out-of-object pointer bytes.
 A positive security delta requires domain acceptance, an observable changed
 T outcome, and Extended rejection before trusted use.
 
+### Post-review comparator revision
+
+The raw `domain` and `extended` source transforms now share the deployed
+record-extent guard before either reads an LRU entry. This rejects an empty
+or partial record sequence before the upstream unsigned `todo` loop. The
+explicit `upstream` reference stays unchanged. This is common framing
+validation, not additional object identity enforcement in one comparator.
+The archived runs at `097e650` and `215b4bd` predate this revision: retain
+their source SHAs and evidence and rerun the affected application matrix
+before attributing results to the revised implementation.
+
+Raw H2 is a narrow pointer-policy experiment, not a generally hardened
+replacement for the deployed handle path. Its `item*` registration does
+not authenticate the accompanying `hv` used for locking. Pointer type,
+domain and extent checks alone do not establish item/hash consistency or
+general integrity of U-controlled contents. Adding a trusted identity/hash
+binding to the domain-only comparator would change the defense under test;
+it must be a separately labeled configuration, not silently folded into
+these results. Production continues to use the one-use handle, which
+checks the trusted item/hash association.
+
+The independent H2 verifier now requires a matching mode and target in
+every comparator's fault marker and cannot classify a run with an Extended
+sanitizer finding as prevented harm. Replaying both archived confirmation
+and current-head raw H2 evidence under this stricter rule preserves mode
+11's security delta and mode 12's inconclusive result. This is evidence
+reanalysis, not an application rerun of the revised extent guard.
+
 The libyaml T driver exercises the real `yaml_parser_set_input` read-handler
 API and RLBox domain predicate. Project-authored trusted test code supplies
 untracked, revoked, wrong-type, same-type, and identity-mismatched pointers.
