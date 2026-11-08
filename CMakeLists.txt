@@ -63,6 +63,8 @@ add_test(NAME policy_codegen COMMAND ${Python3_EXECUTABLE}
   --out-dir ${CMAKE_CURRENT_BINARY_DIR}/generated-policy)
 add_test(NAME policy_codegen_hardening COMMAND ${Python3_EXECUTABLE}
   ${CMAKE_CURRENT_SOURCE_DIR}/tests/policy_codegen_hardening.py)
+add_test(NAME policy_inference_build COMMAND ${Python3_EXECUTABLE}
+  ${CMAKE_CURRENT_SOURCE_DIR}/tests/policy_inference_build.py)
 add_test(NAME boundary_codegen COMMAND ${Python3_EXECUTABLE}
   ${CMAKE_CURRENT_SOURCE_DIR}/tests/boundary_codegen.py)
 add_test(NAME p9b_wasm_codegen COMMAND ${Python3_EXECUTABLE}

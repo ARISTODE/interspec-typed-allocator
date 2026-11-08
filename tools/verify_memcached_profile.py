@@ -5,6 +5,7 @@ from collections import Counter
 import hashlib
 import json
 import math
+import re
 from pathlib import Path
 
 
@@ -35,7 +36,19 @@ def verify(root, gate_path):
         require(client["operations"] == row["operations"] == target and client["errors"] == 0 and target > 0, f"{name}: client workload")
         runtime = 0
         checks, calls, into_u, from_u, handles = (Counter() for _ in range(5))
+        snapshots, copied_records = Counter(), Counter()
         for line in trace.decode().splitlines():
+            if line.startswith("INTERSPEC_T_COPY "):
+                # SP3 snapshots carry a digest separately from frequency events.
+                # Accept only the bridge's exact record schema, never arbitrary
+                # diagnostics (especially rejection/sanitizer output).
+                match = re.fullmatch(
+                    r"INTERSPEC_T_COPY boundary=memcached_bipbuffer "
+                    r"operation=(peek|peek_all|poll) bytes=(0|[1-9][0-9]*) "
+                    r"fnv64=[0-9a-f]{16}", line)
+                require(match is not None, f"{name}: malformed snapshot diagnostic")
+                snapshots[(match[1], int(match[2]))] += 1
+                continue
             require(line.startswith("INTERSPEC "), f"{name}: unexpected diagnostic/error output")
             fields = dict(token.split("=", 1) for token in line.split()[1:])
             event, outcome = fields["event"], fields["result"]
@@ -50,8 +63,10 @@ def verify(root, gate_path):
                 into_u[outcome] += int(fields["requested"])
             if event == "copy_from_u":
                 from_u[outcome] += int(fields["requested"])
+                copied_records[(outcome, int(fields["requested"]))] += 1
             if event in ("lru_hold", "lru_take") and outcome == "ok":
                 handles[event] += 1
+        require(snapshots == copied_records, f"{name}: snapshot/copy record mismatch")
         require(runtime == sum(checks.values()) == row["runtime_checks"] and dict(checks) == row["check_operations"], f"{name}: check attribution")
         for actual, field in ((calls, "sandbox_call_functions"), (into_u, "copy_into_u_operations"), (from_u, "copy_from_u_operations")):
             require(dict(actual) == row[field], f"{name}: {field}")

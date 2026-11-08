@@ -29,6 +29,7 @@ class ProfileEvidenceTests(unittest.TestCase):
                 ("sandbox_call", "interspec_mc_request", 0),
                 ("copy_into_u", "push", 16), ("copy_from_u", "poll", 16),
                 ("lru_hold", "ok", 1), ("lru_take", "ok", 1)))
+            trace += "INTERSPEC_T_COPY boundary=memcached_bipbuffer operation=poll bytes=16 fnv64=0123456789abcdef\n"
             (self.root / f"{name}.trace").write_text(trace)
             (self.root / "logs").mkdir(exist_ok=True)
             (self.root / "logs" / f"check-profile-{name}.stderr").write_text("setup\n" + trace + "shutdown\n")
@@ -45,6 +46,41 @@ class ProfileEvidenceTests(unittest.TestCase):
 
     def change(self, fn):
         path = self.root / "check-frequency.json"; rows = json.loads(path.read_text()); fn(rows); write(path, rows)
+
+    def rewrite_trace(self, transform):
+        name = "balanced_1c"
+        path = self.root / f"{name}.trace"
+        trace = transform(path.read_text())
+        path.write_text(trace)
+        (self.root / "logs" / f"check-profile-{name}.stderr").write_text("setup\n" + trace + "shutdown\n")
+        self.change(lambda rows: rows[0].update(
+            trace_end_offset=6 + len(trace.encode()),
+            trace_sha256=hashlib.sha256(trace.encode()).hexdigest()))
+
+    def test_unexpected_diagnostic(self):
+        self.rewrite_trace(lambda trace: trace + "INTERSPEC_REJECT reason=bad_pointer\n")
+        with self.assertRaisesRegex(ValueError, "unexpected diagnostic"):
+            verify(self.root, self.gate)
+
+    def test_malformed_snapshot(self):
+        self.rewrite_trace(lambda trace: trace.replace("fnv64=0123456789abcdef", "fnv64=invalid"))
+        with self.assertRaisesRegex(ValueError, "malformed snapshot"):
+            verify(self.root, self.gate)
+
+    def test_snapshot_wrong_boundary(self):
+        self.rewrite_trace(lambda trace: trace.replace("boundary=memcached_bipbuffer", "boundary=other"))
+        with self.assertRaisesRegex(ValueError, "malformed snapshot"):
+            verify(self.root, self.gate)
+
+    def test_snapshot_copy_mismatch(self):
+        self.rewrite_trace(lambda trace: trace.replace("bytes=16", "bytes=17"))
+        with self.assertRaisesRegex(ValueError, "snapshot/copy record mismatch"):
+            verify(self.root, self.gate)
+
+    def test_missing_snapshot(self):
+        self.rewrite_trace(lambda trace: "\n".join(line for line in trace.splitlines() if not line.startswith("INTERSPEC_T_COPY")) + "\n")
+        with self.assertRaisesRegex(ValueError, "snapshot/copy record mismatch"):
+            verify(self.root, self.gate)
 
     def test_complete(self):
         self.assertEqual(verify(self.root, self.gate)["scenarios"], 6)
