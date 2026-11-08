@@ -25,11 +25,13 @@ EOF
 
 codeql pack install "$root/analysis/ql"
 
+# libyaml uses POSIX strdup; strict C11 hides it without this feature level.
+# Keep declaration errors fatal rather than accepting an int-returning call.
 cat > "$work/build.sh" <<EOF
 #!/usr/bin/env bash
 set -euo pipefail
 cd "$yaml_src"
-cc -std=c11 -DHAVE_CONFIG_H=1 -Iinclude -Isrc -c src/api.c -o "$work/api.o"
+cc -std=c11 -D_POSIX_C_SOURCE=200809L -Werror=implicit-function-declaration -DHAVE_CONFIG_H=1 -Iinclude -Isrc -c src/api.c -o "$work/api.o"
 cc -std=c11 -Iinclude -Isrc -c interspec_trusted_uses.c -o "$work/interspec_trusted_uses.o"
 EOF
 chmod +x "$work/build.sh"
