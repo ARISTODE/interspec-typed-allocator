@@ -1,5 +1,113 @@
 # Evaluation completion ledger
 
+## Current progress: 11 November 2026
+
+**The evaluation remains incomplete.** The new results below close specific
+ordinary functional and evidence-validation tasks. They do not establish
+controlled-host performance, generator headroom, statistical equivalence,
+security effectiveness, or completion of the full comparative matrix. Earlier
+hosted measurements and security results are preserved in the historical ledger
+below and are not relabeled as measurements of the new candidate.
+
+### Verified since the historical ledger
+
+| Stage | Verified result | Scope and remaining limit |
+| --- | --- | --- |
+| 5–7: VM capacity and client diagnostics | The repaired observation path, buffered-client comparison and separate resource diagnostic were completed and independently checked. | Spare client capacity and equivalence were not established. A/A variation and inconsistent added-resource effects remain; repeated capacity timing on this VM has stopped. The long corrected four-variant matrix was not started. |
+| 10: corrected memcached profiles | Six predeclared actual profiles completed once each: 225,000 validated responses, zero client errors or misses, and zero logger, watcher or LRU drops. Raw trace/count reconciliation and independent relocated replay passed. | Ordinary fixed-profile evidence only, using the corrected generator and buffered count-only client. This is not a timing, capacity or comparative latency result. |
+| 11: unified selected source | The selected client, profile, YAML-measurement and runtime-measurement corrections were unified at clean local commit `333d2b0d10af992fa93e2f653f800d443d8c6b8d`; source correspondence and retained-evidence replay passed. | The source chain remains local-only. Historical executables and measurements retain their original revisions; they are not rebound to this commit. |
+| 12: ordinary YAML/libyaml | 48/48 real executions passed: six independently specified valid documents × four modes × one/two parse iterations. All exits were zero, stderr was empty, and independent raw-result and relocated replay passed. | Aggregate event/scalar counts, decoded-byte totals, driver-specific rolling hashes and check counts only. No full parser conformance, arbitrary-size compatibility or timing claim. |
+| 13: ordinary nginx/PCRE8 | 104/104 saved raw HTTP responses matched independently specified status/body bytes: four release variants × 13 cases × forward/reverse order. Four metadata commands, four syntax checks and four clean server exits passed. Independent portable audit and relocated replay passed. | Each variant used one persistent connection. This is the frozen ordinary PCRE8 interpreter corpus, not comprehensive nginx/PCRE conformance, security or performance evidence. |
+| 14: YAML decoded-scalar limit | All 24 predeclared processes ran once: 18 successful parses (exit 0) and six expected sandbox capacity-limit outcomes (exit 1). All outcomes matched the frozen expectations; independent raw audit, relocated replay and archive verification passed. | This separately tests the inclusive 8,191-decoded-byte staging limit. The two valid 8,192-byte inputs parsed natively but exceeded the limit in all three sandbox modes. These are supported-input limitations, not successful sandbox parses or security rejections. |
+
+The four YAML modes and nginx variants are native, RLBox-only,
+tracked-no-check and Extended SP3/InterSpec. Stages 12 and 13 built their ordinary
+application binaries from the exact unified source above. Their frozen inputs,
+source and binary identities, commands, raw outputs, outcomes and independent
+reviews are retained. Neither application pass retried or replaced an outcome;
+independent saved-result replay did not launch applications.
+
+All six Stage 10 profiles observed positive protected-check activity. Its
+write-heavy profile completed 200,000 operations, with 5,156 checks, 1,577 LRU
+hold/take pairs and 1,605 moves to warm. These are counts for the declared trace
+interval, including its drain, not universal per-request costs. The live client
+evidence is aggregate GET/SET/hit/miss validation, with per-key correctness also
+relying on the retained client and its prior protocol/multiset tests. No
+independent live per-key packet capture or payload-digest truth is claimed.
+
+The six Stage 12 documents cover block/flow collections, Unicode/escapes,
+multiline scalars, multiple/empty documents, anchors/tags and BOM UTF-16LE.
+The driver does not expose complete event-type sequences, scalar boundaries,
+tag/anchor identity or alias resolution; its 64-bit hash is non-cryptographic.
+The largest scalar in the Stage 12 corpus is 12 decoded bytes. Stage 14
+separately checks the wrapper's 8,191-byte decoded-scalar limit; it does not
+extend Stage 12's scope or establish arbitrary-size compatibility.
+
+Stage 13 adds regex virtual-host selection, mixed named/numbered captures,
+empty and optional captures, zero-capture matches, and location precedence.
+Its raw audit verified 72 retained build artifacts, 16 consumed candidate files,
+883 upstream files and the exact unified source bundle. This is retained
+process/request/response evidence, not an independent network packet capture.
+
+Stage 14 reused the exact three Stage 12 executables for four modes without a
+rebuild. Its six valid documents cover ASCII at 8,190 bytes; ASCII at 8,191
+bytes repeated around an empty scalar; escaped Unicode and BOM UTF-16LE decoded
+to 8,191 UTF-8 bytes; and ASCII/escaped-Unicode scalars decoded to 8,192 bytes.
+The four within-limit documents parsed in all modes. Native also parsed both
+8,192-byte documents; each sandbox mode instead returned empty stdout and exact
+`yaml benchmark error: scalar_staging_capacity` stderr with exit 1 for both.
+The result is 18 successful parses plus six capacity-limit outcomes, not 24
+successful parses. The expected limits and ordinary output fields were frozen
+before execution. No application source, binary or protocol was changed.
+
+### Retained evidence identities
+
+These archives are retained privately in Space, not checked into this
+repository or published as GitHub artifacts. Each was uploaded, materialized
+again, checked against its SHA-256 and verified against its file manifest.
+Member paths below are relative to each archive's top-level directory; they
+identify the detailed reports and audits, not repository-relative links.
+
+- Stage 10: `interspec-corrected-profiles-verified-20261111.tar.gz`;
+  SHA-256 `d95b5cfd78aaef5d68186f7a6f9081636d86f6204ba245d96f125a33e20a1eab`;
+  556 manifest files. See `stage10-profile-evidence/REPORT.md` and its
+  `independent-review/` records.
+- Stages 11–12: `interspec-unified-yaml-functional-verified-20261111.tar.gz`;
+  SHA-256 `a214099f511a701a8116473471f567925a9031e1fb6a004a98ea3c10f1260eb9`;
+  690 manifest files. See `stage11-unified-evidence/REPORT.md`,
+  `stage12-yaml-functional-evidence/REPORT.md` and the retained independent audits.
+- Stage 13: `interspec-nginx-functional-verified-20261111.tar.gz`;
+  SHA-256 `4166828374e016a52235175f6c8f24b28cfc80321879ee845e073864f5c4b7fd`;
+  522 manifest files. See `stage13-nginx-functional-evidence/REPORT.md` and
+  `stage13-independent-review/actual-results-review.json`.
+- Stage 14: `interspec-yaml-scalar-limit-verified-20261111.tar.gz`;
+  SHA-256 `f009cee05dc7cf6a0f9f2012cecd5e379e02471acf3a2a8b4c6700cfb82b310d`;
+  182 manifest files. See `stage14-yaml-scalar-evidence/REPORT.md` and
+  `stage14-independent-review/REPORT.md` / `actual-results-review.json`.
+- Exact unified source bundle SHA-256:
+  `a1f9b2a843f79c4a6c9ea8fd6c913bd5a2ee58fd42145d2cd921f1cb84faf695`.
+
+### Still open
+
+1. Establish a defensible controlled-host, noise and load-generator-headroom
+   protocol before the full corrected four-variant memcached matrix and its
+   matching diagnostic profiles. No further noisy capacity repeats are planned
+   on the current VM.
+2. Run the separate comparative latency study and the remaining controlled
+   application/microbenchmark publication measurements under their own accepted
+   protocols. Incidental elapsed fields in functional outputs are not results.
+3. Reconcile original paper-row provenance, effective policy ablations,
+   source-derived coverage and causal-policy claims. These functional results do
+   not close those gaps or validate unsupported historical numbers.
+4. Keep restricted corruption/callback experiments blocked; no retry is part of
+   this progress update. Historical security outcomes below remain separately
+   scoped evidence, not new validation.
+5. Review any eventual publication/integration of the local source chain
+   separately. This progress update changes documentation only and does not
+   publish source-integration commits, alter protocols or revise the paper.
+
+## Historical completion ledger (October 2026)
+
 This ledger starts from the source and evidence audit of 10 October 2026.
 Completion means a reproducible implementation, successful execution, retained
 raw evidence, independent validation and visible results. Implemented scripts
