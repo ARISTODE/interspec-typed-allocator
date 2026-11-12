@@ -89,6 +89,155 @@ class EvidenceTests(unittest.TestCase):
         fn(rows)
         write_csv(path, rows)
 
+    def modernize(self, mode="count-only", dropped=0):
+        meta = dict(measurement_mode=mode, sample_every=10 if mode == "sampled" else 0,
+                    sample_cap_per_client=100 if mode == "sampled" else 0,
+                    workload_mode="independent-v1", workload_seed=7)
+        final_path = self.matrix / "final-summary.json"
+        final = json.loads(final_path.read_text())
+        final.update(meta)
+        all_rows = []
+        valid = mode != "count-only" and dropped == 0
+        for scenario in final["scenarios"]:
+            name = scenario["name"]
+            folder = self.matrix / name
+            env = json.loads((folder / "environment.json").read_text())
+            env["parameters"].update(meta)
+            write_json(folder / "environment.json", env)
+            with (folder / "samples.csv").open() as stream:
+                rows = list(csv.DictReader(stream))
+            for r in rows:
+                r.update(meta, latency_sample_count=0 if mode == "count-only" else (100 if mode == "full" else 10)-dropped,
+                         latency_selected_count=0 if mode == "count-only" else (100 if mode == "full" else 10),
+                         latency_dropped_count=dropped, latency_valid=valid,
+                         latency_scope="unavailable" if mode == "count-only" else ("all_responses_batch_send_to_validation" if mode == "full" else "sampled_response_batch_send_to_validation"),
+                         timed_client_cpu_s=.01)
+                if not valid:
+                    r.update({k: None for k in ("p50_us", "p95_us", "p99_us", "max_us")})
+            write_csv(folder / "samples.csv", rows)
+            all_rows += [dict(scenario=name, **r) for r in rows]
+            summaries = json.loads((folder / "summary.json").read_text())
+            for summary in summaries:
+                summary.update(meta, latency_valid=valid, workload=SCENARIOS[name][-1])
+                if not valid:
+                    for metric in ("p50_us", "p95_us", "p99_us"):
+                        for suffix in ("median", "min", "max"):
+                            summary[metric + "_" + suffix] = None
+            write_json(folder / "summary.json", summaries)
+            if not valid:
+                for prefix in ("native", "rlbox", "tracking", "interspec"):
+                    scenario[prefix + "_p99_us"] = None
+        write_json(final_path, final)
+        write_csv(self.matrix / "all-samples.csv", all_rows)
+
+    def test_count_only_fixture(self):
+        self.modernize()
+        result = self.run_verify()
+        self.assertEqual(result["samples"], 72)
+        self.assertEqual(result["measurement_metadata"]["workload_mode"], "independent-v1")
+
+    def test_full_measurement_fixture(self):
+        self.modernize("full")
+        self.assertEqual(self.run_verify()["samples"], 72)
+
+    def test_partial_metadata_rejected(self):
+        self.modernize()
+        self.change_raw(lambda rows: [r.pop("workload_seed") for r in rows])
+        with self.assertRaisesRegex(ValueError, "incomplete.*metadata"):
+            self.run_verify()
+
+    def test_summary_seed_mismatch(self):
+        self.modernize()
+        path = self.matrix / "balanced_1c/summary.json"
+        summaries = json.loads(path.read_text())
+        summaries[0]["workload_seed"] = 8
+        write_json(path, summaries)
+        with self.assertRaisesRegex(ValueError, "summary metadata mismatch"):
+            self.run_verify()
+
+    def test_sampled_fixture(self):
+        self.modernize("sampled")
+        self.assertEqual(self.run_verify()["samples"], 72)
+
+    def test_sampled_overflow_null_latency(self):
+        self.modernize("sampled", dropped=1)
+        self.assertTrue(self.run_verify()["validated"])
+
+    def test_mixed_metadata(self):
+        self.modernize()
+        for key, value in (("workload_seed", "8"), ("workload_mode", "legacy"),
+                           ("measurement_mode", "full"), ("workload_seed", "")):
+            with self.subTest(key=key, value=value):
+                self.change_raw(lambda rows: rows[0].update({key: value}))
+                with self.assertRaises(ValueError):
+                    self.run_verify()
+                self.modernize()
+
+    def test_environment_seed_mismatch(self):
+        self.modernize()
+        path = self.matrix / "balanced_1c/environment.json"
+        env = json.loads(path.read_text())
+        env["parameters"]["workload_seed"] = 8
+        write_json(path, env)
+        with self.assertRaisesRegex(ValueError, "environment metadata mismatch"):
+            self.run_verify()
+
+    def test_count_only_fabricated_latency(self):
+        self.modernize()
+        self.change_raw(lambda rows: rows[0].update(p99_us="3"))
+        with self.assertRaisesRegex(ValueError, "must be null"):
+            self.run_verify()
+
+    def test_sample_counter_arithmetic(self):
+        self.modernize("sampled")
+        self.change_raw(lambda rows: rows[0].update(latency_selected_count="11"))
+        with self.assertRaisesRegex(ValueError, "sample arithmetic"):
+            self.run_verify()
+
+    def test_sample_scope_mismatch(self):
+        self.modernize("sampled")
+        self.change_raw(lambda rows: rows[0].update(latency_scope="all_responses_batch_send_to_validation"))
+        with self.assertRaisesRegex(ValueError, "scope mismatch"):
+            self.run_verify()
+
+    def test_sample_cap_exceeded(self):
+        self.modernize("sampled")
+        self.change_raw(lambda rows: rows[0].update(operations="200", ops_per_s="200", latency_sample_count="101", latency_selected_count="101"))
+        with self.assertRaisesRegex(ValueError, "sample cap"):
+            self.run_verify()
+
+    def test_fabricated_matrix_latency(self):
+        self.modernize()
+        path = self.matrix / "final-summary.json"
+        doc = json.loads(path.read_text())
+        doc["scenarios"][0]["tracking_p99_us"] = 0
+        write_json(path, doc)
+        with self.assertRaisesRegex(ValueError, "unavailable matrix latency"):
+            self.run_verify()
+
+    def test_client_binary_mismatch(self):
+        (self.matrix / "balanced_1c/memcached-client").write_bytes(b"changed")
+        with self.assertRaisesRegex(ValueError, "client binary hash mismatch"):
+            self.run_verify()
+
+    def test_fixed_operation_rehearsal(self):
+        self.modernize()
+        path = self.matrix / "final-summary.json"
+        doc = json.loads(path.read_text())
+        doc.update(evidence_scope="vm_recovery_rehearsal", publication_ready=False,
+                   operations=100, warmup_operations=10, seconds=10)
+        write_json(path, doc)
+        for name in SCENARIOS:
+            path = self.matrix / name / "environment.json"
+            env = json.loads(path.read_text())
+            env["parameters"].update(functional_rehearsal=True, operations=100,
+                                     warmup_operations=10, seconds=10)
+            write_json(path, env)
+        self.assertFalse(self.run_verify()["publication_ready"])
+        self.change_raw(lambda rows: rows[0].update(operations="99"))
+        with self.assertRaisesRegex(ValueError, "client run"):
+            self.run_verify()
+
     def test_complete_fixture(self):
         self.assertEqual(self.run_verify()["samples"], 72)
         self.assertFalse(self.run_verify()["publication_ready"])

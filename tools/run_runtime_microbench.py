@@ -3,6 +3,8 @@
 import argparse
 import csv
 import io
+import hashlib
+import datetime
 import json
 import os
 from pathlib import Path
@@ -18,30 +20,43 @@ def main():
     p.add_argument("--repetitions", type=int, default=9)
     p.add_argument("--iterations", type=int, default=1000000)
     p.add_argument("--cpus")
+    p.add_argument("--label", default="hosted reference; physical core dedication and contention unverified")
     args = p.parse_args()
     assert args.repetitions >= 3 and args.iterations > 0
 
     root = Path(__file__).resolve().parents[1]
     args.out.mkdir(parents=True, exist_ok=True)
+    # Never overwrite prior experimental observations on a retry.
+    if any((args.out / name).exists() for name in ("raw.csv", "environment.json", "0.stdout")):
+        raise ValueError("results already exist; use a fresh output directory")
+    started = datetime.datetime.now(datetime.timezone.utc).isoformat()
+    build_command = None
     binary = args.binary or (args.out / "runtime_microbench")
     if args.binary is None:
-        subprocess.run([
+        build_command = [
             "g++", "-std=c++17", "-O2", "-pthread", "-I", str(root / "include"),
             str(root / "evaluation/runtime_bench.cpp"), "-o", str(binary)
-        ], check=True)
+        ]
+        subprocess.run(build_command, check=True)
 
     prefix = ["taskset", "-c", args.cpus] if args.cpus else []
     env = dict(os.environ)
     env["INTERSPEC_BENCH_ITERATIONS"] = str(args.iterations)
 
     # Untimed warm-up to populate code/data paths before repeated measurements.
-    subprocess.run(prefix + [str(binary)], env=env, capture_output=True, text=True, check=True)
+    warmup = subprocess.run(prefix + [str(binary)], env=env, capture_output=True, text=True, check=True)
+    (args.out / "warmup.stdout").write_text(warmup.stdout)
+    (args.out / "warmup.stderr").write_text(warmup.stderr)
 
     raw = []
     for rep in range(args.repetitions):
         result = subprocess.run(
             prefix + [str(binary)], env=env, capture_output=True, text=True, check=True
         )
+        (args.out / f"{rep}.stdout").write_text(result.stdout)
+        (args.out / f"{rep}.stderr").write_text(result.stderr)
+        if result.stderr:
+            raise ValueError("unexpected benchmark diagnostic output")
         for row in csv.DictReader(io.StringIO(result.stdout)):
             raw.append({
                 "repetition": rep,
@@ -76,6 +91,19 @@ def main():
         })
     (args.out / "summary.json").write_text(json.dumps(summary, indent=2) + "\n")
     environment = {
+        "label": args.label,
+        "publication_ready": False,
+        "physical_core_dedication": "unverified",
+        "contention_controls": "unverified",
+        "started_utc": started,
+        "finished_utc": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+        "source_commit": subprocess.check_output(["git", "-C", str(root), "rev-parse", "HEAD"], text=True).strip(),
+        "source_status": subprocess.check_output(["git", "-C", str(root), "status", "--porcelain"], text=True),
+        "build_command": build_command,
+        "binary_sha256": hashlib.sha256(binary.read_bytes()).hexdigest(),
+        "source_sha256": {str(p.relative_to(root)): hashlib.sha256(p.read_bytes()).hexdigest()
+                          for p in (root / "evaluation/runtime_bench.cpp", root / "include/interspec/runtime.h", Path(__file__))},
+        "checksum_controls": "exact successful-operation totals checked outside serial timed intervals; concurrent totals checked before thread exit",
         "host": platform.uname()._asdict(),
         "repetitions": args.repetitions,
         "iterations": args.iterations,
@@ -96,16 +124,18 @@ def main():
     lines = [
         "# InterSpec SP3 runtime microbenchmark",
         "",
+        "VM reference only. Physical core dedication, host stability and contention are unverified. Ranges are observed min/max, not confidence intervals.",
+        "",
         "Population 2 is the deployment-representative hot-path case: a normal memcached sandbox has two tracked allocations (the bipbuffer object and its persistent input buffer). Larger populations in summary.json show lookup scaling.",
         "",
-        "| Primitive | Median ns/op | Min–max ns/op | What it isolates |",
-        "| --- | ---: | ---: | --- |",
+        "| Primitive | Population | Median ns/op | Min–max ns/op | What it isolates |",
+        "| --- | ---: | ---: | ---: | --- |",
     ]
     descriptions = {
         "shared_lock": "shared metadata-lock acquisition/release",
         "metadata_lookup": "ordered allocation lookup and containment test, excluding the lock",
-        "type_compare": "expected-type hash equality check",
-        "bounds_check": "offset/remaining-byte arithmetic and extent comparison",
+        "type_compare": "non-inlined type equality with opaque inputs and 1/1024 negative controls",
+        "bounds_check": "non-inlined offset/remaining arithmetic with opaque inputs and 1/1024 rejected extents; assumes prior containment",
         "check_live": "production Runtime::check: lock + lookup + type + bounds",
         "check_interior": "production Runtime::check on an interior pointer",
         "remaining_bytes": "production metadata lookup/type check returning remaining extent",
@@ -115,7 +145,7 @@ def main():
         if not row:
             continue
         lines.append(
-            f"| {metric} | {row['ns_per_op_median']:.2f} | "
+            f"| {metric} | {row['population']} | {row['ns_per_op_median']:.2f} | "
             f"{row['ns_per_op_min']:.2f}–{row['ns_per_op_max']:.2f} | "
             f"{descriptions[metric]} |"
         )
@@ -124,16 +154,21 @@ def main():
         if rows:
             row = max(rows, key=lambda x: x["population"])
             lines.append(
-                f"| {metric} | {row['ns_per_op_median']:.2f} | "
+                f"| {metric} | {row['population']} | {row['ns_per_op_median']:.2f} | "
                 f"{row['ns_per_op_min']:.2f}–{row['ns_per_op_max']:.2f} | "
                 f"{'typed allocation registration on queue setup' if metric == 'allocate_from_site' else 'trusted allocation metadata release'} |"
             )
     lines += [
         "",
+        "Primitive times include loop, non-inlined helper-call and compiler anti-elision controls; they are not baseline-subtracted. Bounds/type checks include one rejected input per 1024 iterations. Allocation and release rows use the explicitly shown 16384-allocation population, not population 2.",
+        "",
         "Primitive rows are measured independently and therefore are not algebraically additive: the production check executes them in one optimized function and shares instruction/data-cache effects. Use check_live as the direct per-check cost; the smaller rows explain where that cost comes from.",
         "",
     ]
     (args.out / "MICROBENCH_TABLE.md").write_text("\n".join(lines))
+    from verify_runtime_microbench import verify
+    report = verify(args.out)
+    (args.out / "verification.json").write_text(json.dumps(report, indent=2) + "\n")
 
 
 if __name__ == "__main__":

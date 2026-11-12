@@ -47,7 +47,7 @@ void print_result(const char* metric, size_t population, size_t threads,
                                        static_cast<double>(total_ns);
   std::cout << metric << ',' << population << ',' << threads << ','
             << operations << ',' << total_ns << ',' << std::fixed
-            << std::setprecision(2) << ns_per_op << ',' << std::setprecision(0)
+            << std::setprecision(9) << ns_per_op << ',' << std::setprecision(0)
             << ops_per_sec << '\n';
 }
 
@@ -69,11 +69,12 @@ std::unique_ptr<Runtime> make_runtime(size_t population,
 }
 
 template <typename Fn>
-uint64_t measure(size_t iterations, Fn fn) {
+uint64_t measure(size_t iterations, Fn fn, uint64_t expected_checksum) {
   const auto start = Clock::now();
   uint64_t local = 0;
   for (size_t i = 0; i < iterations; ++i) local += fn(i);
   const auto stop = Clock::now();
+  if (local != expected_checksum) std::abort();
   sink.fetch_add(local, std::memory_order_relaxed);
   return static_cast<uint64_t>(
       std::chrono::duration_cast<std::chrono::nanoseconds>(stop - start).count());
@@ -86,11 +87,23 @@ uint64_t measure(size_t iterations, Fn fn) {
 #endif
 
 INTERSPEC_NOINLINE bool primitive_type_compare(uint64_t actual, uint64_t expected) {
+#if defined(__GNUC__) || defined(__clang__)
+  // Compiler-only opacity: no volatile memory load is included in the timing.
+  // noinline alone does not prevent interprocedural constant propagation.
+  asm volatile("" : "+r"(actual), "+r"(expected));
+#else
+#error "Runtime primitive benchmarks require GNU-compatible compiler barriers"
+#endif
   return actual == expected;
 }
 
 INTERSPEC_NOINLINE bool primitive_bounds_check(uintptr_t ptr, uintptr_t base,
                                                size_t object_size, size_t bytes) {
+#if defined(__GNUC__) || defined(__clang__)
+  asm volatile("" : "+r"(ptr), "+r"(base), "+r"(object_size), "+r"(bytes));
+#endif
+  // Like Runtime::check after containing-allocation lookup, this primitive
+  // assumes base <= ptr < base + object_size. It is not a standalone validator.
   const size_t offset = static_cast<size_t>(ptr - base);
   const size_t remaining = object_size - offset;
   return bytes <= remaining;
@@ -101,7 +114,7 @@ void benchmark_primitives(size_t population, size_t iterations) {
   const uint64_t lock_ns = measure(iterations, [&](size_t) {
     std::shared_lock<std::shared_mutex> lock(mutex);
     return 1u;
-  });
+  }, iterations);
   print_result("shared_lock", population, 1, iterations, lock_ns);
 
   std::map<uintptr_t, interspec::Allocation> allocations;
@@ -119,7 +132,7 @@ void benchmark_primitives(size_t population, size_t iterations) {
                    target - allocation.base < allocation.size
                ? 1u
                : 0u;
-  });
+  }, iterations);
   print_result("metadata_lookup", population, 1, iterations, lookup_ns);
 
   if (population == 2) {
@@ -127,14 +140,17 @@ void benchmark_primitives(size_t population, size_t iterations) {
       return primitive_type_compare(kItem, (i & 1023) == 1023 ? kOther : kItem)
                  ? 1u
                  : 0u;
-    });
+    }, iterations - iterations / 1024);
     print_result("type_compare", population, 1, iterations, type_ns);
 
     const uintptr_t base = kBase + 64;
     const uint64_t bounds_ns = measure(iterations, [&](size_t i) {
       const uintptr_t ptr = base + (i & 7);
-      return primitive_bounds_check(ptr, base, kObjectSize, 8) ? 1u : 0u;
-    });
+      // Rare rejected extents prevent an all-true benchmark workload. Both
+      // successful and rejected paths have exact checksum controls below.
+      const size_t bytes = (i & 1023) == 1023 ? kObjectSize + 1 : 8;
+      return primitive_bounds_check(ptr, base, kObjectSize, bytes) ? 1u : 0u;
+    }, iterations - iterations / 1024);
     print_result("bounds_check", population, 1, iterations, bounds_ns);
   }
 }
@@ -146,17 +162,17 @@ void benchmark_lookup(size_t population, size_t iterations) {
 
   const uint64_t check_ns = measure(iterations, [&](size_t) {
     return runtime->check(target, 8, kItem) == CheckResult::ok ? 1u : 0u;
-  });
+  }, iterations);
   print_result("check_live", population, 1, iterations, check_ns);
 
   const uint64_t interior_ns = measure(iterations, [&](size_t) {
     return runtime->check(target + 8, 8, kItem) == CheckResult::ok ? 1u : 0u;
-  });
+  }, iterations);
   print_result("check_interior", population, 1, iterations, interior_ns);
 
   const uint64_t wrong_type_ns = measure(iterations, [&](size_t) {
     return runtime->check(target, 8, kOther) == CheckResult::wrong_type ? 1u : 0u;
-  });
+  }, iterations);
   print_result("check_wrong_type", population, 1, iterations, wrong_type_ns);
 
   size_t remaining = 0;
@@ -165,7 +181,7 @@ void benchmark_lookup(size_t population, size_t iterations) {
                    CheckResult::ok
                ? remaining
                : 0u;
-  });
+  }, iterations * (kObjectSize - 8));
   print_result("remaining_bytes", population, 1, iterations, remaining_ns);
 }
 
@@ -178,6 +194,7 @@ void benchmark_allocation(size_t population) {
   for (size_t i = 0; i < population; ++i)
     local += runtime.allocate(kObjectSize, kItemId) != 0 ? 1u : 0u;
   const auto stop = Clock::now();
+  if (local != population) std::abort();
   sink.fetch_add(local, std::memory_order_relaxed);
   const uint64_t total_ns = static_cast<uint64_t>(
       std::chrono::duration_cast<std::chrono::nanoseconds>(stop - start).count());
@@ -210,6 +227,7 @@ void benchmark_site_allocation_and_release(size_t population) {
   for (const uintptr_t ptr : objects)
     released += runtime.release(ptr) ? 1u : 0u;
   const auto release_stop = Clock::now();
+  if (released != population) std::abort();
   sink.fetch_add(released, std::memory_order_relaxed);
   const uint64_t release_ns = static_cast<uint64_t>(
       std::chrono::duration_cast<std::chrono::nanoseconds>(
@@ -231,6 +249,7 @@ void benchmark_concurrent_checks(size_t population, size_t iterations,
       uint64_t local = t;
       for (size_t i = 0; i < iterations; ++i)
         local += runtime->check(target, 8, kItem) == CheckResult::ok ? 1u : 0u;
+      if (local != iterations + t) std::abort();
       sink.fetch_add(local, std::memory_order_relaxed);
     });
   }
@@ -247,6 +266,13 @@ void benchmark_concurrent_checks(size_t population, size_t iterations,
 
 int main() {
   const size_t iterations = iterations_from_env();
+  // Untimed positive/negative controls include the exact remaining extent.
+  if (!primitive_type_compare(kItem, kItem) ||
+      primitive_type_compare(kItem, kOther) ||
+      !primitive_bounds_check(kBase, kBase, 32, 32) ||
+      primitive_bounds_check(kBase, kBase, 32, 33) ||
+      !primitive_bounds_check(kBase + 7, kBase, 32, 25) ||
+      primitive_bounds_check(kBase + 7, kBase, 32, 26)) std::abort();
   std::cout << "metric,population,threads,operations,total_ns,ns_per_op,ops_per_sec\n";
 
   for (const size_t population : {size_t{2}, size_t{16}, size_t{256},

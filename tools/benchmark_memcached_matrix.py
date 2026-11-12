@@ -3,6 +3,7 @@
 import argparse
 import csv
 import json
+import shutil
 from pathlib import Path
 import subprocess
 import sys
@@ -71,12 +72,19 @@ SCENARIOS = [
 ]
 
 
-def main():
-    p = argparse.ArgumentParser()
+def main(argv=None, checkpoint=None):
+    p = argparse.ArgumentParser(allow_abbrev=False)
     p.add_argument("--work", type=Path, default=Path("/tmp/interspec-memcached-deployment"))
     p.add_argument("--out", type=Path, required=True)
     p.add_argument("--correctness-summary", type=Path, required=True)
+    p.add_argument("--measurement-mode", choices=("full", "count-only", "sampled"), default="count-only")
+    p.add_argument("--sample-every", type=int, default=1024)
+    p.add_argument("--sample-cap-per-client", type=int, default=100000)
+    p.add_argument("--workload-mode", choices=("legacy", "independent-v1"), default="independent-v1")
+    p.add_argument("--workload-seed", type=int, default=20261109)
     p.add_argument("--preset", choices=("smoke", "paper"), default="smoke")
+    p.add_argument("--operations", type=int, default=0)
+    p.add_argument("--warmup-operations", type=int, default=0)
     p.add_argument("--seconds", type=float)
     p.add_argument("--warmup", type=float)
     p.add_argument("--repetitions", type=int)
@@ -85,7 +93,9 @@ def main():
     p.add_argument("--include-tracking", action="store_true",
                    help="also collect tracked-no-check for decomposition; main table remains native/RLBox/InterSpec")
     p.add_argument("--label", default="memcached_overhead_matrix")
-    args = p.parse_args()
+    p.add_argument("--client-binary", type=Path)
+    p.add_argument("--functional-rehearsal", action="store_true")
+    args = p.parse_args(argv)
 
     defaults = {
         "smoke": {"seconds": 1.0, "warmup": 0.3, "repetitions": 3},
@@ -106,10 +116,15 @@ def main():
 
     for scenario in SCENARIOS:
         out = args.out / scenario["name"]
+        if checkpoint:
+            out, execute = checkpoint.begin(scenario["name"])
+            if out is None:
+                continue
         cmd = [
             sys.executable, str(root / "tools/benchmark_memcached.py"),
             "--work", str(args.work),
             "--out", str(out),
+            "--operations", str(args.operations), "--warmup-operations", str(args.warmup_operations),
             "--seconds", str(seconds),
             "--warmup", str(warmup),
             "--repetitions", str(repetitions),
@@ -122,13 +137,27 @@ def main():
             "--variants", variants,
             "--label", f"{args.label}:{scenario['name']}",
             "--correctness-summary", str(args.correctness_summary),
+            "--measurement-mode", args.measurement_mode, "--sample-every", str(args.sample_every),
+            "--sample-cap-per-client", str(args.sample_cap_per_client),
+            "--workload-mode", args.workload_mode, "--workload-seed", str(args.workload_seed),
         ]
         if args.server_cpus:
             cmd += ["--server-cpus", args.server_cpus]
         if args.client_cpus:
             cmd += ["--client-cpus", args.client_cpus]
-        subprocess.run(cmd, check=True)
+        if args.client_binary:
+            cmd += ["--client-binary", str(args.client_binary)]
+        if args.functional_rehearsal:
+            cmd += ["--functional-rehearsal"]
+        if not checkpoint or execute:
+            if checkpoint:
+                checkpoint.launch(cmd, out)
+            else:
+                subprocess.run(cmd, check=True)
 
+        if checkpoint:
+            report_out = args.out / scenario["name"]
+            shutil.copytree(out, report_out)
         summary_rows = json.loads((out / "summary.json").read_text())
         rows = {row["variant"]: row for row in summary_rows}
         native, rlbox, interspec = rows["native"], rows["rlbox-only"], rows["interspec"]
@@ -172,6 +201,17 @@ def main():
                 all_samples.append({"scenario": scenario["name"], **row})
 
     (args.out / "final-summary.json").write_text(json.dumps({
+        "evidence_scope": "vm_recovery_rehearsal" if args.functional_rehearsal else "unclassified_collection",
+        "publication_ready": False,
+        "operations": args.operations, "warmup_operations": args.warmup_operations,
+        "grid_complete": len(combined) == len(SCENARIOS),
+        "excluded_scenarios": checkpoint.excluded if checkpoint else [],
+        "scope": "VM functional rehearsal only" if args.functional_rehearsal else "collection; host control not asserted",
+        "measurement_mode": args.measurement_mode,
+        "sample_every": args.sample_every if args.measurement_mode == "sampled" else 0,
+        "sample_cap_per_client": args.sample_cap_per_client if args.measurement_mode == "sampled" else 0,
+        "workload_mode": args.workload_mode,
+        "workload_seed": args.workload_seed,
         "preset": args.preset,
         "seconds": seconds,
         "warmup": warmup,
@@ -187,8 +227,14 @@ def main():
             writer.writeheader()
             writer.writerows(all_samples)
 
+    def latency(value): return "unavailable" if value is None else f"{value:.1f}"
     lines = [
-        "# Memcached end-to-end overhead matrix",
+        "# VM functional recovery rehearsal" if args.functional_rehearsal else "# Memcached end-to-end overhead matrix",
+        "Not publication-ready. Incidental rates are retained for provenance, not controlled-host overhead evidence.",
+        "",
+        f"Measurement: {args.measurement_mode}; latency fields describe this run only. Count-only latency is unavailable; sampled quantiles describe selected responses, not every response.",
+        "",
+        f"Workload generator: {args.workload_mode}; seed: {args.workload_seed}. Independent mode uses a target GET probability, not an exact finite-sample ratio. Do not pool with legacy results.",
         "",
         "Positive deltas mean lower throughput. Values are medians; overheads are medians of paired per-repetition ratios.",
         "",
@@ -202,7 +248,7 @@ def main():
             f"{row['rlbox_ops_per_s']/1000:.1f} ({row['rlbox_loss_vs_native_pct']:+.2f}%) | "
             f"{row['interspec_ops_per_s']/1000:.1f} ({row['interspec_loss_vs_native_pct']:+.2f}%) | "
             f"{row['interspec_loss_vs_rlbox_pct']:+.2f}% | "
-            f"{row['native_p99_us']:.1f}/{row['rlbox_p99_us']:.1f}/{row['interspec_p99_us']:.1f} | "
+            f"{latency(row['native_p99_us'])}/{latency(row['rlbox_p99_us'])}/{latency(row['interspec_p99_us'])} | "
             f"{'yes' if row['valid_lossless'] else 'NO'} |"
         )
     if args.include_tracking:
@@ -214,17 +260,23 @@ def main():
             lines.append(f"| {row['name']} | {row['tracking_ops_per_s']/1000:.1f} | "
                          f"{row['tracking_loss_vs_rlbox_pct']:+.2f}% | "
                          f"{row['interspec_loss_vs_tracking_pct']:+.2f}% | "
-                         f"{row['tracking_p99_us']:.1f} | {'yes' if row['valid_lossless'] else 'NO'} |")
+                         f"{latency(row['tracking_p99_us'])} | {'yes' if row['valid_lossless'] else 'NO'} |")
     lines += [
         "",
-        "The balanced 1-client and 8-client scenarios preserve the original InterSpec memcached/bipbuffer workload shape of a 1:1 GET/SET ratio with pipeline depth 10 while making value size and working-set size explicit.",
+        "The balanced 1-client and 8-client scenarios preserve the original InterSpec memcached/bipbuffer target workload shape of 50% GET / 50% SET with pipeline depth 10 while making value size and working-set size explicit.",
         "Watcher scenarios are accepted for the main table only when every timed run has zero logger and LRU drops. A lossy run is retained as raw evidence but must not be interpreted as an overhead result.",
         "",
     ]
     (args.out / "FINAL_TABLE.md").write_text("\n".join(lines))
+    if checkpoint and checkpoint.excluded:
+        raise SystemExit("Incomplete grid: excluded scenarios " + ", ".join(checkpoint.excluded))
     if invalid:
         raise SystemExit("matrix contains lossy scenarios; raw evidence retained: " + ", ".join(invalid))
 
 
 if __name__ == "__main__":
-    main()
+    if len(sys.argv) > 1 and sys.argv[1] == "checkpoint":
+        from matrix_checkpoint import main as checkpoint_main
+        checkpoint_main(sys.argv[2:])
+    else:
+        main()

@@ -32,6 +32,21 @@ add_executable(core_poc tests/core_poc.cpp)
 target_link_libraries(core_poc PRIVATE interspec::runtime)
 add_test(NAME core_poc COMMAND core_poc)
 find_package(Threads REQUIRED)
+add_executable(memcached_workload_test tests/memcached_workload.cpp)
+target_link_libraries(memcached_workload_test PRIVATE Threads::Threads)
+if(MSVC)
+  target_compile_options(memcached_workload_test PRIVATE /UNDEBUG)
+else()
+  target_compile_options(memcached_workload_test PRIVATE -UNDEBUG)
+endif()
+add_test(NAME memcached_workload_test COMMAND memcached_workload_test)
+add_executable(memcached_measurement_test tests/memcached_measurement.cpp)
+if(MSVC)
+  target_compile_options(memcached_measurement_test PRIVATE /UNDEBUG)
+else()
+  target_compile_options(memcached_measurement_test PRIVATE -UNDEBUG)
+endif()
+add_test(NAME memcached_measurement_test COMMAND memcached_measurement_test)
 add_executable(runtime_hardening tests/runtime_hardening.cpp)
 target_link_libraries(runtime_hardening PRIVATE interspec::runtime Threads::Threads)
 add_test(NAME runtime_hardening COMMAND runtime_hardening)
@@ -51,6 +66,28 @@ add_executable(p6_runtime_bench evaluation/runtime_bench.cpp)
 target_link_libraries(p6_runtime_bench PRIVATE interspec::runtime Threads::Threads)
 
 find_package(Python3 REQUIRED COMPONENTS Interpreter)
+add_test(NAME runtime_microbench_evidence COMMAND ${Python3_EXECUTABLE}
+  ${CMAKE_CURRENT_SOURCE_DIR}/tests/runtime_microbench_evidence.py)
+add_executable(memcached_client evaluation/memcached_client.cpp)
+target_link_libraries(memcached_client PRIVATE Threads::Threads)
+add_test(NAME memcached_client_protocol COMMAND ${Python3_EXECUTABLE}
+  ${CMAKE_CURRENT_SOURCE_DIR}/tests/memcached_client_protocol.py $<TARGET_FILE:memcached_client>)
+add_test(NAME memcached_buffered_protocol COMMAND ${Python3_EXECUTABLE}
+  ${CMAKE_CURRENT_SOURCE_DIR}/tests/memcached_buffered_protocol.py $<TARGET_FILE:memcached_client>)
+add_test(NAME evaluation_checkpoint COMMAND ${Python3_EXECUTABLE}
+  ${CMAKE_CURRENT_SOURCE_DIR}/tests/evaluation_checkpoint.py)
+add_test(NAME checkpointed_memcached COMMAND ${Python3_EXECUTABLE}
+  ${CMAKE_CURRENT_SOURCE_DIR}/tests/checkpointed_memcached.py)
+add_test(NAME matrix_checkpoint COMMAND ${Python3_EXECUTABLE}
+  ${CMAKE_CURRENT_SOURCE_DIR}/tests/matrix_checkpoint.py)
+add_test(NAME capacity_diagnostic COMMAND ${Python3_EXECUTABLE}
+  ${CMAKE_CURRENT_SOURCE_DIR}/tests/capacity_diagnostic.py)
+add_test(NAME capacity_affinity_observation COMMAND ${Python3_EXECUTABLE}
+  ${CMAKE_CURRENT_SOURCE_DIR}/tests/capacity_affinity_observation.py)
+add_test(NAME memcached_matrix_evidence COMMAND ${Python3_EXECUTABLE}
+  ${CMAKE_CURRENT_SOURCE_DIR}/tests/memcached_matrix_evidence.py)
+add_test(NAME memcached_workload_metadata COMMAND ${Python3_EXECUTABLE}
+  ${CMAKE_CURRENT_SOURCE_DIR}/tests/memcached_workload_metadata.py)
 add_test(NAME memcached_lru_transform COMMAND ${Python3_EXECUTABLE}
   ${CMAKE_CURRENT_SOURCE_DIR}/tests/memcached_lru_transform.py
   --compiler ${CMAKE_CXX_COMPILER})

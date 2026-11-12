@@ -18,6 +18,14 @@ def main():
 
     matrix = json.loads(args.matrix.read_text())
     checks = {r["name"]: r for r in json.loads(args.checks.read_text())}
+    def workload_identity(record):
+        mode = record.get("workload_mode", "legacy")
+        return (mode, record.get("workload_seed") if mode != "legacy" else None)
+    identity = workload_identity(matrix)
+    if identity[0] != "legacy" and identity[1] is None:
+        raise SystemExit("corrected timing matrix is missing workload seed")
+    if any(workload_identity(row) != identity for row in checks.values()):
+        raise SystemExit("timing/profile workload mode or seed mismatch; do not combine")
     micro = json.loads(args.microbench.read_text())
     direct = [
         r for r in micro
@@ -27,8 +35,13 @@ def main():
         raise SystemExit("expected one population-2 check_live microbenchmark row")
     check_ns = direct[0]["ns_per_op_median"]
 
+    def latency(value): return "unavailable" if value is None else f"{value:.1f}"
     lines = [
         "# Memcached performance overhead study",
+        "",
+        f"Measurement: {matrix.get('measurement_mode', 'full (historical)')}. Latency fields belong to this timing experiment; no independent latency pass is substituted. Sampled quantiles describe selected responses only.",
+        "",
+        f"Workload generator: {identity[0]}; seed: {identity[1] if identity[1] is not None else 'ignored (legacy)'}. Historical missing metadata is treated as legacy.",
         "",
         "## End-to-end overhead",
         "",
@@ -43,7 +56,7 @@ def main():
             f"{row['rlbox_ops_per_s']/1000:.1f} | {row['rlbox_loss_vs_native_pct']:+.2f}% | "
             f"{row['interspec_ops_per_s']/1000:.1f} | {row['interspec_loss_vs_native_pct']:+.2f}% | "
             f"{row['interspec_loss_vs_rlbox_pct']:+.2f}% | "
-            f"{row['native_p99_us']:.1f}/{row['rlbox_p99_us']:.1f}/{row['interspec_p99_us']:.1f} | "
+            f"{latency(row['native_p99_us'])}/{latency(row['rlbox_p99_us'])}/{latency(row['interspec_p99_us'])} | "
             f"{'yes' if row['valid_lossless'] else 'NO'} |"
         )
 
@@ -56,7 +69,7 @@ def main():
             lines.append(f"| {row['name']} | {row['tracking_ops_per_s']/1000:.1f} | "
                          f"{row['tracking_loss_vs_rlbox_pct']:+.2f}% | "
                          f"{row['interspec_loss_vs_tracking_pct']:+.2f}% | "
-                         f"{row['tracking_p99_us']:.1f} | {row['tracking_cpu_us_per_op']:.3f} | "
+                         f"{latency(row['tracking_p99_us'])} | {row['tracking_cpu_us_per_op']:.3f} | "
                          f"{row['tracking_rss_mib']:.2f} |")
 
     lines += [

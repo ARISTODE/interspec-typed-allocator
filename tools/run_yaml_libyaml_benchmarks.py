@@ -3,6 +3,7 @@
 import argparse
 import csv
 import json
+import math
 import os
 from pathlib import Path
 import platform
@@ -13,11 +14,7 @@ from collections import defaultdict
 MODES = ("native", "rlbox_only", "tracked_no_check", "extended_sp3")
 
 
-def parse_line(stdout):
-    lines = [line for line in stdout.splitlines() if line.startswith("YAML_BENCH ")]
-    if len(lines) != 1:
-        raise RuntimeError(f"unexpected YAML output: {stdout!r}")
-    return dict(item.split("=", 1) for item in lines[0].split()[1:])
+from yaml_measurement_validation import parse_line, validate_result, validate_grid, expected_hash, integer
 
 
 def run(command, check=True, census=False):
@@ -76,7 +73,8 @@ def paired_overhead(numerator, denominator):
     return (numerator / denominator - 1.0) * 100.0
 
 
-def summarize(samples):
+def summarize(samples, repetitions):
+    validate_grid(samples, repetitions)
     by_mode = defaultdict(list)
     groups = defaultdict(dict)
     for row in samples:
@@ -120,6 +118,8 @@ def summarize(samples):
         result[f"{name}_mean_pct"] = statistics.fmean(values)
         result[f"{name}_min_pct"] = min(values)
         result[f"{name}_max_pct"] = max(values)
+    if not all(math.isfinite(value) for value in result.values()):
+        raise ValueError("nonfinite summary")
     return result
 
 
@@ -138,14 +138,15 @@ def main():
     out.mkdir(parents=True, exist_ok=True)
     input_path = out / "document-1m.yaml"
     make_document(input_path)
+    input_data = input_path.read_bytes()
 
-    correctness_iterations = int(os.environ.get("INTERSPEC_YAML_CORRECTNESS_ITERATIONS", "2"))
+    correctness_iterations = integer(os.environ.get("INTERSPEC_YAML_CORRECTNESS_ITERATIONS", "2"), 1, (1 << 32) - 1)
     correctness = {}
     reference = None
     for mode in MODES:
         completed = run(mode_command(args, mode, input_path, correctness_iterations),
                         census=mode == "extended_sp3" and os.environ.get("INTERSPEC_YAML_CENSUS_CORRECTNESS") == "1")
-        row = parse_line(completed.stdout)
+        row = validate_result(parse_line(completed.stdout), mode, correctness_iterations, input_data)
         correctness[mode] = row
         (out / f"correctness-{mode}.stdout").write_text(completed.stdout)
         (out / f"correctness-{mode}.stderr").write_text(completed.stderr)
@@ -189,8 +190,8 @@ def main():
 
     same_type = run(mode_command(args, "extended_sp3", input_path, 1, fault=5))
     native_once = run(mode_command(args, "native", input_path, 1))
-    same_row = parse_line(same_type.stdout)
-    native_row = parse_line(native_once.stdout)
+    same_row = validate_result(parse_line(same_type.stdout), "extended_sp3", 1, input_data)
+    native_row = validate_result(parse_line(native_once.stdout), "native", 1, input_data)
     if signature(same_row) != signature(native_row):
         raise RuntimeError("same-type substitution changed valid YAML result")
     (out / "fault-5.stdout").write_text(same_type.stdout)
@@ -212,6 +213,9 @@ def main():
     if iterations < 1 or repetitions < 3 or warmups < 0:
         raise RuntimeError("invalid YAML benchmark settings")
 
+    # Keep the potentially expensive independent hash oracle before warmups.
+    expected_hash(iterations)
+
     variants = [
         (mode, mode_command(args, mode, input_path, iterations))
         for mode in MODES
@@ -220,8 +224,8 @@ def main():
     orders = rotations + [list(reversed(order)) for order in rotations]
 
     for _ in range(warmups):
-        for _, command in variants:
-            parse_line(run(command).stdout)
+        for mode, command in variants:
+            validate_result(parse_line(run(command).stdout), mode, iterations, input_data)
 
     samples = []
     run_stats = []
@@ -229,7 +233,7 @@ def main():
     for repetition in range(repetitions):
         for mode, command in orders[repetition % len(orders)]:
             completed = run(command)
-            row = parse_line(completed.stdout)
+            row = validate_result(parse_line(completed.stdout), mode, iterations, input_data)
             sig = signature(row)
             if performance_signature is None:
                 performance_signature = sig
@@ -258,7 +262,7 @@ def main():
         "\n".join(json.dumps(row, sort_keys=True) for row in run_stats) + "\n"
     )
 
-    summary = summarize(samples)
+    summary = summarize(samples, repetitions)
     with (out / "yaml-performance-summary.csv").open("w", newline="") as output:
         writer = csv.DictWriter(output, fieldnames=list(summary))
         writer.writeheader()

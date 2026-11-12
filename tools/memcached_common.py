@@ -8,6 +8,11 @@ import subprocess
 import time
 
 
+def guarded_command(command):
+    import sys
+    return [sys.executable, str(Path(__file__).with_name("process_guard.py")), str(os.getpid()), *command]
+
+
 class Client:
     def __init__(self, port, timeout=8):
         self.sock = socket.create_connection(("127.0.0.1", port), timeout)
@@ -64,7 +69,7 @@ class Client:
 
 
 class Server:
-    def __init__(self, binary, logdir, name, *, trace=False, fault=None, extra=(), cpu=None, census=False):
+    def __init__(self, binary, logdir, name, *, trace=False, fault=None, extra=(), cpu=None, census=False, guarded=False):
         logdir = Path(logdir)
         logdir.mkdir(parents=True, exist_ok=True)
         self.logpath = logdir / f"{name}.stderr"
@@ -82,9 +87,9 @@ class Server:
         if cpu is not None: self.args = ["taskset", "-c", str(cpu), *self.args]
         self.err = self.logpath.open("wb")
         self.out = self.outpath.open("wb")
-        def no_core(): resource.setrlimit(resource.RLIMIT_CORE, (0, 0))
         start = time.monotonic_ns()
-        self.proc = subprocess.Popen(self.args, stdout=self.out, stderr=self.err, env=env, preexec_fn=no_core)
+        def no_core(): resource.setrlimit(resource.RLIMIT_CORE, (0, 0))
+        self.proc = subprocess.Popen(guarded_command(self.args) if guarded else self.args, stdout=self.out, stderr=self.err, env=env, **({} if guarded else {"preexec_fn": no_core}))
         try:
             deadline = time.monotonic() + 20
             while time.monotonic() < deadline:

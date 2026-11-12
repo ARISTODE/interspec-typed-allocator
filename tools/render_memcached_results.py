@@ -13,9 +13,29 @@ perf = json.loads((a.results/'performance-summary.json').read_text())
 env = json.loads((a.results/'environment.json').read_text())
 tracking = json.loads((a.results/'tracking-summary.json').read_text())
 commit = env['build']['project_commit']
+def latency(value): return 'unavailable' if value is None else f'{value:.2f}'
+identities = {(r.get('measurement_mode', 'full'), r.get('sample_every', 0), r.get('sample_cap_per_client', 0)) for r in perf}
+if len(identities) != 1: raise SystemExit('mixed measurement modes/sampling configuration in performance summary')
+measurement = next(iter(identities))[0]
+def workload_identity(record):
+    mode = record.get('workload_mode', 'legacy')
+    if mode not in ('legacy', 'independent-v1'):
+        raise SystemExit('unknown workload mode in performance evidence')
+    seed = record.get('workload_seed') if mode != 'legacy' else None
+    if mode != 'legacy' and (type(seed) is not int or not 0 <= seed < 2**64):
+        raise SystemExit('corrected performance evidence is missing a valid workload seed')
+    return mode, seed
+workload_identities = {workload_identity(r) for r in perf}
+if len(workload_identities) != 1:
+    raise SystemExit('mixed workload modes/seeds in performance summary')
+workload_mode, workload_seed = next(iter(workload_identities))
+if workload_identity(env['parameters']) != (workload_mode, workload_seed):
+    raise SystemExit('environment/performance workload mode or seed mismatch')
 lines = [
     '# Memcached deployment results', '',
     f"The complete cache-server deployment passes **{correctness['passed']}/{correctness['total']}** local cases. Performance results below are a **shared-container pilot**, not publication overhead estimates.", '',
+    f'Measurement mode: {measurement}. Count-only latency is unavailable; sampled quantiles describe selected responses in this run only.', '',
+    f"Workload generator: {workload_mode}; seed: {workload_seed if workload_seed is not None else 'ignored (legacy)'}. Missing historical metadata is treated as legacy. Do not pool corrected and legacy results.", '',
     f'Implementation and measured binaries: `{commit}`.', '',
     'The fresh-build [memcached deployment CI run](https://github.com/ARISTODE/interspec-typed-allocator/actions/runs/36977024146) passed its build, 50-case correctness gate, and performance-collection step at this implementation revision.', '',
     'The [implementation guide](MEMCACHED_DEPLOYMENT.md) documents the boundary, source edits, threat scope, build, tests, and collection commands. [PR #16](https://github.com/ARISTODE/interspec-typed-allocator/pull/16) is stacked on the SP3 diagnostics work in #15.', '',
@@ -60,7 +80,7 @@ lines += ['', 'Site 1048577 is the real `bipbuf_t` allocation, including its 20-
     '| Workload | Variant | Median ops/s | Min–max ops/s | Median run p99 (µs) | Median CPU µs/op | Median RSS (MiB) | No log/LRU losses in all runs |',
     '| --- | --- | ---: | ---: | ---: | ---: | ---: | --- |']
 for r in perf:
-    lines.append(f"| {r['workload']} | {r['variant']} | {r['ops_per_s_median']:,.0f} | {r['ops_per_s_min']:,.0f}–{r['ops_per_s_max']:,.0f} | {r['p99_us_median']:.2f} | {r['cpu_us_per_op_median']:.2f} | {r['VmRSS_kib_median']/1024:.2f} | {'yes' if r['all_no_log_loss'] and r['all_no_lru_loss'] else 'NO'} |")
+    lines.append(f"| {r['workload']} | {r['variant']} | {r['ops_per_s_median']:,.0f} | {r['ops_per_s_min']:,.0f}–{r['ops_per_s_max']:,.0f} | {latency(r['p99_us_median'])} | {r['cpu_us_per_op_median']:.2f} | {r['VmRSS_kib_median']/1024:.2f} | {'yes' if r['all_no_log_loss'] and r['all_no_lru_loss'] else 'NO'} |")
 lines += ['', '| Workload | SP3 throughput loss vs native | vs RLBox-only | vs tracking-only |', '| --- | ---: | ---: | ---: |']
 for r in perf:
     if r['variant'] != 'interspec': continue
