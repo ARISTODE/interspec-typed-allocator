@@ -1,6 +1,73 @@
 # Evaluation completion ledger
 
-## Current progress: 11 November 2026
+## Current progress: 12 November 2026
+
+**The evaluation remains incomplete.** Stage 15 integrates the previously
+validated measurement-source chain and closes focused local source/build/test
+validation. Controlled performance, comparative latency, the full corrected
+matrix and the unresolved provenance/causal-policy questions remain open.
+
+Published source commit `545474d07526fe4c249d13f3b0a8d64a54b08b38` has parent
+`21a947b6e8594dfb567a31d9bd8883646bc4df06` and changes 42 evaluation-tooling paths.
+Its tree is identical to tested local commit
+`c69fccc12bece80eac5c4b82ca37fa593df6a055`, retained in the evidence archive.
+The GitHub commit metadata differs; no source bytes changed during publication.
+It preserves the consolidated `333d2b0` candidate plus the newer ledger, with
+only one additional trailing-space cleanup. Production runtime headers,
+application bridges, workflows, paper and historical results are unchanged.
+Builds/tests ran on staged tree `ccef25a6c25e78af14b0c0e6a90305d72c46cd2b`;
+that identical tree was committed locally after independent saved-output review.
+
+### Focused validation completed once
+
+- All 388 source-file identities, 28 changed Python-file syntax checks,
+  whitespace checks, CMake configuration and four selected build targets passed.
+- Two deterministic C++ workload/sampling tests, 23 synthetic matrix tests,
+  30 profile-evidence tests, seven mock-affinity tests and 12 renderer/schema
+  cases passed.
+- Ten valid-response, count-only loopback client cases passed: 926 validated
+  responses across fragmentation, coalescing, buffer refills, incomplete batches
+  and legacy mapping. These were mock-server cases, not new memcached profiles.
+- Two unchanged selected runtime-test methods passed: functional grids at
+  1,023/2,049 iterations (39 rows each) and retained-instruction disassembly.
+  The executed `-O2` test binary is distinct from the compile-only CMake
+  `-O3` runtime target; both binaries and exact build commands are retained.
+  Direct comparison also reproduced the archived 43,576-byte `-O2` runtime
+  executable exactly, with matching benchmark/header/driver source bytes and
+  all 57 historical archive-manifest entries checked. This is one byte-identical
+  rebuild, not historical host/timing validation or a new performance result.
+- Fourteen YAML evidence methods passed, using exact path adaptations and
+  verified imports. They validate synthetic fixtures and saved historical
+  output, not new YAML application executions.
+
+No full-suite CTest, runtime driver/mutated-binary method, corrupted-response
+client fixture, checkpoint crash test, actual server collection, capacity run,
+security/fault experiment or controlled-host timing study was run. Incidental
+elapsed values are functional-test artifacts, not performance results. Earlier
+measurements retain their original source and executable attribution.
+
+### Retained Stage 15 evidence
+
+- Archive: `interspec-measurement-integration-verified-20261112.tar.gz`; SHA-256 `424f811aca8d833f69ced4797f2a9de7818d945456f3993742c0e6b2cb6596af`.
+  All 910 manifest files were verified after a download roundtrip. This private
+  Space archive contains the exact source bundle/snapshot, frozen
+  command plans, raw outputs, tested binaries and independent acceptance.
+  See `stage15-evidence/REPORT.md`,
+  `stage15-independent-review/FINAL_REVIEW.md` and
+  `stage15-independent-review/relocated-audit.json`.
+- New source bundle SHA-256:
+  `ef2d52e21a21223ce3cb5900b482d75f3fbd8a6bb01887582586c3008204332b`.
+- Saved-evidence verification does not launch applications or repeat tests.
+  Publication commits use `[skip ci]`; no full CI pass is claimed.
+
+The source-integration work recorded as open on 11 November is now closed for
+this exact patch and test scope. The controlled-host/headroom protocol, full
+matrix and matching profiles, separate latency study, publication measurements,
+paper-row provenance, effective policy ablations, source-derived coverage and
+causal-policy claims remain open. Restricted corruption/callback work remains
+blocked. The dated results below keep their original scope.
+
+## Progress through Stage 14: 11 November 2026
 
 **The evaluation remains incomplete.** The new results below close specific
 ordinary functional and evidence-validation tasks. They do not establish
