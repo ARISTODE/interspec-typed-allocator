@@ -28,6 +28,7 @@ want=$(python3 -c "import json,sys; print(json.load(open(sys.argv[1]))['analysis
 "$codeql" version --format=terse > "$out/codeql-version.txt" 2>/dev/null
 [[ $(cat "$out/codeql-version.txt") == 2.23.2 ]] || { echo "CodeQL 2.23.2 expected" >&2; exit 2; }
 
+databases=("$@")  # taken before the loop below reuses the positional parameters
 mkdir -p "$root" "$work/db"
 for pair in "code/analysis/scripts scripts" "code/analysis/ql ql" "configs configs" \
             "code/workloads workloads" "code/generated_wrappers/samples samples"; do
@@ -48,7 +49,6 @@ import json,sys; s=json.load(open(sys.argv[1]))['sources'][sys.argv[2]]; print(s
   [[ $(git -C "$root/$path" rev-parse HEAD) == "$revision" ]]
 }
 
-databases=("$@")
 if [[ ${#databases[@]} == 0 ]]; then
   mapfile -t databases < <(python3 -c "import json,sys; print('\n'.join(json.load(open(sys.argv[1]))['databases']))" "$pins")
 fi
