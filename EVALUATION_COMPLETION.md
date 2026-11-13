@@ -2,6 +2,130 @@
 
 ## Current progress: 13 November 2026
 
+**Stage 17's fixed-work, all-response VM latency reference is complete and
+independently accepted. The broader evaluation remains incomplete.** All six
+memcached scenarios × four variants × eight balanced blocks completed once:
+192 measured cells and 192 separate warmups. This closes the separately
+declared descriptive latency study on the available VM, alongside Stage 16's
+count-only throughput reference. It does not establish controlled-host
+performance, generator headroom, steady state or production-tail behavior.
+
+### Stage 17 validated results
+
+- Collection ran on 13 November, 06:31:20–06:39:40 UTC, in 500.040 seconds
+  (8 minutes 20 seconds). The single retained attempt exited zero without
+  timeout. No measured cell failed, was excluded, extended, replaced or retried.
+- Each measured cell completed 100,000 validated operations and retained all
+  100,000 latency values: 19,200,000 measured values, exactly 153,600,000 binary
+  payload bytes. There was no sampling, cap loss or per-worker sample-vector
+  growth at this bound. Separate warmups completed 19,200,000 operations and
+  fresh servers received 1,920,000 preload SETs; these phases are not pooled.
+- All phase GET/SET/hit/miss counts matched the independent fixed-work oracle.
+  Client errors and misses, logging/watcher/LRU cumulative and delta losses
+  were zero; required watchers were active. Coverage, balanced order, identities,
+  clean exits and empty ordinary client/server diagnostics all passed.
+- The unchanged stock matrix verifier accepted all 192 observations. The
+  independent saved-data review checked all 491 frozen inputs, decoded every
+  raw value and recomputed all 768 cell quantiles. It verified 264 eight-cell
+  metric vectors, all rendered tables and all 192 cell CSV rows. A relocated
+  replay produced byte-identical audit outputs without launching applications.
+
+### Raw-derived p99 latency
+
+Microseconds, median [minimum, maximum] across the eight per-cell p99 values.
+These are not pooled p99 values. Each cell uses the lower order statistic
+`sorted[floor(p × (N − 1))]`, without interpolation; for 100,000 values, p99
+is zero-based index 98,999. Across eight cell values, the summary median is
+the arithmetic mean of sorted positions four and five.
+
+| Scenario | Native | RLBox-only | Tracked-no-check | InterSpec |
+| --- | ---: | ---: | ---: | ---: |
+| balanced_1c | 92.414 [72.579, 96.625] | 92.639 [84.988, 116.786] | 94.011 [78.148, 102.534] | 86.490 [74.191, 109.635] |
+| balanced_8c | 211.939 [97.557, 292.641] | 175.433 [146.921, 341.534] | 178.539 [145.670, 304.017] | 179.765 [137.066, 241.143] |
+| read_heavy_1k | 382.540 [210.277, 592.121] | 253.288 [174.672, 420.131] | 299.415 [183.686, 370.347] | 225.900 [165.869, 313.021] |
+| write_heavy | 214.648 [172.029, 329.015] | 189.710 [124.267, 304.779] | 240.472 [151.078, 380.753] | 225.909 [167.241, 309.506] |
+| watch_light | 80.136 [71.738, 87.151] | 76.665 [66.840, 83.105] | 75.358 [65.108, 90.376] | 72.304 [61.152, 81.402] |
+| watch_moderate | 78.237 [70.175, 93.381] | 79.810 [71.758, 87.491] | 74.632 [64.687, 84.557] | 82.920 [71.979, 102.634] |
+
+Measured windows ranged from 0.045053005 to 2.633444899 seconds: deliberately
+fixed work, not sustained-duration runs. Latency begins before sending the
+constructed pipeline batch and ends after each response's receive, exact byte
+validation and accounting. It includes loopback/network, queueing, client
+scheduling/validation and server work; later batch responses also include work
+handling earlier responses. Request construction before send is excluded.
+These are correlated end-to-end durations, not isolated server service times.
+
+Full mode uses a per-response receive path, unlike Stage 16's buffered
+count-only mode. Retained Stage 17 throughput belongs to these same full-mode
+observations; no Stage 16 throughput is substituted or cross-mode difference
+treated as pure instrumentation cost. Export, merge and sort occur after the
+timing endpoints, but instrumentation and changed binary layout can still
+perturb behavior. All observations, including the largest response duration
+of 33.263 milliseconds, remain retained.
+
+Shared-host noise, short windows, startup/termination effects, unknown physical
+topology/frequency/quota behavior, unproved generator headroom and correlated
+responses preclude stable ordering, equivalence, slowdown bounds, causal
+overhead and production-tail conclusions. No significance test, confidence
+interval, trimming or causal-policy decomposition is claimed. The stock
+renderer retains its historical generic labels and unclassified status;
+the Stage 17 protocol and accepted report define this narrower interpretation.
+
+### Stage 17 identities and retained evidence
+
+The base measurement source matches published Stage 15 commit
+`545474d07526fe4c249d13f3b0a8d64a54b08b38`, tree
+`ccef25a6c25e78af14b0c0e6a90305d72c46cd2b`. Stage 17 adds an independently
+reviewed four-path local patch, retained in the archive but not published.
+The rebuilt and measured client is SHA-256
+`8b525752e9f7d4988be92cc9afb61533cd0fd2f7f5bbf5d99c28db19b31e8b72`.
+The four unchanged historical ordinary servers retain source attribution
+`6e164d3a62db94e4774345ee32f7d03cf3906bce` and their recorded binary hashes;
+they are not Stage 17 server builds. Their hash-bound 50-case correctness gate
+was inherited, not rerun.
+
+The initial validation launcher failed before executing any command because
+bare CMake was absent from PATH. Its record is retained separately. The
+subsequently approved absolute-path validation ran its five finite commands
+once and passed, including eight valid-input fixtures with 8,024 responses
+and 6,018 raw fixture values. No outcome was replaced. Compiler, build/link
+metadata, source patch and binaries are retained with the collection.
+
+- Archive: `interspec-vm-latency-20261113.tar.gz`;
+  SHA-256 `ab4e815257d934af63f097867b5b36af0aa4092c78e0692e3c8aeda77fc61432`;
+  54,733,821 bytes. The downloaded archive's exact SHA-256 and size matched;
+  all 3,633 manifest files (171,310,881 uncompressed bytes) were verified.
+  The archive is retained privately in Space, not published as a GitHub artifact.
+- Detailed archive members: `stage17-vm-latency/PROTOCOL.md`,
+  `stage17-vm-latency/REPORT.md`, `stage17-vm-latency/LATENCY_TABLES.md`,
+  `stage17-vm-latency/ANALYSIS.json`, `stage17-vm-latency/RAW_DERIVED_CELLS.csv`,
+  `stage17-independent-review/FINAL_REVIEW.md`,
+  `stage17-independent-review/FINAL_ACCEPTANCE.json` and
+  `stage17-independent-review/RELOCATED_REPLAY.json`. These are archive-relative
+  paths, not repository-relative links. The tables include p50, p95, p99,
+  maximum-observed-response and duration; raw payloads and sidecars preserve
+  every measured value in worker-local vector order, not request-ID traces.
+- Final report SHA-256:
+  `b05d076b01a2411a1b44025f3ec5c3a7c5395015794af836d3fb7d39d7560b4d`.
+- Frozen collection manifest SHA-256:
+  `fab061acd2bf461b20f56bfb9676fac4bc1055eda8e01387418dd0409011c31f`.
+
+### What remains open after Stage 17
+
+The fixed-work VM latency reference is no longer pending. Original paper-row
+provenance, effective policy ablations, source-derived coverage, causal-policy
+claims and other publication measurements remain separate open work. The older
+controlled-host/headroom protocol remains unfulfilled and unchanged. Work stays
+on the available VM; CloudLab or another host is not a required next step.
+
+No capacity A/A repeat, restricted corruption/callback work, security/fault
+experiment, hardware-counter run, broad test suite, CI run or paper edit was
+performed for Stage 17. This repository update changes only the progress
+ledger and uses `[skip ci]`; no full CI pass is claimed. Earlier dated sections
+below preserve their historical status, source identities and limitations.
+
+## Progress through Stage 16: 13 November 2026
+
 **Stage 16's corrected VM-reference matrix is complete and independently
 accepted. The broader evaluation remains incomplete.** All six memcached
 scenarios × four variants × eight balanced blocks completed in one retained
