@@ -47,6 +47,12 @@ MC_BENIGN_PEEK = r"^T_OBSERVE stage=peek_all size=16 data=" + MC_RECORD + "$"
 MC_FAULT = {"INTERSPEC_TEST_FAULT": "2", "INTERSPEC_TEST_TARGET": "2",
             "INTERSPEC_TEST_ROLE": "1"}
 
+# nginx/libpcre driver: subject "/items/123/alpha" in hex, and its captures.
+NGX_SUBJECT = "2f6974656d732f3132332f616c706861"
+NGX_BENIGN = (r"^T_OBSERVE stage=exec rc=3 subject=" + NGX_SUBJECT +
+              r" captures=0-16,7-10,11-16$")
+NGX_FAULT = {"INTERSPEC_NGINX_FAULT_PATH": "2", "INTERSPEC_NGINX_FAULT_KIND": "2"}
+
 # Each case: switch settings, test-only U behavior, and what must be observed.
 # "exit" is a return code; a negative value is the signal that ended the process.
 BOUNDARIES = {
@@ -216,6 +222,84 @@ BOUNDARIES = {
                 "exit": 0,
                 "stdout": [MC_BENIGN_OFFER, MC_BENIGN_PEEK,
                            r"^T_OBSERVE stage=poll returned=1 empty=1$",
+                           r"^T_OBSERVE stage=done$"],
+                "stderr_absent": [r"INTERSPEC_REJECT", r"FAULT_INJECTION", r"PoC"],
+            },
+        },
+    },
+    "nginx_pcre": {
+        "tests": {
+            "sp1": ["sp1_off_u_reads", "sp1_on_u_reads"],
+            "sp2": ["sp2_off_u_writes", "sp2_on_u_writes"],
+            "sp3": ["sp3_off_bad_pointer", "sp3_domain_bad_pointer",
+                    "sp3_on_bad_pointer"],
+            "benign": ["benign_all_on", "benign_all_off"],
+        },
+        "cases": {
+            # SP1: U reads the output vector of pcre_exec on entry. T filled it
+            # with 0x5ec2e7 before the call.
+            "sp1_off_u_reads": {
+                "env": {**switches(sp1="0"), "INTERSPEC_TEST_POC_FLAGS": "1"},
+                "exit": 0,
+                "stdout": [NGX_BENIGN, r"^T_OBSERVE stage=done$"],
+                "stderr": [r"\[SP1\] sandbox read exec ovector\[0\]=0x5ec2e7$"],
+            },
+            "sp1_on_u_reads": {
+                "env": {**switches(), "INTERSPEC_TEST_POC_FLAGS": "1"},
+                "exit": 0,
+                "stdout": [NGX_BENIGN, r"^T_OBSERVE stage=done$"],
+                "stderr": [r"\[SP1\] sandbox read exec ovector\[0\]=0xffffffff$"],
+                "stderr_absent": [r"5ec2e7"],
+            },
+            # SP2: U overwrites its copy of the subject passed to pcre_exec.
+            "sp2_off_u_writes": {
+                "env": {**switches(sp2="0"), "INTERSPEC_TEST_POC_FLAGS": "2"},
+                "exit": 0,
+                "stdout": [r"^T_OBSERVE stage=exec rc=3 subject=d0" + NGX_SUBJECT[2:] +
+                           r" captures=0-16,7-10,11-16$", r"^T_OBSERVE stage=done$"],
+                "stderr": [r"\[SP2\] sandbox mutated subject byte=0 old=0x2f new=0xd0$"],
+            },
+            "sp2_on_u_writes": {
+                "env": {**switches(), "INTERSPEC_TEST_POC_FLAGS": "2"},
+                "exit": 0,
+                "stdout": [NGX_BENIGN, r"^T_OBSERVE stage=done$"],
+                "stderr": [r"\[SP2\] sandbox mutated subject byte=0 old=0x2f new=0xd0$"],
+            },
+            # SP3: U returns an untracked heap copy of the capture offsets.
+            "sp3_off_bad_pointer": {
+                "env": {**switches(sp3="0"), **NGX_FAULT},
+                "exit": 0,
+                "stdout": [NGX_BENIGN, r"^T_OBSERVE stage=done$"],
+                "stderr": [r"^FAULT_INJECTION boundary=nginx_pcre path=2 kind=2 "],
+                "stderr_absent": [r"INTERSPEC_REJECT"],
+            },
+            "sp3_domain_bad_pointer": {
+                "env": {**switches(sp3="domain"), **NGX_FAULT},
+                "exit": 0,
+                "stdout": [NGX_BENIGN, r"^T_OBSERVE stage=done$"],
+                "stderr": [r"^FAULT_INJECTION boundary=nginx_pcre path=2 kind=2 "],
+                "stderr_absent": [r"INTERSPEC_REJECT"],
+            },
+            "sp3_on_bad_pointer": {
+                "env": {**switches(), **NGX_FAULT},
+                "exit": -REJECT,
+                "stdout": [r"^T_OBSERVE stage=compile result=ok$"],
+                "stdout_absent": [r"stage=exec", r"stage=done"],
+                "stderr": [r"^FAULT_INJECTION boundary=nginx_pcre path=2 kind=2 ",
+                           r"^INTERSPEC_REJECT boundary=nginx_pcre "
+                           r"operation=capture_offsets reason=untracked$"],
+            },
+            "benign_all_on": {
+                "env": switches(),
+                "exit": 0,
+                "stdout": [r"^T_OBSERVE stage=compile result=ok$", NGX_BENIGN,
+                           r"^T_OBSERVE stage=done$"],
+                "stderr_absent": [r"INTERSPEC_REJECT", r"FAULT_INJECTION", r"PoC"],
+            },
+            "benign_all_off": {
+                "env": switches(sp1="0", sp2="0", sp3="0"),
+                "exit": 0,
+                "stdout": [r"^T_OBSERVE stage=compile result=ok$", NGX_BENIGN,
                            r"^T_OBSERVE stage=done$"],
                 "stderr_absent": [r"INTERSPEC_REJECT", r"FAULT_INJECTION", r"PoC"],
             },

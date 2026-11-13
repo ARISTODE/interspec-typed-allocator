@@ -24,6 +24,11 @@ static int compile_error_offset;
 static uint32_t fault_path, fault_kind;
 void interspec_nginx_fault(uint32_t path, uint32_t kind)
 { fault_path = path; fault_kind = kind; }
+/* Policy-switch tests (tracker item I4), same flag bits as the rsync/popt PoC:
+ * 1 = U reads the first element of the pcre_exec output vector on entry,
+ * 2 = U overwrites its copy of the subject after matching. */
+static uint32_t poc_flags;
+void interspec_nginx_poc(uint32_t flags) { poc_flags = flags; }
 #endif
 
 unsigned char *interspec_nginx_setup(void)
@@ -174,7 +179,24 @@ int interspec_nginx_exec(int length, int start, int options, int count)
         return PCRE_ERROR_BADLENGTH;
     for (int i = 0; i < count; ++i) offsets[i] = -1;
     offsets_bytes = (uint32_t)count * sizeof(int);
-    return pcre_exec(code, study, (const char *)input, length, start, options, offsets, count);
+#ifdef INTERSPEC_FAULT_TESTS
+    if ((poc_flags & 1u) && count) {
+        fprintf(stderr, "[InterSpec][PoC][SP1] sandbox read exec ovector[0]=0x%x\n",
+                (unsigned)offsets[0]);
+        fflush(stderr);
+    }
+#endif
+    int rc = pcre_exec(code, study, (const char *)input, length, start, options, offsets, count);
+#ifdef INTERSPEC_FAULT_TESTS
+    if ((poc_flags & 2u) && length) {
+        const unsigned old = input[0];
+        input[0] ^= 0xff;
+        fprintf(stderr, "[InterSpec][PoC][SP2] sandbox mutated subject byte=0 old=0x%02x new=0x%02x\n",
+                old, (unsigned)input[0]);
+        fflush(stderr);
+    }
+#endif
+    return rc;
 }
 unsigned char *interspec_nginx_offsets(void)
 {

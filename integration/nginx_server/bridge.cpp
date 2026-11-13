@@ -36,6 +36,7 @@ unsigned char *interspec_nginx_offsets(void);
 uint32_t interspec_nginx_offsets_bytes(void);
 #ifdef INTERSPEC_FAULT_TESTS
 void interspec_nginx_fault(uint32_t, uint32_t);
+void interspec_nginx_poc(uint32_t);
 #endif
 }
 
@@ -119,6 +120,10 @@ struct Regex {
             const char *kind = std::getenv("INTERSPEC_NGINX_FAULT_KIND");
             if (path && kind) sandbox.invoke_sandbox_function(interspec_nginx_fault,
                     static_cast<uint32_t>(std::atoi(path)), static_cast<uint32_t>(std::atoi(kind)));
+            /* Policy-switch tests only; not called unless asked. */
+            if (const char *poc = std::getenv("INTERSPEC_TEST_POC_FLAGS"))
+                sandbox.invoke_sandbox_function(interspec_nginx_poc,
+                    static_cast<uint32_t>(std::atoi(poc)));
 #endif
         } catch (...) {
             sandbox.destroy_sandbox();
