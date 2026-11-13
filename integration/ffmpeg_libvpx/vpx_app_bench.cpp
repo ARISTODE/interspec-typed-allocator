@@ -8,6 +8,15 @@
 //   get_cx_data(ctx, &iter)   -> packet {buf, sz, ...}
 //   decode(ctx, data, data_sz, deadline)
 //   get_frame(ctx, &iter)     -> image {planes[], stride[], d_w, d_h, ...}
+// Policies at this boundary:
+//   SP1  five fields of the image passed to encode are not used by the
+//        encoder (user_priv, img_data, fb_priv, img_data_owner, self_allocd;
+//        three of them are T pointers), so T's values are not copied in.
+//   SP2  the raw planes and the compressed data are read by U and never
+//        written by it, so U's copies are not copied back.
+//   SP3  the packet buffer and the frame planes that U returns are checked
+//        against the object registry (live object, expected type, bounds)
+//        before T copies from them.
 #define RLBOX_USE_EXCEPTIONS
 #define RLBOX_USE_STATIC_CALLS() rlbox_wasm2c_sandbox_lookup_symbol
 #define RLBOX_WASM2C_MODULE_NAME glue__lib__wasm2c
@@ -196,21 +205,21 @@ class Engine {
       bridge.x_chroma_shift = img->x_chroma_shift;
       bridge.y_chroma_shift = img->y_chroma_shift;
       bridge.bps = img->bps;
-      // The five image fields that the encoder does not use are copied in
-      // with T's values.
-      bridge.user_priv = low32(img->user_priv);
-      bridge.img_data = low32(img->img_data);
-      bridge.fb_priv = low32(img->fb_priv);
-      bridge.img_data_owner = img->img_data_owner;
-      bridge.self_allocd = img->self_allocd;
+      // SP1: U is handed zero for the five image fields that the encoder does
+      // not use, unless SP1 is off.
+      bridge.user_priv = Port::withheld_unless_sp1_off(low32(img->user_priv));
+      bridge.img_data = Port::withheld_unless_sp1_off(low32(img->img_data));
+      bridge.fb_priv = Port::withheld_unless_sp1_off(low32(img->fb_priv));
+      bridge.img_data_owner = Port::withheld_unless_sp1_off(img->img_data_owner);
+      bridge.self_allocd = Port::withheld_unless_sp1_off(img->self_allocd);
     }
     unsigned char* scratch = stage(0, sizeof(bridge));
     std::memcpy(scratch, &bridge, sizeof(bridge));
     const int rc = VPX_CALL(interspec_vpx_encode, encoder_, port_.address_of(scratch), pts,
                         duration, flags, deadline);
-    // U's version of the planes is copied back over T's.
+    // SP2: U's copies of the planes are not copied back.
     for (int i = 0; i < 3; ++i)
-      if (staged[i]) std::memcpy(img->planes[i], staged[i], bytes[i]);
+      if (staged[i]) port_.copy_back_unless_sp2(img->planes[i], staged[i], bytes[i]);
     return rc;
   }
 
@@ -245,8 +254,8 @@ class Engine {
     unsigned char* staged = stage(2, size);
     std::memcpy(staged, data.data(), size);
     const int rc = VPX_CALL(interspec_vpx_decode, decoder_, port_.address_of(staged), size, deadline);
-    // U's version of the compressed data is copied back over T's.
-    std::memcpy(data.data(), staged, size);
+    // SP2: U's copy of the compressed data is not copied back.
+    port_.copy_back_unless_sp2(data.data(), staged, size);
     return rc;
   }
 
