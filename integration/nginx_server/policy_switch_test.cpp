@@ -12,13 +12,19 @@
 
 extern "C" void interspec_nginx_release(void*);
 
-int main() {
+int main(int argc, char** argv) {
   std::setvbuf(stdout, nullptr, _IONBF, 0);
 
+  // "named" selects the same expression with named groups, as in an nginx
+  // regex location with named captures. Compiling it makes the wrapper fetch
+  // the PCRE name table, which is the pointer PoC 2 of the paper attacks.
+  const bool named = argc == 2 && std::strcmp(argv[1], "named") == 0;
   const char* error = nullptr;
   int error_offset = 0;
-  pcre* code = pcre_compile("^/items/([0-9]+)/([a-z]+)$", 0, &error,
-                            &error_offset, nullptr);
+  pcre* code = pcre_compile(
+      named ? "^/items/(?<itemid>[0-9]+)/(?<slug>[a-z]+)$"
+            : "^/items/([0-9]+)/([a-z]+)$",
+      0, &error, &error_offset, nullptr);
   std::printf("T_OBSERVE stage=compile result=%s\n", code ? "ok" : "failed");
   if (!code) return 3;
 

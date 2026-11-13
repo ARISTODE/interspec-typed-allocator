@@ -157,6 +157,15 @@ static void *corrupt(void *original, uint32_t bytes, uint32_t path)
 unsigned char *interspec_nginx_names(void)
 {
 #ifdef INTERSPEC_FAULT_TESTS
+    /* PoC 2 of the paper: the name table pointer is replaced by an address
+     * that is not U memory. Nothing is copied to it. */
+    if (fault_path == 1 && fault_kind == 7) {
+        fprintf(stderr, "FAULT_INJECTION boundary=nginx_pcre path=1 kind=7 "
+                        "original=0x%x replacement=0xfffffff0 bytes=%u\n",
+                (unsigned)(uintptr_t)names, names_bytes);
+        fflush(stderr);
+        return (unsigned char *)(uintptr_t)0xFFFFFFF0u;
+    }
     return corrupt(names, names_bytes, 1);
 #else
     return names;
