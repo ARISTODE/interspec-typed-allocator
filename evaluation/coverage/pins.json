@@ -1,0 +1,32 @@
+{
+  "note": "Source revisions for the CodeQL databases of the ten boundaries (tracker item C1). The original revisions were not recorded in interspec-artifact. By JH's decision of 2026-11-13: revisions already pinned in this repository are reused, the versions named by the artifact (ffmpeg 8.0, libvpx 1.15.2, libyaml 0.2.5) are kept where no repository pin exists, and current releases are used for the rest. Every difference from the paper's numbers is explained under C2.",
+  "analysis": {
+    "interspec_artifact_commit": "2b2d2fd4de69ee44a4363e69f8cfb82ceed132db",
+    "codeql_bundle": "codeql-bundle-v2.23.2 (CLI 2.23.2, codeql/cpp-all 5.6.1 as in the artifact lock file)",
+    "codeql_bundle_sha256": "0478926e3a66656f2d0349f503a044ea7b2c007d1339e7070238e50f970e177b"
+  },
+  "sources": {
+    "rsync": {"url": "https://github.com/RsyncProject/rsync.git", "revision": "7c20b077c980036a19587701cec320cc88e42a4a", "path": "benchmarks/rsync", "basis": "pinned in this repository (scripts/run_rlbox_wasm2c_poc.sh)"},
+    "memcached": {"url": "https://github.com/memcached/memcached.git", "revision": "2d51e364799bc9698bd4b11728ea978cea12da6e", "path": "benchmarks/memcached", "basis": "pinned in this repository (scripts/build_memcached_deployment.sh)"},
+    "nginx": {"url": "https://github.com/nginx/nginx.git", "revision": "1be0fb0c9f9bc3489c7b40576efd6afe6b2eccd5", "path": "benchmarks/nginx", "basis": "pinned in this repository (release-1.26.3)"},
+    "pcre": {"url": "https://github.com/nektro/pcre-8.45.git", "revision": "e67dabe61b327bd2d888954b0e74a7c9cfd0a195", "path": "benchmarks/pcre", "basis": "pinned in this repository; PCRE 8.45 by JH's I5 decision. The artifact analysed PCRE2 under benchmarks/pcre2"},
+    "openssl": {"url": "https://github.com/openssl/openssl.git", "revision": "45e844fa2a14ec92d146bd8f5778ac130b6625fb", "path": "benchmarks/openssl", "basis": "current release openssl-3.5.9; original revision not recorded"},
+    "ffmpeg": {"url": "https://github.com/FFmpeg/FFmpeg.git", "revision": "140fd653aed8cad774f991ba083e2d01e86420c7", "path": "benchmarks/ffmpeg/ffmpeg-8.0", "basis": "n8.0, the version named in the artifact configuration"},
+    "libvpx": {"url": "https://github.com/webmproject/libvpx.git", "revision": "d168454ecd099805c675d4a98c66f4891373302a", "path": "benchmarks/libvpx/libvpx-1.15.2", "basis": "v1.15.2, the version named in the artifact scripts"},
+    "libyaml": {"url": "https://github.com/yaml/libyaml.git", "revision": "90a56d4500aa1a1798514c5cb55c3ad4cb095f94", "path": "third_party/libyaml", "basis": "pinned in this repository; the artifact script names 0.2.5"},
+    "libpng": {"url": "https://github.com/pnggroup/libpng.git", "revision": "cd952f49f95bb27154ae77dbb103032d95f6e580", "path": "third_party/libpng", "basis": "current release v1.6.59; original revision not recorded"},
+    "zlib": {"url": "https://github.com/madler/zlib.git", "revision": "216c70c020aa53f0c40920d155f808b6b59c9acb", "path": "third_party/zlib", "basis": "current release v1.3.2 (lightweight tag); original revision not recorded"},
+    "libucl": {"url": "https://github.com/vstakhov/libucl.git", "revision": "058286f4f85e2a66130e8bdaddf402d9c78d259c", "path": "third_party/libucl", "basis": "current release 0.9.4; original revision not recorded"},
+    "libzip": {"url": "https://github.com/nih-at/libzip.git", "revision": "6f8a0cdd24a0dc6cce9dac4a7679da784ab124ea", "path": "third_party/libzip", "basis": "current release v1.11.4 (lightweight tag); original revision not recorded"}
+  },
+  "databases": {
+    "yaml_libyaml": {"boundaries": ["yaml/libyaml"], "sources": ["libyaml"], "command": "bash scripts/build_codeql_yaml_libyaml.sh"},
+    "zip_libzip": {"boundaries": ["zip/libzip"], "sources": ["libzip", "zlib"], "command": "bash scripts/build_codeql_zip_libzip.sh"},
+    "ucl_libucl": {"boundaries": ["ucl/libucl"], "sources": ["libucl"], "command": "bash scripts/build_codeql_ucl_libucl.sh"},
+    "magick_libpng": {"boundaries": ["magick/libpng"], "sources": ["libpng", "zlib"], "command": "bash scripts/build_codeql_magick_libpng.sh"},
+    "memcached": {"boundaries": ["memcached/bipbuffer", "memcached/hash"], "sources": ["memcached"], "command": "bash scripts/build_memcached_for_codeql.sh"},
+    "rsync_popt": {"boundaries": ["rsync/popt"], "sources": ["rsync"], "command": "bash coverage/build_rsync_for_codeql.sh"},
+    "nginx": {"boundaries": ["nginx/libpcre", "nginx/openssl"], "sources": ["nginx", "pcre", "openssl"], "command": "bash coverage/build_nginx_for_codeql.sh"},
+    "ffmpeg_libvpx": {"boundaries": ["ffmpeg/libvpx"], "sources": ["ffmpeg", "libvpx"], "command": "bash coverage/build_ffmpeg_for_codeql.sh"}
+  }
+}
