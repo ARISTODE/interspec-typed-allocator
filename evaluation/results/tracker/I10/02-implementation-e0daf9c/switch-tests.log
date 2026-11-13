@@ -1,0 +1,4 @@
+PASS nginx_openssl sp1
+PASS nginx_openssl sp2
+PASS nginx_openssl sp3_no_field
+PASS nginx_openssl benign
