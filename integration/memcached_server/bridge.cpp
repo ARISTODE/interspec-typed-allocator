@@ -6,6 +6,7 @@
 #include "rlbox_wasm2c_sandbox.hpp"
 #include "interspec/runtime.h"
 #include "interspec/pointer_census.h"
+#include "interspec/policy_switches.h"
 #if INTERSPEC_TRACKING
 #include "interspec_bipbuffer_t_policy.h"
 #endif
@@ -26,7 +27,7 @@ extern "C" {
 #include "bipbuffer.h"
 unsigned char *interspec_mc_new(uint32_t);
 unsigned char *interspec_mc_request(uint32_t);
-unsigned char *interspec_mc_peek_all();
+unsigned char *interspec_mc_peek_all(uint32_t);
 unsigned char *interspec_mc_peek(uint32_t);
 unsigned char *interspec_mc_poll(uint32_t);
 uint32_t interspec_mc_last_size();
@@ -68,6 +69,27 @@ using Pointer = rlbox::tainted<unsigned char *, Backend>;
 namespace P = interspec::memcached_bipbuffer_generated;
 #endif
 
+/* Per-policy switches (INTERSPEC_SP1, INTERSPEC_SP2, INTERSPEC_SP3).
+ *
+ * SP1: the length out-parameter of bipbuf_peek_all is written by U and never
+ *      read by it, so T's value is not copied in. Off: it is copied in.
+ * SP2: the data passed to bipbuf_offer is read by U and never written by it,
+ *      so U's copy is not copied back. Off: it is copied back.
+ * SP3: full adds the object-registry check to the sandbox confinement check
+ *      that every isolated variant performs. At this boundary "off" and
+ *      "domain" are therefore the same: confinement only.
+ * The fields are the SP1/SP2 slots of the bipbuffer policy export in
+ * interspec-artifact (data/raw/policy_reports/memcached_bipbuffer). Variants
+ * built without INTERSPEC_CHECKS have no registry check to switch. */
+#if INTERSPEC_CHECKS
+constexpr const char *kPolicyBoundary = "memcached_bipbuffer";
+#else
+constexpr const char *kPolicyBoundary = "memcached_bipbuffer+sp3_fixed_at_compile_time";
+#endif
+const interspec::PolicySwitches &switches() {
+    return interspec::policy_switches(kPolicyBoundary);
+}
+
 [[noreturn]] void reject(const char *operation, const char *reason) {
     std::fprintf(stderr, "INTERSPEC_REJECT boundary=memcached_bipbuffer operation=%s reason=%s\n", operation, reason);
     std::fflush(stderr);
@@ -101,6 +123,7 @@ struct Buffer {
     uintptr_t next_reference = 1;
 
     explicit Buffer(uint32_t size) : capacity(size), write_copy(size), read_copy(size) {
+        switches();  // read (and, if asked, report) the configuration first
         if (!sandbox.create_sandbox()) throw std::runtime_error("sandbox_creation");
         try {
 #if INTERSPEC_TRACKING
@@ -149,16 +172,18 @@ struct Buffer {
             bytes > sandbox.get_total_memory() - address)
             reject(op, "outside_sandbox");
 #if INTERSPEC_CHECKS
-        interspec::DiagnosticEvent sp3_event(this, op);
-        sp3_event.requested = bytes;
-        auto result = runtime->check(address, bytes, is_input ? P::kTypeHashChar : P::kTypeHashBipbufT);
-        sp3_event.result = result == interspec::CheckResult::ok ? "sp3_ok" : interspec::check_result_name(result);
-        if (result != interspec::CheckResult::ok) {
-            interspec::census::sandbox_result("memcached_bipbuffer", op, address, false);
-            runtime->dump_allocations();
-            reject(op, interspec::check_result_name(result));
+        if (switches().sp3 == interspec::Sp3Mode::full) {
+            interspec::DiagnosticEvent sp3_event(this, op);
+            sp3_event.requested = bytes;
+            auto result = runtime->check(address, bytes, is_input ? P::kTypeHashChar : P::kTypeHashBipbufT);
+            sp3_event.result = result == interspec::CheckResult::ok ? "sp3_ok" : interspec::check_result_name(result);
+            if (result != interspec::CheckResult::ok) {
+                interspec::census::sandbox_result("memcached_bipbuffer", op, address, false);
+                runtime->dump_allocations();
+                reject(op, interspec::check_result_name(result));
+            }
+            interspec::census::sandbox_result("memcached_bipbuffer", op, address, true);
         }
-        interspec::census::sandbox_result("memcached_bipbuffer", op, address, true);
 #else
         (void)is_input;
 #endif
@@ -424,6 +449,16 @@ int bipbuf_offer(bipbuf_t *ptr, const unsigned char *data, int size) {
         b.event("copy_into_u", "offer", size);
         int written = MC_CALL(b, interspec_mc_offer, static_cast<uint32_t>(size)).UNSAFE_unverified();
         if (written != 0 && written != size) reject("offer", "invalid_count");
+        if (!switches().sp2 && size) {
+            /* SP2 off: copy U's version of the argument back, as a wrapper
+             * without the policy would. Only differing bytes are written, so
+             * a well-behaved U never causes a write to T's object. */
+            const unsigned char *copy = b.validate(b.input, size, "offer_output", true);
+            if (std::memcmp(copy, data, size) != 0) {
+                std::memcpy(const_cast<unsigned char *>(data), copy, size);
+                b.event("copy_from_u", "offer", size);
+            }
+        }
         return written;
     });
 }
@@ -432,7 +467,9 @@ unsigned char *bipbuf_peek_all(const bipbuf_t *ptr, unsigned int *size) {
     return guarded([&]() -> unsigned char * {
         auto &b = get(ptr);
         std::lock_guard<std::mutex> lock(b.mutex);
-        auto result = MC_CALL(b, interspec_mc_peek_all);
+        /* SP1: T's value of *size is withheld; U is handed 0. */
+        const uint32_t len_in = switches().sp1 ? 0u : *size;
+        auto result = MC_CALL(b, interspec_mc_peek_all, len_in);
         *size = MC_CALL(b, interspec_mc_last_size).UNSAFE_unverified();
         if (!result.UNSAFE_unverified()) { *size = 0; return nullptr; }
         return b.snapshot(result, *size, "peek_all");

@@ -157,14 +157,17 @@ int interspec_mc_offer(uint32_t size) {
 #endif
     return written;
 }
-unsigned char *interspec_mc_peek_all(void) {
+/* len_in is what the wrapper copies in for the length out-parameter. Upstream
+ * bipbuf_peek_all only writes *len, so with SP1 on the wrapper passes 0 and
+ * T's value never enters U. With SP1 off it passes T's value. */
+unsigned char *interspec_mc_peek_all(uint32_t len_in) {
+    last_size = len_in;
 #ifdef INTERSPEC_FAULT_TESTS
     if (poc_flags & 1u) {
         fprintf(stderr, "[InterSpec][PoC][SP1] sandbox read peek_all len_in=0x%x\n", last_size);
         fflush(stderr);
     }
 #endif
-    last_size = 0;
     unsigned char *ptr = bipbuf_peek_all(owner, &last_size);
     return mutate(ptr, 2);
 }
