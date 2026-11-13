@@ -1,0 +1,40 @@
+{
+  "project_commit": "30852b94ef49debd6ce9c290d388b82f36e5f132",
+  "project_dirty": false,
+  "nginx_revision": "1be0fb0c9f9bc3489c7b40576efd6afe6b2eccd5",
+  "pcre_revision": "e67dabe61b327bd2d888954b0e74a7c9cfd0a195",
+  "source_sha256": {
+    "integration/nginx_server/boundary.json": "6303d7c40f5caf5d7696c207ba6b00c7e20fb4b2c2f59a3a89f67d903ab0d426",
+    "integration/nginx_server/bridge.cpp": "40cdd352add5579142e8f76ce53fe68cae6deec7fccc36283d1d5d331d1375ff",
+    "integration/nginx_server/pcre_u.c": "4ac00d7218d8973761079c896ea0d67f2e15ae97a5ffe58237e2d8728e8dccbd",
+    "integration/nginx_server/policy.json": "a50e6add37445e3ceafbe7c6fdebaacaefd9c8c59199fec7206691d87e709661",
+    "integration/nginx_server/policy_switch_test.cpp": "1aee495a6aac6fdcad4b2bc3fa2354a875693033670b97d479508c37be608f4d",
+    "scripts/build_nginx_deployment.sh": "eeff265f053188007845f09af89fbd82779a36f59b47ee2b17fdfaa206830df4",
+    "tools/prepare_nginx_deployment.py": "c48b4160a0374e7db01f5acda27bbdf752372fe0855aa440342b098f6bbed678",
+    "tools/generate_wasm_boundary_policy.py": "e6fe54b18a81c8fb05295cfe2dad69354093cae6076f69c31dc37280fa7179d5",
+    "tools/nginx_common.py": "287ea73a2ff6426b32af4eeb81e92cd010918f4e1765ab7e9674e2e918fa2709",
+    "tools/test_nginx_deployment.py": "a8bcb11cf4b11d681be2a397341c74d5059927623f537a43abc5a000af896ad1",
+    "tools/benchmark_nginx.py": "5cc794e937155b027ed816184177c62c051ca14c78cb735898ba621271bfc8c4"
+  },
+  "binary_sha256": {
+    "nginx-diagnostics": "56349ece0766780336d704ce0c51db8669f2caeebedc2231302c69b3ace6efd5",
+    "nginx-interspec": "021e2b6d6a98722f57124759f6c4831312d9ab90fcf6abe391f4d173e34999a1",
+    "nginx-native": "bbcd08114248fb7b5d1e476f5e77f8d7985109b2e83efb74d5224b5e7addebdc",
+    "nginx-rlbox-only": "d71e8342099c285f9eec1f6643196a4df7b0d0f5322da295f1d83e28f698f6bf",
+    "nginx-tracked-no-check": "7a41f22321c9e64871b4e0779da6c8f5752f8238774a884329522ded085b2165"
+  },
+  "scope": "PCRE8 interpreter; HTTP; nginx event loop; no TLS, PCRE2, JIT, or threaded third-party regex calls",
+  "limits": {
+    "subject_bytes": 65536,
+    "offset_ints": 4096,
+    "typed_arena_bytes_per_regex": 1048576
+  },
+  "generated_sha256": {
+    "interspec_pcre_t_policy.h": "b8e497a419fc2679272c52157e3d290244a1e17dc31ae9666a551395f1fd7ace",
+    "interspec_pcre_u_policy.h": "4de5b69dd0ac88362eeb3da32bd6d2d18c6c871b0c44d3750907e6352aa0b04b",
+    "interspec_t_policy.h": "b8e497a419fc2679272c52157e3d290244a1e17dc31ae9666a551395f1fd7ace",
+    "interspec_u_policy.h": "4de5b69dd0ac88362eeb3da32bd6d2d18c6c871b0c44d3750907e6352aa0b04b",
+    "interspec_wasm_imports.c": "e9c5da939e2797388352c19dc81444cf2fa0ceedfcf720131805bcff2b4fa40c",
+    "pcre_compile.c": "e42b87598adf10964e7993e21dd5297147ea92d131849f0b1e3991eb3543617f"
+  }
+}

@@ -1,0 +1,2 @@
+INTERSPEC_POLICY boundary=nginx_pcre sp1=1 sp2=1 sp3=full
+[InterSpec][PoC][SP1] sandbox read exec ovector[0]=0xffffffff

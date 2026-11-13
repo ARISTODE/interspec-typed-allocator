@@ -17,6 +17,10 @@ on:
       - 'scripts/run_memcached_policy_switches.sh'
       - 'scripts/build_memcached_deployment.sh'
       - 'tools/test_memcached_deployment.py'
+      - 'integration/nginx_server/**'
+      - 'scripts/run_nginx_policy_switches.sh'
+      - 'scripts/build_nginx_deployment.sh'
+      - 'tools/test_nginx_deployment.py'
       - '.github/workflows/policy-switches.yml'
   workflow_dispatch:
 
@@ -64,3 +68,22 @@ jobs:
           name: policy-switches-memcached-bipbuffer
           if-no-files-found: error
           path: policy-switches-memcached-bipbuffer
+
+  nginx-pcre:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - name: Install build tools
+        run: |
+          sudo apt-get update
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y build-essential cmake git python3 libcrypt-dev
+      - uses: actions/checkout@v4
+      - name: Switch tests and nginx deployment gate (I4, without the 104-response set)
+        run: bash scripts/run_nginx_policy_switches.sh policy-switches-nginx-pcre
+      - name: Upload raw output
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: policy-switches-nginx-pcre
+          if-no-files-found: error
+          path: policy-switches-nginx-pcre
