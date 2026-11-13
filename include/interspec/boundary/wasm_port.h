@@ -144,6 +144,30 @@ class WasmPort {
     return ptr;
   }
 
+  // As validate(), for a U address that T read out of a U structure.
+  template <class Access>
+  unsigned char* validate_address(uint32_t address, uint32_t bytes, const Access& access,
+                                  const char* operation) {
+    if (!address) reject(operation, "null_pointer");
+    const uint64_t total = sandbox_.get_total_memory();
+    if (address >= total || bytes > total - address) reject(operation, "outside_sandbox");
+#if INTERSPEC_CHECKS
+    if (sp3()) {
+      ++checks_;
+      const CheckResult result = Policy::check(*runtime_, address, bytes, access);
+      if (result != CheckResult::ok) reject(operation, check_result_name(result));
+    }
+#else
+    (void)access;
+#endif
+    return static_cast<unsigned char*>(sandbox_.get_memory_location()) + address;
+  }
+
+  // U address of the staging memory behind a pointer from input_buffer().
+  uint32_t address_of(const unsigned char* staging) {
+    return sandbox_.get_sandbox_impl()->sandbox_address(staging);
+  }
+
   // NUL-terminated string that U returns, at most `limit` bytes before the
   // terminator. Confinement always. With SP3 on, the pointer must lie in a
   // live registered object of the expected type and the terminator must lie

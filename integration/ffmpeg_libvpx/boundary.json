@@ -1,0 +1,22 @@
+{
+  "types": [
+    "char"
+  ],
+  "helper_sites": [
+    {
+      "name": "frame_buffer",
+      "type": "vp8_frame_buffer",
+      "role": "integration"
+    },
+    {
+      "name": "cx_data",
+      "type": "vp8_cx_data",
+      "role": "integration"
+    },
+    {
+      "name": "wrong_type",
+      "type": "char",
+      "role": "adversarial"
+    }
+  ]
+}

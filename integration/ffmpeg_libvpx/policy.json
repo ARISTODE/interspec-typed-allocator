@@ -1,0 +1,21 @@
+{
+  "types": [
+    "vp8_frame_buffer",
+    "vp8_cx_data"
+  ],
+  "allocations": [],
+  "uses": [
+    {
+      "name": "vp8_frame_buffer_range",
+      "type": "vp8_frame_buffer",
+      "offset": 0,
+      "dynamic_bytes": true
+    },
+    {
+      "name": "vp8_cx_data_range",
+      "type": "vp8_cx_data",
+      "offset": 0,
+      "dynamic_bytes": true
+    }
+  ]
+}

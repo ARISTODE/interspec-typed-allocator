@@ -1,0 +1,9 @@
+{
+  "description": "Benign inputs for the ffmpeg/libvpx port (tracker item I7). Each case is a frame size and the frame counts to run. The frames are synthetic (integration/ffmpeg_libvpx/vpx_workload.h); each is encoded with VP8 and the resulting packets are decoded again. The expectation is the output of the native build of the same libvpx revision with the same C-only target; no value is written by hand.",
+  "cases": [
+    {"width": "64", "height": "48", "iterations": ["1", "5"]},
+    {"width": "176", "height": "144", "iterations": ["1", "8"]},
+    {"width": "352", "height": "288", "iterations": ["2", "12"]},
+    {"width": "130", "height": "98", "iterations": ["3"]}
+  ]
+}

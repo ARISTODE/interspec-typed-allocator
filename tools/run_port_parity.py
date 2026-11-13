@@ -41,6 +41,11 @@ BOUNDARIES = {
         "args": lambda corpus, case, n: [str(corpus / case["image"]), n],
         "name": lambda case: Path(case["image"]).stem,
     },
+    "ffmpeg_libvpx": {
+        "prefix": "vpx", "tag": "VPX_BENCH",
+        "args": lambda corpus, case, n: [case["width"], case["height"], n],
+        "name": lambda case: f"{case['width']}x{case['height']}",
+    },
 }
 NOT_RESULT = {"variant", "checks", "elapsed_ns"}
 

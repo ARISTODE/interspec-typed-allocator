@@ -88,6 +88,16 @@ PNG_BENIGN = (r"^PNG_BENCH variant=interspec iterations=1 input_bytes=184 width=
               r"png_fnv=[0-9a-f]{16} ")
 PNG_T_UNCHANGED = r"^INTERSPEC_T_OBSERVE boundary=magick_libpng png_first_byte=0x89$"
 
+# ffmpeg/libvpx: the driver is the test build of vpx_app_bench on one 64x48
+# synthetic frame: one VP8 packet, one decoded frame, four registry checks
+# (the packet buffer and three planes). Luma byte 0 of the frame is 0x10.
+# Rejections exit with 86.
+VPX_ARGS = ["64", "48", "1"]
+VPX_BENIGN = (r"^VPX_BENCH variant=interspec frames=1 width=64 height=48 packets=1 "
+              r"encoded_bytes=\d+ encoded_fnv=[0-9a-f]{16} decoded_frames=1 "
+              r"decoded_fnv=[0-9a-f]{16} ")
+VPX_T_UNCHANGED = r"^INTERSPEC_T_OBSERVE boundary=ffmpeg_libvpx luma_first_byte=0x10$"
+
 # Each case: switch settings, test-only U behavior, and what must be observed.
 # "exit" is a return code; a negative value is the signal that ended the process.
 BOUNDARIES = {
@@ -653,6 +663,105 @@ BOUNDARIES = {
                 "args": PNG_ARGS, "exit": 0,
                 "stdout": [PNG_BENIGN + r"checks=0 "],
                 "stderr": [PNG_T_UNCHANGED],
+                "stderr_absent": [r"INTERSPEC_REJECT", r"FAULT_INJECTION", r"PoC"],
+            },
+        },
+    },
+    "ffmpeg_libvpx": {
+        "tests": {
+            "sp1": ["sp1_off_u_reads", "sp1_on_u_reads"],
+            "sp2": ["sp2_off_u_writes", "sp2_on_u_writes"],
+            "sp3": ["sp3_off_bad_pointer", "sp3_on_bad_pointer"],
+            "sp3_other_faults": ["sp3_on_wrong_type", "sp3_on_released",
+                                 "sp3_on_too_small"],
+            "benign": ["benign_all_on", "benign_all_off"],
+        },
+        "cases": {
+            # SP1: U reads the image fields that the encoder does not use.
+            "sp1_off_u_reads": {
+                "env": {**switches(sp1="0"), "INTERSPEC_TEST_POC_FLAGS": "1"},
+                "args": VPX_ARGS, "exit": 0,
+                "stdout": [VPX_BENIGN],
+                "stderr": [r"\[SP1\] sandbox read image fields user_priv=0x5ec2e701 "
+                           r"img_data=0x[0-9a-f]*[1-9a-f][0-9a-f]* fb_priv=0x5ec2e703 "
+                           r"img_data_owner=1$"],
+            },
+            "sp1_on_u_reads": {
+                "env": {**switches(), "INTERSPEC_TEST_POC_FLAGS": "1"},
+                "args": VPX_ARGS, "exit": 0,
+                "stdout": [VPX_BENIGN],
+                "stderr": [r"\[SP1\] sandbox read image fields user_priv=0x0 img_data=0x0 "
+                           r"fb_priv=0x0 img_data_owner=0$"],
+                "stderr_absent": [r"5ec2e7"],
+            },
+            # SP2: U overwrites its copy of the luma plane after encoding.
+            "sp2_off_u_writes": {
+                "env": {**switches(sp2="0"), "INTERSPEC_TEST_POC_FLAGS": "2"},
+                "args": VPX_ARGS, "exit": 0,
+                "stdout": [VPX_BENIGN],
+                "stderr": [r"\[SP2\] sandbox mutated luma byte=0 old=0x10 new=0xef$",
+                           r"^INTERSPEC_T_OBSERVE boundary=ffmpeg_libvpx luma_first_byte=0xef$"],
+            },
+            "sp2_on_u_writes": {
+                "env": {**switches(), "INTERSPEC_TEST_POC_FLAGS": "2"},
+                "args": VPX_ARGS, "exit": 0,
+                "stdout": [VPX_BENIGN],
+                "stderr": [r"\[SP2\] sandbox mutated luma byte=0 old=0x10 new=0xef$",
+                           VPX_T_UNCHANGED],
+            },
+            # SP3: U returns an untracked heap copy of the luma plane.
+            "sp3_off_bad_pointer": {
+                "env": switches(sp3="0"),
+                "args": VPX_ARGS + ["2"], "exit": 0,
+                "stdout": [VPX_BENIGN + r"checks=0 "],
+                "stderr": [r"^FAULT_INJECTION boundary=ffmpeg_libvpx mode=2 "],
+                "stderr_absent": [r"INTERSPEC_REJECT"],
+            },
+            "sp3_on_bad_pointer": {
+                "env": switches(),
+                "args": VPX_ARGS + ["2"], "exit": 86,
+                "stdout_absent": [r"VPX_BENCH"],
+                "stderr": [r"^FAULT_INJECTION boundary=ffmpeg_libvpx mode=2 ",
+                           r"^INTERSPEC_REJECT boundary=ffmpeg_libvpx operation=frame_plane "
+                           r"reason=untracked$"],
+            },
+            # SP3 on, the other ways in which the returned pointer can be wrong.
+            "sp3_on_wrong_type": {
+                "env": switches(),
+                "args": VPX_ARGS + ["1"], "exit": 86,
+                "stdout_absent": [r"VPX_BENCH"],
+                "stderr": [r"^FAULT_INJECTION boundary=ffmpeg_libvpx mode=1 ",
+                           r"^INTERSPEC_REJECT boundary=ffmpeg_libvpx operation=frame_plane "
+                           r"reason=wrong_type$"],
+            },
+            "sp3_on_released": {
+                "env": switches(),
+                "args": VPX_ARGS + ["3"], "exit": 86,
+                "stdout_absent": [r"VPX_BENCH"],
+                "stderr": [r"^FAULT_INJECTION boundary=ffmpeg_libvpx mode=3 ",
+                           r"^INTERSPEC_REJECT boundary=ffmpeg_libvpx operation=frame_plane "
+                           r"reason=untracked$"],
+            },
+            "sp3_on_too_small": {
+                "env": switches(),
+                "args": VPX_ARGS + ["4"], "exit": 86,
+                "stdout_absent": [r"VPX_BENCH"],
+                "stderr": [r"^FAULT_INJECTION boundary=ffmpeg_libvpx mode=4 ",
+                           r"^INTERSPEC_REJECT boundary=ffmpeg_libvpx operation=frame_plane "
+                           r"reason=out_of_bounds$"],
+            },
+            "benign_all_on": {
+                "env": switches(),
+                "args": VPX_ARGS, "exit": 0,
+                "stdout": [VPX_BENIGN + r"checks=4 "],
+                "stderr": [VPX_T_UNCHANGED],
+                "stderr_absent": [r"INTERSPEC_REJECT", r"FAULT_INJECTION", r"PoC"],
+            },
+            "benign_all_off": {
+                "env": switches(sp1="0", sp2="0", sp3="0"),
+                "args": VPX_ARGS, "exit": 0,
+                "stdout": [VPX_BENIGN + r"checks=0 "],
+                "stderr": [VPX_T_UNCHANGED],
                 "stderr_absent": [r"INTERSPEC_REJECT", r"FAULT_INJECTION", r"PoC"],
             },
         },
