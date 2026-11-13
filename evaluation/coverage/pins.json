@@ -17,7 +17,8 @@
     "libpng": {"url": "https://github.com/pnggroup/libpng.git", "revision": "cd952f49f95bb27154ae77dbb103032d95f6e580", "path": "third_party/libpng", "basis": "current release v1.6.59; original revision not recorded"},
     "zlib": {"url": "https://github.com/madler/zlib.git", "revision": "da607da739fa6047df13e66a2af6b8bec7c2a498", "path": "third_party/zlib", "basis": "current release v1.3.2; original revision not recorded"},
     "libucl": {"url": "https://github.com/vstakhov/libucl.git", "revision": "058286f4f85e2a66130e8bdaddf402d9c78d259c", "path": "third_party/libucl", "basis": "current release 0.9.4; original revision not recorded"},
-    "libzip": {"url": "https://github.com/nih-at/libzip.git", "revision": "6f8a0cdd24a0dc6cce9dac4a7679da784ab124ea", "path": "third_party/libzip", "basis": "current release v1.11.4 (lightweight tag); original revision not recorded"}
+    "libzip": {"url": "https://github.com/nih-at/libzip.git", "revision": "6f8a0cdd24a0dc6cce9dac4a7679da784ab124ea", "path": "third_party/libzip", "basis": "current release v1.11.4 (lightweight tag); original revision not recorded"},
+    "openssl_1_1_1w": {"url": "https://github.com/openssl/openssl.git", "revision": "e04bd3433fd84e1861bf258ea37928d9845e6a86", "path": "benchmarks/openssl-1.1.1w", "basis": "tag OpenSSL_1_1_1w, the version named in the artifact build script for the isolated TLS module (code/analysis/scripts/build_openssl_phase1_wasm_bridge.sh); used by the nginx/openssl port (I10), not by a coverage database"}
   },
   "databases": {
     "yaml_libyaml": {"boundaries": ["yaml/libyaml"], "sources": ["libyaml"], "command": "bash scripts/build_codeql_yaml_libyaml.sh"},

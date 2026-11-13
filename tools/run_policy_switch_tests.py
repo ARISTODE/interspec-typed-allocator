@@ -98,6 +98,16 @@ VPX_BENIGN = (r"^VPX_BENCH variant=interspec frames=1 width=64 height=48 packets
               r"decoded_fnv=[0-9a-f]{16} ")
 VPX_T_UNCHANGED = r"^INTERSPEC_T_OBSERVE boundary=ffmpeg_libvpx luma_first_byte=0x10$"
 
+# nginx/openssl: the driver is the test build of tls_app_bench: a TLS 1.3
+# handshake, then one 64-byte request and one 256-byte response. T's receive
+# buffer starts out holding "T_STALE_" (hex 545f5354414c455f); byte 0 of the
+# response is 'F' = 0x46. There is no SP3 field at this boundary.
+TLS_ARGS = ["64", "256", "1"]
+TLS_BENIGN = (r"^TLS_BENCH variant=interspec rounds=1 request_bytes=64 response_bytes=256 "
+              r"version=TLSv1\.3 cipher=\S+ server_received_fnv=[0-9a-f]{16} "
+              r"client_received_fnv=[0-9a-f]{16} checks=0 ")
+TLS_T_UNCHANGED = r"^INTERSPEC_T_OBSERVE boundary=nginx_openssl response_first_byte=0x46$"
+
 # Each case: switch settings, test-only U behavior, and what must be observed.
 # "exit" is a return code; a negative value is the signal that ended the process.
 BOUNDARIES = {
@@ -762,6 +772,71 @@ BOUNDARIES = {
                 "args": VPX_ARGS, "exit": 0,
                 "stdout": [VPX_BENIGN + r"checks=0 "],
                 "stderr": [VPX_T_UNCHANGED],
+                "stderr_absent": [r"INTERSPEC_REJECT", r"FAULT_INJECTION", r"PoC"],
+            },
+        },
+    },
+    "nginx_openssl": {
+        "tests": {
+            "sp1": ["sp1_off_u_reads", "sp1_on_u_reads"],
+            "sp2": ["sp2_off_u_writes", "sp2_on_u_writes"],
+            # Recorded, not a switch test: U returns no pointer to T at this
+            # boundary, so the SP3 switch has nothing to act on.
+            "sp3_no_field": ["benign_all_on", "sp3_off_same_behavior"],
+            "benign": ["benign_all_on", "benign_all_off"],
+        },
+        "cases": {
+            # SP1: U reads the output buffer it was handed before writing to it.
+            "sp1_off_u_reads": {
+                "env": {**switches(sp1="0"), "INTERSPEC_TEST_POC_FLAGS": "1"},
+                "args": TLS_ARGS, "exit": 0,
+                "stdout": [TLS_BENIGN],
+                "stderr": [r"\[SP1\] sandbox read output buffer before writing "
+                           r"first8=545f5354414c455f$"],
+            },
+            "sp1_on_u_reads": {
+                "env": {**switches(), "INTERSPEC_TEST_POC_FLAGS": "1"},
+                "args": TLS_ARGS, "exit": 0,
+                "stdout": [TLS_BENIGN],
+                "stderr": [r"\[SP1\] sandbox read output buffer before writing "
+                           r"first8=[0-9a-f]{16}$"],
+                "stderr_absent": [r"545f5354414c455f"],
+            },
+            # SP2: U overwrites its copy of the plaintext after sending it.
+            "sp2_off_u_writes": {
+                "env": {**switches(sp2="0"), "INTERSPEC_TEST_POC_FLAGS": "2"},
+                "args": TLS_ARGS, "exit": 0,
+                "stdout": [TLS_BENIGN],
+                "stderr": [r"\[SP2\] sandbox mutated plaintext byte=0 old=0x46 new=0xb9$",
+                           r"^INTERSPEC_T_OBSERVE boundary=nginx_openssl "
+                           r"response_first_byte=0xb9$"],
+            },
+            "sp2_on_u_writes": {
+                "env": {**switches(), "INTERSPEC_TEST_POC_FLAGS": "2"},
+                "args": TLS_ARGS, "exit": 0,
+                "stdout": [TLS_BENIGN],
+                "stderr": [r"\[SP2\] sandbox mutated plaintext byte=0 old=0x46 new=0xb9$",
+                           TLS_T_UNCHANGED],
+            },
+            "sp3_off_same_behavior": {
+                "env": switches(sp3="0"),
+                "args": TLS_ARGS, "exit": 0,
+                "stdout": [TLS_BENIGN],
+                "stderr": [TLS_T_UNCHANGED],
+                "stderr_absent": [r"INTERSPEC_REJECT", r"FAULT_INJECTION", r"PoC"],
+            },
+            "benign_all_on": {
+                "env": switches(),
+                "args": TLS_ARGS, "exit": 0,
+                "stdout": [TLS_BENIGN],
+                "stderr": [TLS_T_UNCHANGED],
+                "stderr_absent": [r"INTERSPEC_REJECT", r"FAULT_INJECTION", r"PoC"],
+            },
+            "benign_all_off": {
+                "env": switches(sp1="0", sp2="0", sp3="0"),
+                "args": TLS_ARGS, "exit": 0,
+                "stdout": [TLS_BENIGN],
+                "stderr": [TLS_T_UNCHANGED],
                 "stderr_absent": [r"INTERSPEC_REJECT", r"FAULT_INJECTION", r"PoC"],
             },
         },

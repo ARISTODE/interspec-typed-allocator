@@ -1,0 +1,9 @@
+{
+  "description": "Benign inputs for the nginx/openssl port (tracker item I10). Each case is a request size, a response size and the numbers of request and response rounds to run after one TLS handshake. Keys and nonces are random, so ciphertext is not compared: the result fields are the negotiated protocol version and cipher and the hashes of the plaintext that each side received. The expectation is the output of the native build of the same shim and OpenSSL revision; no value is written by hand.",
+  "cases": [
+    {"request_bytes": "64", "response_bytes": "256", "iterations": ["1", "8"]},
+    {"request_bytes": "512", "response_bytes": "4096", "iterations": ["1", "8"]},
+    {"request_bytes": "100", "response_bytes": "65536", "iterations": ["3"]},
+    {"request_bytes": "20000", "response_bytes": "1", "iterations": ["3"]}
+  ]
+}

@@ -30,8 +30,15 @@ port_source() {  # port_source NAME: clone the revision pinned in pins.json
 import json,sys; s=json.load(open(sys.argv[1]))['sources'][sys.argv[2]]; print(s['url'], s['revision'])" \
     "$root/evaluation/coverage/pins.json" "$name")
   if [[ ! -d "$work/src-$name/.git" ]]; then
-    git clone -q "$url" "$work/src-$name" || return 1
-    git -C "$work/src-$name" checkout -q "$revision" || return 1
+    # Only the pinned commit is fetched; a full clone is the fallback.
+    git init -q "$work/src-$name" || return 1
+    git -C "$work/src-$name" remote add origin "$url" || return 1
+    if git -C "$work/src-$name" fetch -q --depth 1 origin "$revision" 2>/dev/null; then
+      git -C "$work/src-$name" checkout -q FETCH_HEAD || return 1
+    else
+      git -C "$work/src-$name" fetch -q origin || return 1
+      git -C "$work/src-$name" checkout -q "$revision" || return 1
+    fi
   fi
   [[ $(git -C "$work/src-$name" rev-parse HEAD) == "$revision" ]]
 }

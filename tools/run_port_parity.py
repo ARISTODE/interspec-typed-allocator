@@ -46,6 +46,14 @@ BOUNDARIES = {
         "args": lambda corpus, case, n: [case["width"], case["height"], n],
         "name": lambda case: f"{case['width']}x{case['height']}",
     },
+    # No registry at this boundary (U returns no pointer to T): there is no
+    # tracking-without-check variant, and no variant performs a registry check.
+    "nginx_openssl": {
+        "prefix": "tls", "tag": "TLS_BENCH",
+        "variants": ("native", "rlbox-only", "interspec"), "registry": False,
+        "args": lambda corpus, case, n: [case["request_bytes"], case["response_bytes"], n],
+        "name": lambda case: f"{case['request_bytes']}_{case['response_bytes']}",
+    },
 }
 NOT_RESULT = {"variant", "checks", "elapsed_ns"}
 
@@ -71,10 +79,11 @@ def main():
            "INTERSPEC_SP2": "1", "INTERSPEC_SP3": "1", "INTERSPEC_POLICY_REPORT": "1"}
     args.out.mkdir(parents=True)
 
+    variants = spec.get("variants", VARIANTS)
     plan = []
     for case in cases:
         for iterations in case.get("iterations", ("1", "2")):
-            for variant in VARIANTS:
+            for variant in variants:
                 run = f"{spec['name'](case).replace('/', '_')}__x{iterations}__{variant}"
                 binary = args.bin / f"{spec['prefix']}-{variant}"
                 plan.append((run, case, iterations, variant,
@@ -111,7 +120,8 @@ def main():
                 {k: v for k, v in fields.items() if k not in NOT_RESULT}
                 == {k: v for k, v in native[key].items() if k not in NOT_RESULT})
             count = int(fields.get("checks", "-1"))
-            checks["checks"] = count > 0 if variant == "interspec" else count == 0
+            checks["checks"] = (count > 0 if variant == "interspec" and
+                                spec.get("registry", True) else count == 0)
             other = [l for l in stderr.splitlines() if not l.startswith("INTERSPEC_POLICY ")]
             checks["no_other_stderr"] = not other
             if variant == "interspec":
@@ -127,7 +137,7 @@ def main():
     summary = {"boundary": args.boundary, "total": len(rows), "passed": len(rows) - failures,
                "binaries_sha256": {v: hashlib.sha256(
                    (args.bin / f"{spec['prefix']}-{v}").read_bytes()).hexdigest()
-                   for v in VARIANTS},
+                   for v in variants},
                "runs": rows}
     (args.out / "summary.json").write_text(json.dumps(summary, indent=2) + "\n")
     print(f"{args.boundary} benign: {summary['passed']}/{summary['total']} runs passed")

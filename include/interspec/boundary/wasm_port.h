@@ -20,6 +20,8 @@
 //   INTERSPEC_TRACKING=1 INTERSPEC_CHECKS=1 InterSpec; INTERSPEC_SP3 switches
 //                                           the registry check at run time
 // Every variant keeps the sandbox confinement check on pointers from U.
+// INTERSPEC_TRACKING=0 INTERSPEC_CHECKS=1 is InterSpec at a boundary where U
+// returns no pointer to T: the SP1 and SP2 switches apply, there is no registry.
 
 #include "interspec/policy_switches.h"
 #include "interspec/runtime.h"
@@ -132,7 +134,7 @@ class WasmPort {
     const uint32_t address = sandbox_.get_sandbox_impl()->sandbox_address(ptr);
     const uint64_t total = sandbox_.get_total_memory();
     if (address > total || bytes > total - address) reject(operation, "outside_sandbox");
-#if INTERSPEC_CHECKS
+#if INTERSPEC_CHECKS && INTERSPEC_TRACKING
     if (sp3()) {
       ++checks_;
       const CheckResult result = Policy::check(*runtime_, address, bytes, access);
@@ -151,7 +153,7 @@ class WasmPort {
     if (!address) reject(operation, "null_pointer");
     const uint64_t total = sandbox_.get_total_memory();
     if (address >= total || bytes > total - address) reject(operation, "outside_sandbox");
-#if INTERSPEC_CHECKS
+#if INTERSPEC_CHECKS && INTERSPEC_TRACKING
     if (sp3()) {
       ++checks_;
       const CheckResult result = Policy::check(*runtime_, address, bytes, access);
@@ -185,7 +187,7 @@ class WasmPort {
     size_t available = static_cast<size_t>(
         std::min<uint64_t>(static_cast<uint64_t>(limit) + 1, total - address));
     bool bounded_by_object = false;
-#if INTERSPEC_CHECKS
+#if INTERSPEC_CHECKS && INTERSPEC_TRACKING
     if (sp3()) {
       ++checks_;
       size_t remaining = 0;
