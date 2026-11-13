@@ -1,0 +1,41 @@
+name: policy-switches
+
+# Per-policy switch tests and benign runs for the registry boundaries
+# (EVAL_TRACKER.md items I1 to I4). Functional evidence only: nothing in this
+# workflow is a timing measurement.
+on:
+  push:
+    paths:
+      - 'integration/rsync_popt/**'
+      - 'include/interspec/policy_switches.h'
+      - 'include/interspec/boundary/**'
+      - 'tools/run_policy_switch_tests.py'
+      - 'tools/test_rsync_policy_switches.py'
+      - 'scripts/run_rsync_policy_switches.sh'
+      - 'scripts/run_rlbox_wasm2c_poc.sh'
+      - '.github/workflows/policy-switches.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  rsync-popt:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - name: Install build tools
+        run: |
+          sudo apt-get update
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y \
+            autoconf automake build-essential ca-certificates git libpopt-dev python3
+      - uses: actions/checkout@v4
+      - name: Switch tests and benign run (I1)
+        run: bash scripts/run_rsync_policy_switches.sh policy-switches-rsync-popt
+      - name: Upload raw output
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: policy-switches-rsync-popt
+          if-no-files-found: error
+          path: policy-switches-rsync-popt
