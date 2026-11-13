@@ -2,3 +2,5 @@ memcached_bipbuffer database=memcached exit=0
 memcached_hash database=memcached exit=0
 rsync_popt database=rsync_popt exit=0
 nginx_libpcre database=nginx exit=1
+magick_libpng database=magick_libpng exit=0
+overall exit=1

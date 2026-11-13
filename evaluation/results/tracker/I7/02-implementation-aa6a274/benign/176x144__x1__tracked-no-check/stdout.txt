@@ -1,0 +1,1 @@
+VPX_BENCH variant=tracked-no-check frames=1 width=176 height=144 packets=1 encoded_bytes=985 encoded_fnv=12e7230a6e9f355d decoded_frames=1 decoded_fnv=bfe1a76f7a6ccd2d checks=0 elapsed_ns=2512196

@@ -1,0 +1,5 @@
+PASS ffmpeg_libvpx sp1
+PASS ffmpeg_libvpx sp2
+PASS ffmpeg_libvpx sp3
+PASS ffmpeg_libvpx sp3_other_faults
+PASS ffmpeg_libvpx benign

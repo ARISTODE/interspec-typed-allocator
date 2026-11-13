@@ -1,0 +1,3 @@
+INTERSPEC_POLICY boundary=ffmpeg_libvpx sp1=1 sp2=1 sp3=full
+FAULT_INJECTION boundary=ffmpeg_libvpx mode=2 original=0x45ef50 replacement=0x8460f80 bytes=6080
+INTERSPEC_REJECT boundary=ffmpeg_libvpx operation=frame_plane reason=untracked

@@ -1,0 +1,8 @@
+FAIL ffmpeg_libvpx sp1
+  sp1_on_u_reads: failed stderr has /\[SP1\] sandbox read image fields user_priv=0x0 img_data=0x0 fb_priv=0x0 img_data_owner=0$/
+  sp1_on_u_reads: failed stderr lacks /5ec2e7/
+FAIL ffmpeg_libvpx sp2
+  sp2_on_u_writes: failed stderr has /^INTERSPEC_T_OBSERVE boundary=ffmpeg_libvpx luma_first_byte=0x10$/
+PASS ffmpeg_libvpx sp3
+PASS ffmpeg_libvpx sp3_other_faults
+PASS ffmpeg_libvpx benign

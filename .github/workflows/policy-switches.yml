@@ -39,6 +39,9 @@ on:
       - 'integration/magick_libpng/**'
       - 'scripts/build_png_port.sh'
       - 'scripts/run_png_port.sh'
+      - 'integration/ffmpeg_libvpx/**'
+      - 'scripts/build_vpx_port.sh'
+      - 'scripts/run_vpx_port.sh'
       - '.github/workflows/policy-switches.yml'
   workflow_dispatch:
 
@@ -181,3 +184,22 @@ jobs:
           name: policy-switches-magick-libpng
           if-no-files-found: error
           path: policy-switches-magick-libpng
+
+  ffmpeg-libvpx:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - name: Install build tools
+        run: |
+          sudo apt-get update
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y build-essential cmake git perl python3
+      - uses: actions/checkout@v4
+      - name: Registry port, switch tests and benign run against native (I7)
+        run: bash scripts/run_vpx_port.sh policy-switches-ffmpeg-libvpx
+      - name: Upload raw output
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: policy-switches-ffmpeg-libvpx
+          if-no-files-found: error
+          path: policy-switches-ffmpeg-libvpx

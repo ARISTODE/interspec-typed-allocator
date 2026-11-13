@@ -1,0 +1,96 @@
+benchmark,function,binding_kind,binding_id,direction,slot_path,slot_type,category,file
+magick_libpng,png_create_info_struct,param,0,T_TO_U,,png_struct_def *,pointer,third_party/libpng/png.c
+magick_libpng,png_create_info_struct,return,return,U_TO_T,,png_info_def *,pointer,third_party/libpng/png.c
+magick_libpng,png_get_io_ptr,param,0,T_TO_U,,png_struct_def *,pointer,third_party/libpng/png.c
+magick_libpng,png_get_io_ptr,return,return,U_TO_T,,void *,pointer,third_party/libpng/png.c
+magick_libpng,png_error,param,0,T_TO_U,,png_struct_def *,pointer,third_party/libpng/pngerror.c
+magick_libpng,png_error,param,1,T_TO_U,,char *,pointer,third_party/libpng/pngerror.c
+magick_libpng,png_error,param,1,T_TO_U,/deref,char,scalar,third_party/libpng/pngerror.c
+magick_libpng,png_get_IHDR,param,0,T_TO_U,,png_struct_def *,pointer,third_party/libpng/pngget.c
+magick_libpng,png_get_IHDR,param,1,T_TO_U,,png_info_def *,pointer,third_party/libpng/pngget.c
+magick_libpng,png_get_IHDR,param,2,T_TO_U,,unsigned int *,pointer,third_party/libpng/pngget.c
+magick_libpng,png_get_IHDR,param,2,T_TO_U,/deref,unsigned int,scalar,third_party/libpng/pngget.c
+magick_libpng,png_get_IHDR,param,3,T_TO_U,,unsigned int *,pointer,third_party/libpng/pngget.c
+magick_libpng,png_get_IHDR,param,3,T_TO_U,/deref,unsigned int,scalar,third_party/libpng/pngget.c
+magick_libpng,png_get_IHDR,param,4,T_TO_U,,int *,pointer,third_party/libpng/pngget.c
+magick_libpng,png_get_IHDR,param,4,T_TO_U,/deref,int,scalar,third_party/libpng/pngget.c
+magick_libpng,png_get_IHDR,param,5,T_TO_U,,int *,pointer,third_party/libpng/pngget.c
+magick_libpng,png_get_IHDR,param,5,T_TO_U,/deref,int,scalar,third_party/libpng/pngget.c
+magick_libpng,png_get_IHDR,param,6,T_TO_U,,int *,pointer,third_party/libpng/pngget.c
+magick_libpng,png_get_IHDR,param,6,T_TO_U,/deref,int,scalar,third_party/libpng/pngget.c
+magick_libpng,png_get_IHDR,param,7,T_TO_U,,int *,pointer,third_party/libpng/pngget.c
+magick_libpng,png_get_IHDR,param,7,T_TO_U,/deref,int,scalar,third_party/libpng/pngget.c
+magick_libpng,png_get_IHDR,param,8,T_TO_U,,int *,pointer,third_party/libpng/pngget.c
+magick_libpng,png_get_IHDR,param,8,T_TO_U,/deref,int,scalar,third_party/libpng/pngget.c
+magick_libpng,png_get_IHDR,return_scalar,return,U_TO_T,,unsigned int,scalar,third_party/libpng/pngget.c
+magick_libpng,png_get_rowbytes,param,0,T_TO_U,,png_struct_def *,pointer,third_party/libpng/pngget.c
+magick_libpng,png_get_rowbytes,param,1,T_TO_U,,png_info_def *,pointer,third_party/libpng/pngget.c
+magick_libpng,png_get_rowbytes,return_scalar,return,U_TO_T,,unsigned long,scalar,third_party/libpng/pngget.c
+magick_libpng,png_get_valid,param,0,T_TO_U,,png_struct_def *,pointer,third_party/libpng/pngget.c
+magick_libpng,png_get_valid,param,1,T_TO_U,,png_info_def *,pointer,third_party/libpng/pngget.c
+magick_libpng,png_get_valid,param,2,T_TO_U,,unsigned int,scalar,third_party/libpng/pngget.c
+magick_libpng,png_get_valid,return_scalar,return,U_TO_T,,unsigned int,scalar,third_party/libpng/pngget.c
+magick_libpng,png_create_read_struct,param,0,T_TO_U,,char *,pointer,third_party/libpng/pngread.c
+magick_libpng,png_create_read_struct,param,0,T_TO_U,/deref,char,scalar,third_party/libpng/pngread.c
+magick_libpng,png_create_read_struct,param,1,T_TO_U,,void *,pointer,third_party/libpng/pngread.c
+magick_libpng,png_create_read_struct,param,2,T_TO_U,,..(*)(..),other,third_party/libpng/pngread.c
+magick_libpng,png_create_read_struct,param,3,T_TO_U,,..(*)(..),other,third_party/libpng/pngread.c
+magick_libpng,png_create_read_struct,return,return,U_TO_T,,png_struct_def *,pointer,third_party/libpng/pngread.c
+magick_libpng,png_destroy_read_struct,param,0,T_TO_U,,png_struct_def **,pointer,third_party/libpng/pngread.c
+magick_libpng,png_destroy_read_struct,param,0,T_TO_U,/deref,png_struct_def *,pointer,third_party/libpng/pngread.c
+magick_libpng,png_destroy_read_struct,param,1,T_TO_U,,png_info_def **,pointer,third_party/libpng/pngread.c
+magick_libpng,png_destroy_read_struct,param,1,T_TO_U,/deref,png_info_def *,pointer,third_party/libpng/pngread.c
+magick_libpng,png_destroy_read_struct,param,2,T_TO_U,,png_info_def **,pointer,third_party/libpng/pngread.c
+magick_libpng,png_destroy_read_struct,param,2,T_TO_U,/deref,png_info_def *,pointer,third_party/libpng/pngread.c
+magick_libpng,png_read_end,param,0,T_TO_U,,png_struct_def *,pointer,third_party/libpng/pngread.c
+magick_libpng,png_read_end,param,1,T_TO_U,,png_info_def *,pointer,third_party/libpng/pngread.c
+magick_libpng,png_read_image,param,0,T_TO_U,,png_struct_def *,pointer,third_party/libpng/pngread.c
+magick_libpng,png_read_image,param,1,T_TO_U,,unsigned char **,pointer,third_party/libpng/pngread.c
+magick_libpng,png_read_image,param,1,T_TO_U,/deref,unsigned char *,pointer,third_party/libpng/pngread.c
+magick_libpng,png_read_image,param,1,T_TO_U,/deref/deref,unsigned char,scalar,third_party/libpng/pngread.c
+magick_libpng,png_read_info,param,0,T_TO_U,,png_struct_def *,pointer,third_party/libpng/pngread.c
+magick_libpng,png_read_info,param,1,T_TO_U,,png_info_def *,pointer,third_party/libpng/pngread.c
+magick_libpng,png_read_update_info,param,0,T_TO_U,,png_struct_def *,pointer,third_party/libpng/pngread.c
+magick_libpng,png_read_update_info,param,1,T_TO_U,,png_info_def *,pointer,third_party/libpng/pngread.c
+magick_libpng,png_set_read_fn,param,0,T_TO_U,,png_struct_def *,pointer,third_party/libpng/pngrio.c
+magick_libpng,png_set_read_fn,param,1,T_TO_U,,void *,pointer,third_party/libpng/pngrio.c
+magick_libpng,png_set_read_fn,param,2,T_TO_U,,..(*)(..),other,third_party/libpng/pngrio.c
+magick_libpng,png_set_expand_gray_1_2_4_to_8,param,0,T_TO_U,,png_struct_def *,pointer,third_party/libpng/pngrtran.c
+magick_libpng,png_set_gray_to_rgb,param,0,T_TO_U,,png_struct_def *,pointer,third_party/libpng/pngrtran.c
+magick_libpng,png_set_palette_to_rgb,param,0,T_TO_U,,png_struct_def *,pointer,third_party/libpng/pngrtran.c
+magick_libpng,png_set_strip_16,param,0,T_TO_U,,png_struct_def *,pointer,third_party/libpng/pngrtran.c
+magick_libpng,png_set_tRNS_to_alpha,param,0,T_TO_U,,png_struct_def *,pointer,third_party/libpng/pngrtran.c
+magick_libpng,png_set_IHDR,param,0,T_TO_U,,png_struct_def *,pointer,third_party/libpng/pngset.c
+magick_libpng,png_set_IHDR,param,1,T_TO_U,,png_info_def *,pointer,third_party/libpng/pngset.c
+magick_libpng,png_set_IHDR,param,2,T_TO_U,,unsigned int,scalar,third_party/libpng/pngset.c
+magick_libpng,png_set_IHDR,param,3,T_TO_U,,unsigned int,scalar,third_party/libpng/pngset.c
+magick_libpng,png_set_IHDR,param,4,T_TO_U,,int,scalar,third_party/libpng/pngset.c
+magick_libpng,png_set_IHDR,param,5,T_TO_U,,int,scalar,third_party/libpng/pngset.c
+magick_libpng,png_set_IHDR,param,6,T_TO_U,,int,scalar,third_party/libpng/pngset.c
+magick_libpng,png_set_IHDR,param,7,T_TO_U,,int,scalar,third_party/libpng/pngset.c
+magick_libpng,png_set_IHDR,param,8,T_TO_U,,int,scalar,third_party/libpng/pngset.c
+magick_libpng,png_set_filler,param,0,T_TO_U,,png_struct_def *,pointer,third_party/libpng/pngtrans.c
+magick_libpng,png_set_filler,param,1,T_TO_U,,unsigned int,scalar,third_party/libpng/pngtrans.c
+magick_libpng,png_set_filler,param,2,T_TO_U,,int,scalar,third_party/libpng/pngtrans.c
+magick_libpng,png_set_write_fn,param,0,T_TO_U,,png_struct_def *,pointer,third_party/libpng/pngwio.c
+magick_libpng,png_set_write_fn,param,1,T_TO_U,,void *,pointer,third_party/libpng/pngwio.c
+magick_libpng,png_set_write_fn,param,2,T_TO_U,,..(*)(..),other,third_party/libpng/pngwio.c
+magick_libpng,png_set_write_fn,param,3,T_TO_U,,..(*)(..),other,third_party/libpng/pngwio.c
+magick_libpng,png_create_write_struct,param,0,T_TO_U,,char *,pointer,third_party/libpng/pngwrite.c
+magick_libpng,png_create_write_struct,param,0,T_TO_U,/deref,char,scalar,third_party/libpng/pngwrite.c
+magick_libpng,png_create_write_struct,param,1,T_TO_U,,void *,pointer,third_party/libpng/pngwrite.c
+magick_libpng,png_create_write_struct,param,2,T_TO_U,,..(*)(..),other,third_party/libpng/pngwrite.c
+magick_libpng,png_create_write_struct,param,3,T_TO_U,,..(*)(..),other,third_party/libpng/pngwrite.c
+magick_libpng,png_create_write_struct,return,return,U_TO_T,,png_struct_def *,pointer,third_party/libpng/pngwrite.c
+magick_libpng,png_destroy_write_struct,param,0,T_TO_U,,png_struct_def **,pointer,third_party/libpng/pngwrite.c
+magick_libpng,png_destroy_write_struct,param,0,T_TO_U,/deref,png_struct_def *,pointer,third_party/libpng/pngwrite.c
+magick_libpng,png_destroy_write_struct,param,1,T_TO_U,,png_info_def **,pointer,third_party/libpng/pngwrite.c
+magick_libpng,png_destroy_write_struct,param,1,T_TO_U,/deref,png_info_def *,pointer,third_party/libpng/pngwrite.c
+magick_libpng,png_write_end,param,0,T_TO_U,,png_struct_def *,pointer,third_party/libpng/pngwrite.c
+magick_libpng,png_write_end,param,1,T_TO_U,,png_info_def *,pointer,third_party/libpng/pngwrite.c
+magick_libpng,png_write_image,param,0,T_TO_U,,png_struct_def *,pointer,third_party/libpng/pngwrite.c
+magick_libpng,png_write_image,param,1,T_TO_U,,unsigned char **,pointer,third_party/libpng/pngwrite.c
+magick_libpng,png_write_image,param,1,T_TO_U,/deref,unsigned char *,pointer,third_party/libpng/pngwrite.c
+magick_libpng,png_write_image,param,1,T_TO_U,/deref/deref,unsigned char,scalar,third_party/libpng/pngwrite.c
+magick_libpng,png_write_info,param,0,T_TO_U,,png_struct_def *,pointer,third_party/libpng/pngwrite.c
+magick_libpng,png_write_info,param,1,T_TO_U,,png_info_def *,pointer,third_party/libpng/pngwrite.c

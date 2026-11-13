@@ -1,0 +1,1 @@
+VPX_BENCH variant=rlbox-only frames=5 width=64 height=48 packets=5 encoded_bytes=1054 encoded_fnv=7131984c517e3524 decoded_frames=5 decoded_fnv=32047f228b2506b8 checks=0 elapsed_ns=4100568
