@@ -1,0 +1,1 @@
+PNG_BENCH variant=native iterations=1 input_bytes=1286 width=32 height=32 rgba_bytes=4096 rgba_fnv=088f96d249bcace3 png_bytes=261 png_fnv=9146b1f91add9866 checks=0 elapsed_ns=181211

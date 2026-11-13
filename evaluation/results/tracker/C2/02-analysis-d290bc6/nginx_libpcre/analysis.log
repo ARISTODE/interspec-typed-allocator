@@ -1,0 +1,32 @@
+[slot-policy] Activating manifest (isolated) -> coverage/configs/nginx_libpcre.json
+Generated /tmp/slot_policy_pack_5g1qsrx3/ql/generated/NginxLibpcreConfig.qll without updating ql/generated/index.qll.
+[slot-policy] Running pointer slot query (param) -> reports/nginx_libpcre/_pointer_query_split/pointer_slots.param.bqrs
+Compiling query plan for /tmp/slot_policy_pack_5g1qsrx3/ql/queries/pointer_slots_split_tj9gn9hq/pointer_slots_param.ql.
+WARNING: unused predicate 'aggregateReturnPtrSlotRow' (/tmp/slot_policy_pack_5g1qsrx3/ql/queries/pointer_slots_split_tj9gn9hq/pointer_slots_param.ql:1491,11-36)
+WARNING: unused predicate 'returnSlotRow' (/tmp/slot_policy_pack_5g1qsrx3/ql/queries/pointer_slots_split_tj9gn9hq/pointer_slots_param.ql:1576,11-24)
+WARNING: unused predicate 'returnPtrSlotRow' (/tmp/slot_policy_pack_5g1qsrx3/ql/queries/pointer_slots_split_tj9gn9hq/pointer_slots_param.ql:1655,11-27)
+[1/1 comp 43.6s] Compiled /tmp/slot_policy_pack_5g1qsrx3/ql/queries/pointer_slots_split_tj9gn9hq/pointer_slots_param.ql.
+Starting evaluation of interspec-pointer-analysis/queries/pointer_slots_split_tj9gn9hq/pointer_slots_param.ql.
+A fatal error occurred: Severe disk cache trouble (corruption or out of space) at /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/root/db/nginx/db-cpp/default/cache/predicates/4b.pack: Failed to write item to disk
+(eventual cause: IOException "No space left on device")
+Traceback (most recent call last):
+  File "/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/root/scripts/run_slot_policy_analysis.py", line 637, in <module>
+    main()
+    ~~~~^^
+  File "/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/root/scripts/run_slot_policy_analysis.py", line 447, in main
+    run(
+    ~~~^
+        build_query_run_cmd(
+        ^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+        )
+        ^
+    )
+    ^
+  File "/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/root/scripts/run_slot_policy_analysis.py", line 50, in run
+    subprocess.run(cmd, check=True, cwd=cwd)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/subprocess.py", line 578, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/codeql-bundle/codeql/codeql', 'query', 'run', '/tmp/slot_policy_pack_5g1qsrx3/ql/queries/pointer_slots_split_tj9gn9hq/pointer_slots_param.ql', '--database', 'db/nginx', '--search-path', '/tmp/slot_policy_pack_5g1qsrx3/ql', '--threads', '3', '--ram', '6000', '--output', 'reports/nginx_libpcre/_pointer_query_split/pointer_slots.param.bqrs']' returned non-zero exit status 2.

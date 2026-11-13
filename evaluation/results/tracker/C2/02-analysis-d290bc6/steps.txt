@@ -1,3 +1,4 @@
 memcached_bipbuffer database=memcached exit=0
 memcached_hash database=memcached exit=0
 rsync_popt database=rsync_popt exit=0
+nginx_libpcre database=nginx exit=1

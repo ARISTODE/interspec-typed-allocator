@@ -1,0 +1,1 @@
+PNG_BENCH variant=rlbox-only iterations=1 input_bytes=2206 width=32 height=32 rgba_bytes=4096 rgba_fnv=d94609c0b51e57a3 png_bytes=1689 png_fnv=e1049fdb18f31556 checks=0 elapsed_ns=480581
