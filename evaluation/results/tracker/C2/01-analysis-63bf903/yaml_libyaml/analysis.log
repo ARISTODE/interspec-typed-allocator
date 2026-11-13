@@ -29,4 +29,31 @@ Starting evaluation of interspec-pointer-analysis/queries/pointer_slots_split_35
 Shutting down query evaluator.
 [slot-policy] Running pointer slot query (aggregate_return_ptr) -> reports/yaml_libyaml/_pointer_query_split/pointer_slots.aggregate_return_ptr.bqrs
 Compiling query plan for /tmp/slot_policy_pack_2tlu5cdg/ql/queries/pointer_slots_split_35t0pewn/pointer_slots_aggregate_return_ptr.ql.
-WARNING: unused predicate 'parameterSl
+WARNING: unused predicate 'parameterSlotRow' (/tmp/slot_policy_pack_2tlu5cdg/ql/queries/pointer_slots_split_35t0pewn/pointer_slots_aggregate_return_ptr.ql:1195,11-27)
+WARNING: unused predicate 'returnSlotRow' (/tmp/slot_policy_pack_2tlu5cdg/ql/queries/pointer_slots_split_35t0pewn/pointer_slots_aggregate_return_ptr.ql:1576,11-24)
+WARNING: unused predicate 'returnPtrSlotRow' (/tmp/slot_policy_pack_2tlu5cdg/ql/queries/pointer_slots_split_35t0pewn/pointer_slots_aggregate_return_ptr.ql:1655,11-27)
+[1/1 comp 22.1s] Compiled /tmp/slot_policy_pack_2tlu5cdg/ql/queries/pointer_slots_split_35t0pewn/pointer_slots_aggregate_return_ptr.ql.
+Starting evaluation of interspec-pointer-analysis/queries/pointer_slots_split_35t0pewn/pointer_slots_aggregate_return_ptr.ql.
+[1/1 eval 4.7s] Evaluation done; writing results to /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/root/reports/yaml_libyaml/_pointer_query_split/pointer_slots.aggregate_return_ptr.bqrs.
+Shutting down query evaluator.
+[slot-policy] Exporting pointer slot rows -> reports/yaml_libyaml/pointer_slots_classification.csv
+[slot-policy] Exporting pointer slots -> reports/yaml_libyaml/pointer_slots_summary_by_interface.csv
+[slot-policy] Exporting SP3 cases -> reports/yaml_libyaml/sp3_cases.csv
+[slot-policy] Running scalar slot query -> reports/yaml_libyaml/scalar_slots.bqrs
+Compiling query plan for /tmp/slot_policy_pack_2tlu5cdg/ql/queries/scalar_slots_classification.ql.
+[1/1] Found in cache: /tmp/slot_policy_pack_2tlu5cdg/ql/queries/scalar_slots_classification.ql.
+Starting evaluation of interspec-pointer-analysis/queries/scalar_slots_classification.ql.
+[1/1 eval 44.7s] Evaluation done; writing results to /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/root/reports/yaml_libyaml/scalar_slots.bqrs.
+Shutting down query evaluator.
+[slot-policy] Exporting scalar slots -> reports/yaml_libyaml/scalar_slots_summary_by_interface.csv
+[slot-policy] Running slot-type breakdown query -> reports/yaml_libyaml/slot_type_breakdown.bqrs
+Compiling query plan for /tmp/slot_policy_pack_2tlu5cdg/ql/queries/slot_type_breakdown.ql.
+[1/1] Found in cache: /tmp/slot_policy_pack_2tlu5cdg/ql/queries/slot_type_breakdown.ql.
+Starting evaluation of interspec-pointer-analysis/queries/slot_type_breakdown.ql.
+[1/1 eval 1.7s] Evaluation done; writing results to /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/root/reports/yaml_libyaml/slot_type_breakdown.bqrs.
+Shutting down query evaluator.
+[slot-policy] Exporting slot type rows -> reports/yaml_libyaml/slot_type_breakdown.csv
+[slot-policy] Exporting slot types -> reports/yaml_libyaml/slot_type_breakdown_summary_by_interface.csv
+[slot-policy] Exporting node surface -> reports/yaml_libyaml/node_surface_summary_by_interface.csv
+[slot-policy] Consolidating -> reports/yaml_libyaml/policy_summary.csv
+[slot-policy] Done

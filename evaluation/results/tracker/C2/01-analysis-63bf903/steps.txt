@@ -1,0 +1,3 @@
+yaml_libyaml database=yaml_libyaml exit=0
+zip_libzip database=zip_libzip exit=0
+ucl_libucl database=ucl_libucl exit=0

@@ -1,0 +1,10 @@
+benchmark,function,file,total_fields,pointer_fields,scalar_fields,struct_fields,array_fields,other_fields
+ucl_libucl,ucl_object_emit,third_party/libucl/src/ucl_emitter.c,25,10,11,2,1,1
+ucl_libucl,ucl_object_lookup_path_char,third_party/libucl/src/ucl_util.c,47,19,20,4,2,2
+ucl_libucl,ucl_object_tostring,third_party/libucl/src/ucl_util.c,24,10,10,2,1,1
+ucl_libucl,ucl_object_unref,third_party/libucl/src/ucl_util.c,22,9,9,2,1,1
+ucl_libucl,ucl_parser_add_chunk,third_party/libucl/src/ucl_parser.c,5,2,3,0,0,0
+ucl_libucl,ucl_parser_free,third_party/libucl/src/ucl_util.c,1,1,0,0,0,0
+ucl_libucl,ucl_parser_get_error,third_party/libucl/src/ucl_util.c,3,2,1,0,0,0
+ucl_libucl,ucl_parser_get_object,third_party/libucl/src/ucl_util.c,23,10,9,2,1,1
+ucl_libucl,ucl_parser_new,third_party/libucl/src/ucl_parser.c,2,1,1,0,0,0

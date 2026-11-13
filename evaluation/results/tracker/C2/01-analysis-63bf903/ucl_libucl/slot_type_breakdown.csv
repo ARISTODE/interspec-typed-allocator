@@ -1,0 +1,153 @@
+benchmark,function,binding_kind,binding_id,direction,slot_path,slot_type,category,file
+ucl_libucl,ucl_object_emit,param,0,T_TO_U,,ucl_object_s *,pointer,third_party/libucl/src/ucl_emitter.c
+ucl_libucl,ucl_object_emit,param,0,T_TO_U,/deref,ucl_object_s,struct,third_party/libucl/src/ucl_emitter.c
+ucl_libucl,ucl_object_emit,param,0,T_TO_U,/deref/field:flags,unsigned short,scalar,third_party/libucl/src/ucl_emitter.c
+ucl_libucl,ucl_object_emit,param,0,T_TO_U,/deref/field:key,char *,pointer,third_party/libucl/src/ucl_emitter.c
+ucl_libucl,ucl_object_emit,param,0,T_TO_U,/deref/field:key/deref,char,scalar,third_party/libucl/src/ucl_emitter.c
+ucl_libucl,ucl_object_emit,param,0,T_TO_U,/deref/field:keylen,unsigned int,scalar,third_party/libucl/src/ucl_emitter.c
+ucl_libucl,ucl_object_emit,param,0,T_TO_U,/deref/field:len,unsigned int,scalar,third_party/libucl/src/ucl_emitter.c
+ucl_libucl,ucl_object_emit,param,0,T_TO_U,/deref/field:next,ucl_object_s *,pointer,third_party/libucl/src/ucl_emitter.c
+ucl_libucl,ucl_object_emit,param,0,T_TO_U,/deref/field:prev,ucl_object_s *,pointer,third_party/libucl/src/ucl_emitter.c
+ucl_libucl,ucl_object_emit,param,0,T_TO_U,/deref/field:ref,unsigned int,scalar,third_party/libucl/src/ucl_emitter.c
+ucl_libucl,ucl_object_emit,param,0,T_TO_U,/deref/field:trash_stack,unsigned char *[2],array,third_party/libucl/src/ucl_emitter.c
+ucl_libucl,ucl_object_emit,param,0,T_TO_U,/deref/field:trash_stack/elem,unsigned char *,pointer,third_party/libucl/src/ucl_emitter.c
+ucl_libucl,ucl_object_emit,param,0,T_TO_U,/deref/field:trash_stack/elem/deref,unsigned char,scalar,third_party/libucl/src/ucl_emitter.c
+ucl_libucl,ucl_object_emit,param,0,T_TO_U,/deref/field:type,unsigned short,scalar,third_party/libucl/src/ucl_emitter.c
+ucl_libucl,ucl_object_emit,param,0,T_TO_U,/deref/field:value,(unnamed class/struct/union),struct,third_party/libucl/src/ucl_emitter.c
+ucl_libucl,ucl_object_emit,param,0,T_TO_U,/deref/field:value/field:av,void *,pointer,third_party/libucl/src/ucl_emitter.c
+ucl_libucl,ucl_object_emit,param,0,T_TO_U,/deref/field:value/field:dv,double,other,third_party/libucl/src/ucl_emitter.c
+ucl_libucl,ucl_object_emit,param,0,T_TO_U,/deref/field:value/field:iv,signed long,scalar,third_party/libucl/src/ucl_emitter.c
+ucl_libucl,ucl_object_emit,param,0,T_TO_U,/deref/field:value/field:ov,void *,pointer,third_party/libucl/src/ucl_emitter.c
+ucl_libucl,ucl_object_emit,param,0,T_TO_U,/deref/field:value/field:sv,char *,pointer,third_party/libucl/src/ucl_emitter.c
+ucl_libucl,ucl_object_emit,param,0,T_TO_U,/deref/field:value/field:sv/deref,char,scalar,third_party/libucl/src/ucl_emitter.c
+ucl_libucl,ucl_object_emit,param,0,T_TO_U,/deref/field:value/field:ud,void *,pointer,third_party/libucl/src/ucl_emitter.c
+ucl_libucl,ucl_object_emit,param,1,T_TO_U,,ucl_emitter,scalar,third_party/libucl/src/ucl_emitter.c
+ucl_libucl,ucl_object_emit,return,return,U_TO_T,,unsigned char *,pointer,third_party/libucl/src/ucl_emitter.c
+ucl_libucl,ucl_object_emit,return_ptr,return,U_TO_T,/deref,unsigned char,scalar,third_party/libucl/src/ucl_emitter.c
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,,ucl_parser *,pointer,third_party/libucl/src/ucl_parser.c
+ucl_libucl,ucl_parser_add_chunk,param,1,T_TO_U,,unsigned char *,pointer,third_party/libucl/src/ucl_parser.c
+ucl_libucl,ucl_parser_add_chunk,param,1,T_TO_U,/deref,unsigned char,scalar,third_party/libucl/src/ucl_parser.c
+ucl_libucl,ucl_parser_add_chunk,param,2,T_TO_U,,unsigned long,scalar,third_party/libucl/src/ucl_parser.c
+ucl_libucl,ucl_parser_add_chunk,return_scalar,return,U_TO_T,,bool,scalar,third_party/libucl/src/ucl_parser.c
+ucl_libucl,ucl_parser_new,param,0,T_TO_U,,int,scalar,third_party/libucl/src/ucl_parser.c
+ucl_libucl,ucl_parser_new,return,return,U_TO_T,,ucl_parser *,pointer,third_party/libucl/src/ucl_parser.c
+ucl_libucl,ucl_object_lookup_path_char,param,0,T_TO_U,,ucl_object_s *,pointer,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_lookup_path_char,param,0,T_TO_U,/deref,ucl_object_s,struct,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_lookup_path_char,param,0,T_TO_U,/deref/field:flags,unsigned short,scalar,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_lookup_path_char,param,0,T_TO_U,/deref/field:key,char *,pointer,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_lookup_path_char,param,0,T_TO_U,/deref/field:key/deref,char,scalar,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_lookup_path_char,param,0,T_TO_U,/deref/field:keylen,unsigned int,scalar,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_lookup_path_char,param,0,T_TO_U,/deref/field:len,unsigned int,scalar,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_lookup_path_char,param,0,T_TO_U,/deref/field:next,ucl_object_s *,pointer,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_lookup_path_char,param,0,T_TO_U,/deref/field:prev,ucl_object_s *,pointer,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_lookup_path_char,param,0,T_TO_U,/deref/field:ref,unsigned int,scalar,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_lookup_path_char,param,0,T_TO_U,/deref/field:trash_stack,unsigned char *[2],array,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_lookup_path_char,param,0,T_TO_U,/deref/field:trash_stack/elem,unsigned char *,pointer,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_lookup_path_char,param,0,T_TO_U,/deref/field:trash_stack/elem/deref,unsigned char,scalar,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_lookup_path_char,param,0,T_TO_U,/deref/field:type,unsigned short,scalar,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_lookup_path_char,param,0,T_TO_U,/deref/field:value,(unnamed class/struct/union),struct,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_lookup_path_char,param,0,T_TO_U,/deref/field:value/field:av,void *,pointer,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_lookup_path_char,param,0,T_TO_U,/deref/field:value/field:dv,double,other,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_lookup_path_char,param,0,T_TO_U,/deref/field:value/field:iv,signed long,scalar,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_lookup_path_char,param,0,T_TO_U,/deref/field:value/field:ov,void *,pointer,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_lookup_path_char,param,0,T_TO_U,/deref/field:value/field:sv,char *,pointer,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_lookup_path_char,param,0,T_TO_U,/deref/field:value/field:sv/deref,char,scalar,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_lookup_path_char,param,0,T_TO_U,/deref/field:value/field:ud,void *,pointer,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_lookup_path_char,param,1,T_TO_U,,char *,pointer,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_lookup_path_char,param,1,T_TO_U,/deref,char,scalar,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_lookup_path_char,param,2,T_TO_U,,char,scalar,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_lookup_path_char,return,return,U_TO_T,,ucl_object_s *,pointer,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_lookup_path_char,return_ptr,return,U_TO_T,/deref,ucl_object_s,struct,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_lookup_path_char,return_ptr,return,U_TO_T,/deref/field:flags,unsigned short,scalar,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_lookup_path_char,return_ptr,return,U_TO_T,/deref/field:key,char *,pointer,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_lookup_path_char,return_ptr,return,U_TO_T,/deref/field:key/deref,char,scalar,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_lookup_path_char,return_ptr,return,U_TO_T,/deref/field:keylen,unsigned int,scalar,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_lookup_path_char,return_ptr,return,U_TO_T,/deref/field:len,unsigned int,scalar,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_lookup_path_char,return_ptr,return,U_TO_T,/deref/field:next,ucl_object_s *,pointer,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_lookup_path_char,return_ptr,return,U_TO_T,/deref/field:prev,ucl_object_s *,pointer,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_lookup_path_char,return_ptr,return,U_TO_T,/deref/field:ref,unsigned int,scalar,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_lookup_path_char,return_ptr,return,U_TO_T,/deref/field:trash_stack,unsigned char *[2],array,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_lookup_path_char,return_ptr,return,U_TO_T,/deref/field:trash_stack/elem,unsigned char *,pointer,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_lookup_path_char,return_ptr,return,U_TO_T,/deref/field:trash_stack/elem/deref,unsigned char,scalar,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_lookup_path_char,return_ptr,return,U_TO_T,/deref/field:type,unsigned short,scalar,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_lookup_path_char,return_ptr,return,U_TO_T,/deref/field:value,(unnamed class/struct/union),struct,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_lookup_path_char,return_ptr,return,U_TO_T,/deref/field:value/field:av,void *,pointer,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_lookup_path_char,return_ptr,return,U_TO_T,/deref/field:value/field:dv,double,other,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_lookup_path_char,return_ptr,return,U_TO_T,/deref/field:value/field:iv,signed long,scalar,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_lookup_path_char,return_ptr,return,U_TO_T,/deref/field:value/field:ov,void *,pointer,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_lookup_path_char,return_ptr,return,U_TO_T,/deref/field:value/field:sv,char *,pointer,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_lookup_path_char,return_ptr,return,U_TO_T,/deref/field:value/field:sv/deref,char,scalar,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_lookup_path_char,return_ptr,return,U_TO_T,/deref/field:value/field:ud,void *,pointer,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_tostring,param,0,T_TO_U,,ucl_object_s *,pointer,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_tostring,param,0,T_TO_U,/deref,ucl_object_s,struct,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_tostring,param,0,T_TO_U,/deref/field:flags,unsigned short,scalar,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_tostring,param,0,T_TO_U,/deref/field:key,char *,pointer,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_tostring,param,0,T_TO_U,/deref/field:key/deref,char,scalar,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_tostring,param,0,T_TO_U,/deref/field:keylen,unsigned int,scalar,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_tostring,param,0,T_TO_U,/deref/field:len,unsigned int,scalar,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_tostring,param,0,T_TO_U,/deref/field:next,ucl_object_s *,pointer,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_tostring,param,0,T_TO_U,/deref/field:prev,ucl_object_s *,pointer,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_tostring,param,0,T_TO_U,/deref/field:ref,unsigned int,scalar,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_tostring,param,0,T_TO_U,/deref/field:trash_stack,unsigned char *[2],array,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_tostring,param,0,T_TO_U,/deref/field:trash_stack/elem,unsigned char *,pointer,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_tostring,param,0,T_TO_U,/deref/field:trash_stack/elem/deref,unsigned char,scalar,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_tostring,param,0,T_TO_U,/deref/field:type,unsigned short,scalar,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_tostring,param,0,T_TO_U,/deref/field:value,(unnamed class/struct/union),struct,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_tostring,param,0,T_TO_U,/deref/field:value/field:av,void *,pointer,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_tostring,param,0,T_TO_U,/deref/field:value/field:dv,double,other,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_tostring,param,0,T_TO_U,/deref/field:value/field:iv,signed long,scalar,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_tostring,param,0,T_TO_U,/deref/field:value/field:ov,void *,pointer,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_tostring,param,0,T_TO_U,/deref/field:value/field:sv,char *,pointer,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_tostring,param,0,T_TO_U,/deref/field:value/field:sv/deref,char,scalar,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_tostring,param,0,T_TO_U,/deref/field:value/field:ud,void *,pointer,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_tostring,return,return,U_TO_T,,char *,pointer,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_tostring,return_ptr,return,U_TO_T,/deref,char,scalar,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_unref,param,0,T_TO_U,,ucl_object_s *,pointer,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_unref,param,0,T_TO_U,/deref,ucl_object_s,struct,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_unref,param,0,T_TO_U,/deref/field:flags,unsigned short,scalar,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_unref,param,0,T_TO_U,/deref/field:key,char *,pointer,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_unref,param,0,T_TO_U,/deref/field:key/deref,char,scalar,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_unref,param,0,T_TO_U,/deref/field:keylen,unsigned int,scalar,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_unref,param,0,T_TO_U,/deref/field:len,unsigned int,scalar,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_unref,param,0,T_TO_U,/deref/field:next,ucl_object_s *,pointer,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_unref,param,0,T_TO_U,/deref/field:prev,ucl_object_s *,pointer,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_unref,param,0,T_TO_U,/deref/field:ref,unsigned int,scalar,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_unref,param,0,T_TO_U,/deref/field:trash_stack,unsigned char *[2],array,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_unref,param,0,T_TO_U,/deref/field:trash_stack/elem,unsigned char *,pointer,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_unref,param,0,T_TO_U,/deref/field:trash_stack/elem/deref,unsigned char,scalar,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_unref,param,0,T_TO_U,/deref/field:type,unsigned short,scalar,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_unref,param,0,T_TO_U,/deref/field:value,(unnamed class/struct/union),struct,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_unref,param,0,T_TO_U,/deref/field:value/field:av,void *,pointer,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_unref,param,0,T_TO_U,/deref/field:value/field:dv,double,other,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_unref,param,0,T_TO_U,/deref/field:value/field:iv,signed long,scalar,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_unref,param,0,T_TO_U,/deref/field:value/field:ov,void *,pointer,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_unref,param,0,T_TO_U,/deref/field:value/field:sv,char *,pointer,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_unref,param,0,T_TO_U,/deref/field:value/field:sv/deref,char,scalar,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_object_unref,param,0,T_TO_U,/deref/field:value/field:ud,void *,pointer,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,,ucl_parser *,pointer,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,,ucl_parser *,pointer,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_parser_get_error,return,return,U_TO_T,,char *,pointer,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_parser_get_error,return_ptr,return,U_TO_T,/deref,char,scalar,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,,ucl_parser *,pointer,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_parser_get_object,return,return,U_TO_T,,ucl_object_s *,pointer,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_parser_get_object,return_ptr,return,U_TO_T,/deref,ucl_object_s,struct,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_parser_get_object,return_ptr,return,U_TO_T,/deref/field:flags,unsigned short,scalar,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_parser_get_object,return_ptr,return,U_TO_T,/deref/field:key,char *,pointer,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_parser_get_object,return_ptr,return,U_TO_T,/deref/field:key/deref,char,scalar,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_parser_get_object,return_ptr,return,U_TO_T,/deref/field:keylen,unsigned int,scalar,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_parser_get_object,return_ptr,return,U_TO_T,/deref/field:len,unsigned int,scalar,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_parser_get_object,return_ptr,return,U_TO_T,/deref/field:next,ucl_object_s *,pointer,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_parser_get_object,return_ptr,return,U_TO_T,/deref/field:prev,ucl_object_s *,pointer,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_parser_get_object,return_ptr,return,U_TO_T,/deref/field:ref,unsigned int,scalar,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_parser_get_object,return_ptr,return,U_TO_T,/deref/field:trash_stack,unsigned char *[2],array,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_parser_get_object,return_ptr,return,U_TO_T,/deref/field:trash_stack/elem,unsigned char *,pointer,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_parser_get_object,return_ptr,return,U_TO_T,/deref/field:trash_stack/elem/deref,unsigned char,scalar,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_parser_get_object,return_ptr,return,U_TO_T,/deref/field:type,unsigned short,scalar,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_parser_get_object,return_ptr,return,U_TO_T,/deref/field:value,(unnamed class/struct/union),struct,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_parser_get_object,return_ptr,return,U_TO_T,/deref/field:value/field:av,void *,pointer,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_parser_get_object,return_ptr,return,U_TO_T,/deref/field:value/field:dv,double,other,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_parser_get_object,return_ptr,return,U_TO_T,/deref/field:value/field:iv,signed long,scalar,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_parser_get_object,return_ptr,return,U_TO_T,/deref/field:value/field:ov,void *,pointer,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_parser_get_object,return_ptr,return,U_TO_T,/deref/field:value/field:sv,char *,pointer,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_parser_get_object,return_ptr,return,U_TO_T,/deref/field:value/field:sv/deref,char,scalar,third_party/libucl/src/ucl_util.c
+ucl_libucl,ucl_parser_get_object,return_ptr,return,U_TO_T,/deref/field:value/field:ud,void *,pointer,third_party/libucl/src/ucl_util.c
