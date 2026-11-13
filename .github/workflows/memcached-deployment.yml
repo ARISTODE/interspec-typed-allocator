@@ -77,7 +77,7 @@ jobs:
             --correctness-summary memcached-results/correctness/summary.json
       - name: Profile SP3 check frequency
         run: |
-          python3 tools/profile_memcached_checks.py \
+          python3 tools/profile_memcached_checks_hosted.py \
             --out memcached-results/check-frequency --operations 5000 --key-cap 512 \
             --write-operations 200000 --write-key-cap 10000 --require-coverage \
             --correctness-summary memcached-results/correctness/summary.json

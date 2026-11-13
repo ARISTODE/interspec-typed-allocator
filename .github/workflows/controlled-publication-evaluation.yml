@@ -119,7 +119,7 @@ jobs:
               python3 tools/audit_behavioral_parity.py --app memcached --evidence "$OUTPUT_DIR/correctness/summary.json" --out "$OUTPUT_DIR/parity-audit.json"
               python3 tools/benchmark_memcached_matrix.py --preset paper --include-tracking --server-cpus "$SERVER_CPUS" --client-cpus "$CLIENT_CPUS" --correctness-summary "$OUTPUT_DIR/correctness/summary.json" --out "$OUTPUT_DIR/matrix" --label controlled_host_candidate
               python3 tools/verify_memcached_matrix.py --matrix "$OUTPUT_DIR/matrix" --correctness-summary "$OUTPUT_DIR/correctness/summary.json"
-              python3 tools/profile_memcached_checks.py --out "$OUTPUT_DIR/check-profile" --operations 5000 --key-cap 512 --write-operations 200000 --write-key-cap 10000 --require-coverage --correctness-summary "$OUTPUT_DIR/correctness/summary.json"
+              python3 tools/profile_memcached_checks_hosted.py --out "$OUTPUT_DIR/check-profile" --operations 5000 --key-cap 512 --write-operations 200000 --write-key-cap 10000 --require-coverage --correctness-summary "$OUTPUT_DIR/correctness/summary.json"
               python3 tools/verify_memcached_profile.py --profile "$OUTPUT_DIR/check-profile" --correctness-summary "$OUTPUT_DIR/correctness/summary.json"
               ;;
             nginx)
