@@ -6,6 +6,11 @@
 //   hash(data, len) -> 64-bit value
 // The artifact isolates only this call; memcached's hash table stays in T.
 // The call has one pointer argument and returns a number.
+// Policies at this boundary:
+//   SP1  no field: U reads everything it is handed (the key).
+//   SP2  the key is read by U and never written by it, so U's copy is not
+//        copied back.
+//   SP3  no field: U returns no pointer to T.
 #define RLBOX_USE_EXCEPTIONS
 #define RLBOX_USE_STATIC_CALLS() rlbox_wasm2c_sandbox_lookup_symbol
 #define RLBOX_WASM2C_MODULE_NAME glue__lib__wasm2c
@@ -57,8 +62,8 @@ class Engine {
                                                         port_.address_of(staged),
                                                         static_cast<uint32_t>(len))
                                .UNSAFE_unverified();
-    // U's version of the key is copied back over T's.
-    std::memcpy(data, staged, len);
+    // SP2: U's copy of the key is not copied back.
+    port_.copy_back_unless_sp2(data, staged, len);
     return value;
   }
 
