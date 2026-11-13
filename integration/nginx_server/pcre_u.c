@@ -173,11 +173,16 @@ uint32_t interspec_nginx_names_bytes(void)
     return names_bytes;
 }
 
-int interspec_nginx_exec(int length, int start, int options, int count)
+/* The output vector of pcre_exec is written by PCRE and T's contents are never
+ * read. With SP1 on the wrapper copies nothing in and the vector starts as -1.
+ * With SP1 off the wrapper has already copied T's vector into `offsets` and
+ * passes copied_in, so that the copy reaches PCRE as it would natively. */
+int interspec_nginx_exec(int length, int start, int options, int count, int copied_in)
 {
     if (length < 0 || length > (int)INPUT_CAPACITY || count < 0 || count > (int)OFFSET_CAPACITY)
         return PCRE_ERROR_BADLENGTH;
-    for (int i = 0; i < count; ++i) offsets[i] = -1;
+    if (!copied_in)
+        for (int i = 0; i < count; ++i) offsets[i] = -1;
     offsets_bytes = (uint32_t)count * sizeof(int);
 #ifdef INTERSPEC_FAULT_TESTS
     if ((poc_flags & 1u) && count) {
@@ -198,6 +203,9 @@ int interspec_nginx_exec(int length, int start, int options, int count)
 #endif
     return rc;
 }
+/* Destination for the SP1-off copy-in. Unlike interspec_nginx_offsets it
+ * never applies test faults: it hands out the staging array, not a result. */
+unsigned char *interspec_nginx_offsets_in(void) { return (unsigned char *)offsets; }
 unsigned char *interspec_nginx_offsets(void)
 {
 #ifdef INTERSPEC_FAULT_TESTS
