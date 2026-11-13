@@ -1,0 +1,11 @@
+{
+  "description": "Benign inputs for the magick/libpng port (tracker item I8). The images are copied unchanged from contrib/pngsuite/ of libpng at the revision pinned in evaluation/coverage/pins.json (the PngSuite test images, free to use, see that directory); SHA256SUMS lists them. They cover 1-bit gray, 8-bit RGB, 8-bit palette, 16-bit gray with alpha, 8-bit RGBA and a palette image with transparency. Each case is decoded to RGBA and encoded again, once and twice. The expectation is the output of the native build of the same libpng revision; no value is written by hand.",
+  "cases": [
+    {"image": "basn0g01.png"},
+    {"image": "basn2c08.png"},
+    {"image": "basn3p08.png"},
+    {"image": "basn4a16.png"},
+    {"image": "basn6a08.png"},
+    {"image": "ftbbn3p08.png"}
+  ]
+}

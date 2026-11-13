@@ -36,6 +36,11 @@ BOUNDARIES = {
         "args": lambda corpus, case, n: [str(corpus / case["archive"]), n],
         "name": lambda case: Path(case["archive"]).stem,
     },
+    "magick_libpng": {
+        "prefix": "png", "tag": "PNG_BENCH",
+        "args": lambda corpus, case, n: [str(corpus / case["image"]), n],
+        "name": lambda case: Path(case["image"]).stem,
+    },
 }
 NOT_RESULT = {"variant", "checks", "elapsed_ns"}
 

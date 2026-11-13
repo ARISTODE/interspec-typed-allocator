@@ -1,0 +1,22 @@
+{
+  "types": [
+    "char"
+  ],
+  "helper_sites": [
+    {
+      "name": "decoded_pixels",
+      "type": "png_decoded_pixels",
+      "role": "integration"
+    },
+    {
+      "name": "encoded_png",
+      "type": "png_encoded_image",
+      "role": "integration"
+    },
+    {
+      "name": "wrong_type",
+      "type": "char",
+      "role": "adversarial"
+    }
+  ]
+}
