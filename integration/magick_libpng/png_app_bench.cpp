@@ -5,6 +5,13 @@
 // T-level interface (as in the artifact wrapper):
 //   decode_rgba(png, png_len, &w, &h, &rgba, &rgba_len)
 //   encode_rgba(rgba, w, h, &png, &png_len)
+// Policies at this boundary:
+//   SP1  the out-parameters of both calls are written by U and never read by
+//        it, so T's values in them are not copied in.
+//   SP2  the PNG bytes and the pixels to encode are read by U and never
+//        written by it, so U's copies are not copied back.
+//   SP3  the two buffers U returns are checked against the object registry
+//        (live object, expected type, bounds) before T copies from them.
 #define RLBOX_USE_EXCEPTIONS
 #define RLBOX_USE_STATIC_CALLS() rlbox_wasm2c_sandbox_lookup_symbol
 #define RLBOX_WASM2C_MODULE_NAME glue__lib__wasm2c
@@ -92,16 +99,17 @@ class Engine {
     unsigned char* in_u = stage(0, len);
     std::memcpy(in_u, png.data(), len);
 
-    // T's current values of the four out-parameters are copied in.
-    const uint32_t w_in = *w;
-    const uint32_t h_in = *h;
-    const uint32_t rgba_in = low32(rgba->data());
-    const uint32_t size_in = static_cast<uint32_t>(*rgba_len);
+    // SP1: U is handed zero for the four out-parameters unless SP1 is off.
+    const uint32_t w_in = Port::withheld_unless_sp1_off(*w);
+    const uint32_t h_in = Port::withheld_unless_sp1_off(*h);
+    const uint32_t rgba_in = Port::withheld_unless_sp1_off(low32(rgba->data()));
+    const uint32_t size_in =
+        Port::withheld_unless_sp1_off(static_cast<uint32_t>(*rgba_len));
     auto pixels =
         port_.sandbox().invoke_sandbox_function(interspec_png_decode, len, w_in, h_in,
                                                 rgba_in, size_in);
-    // U's version of the PNG bytes is copied back over T's.
-    std::memcpy(png.data(), in_u, len);
+    // SP2: U's copy of the PNG bytes is not copied back.
+    port_.copy_back_unless_sp2(png.data(), in_u, len);
     if (pixels.UNSAFE_unverified() == nullptr) return -2;
 
     const uint32_t width =
@@ -134,13 +142,13 @@ class Engine {
     unsigned char* in_u = stage(1, len);
     std::memcpy(in_u, rgba.data(), len);
 
-    // T's current values of the two out-parameters are copied in.
-    const uint32_t png_in = low32(png->data());
-    const uint32_t size_in = static_cast<uint32_t>(*png_len);
+    // SP1, as for decode.
+    const uint32_t png_in = Port::withheld_unless_sp1_off(low32(png->data()));
+    const uint32_t size_in = Port::withheld_unless_sp1_off(static_cast<uint32_t>(*png_len));
     auto encoded =
         port_.sandbox().invoke_sandbox_function(interspec_png_encode, w, h, png_in, size_in);
-    // U's version of the pixels is copied back over T's.
-    std::memcpy(rgba.data(), in_u, len);
+    // SP2: U's copy of the pixels is not copied back.
+    port_.copy_back_unless_sp2(rgba.data(), in_u, len);
     if (encoded.UNSAFE_unverified() == nullptr) return -2;
 
     const uint32_t size =
