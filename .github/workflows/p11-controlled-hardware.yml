@@ -1,0 +1,93 @@
+name: p11-controlled-hardware
+
+on:
+  workflow_dispatch:
+    inputs:
+      cpu:
+        description: Logical CPU to pin all measured processes to
+        required: true
+        default: '2'
+      repetitions:
+        description: Recorded repetitions per workload
+        required: true
+        default: '31'
+      warmups:
+        description: Warmup passes per workload
+        required: true
+        default: '3'
+
+permissions:
+  contents: read
+
+jobs:
+  publication-candidate:
+    runs-on: [self-hosted, linux, x64]
+    timeout-minutes: 120
+    env:
+      INTERSPEC_P11_CPU: ${{ inputs.cpu }}
+      INTERSPEC_P11_REPETITIONS: ${{ inputs.repetitions }}
+      INTERSPEC_P11_WARMUPS: ${{ inputs.warmups }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Controlled-host preflight
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ "${RUNNER_ENVIRONMENT:-}" != "self-hosted" ]]; then
+            echo "P11 controlled measurement requires a self-hosted runner" >&2
+            exit 1
+          fi
+          for command in autoconf automake cmake gcc g++ git make python3 taskset; do
+            command -v "$command" >/dev/null || {
+              echo "missing required command: $command" >&2
+              exit 1
+            }
+          done
+          test -r /usr/include/popt.h || {
+            echo "missing /usr/include/popt.h; install the libpopt development package before the controlled run" >&2
+            exit 1
+          }
+          taskset -c "$INTERSPEC_P11_CPU" true
+          echo "runner_environment=$RUNNER_ENVIRONMENT"
+          echo "requested_cpu=$INTERSPEC_P11_CPU"
+          echo "requested_repetitions=$INTERSPEC_P11_REPETITIONS"
+          echo "requested_warmups=$INTERSPEC_P11_WARMUPS"
+          uptime
+
+      - name: Run P11 controlled three-way wasm2c evaluation
+        shell: bash
+        run: |
+          set -o pipefail
+          chmod +x ./scripts/run_p11_wasm2c_performance.sh
+          ./scripts/run_p11_wasm2c_performance.sh p11-wasm2c-controlled-results \
+            2>&1 | tee /tmp/interspec-p11-controlled.log
+
+      - name: Validate publication-candidate protocol
+        shell: bash
+        run: |
+          python3 ./tools/validate_p11_controlled.py \
+            --environment p11-wasm2c-controlled-results/environment.txt \
+            --summary p11-wasm2c-controlled-results/rsync-performance-summary.csv \
+            --raw p11-wasm2c-controlled-results/rsync-performance.csv \
+            --runner-environment "${RUNNER_ENVIRONMENT:-unknown}" \
+            --output p11-wasm2c-controlled-results/controlled-validation.txt
+          {
+            echo '## P11 controlled-hardware validation'
+            echo '```text'
+            cat p11-wasm2c-controlled-results/controlled-validation.txt
+            echo '```'
+            cat p11-wasm2c-controlled-results/P11_RESULTS.md
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload controlled P11 artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: p11-wasm2c-controlled-hardware
+          if-no-files-found: error
+          path: |
+            p11-wasm2c-controlled-results
+            /tmp/interspec-p11-controlled.log
