@@ -1,0 +1,3 @@
+INTERSPEC_POLICY boundary=nginx_pcre sp1=1 sp2=1 sp3=full
+FAULT_INJECTION boundary=nginx_pcre path=1 kind=7 original=0x1293e8 replacement=0xfffffff0 bytes=18
+INTERSPEC_REJECT boundary=nginx_pcre operation=name_table reason=outside_sandbox

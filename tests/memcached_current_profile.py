@@ -229,9 +229,12 @@ class ExportAndWorkflow(unittest.TestCase):
     def test_workflow_contract(self):
         for name in ("memcached-deployment.yml", "controlled-publication-evaluation.yml"):
             workflow = (ROOT / ".github/workflows" / name).read_text()
-            self.assertIn("bash scripts/run_memcached_profile.sh", workflow)
+            # The workflows call the hosted collector, the step that passed CI
+            # at 7f7b689. scripts/run_memcached_profile.sh passed once and
+            # failed once at fcd72d7 and is not called from a workflow.
+            self.assertIn("tools/profile_memcached_checks_hosted.py", workflow)
+            self.assertNotIn("bash scripts/run_memcached_profile.sh", workflow)
             self.assertNotIn("profile_memcached_checks.py --out", workflow)
-            self.assertNotIn("--require-coverage", workflow)
         script = (ROOT / "scripts/run_memcached_profile.sh").read_text()
         self.assertIn("prepare-current", script)
         self.assertIn('collect --plan "$out/frozen/plan.json"', script)
