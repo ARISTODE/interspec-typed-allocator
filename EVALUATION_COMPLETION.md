@@ -1,6 +1,106 @@
 # Evaluation completion ledger
 
-## Current progress: 12 November 2026
+## Current progress: 13 November 2026
+
+**Stage 16's corrected VM-reference matrix is complete and independently
+accepted. The broader evaluation remains incomplete.** All six memcached
+scenarios × four variants × eight balanced blocks completed in one retained
+attempt on the available VM: 192 measured observations and 192 warmups, with
+no failed, excluded, replacement or retried cell. This separately predeclared
+study provides descriptive end-to-end reference results. It does not establish
+controlled-host performance, generator headroom or causal instrumentation cost.
+
+### Stage 16 validated results
+
+- Collection ran on 13 November, 05:27:42–05:51:22 UTC, in 23 minutes 40 seconds
+  (1,419.949 seconds); the outer process exited zero without timeout.
+- The independent raw audit accepted 825,285,732 measured valid responses,
+  165,533,949 warmup valid responses and 1,920,000 preload SETs. These are
+  distinct phases, not equal-operation-count workloads across variants.
+- All 384 client outcomes and 192 server exits passed. The declared gates
+  found zero client errors or misses, exact measured GET+SET reconciliation,
+  zero logger/watcher/LRU loss deltas and cumulative final counters, active
+  watchers and no server diagnostics. All order, coverage and identity checks
+  passed, including eight blocks per scenario and each variant in every rank
+  twice. The historical hash-bound 50/50 deployment gate was reused, not rerun;
+  the 192 ordinary per-cell preload/warmup/measurement gates are new evidence.
+- The stock saved-sample verifier passed all 192 observations. Independent
+  saved-evidence review recomputed the analysis and both report tables, checking
+  2,142 raw/summary/provenance files plus all 401 frozen inputs. One relocated
+  replay produced byte-identical audit output without launching applications.
+  The final report's two status-only edits were separately accepted; all other
+  audited inputs remained unchanged.
+
+### Paired descriptive throughput differences
+
+Each entry is the median percentage [minimum, maximum] of eight within-block
+values, calculated as `100 × (1 − InterSpec/baseline throughput)`. Positive
+values mean lower InterSpec throughput; negative values mean higher throughput.
+These observed ranges are not confidence bounds or isolated checking/tracking
+overhead. All eight values are retained, without outlier removal.
+
+| Scenario | InterSpec vs native (%) | InterSpec vs RLBox-only (%) | InterSpec vs tracked-no-check (%) |
+| --- | ---: | ---: | ---: |
+| balanced_1c | +2.74 [-6.90, +7.16] | +2.08 [-3.29, +7.67] | +3.81 [-1.69, +9.15] |
+| balanced_8c | +1.35 [-12.97, +27.48] | -6.61 [-29.29, +23.68] | -3.59 [-10.94, +9.97] |
+| read_heavy_1k | +5.79 [-15.65, +12.62] | +3.57 [-5.10, +13.69] | +0.84 [-13.81, +9.20] |
+| write_heavy | +7.55 [-15.93, +24.72] | +4.80 [-26.57, +17.50] | +11.66 [-23.08, +32.08] |
+| watch_light | +0.06 [-12.49, +14.55] | +2.43 [-6.06, +16.00] | -2.27 [-9.19, +8.71] |
+| watch_moderate | +7.53 [-17.76, +19.12] | +2.30 [-7.75, +15.22] | +3.29 [-10.13, +13.69] |
+
+**All 18 comparison ranges cross zero.** This session establishes no stable
+variant ordering, equivalence, slowdown bound or speedup mechanism. No
+statistical-significance claim is made. The retained report also gives all
+four variants' median/minimum/maximum throughput; `ANALYSIS.json` preserves
+individual throughput values, operation mixes, process CPU/RSS observations
+and every paired ratio. The unchanged stock renderer's historical "overhead"
+labels are not adopted as causal conclusions; the explicit Stage 16 report
+and protocol define the accepted interpretation.
+
+### Stage 16 identities and retained evidence
+
+The measurement-source baseline is published Stage 15 commit
+`545474d07526fe4c249d13f3b0a8d64a54b08b38`, tree
+`ccef25a6c25e78af14b0c0e6a90305d72c46cd2b`. Its unchanged count-only client is
+SHA-256 `52861a45be40fa8f17c76ff8dca7ec3e09f99c4970d86d0b243c91d1b9af2b0b`.
+The separately frozen local collector adapter is SHA-256
+`e3bf152da86d13e030ec949029c8270529fac1a41fe70fde11ef778c78c22688`.
+The four unchanged ordinary server binaries retain source attribution
+`6e164d3a62db94e4774345ee32f7d03cf3906bce` and their exact recorded binary hashes;
+they are not rebuilt Stage 15 servers.
+
+- Archive: `interspec-memcached-vm-reference-verified-20261113.tar.gz`;
+  SHA-256 `f5eff9bd05c526362c774fe1f214ad357ab5d2378f61e2e40fe9770eec9bdf00`;
+  5,141,156 bytes. All 2,571 manifest files were verified after a download
+  roundtrip. The archive is retained privately in Space, not published as a
+  GitHub artifact.
+- Detailed members under the archive's `interspec-stage16-evidence/` root:
+  `stage16-vm-reference/PROTOCOL.md`, `stage16-vm-reference/REPORT.md`,
+  `stage16-vm-reference/ANALYSIS.json`, `independent-review/FINAL_REVIEW.md`,
+  `independent-review/FINAL_REPORT_ACCEPTANCE.json` and
+  `independent-review/RELOCATED_REPLAY.json`. These are archive-relative paths,
+  not repository-relative links.
+- Final report SHA-256:
+  `4e39fe4f2b5e9d76e61ce8a2b173f4f4e2f2ebdfde0fbccdbe5d19241edcdd8e`.
+
+### What remains open
+
+Stage 16 closes its corrected six-by-four VM-reference collection. Count-only
+mode collected no latency samples; the separate comparative latency study is
+being designed, with no run or result yet. Paper-row provenance, effective
+policy ablations, source-derived coverage and causal-policy claims remain
+separate open work. The earlier controlled-host/headroom acceptance protocol
+remains unfulfilled and unchanged; this result does not establish those claims.
+Work stays on the available VM, without CloudLab or another host as a required
+next step.
+
+No new capacity A/A repeats, restricted corruption/callback work, security/fault
+experiments, hardware-counter runs, broad tests, CI runs or paper edits were
+performed for Stage 16. The repository update records progress only and uses
+`[skip ci]`; no full CI pass is claimed. Earlier dated results below retain
+their original scope and identities.
+
+## Progress through Stage 15: 12 November 2026
 
 **The evaluation remains incomplete.** Stage 15 integrates the previously
 validated measurement-source chain and closes focused local source/build/test
