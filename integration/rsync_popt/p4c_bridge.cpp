@@ -7,10 +7,13 @@
 
 #include "interspec/policy_runtime.h"
 #include "interspec/pointer_census.h"
+#include "interspec/policy_switches.h"
+#include "interspec/boundary/popt_field_policies.h"
 #include "interspec_popt_t_policy.h"
 #include "popt.h"
 
 #include <algorithm>
+#include <array>
 #include <cstdint>
 #include <cstdio>
 #include <cstdlib>
@@ -53,6 +56,8 @@ int interspec_p4c_option_set(void*, uint32_t, uint32_t, uint32_t, uint32_t, int)
 int interspec_p4c_option_set_strings(void*, uint32_t, char*, char*, char*);
 int interspec_p4c_slot_get_int(void*, uint32_t);
 char* interspec_p4c_slot_get_string(void*, uint32_t);
+void* interspec_p4c_table_options(void*);
+char* interspec_p4c_option_string(void*, uint32_t, uint32_t);
 void* interspec_p4c_argv_new(uint32_t);
 int interspec_p4c_argv_set(void*, uint32_t, char*);
 void* interspec_p4c_context_new(char*, int, void*, void*, uint32_t);
@@ -64,6 +69,21 @@ char* interspec_p4c_args_at(void*, uint32_t);
 void interspec_p4c_context_free(void*);
 void interspec_p4c_table_free(void*);
 void interspec_p4c_argv_free(void*);
+}
+
+// Per-policy switches (INTERSPEC_SP1, INTERSPEC_SP2, INTERSPEC_SP3). The
+// comparator and no-validation builds fix the pointer check when compiled, so
+// their report line says so instead of naming a switch value they ignore.
+#if defined(INTERSPEC_RLBOX_SECURITY_COMPARATOR) || \
+    defined(INTERSPEC_P8_MEASURE_NO_VALIDATION) || \
+    defined(INTERSPEC_P9A_RLBOX_ONLY)
+constexpr const char* kPolicyBoundary = "rsync_popt+sp3_fixed_at_compile_time";
+#else
+constexpr const char* kPolicyBoundary = "rsync_popt";
+#endif
+
+static const interspec::PolicySwitches& switches() {
+  return interspec::policy_switches(kPolicyBoundary);
 }
 
 class Engine;
@@ -174,32 +194,58 @@ class Engine {
      */
     const size_t bytes = std::strlen(raw) + 1;
 #else
-    const uintptr_t sandbox_ptr =
-      sandbox_.get_sandbox_impl()->sandbox_address(raw);
-    event.runtime = &runtime();
-    event.ptr = sandbox_ptr;
-    event.expected_type = kTypeHashChar;
-    size_t remaining = 0;
-    const auto result = runtime().remaining_bytes(
-      sandbox_ptr, kTypeHashChar, remaining);
-    event.remaining = remaining;
-    if (result == interspec::CheckResult::ok && remaining != 0)
-      interspec::census::sandbox_result("rsync_popt", "checked_string_result", sandbox_ptr, true);
-    if (result != interspec::CheckResult::ok || remaining == 0) {
-      event.result = interspec::check_result_name(result);
-      if (std::getenv("INTERSPEC_TRACE_DUMP")) runtime().dump_allocations();
-      throw std::runtime_error(std::string("InterSpec rejected popt char pointer: ") +
-                               event.result);
-    }
+    size_t bytes = 0;
+    const interspec::Sp3Mode sp3 = switches().sp3;
+    if (sp3 == interspec::Sp3Mode::off) {
+      // SP3 off: no pointer check. Tracking in U is unchanged; T uses the
+      // pointer as returned.
+      bytes = std::strlen(raw) + 1;
+    } else if (sp3 == interspec::Sp3Mode::domain) {
+      // Domain-only SP3: the string must lie in U memory. No registry lookup,
+      // so no liveness, type or object-bounds check.
+      if (!sandbox_.is_pointer_in_sandbox_memory(raw)) {
+        event.result = "outside_domain";
+        throw std::runtime_error("InterSpec rejected popt char pointer: outside_domain");
+      }
+      const uintptr_t address = sandbox_.get_sandbox_impl()->sandbox_address(raw);
+      const size_t total = sandbox_.get_total_memory();
+      if (address >= total) {
+        event.result = "outside_domain";
+        throw std::runtime_error("InterSpec rejected popt char pointer: outside_domain");
+      }
+      const void* end = std::memchr(raw, '\0', total - address);
+      if (!end) {
+        event.result = "unterminated_string";
+        throw std::runtime_error("InterSpec rejected unterminated popt string");
+      }
+      bytes = static_cast<const char*>(end) - raw + 1;
+    } else {
+      const uintptr_t sandbox_ptr =
+        sandbox_.get_sandbox_impl()->sandbox_address(raw);
+      event.runtime = &runtime();
+      event.ptr = sandbox_ptr;
+      event.expected_type = kTypeHashChar;
+      size_t remaining = 0;
+      const auto result = runtime().remaining_bytes(
+        sandbox_ptr, kTypeHashChar, remaining);
+      event.remaining = remaining;
+      if (result == interspec::CheckResult::ok && remaining != 0)
+        interspec::census::sandbox_result("rsync_popt", "checked_string_result", sandbox_ptr, true);
+      if (result != interspec::CheckResult::ok || remaining == 0) {
+        event.result = interspec::check_result_name(result);
+        if (std::getenv("INTERSPEC_TRACE_DUMP")) runtime().dump_allocations();
+        throw std::runtime_error(std::string("InterSpec rejected popt char pointer: ") +
+                                 event.result);
+      }
 
-    const void* end = std::memchr(raw, '\0', remaining);
-    if (!end) {
-      event.result = "unterminated_string";
-      throw std::runtime_error("InterSpec rejected unterminated popt string");
-    }
+      const void* end = std::memchr(raw, '\0', remaining);
+      if (!end) {
+        event.result = "unterminated_string";
+        throw std::runtime_error("InterSpec rejected unterminated popt string");
+      }
 
-    const size_t bytes =
-      static_cast<const char*>(end) - raw + 1;
+      bytes = static_cast<const char*>(end) - raw + 1;
+    }
 #endif
     auto copy = std::make_unique<char[]>(bytes);
     std::memcpy(copy.get(), raw, bytes);
@@ -208,6 +254,21 @@ class Engine {
     char* result_ptr = copy.get();
     trusted_strings_.push_back(std::move(copy));
     return result_ptr;
+  }
+
+  // Sandbox address of a pointer T placed in U, or 0 for null.
+  uint32_t u_address(UCharPtr value) {
+    char* raw = value.UNSAFE_unverified();
+    if (!raw) return 0;
+    return static_cast<uint32_t>(sandbox_.get_sandbox_impl()->sandbox_address(raw));
+  }
+
+  // True if [raw, raw + bytes) is U memory.
+  bool in_u_memory(const void* raw, size_t bytes) {
+    if (!raw || bytes == 0) return false;
+    const char* first = static_cast<const char*>(raw);
+    return sandbox_.is_pointer_in_sandbox_memory(first) &&
+           sandbox_.is_pointer_in_sandbox_memory(first + (bytes - 1));
   }
 
  private:
@@ -274,13 +335,66 @@ struct SlotBinding {
   std::string last_string;
 };
 
+// String fields of one option as T placed them in U (sandbox addresses).
+struct InstalledStrings {
+  std::array<uint32_t, 3> address{};  // longName, descrip, argDescrip
+};
+
 struct TrustedContext {
   UPtr untrusted_context;
   UPtr untrusted_table;
   UPtr untrusted_argv;
   std::vector<SlotBinding> slots;
   std::vector<const char*> args_cache;
+  // Option-table copy-out (SP2 off) writes U's changes into T's table.
+  struct poptOption* trusted_options = nullptr;
+  std::vector<InstalledStrings> installed;
 };
+
+// --- SP1 / SP2: selective copy of the poptOption table ----------------------
+//
+// Which fields cross the boundary comes from kPoptOptionFields, the field
+// policy table of the interspec-artifact wrapper. SP1 on withholds the fields
+// marked skip-copy-in from U. SP2 on drops U's changes to the fields marked
+// skip-copy-out. With a switch off the wrapper copies that direction in full,
+// as a wrapper without the policy would.
+//
+// `arg` is the one field U legitimately writes through. Its pointer never
+// returns to T; values travel through the shadow slots (sync_slots).
+
+using popt::rlbox::kFieldArgDescrip;
+using popt::rlbox::kFieldArgInfo;
+using popt::rlbox::kFieldDescrip;
+using popt::rlbox::kFieldLongName;
+using popt::rlbox::kFieldShortName;
+using popt::rlbox::kFieldVal;
+using popt::rlbox::kPoptOptionFields;
+
+static bool copy_in_field(size_t field) {
+  return !(switches().sp1 &&
+           popt::rlbox::should_skip_copy_in(kPoptOptionFields[field].policy));
+}
+
+// A field that was withheld from U has nothing to copy back.
+static bool copy_out_field(size_t field) {
+  return copy_in_field(field) &&
+         !(switches().sp2 &&
+           popt::rlbox::should_skip_copy_out(kPoptOptionFields[field].policy));
+}
+
+// struct poptOption as U lays it out: 32-bit pointers on wasm32 and NaCl
+// x86-32. Same layout as poptOption_wasm32 in the artifact wrapper.
+struct PoptOptionU32 {
+  uint32_t longName;
+  uint8_t shortName;
+  uint8_t padding[3];
+  uint32_t argInfo;
+  uint32_t arg;
+  int32_t val;
+  uint32_t descrip;
+  uint32_t argDescrip;
+};
+static_assert(sizeof(PoptOptionU32) == 28, "unexpected ILP32 poptOption layout");
 
 static void trace_binding(const char* operation, const SlotBinding& binding) {
   // The T destination is retained inside T; U receives a shadow slot.
@@ -372,6 +486,60 @@ static void refresh_slots(TrustedContext& context) {
   }
 }
 
+// SP2 off: copy the option table back as a struct copy would. Scalars are
+// copied by value. A string is copied only if U replaced the pointer, and then
+// through copy_checked, so the SP3 switch governs that pointer like any other.
+// SP2 on: every table field is marked skip-copy-out and this does nothing.
+static void copy_out_options(TrustedContext& context) {
+  static const size_t kStringFields[3] = {kFieldLongName, kFieldDescrip,
+                                          kFieldArgDescrip};
+  const bool scalars[3] = {copy_out_field(kFieldShortName),
+                           copy_out_field(kFieldArgInfo),
+                           copy_out_field(kFieldVal)};
+  const bool strings[3] = {copy_out_field(kStringFields[0]),
+                           copy_out_field(kStringFields[1]),
+                           copy_out_field(kStringFields[2])};
+  if (!scalars[0] && !scalars[1] && !scalars[2] &&
+      !strings[0] && !strings[1] && !strings[2])
+    return;
+
+  Engine& e = engine();
+  const size_t count = context.installed.size();
+  const size_t bytes = count * sizeof(PoptOptionU32);
+  auto u_options = e.sandbox().invoke_sandbox_function(
+    interspec_p4c_table_options, context.untrusted_table);
+  const void* raw = u_options.UNSAFE_unverified();
+  // U names the array. T reads only bytes that are U memory, into its own copy.
+  if (!e.in_u_memory(raw, bytes))
+    throw std::runtime_error("popt option table is not in U memory");
+  std::vector<PoptOptionU32> snapshot(count);
+  std::memcpy(snapshot.data(), raw, bytes);
+
+  for (size_t i = 0; i < count; ++i) {
+    struct poptOption& trusted = context.trusted_options[i];
+    const PoptOptionU32& u = snapshot[i];
+    if (scalars[0] && trusted.shortName != static_cast<char>(u.shortName))
+      trusted.shortName = static_cast<char>(u.shortName);
+    if (scalars[1] && static_cast<uint32_t>(trusted.argInfo) != u.argInfo)
+      trusted.argInfo = u.argInfo;
+    if (scalars[2] && trusted.val != u.val) trusted.val = u.val;
+
+    const uint32_t u_strings[3] = {u.longName, u.descrip, u.argDescrip};
+    const char** t_strings[3] = {&trusted.longName, &trusted.descrip,
+                                 &trusted.argDescrip};
+    for (uint32_t field = 0; field < 3; ++field) {
+      if (!strings[field] ||
+          u_strings[field] == context.installed[i].address[field])
+        continue;
+      auto value = e.sandbox().invoke_sandbox_function(
+        interspec_p4c_option_string, context.untrusted_table,
+        static_cast<uint32_t>(i), field);
+      *t_strings[field] = e.copy_checked(value);
+      context.installed[i].address[field] = e.u_address(value);
+    }
+  }
+}
+
 static std::unique_ptr<TrustedContext> make_context(
   const char* name,
   int argc,
@@ -382,9 +550,14 @@ static std::unique_ptr<TrustedContext> make_context(
     throw std::runtime_error("invalid popt argv");
 
   Engine& e = engine();
+  switches();  // read (and, if asked, report) the configuration before any call
   auto context = std::make_unique<TrustedContext>();
 
   const uint32_t count = option_count(options);
+  // popt takes the table as const, but a wrapper that copies the table back
+  // (SP2 off) writes to the caller's object. Only differing values are written.
+  context->trusted_options = const_cast<struct poptOption*>(options);
+  context->installed.reserve(count);
   std::unordered_map<void*, uint32_t> slot_by_address;
   std::vector<SlotKind> kinds;
 
@@ -460,8 +633,14 @@ static std::unique_ptr<TrustedContext> make_context(
     if (!ok) throw std::runtime_error("failed to copy popt option");
 
     auto long_name = e.copy_to_u(option.longName);
-    auto description = e.copy_to_u(option.descrip);
-    auto arg_description = e.copy_to_u(option.argDescrip);
+    // SP1: fields U does not read are not copied in; U sees null.
+    auto description = copy_in_field(kFieldDescrip)
+                         ? e.copy_to_u(option.descrip) : UCharPtr(nullptr);
+    auto arg_description = copy_in_field(kFieldArgDescrip)
+                             ? e.copy_to_u(option.argDescrip) : UCharPtr(nullptr);
+    context->installed.push_back({{e.u_address(long_name),
+                                   e.u_address(description),
+                                   e.u_address(arg_description)}});
     const int strings_ok =
       e.sandbox()
         .invoke_sandbox_function(interspec_p4c_option_set_strings,
@@ -519,6 +698,7 @@ static std::unique_ptr<TrustedContext> make_context(
   e.sandbox().invoke_sandbox_function(interspec_test_set_fault, mode, target);
 #endif
 
+  copy_out_options(*context);
   return context;
 }
 
@@ -576,6 +756,7 @@ extern "C" int poptGetNextOpt(poptContext opaque) {
                                                   context->untrusted_context)
                          .UNSAFE_unverified();
     sync_slots(*context);
+    copy_out_options(*context);
     return result;
   } catch (...) {
     bridge_failure();

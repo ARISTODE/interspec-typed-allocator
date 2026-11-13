@@ -217,6 +217,24 @@ int interspec_p4c_option_set_strings(void* opaque,
   return 1;
 }
 
+/* Copy-out of the option table (SP2 off): T reads the array through its own
+ * bounded view of U memory, and asks for a string only when U replaced one. */
+void* interspec_p4c_table_options(void* opaque)
+{
+  struct interspec_p4c_table* table = opaque;
+  return table ? table->options : NULL;
+}
+
+char* interspec_p4c_option_string(void* opaque, uint32_t index, uint32_t field)
+{
+  struct interspec_p4c_table* table = opaque;
+  if (!table || index >= table->option_count) return NULL;
+  if (field == 0) return (char*)table->options[index].longName;
+  if (field == 1) return (char*)table->options[index].descrip;
+  if (field == 2) return (char*)table->options[index].argDescrip;
+  return NULL;
+}
+
 int interspec_p4c_slot_get_int(void* opaque, uint32_t index)
 {
   struct interspec_p4c_table* table = opaque;
