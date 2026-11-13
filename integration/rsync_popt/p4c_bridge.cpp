@@ -39,6 +39,7 @@ using p4c_realloc_fn = uint32_t (*)(uint32_t, uint32_t);
 extern "C" {
 #ifdef INTERSPEC_FAULT_TESTS
 void interspec_test_set_fault(uint32_t, uint32_t);
+void interspec_poc_set_flags(int);
 #endif
 void interspec_popt_init_lifetime(uint32_t,
                                   p4c_release_fn,
@@ -489,6 +490,13 @@ static std::unique_ptr<TrustedContext> make_context(
     if (!ok) throw std::runtime_error("failed to copy popt argv");
   }
 
+#ifdef INTERSPEC_FAULT_TESTS
+  // Policy-switch tests: the U-side PoC behavior fires inside context_new.
+  if (const char* poc_setting = std::getenv("INTERSPEC_TEST_POC_FLAGS"))
+    e.sandbox().invoke_sandbox_function(
+      interspec_poc_set_flags, static_cast<int>(std::stoul(poc_setting)));
+#endif
+
   auto copied_name = e.copy_to_u(name);
   context->untrusted_context = e.sandbox().invoke_sandbox_function(
     interspec_p4c_context_new,
@@ -529,6 +537,21 @@ static std::unique_ptr<TrustedContext> make_context(
 }
 
 }  // namespace
+
+#ifdef INTERSPEC_FAULT_TESTS
+// Test builds only. T scans all of U's memory for a byte string, so a test can
+// state that a withheld T value is absent from U rather than merely unprinted.
+extern "C" int interspec_test_sandbox_contains(const char* needle) {
+  Sandbox& sandbox = engine().sandbox();
+  const void* base = sandbox.get_memory_location();
+  const size_t total = sandbox.get_total_memory();
+  const size_t bytes = std::strlen(needle);
+  if (!base || bytes == 0 || bytes > total) return 0;
+  const char* begin = static_cast<const char*>(base);
+  const char* end = begin + total;
+  return std::search(begin, end, needle, needle + bytes) != end ? 1 : 0;
+}
+#endif
 
 extern "C" poptContext poptGetContext(const char* name,
                                        int argc,

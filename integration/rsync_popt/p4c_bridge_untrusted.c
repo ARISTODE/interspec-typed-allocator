@@ -73,6 +73,59 @@ static char* inject_pointer(char* value, uint32_t target)
   fflush(stderr);
   return replacement;
 }
+
+/*
+ * Policy-switch tests (tracker item I1). U-side behavior adapted from the PoC
+ * hooks in interspec-artifact,
+ * code/rlbox_split_benchmarks/rsync_popt/source/popt/popt.c. Test builds only.
+ */
+static unsigned int interspec_poc_flags;
+
+enum {
+  INTERSPEC_POC_SP1 = 1u << 0, /* U reads the help-text fields of "set". */
+  INTERSPEC_POC_SP2 = 1u << 1, /* U overwrites val of "readonly". */
+};
+
+void interspec_poc_set_flags(int flags)
+{
+  interspec_poc_flags = (flags < 0) ? 0u : (unsigned int)flags;
+}
+
+static struct poptOption* interspec_poc_find_option(struct poptOption* options,
+                                                    uint32_t count,
+                                                    const char* name)
+{
+  for (uint32_t i = 0; options && i < count; ++i)
+    if (options[i].longName && !strcmp(options[i].longName, name))
+      return &options[i];
+  return NULL;
+}
+
+static void interspec_poc_attempt_sp1(struct interspec_p4c_table* table)
+{
+  const struct poptOption* opt =
+    interspec_poc_find_option(table->options, table->option_count, "set");
+  if (!opt) return;
+  fprintf(stderr,
+          "[InterSpec][PoC][SP1] sandbox read option='%s' descrip='%s' argDescrip='%s'\n",
+          opt->longName ? opt->longName : "(null)",
+          opt->descrip ? opt->descrip : "(null)",
+          opt->argDescrip ? opt->argDescrip : "(null)");
+  fflush(stderr);
+}
+
+static void interspec_poc_attempt_sp2(struct interspec_p4c_table* table)
+{
+  struct poptOption* opt =
+    interspec_poc_find_option(table->options, table->option_count, "readonly");
+  if (!opt) return;
+  const int old = opt->val;
+  opt->val = 1337;
+  fprintf(stderr,
+          "[InterSpec][PoC][SP2] sandbox mutated option='%s' field=val old=%d new=%d\n",
+          opt->longName ? opt->longName : "(null)", old, opt->val);
+  fflush(stderr);
+}
 #endif
 
 char* interspec_p4c_typed_copy(const char* src)
@@ -222,6 +275,10 @@ void* interspec_p4c_context_new(char* name,
 #ifdef INTERSPEC_FAULT_TESTS
   fault_context = context;
   fault_table = table;
+  if (context && (interspec_poc_flags & INTERSPEC_POC_SP1))
+    interspec_poc_attempt_sp1(table);
+  if (context && (interspec_poc_flags & INTERSPEC_POC_SP2))
+    interspec_poc_attempt_sp2(table);
 #endif
   return context;
 }
