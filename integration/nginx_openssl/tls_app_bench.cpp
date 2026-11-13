@@ -7,6 +7,12 @@
 // (feed_encrypted, drain_encrypted, read_plain, write_plain, handshake_step).
 // By the artifact's design only copied buffers and numeric handles cross this
 // boundary, so U returns no pointer to T.
+// Policies at this boundary:
+//   SP1  the output buffers and count out-parameters are written by U and
+//        never read by it, so T's current contents are not copied in.
+//   SP2  the ciphertext fed in and the plaintext to send are read by U and
+//        never written by it, so U's copies are not copied back.
+//   SP3  no field: there is no pointer from U for T to check.
 #define RLBOX_USE_EXCEPTIONS
 #define RLBOX_USE_STATIC_CALLS() rlbox_wasm2c_sandbox_lookup_symbol
 #define RLBOX_WASM2C_MODULE_NAME glue__lib__wasm2c
@@ -95,14 +101,14 @@ class SandboxServer {
     if (len == 0 || len > kMaxBytes) return -1;
     unsigned char* in = stage(1, static_cast<uint32_t>(len));
     std::memcpy(in, data, len);
-    // T's current value of the out-parameter is copied in.
-    uint32_t count = static_cast<uint32_t>(*consumed);
+    // SP1: U is handed zero for the out-parameter unless SP1 is off.
+    uint32_t count = Port::withheld_unless_sp1_off(static_cast<uint32_t>(*consumed));
     unsigned char* out = stage(0, 8);
     std::memcpy(out, &count, 4);
     const int rc = TLS_CALL(interspec_tls_feed, conn_, port_.address_of(in),
                             static_cast<uint32_t>(len), port_.address_of(out));
-    // U's version of the ciphertext is copied back over T's.
-    std::memcpy(data, in, len);
+    // SP2: U's copy of the ciphertext is not copied back.
+    port_.copy_back_unless_sp2(data, in, len);
     std::memcpy(&count, out, 4);
     if (count > len) Port::reject("feed_encrypted", "count");
     *consumed = count;
@@ -112,10 +118,10 @@ class SandboxServer {
   int drain_encrypted(unsigned char* out_ciphertext, size_t cap, size_t* out_len) {
     if (cap == 0 || cap > kMaxBytes) return -1;
     unsigned char* buffer = stage(2, static_cast<uint32_t>(cap));
-    // T's current contents of the output buffer and of the out-parameter are
-    // copied in.
-    std::memcpy(buffer, out_ciphertext, cap);
-    uint32_t count = static_cast<uint32_t>(*out_len);
+    // SP1: T's current contents of the output buffer and of the out-parameter
+    // are not copied in unless SP1 is off.
+    if (!Port::sp1()) std::memcpy(buffer, out_ciphertext, cap);
+    uint32_t count = Port::withheld_unless_sp1_off(static_cast<uint32_t>(*out_len));
     unsigned char* out = stage(0, 8);
     std::memcpy(out, &count, 4);
     const int rc = TLS_CALL(interspec_tls_drain, conn_, port_.address_of(buffer),
@@ -130,8 +136,9 @@ class SandboxServer {
   long read_plain(unsigned char* out_plaintext, size_t cap) {
     if (cap == 0 || cap > kMaxBytes) return -1;
     unsigned char* buffer = stage(2, static_cast<uint32_t>(cap));
-    // T's current contents of the output buffer are copied in.
-    std::memcpy(buffer, out_plaintext, cap);
+    // SP1: T's current contents of the output buffer are not copied in unless
+    // SP1 is off.
+    if (!Port::sp1()) std::memcpy(buffer, out_plaintext, cap);
     const int rc =
         TLS_CALL(interspec_tls_read, conn_, port_.address_of(buffer), static_cast<uint32_t>(cap));
     if (rc > 0) {
@@ -147,8 +154,8 @@ class SandboxServer {
     std::memcpy(in, plaintext, len);
     const int rc =
         TLS_CALL(interspec_tls_write, conn_, port_.address_of(in), static_cast<uint32_t>(len));
-    // U's version of the plaintext is copied back over T's.
-    std::memcpy(plaintext, in, len);
+    // SP2: U's copy of the plaintext is not copied back.
+    port_.copy_back_unless_sp2(plaintext, in, len);
     if (rc > 0 && static_cast<size_t>(rc) > len) Port::reject("write_plain", "count");
     return rc;
   }
