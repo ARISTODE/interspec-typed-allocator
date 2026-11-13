@@ -6,14 +6,12 @@ exit status are written first; outcomes are then read from those files only.
 Nothing is retried. An outcome is "rejected" only if the wrapper printed a
 named rejection; a process that dies without one is "crashed".
 
-Configurations:
-  rlbox_only         separate comparator build: RLBox confinement and T's
-                     bounded string copy, no InterSpec tracking, no selective
-                     copy (INTERSPEC_SP1=0, INTERSPEC_SP2=0)
-  switches_all_off   the one InterSpec build with all three switches off: no
-                     selective copy and no pointer check at all
-  domain_only_sp3    the one build, SP1 and SP2 on, SP3=domain
-  full_sp3           the one build, all three on
+Configurations (JH, 2026-11-13: the RLBox-only baseline keeps RLBox confinement,
+and there is one SP3):
+  rlbox_only   separate comparator build: RLBox confinement and T's bounded
+               string copy, no InterSpec tracking, no selective copy
+               (INTERSPEC_SP1=0, INTERSPEC_SP2=0)
+  interspec    the one build with SP1, SP2 and SP3 on
 """
 
 import argparse
@@ -28,12 +26,8 @@ from pathlib import Path
 
 CONFIGS = {
     "rlbox_only": ("rlbox", {"INTERSPEC_SP1": "0", "INTERSPEC_SP2": "0"}),
-    "switches_all_off": ("extended", {"INTERSPEC_SP1": "0", "INTERSPEC_SP2": "0",
-                                      "INTERSPEC_SP3": "0"}),
-    "domain_only_sp3": ("extended", {"INTERSPEC_SP1": "1", "INTERSPEC_SP2": "1",
-                                     "INTERSPEC_SP3": "domain"}),
-    "full_sp3": ("extended", {"INTERSPEC_SP1": "1", "INTERSPEC_SP2": "1",
-                              "INTERSPEC_SP3": "1"}),
+    "interspec": ("extended", {"INTERSPEC_SP1": "1", "INTERSPEC_SP2": "1",
+                               "INTERSPEC_SP3": "1"}),
 }
 ATTACKS = {
     "benign": {},
@@ -135,16 +129,13 @@ def main():
         return results[without][attack][field] != results[with_][attack][field]
 
     effects = {
-        "sp1_vs_rlbox_only": effect("rlbox_only", "domain_only_sp3",
-                                    "sp1_read_help_text", "secret_in_u_memory"),
-        "sp2_vs_rlbox_only": effect("rlbox_only", "domain_only_sp3",
-                                    "sp2_write_readonly_val", "t_readonly_val_last_seen"),
-        "domain_sp3_vs_rlbox_only_outside_pointer": effect(
-            "rlbox_only", "domain_only_sp3", "sp3_pointer_outside_sandbox", "process"),
-        "domain_sp3_vs_switches_all_off_outside_pointer": effect(
-            "switches_all_off", "domain_only_sp3", "sp3_pointer_outside_sandbox", "process"),
-        "full_sp3_vs_domain_only_untracked_pointer": effect(
-            "domain_only_sp3", "full_sp3", "sp3_pointer_untracked_in_sandbox", "process"),
+        "sp1": effect("rlbox_only", "interspec", "sp1_read_help_text", "secret_in_u_memory"),
+        "sp2": effect("rlbox_only", "interspec", "sp2_write_readonly_val",
+                      "t_readonly_val_last_seen"),
+        "sp3_untracked_pointer": effect("rlbox_only", "interspec",
+                                        "sp3_pointer_untracked_in_sandbox", "process"),
+        "sp3_outside_pointer": effect("rlbox_only", "interspec",
+                                      "sp3_pointer_outside_sandbox", "process"),
     }
     benign_ok = all(results[c]["benign"]["process"] == "completed" and
                     results[c]["benign"]["t_slot_value"] == "hello" and

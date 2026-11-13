@@ -33,7 +33,7 @@ def switches(**overrides):
 
 
 def policy_line(boundary, env):
-    sp3 = {"0": "off", "1": "full", "domain": "domain"}[env["INTERSPEC_SP3"]]
+    sp3 = {"0": "off", "1": "full"}[env["INTERSPEC_SP3"]]
     return (rf"^INTERSPEC_POLICY boundary={boundary} sp1={env['INTERSPEC_SP1']} "
             rf"sp2={env['INTERSPEC_SP2']} sp3={sp3}$")
 
@@ -68,8 +68,7 @@ BOUNDARIES = {
         "tests": {
             "sp1": ["sp1_off_u_reads", "sp1_on_u_reads"],
             "sp2": ["sp2_off_u_writes", "sp2_on_u_writes"],
-            "sp3": ["sp3_off_bad_pointer", "sp3_domain_bad_pointer",
-                    "sp3_on_bad_pointer"],
+            "sp3": ["sp3_off_bad_pointer", "sp3_on_bad_pointer"],
             "benign": ["benign_all_on", "benign_all_off"],
         },
         "cases": {
@@ -117,14 +116,6 @@ BOUNDARIES = {
                 "stderr": [r"^FAULT_INJECTION mode=2 target=2 "],
                 "stderr_absent": [r"INTERSPEC_REJECT"],
             },
-            "sp3_domain_bad_pointer": {
-                "env": {**switches(sp3="domain"), "INTERSPEC_TEST_FAULT": "2",
-                        "INTERSPEC_TEST_TARGET": "2"},
-                "exit": 0,
-                "stdout": [r"stage=done rc=-1 g_slot=hello readonly_val=42 "],
-                "stderr": [r"^FAULT_INJECTION mode=2 target=2 "],
-                "stderr_absent": [r"INTERSPEC_REJECT"],
-            },
             "sp3_on_bad_pointer": {
                 "env": {**switches(), "INTERSPEC_TEST_FAULT": "2",
                         "INTERSPEC_TEST_TARGET": "2"},
@@ -159,8 +150,7 @@ BOUNDARIES = {
         "tests": {
             "sp1": ["sp1_off_u_reads", "sp1_on_u_reads"],
             "sp2": ["sp2_off_u_writes", "sp2_on_u_writes"],
-            "sp3": ["sp3_off_bad_pointer", "sp3_domain_bad_pointer",
-                    "sp3_on_bad_pointer"],
+            "sp3": ["sp3_off_bad_pointer", "sp3_on_bad_pointer"],
             "benign": ["benign_all_on", "benign_all_off"],
         },
         "cases": {
@@ -201,13 +191,6 @@ BOUNDARIES = {
                 "stderr": [r"^FAULT_INJECTION boundary=memcached_bipbuffer mode=2 target=2 "],
                 "stderr_absent": [r"INTERSPEC_REJECT"],
             },
-            "sp3_domain_bad_pointer": {
-                "env": {**switches(sp3="domain"), **MC_FAULT},
-                "exit": 0,
-                "stdout": [MC_BENIGN_PEEK, r"^T_OBSERVE stage=done$"],
-                "stderr": [r"^FAULT_INJECTION boundary=memcached_bipbuffer mode=2 target=2 "],
-                "stderr_absent": [r"INTERSPEC_REJECT"],
-            },
             "sp3_on_bad_pointer": {
                 "env": {**switches(), **MC_FAULT},
                 "exit": -REJECT,
@@ -239,8 +222,7 @@ BOUNDARIES = {
         "tests": {
             "sp1": ["sp1_off_u_reads", "sp1_on_u_reads"],
             "sp2": ["sp2_off_u_writes", "sp2_on_u_writes"],
-            "sp3": ["sp3_off_bad_pointer", "sp3_domain_bad_pointer",
-                    "sp3_on_bad_pointer"],
+            "sp3": ["sp3_off_bad_pointer", "sp3_on_bad_pointer"],
             "benign": ["benign_all_on", "benign_all_off"],
         },
         "cases": {
@@ -276,13 +258,6 @@ BOUNDARIES = {
             # SP3: U returns an untracked heap copy of the capture offsets.
             "sp3_off_bad_pointer": {
                 "env": {**switches(sp3="0"), **NGX_FAULT},
-                "exit": 0,
-                "stdout": [NGX_BENIGN, r"^T_OBSERVE stage=done$"],
-                "stderr": [r"^FAULT_INJECTION boundary=nginx_pcre path=2 kind=2 "],
-                "stderr_absent": [r"INTERSPEC_REJECT"],
-            },
-            "sp3_domain_bad_pointer": {
-                "env": {**switches(sp3="domain"), **NGX_FAULT},
                 "exit": 0,
                 "stdout": [NGX_BENIGN, r"^T_OBSERVE stage=done$"],
                 "stderr": [r"^FAULT_INJECTION boundary=nginx_pcre path=2 kind=2 "],

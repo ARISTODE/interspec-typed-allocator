@@ -75,9 +75,8 @@ namespace P = interspec::memcached_bipbuffer_generated;
  *      read by it, so T's value is not copied in. Off: it is copied in.
  * SP2: the data passed to bipbuf_offer is read by U and never written by it,
  *      so U's copy is not copied back. Off: it is copied back.
- * SP3: full adds the object-registry check to the sandbox confinement check
- *      that every isolated variant performs. At this boundary "off" and
- *      "domain" are therefore the same: confinement only.
+ * SP3: the object-registry check. Off leaves the sandbox confinement check
+ *      that every isolated variant performs.
  * The fields are the SP1/SP2 slots of the bipbuffer policy export in
  * interspec-artifact (data/raw/policy_reports/memcached_bipbuffer). Variants
  * built without INTERSPEC_CHECKS have no registry check to switch. */

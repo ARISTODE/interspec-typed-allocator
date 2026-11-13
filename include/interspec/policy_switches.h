@@ -9,9 +9,8 @@
 //   INTERSPEC_SP1=0|1            selective copy-in  (withhold fields U does not read)
 //   INTERSPEC_SP2=0|1            selective copy-out (drop U updates to fields U
 //                                does not write)
-//   INTERSPEC_SP3=0|domain|1     pointer check before T uses a pointer from U:
-//                                none, memory domain only, or the object
-//                                registry (live object, type, bounds)
+//   INTERSPEC_SP3=0|1            object-registry check before T uses a pointer
+//                                from U (live object, expected type, bounds)
 //
 // Unset means on. The switches are read once, before the first boundary call.
 // An unrecognized value stops the process: a mistyped setting must not run as
@@ -27,7 +26,7 @@
 
 namespace interspec {
 
-enum class Sp3Mode { off, domain, full };
+enum class Sp3Mode { off, full };
 
 struct PolicySwitches {
   bool sp1 = true;
@@ -64,8 +63,6 @@ inline bool env_flag_enabled(const char* name, bool default_value) {
 inline Sp3Mode env_sp3_mode(const char* name) {
   const char* raw = std::getenv(name);
   if (!raw || raw[0] == '\0') return Sp3Mode::full;
-  if (std::string(raw) == "domain") return Sp3Mode::domain;
-  if (std::string(raw) == "full") return Sp3Mode::full;
   const int parsed = parse_on_off(raw);
   if (parsed < 0) bad_policy_switch(name, raw);
   return parsed == 1 ? Sp3Mode::full : Sp3Mode::off;
@@ -76,7 +73,6 @@ inline Sp3Mode env_sp3_mode(const char* name) {
 inline const char* sp3_mode_name(Sp3Mode mode) {
   switch (mode) {
     case Sp3Mode::off: return "off";
-    case Sp3Mode::domain: return "domain";
     case Sp3Mode::full: return "full";
   }
   return "invalid";

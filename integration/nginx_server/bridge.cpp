@@ -60,9 +60,8 @@ enum class Use { input, names, offsets };
  *      never read, so they are not copied in. Off: they are copied in.
  * SP2: the subject of pcre_exec is read by U and never written by it, so U's
  *      copy is not copied back. Off: it is copied back.
- * SP3: full adds the object-registry check to the sandbox confinement check
- *      that every isolated variant performs. At this boundary "off" and
- *      "domain" are therefore the same: confinement only.
+ * SP3: the object-registry check. Off leaves the sandbox confinement check
+ *      that every isolated variant performs.
  * interspec-artifact has no selective copy code for this boundary (its PCRE2
  * wrapper reads SP1/SP2 switches that control nothing), and its policy export
  * describes the PCRE2 API. The two fields above are the PCRE 8.45 parameters
