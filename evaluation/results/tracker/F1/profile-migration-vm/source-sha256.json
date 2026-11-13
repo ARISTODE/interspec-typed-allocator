@@ -1,0 +1,13 @@
+{
+  ".github/workflows/controlled-publication-evaluation.yml": "eb8c7db2d9b9bf418b5ff2dbd99c48441b85e7787437ab0f09b964c944368d15",
+  ".github/workflows/memcached-deployment.yml": "736869abde9c78e8601d6eb4767db0fa24ef28acf98aa5460998c8cdfc087fb1",
+  "docs/MEMCACHED_PROFILE_WORKFLOW.md": "d27e700a5c3695584a7c16f22bcbf250f7162bf2fbd1dc46d6b7a4b3f7cccb28",
+  "scripts/run_memcached_profile.sh": "1a4153d20f4b64343b98dcca79d861b01d4549cdf016be2326b45a5baea3cc52",
+  "tests/memcached_buffered_protocol.py": "23f775acddee08848a287fece6ae3a88b0ef3f27b498c2169b83194431cb319a",
+  "tests/memcached_corrected_profile.py": "3405992f8abeae621f68659633b03b5fc76af61e9053b3dc4cd4c184196d7886",
+  "tests/memcached_current_profile.py": "a67112109f43f453303efdc1cd2ea498a234c97016589ae411940cfac3165e6a",
+  "tools/current_memcached_profile.py": "05ca663b9559cc9f126c127d17672bef76d3d98866307b9a4260ca95433c4726",
+  "tools/export_memcached_profile.py": "459cee96b22187550497e542c20248f436afc96ea77339cf3cf992dcb727de54",
+  "tools/profile_memcached_checks.py": "d800dcbab89664959502fda8af64356194be55615a2e12babbf69ad9b3ba90f4",
+  "tools/verify_memcached_profile.py": "6ef4f4ae8842966e1db5039d36ea64dab5981cd3ae0c1d8f9ea9d270808a7186"
+}

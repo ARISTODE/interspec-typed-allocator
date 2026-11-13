@@ -141,7 +141,8 @@ def independent_oracle(count, keys, pct, seed):
 
 def validate_plan(path):
     path = Path(path).resolve(); base = path.parent; plan = load_json(path)
-    require(plan["schema"] == "corrected-profile-v1", "plan schema")
+    require(plan["schema"] in ("corrected-profile-v1", "source-profile-v2"), "plan schema")
+    current = plan["schema"] == "source-profile-v2"
     require(plan["workload_mode"] == "independent-v1" and type(plan["workload_seed"]) is int and plan["workload_seed"] == 20261109 and
             plan["measurement_mode"] == "count-only", "fixed mode/seed")
     require(len(plan["scenarios"]) == 6, "six scenarios")
@@ -166,6 +167,11 @@ def validate_plan(path):
                  ("profile_memcached_checks", "verify_memcached_profile", "benchmark_memcached", "benchmark_memcached_matrix", "memcached_common", "process_guard")}
     required |= {"sources/client/evaluation/" + name for name in
                  ("memcached_client.cpp", "memcached_workload.h", "memcached_measurement.h")}
+    if current:
+        required |= {"sources/harness/tools/current_memcached_profile.py",
+                     "sources/client/tests/memcached_buffered_protocol.py"}
+        required |= {"inputs/client-validation/" + name for name in
+                     ("compiler-version.txt", "build.stdout", "build.stderr", "protocol.stderr")}
     require(required <= set(plan["files"]), "missing frozen inputs")
     for relative, digest in plan["files"].items():
         file = base / relative
@@ -173,27 +179,62 @@ def validate_plan(path):
         require(sha(file) == digest, "frozen file hash: " + relative)
     provenance = load_json(base / "inputs/client-provenance.json")
     require(sha(base / "inputs/client") == provenance["binary_sha256"], "client binary binding")
-    require(plan["client_revision"] == provenance["revision"] == "0318e75d4a910789e13d9282d9544e8dd7e044bf", "client revision")
-    require(provenance["binary_sha256"] == "52861a45be40fa8f17c76ff8dca7ec3e09f99c4970d86d0b243c91d1b9af2b0b", "frozen buffered client")
+    require(plan["client_revision"] == provenance["revision"], "client revision binding")
+    if not current:
+        require(plan["client_revision"] == "0318e75d4a910789e13d9282d9544e8dd7e044bf", "client revision")
+        require(provenance["binary_sha256"] == "52861a45be40fa8f17c76ff8dca7ec3e09f99c4970d86d0b243c91d1b9af2b0b", "frozen buffered client")
     for relative, digest in provenance["source_sha256"].items():
         require(sha(base / "sources/client" / relative) == digest, "client source binding")
     gate = load_json(base / "inputs/correctness.json"); build = load_json(base / "inputs/work/build-manifest.json")
     require(gate["passed"] == gate["total"] == len(gate["cases"]) == 50 and all(c["pass"] is True for c in gate["cases"]), "50-case correctness gate")
     actual = sha(base / "inputs/work/bin/memcached-diagnostics")
-    require(actual == gate["binary_sha256"]["memcached-diagnostics"] == build["binary_sha256"]["memcached-diagnostics"] ==
-            "4ea15a50835d1c463b996199fc29e5a9f8a0be52e0471dcc1797e7d888a6140f", "diagnostic binary/gate/build binding")
-    require(build["project_commit"] == "6e164d3a62db94e4774345ee32f7d03cf3906bce", "server revision")
+    require(actual == gate["binary_sha256"]["memcached-diagnostics"] == build["binary_sha256"]["memcached-diagnostics"], "diagnostic binary/gate/build binding")
+    if not current:
+        require(actual == "4ea15a50835d1c463b996199fc29e5a9f8a0be52e0471dcc1797e7d888a6140f", "frozen diagnostic binary")
+        require(build["project_commit"] == "6e164d3a62db94e4774345ee32f7d03cf3906bce", "server revision")
     execution = plan["execution"]
     require(all(Path(execution[key]).is_absolute() for key in ("plan_root", "harness_root", "python", "guard")), "execution roots")
     require(execution["guard"] == str(Path(execution["harness_root"]) / "tools/process_guard.py") and
             isinstance(execution["account_name"], str) and execution["account_name"] and type(execution["uid"]) is int, "execution identity")
     validation = load_json(base / "inputs/client-validation/provenance.json")
     require(validation["candidate_commit"] == plan["client_revision"] and validation["validation"]["release_candidate_protocol"] == "passed", "retained protocol validation")
+    if current:
+        validate_current_inputs(plan, base, provenance, validation, build)
     for relative, digest in validation["candidate_source_sha256"].items():
         require(sha(base / "sources/client" / relative) == digest, "protocol-test source binding")
     for relative, field in (("integration/memcached_server/bridge.cpp", "bridge_source_sha256"), ("integration/memcached_server/bipbuffer_u.c", "untrusted_source_sha256")):
         require(sha(base / "sources/server" / relative) == build[field], "server source binding")
     return plan
+
+
+
+def validate_current_inputs(plan, base, provenance, validation, build):
+    """Independent provenance checks for v2; v1 historical pins are unchanged."""
+    require(re.fullmatch(r"[0-9a-f]{40}", plan["client_revision"]) is not None, "current source revision")
+    require(build["project_commit"] == plan["client_revision"] and build["project_dirty"] is False,
+            "current server clean-source revision")
+    sources = {"evaluation/memcached_client.cpp", "evaluation/memcached_workload.h",
+               "evaluation/memcached_measurement.h", "tests/memcached_buffered_protocol.py"}
+    require(set(provenance["source_sha256"]) == sources and
+            validation["candidate_source_sha256"] == provenance["source_sha256"], "current client source set")
+    require(validation["candidate_binary_sha256"] == provenance["binary_sha256"], "protocol binary binding")
+    original = plan["original_inputs"]
+    require(provenance["source_root"] == original["client_source"] and
+            provenance["binary_path"] == original["client"], "current client original paths")
+    compiler = provenance["compiler"]
+    require(Path(compiler["path"]).is_absolute() and re.fullmatch(r"[0-9a-f]{64}", compiler["sha256"]) is not None,
+            "compiler identity")
+    require(sha(base / "inputs/client-validation/compiler-version.txt") == compiler["version_sha256"], "compiler version binding")
+    require(provenance["build_command"] == [compiler["path"], "-std=c++17", "-O2", "-pthread",
+            str(Path(original["client_source"]) / "evaluation/memcached_client.cpp"), "-o", original["client"]],
+            "client build command")
+    require(validation["command"] == [plan["execution"]["python"],
+            str(Path(original["client_source"]) / "tests/memcached_buffered_protocol.py"),
+            original["client"], "--count-only-valid"] and type(validation["returncode"]) is int and
+            validation["returncode"] == 0, "current protocol command/status")
+    require((base / "inputs/client-validation/release-reproduction-functional.log").read_text() ==
+            "10 buffered stream functional cases passed; no performance evidence\n" and
+            not (base / "inputs/client-validation/protocol.stderr").read_bytes(), "current protocol output")
 
 
 def strict_recount(trace):
@@ -307,7 +348,7 @@ def verify_attempt(directory, scenario, plan, base):
 def verify_frozen(root, plan_path):
     root, plan_path = Path(root).resolve(), Path(plan_path).resolve(); base = plan_path.parent
     plan = validate_plan(plan_path); run = load_json(root / "run.json")
-    require(run["schema"] == "corrected-profile-v1" and run["plan_sha256"] == sha(plan_path) and run["status"] == "collected", "run/plan status/hash")
+    require(run["schema"] == plan["schema"] and run["plan_sha256"] == sha(plan_path) and run["status"] == "collected", "run/plan status/hash")
     names = [s["name"] for s in plan["scenarios"]]
     require(run["attempts"] == [{"name": name, "attempt": 1, "status": "collected"} for name in names], "duplicate/incomplete attempt grid")
     require({p.name for p in root.iterdir() if p.is_dir()} == set(names), "scenario directory grid")

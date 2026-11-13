@@ -1,0 +1,3 @@
+workload metadata joining: four cases passed
+count-only latency rendering: passed
+deployment workload metadata: seven cases passed
