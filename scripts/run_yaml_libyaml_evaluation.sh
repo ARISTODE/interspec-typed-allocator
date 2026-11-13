@@ -42,6 +42,7 @@ cp "$generated/interspec_u_policy.h" "$work/c_src/interspec_yaml_u_policy.h"
 cp "$generated/interspec_t_policy.h" "$work/interspec_yaml_t_policy.h"
 cp "$generated/interspec_wasm_imports.c" "$work/src/interspec_yaml_wasm_imports.c"
 cp "$root/integration/yaml_libyaml/yaml_app_wasm.c" "$work/c_src/yaml_app_wasm.c"
+cp "$root/integration/yaml_libyaml/yaml_scalar_staging.h" "$work/c_src/yaml_scalar_staging.h"
 
 python3 - "$work/CMakeLists.txt" <<'PY'
 from pathlib import Path

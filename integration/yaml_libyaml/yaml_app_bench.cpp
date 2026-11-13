@@ -12,6 +12,7 @@
 #include "interspec/pointer_census.h"
 #include "interspec_yaml_t_policy.h"
 #include "yaml.h"
+#include "yaml_scalar_staging.h"
 
 #include <chrono>
 #include <cstdint>
@@ -33,6 +34,7 @@ namespace P = interspec::yaml_libyaml_generated;
 
 extern "C" {
 unsigned char* interspec_yaml_setup(uint32_t);
+unsigned char* interspec_yaml_setup_with_staging(uint32_t, uint32_t);
 void interspec_yaml_set_fault(uint32_t);
 int interspec_yaml_begin(void);
 int interspec_yaml_next(void);
@@ -47,6 +49,7 @@ enum class Mode {
   rlbox_only,
   tracked_no_check,
   extended_sp3,
+  typed_staging_identity,
 };
 
 struct Stats {
@@ -85,18 +88,36 @@ class Engine {
     }
   }
 
-  ~Engine() {
+  ~Engine() noexcept {
+    if (typed_staging()) {
+      // One-shot fallback for setup/run/finish exceptions. A throwing guest
+      // shutdown is never retried, and its sandbox is destroyed before release.
+      if (guest_setup_attempted_ && !guest_shutdown_attempted_) {
+        try {
+          shutdown_typed_guest();
+        } catch (...) {
+        }
+      }
+      if (guest_shutdown_failed_)
+        destroy_sandbox_noexcept();
+      release_staging_noexcept();
+      destroy_sandbox_noexcept();
+      return;
+    }
     if (sandbox_ready_) {
       try {
         sandbox_.invoke_sandbox_function(interspec_yaml_shutdown);
       } catch (...) {
       }
     }
-    sandbox_.destroy_sandbox();
+    destroy_sandbox_noexcept();
   }
 
   bool tracking() const { return mode_ != Mode::rlbox_only; }
-  bool checks_enabled() const { return mode_ == Mode::extended_sp3; }
+  bool typed_staging() const { return mode_ == Mode::typed_staging_identity; }
+  bool checks_enabled() const {
+    return mode_ == Mode::extended_sp3 || typed_staging();
+  }
 
   interspec::Runtime& runtime() {
     if (!policy_)
@@ -110,16 +131,64 @@ class Engine {
   }
 
   void setup(const std::vector<unsigned char>& input) {
+    if (typed_staging()) {
+      if (typed_setup_started_)
+        throw std::runtime_error("typed_setup_already_attempted");
+      typed_setup_started_ = true;
+    }
     if (input.size() > std::numeric_limits<uint32_t>::max())
       throw std::runtime_error("input_too_large");
 
-    auto input_ptr = sandbox_.invoke_sandbox_function(
-        interspec_yaml_setup, static_cast<uint32_t>(input.size()));
-    input_raw_ = input_ptr.UNSAFE_unverified();
+    if (typed_staging()) {
+      if (!runtime().register_type_layout(
+              P::kTypeIdYamlScalarValue, sizeof(interspec_yaml_scalar_staging),
+              alignof(interspec_yaml_scalar_staging)))
+        throw std::runtime_error("staging_layout_registration");
+      expected_staging_ = runtime().allocate_typed_array(
+          1, P::kTypeIdYamlScalarValue);
+      if (!expected_staging_ ||
+          expected_staging_ > std::numeric_limits<uint32_t>::max())
+        throw std::runtime_error("staging_allocation");
+      const uintptr_t base = runtime().base();
+      const size_t capacity = runtime().capacity();
+      const uint64_t total = sandbox_.get_total_memory();
+      if (expected_staging_ < base || expected_staging_ - base > capacity ||
+          sizeof(interspec_yaml_scalar_staging) >
+              capacity - (expected_staging_ - base) ||
+          expected_staging_ > total ||
+          sizeof(interspec_yaml_scalar_staging) > total - expected_staging_)
+        throw std::runtime_error("staging_extent");
+
+      guest_setup_attempted_ = true;
+      input_raw_ = sandbox_.invoke_sandbox_function(
+          interspec_yaml_setup_with_staging, static_cast<uint32_t>(input.size()),
+          static_cast<uint32_t>(expected_staging_)).UNSAFE_unverified();
+    } else {
+      input_raw_ = sandbox_.invoke_sandbox_function(
+          interspec_yaml_setup, static_cast<uint32_t>(input.size()))
+          .UNSAFE_unverified();
+    }
     if (!input_raw_ || !sandbox_.is_pointer_in_sandbox_memory(input_raw_))
       throw std::runtime_error("input_allocation");
+    const uint32_t address =
+        sandbox_.get_sandbox_impl()->sandbox_address(input_raw_);
+    const uint64_t total = sandbox_.get_total_memory();
+    if (address > total || input.size() > total - address)
+      throw std::runtime_error("input_extent");
     input_size_ = static_cast<uint32_t>(input.size());
     sandbox_ready_ = true;
+  }
+
+  void finish() {
+    if (!typed_staging())
+      return;
+    shutdown_typed_guest();
+    if (!expected_staging_)
+      throw std::runtime_error("missing_staging_allocation");
+    const uintptr_t allocation = expected_staging_;
+    expected_staging_ = 0;  // Exactly one release attempt, including failure.
+    if (!runtime().release(allocation))
+      throw std::runtime_error("staging_release");
   }
 
   void set_fault(uint32_t mode) {
@@ -131,7 +200,7 @@ class Engine {
       throw std::runtime_error("input_setup_mismatch");
 
     Stats stats;
-    std::vector<unsigned char> snapshot(8192);
+    std::vector<unsigned char> snapshot(INTERSPEC_YAML_STAGING_CAPACITY);
 
     for (uint32_t iteration = 0; iteration < iterations; ++iteration) {
       interspec::census::trusted_input("yaml_libyaml", "document_copy_source", input.data());
@@ -169,18 +238,28 @@ class Engine {
           if (!ptr)
             throw std::runtime_error("null_scalar");
 
+          if (!sandbox_.is_pointer_in_sandbox_memory(ptr))
+            reject("outside_sandbox");
           const uint32_t address =
               sandbox_.get_sandbox_impl()->sandbox_address(ptr);
           const uint64_t total = sandbox_.get_total_memory();
-          if (!sandbox_.is_pointer_in_sandbox_memory(ptr) ||
-              address > total || bytes > total - address)
+          if (address > total || bytes > total - address)
             reject("outside_sandbox");
 
           if (checks_enabled()) {
             ++stats.checks;
-            const auto result = P::check(
-                runtime(), address, bytes,
-                P::kUseYamlScalarValueRange);
+            interspec::CheckResult result;
+            if (typed_staging()) {
+              if (!expected_staging_)
+                reject("missing_staging_allocation");
+              if (bytes >= INTERSPEC_YAML_STAGING_CAPACITY)
+                reject("scalar_staging_capacity");
+              result = runtime().check_typed_element(
+                  address, bytes, P::kTypeHashYamlScalarValue, expected_staging_);
+            } else {
+              result = P::check(
+                  runtime(), address, bytes, P::kUseYamlScalarValueRange);
+            }
             if (result != interspec::CheckResult::ok)
               reject(interspec::check_result_name(result));
             interspec::census::sandbox_result("yaml_libyaml", "checked_scalar_result", address, true);
@@ -207,6 +286,40 @@ class Engine {
   }
 
  private:
+  void shutdown_typed_guest() {
+    if (!guest_setup_attempted_ || guest_shutdown_attempted_)
+      throw std::runtime_error("staging_shutdown_state");
+    guest_shutdown_attempted_ = true;
+    try {
+      sandbox_.invoke_sandbox_function(interspec_yaml_shutdown);
+      sandbox_ready_ = false;
+    } catch (...) {
+      guest_shutdown_failed_ = true;
+      throw;
+    }
+  }
+
+  void release_staging_noexcept() noexcept {
+    const uintptr_t allocation = expected_staging_;
+    expected_staging_ = 0;
+    if (allocation && policy_) {
+      try {
+        (void)runtime().release(allocation);
+      } catch (...) {
+      }
+    }
+  }
+
+  void destroy_sandbox_noexcept() noexcept {
+    if (sandbox_destroyed_)
+      return;
+    sandbox_destroyed_ = true;
+    try {
+      sandbox_.destroy_sandbox();
+    } catch (...) {
+    }
+  }
+
   [[noreturn]] void reject(const char* reason) {
     std::fprintf(stderr,
                  "INTERSPEC_REJECT boundary=yaml_libyaml reason=%s\n",
@@ -221,6 +334,12 @@ class Engine {
   unsigned char* input_raw_ = nullptr;
   uint32_t input_size_ = 0;
   bool sandbox_ready_ = false;
+  uintptr_t expected_staging_ = 0;
+  bool typed_setup_started_ = false;
+  bool guest_setup_attempted_ = false;
+  bool guest_shutdown_attempted_ = false;
+  bool guest_shutdown_failed_ = false;
+  bool sandbox_destroyed_ = false;
 };
 
 static uint32_t alloc_cb(void* context, uint32_t site, uint32_t bytes) {
@@ -269,6 +388,8 @@ Mode parse_mode(const std::string& value) {
     return Mode::tracked_no_check;
   if (value == "extended_sp3")
     return Mode::extended_sp3;
+  if (value == "typed_staging_identity")
+    return Mode::typed_staging_identity;
   throw std::runtime_error("unknown_mode");
 }
 
@@ -309,6 +430,7 @@ int main(int argc, char** argv) {
     const auto start = std::chrono::steady_clock::now();
     const Stats stats = engine.run(input, iterations);
     const auto finish = std::chrono::steady_clock::now();
+    engine.finish();
     const uint64_t elapsed = static_cast<uint64_t>(
         std::chrono::duration_cast<std::chrono::nanoseconds>(
             finish - start)

@@ -1,5 +1,6 @@
 #include "yaml.h"
 #include "interspec_yaml_u_policy.h"
+#include "yaml_scalar_staging.h"
 
 #include <stdint.h>
 #include <stdio.h>
@@ -13,8 +14,6 @@
 #define INTERSPEC_FAULT_TESTS 0
 #endif
 
-#define INTERSPEC_YAML_STAGING_CAPACITY UINT32_C(8192)
-
 static yaml_parser_t g_parser;
 static yaml_event_t g_event;
 static int g_parser_live;
@@ -24,6 +23,7 @@ static unsigned char *g_input;
 static uint32_t g_input_size;
 
 static uint32_t g_staging;
+static int g_staging_host_owned;
 static uint32_t g_wrong_type;
 static uint32_t g_untracked;
 static uint32_t g_alt_same_type;
@@ -52,6 +52,14 @@ static void release_scalar_buffer(uint32_t ptr)
 #else
     free((void *)(uintptr_t)ptr);
 #endif
+}
+
+static void clear_staging(void)
+{
+    if (!g_staging_host_owned)
+        release_scalar_buffer(g_staging);
+    g_staging = 0;
+    g_staging_host_owned = 0;
 }
 
 static void clear_event(void)
@@ -89,7 +97,8 @@ static void clear_fault_buffers(void)
     }
 }
 
-unsigned char *interspec_yaml_setup(uint32_t input_size)
+static unsigned char *setup_with_staging(uint32_t input_size,
+                                         uint32_t supplied_staging)
 {
     if (g_parser_live || g_event_live)
         return NULL;
@@ -99,15 +108,16 @@ unsigned char *interspec_yaml_setup(uint32_t input_size)
         g_input = NULL;
     }
     clear_fault_buffers();
-    release_scalar_buffer(g_staging);
-    g_staging = 0;
+    clear_staging();
 
     g_input = (unsigned char *)malloc(input_size ? input_size : 1);
     if (!g_input)
         return NULL;
     g_input_size = input_size;
 
-    g_staging = alloc_scalar_buffer(INTERSPEC_YAML_STAGING_CAPACITY);
+    g_staging = supplied_staging ? supplied_staging :
+        alloc_scalar_buffer(INTERSPEC_YAML_STAGING_CAPACITY);
+    g_staging_host_owned = supplied_staging != 0;
     if (!g_staging) {
         free(g_input);
         g_input = NULL;
@@ -117,6 +127,21 @@ unsigned char *interspec_yaml_setup(uint32_t input_size)
     g_fault_mode = 0;
     g_fault_used = 0;
     return g_input;
+}
+
+/* Preserve the original helper-owned setup ABI and behavior. */
+unsigned char *interspec_yaml_setup(uint32_t input_size)
+{
+    return setup_with_staging(input_size, 0);
+}
+
+/* The trusted caller retains allocation authority and cleanup ownership. */
+unsigned char *interspec_yaml_setup_with_staging(uint32_t input_size,
+                                               uint32_t staging_offset)
+{
+    if (!staging_offset)
+        return NULL;
+    return setup_with_staging(input_size, staging_offset);
 }
 
 void interspec_yaml_set_fault(uint32_t mode)
@@ -144,10 +169,10 @@ int interspec_yaml_begin(void)
 
 static int materialize_scalar(void)
 {
-    const uint32_t length = (uint32_t)g_event.data.scalar.length;
     if (!g_event.data.scalar.value ||
-        length + 1 > INTERSPEC_YAML_STAGING_CAPACITY)
+        g_event.data.scalar.length >= INTERSPEC_YAML_STAGING_CAPACITY)
         return 0;
+    const uint32_t length = (uint32_t)g_event.data.scalar.length;
 
     memcpy((void *)(uintptr_t)g_staging,
            g_event.data.scalar.value, length);
@@ -272,8 +297,7 @@ void interspec_yaml_shutdown(void)
 {
     interspec_yaml_end();
     clear_fault_buffers();
-    release_scalar_buffer(g_staging);
-    g_staging = 0;
+    clear_staging();
     if (g_input) {
         free(g_input);
         g_input = NULL;
