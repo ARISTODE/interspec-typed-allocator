@@ -1,0 +1,4 @@
+PASS ucl_libucl sp1
+PASS ucl_libucl sp2
+PASS ucl_libucl sp3
+PASS ucl_libucl benign

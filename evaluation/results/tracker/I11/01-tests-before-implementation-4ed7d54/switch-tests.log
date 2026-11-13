@@ -1,0 +1,19 @@
+FAIL ucl_libucl sp1
+  sp1_off_u_reads: failed stderr has /^INTERSPEC_POLICY boundary=ucl_libucl sp1=0 sp2=1 sp3=full$/
+  sp1_on_u_reads: failed stderr has /^INTERSPEC_POLICY boundary=ucl_libucl sp1=1 sp2=1 sp3=full$/
+  sp1_on_u_reads: failed stderr has /\[SP1\] sandbox read out-parameters val1_in=0x0 val2_in=0x0 emitted_in=0x0$/
+  sp1_on_u_reads: failed stderr lacks /5ec2e7/
+FAIL ucl_libucl sp2
+  sp2_off_u_writes: failed stderr has /^INTERSPEC_POLICY boundary=ucl_libucl sp1=1 sp2=0 sp3=full$/
+  sp2_on_u_writes: failed stderr has /^INTERSPEC_POLICY boundary=ucl_libucl sp1=1 sp2=1 sp3=full$/
+  sp2_on_u_writes: failed stderr has /^INTERSPEC_T_OBSERVE boundary=ucl_libucl input_first_byte=0x73 key1_first_byte=0x73$/
+FAIL ucl_libucl sp3
+  sp3_off_bad_pointer: failed exit==0 (observed 86)
+  sp3_off_bad_pointer: failed stdout has /^UCL_BENCH variant=interspec iterations=1 input_bytes=\d+ val1=616c706861 val2=6465627567 emitted_bytes=\d+ emitted_fnv=[0-9a-f]{16} checks=0 /
+  sp3_off_bad_pointer: failed stderr has /^INTERSPEC_POLICY boundary=ucl_libucl sp1=1 sp2=1 sp3=off$/
+  sp3_off_bad_pointer: failed stderr lacks /INTERSPEC_REJECT/
+  sp3_on_bad_pointer: failed stderr has /^INTERSPEC_POLICY boundary=ucl_libucl sp1=1 sp2=1 sp3=full$/
+FAIL ucl_libucl benign
+  benign_all_on: failed stderr has /^INTERSPEC_POLICY boundary=ucl_libucl sp1=1 sp2=1 sp3=full$/
+  benign_all_off: failed stdout has /^UCL_BENCH variant=interspec iterations=1 input_bytes=\d+ val1=616c706861 val2=6465627567 emitted_bytes=\d+ emitted_fnv=[0-9a-f]{16} checks=0 /
+  benign_all_off: failed stderr has /^INTERSPEC_POLICY boundary=ucl_libucl sp1=0 sp2=0 sp3=off$/

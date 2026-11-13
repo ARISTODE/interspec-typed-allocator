@@ -1,0 +1,1 @@
+memcached_bipbuffer database=memcached exit=0

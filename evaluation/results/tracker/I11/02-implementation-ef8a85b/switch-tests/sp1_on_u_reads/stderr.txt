@@ -1,0 +1,3 @@
+INTERSPEC_POLICY boundary=ucl_libucl sp1=1 sp2=1 sp3=full
+[InterSpec][PoC][SP1] sandbox read out-parameters val1_in=0x0 val2_in=0x0 emitted_in=0x0
+INTERSPEC_T_OBSERVE boundary=ucl_libucl input_first_byte=0x73 key1_first_byte=0x73

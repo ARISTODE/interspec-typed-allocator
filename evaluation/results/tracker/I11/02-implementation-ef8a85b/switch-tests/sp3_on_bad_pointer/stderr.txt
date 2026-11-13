@@ -1,0 +1,3 @@
+INTERSPEC_POLICY boundary=ucl_libucl sp1=1 sp2=1 sp3=full
+FAULT_INJECTION boundary=ucl_libucl mode=2 original=0x106ff0 replacement=0x5070a0 bytes=5
+INTERSPEC_REJECT boundary=ucl_libucl operation=string_value reason=untracked
