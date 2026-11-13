@@ -23,7 +23,7 @@
     "yaml_libyaml": {"boundaries": ["yaml/libyaml"], "sources": ["libyaml"], "command": "bash scripts/build_codeql_yaml_libyaml.sh"},
     "zip_libzip": {"boundaries": ["zip/libzip"], "sources": ["libzip", "zlib"], "command": "bash scripts/build_codeql_zip_libzip.sh"},
     "ucl_libucl": {"boundaries": ["ucl/libucl"], "sources": ["libucl"], "command": "bash scripts/build_codeql_ucl_libucl.sh"},
-    "magick_libpng": {"boundaries": ["magick/libpng"], "sources": ["libpng", "zlib"], "command": "bash scripts/build_codeql_magick_libpng.sh"},
+    "magick_libpng": {"boundaries": ["magick/libpng"], "sources": ["libpng", "zlib"], "command": "bash coverage/build_magick_libpng_for_codeql.sh"},
     "memcached": {"boundaries": ["memcached/bipbuffer", "memcached/hash"], "sources": ["memcached"], "command": "bash scripts/build_memcached_for_codeql.sh"},
     "rsync_popt": {"boundaries": ["rsync/popt"], "sources": ["rsync"], "command": "bash coverage/build_rsync_for_codeql.sh"},
     "nginx": {"boundaries": ["nginx/libpcre", "nginx/openssl"], "sources": ["nginx", "pcre", "openssl"], "command": "bash coverage/build_nginx_for_codeql.sh"},
