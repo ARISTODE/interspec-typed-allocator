@@ -4,7 +4,11 @@
  * split into calls whose arguments are scalars or U staging buffers. The two
  * looked-up strings and the emitted document are returned from allocations
  * that the trusted registry knows (helper sites), so that T can check live
- * object, type and bounds before it copies them. */
+ * object, type and bounds before it copies them.
+ *
+ * One buffer is kept for each of the three results and reused while it is
+ * large enough: the registry's arena does not reuse released addresses, so a
+ * fresh buffer per parse would exhaust it. */
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -37,6 +41,8 @@ static uint32_t g_input_capacity;
 static char g_keys[2][KEY_CAPACITY];
 static uint32_t g_value[3];      /* 0, 1: looked-up strings; 2: emitted */
 static uint32_t g_value_size[3];
+static uint32_t g_buffer[3];     /* the kept buffer of each result */
+static uint32_t g_buffer_capacity[3];
 static uint32_t g_return[3];     /* what U hands to T; differs under a fault */
 static uint32_t g_return_size[3];
 
@@ -73,11 +79,18 @@ static void value_release(uint32_t ptr)
 #endif
 }
 
+/* The results of the previous parse are no longer valid; the buffers stay. */
 static void clear_values(void)
 {
-    for (int i = 0; i < 3; ++i) {
-        value_release(g_value[i]);
+    for (int i = 0; i < 3; ++i)
         g_value[i] = g_value_size[i] = g_return[i] = g_return_size[i] = 0;
+}
+
+static void release_buffers(void)
+{
+    for (int i = 0; i < 3; ++i) {
+        value_release(g_buffer[i]);
+        g_buffer[i] = g_buffer_capacity[i] = 0;
     }
 }
 
@@ -95,7 +108,12 @@ char *interspec_ucl_key_buffer(uint32_t which)
 
 static int stage(uint32_t which, const unsigned char *bytes, uint32_t size)
 {
-    uint32_t ptr = value_alloc(which, size + 1);
+    if (size + 1 > g_buffer_capacity[which]) {
+        value_release(g_buffer[which]);
+        g_buffer[which] = value_alloc(which, size + 1);
+        g_buffer_capacity[which] = g_buffer[which] ? size + 1 : 0;
+    }
+    uint32_t ptr = g_buffer[which];
     if (!ptr) return 0;
     memcpy((void *)(uintptr_t)ptr, bytes, size);
     ((unsigned char *)(uintptr_t)ptr)[size] = 0;
@@ -198,6 +216,7 @@ uint32_t interspec_ucl_value_size(uint32_t which)
 void interspec_ucl_shutdown(void)
 {
     clear_values();
+    release_buffers();
     free(g_input);
     g_input = NULL;
     g_input_capacity = 0;

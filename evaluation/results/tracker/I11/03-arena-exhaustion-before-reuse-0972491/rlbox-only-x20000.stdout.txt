@@ -1,0 +1,1 @@
+UCL_BENCH variant=rlbox-only iterations=20000 input_bytes=141 val1=616c706861 val2=6465627567 emitted_bytes=136 emitted_fnv=950a80d3113caa1c checks=0 elapsed_ns=107368361
