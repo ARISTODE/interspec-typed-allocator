@@ -1,0 +1,14 @@
+{
+  "schema": "ordinary-profile-protocol-amendment-v1",
+  "previous_schema": "ordinary-only-memcached-profile-v1",
+  "new_schema": "ordinary-only-memcached-profile-v2",
+  "previous_plan_sha256": "d9ec81e30f0edd4e56810c4c71c371dfb5f147eafc7292254f4ef2ca5e6ea2df",
+  "previous_run_sha256": "c95b6ed67c7b97439a2552c19a5d0a450eb5d4a00e4c5c0729e1e9b5fb401522",
+  "previous_gate_sha256": "d781c75c5ac7ae75cf49b897840c087a90584700bab32428bd08970751d4a631",
+  "previous_status": "normal_failed",
+  "previous_profile_started": false,
+  "correction": "Accept integer normal-server exit 0 or -15 after successful normal() completion, matching pinned upstream SIGTERM handling and unchanged profile verifier. Record the completed normal check inventory before validating shutdown.",
+  "evidence": "Pinned memcached.c: SIGTERM handler at 4887; sig_handler sets EXIT_NORMALLY at 4274; main initializes retval EXIT_SUCCESS and returns it. Existing verify_memcached_profile.py accepts (0,-15).",
+  "prior_outcome": "Native normal() returned all 16 checks, then the wrapper incorrectly rejected its clean exit 0. Diagnostic checks and profile never started. Original failed attempt, ledger, plan, lock, transcripts and logs remain unchanged.",
+  "prospective_bounds": "New distinct v2 attempt; same source, binaries, workload, sample size and data correctness rules. No result is omitted or replaced. No original 50-case gate, injection, security or performance validation."
+}

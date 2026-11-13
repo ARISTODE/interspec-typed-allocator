@@ -1,0 +1,11 @@
+{
+  "normal": [
+    {
+      "status": "failed",
+      "variant": "native"
+    }
+  ],
+  "plan_sha256": "d9ec81e30f0edd4e56810c4c71c371dfb5f147eafc7292254f4ef2ca5e6ea2df",
+  "schema": "ordinary-only-memcached-profile-v1",
+  "status": "normal_failed"
+}

@@ -1,0 +1,20 @@
+{
+  "normal": [
+    {
+      "status": "passed",
+      "variant": "native"
+    },
+    {
+      "status": "passed",
+      "variant": "diagnostics"
+    }
+  ],
+  "plan_sha256": "d3612af1f97d29896faf359be24c5e57384e7738391b45ae925ae0360d1400d2",
+  "profile": {
+    "attempt": 1,
+    "name": "balanced_1c",
+    "status": "collected"
+  },
+  "schema": "ordinary-only-memcached-profile-v2",
+  "status": "collected"
+}
