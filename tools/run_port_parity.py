@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Benign run of a registry port against its native build (items I7 to I12).
 
-For every case in the boundary's corpus and for one and two iterations, the
+For every case in the boundary's corpus and for one and two iterations (or the
+iteration counts the case lists), the
 native program and the three isolated variants (RLBox-only, tracking without
 check, InterSpec with all three policies on) run once each. Every isolated run
 must exit 0, print one result line whose result fields equal the native run's,
@@ -30,6 +31,11 @@ BOUNDARIES = {
                                          case["key2"], n],
         "name": lambda case: f"{Path(case['document']).stem}__{case['key1']}__{case['key2']}",
     },
+    "zip_libzip": {
+        "prefix": "zip", "tag": "ZIP_BENCH",
+        "args": lambda corpus, case, n: [str(corpus / case["archive"]), n],
+        "name": lambda case: Path(case["archive"]).stem,
+    },
 }
 NOT_RESULT = {"variant", "checks", "elapsed_ns"}
 
@@ -57,7 +63,7 @@ def main():
 
     plan = []
     for case in cases:
-        for iterations in ("1", "2"):
+        for iterations in case.get("iterations", ("1", "2")):
             for variant in VARIANTS:
                 run = f"{spec['name'](case).replace('/', '_')}__x{iterations}__{variant}"
                 binary = args.bin / f"{spec['prefix']}-{variant}"

@@ -69,6 +69,15 @@ UCL_BENIGN = (r"^UCL_BENCH variant=interspec iterations=1 input_bytes=\d+ "
               r"val1=616c706861 val2=6465627567 emitted_bytes=\d+ emitted_fnv=[0-9a-f]{16} ")
 UCL_T_UNCHANGED = r"^INTERSPEC_T_OBSERVE boundary=ucl_libucl input_first_byte=0x73 key1_first_byte=0x73$"
 
+# zip/libzip: the driver is the test build of zip_app_bench on
+# evaluation/parity/zip/test.zip (first byte 'P' = 0x50; first entry "test",
+# 5 bytes). Rejections exit with 86.
+ZIP_ARGS = ["{document}", "1"]
+ZIP_BENIGN = (r"^ZIP_BENCH variant=interspec iterations=1 archive_bytes=412 entries=3 "
+              r"checksum=[0-9a-f]{16} last_name=74657374 last_size=5 ")
+ZIP_T_UNCHANGED = r"^INTERSPEC_T_OBSERVE boundary=zip_libzip archive_first_byte=0x50$"
+ZIP_EMPTY_NAME = ["{sibling:filename_empty.zip}", "1"]
+
 # Each case: switch settings, test-only U behavior, and what must be observed.
 # "exit" is a return code; a negative value is the signal that ended the process.
 BOUNDARIES = {
@@ -422,6 +431,123 @@ BOUNDARIES = {
             },
         },
     },
+    "zip_libzip": {
+        "tests": {
+            "sp1": ["sp1_off_u_reads", "sp1_on_u_reads"],
+            "sp2": ["sp2_off_u_writes", "sp2_on_u_writes"],
+            "sp3": ["sp3_off_bad_pointer", "sp3_on_bad_pointer"],
+            "sp3_other_faults": ["sp3_on_wrong_type", "sp3_on_released",
+                                 "sp3_on_unterminated"],
+            "benign": ["benign_all_on", "benign_all_off"],
+            # Not a pass criterion of the port but a recorded limit: libzip
+            # returns a static empty string for an entry without a name, and
+            # the registry does not know static data.
+            "limit_static_empty_name": ["limit_empty_name_sp3_off",
+                                        "limit_empty_name_sp3_on"],
+        },
+        "cases": {
+            # SP1: U reads what it was handed for the three out-parameters.
+            "sp1_off_u_reads": {
+                "env": {**switches(sp1="0"), "INTERSPEC_TEST_POC_FLAGS": "1"},
+                "args": ZIP_ARGS, "exit": 0,
+                "stdout": [ZIP_BENIGN],
+                "stderr": [r"\[SP1\] sandbox read out-parameters size_in=0x5ec2e70100000001 "
+                           r"name_direct_in=0x5ec2e702 name_stat_in=0x5ec2e703$"],
+            },
+            "sp1_on_u_reads": {
+                "env": {**switches(), "INTERSPEC_TEST_POC_FLAGS": "1"},
+                "args": ZIP_ARGS, "exit": 0,
+                "stdout": [ZIP_BENIGN],
+                "stderr": [r"\[SP1\] sandbox read out-parameters size_in=0x0 "
+                           r"name_direct_in=0x0 name_stat_in=0x0$"],
+                "stderr_absent": [r"5ec2e7"],
+            },
+            # SP2: U overwrites its copy of the archive after opening it.
+            "sp2_off_u_writes": {
+                "env": {**switches(sp2="0"), "INTERSPEC_TEST_POC_FLAGS": "2"},
+                "args": ZIP_ARGS, "exit": 0,
+                "stdout": [ZIP_BENIGN],
+                "stderr": [r"\[SP2\] sandbox mutated archive byte=0 old=0x50 new=0xaf$",
+                           r"^INTERSPEC_T_OBSERVE boundary=zip_libzip archive_first_byte=0xaf$"],
+            },
+            "sp2_on_u_writes": {
+                "env": {**switches(), "INTERSPEC_TEST_POC_FLAGS": "2"},
+                "args": ZIP_ARGS, "exit": 0,
+                "stdout": [ZIP_BENIGN],
+                "stderr": [r"\[SP2\] sandbox mutated archive byte=0 old=0x50 new=0xaf$",
+                           ZIP_T_UNCHANGED],
+            },
+            # SP3: U returns an untracked heap copy of the first name.
+            "sp3_off_bad_pointer": {
+                "env": switches(sp3="0"),
+                "args": ZIP_ARGS + ["2"], "exit": 0,
+                "stdout": [ZIP_BENIGN + r"checks=0 "],
+                "stderr": [r"^FAULT_INJECTION boundary=zip_libzip mode=2 "],
+                "stderr_absent": [r"INTERSPEC_REJECT"],
+            },
+            "sp3_on_bad_pointer": {
+                "env": switches(),
+                "args": ZIP_ARGS + ["2"], "exit": 86,
+                "stdout_absent": [r"ZIP_BENCH"],
+                "stderr": [r"^FAULT_INJECTION boundary=zip_libzip mode=2 ",
+                           r"^INTERSPEC_REJECT boundary=zip_libzip operation=name_direct "
+                           r"reason=untracked$"],
+            },
+            # SP3 on, the other ways in which the returned pointer can be wrong.
+            "sp3_on_wrong_type": {
+                "env": switches(),
+                "args": ZIP_ARGS + ["1"], "exit": 86,
+                "stdout_absent": [r"ZIP_BENCH"],
+                "stderr": [r"^FAULT_INJECTION boundary=zip_libzip mode=1 ",
+                           r"^INTERSPEC_REJECT boundary=zip_libzip operation=name_direct "
+                           r"reason=wrong_type$"],
+            },
+            "sp3_on_released": {
+                "env": switches(),
+                "args": ZIP_ARGS + ["3"], "exit": 86,
+                "stdout_absent": [r"ZIP_BENCH"],
+                "stderr": [r"^FAULT_INJECTION boundary=zip_libzip mode=3 ",
+                           r"^INTERSPEC_REJECT boundary=zip_libzip operation=name_direct "
+                           r"reason=untracked$"],
+            },
+            "sp3_on_unterminated": {
+                "env": switches(),
+                "args": ZIP_ARGS + ["4"], "exit": 86,
+                "stdout_absent": [r"ZIP_BENCH"],
+                "stderr": [r"^FAULT_INJECTION boundary=zip_libzip mode=4 ",
+                           r"^INTERSPEC_REJECT boundary=zip_libzip operation=name_direct "
+                           r"reason=out_of_bounds$"],
+            },
+            "benign_all_on": {
+                "env": switches(),
+                "args": ZIP_ARGS, "exit": 0,
+                "stdout": [ZIP_BENIGN + r"checks=2 "],
+                "stderr": [ZIP_T_UNCHANGED],
+                "stderr_absent": [r"INTERSPEC_REJECT", r"FAULT_INJECTION", r"PoC"],
+            },
+            "benign_all_off": {
+                "env": switches(sp1="0", sp2="0", sp3="0"),
+                "args": ZIP_ARGS, "exit": 0,
+                "stdout": [ZIP_BENIGN + r"checks=0 "],
+                "stderr": [ZIP_T_UNCHANGED],
+                "stderr_absent": [r"INTERSPEC_REJECT", r"FAULT_INJECTION", r"PoC"],
+            },
+            "limit_empty_name_sp3_off": {
+                "env": switches(sp3="0"),
+                "args": ZIP_EMPTY_NAME, "exit": 0,
+                "stdout": [r"^ZIP_BENCH variant=interspec iterations=1 archive_bytes=98 "
+                           r"entries=1 checksum=[0-9a-f]{16} last_name=\(empty\) "],
+                "stderr_absent": [r"INTERSPEC_REJECT"],
+            },
+            "limit_empty_name_sp3_on": {
+                "env": switches(),
+                "args": ZIP_EMPTY_NAME, "exit": 86,
+                "stdout_absent": [r"ZIP_BENCH"],
+                "stderr": [r"^INTERSPEC_REJECT boundary=zip_libzip operation=name_direct "
+                           r"reason=untracked$"],
+            },
+        },
+    },
 }
 
 
@@ -443,8 +569,13 @@ def run_case(boundary, name, case, driver, out_dir, timeout, document=None):
     (case_dir / "env.json").write_text(json.dumps(env, indent=2, sort_keys=True) + "\n")
     timed_out = False
     try:
-        command = [str(driver)] + [str(document) if arg == "{document}" else arg
-                                   for arg in case.get("args", [])]
+        def expand(arg):  # {document}, or {sibling:NAME} next to the document
+            if arg == "{document}":
+                return str(document)
+            if arg.startswith("{sibling:") and arg.endswith("}"):
+                return str(document.parent / arg[len("{sibling:"):-1])
+            return arg
+        command = [str(driver)] + [expand(arg) for arg in case.get("args", [])]
         (case_dir / "command.json").write_text(json.dumps(command) + "\n")
         done = subprocess.run(command, env=env, stdout=subprocess.PIPE,
                               stderr=subprocess.PIPE, timeout=timeout)

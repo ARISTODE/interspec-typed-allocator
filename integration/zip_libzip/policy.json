@@ -1,0 +1,25 @@
+{
+  "types": [
+    "zip_uint8_t"
+  ],
+  "allocations": [
+    {
+      "function": "_zip_string_new",
+      "type": "zip_uint8_t",
+      "site": {
+        "start_line": 164,
+        "start_column": 34,
+        "end_line": 164,
+        "end_column": 39
+      }
+    }
+  ],
+  "uses": [
+    {
+      "name": "zip_entry_name",
+      "type": "zip_uint8_t",
+      "offset": 0,
+      "dynamic_bytes": true
+    }
+  ]
+}

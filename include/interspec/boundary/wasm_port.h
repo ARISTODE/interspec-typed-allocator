@@ -24,12 +24,14 @@
 #include "interspec/policy_switches.h"
 #include "interspec/runtime.h"
 
+#include <algorithm>
 #include <cstdint>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
 #include <memory>
 #include <stdexcept>
+#include <string>
 
 #ifndef INTERSPEC_TRACKING
 #define INTERSPEC_TRACKING 0
@@ -44,6 +46,8 @@ namespace interspec {
 //   static constexpr const char* boundary;            name in reports
 //   static bool register_all(Runtime&);               generated types and sites
 //   static constexpr int reject_exit;                  exit status of a rejection
+//   static CheckResult check(runtime, base, bytes, access);      for validate()
+//   static CheckResult remaining(runtime, base, access, bytes&); for c_string()
 template <class Policy>
 class WasmPort {
  public:
@@ -138,6 +142,43 @@ class WasmPort {
     (void)access;
 #endif
     return ptr;
+  }
+
+  // NUL-terminated string that U returns, at most `limit` bytes before the
+  // terminator. Confinement always. In the InterSpec build the pointer must
+  // lie in a live registered object of the expected type and the terminator
+  // must lie inside that object. The bytes stay in U memory; `length` receives
+  // the string length.
+  template <class Access>
+  const char* c_string(Pointer pointer, size_t limit, const Access& access,
+                       const char* operation, size_t& length) {
+    unsigned char* ptr = pointer.UNSAFE_unverified();
+    if (!ptr) reject(operation, "null_pointer");
+    if (!sandbox_.is_pointer_in_sandbox_memory(ptr)) reject(operation, "outside_sandbox");
+    const uint32_t address = sandbox_.get_sandbox_impl()->sandbox_address(ptr);
+    const uint64_t total = sandbox_.get_total_memory();
+    if (address >= total) reject(operation, "outside_sandbox");
+    size_t available = static_cast<size_t>(
+        std::min<uint64_t>(static_cast<uint64_t>(limit) + 1, total - address));
+    bool bounded_by_object = false;
+#if INTERSPEC_CHECKS
+    {
+      ++checks_;
+      size_t remaining = 0;
+      const CheckResult result = Policy::remaining(*runtime_, address, access, remaining);
+      if (result != CheckResult::ok) reject(operation, check_result_name(result));
+      if (remaining < available) {
+        available = remaining;
+        bounded_by_object = true;
+      }
+    }
+#else
+    (void)access;
+#endif
+    const void* end = std::memchr(ptr, 0, available);
+    if (!end) reject(operation, bounded_by_object ? "out_of_bounds" : "unterminated");
+    length = static_cast<size_t>(static_cast<const unsigned char*>(end) - ptr);
+    return reinterpret_cast<const char*>(ptr);
   }
 
   // Staging memory that U handed out for T to fill (inputs). Confinement only:

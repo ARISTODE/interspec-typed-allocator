@@ -1,0 +1,17 @@
+{
+  "types": [
+    "char"
+  ],
+  "helper_sites": [
+    {
+      "name": "converted_name",
+      "type": "zip_uint8_t",
+      "role": "integration"
+    },
+    {
+      "name": "wrong_type",
+      "type": "char",
+      "role": "adversarial"
+    }
+  ]
+}
