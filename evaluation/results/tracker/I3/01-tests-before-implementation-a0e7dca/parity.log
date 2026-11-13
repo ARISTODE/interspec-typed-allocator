@@ -1,0 +1,13 @@
+FAIL anchors_tags__extended_sp3__x1: reports_all_on
+FAIL anchors_tags__extended_sp3__x2: reports_all_on
+FAIL block_flow__extended_sp3__x1: reports_all_on
+FAIL block_flow__extended_sp3__x2: reports_all_on
+FAIL multi_document_empty__extended_sp3__x1: reports_all_on
+FAIL multi_document_empty__extended_sp3__x2: reports_all_on
+FAIL multiline_scalars__extended_sp3__x1: reports_all_on
+FAIL multiline_scalars__extended_sp3__x2: reports_all_on
+FAIL unicode_escapes__extended_sp3__x1: reports_all_on
+FAIL unicode_escapes__extended_sp3__x2: reports_all_on
+FAIL utf16le_bom__extended_sp3__x1: reports_all_on
+FAIL utf16le_bom__extended_sp3__x2: reports_all_on
+yaml parity: 36/48 runs passed

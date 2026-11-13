@@ -1,0 +1,1 @@
+INTERSPEC_POLICY boundary=yaml_libyaml sp1=1 sp2=1 sp3=full

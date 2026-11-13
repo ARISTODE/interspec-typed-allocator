@@ -1,0 +1,4 @@
+build exit=0
+switch-tests exit=0
+parity exit=0
+overall exit=0

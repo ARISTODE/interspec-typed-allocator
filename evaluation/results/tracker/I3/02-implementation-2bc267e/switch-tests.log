@@ -1,0 +1,3 @@
+PASS yaml_libyaml sp2
+PASS yaml_libyaml sp3
+PASS yaml_libyaml benign

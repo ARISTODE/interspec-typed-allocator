@@ -1,0 +1,245 @@
+{
+  "boundary": "yaml_libyaml",
+  "driver": "/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i3-red-tmp/interspec-yaml-libyaml/yaml-typed-fault",
+  "driver_sha256": "e0e98b945d503421e9c8246eca1efa830079dd3603aeeb55f50202955d8f7353",
+  "tests": {
+    "sp2": {
+      "cases": [
+        "sp2_off_u_writes",
+        "sp2_on_u_writes"
+      ],
+      "passed": false
+    },
+    "sp3": {
+      "cases": [
+        "sp3_off_bad_pointer",
+        "sp3_on_bad_pointer"
+      ],
+      "passed": false
+    },
+    "benign": {
+      "cases": [
+        "benign_all_on",
+        "benign_all_off"
+      ],
+      "passed": false
+    }
+  },
+  "cases": {
+    "sp2_off_u_writes": {
+      "case": "sp2_off_u_writes",
+      "exit": 0,
+      "timed_out": false,
+      "passed": false,
+      "checks": [
+        {
+          "check": "no_timeout",
+          "ok": true
+        },
+        {
+          "check": "exit==0",
+          "ok": true,
+          "observed": 0
+        },
+        {
+          "check": "stdout has /^YAML_BENCH mode=extended_sp3 iterations=1 input_bytes=\\d+ events=23 scalars=11 scalar_bytes=\\d+ hash=[0-9a-f]{16} /",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_POLICY boundary=yaml_libyaml sp1=1 sp2=0 sp3=full$/",
+          "ok": false
+        },
+        {
+          "check": "stderr has /\\[SP2\\] sandbox mutated document byte=0 old=0x6b new=0x94$/",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_T_OBSERVE boundary=yaml_libyaml input_first_byte=0x94$/",
+          "ok": false
+        }
+      ]
+    },
+    "sp2_on_u_writes": {
+      "case": "sp2_on_u_writes",
+      "exit": 0,
+      "timed_out": false,
+      "passed": false,
+      "checks": [
+        {
+          "check": "no_timeout",
+          "ok": true
+        },
+        {
+          "check": "exit==0",
+          "ok": true,
+          "observed": 0
+        },
+        {
+          "check": "stdout has /^YAML_BENCH mode=extended_sp3 iterations=1 input_bytes=\\d+ events=23 scalars=11 scalar_bytes=\\d+ hash=[0-9a-f]{16} /",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_POLICY boundary=yaml_libyaml sp1=1 sp2=1 sp3=full$/",
+          "ok": false
+        },
+        {
+          "check": "stderr has /\\[SP2\\] sandbox mutated document byte=0 old=0x6b new=0x94$/",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_T_OBSERVE boundary=yaml_libyaml input_first_byte=0x6b$/",
+          "ok": true
+        }
+      ]
+    },
+    "sp3_off_bad_pointer": {
+      "case": "sp3_off_bad_pointer",
+      "exit": 86,
+      "timed_out": false,
+      "passed": false,
+      "checks": [
+        {
+          "check": "no_timeout",
+          "ok": true
+        },
+        {
+          "check": "exit==0",
+          "ok": false,
+          "observed": 86
+        },
+        {
+          "check": "stdout has /^YAML_BENCH mode=extended_sp3 iterations=1 input_bytes=\\d+ events=23 scalars=11 scalar_bytes=\\d+ hash=[0-9a-f]{16} /",
+          "ok": false
+        },
+        {
+          "check": "stderr has /^INTERSPEC_POLICY boundary=yaml_libyaml sp1=1 sp2=1 sp3=off$/",
+          "ok": false
+        },
+        {
+          "check": "stderr has /^FAULT_INJECTION boundary=yaml_libyaml mode=2 /",
+          "ok": true
+        },
+        {
+          "check": "stderr lacks /INTERSPEC_REJECT/",
+          "ok": false
+        }
+      ]
+    },
+    "sp3_on_bad_pointer": {
+      "case": "sp3_on_bad_pointer",
+      "exit": 86,
+      "timed_out": false,
+      "passed": false,
+      "checks": [
+        {
+          "check": "no_timeout",
+          "ok": true
+        },
+        {
+          "check": "exit==86",
+          "ok": true,
+          "observed": 86
+        },
+        {
+          "check": "stdout lacks /YAML_BENCH/",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_POLICY boundary=yaml_libyaml sp1=1 sp2=1 sp3=full$/",
+          "ok": false
+        },
+        {
+          "check": "stderr has /^FAULT_INJECTION boundary=yaml_libyaml mode=2 /",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_REJECT boundary=yaml_libyaml reason=untracked$/",
+          "ok": true
+        }
+      ]
+    },
+    "benign_all_on": {
+      "case": "benign_all_on",
+      "exit": 0,
+      "timed_out": false,
+      "passed": false,
+      "checks": [
+        {
+          "check": "no_timeout",
+          "ok": true
+        },
+        {
+          "check": "exit==0",
+          "ok": true,
+          "observed": 0
+        },
+        {
+          "check": "stdout has /^YAML_BENCH mode=extended_sp3 iterations=1 input_bytes=\\d+ events=23 scalars=11 scalar_bytes=\\d+ hash=[0-9a-f]{16} checks=11 /",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_POLICY boundary=yaml_libyaml sp1=1 sp2=1 sp3=full$/",
+          "ok": false
+        },
+        {
+          "check": "stderr has /^INTERSPEC_T_OBSERVE boundary=yaml_libyaml input_first_byte=0x6b$/",
+          "ok": true
+        },
+        {
+          "check": "stderr lacks /INTERSPEC_REJECT/",
+          "ok": true
+        },
+        {
+          "check": "stderr lacks /FAULT_INJECTION/",
+          "ok": true
+        },
+        {
+          "check": "stderr lacks /PoC/",
+          "ok": true
+        }
+      ]
+    },
+    "benign_all_off": {
+      "case": "benign_all_off",
+      "exit": 0,
+      "timed_out": false,
+      "passed": false,
+      "checks": [
+        {
+          "check": "no_timeout",
+          "ok": true
+        },
+        {
+          "check": "exit==0",
+          "ok": true,
+          "observed": 0
+        },
+        {
+          "check": "stdout has /^YAML_BENCH mode=extended_sp3 iterations=1 input_bytes=\\d+ events=23 scalars=11 scalar_bytes=\\d+ hash=[0-9a-f]{16} checks=0 /",
+          "ok": false
+        },
+        {
+          "check": "stderr has /^INTERSPEC_POLICY boundary=yaml_libyaml sp1=0 sp2=0 sp3=off$/",
+          "ok": false
+        },
+        {
+          "check": "stderr has /^INTERSPEC_T_OBSERVE boundary=yaml_libyaml input_first_byte=0x6b$/",
+          "ok": true
+        },
+        {
+          "check": "stderr lacks /INTERSPEC_REJECT/",
+          "ok": true
+        },
+        {
+          "check": "stderr lacks /FAULT_INJECTION/",
+          "ok": true
+        },
+        {
+          "check": "stderr lacks /PoC/",
+          "ok": true
+        }
+      ]
+    }
+  },
+  "passed": false
+}

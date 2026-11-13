@@ -1,0 +1,1 @@
+YAML_BENCH mode=native iterations=2 input_bytes=87 events=28 scalars=16 scalar_bytes=112 hash=9089cc7cbe9993ff checks=0 elapsed_ns=25403

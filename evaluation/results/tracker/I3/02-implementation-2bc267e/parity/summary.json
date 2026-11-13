@@ -1,0 +1,841 @@
+{
+  "total": 48,
+  "passed": 48,
+  "binaries_sha256": {
+    "native": "26cad6633cb6cc4e3ef6640fefd112cff6e0ee4a59eb85bdbc40c9072bd9641d",
+    "rlbox_only": "e2ff5c05c26a951b8a5587a141a40eabd3f50cf8703744eb45d188ee4395a380",
+    "tracked_no_check": "875024c3ed10a8b419879c52e71b86fb531480c43ba76c9c29be16d5476933a2",
+    "extended_sp3": "875024c3ed10a8b419879c52e71b86fb531480c43ba76c9c29be16d5476933a2"
+  },
+  "expected_sha256": "a8188973e0257e77981bf098aff73e2c1dd06e8954d77d192a91533bcee792d7",
+  "runs": [
+    {
+      "run": "anchors_tags__native__x1",
+      "passed": true,
+      "checks": {
+        "exit_zero": true,
+        "one_bench_line": true,
+        "mode": true,
+        "iterations": true,
+        "input_bytes": true,
+        "events": true,
+        "scalars": true,
+        "scalar_bytes": true,
+        "hash": true,
+        "checks": true,
+        "no_other_stderr": true
+      }
+    },
+    {
+      "run": "anchors_tags__native__x2",
+      "passed": true,
+      "checks": {
+        "exit_zero": true,
+        "one_bench_line": true,
+        "mode": true,
+        "iterations": true,
+        "input_bytes": true,
+        "events": true,
+        "scalars": true,
+        "scalar_bytes": true,
+        "hash": true,
+        "checks": true,
+        "no_other_stderr": true
+      }
+    },
+    {
+      "run": "anchors_tags__rlbox_only__x1",
+      "passed": true,
+      "checks": {
+        "exit_zero": true,
+        "one_bench_line": true,
+        "mode": true,
+        "iterations": true,
+        "input_bytes": true,
+        "events": true,
+        "scalars": true,
+        "scalar_bytes": true,
+        "hash": true,
+        "checks": true,
+        "no_other_stderr": true
+      }
+    },
+    {
+      "run": "anchors_tags__rlbox_only__x2",
+      "passed": true,
+      "checks": {
+        "exit_zero": true,
+        "one_bench_line": true,
+        "mode": true,
+        "iterations": true,
+        "input_bytes": true,
+        "events": true,
+        "scalars": true,
+        "scalar_bytes": true,
+        "hash": true,
+        "checks": true,
+        "no_other_stderr": true
+      }
+    },
+    {
+      "run": "anchors_tags__tracked_no_check__x1",
+      "passed": true,
+      "checks": {
+        "exit_zero": true,
+        "one_bench_line": true,
+        "mode": true,
+        "iterations": true,
+        "input_bytes": true,
+        "events": true,
+        "scalars": true,
+        "scalar_bytes": true,
+        "hash": true,
+        "checks": true,
+        "no_other_stderr": true
+      }
+    },
+    {
+      "run": "anchors_tags__tracked_no_check__x2",
+      "passed": true,
+      "checks": {
+        "exit_zero": true,
+        "one_bench_line": true,
+        "mode": true,
+        "iterations": true,
+        "input_bytes": true,
+        "events": true,
+        "scalars": true,
+        "scalar_bytes": true,
+        "hash": true,
+        "checks": true,
+        "no_other_stderr": true
+      }
+    },
+    {
+      "run": "anchors_tags__extended_sp3__x1",
+      "passed": true,
+      "checks": {
+        "exit_zero": true,
+        "one_bench_line": true,
+        "mode": true,
+        "iterations": true,
+        "input_bytes": true,
+        "events": true,
+        "scalars": true,
+        "scalar_bytes": true,
+        "hash": true,
+        "checks": true,
+        "no_other_stderr": true,
+        "reports_all_on": true
+      }
+    },
+    {
+      "run": "anchors_tags__extended_sp3__x2",
+      "passed": true,
+      "checks": {
+        "exit_zero": true,
+        "one_bench_line": true,
+        "mode": true,
+        "iterations": true,
+        "input_bytes": true,
+        "events": true,
+        "scalars": true,
+        "scalar_bytes": true,
+        "hash": true,
+        "checks": true,
+        "no_other_stderr": true,
+        "reports_all_on": true
+      }
+    },
+    {
+      "run": "block_flow__native__x1",
+      "passed": true,
+      "checks": {
+        "exit_zero": true,
+        "one_bench_line": true,
+        "mode": true,
+        "iterations": true,
+        "input_bytes": true,
+        "events": true,
+        "scalars": true,
+        "scalar_bytes": true,
+        "hash": true,
+        "checks": true,
+        "no_other_stderr": true
+      }
+    },
+    {
+      "run": "block_flow__native__x2",
+      "passed": true,
+      "checks": {
+        "exit_zero": true,
+        "one_bench_line": true,
+        "mode": true,
+        "iterations": true,
+        "input_bytes": true,
+        "events": true,
+        "scalars": true,
+        "scalar_bytes": true,
+        "hash": true,
+        "checks": true,
+        "no_other_stderr": true
+      }
+    },
+    {
+      "run": "block_flow__rlbox_only__x1",
+      "passed": true,
+      "checks": {
+        "exit_zero": true,
+        "one_bench_line": true,
+        "mode": true,
+        "iterations": true,
+        "input_bytes": true,
+        "events": true,
+        "scalars": true,
+        "scalar_bytes": true,
+        "hash": true,
+        "checks": true,
+        "no_other_stderr": true
+      }
+    },
+    {
+      "run": "block_flow__rlbox_only__x2",
+      "passed": true,
+      "checks": {
+        "exit_zero": true,
+        "one_bench_line": true,
+        "mode": true,
+        "iterations": true,
+        "input_bytes": true,
+        "events": true,
+        "scalars": true,
+        "scalar_bytes": true,
+        "hash": true,
+        "checks": true,
+        "no_other_stderr": true
+      }
+    },
+    {
+      "run": "block_flow__tracked_no_check__x1",
+      "passed": true,
+      "checks": {
+        "exit_zero": true,
+        "one_bench_line": true,
+        "mode": true,
+        "iterations": true,
+        "input_bytes": true,
+        "events": true,
+        "scalars": true,
+        "scalar_bytes": true,
+        "hash": true,
+        "checks": true,
+        "no_other_stderr": true
+      }
+    },
+    {
+      "run": "block_flow__tracked_no_check__x2",
+      "passed": true,
+      "checks": {
+        "exit_zero": true,
+        "one_bench_line": true,
+        "mode": true,
+        "iterations": true,
+        "input_bytes": true,
+        "events": true,
+        "scalars": true,
+        "scalar_bytes": true,
+        "hash": true,
+        "checks": true,
+        "no_other_stderr": true
+      }
+    },
+    {
+      "run": "block_flow__extended_sp3__x1",
+      "passed": true,
+      "checks": {
+        "exit_zero": true,
+        "one_bench_line": true,
+        "mode": true,
+        "iterations": true,
+        "input_bytes": true,
+        "events": true,
+        "scalars": true,
+        "scalar_bytes": true,
+        "hash": true,
+        "checks": true,
+        "no_other_stderr": true,
+        "reports_all_on": true
+      }
+    },
+    {
+      "run": "block_flow__extended_sp3__x2",
+      "passed": true,
+      "checks": {
+        "exit_zero": true,
+        "one_bench_line": true,
+        "mode": true,
+        "iterations": true,
+        "input_bytes": true,
+        "events": true,
+        "scalars": true,
+        "scalar_bytes": true,
+        "hash": true,
+        "checks": true,
+        "no_other_stderr": true,
+        "reports_all_on": true
+      }
+    },
+    {
+      "run": "multi_document_empty__native__x1",
+      "passed": true,
+      "checks": {
+        "exit_zero": true,
+        "one_bench_line": true,
+        "mode": true,
+        "iterations": true,
+        "input_bytes": true,
+        "events": true,
+        "scalars": true,
+        "scalar_bytes": true,
+        "hash": true,
+        "checks": true,
+        "no_other_stderr": true
+      }
+    },
+    {
+      "run": "multi_document_empty__native__x2",
+      "passed": true,
+      "checks": {
+        "exit_zero": true,
+        "one_bench_line": true,
+        "mode": true,
+        "iterations": true,
+        "input_bytes": true,
+        "events": true,
+        "scalars": true,
+        "scalar_bytes": true,
+        "hash": true,
+        "checks": true,
+        "no_other_stderr": true
+      }
+    },
+    {
+      "run": "multi_document_empty__rlbox_only__x1",
+      "passed": true,
+      "checks": {
+        "exit_zero": true,
+        "one_bench_line": true,
+        "mode": true,
+        "iterations": true,
+        "input_bytes": true,
+        "events": true,
+        "scalars": true,
+        "scalar_bytes": true,
+        "hash": true,
+        "checks": true,
+        "no_other_stderr": true
+      }
+    },
+    {
+      "run": "multi_document_empty__rlbox_only__x2",
+      "passed": true,
+      "checks": {
+        "exit_zero": true,
+        "one_bench_line": true,
+        "mode": true,
+        "iterations": true,
+        "input_bytes": true,
+        "events": true,
+        "scalars": true,
+        "scalar_bytes": true,
+        "hash": true,
+        "checks": true,
+        "no_other_stderr": true
+      }
+    },
+    {
+      "run": "multi_document_empty__tracked_no_check__x1",
+      "passed": true,
+      "checks": {
+        "exit_zero": true,
+        "one_bench_line": true,
+        "mode": true,
+        "iterations": true,
+        "input_bytes": true,
+        "events": true,
+        "scalars": true,
+        "scalar_bytes": true,
+        "hash": true,
+        "checks": true,
+        "no_other_stderr": true
+      }
+    },
+    {
+      "run": "multi_document_empty__tracked_no_check__x2",
+      "passed": true,
+      "checks": {
+        "exit_zero": true,
+        "one_bench_line": true,
+        "mode": true,
+        "iterations": true,
+        "input_bytes": true,
+        "events": true,
+        "scalars": true,
+        "scalar_bytes": true,
+        "hash": true,
+        "checks": true,
+        "no_other_stderr": true
+      }
+    },
+    {
+      "run": "multi_document_empty__extended_sp3__x1",
+      "passed": true,
+      "checks": {
+        "exit_zero": true,
+        "one_bench_line": true,
+        "mode": true,
+        "iterations": true,
+        "input_bytes": true,
+        "events": true,
+        "scalars": true,
+        "scalar_bytes": true,
+        "hash": true,
+        "checks": true,
+        "no_other_stderr": true,
+        "reports_all_on": true
+      }
+    },
+    {
+      "run": "multi_document_empty__extended_sp3__x2",
+      "passed": true,
+      "checks": {
+        "exit_zero": true,
+        "one_bench_line": true,
+        "mode": true,
+        "iterations": true,
+        "input_bytes": true,
+        "events": true,
+        "scalars": true,
+        "scalar_bytes": true,
+        "hash": true,
+        "checks": true,
+        "no_other_stderr": true,
+        "reports_all_on": true
+      }
+    },
+    {
+      "run": "multiline_scalars__native__x1",
+      "passed": true,
+      "checks": {
+        "exit_zero": true,
+        "one_bench_line": true,
+        "mode": true,
+        "iterations": true,
+        "input_bytes": true,
+        "events": true,
+        "scalars": true,
+        "scalar_bytes": true,
+        "hash": true,
+        "checks": true,
+        "no_other_stderr": true
+      }
+    },
+    {
+      "run": "multiline_scalars__native__x2",
+      "passed": true,
+      "checks": {
+        "exit_zero": true,
+        "one_bench_line": true,
+        "mode": true,
+        "iterations": true,
+        "input_bytes": true,
+        "events": true,
+        "scalars": true,
+        "scalar_bytes": true,
+        "hash": true,
+        "checks": true,
+        "no_other_stderr": true
+      }
+    },
+    {
+      "run": "multiline_scalars__rlbox_only__x1",
+      "passed": true,
+      "checks": {
+        "exit_zero": true,
+        "one_bench_line": true,
+        "mode": true,
+        "iterations": true,
+        "input_bytes": true,
+        "events": true,
+        "scalars": true,
+        "scalar_bytes": true,
+        "hash": true,
+        "checks": true,
+        "no_other_stderr": true
+      }
+    },
+    {
+      "run": "multiline_scalars__rlbox_only__x2",
+      "passed": true,
+      "checks": {
+        "exit_zero": true,
+        "one_bench_line": true,
+        "mode": true,
+        "iterations": true,
+        "input_bytes": true,
+        "events": true,
+        "scalars": true,
+        "scalar_bytes": true,
+        "hash": true,
+        "checks": true,
+        "no_other_stderr": true
+      }
+    },
+    {
+      "run": "multiline_scalars__tracked_no_check__x1",
+      "passed": true,
+      "checks": {
+        "exit_zero": true,
+        "one_bench_line": true,
+        "mode": true,
+        "iterations": true,
+        "input_bytes": true,
+        "events": true,
+        "scalars": true,
+        "scalar_bytes": true,
+        "hash": true,
+        "checks": true,
+        "no_other_stderr": true
+      }
+    },
+    {
+      "run": "multiline_scalars__tracked_no_check__x2",
+      "passed": true,
+      "checks": {
+        "exit_zero": true,
+        "one_bench_line": true,
+        "mode": true,
+        "iterations": true,
+        "input_bytes": true,
+        "events": true,
+        "scalars": true,
+        "scalar_bytes": true,
+        "hash": true,
+        "checks": true,
+        "no_other_stderr": true
+      }
+    },
+    {
+      "run": "multiline_scalars__extended_sp3__x1",
+      "passed": true,
+      "checks": {
+        "exit_zero": true,
+        "one_bench_line": true,
+        "mode": true,
+        "iterations": true,
+        "input_bytes": true,
+        "events": true,
+        "scalars": true,
+        "scalar_bytes": true,
+        "hash": true,
+        "checks": true,
+        "no_other_stderr": true,
+        "reports_all_on": true
+      }
+    },
+    {
+      "run": "multiline_scalars__extended_sp3__x2",
+      "passed": true,
+      "checks": {
+        "exit_zero": true,
+        "one_bench_line": true,
+        "mode": true,
+        "iterations": true,
+        "input_bytes": true,
+        "events": true,
+        "scalars": true,
+        "scalar_bytes": true,
+        "hash": true,
+        "checks": true,
+        "no_other_stderr": true,
+        "reports_all_on": true
+      }
+    },
+    {
+      "run": "unicode_escapes__native__x1",
+      "passed": true,
+      "checks": {
+        "exit_zero": true,
+        "one_bench_line": true,
+        "mode": true,
+        "iterations": true,
+        "input_bytes": true,
+        "events": true,
+        "scalars": true,
+        "scalar_bytes": true,
+        "hash": true,
+        "checks": true,
+        "no_other_stderr": true
+      }
+    },
+    {
+      "run": "unicode_escapes__native__x2",
+      "passed": true,
+      "checks": {
+        "exit_zero": true,
+        "one_bench_line": true,
+        "mode": true,
+        "iterations": true,
+        "input_bytes": true,
+        "events": true,
+        "scalars": true,
+        "scalar_bytes": true,
+        "hash": true,
+        "checks": true,
+        "no_other_stderr": true
+      }
+    },
+    {
+      "run": "unicode_escapes__rlbox_only__x1",
+      "passed": true,
+      "checks": {
+        "exit_zero": true,
+        "one_bench_line": true,
+        "mode": true,
+        "iterations": true,
+        "input_bytes": true,
+        "events": true,
+        "scalars": true,
+        "scalar_bytes": true,
+        "hash": true,
+        "checks": true,
+        "no_other_stderr": true
+      }
+    },
+    {
+      "run": "unicode_escapes__rlbox_only__x2",
+      "passed": true,
+      "checks": {
+        "exit_zero": true,
+        "one_bench_line": true,
+        "mode": true,
+        "iterations": true,
+        "input_bytes": true,
+        "events": true,
+        "scalars": true,
+        "scalar_bytes": true,
+        "hash": true,
+        "checks": true,
+        "no_other_stderr": true
+      }
+    },
+    {
+      "run": "unicode_escapes__tracked_no_check__x1",
+      "passed": true,
+      "checks": {
+        "exit_zero": true,
+        "one_bench_line": true,
+        "mode": true,
+        "iterations": true,
+        "input_bytes": true,
+        "events": true,
+        "scalars": true,
+        "scalar_bytes": true,
+        "hash": true,
+        "checks": true,
+        "no_other_stderr": true
+      }
+    },
+    {
+      "run": "unicode_escapes__tracked_no_check__x2",
+      "passed": true,
+      "checks": {
+        "exit_zero": true,
+        "one_bench_line": true,
+        "mode": true,
+        "iterations": true,
+        "input_bytes": true,
+        "events": true,
+        "scalars": true,
+        "scalar_bytes": true,
+        "hash": true,
+        "checks": true,
+        "no_other_stderr": true
+      }
+    },
+    {
+      "run": "unicode_escapes__extended_sp3__x1",
+      "passed": true,
+      "checks": {
+        "exit_zero": true,
+        "one_bench_line": true,
+        "mode": true,
+        "iterations": true,
+        "input_bytes": true,
+        "events": true,
+        "scalars": true,
+        "scalar_bytes": true,
+        "hash": true,
+        "checks": true,
+        "no_other_stderr": true,
+        "reports_all_on": true
+      }
+    },
+    {
+      "run": "unicode_escapes__extended_sp3__x2",
+      "passed": true,
+      "checks": {
+        "exit_zero": true,
+        "one_bench_line": true,
+        "mode": true,
+        "iterations": true,
+        "input_bytes": true,
+        "events": true,
+        "scalars": true,
+        "scalar_bytes": true,
+        "hash": true,
+        "checks": true,
+        "no_other_stderr": true,
+        "reports_all_on": true
+      }
+    },
+    {
+      "run": "utf16le_bom__native__x1",
+      "passed": true,
+      "checks": {
+        "exit_zero": true,
+        "one_bench_line": true,
+        "mode": true,
+        "iterations": true,
+        "input_bytes": true,
+        "events": true,
+        "scalars": true,
+        "scalar_bytes": true,
+        "hash": true,
+        "checks": true,
+        "no_other_stderr": true
+      }
+    },
+    {
+      "run": "utf16le_bom__native__x2",
+      "passed": true,
+      "checks": {
+        "exit_zero": true,
+        "one_bench_line": true,
+        "mode": true,
+        "iterations": true,
+        "input_bytes": true,
+        "events": true,
+        "scalars": true,
+        "scalar_bytes": true,
+        "hash": true,
+        "checks": true,
+        "no_other_stderr": true
+      }
+    },
+    {
+      "run": "utf16le_bom__rlbox_only__x1",
+      "passed": true,
+      "checks": {
+        "exit_zero": true,
+        "one_bench_line": true,
+        "mode": true,
+        "iterations": true,
+        "input_bytes": true,
+        "events": true,
+        "scalars": true,
+        "scalar_bytes": true,
+        "hash": true,
+        "checks": true,
+        "no_other_stderr": true
+      }
+    },
+    {
+      "run": "utf16le_bom__rlbox_only__x2",
+      "passed": true,
+      "checks": {
+        "exit_zero": true,
+        "one_bench_line": true,
+        "mode": true,
+        "iterations": true,
+        "input_bytes": true,
+        "events": true,
+        "scalars": true,
+        "scalar_bytes": true,
+        "hash": true,
+        "checks": true,
+        "no_other_stderr": true
+      }
+    },
+    {
+      "run": "utf16le_bom__tracked_no_check__x1",
+      "passed": true,
+      "checks": {
+        "exit_zero": true,
+        "one_bench_line": true,
+        "mode": true,
+        "iterations": true,
+        "input_bytes": true,
+        "events": true,
+        "scalars": true,
+        "scalar_bytes": true,
+        "hash": true,
+        "checks": true,
+        "no_other_stderr": true
+      }
+    },
+    {
+      "run": "utf16le_bom__tracked_no_check__x2",
+      "passed": true,
+      "checks": {
+        "exit_zero": true,
+        "one_bench_line": true,
+        "mode": true,
+        "iterations": true,
+        "input_bytes": true,
+        "events": true,
+        "scalars": true,
+        "scalar_bytes": true,
+        "hash": true,
+        "checks": true,
+        "no_other_stderr": true
+      }
+    },
+    {
+      "run": "utf16le_bom__extended_sp3__x1",
+      "passed": true,
+      "checks": {
+        "exit_zero": true,
+        "one_bench_line": true,
+        "mode": true,
+        "iterations": true,
+        "input_bytes": true,
+        "events": true,
+        "scalars": true,
+        "scalar_bytes": true,
+        "hash": true,
+        "checks": true,
+        "no_other_stderr": true,
+        "reports_all_on": true
+      }
+    },
+    {
+      "run": "utf16le_bom__extended_sp3__x2",
+      "passed": true,
+      "checks": {
+        "exit_zero": true,
+        "one_bench_line": true,
+        "mode": true,
+        "iterations": true,
+        "input_bytes": true,
+        "events": true,
+        "scalars": true,
+        "scalar_bytes": true,
+        "hash": true,
+        "checks": true,
+        "no_other_stderr": true,
+        "reports_all_on": true
+      }
+    }
+  ]
+}

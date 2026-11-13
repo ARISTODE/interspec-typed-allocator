@@ -1,0 +1,2 @@
+INTERSPEC_POLICY boundary=yaml_libyaml sp1=0 sp2=0 sp3=off
+INTERSPEC_T_OBSERVE boundary=yaml_libyaml input_first_byte=0x6b
