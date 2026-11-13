@@ -1,0 +1,1 @@
+INTERSPEC_POLICY boundary=rsync_popt sp1=1 sp2=0 sp3=off

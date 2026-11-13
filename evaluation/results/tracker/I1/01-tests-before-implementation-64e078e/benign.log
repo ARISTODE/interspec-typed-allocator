@@ -1,0 +1,25 @@
+FAIL rsync benign all_on
+  failed version_reports_configuration
+  failed dry_run_reports_configuration
+  failed sync_reports_configuration
+  failed bad_option_reports_configuration
+FAIL rsync benign all_off
+  failed version_reports_configuration
+  failed dry_run_reports_configuration
+  failed sync_reports_configuration
+  failed bad_option_reports_configuration
+FAIL rsync benign sp1_only
+  failed version_reports_configuration
+  failed dry_run_reports_configuration
+  failed sync_reports_configuration
+  failed bad_option_reports_configuration
+FAIL rsync benign sp2_only
+  failed version_reports_configuration
+  failed dry_run_reports_configuration
+  failed sync_reports_configuration
+  failed bad_option_reports_configuration
+FAIL rsync benign sp3_only
+  failed version_reports_configuration
+  failed dry_run_reports_configuration
+  failed sync_reports_configuration
+  failed bad_option_reports_configuration

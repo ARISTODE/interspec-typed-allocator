@@ -1,0 +1,7 @@
+./ 4096
+input.txt 35
+large.txt 208890
+nested/ 4096
+nested/data.bin 8192
+nested/deep/ 4096
+nested/deep/empty 0

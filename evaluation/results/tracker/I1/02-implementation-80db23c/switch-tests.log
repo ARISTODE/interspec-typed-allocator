@@ -1,0 +1,4 @@
+PASS rsync_popt sp1
+PASS rsync_popt sp2
+PASS rsync_popt sp3
+PASS rsync_popt benign

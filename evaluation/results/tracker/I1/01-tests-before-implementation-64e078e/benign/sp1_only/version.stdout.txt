@@ -1,0 +1,21 @@
+rsync  version 3.5.0-g7c20b077  protocol version 32
+Copyright (C) 1996-2026 by Andrew Tridgell, Wayne Davison, and others.
+Web site: https://rsync.samba.org/
+Capabilities:
+    64-bit files, 64-bit inums, 64-bit timestamps, 64-bit long ints,
+    socketpairs, symlinks, symtimes, hardlinks, hardlink-specials,
+    hardlink-symlinks, IPv6, atimes, batchfiles, inplace, append, no ACLs,
+    xattrs, optional secluded-args, iconv, prealloc, stop-at, no crtimes,
+    no IDN
+Optimizations:
+    no SIMD-roll, no asm-roll, no openssl-crypto, no asm-MD5
+Checksum list:
+    md5 md4 none
+Compress list:
+    zlibx zlib none
+Daemon auth list:
+    md5 md4
+
+rsync comes with ABSOLUTELY NO WARRANTY.  This is free software, and you
+are welcome to redistribute it under certain conditions.  See the GNU
+General Public Licence for details.

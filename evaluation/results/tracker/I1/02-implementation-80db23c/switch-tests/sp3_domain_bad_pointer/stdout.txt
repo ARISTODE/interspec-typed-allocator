@@ -1,0 +1,3 @@
+T_OBSERVE stage=context secret_help_in_u=0 secret_arg_in_u=0 readonly_val=42
+T_OBSERVE stage=next rc=42 readonly_val=42
+T_OBSERVE stage=done rc=-1 g_slot=hello readonly_val=42 set_descrip=SECRET_HELP set_arg_descrip=SECRET_ARG

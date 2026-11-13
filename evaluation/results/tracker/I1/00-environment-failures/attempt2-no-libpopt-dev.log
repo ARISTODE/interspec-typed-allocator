@@ -1,0 +1,887 @@
+-- The C compiler identification is GNU 13.3.0
+-- The CXX compiler identification is GNU 13.3.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+Cloning into 'rlbox-src'...
+HEAD is now at b0157dc Separate callback tests from remaining tests to simplify new plugin development
+Cloning into 'catch2-src'...
+HEAD is now at 62fd6605 v2.13.9
+CMake Deprecation Warning at build/_deps/catch2-src/CMakeLists.txt:1 (cmake_minimum_required):
+  Compatibility with CMake < 3.10 will be removed from a future version of
+  CMake.
+
+  Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+  to tell CMake that the project requires at least <min> but has been updated
+  to work with policies introduced by <max> or earlier.
+
+
+-- [download 0% complete]
+-- [download 1% complete]
+-- [download 2% complete]
+-- [download 3% complete]
+-- [download 4% complete]
+-- [download 5% complete]
+-- [download 6% complete]
+-- [download 7% complete]
+-- [download 8% complete]
+-- [download 9% complete]
+-- [download 10% complete]
+-- [download 11% complete]
+-- [download 12% complete]
+-- [download 13% complete]
+-- [download 14% complete]
+-- [download 15% complete]
+-- [download 16% complete]
+-- [download 17% complete]
+-- [download 18% complete]
+-- [download 19% complete]
+-- [download 20% complete]
+-- [download 21% complete]
+-- [download 22% complete]
+-- [download 23% complete]
+-- [download 24% complete]
+-- [download 25% complete]
+-- [download 26% complete]
+-- [download 27% complete]
+-- [download 28% complete]
+-- [download 29% complete]
+-- [download 30% complete]
+-- [download 31% complete]
+-- [download 32% complete]
+-- [download 33% complete]
+-- [download 34% complete]
+-- [download 35% complete]
+-- [download 36% complete]
+-- [download 37% complete]
+-- [download 38% complete]
+-- [download 39% complete]
+-- [download 40% complete]
+-- [download 41% complete]
+-- [download 42% complete]
+-- [download 43% complete]
+-- [download 44% complete]
+-- [download 45% complete]
+-- [download 46% complete]
+-- [download 47% complete]
+-- [download 48% complete]
+-- [download 49% complete]
+-- [download 50% complete]
+-- [download 51% complete]
+-- [download 52% complete]
+-- [download 53% complete]
+-- [download 54% complete]
+-- [download 55% complete]
+-- [download 56% complete]
+-- [download 57% complete]
+-- [download 58% complete]
+-- [download 59% complete]
+-- [download 60% complete]
+-- [download 61% complete]
+-- [download 62% complete]
+-- [download 63% complete]
+-- [download 64% complete]
+-- [download 65% complete]
+-- [download 66% complete]
+-- [download 67% complete]
+-- [download 68% complete]
+-- [download 69% complete]
+-- [download 70% complete]
+-- [download 71% complete]
+-- [download 72% complete]
+-- [download 73% complete]
+-- [download 74% complete]
+-- [download 75% complete]
+-- [download 76% complete]
+-- [download 77% complete]
+-- [download 78% complete]
+-- [download 79% complete]
+-- [download 80% complete]
+-- [download 81% complete]
+-- [download 82% complete]
+-- [download 83% complete]
+-- [download 84% complete]
+-- [download 85% complete]
+-- [download 86% complete]
+-- [download 87% complete]
+-- [download 88% complete]
+-- [download 89% complete]
+-- [download 90% complete]
+-- [download 91% complete]
+-- [download 92% complete]
+-- [download 93% complete]
+-- [download 94% complete]
+-- [download 95% complete]
+-- [download 96% complete]
+-- [download 97% complete]
+-- [download 98% complete]
+-- [download 99% complete]
+-- [download 100% complete]
+Cloning into 'wasm2c_compiler-src'...
+HEAD is now at 974221b1 Reject delegate depth overflow in TypeChecker::OnDelegate (#2841)
+Submodule 'third_party/gtest' (https://github.com/google/googletest) registered for path 'third_party/gtest'
+Submodule 'third_party/picosha2' (https://github.com/okdshin/PicoSHA2) registered for path 'third_party/picosha2'
+Submodule 'third_party/ply' (https://github.com/dabeaz/ply) registered for path 'third_party/ply'
+Submodule 'third_party/simde' (https://github.com/simd-everywhere/simde) registered for path 'third_party/simde'
+Submodule 'third_party/testsuite' (https://github.com/WebAssembly/testsuite) registered for path 'third_party/testsuite'
+Submodule 'third_party/uvwasi' (https://github.com/nodejs/uvwasi) registered for path 'third_party/uvwasi'
+Submodule 'third_party/wasm-c-api' (https://github.com/WebAssembly/wasm-c-api) registered for path 'third_party/wasm-c-api'
+Cloning into '/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/baseline-tmp/interspec-rlbox-wasm2c/build/_deps/wasm2c_compiler-src/third_party/gtest'...
+Cloning into '/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/baseline-tmp/interspec-rlbox-wasm2c/build/_deps/wasm2c_compiler-src/third_party/picosha2'...
+Cloning into '/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/baseline-tmp/interspec-rlbox-wasm2c/build/_deps/wasm2c_compiler-src/third_party/ply'...
+Cloning into '/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/baseline-tmp/interspec-rlbox-wasm2c/build/_deps/wasm2c_compiler-src/third_party/simde'...
+Cloning into '/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/baseline-tmp/interspec-rlbox-wasm2c/build/_deps/wasm2c_compiler-src/third_party/testsuite'...
+Cloning into '/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/baseline-tmp/interspec-rlbox-wasm2c/build/_deps/wasm2c_compiler-src/third_party/uvwasi'...
+Cloning into '/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/baseline-tmp/interspec-rlbox-wasm2c/build/_deps/wasm2c_compiler-src/third_party/wasm-c-api'...
+Submodule path 'third_party/gtest': checked out '15460959cbbfa20e66ef0b5ab497367e47fc0a04'
+Submodule path 'third_party/picosha2': checked out '27fcf6979298949e8a462e16d09a0351c18fcaf2'
+Submodule path 'third_party/ply': checked out 'd776a2ece6c12bf8f8b6a0e65b48546ac6078765'
+Submodule path 'third_party/simde': checked out '71fd833d9666141edcd1d3c109a80e228303d8d7'
+Submodule 'munit' (https://github.com/nemequ/munit.git) registered for path 'third_party/simde/test/munit'
+Cloning into '/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/baseline-tmp/interspec-rlbox-wasm2c/build/_deps/wasm2c_compiler-src/third_party/simde/test/munit'...
+Submodule path 'third_party/simde/test/munit': checked out 'da8f73412998e4f1adf1100dc187533a51af77fd'
+Submodule path 'third_party/testsuite': checked out 'd76759e746f3564a03f6106ae19679742f2a1831'
+Submodule path 'third_party/uvwasi': checked out '55eff19f4c7e69ec151424a037f951e0ad006ed6'
+Submodule path 'third_party/wasm-c-api': checked out 'b6dd1fb658a282c64b029867845bc50ae59e1497'
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+-- Found Threads: TRUE
+-- Configuring done (25.7s)
+-- Generating done (0.0s)
+-- Build files have been written to: /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/baseline-tmp/interspec-rlbox-wasm2c/build
+[  5%] Using downloaded wasi-clang
+[ 11%] Building wasm2c compiler and runtime
+-- The C compiler identification is GNU 13.3.0
+-- The CXX compiler identification is GNU 13.3.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Found Git: /usr/bin/git (found version "2.43.0")
+-- Looking for alloca.h
+-- Looking for alloca.h - found
+-- Looking for unistd.h
+-- Looking for unistd.h - found
+-- Looking for setjmp.h
+-- Looking for setjmp.h - found
+-- Looking for snprintf
+-- Looking for snprintf - found
+-- Looking for strcasecmp
+-- Looking for strcasecmp - found
+-- Looking for openssl/sha.h
+-- Looking for openssl/sha.h - found
+-- Using OpenSSL libcrypto for SHA-256
+-- Looking for sys/types.h
+-- Looking for sys/types.h - found
+-- Looking for stdint.h
+-- Looking for stdint.h - found
+-- Looking for stddef.h
+-- Looking for stddef.h - found
+-- Check size of ssize_t
+-- Check size of ssize_t - done
+-- Check size of size_t
+-- Check size of size_t - done
+-- Looking for __i386__
+-- Looking for __i386__ - not found
+-- Looking for __SSE2_MATH__
+-- Looking for __SSE2_MATH__ - found
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+-- Found Threads: TRUE
+-- Found Python3: /usr/local/bin/python3.13 (found suitable version "3.13.18", minimum required is "3.5") found components: Interpreter
+-- Configuring done (1.7s)
+-- Generating done (0.1s)
+CMake Warning:
+  Manually-specified variables were not used by the project:
+
+    LINK_FLAGS
+
+
+-- Build files have been written to: /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/baseline-tmp/interspec-rlbox-wasm2c/build/_deps/wasm2c_compiler-src/build_release
+gmake[4]: warning: -j0 forced in submake: resetting jobserver mode.
+[  0%] Generating gen-wasm2c-prebuilt
+[  1%] Building CXX object CMakeFiles/gtest_main.dir/third_party/gtest/googletest/src/gtest_main.cc.o
+[  2%] Building CXX object CMakeFiles/gtest.dir/third_party/gtest/googletest/src/gtest-all.cc.o
+[  3%] Building C object CMakeFiles/wasm-rt-impl.dir/wasm2c/wasm-rt-impl.c.o
+[  3%] Building C object CMakeFiles/wasm-rt-impl.dir/wasm2c/wasm-rt-exceptions-impl.c.o
+[  4%] Building C object CMakeFiles/wasm-rt-impl.dir/wasm2c/wasm-rt-mem-impl.c.o
+[  4%] Built target gen-wasm2c-prebuilt-target
+[  5%] Building CXX object CMakeFiles/wabt.dir/src/binary-reader-ir.cc.o
+[  5%] Building CXX object CMakeFiles/wabt.dir/src/binary-reader-logging.cc.o
+[  6%] Building CXX object CMakeFiles/wabt.dir/src/binary-reader.cc.o
+[  7%] Building CXX object CMakeFiles/wabt.dir/src/apply-names.cc.o
+[  7%] Building CXX object CMakeFiles/wabt.dir/src/binary-writer-spec.cc.o
+[  8%] Building CXX object CMakeFiles/wabt.dir/src/binary-writer.cc.o
+[  8%] Building CXX object CMakeFiles/wabt.dir/src/binary.cc.o
+[  9%] Building CXX object CMakeFiles/wabt.dir/src/binding-hash.cc.o
+[  9%] Building CXX object CMakeFiles/wabt.dir/src/common.cc.o
+[ 10%] Building CXX object CMakeFiles/wabt.dir/src/color.cc.o
+[ 10%] Building CXX object CMakeFiles/wabt.dir/src/error-formatter.cc.o
+[ 11%] Building CXX object CMakeFiles/wabt.dir/src/config.cc.o
+[ 12%] Building CXX object CMakeFiles/wabt.dir/src/expr-visitor.cc.o
+[ 12%] Building CXX object CMakeFiles/wabt.dir/src/filenames.cc.o
+[ 13%] Building CXX object CMakeFiles/wabt.dir/src/lexer-source-line-finder.cc.o
+[ 14%] Building CXX object CMakeFiles/wabt.dir/src/feature.cc.o
+[ 15%] Building CXX object CMakeFiles/wabt.dir/src/lexer-source.cc.o
+[ 15%] Building CXX object CMakeFiles/wabt.dir/src/ir-util.cc.o
+[ 15%] Building CXX object CMakeFiles/wabt.dir/src/leb128.cc.o
+[ 16%] Building CXX object CMakeFiles/wabt.dir/src/generate-names.cc.o
+[ 17%] Building CXX object CMakeFiles/wabt.dir/src/ir.cc.o
+[ 17%] Building CXX object CMakeFiles/wabt.dir/src/literal.cc.o
+[ 18%] Building CXX object CMakeFiles/wabt.dir/src/resolve-names.cc.o
+[ 18%] Building CXX object CMakeFiles/wabt.dir/src/opcode.cc.o
+[ 19%] Building C object CMakeFiles/wabt.dir/src/opcode-code-table.c.o
+[ 19%] Building CXX object CMakeFiles/wabt.dir/src/sha256.cc.o
+[ 20%] Building CXX object CMakeFiles/wabt.dir/src/option-parser.cc.o
+[ 21%] Building CXX object CMakeFiles/wabt.dir/src/shared-validator.cc.o
+[ 21%] Building CXX object CMakeFiles/wabt.dir/src/tracing.cc.o
+[ 22%] Building CXX object CMakeFiles/wabt.dir/src/token.cc.o
+[ 23%] Building CXX object CMakeFiles/wabt.dir/src/type-checker.cc.o
+[ 23%] Building CXX object CMakeFiles/wabt.dir/src/stream.cc.o
+[ 23%] Building CXX object CMakeFiles/wabt.dir/src/validator.cc.o
+[ 24%] Building CXX object CMakeFiles/wabt.dir/src/utf8.cc.o
+[ 25%] Building CXX object CMakeFiles/wabt.dir/src/wast-lexer.cc.o
+[ 25%] Building CXX object CMakeFiles/wabt.dir/src/wast-parser.cc.o
+[ 26%] Building CXX object CMakeFiles/wabt.dir/src/wat-writer.cc.o
+[ 26%] Building CXX object CMakeFiles/wabt.dir/src/prebuilt/wasm2c_header_top.cc.o
+[ 27%] Building CXX object CMakeFiles/wabt.dir/src/prebuilt/wasm2c_header_bottom.cc.o
+[ 27%] Building CXX object CMakeFiles/wabt.dir/src/prebuilt/wasm2c_source_includes.cc.o
+[ 28%] Building CXX object CMakeFiles/wabt.dir/src/c-writer.cc.o
+[ 28%] Building CXX object CMakeFiles/wabt.dir/src/prebuilt/wasm2c_simd_source_declarations.cc.o
+[ 28%] Building CXX object CMakeFiles/wabt.dir/src/interp/interp.cc.o
+[ 29%] Building CXX object CMakeFiles/wabt.dir/src/prebuilt/wasm2c_source_declarations.cc.o
+[ 30%] Building CXX object CMakeFiles/wabt.dir/src/interp/interp-util.cc.o
+[ 31%] Building CXX object CMakeFiles/wabt.dir/src/prebuilt/wasm2c_atomicops_source_declarations.cc.o
+[ 32%] Building CXX object CMakeFiles/wabt.dir/src/interp/binary-reader-interp.cc.o
+[ 32%] Building CXX object CMakeFiles/wabt.dir/src/interp/istream.cc.o
+[ 33%] Linking C static library libwasm-rt-impl.a
+[ 33%] Built target wasm-rt-impl
+[ 33%] Linking CXX static library libgtest_main.a
+[ 33%] Built target gtest_main
+[ 33%] Linking CXX static library libgtest.a
+[ 33%] Built target gtest
+[ 34%] Linking CXX static library libwabt.a
+[ 34%] Built target wabt
+[ 34%] Building CXX object CMakeFiles/wasm.dir/src/apply-names.cc.o
+[ 35%] Building CXX object CMakeFiles/wast2json.dir/src/tools/wast2json.cc.o
+[ 35%] Building CXX object CMakeFiles/wasm-stats.dir/src/tools/wasm-stats.cc.o
+[ 36%] Building CXX object CMakeFiles/wasm.dir/src/binary-reader-ir.cc.o
+[ 36%] Building CXX object CMakeFiles/wasm2c.dir/src/tools/wasm2c.cc.o
+[ 36%] Building CXX object CMakeFiles/wasm2wat.dir/src/tools/wasm2wat.cc.o
+[ 37%] Building CXX object CMakeFiles/wat2wasm.dir/src/tools/wat2wasm.cc.o
+[ 38%] Building CXX object CMakeFiles/wasm-objdump.dir/src/tools/wasm-objdump.cc.o
+[ 39%] Building CXX object CMakeFiles/wasm.dir/src/binding-hash.cc.o
+[ 39%] Building CXX object CMakeFiles/wasm.dir/src/binary-reader.cc.o
+[ 41%] Building CXX object CMakeFiles/wasm.dir/src/binary-writer-spec.cc.o
+[ 41%] Building CXX object CMakeFiles/wasm.dir/src/color.cc.o
+[ 42%] Building CXX object CMakeFiles/wasm.dir/src/binary-reader-logging.cc.o
+[ 43%] Building CXX object CMakeFiles/wasm.dir/src/binary.cc.o
+[ 44%] Building CXX object CMakeFiles/wasm-stats.dir/src/binary-reader-stats.cc.o
+[ 45%] Building CXX object CMakeFiles/wasm.dir/src/common.cc.o
+[ 40%] Building CXX object CMakeFiles/wasm-objdump.dir/src/binary-reader-objdump.cc.o
+[ 45%] Building CXX object CMakeFiles/wasm.dir/src/binary-writer.cc.o
+[ 46%] Building CXX object CMakeFiles/wasm-interp.dir/src/tools/wasm-interp.cc.o
+[ 47%] Building CXX object CMakeFiles/wat-desugar.dir/src/tools/wat-desugar.cc.o
+[ 48%] Building CXX object CMakeFiles/wasm.dir/src/error-formatter.cc.o
+[ 49%] Building CXX object CMakeFiles/wasm.dir/src/filenames.cc.o
+[ 50%] Building CXX object CMakeFiles/spectest-interp.dir/src/tools/spectest-interp.cc.o
+[ 51%] Building CXX object CMakeFiles/wasm.dir/src/feature.cc.o
+[ 52%] Building CXX object CMakeFiles/wasm-strip.dir/src/tools/wasm-strip.cc.o
+[ 52%] Building CXX object CMakeFiles/wasm.dir/src/config.cc.o
+[ 52%] Building CXX object CMakeFiles/wasm.dir/src/expr-visitor.cc.o
+[ 53%] Building CXX object CMakeFiles/wasm-validate.dir/src/tools/wasm-validate.cc.o
+[ 53%] Building CXX object CMakeFiles/wasm.dir/src/generate-names.cc.o
+[ 54%] Building CXX object CMakeFiles/hexfloat_test.dir/src/test-hexfloat.cc.o
+[ 56%] Building CXX object CMakeFiles/wasm.dir/src/leb128.cc.o
+[ 56%] Building CXX object CMakeFiles/wasm.dir/src/lexer-source.cc.o
+[ 56%] Building CXX object CMakeFiles/wasm.dir/src/ir.cc.o
+[ 57%] Building CXX object CMakeFiles/wabt-unittests.dir/src/test-binary-reader.cc.o
+[ 58%] Building CXX object CMakeFiles/hexfloat_test.dir/src/literal.cc.o
+[ 55%] Building CXX object CMakeFiles/wasm.dir/src/lexer-source-line-finder.cc.o
+[ 59%] Building CXX object CMakeFiles/wasm.dir/src/ir-util.cc.o
+[ 59%] Building C object CMakeFiles/wasm.dir/src/opcode-code-table.c.o
+[ 60%] Building CXX object CMakeFiles/wasm.dir/src/literal.cc.o
+[ 61%] Building CXX object CMakeFiles/wasm.dir/src/opcode.cc.o
+[ 61%] Building CXX object CMakeFiles/wasm.dir/src/option-parser.cc.o
+[ 62%] Building CXX object CMakeFiles/wabt-unittests.dir/src/test-interp.cc.o
+[ 62%] Building CXX object CMakeFiles/wabt-unittests.dir/src/test-intrusive-list.cc.o
+[ 62%] Building CXX object CMakeFiles/wabt-unittests.dir/src/test-c-writer.cc.o
+[ 63%] Building CXX object CMakeFiles/wabt-unittests.dir/src/test-literal.cc.o
+[ 64%] Building CXX object CMakeFiles/wasm.dir/src/resolve-names.cc.o
+[ 65%] Building CXX object CMakeFiles/wasm.dir/src/sha256.cc.o
+[ 66%] Building CXX object CMakeFiles/wabt-unittests.dir/src/test-option-parser.cc.o
+[ 67%] Building CXX object CMakeFiles/wasm.dir/src/stream.cc.o
+[ 67%] Building CXX object CMakeFiles/wabt-unittests.dir/src/test-filenames.cc.o
+[ 67%] Building CXX object CMakeFiles/wasm.dir/src/shared-validator.cc.o
+[ 68%] Building CXX object CMakeFiles/wabt-unittests.dir/src/test-utf8.cc.o
+[ 68%] Building CXX object CMakeFiles/wasm.dir/src/token.cc.o
+[ 68%] Building CXX object CMakeFiles/wabt-unittests.dir/src/test-wast-parser.cc.o
+[ 69%] Building CXX object CMakeFiles/wasm.dir/src/type-checker.cc.o
+[ 69%] Building CXX object CMakeFiles/wasm.dir/src/utf8.cc.o
+[ 70%] Building CXX object CMakeFiles/wasm.dir/src/validator.cc.o
+[ 71%] Building CXX object CMakeFiles/wasm.dir/src/tracing.cc.o
+[ 71%] Building CXX object CMakeFiles/wasm.dir/src/wast-lexer.cc.o
+[ 72%] Building CXX object CMakeFiles/wasm.dir/src/wast-parser.cc.o
+[ 72%] Building CXX object CMakeFiles/wasm.dir/src/wat-writer.cc.o
+[ 73%] Building CXX object CMakeFiles/wasm.dir/src/c-writer.cc.o
+[ 74%] Building CXX object CMakeFiles/wasm.dir/src/prebuilt/wasm2c_header_top.cc.o
+[ 74%] Building CXX object CMakeFiles/wasm.dir/src/prebuilt/wasm2c_header_bottom.cc.o
+[ 75%] Building CXX object CMakeFiles/wasm.dir/src/prebuilt/wasm2c_source_includes.cc.o
+[ 75%] Building CXX object CMakeFiles/wasm.dir/src/prebuilt/wasm2c_source_declarations.cc.o
+[ 76%] Building CXX object CMakeFiles/wasm.dir/src/prebuilt/wasm2c_simd_source_declarations.cc.o
+[ 77%] Building CXX object CMakeFiles/wasm.dir/src/prebuilt/wasm2c_atomicops_source_declarations.cc.o
+[ 77%] Building CXX object CMakeFiles/wasm.dir/src/interp/binary-reader-interp.cc.o
+[ 78%] Building CXX object CMakeFiles/wasm.dir/src/interp/interp.cc.o
+[ 78%] Building CXX object CMakeFiles/wasm.dir/src/interp/interp-util.cc.o
+[ 79%] Building CXX object CMakeFiles/wasm.dir/src/interp/interp-wasm-c-api.cc.o
+[ 80%] Building CXX object CMakeFiles/wasm.dir/src/interp/istream.cc.o
+[ 80%] Linking CXX executable wat-desugar
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/baseline-tmp/interspec-rlbox-wasm2c/build/_deps/wasm2c_compiler-src/src/tools/spectest-interp.cc: In member function ‘spectest::ActionResult spectest::CommandRunner::RunAction(int, const spectest::Action*, RunVerbosity)’:
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/baseline-tmp/interspec-rlbox-wasm2c/build/_deps/wasm2c_compiler-src/src/tools/spectest-interp.cc:1444:12: warning: variable ‘ok’ set but not used [-Wunused-but-set-variable]
+ 1444 |       auto ok = func->Call(store_, action->args, result.values, &result.trap,
+      |            ^~
+[ 80%] Built target wat-desugar
+[ 80%] Built target wat-desugar-copy-to-bin
+[ 80%] Linking CXX executable wast2json
+[ 80%] Linking CXX executable wasm-strip
+[ 80%] Built target wast2json
+[ 80%] Built target wast2json-copy-to-bin
+[ 80%] Built target wasm-strip
+[ 81%] Linking CXX executable wasm-validate
+[ 81%] Built target wasm-strip-copy-to-bin
+[ 82%] Linking CXX executable wasm2wat
+[ 83%] Linking CXX executable wat2wasm
+[ 83%] Built target wasm-validate
+[ 83%] Built target wasm-validate-copy-to-bin
+[ 83%] Built target wasm2wat
+[ 83%] Built target wasm2wat-copy-to-bin
+[ 83%] Built target wat2wasm
+[ 83%] Built target wat2wasm-copy-to-bin
+[ 84%] Linking CXX executable wasm2c
+[ 84%] Built target wasm2c
+[ 84%] Built target wasm2c-copy-to-bin
+[ 84%] Linking CXX executable wasm-stats
+[ 84%] Built target wasm-stats
+[ 84%] Built target wasm-stats-copy-to-bin
+[ 84%] Linking CXX executable wasm-interp
+[ 84%] Built target wasm-interp
+[ 84%] Built target wasm-interp-copy-to-bin
+[ 84%] Linking CXX executable wasm-objdump
+[ 84%] Linking CXX executable hexfloat_test
+[ 84%] Built target hexfloat_test
+[ 84%] Built target wasm-objdump
+[ 84%] Built target wasm-objdump-copy-to-bin
+[ 85%] Linking CXX executable wabt-unittests
+[ 85%] Built target wabt-unittests
+[ 85%] Linking CXX executable spectest-interp
+[ 85%] Built target spectest-interp
+[ 85%] Built target spectest-interp-copy-to-bin
+[ 85%] Linking CXX shared library libwasm.so
+[ 85%] Built target wasm
+[ 86%] Building C object CMakeFiles/wasm-c-api-callback.dir/third_party/wasm-c-api/example/callback.c.o
+[ 86%] Building C object CMakeFiles/wasm-c-api-hostref.dir/third_party/wasm-c-api/example/hostref.c.o
+[ 86%] Building C object CMakeFiles/wasm-c-api-hello.dir/third_party/wasm-c-api/example/hello.c.o
+[ 87%] Building C object CMakeFiles/wasm-c-api-finalize.dir/third_party/wasm-c-api/example/finalize.c.o
+[ 88%] Building C object CMakeFiles/wasm-c-api-global.dir/third_party/wasm-c-api/example/global.c.o
+[ 89%] Building C object CMakeFiles/wasm-c-api-multi.dir/third_party/wasm-c-api/example/multi.c.o
+[ 91%] Building C object CMakeFiles/wasm-c-api-reflect.dir/third_party/wasm-c-api/example/reflect.c.o
+[ 91%] Building C object CMakeFiles/wasm-c-api-start.dir/third_party/wasm-c-api/example/start.c.o
+[ 90%] Building C object CMakeFiles/wasm-c-api-memory.dir/third_party/wasm-c-api/example/memory.c.o
+[ 92%] Building C object CMakeFiles/wasm-c-api-serialize.dir/third_party/wasm-c-api/example/serialize.c.o
+[ 92%] Building C object CMakeFiles/wasm-c-api-table.dir/third_party/wasm-c-api/example/table.c.o
+[ 93%] Building C object CMakeFiles/wasm-c-api-threads.dir/third_party/wasm-c-api/example/threads.c.o
+[ 94%] Building C object CMakeFiles/wasm-c-api-trap.dir/third_party/wasm-c-api/example/trap.c.o
+[ 95%] Linking CXX executable wasm-c-api-hello
+[ 95%] Linking CXX executable wasm-c-api-multi
+[ 95%] Linking CXX executable wasm-c-api-finalize
+[ 96%] Linking CXX executable wasm-c-api-start
+[ 96%] Linking CXX executable wasm-c-api-callback
+[ 96%] Linking CXX executable wasm-c-api-threads
+[ 97%] Linking CXX executable wasm-c-api-serialize
+[ 98%] Linking CXX executable wasm-c-api-table
+[ 98%] Linking CXX executable wasm-c-api-trap
+[ 98%] Linking CXX executable wasm-c-api-reflect
+[ 99%] Linking CXX executable wasm-c-api-hostref
+[100%] Linking CXX executable wasm-c-api-global
+[100%] Linking CXX executable wasm-c-api-memory
+[100%] Built target wasm-c-api-threads
+[100%] Built target wasm-c-api-callback
+[100%] Built target wasm-c-api-hello
+[100%] Built target wasm-c-api-threads-copy-to-bin
+[100%] Built target wasm-c-api-callback-copy-to-bin
+[100%] Built target wasm-c-api-table
+[100%] Built target wasm-c-api-multi
+[100%] Built target wasm-c-api-start
+[100%] Built target wasm-c-api-hello-copy-to-bin
+[100%] Built target wasm-c-api-reflect
+[100%] Built target wasm-c-api-finalize
+[100%] Built target wasm-c-api-table-copy-to-bin
+[100%] Built target wasm-c-api-serialize
+[100%] Built target wasm-c-api-start-copy-to-bin
+[100%] Built target wasm-c-api-global
+[100%] Built target wasm-c-api-multi-copy-to-bin
+[100%] Built target wasm-c-api-trap
+[100%] Built target wasm-c-api-reflect-copy-to-bin
+[100%] Built target wasm-c-api-hostref
+[100%] Built target wasm-c-api-serialize-copy-to-bin
+[100%] Built target wasm-c-api-finalize-copy-to-bin
+[100%] Built target wasm-c-api-trap-copy-to-bin
+[100%] Built target wasm-c-api-global-copy-to-bin
+[100%] Built target wasm-c-api-hostref-copy-to-bin
+[100%] Built target wasm-c-api-memory
+[100%] Built target wasm-c-api-memory-copy-to-bin
+[ 16%] Building wasm sandboxed library with exported memory and exported table
+[ 22%] Building C object CMakeFiles/glue_lib_exported.dir/wasm_exported/glue_lib_wasm2c.c.o
+[ 27%] Building C object CMakeFiles/glue_lib_exported.dir/_deps/wasm2c_compiler-src/wasm2c/wasm-rt-impl.c.o
+[ 33%] Building C object CMakeFiles/glue_lib_exported.dir/_deps/wasm2c_compiler-src/wasm2c/wasm-rt-mem-impl.c.o
+[ 38%] Building C object CMakeFiles/glue_lib_exported.dir/src/wasm2c_rt_minwasi.c.o
+[ 44%] Building C object CMakeFiles/glue_lib_exported.dir/src/wasm2c_rt_mem.c.o
+[ 50%] Building C object CMakeFiles/glue_lib_exported.dir/src/interspec_wasm_imports.c.o
+[ 55%] Linking C static library libglue_lib_exported.a
+[ 55%] Built target glue_lib_exported
+[ 61%] Building wasm sandboxed library with imported memory and imported table
+[ 66%] Building C object CMakeFiles/glue_lib_imported.dir/wasm_imported/glue_lib_wasm2c.c.o
+[ 72%] Building C object CMakeFiles/glue_lib_imported.dir/_deps/wasm2c_compiler-src/wasm2c/wasm-rt-impl.c.o
+[ 77%] Building C object CMakeFiles/glue_lib_imported.dir/_deps/wasm2c_compiler-src/wasm2c/wasm-rt-mem-impl.c.o
+[ 83%] Building C object CMakeFiles/glue_lib_imported.dir/src/wasm2c_rt_minwasi.c.o
+[ 88%] Building C object CMakeFiles/glue_lib_imported.dir/src/wasm2c_rt_mem.c.o
+[ 94%] Building C object CMakeFiles/glue_lib_imported.dir/src/interspec_wasm_imports.c.o
+[100%] Linking C static library libglue_lib_imported.a
+[100%] Built target glue_lib_imported
+InterSpec P9b: wasm2c security smoke passed
+In file included from /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/baseline-tmp/interspec-rlbox-wasm2c/p9b_wasm_bridge.cpp:12:
+/home/user/interspec-typed-allocator/include/interspec/pointer_census.h: In function 'void interspec::census::emit(const char*, const char*, const char*, const char*, uintptr_t, const char*)':
+/home/user/interspec-typed-allocator/include/interspec/pointer_census.h:118:18: warning: ignoring return value of 'ssize_t write(int, const void*, size_t)' declared with attribute 'warn_unused_result' [-Wunused-result]
+  118 |     (void)::write(STDERR_FILENO, line, static_cast<size_t>(count));
+      |           ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+aclocal -I m4
+autoconf -o configure.sh
+autoheader && touch config.h.in
+checking for gcc... gcc
+checking whether the C compiler works... yes
+checking for C compiler default output file name... a.out
+checking for suffix of executables... 
+checking whether we are cross compiling... no
+checking for suffix of object files... o
+checking whether the compiler supports GNU C... yes
+checking whether gcc accepts -g... yes
+checking for gcc option to enable C11 features... none needed
+checking for stdio.h... yes
+checking for stdlib.h... yes
+checking for string.h... yes
+checking for inttypes.h... yes
+checking for stdint.h... yes
+checking for strings.h... yes
+checking for sys/stat.h... yes
+checking for sys/types.h... yes
+checking for unistd.h... yes
+checking for utime.h... yes
+checking whether byte ordering is bigendian... no
+checking for dirent.h that defines DIR... yes
+checking for library containing opendir... none required
+checking for sys/wait.h that is POSIX.1 compatible... yes
+checking for poll.h... yes
+checking for sys/fcntl.h... yes
+checking for sys/select.h... yes
+checking for fcntl.h... yes
+checking for sys/time.h... yes
+checking for sys/unistd.h... yes
+checking for unistd.h... (cached) yes
+checking for utime.h... (cached) yes
+checking for compat.h... no
+checking for sys/param.h... yes
+checking for ctype.h... yes
+checking for sys/wait.h... (cached) yes
+checking for sys/stat.h... (cached) yes
+checking for sys/ioctl.h... yes
+checking for sys/filio.h... no
+checking for string.h... (cached) yes
+checking for stdlib.h... (cached) yes
+checking for sys/socket.h... yes
+checking for sys/mode.h... no
+checking for grp.h... yes
+checking for sys/un.h... yes
+checking for sys/attr.h... no
+checking for arpa/inet.h... yes
+checking for arpa/nameser.h... yes
+checking for locale.h... yes
+checking for sys/types.h... (cached) yes
+checking for netdb.h... yes
+checking for malloc.h... yes
+checking for float.h... yes
+checking for limits.h... yes
+checking for iconv.h... yes
+checking for libcharset.h... no
+checking for langinfo.h... yes
+checking for mcheck.h... yes
+checking for sys/acl.h... no
+checking for acl/libacl.h... no
+checking for attr/xattr.h... no
+checking for sys/xattr.h... yes
+checking for sys/extattr.h... no
+checking for dl.h... no
+checking for popt.h... no
+checking for popt/popt.h... no
+checking for linux/falloc.h... yes
+checking for netinet/in_systm.h... yes
+checking for netgroup.h... no
+checking for zlib.h... yes
+checking for xxhash.h... no
+checking for openssl/md4.h... yes
+checking for openssl/md5.h... yes
+checking for zstd.h... no
+checking for lz4.h... no
+checking for sys/file.h... yes
+checking for sys/resource.h... yes
+checking for bsd/string.h... no
+checking for idn2.h... no
+checking for netinet/ip.h... yes
+checking whether sys/types.h defines makedev... no
+checking for sys/mkdev.h... no
+checking for sys/sysmacros.h... yes
+configure.sh: Configuring rsync 3.5.0
+checking build system type... x86_64-pc-linux-gnu
+checking host system type... x86_64-pc-linux-gnu
+checking whether to include debugging symbols... yes
+checking for gcc... (cached) gcc
+checking whether the compiler supports GNU C... (cached) yes
+checking whether gcc accepts -g... (cached) yes
+checking for gcc option to enable C11 features... (cached) none needed
+checking how to run the C preprocessor... gcc -E
+checking for g++... g++
+checking whether the compiler supports GNU C++... yes
+checking whether g++ accepts -g... yes
+checking for g++ option to enable C++11 features... none needed
+checking for gawk... no
+checking for mawk... mawk
+checking for grep that handles long lines and -e... /usr/bin/grep
+checking for egrep... /usr/bin/grep -E
+checking for a BSD-compatible install... /usr/bin/install -c
+checking for strip... strip
+checking for a race-free mkdir -p... /usr/bin/mkdir -p
+checking for perl... /usr/bin/perl
+checking for python3... /usr/local/bin/python3
+checking if md2man can create manpages... no
+Failed to find cmarkgfm or commonmark for python3.
+checking if we require man-page building... no
+checking for remsh... 0
+checking for sh... /usr/bin/sh
+checking for fakeroot... /usr/bin/fakeroot
+checking the group for user "nobody"... nogroup
+checking whether to enable rolling-checksum SIMD optimizations... no
+checking if assembler accepts noexecstack... yes
+checking for openat2... yes
+checking for broken largefile support... no
+checking for special C compiler options needed for large files... no
+checking for _FILE_OFFSET_BITS value needed for large files... no
+checking whether to enable ipv6... yes
+checking whether to call shutdown on all sockets... no
+checking whether to use included zlib... ./zlib
+checking whether to enable use of openssl crypto library... no
+checking whether to enable MD5 ASM optimizations... no
+checking whether to enable rolling-checksum ASM optimizations... no
+checking whether to enable xxhash checksum support... no
+checking whether to enable zstd compression... no
+checking whether to enable LZ4 compression... no
+checking whether to enable IDN support... no
+checking if makedev takes 3 args... no
+checking size of int... 4
+checking size of long... 8
+checking size of long long... 8
+checking size of short... 2
+checking size of int16_t... 2
+checking size of uint16_t... 2
+checking size of int32_t... 4
+checking size of uint32_t... 4
+checking size of int64_t... 8
+checking size of off_t... 8
+checking size of off64_t... 8
+checking size of time_t... 8
+checking size of char*... 8
+checking for inline... inline
+checking for long double with more range or precision than double... yes
+checking for uid_t in sys/types.h... yes
+checking for mode_t... yes
+checking for off_t... yes
+checking for size_t... yes
+checking for pid_t... yes
+checking for id_t... yes
+checking type of array argument to getgroups... gid_t
+checking for struct stat.st_rdev... yes
+checking for struct stat.st_mtimensec... no
+checking for struct stat.st_mtimespec.tv_nsec... no
+checking for struct stat.st_mtim.tv_nsec... yes
+checking for socklen_t... yes
+checking for errno in errno.h... yes
+checking for connect... yes
+checking for library containing inet_ntop... none required
+checking for library containing iconv_open... none required
+checking for library containing libiconv_open... no
+checking for iconv declaration... 
+         extern size_t iconv (iconv_t cd, char * *inbuf, size_t *inbytesleft, char * *outbuf, size_t *outbytesleft);
+checking for inet_ntop... yes
+checking for inet_pton... yes
+checking for struct addrinfo... yes
+checking for struct sockaddr_storage... yes
+checking whether defines needed by getaddrinfo exist... yes
+checking for getaddrinfo... yes
+checking for struct sockaddr.sa_len... no
+checking for struct sockaddr_in.sin_len... no
+checking for struct sockaddr_un.sun_len... no
+checking for struct sockaddr_in6.sin6_scope_id... yes
+checking for struct stat64... yes
+checking for poll... yes
+checking for strcasecmp... yes
+checking for aclsort... no
+checking for aclsort in -lsec... no
+checking whether utime accepts a null argument... yes
+checking for size_t... (cached) yes
+checking for working alloca.h... yes
+checking for alloca... yes
+checking for waitpid... yes
+checking for wait4... yes
+checking for getcwd... yes
+checking for chown... yes
+checking for chmod... yes
+checking for lchmod... yes
+checking for mknod... yes
+checking for mkfifo... yes
+checking for fdopendir... yes
+checking for getrlimit... yes
+checking for setrlimit... yes
+checking for fchmod... yes
+checking for fstat... yes
+checking for ftruncate... yes
+checking for strchr... yes
+checking for readlink... yes
+checking for link... yes
+checking for utime... yes
+checking for utimes... yes
+checking for lutimes... yes
+checking for strftime... yes
+checking for chflags... no
+checking for getattrlist... no
+checking for mktime... yes
+checking for innetgr... yes
+checking for linkat... yes
+checking for mknodat... yes
+checking for mkfifoat... yes
+checking for memmove... yes
+checking for lchown... yes
+checking for vsnprintf... yes
+checking for snprintf... yes
+checking for vasprintf... yes
+checking for asprintf... yes
+checking for setsid... yes
+checking for strpbrk... yes
+checking for strlcat... yes
+checking for strlcpy... yes
+checking for stpcpy... yes
+checking for strtol... yes
+checking for mallinfo... yes
+checking for mallinfo2... yes
+checking for getgroups... yes
+checking for setgroups... yes
+checking for geteuid... yes
+checking for getegid... yes
+checking for setlocale... yes
+checking for setmode... no
+checking for open64... yes
+checking for lseek64... yes
+checking for mkstemp64... yes
+checking for mtrace... yes
+checking for va_copy... no
+checking for __va_copy... no
+checking for seteuid... yes
+checking for strerror... yes
+checking for putenv... yes
+checking for iconv_open... yes
+checking for locale_charset... no
+checking for nl_langinfo... yes
+checking for getxattr... yes
+checking for extattr_get_link... no
+checking for sigaction... yes
+checking for sigprocmask... yes
+checking for setattrlist... no
+checking for getgrouplist... yes
+checking for initgroups... yes
+checking for utimensat... yes
+checking for futimens... yes
+checking for posix_fallocate... yes
+checking for attropen... no
+checking for setvbuf... yes
+checking for nanosleep... yes
+checking for usleep... yes
+checking for setenv... yes
+checking for unsetenv... yes
+checking for dirfd... yes
+checking for useable fallocate... yes
+checking for FALLOC_FL_PUNCH_HOLE... yes
+checking for FALLOC_FL_ZERO_RANGE... yes
+checking for SYS_fallocate... yes
+checking whether posix_fallocate is efficient... no
+checking for getpgrp... yes
+checking for tcgetpgrp... yes
+checking whether getpgrp requires zero arguments... yes
+checking whether chown() modifies symlinks... no
+checking whether link() can hard-link symlinks... yes
+checking whether link() can hard-link special files... yes
+checking for working socketpair... yes
+checking for getpass... yes
+checking for poptGetContext in -lpopt... no
+checking whether to use included libpopt... ./popt
+checking for unsigned char... yes
+checking for broken readdir... no
+checking for utimbuf... yes
+checking if gettimeofday takes tz argument... yes
+checking for C99 vsnprintf... yes
+checking for secure mkstemp... yes
+checking whether -c -o works... yes
+checking for _acl... no
+checking for __acl... no
+checking for _facl... no
+checking for __facl... no
+checking whether to support ACLs... running tests:
+checking for acl_get_file in -lacl... no
+checking for ACL support... no
+checking ACL test results... No ACL support found
+checking whether to support extended attributes... Using Linux xattrs
+checking for library containing getxattr... none required
+configure.sh: creating ./config.status
+config.status: creating Makefile
+config.status: creating lib/dummy
+config.status: creating zlib/dummy
+config.status: creating popt/dummy
+config.status: creating shconfig
+config.status: creating config.h
+
+    rsync 3.5.0 configuration successful
+
+mawk -f ./daemon-parm.awk ./daemon-parm.txt
+mawk -f ./help-from-md.awk -v hfile=help-rsync.h ./rsync.1.md
+mawk -f ./help-from-md.awk -v hfile=help-rsyncd.h ./rsync.1.md
+./mkgitver
+mawk -f ./define-from-md.awk -v hfile=default-cvsignore.h ./rsync.1.md
+mawk -f ./define-from-md.awk -v hfile=default-dont-compress.h ./rsync.1.md
+mawk -f ./mkproto.awk ./*.c ./lib/compat.c daemon-parm.h
+Updating git-version.h
+gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c rsync.c -o rsync.o
+gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c generator.c -o generator.o
+gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c receiver.c -o receiver.o
+gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c cleanup.c -o cleanup.o
+gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c sender.c -o sender.o
+gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c exclude.c -o exclude.o
+gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c util1.c -o util1.o
+gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c util2.c -o util2.o
+gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c checksum.c -o checksum.o
+gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c match.c -o match.o
+gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c syscall.c -o syscall.o
+gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c log.c -o log.o
+gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c backup.c -o backup.o
+gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c delete.c -o delete.o
+gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c main.c -o main.o
+gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c options.c -o options.o
+gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c io.c -o io.o
+gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c compat.c -o compat.o
+gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c hlink.c -o hlink.o
+gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c token.c -o token.o
+gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c uidlist.c -o uidlist.o
+gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c socket.c -o socket.o
+gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c hashtable.c -o hashtable.o
+gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c usage.c -o usage.o
+gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c fileio.c -o fileio.o
+gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c batch.c -o batch.o
+gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c clientname.c -o clientname.o
+gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c chmod.c -o chmod.o
+gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c acls.c -o acls.o
+gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c xattrs.c -o xattrs.o
+gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c progress.c -o progress.o
+gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c pipe.c -o pipe.o
+gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c params.c -o params.o
+gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c loadparm.c -o loadparm.o
+gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c clientserver.c -o clientserver.o
+gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c access.c -o access.o
+gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c connection.c -o connection.o
+gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c authenticate.c -o authenticate.o
+gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c lib/wildmatch.c -o lib/wildmatch.o
+gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c lib/compat.c -o lib/compat.o
+gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c lib/snprintf.c -o lib/snprintf.o
+gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c lib/mdfour.c -o lib/mdfour.o
+gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c lib/md5.c -o lib/md5.o
+gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c lib/permstring.c -o lib/permstring.o
+gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c lib/pool_alloc.c -o lib/pool_alloc.o
+gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c lib/sysacls.c -o lib/sysacls.o
+gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c lib/sysxattrs.c -o lib/sysxattrs.o
+gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c lib/acl.c -o lib/acl.o
+gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c zlib/deflate.c -o zlib/deflate.o
+gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c zlib/inffast.c -o zlib/inffast.o
+gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c zlib/inflate.c -o zlib/inflate.o
+gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c zlib/inftrees.c -o zlib/inftrees.o
+gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c zlib/trees.c -o zlib/trees.o
+gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c zlib/zutil.c -o zlib/zutil.o
+gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c zlib/adler32.c -o zlib/adler32.o
+gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c zlib/compress.c -o zlib/compress.o
+gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c zlib/crc32.c -o zlib/crc32.o
+gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c popt/popt.c -o popt/popt.o
+gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c popt/poptconfig.c -o popt/poptconfig.o
+popt/poptconfig.c: In function 'poptReadDefaultConfig':
+popt/poptconfig.c:440:17: warning: unused variable 'sb' [-Wunused-variable]
+  440 |     struct stat sb;
+      |                 ^~
+popt/popt.c: In function 'execCommand':
+popt/popt.c:453:9: warning: variable 'rc' set but not used [-Wunused-but-set-variable]
+  453 |     int rc;
+      |         ^~
+popt/popt.c: In function 'poptRandomValue':
+popt/popt.c:917:44: warning: unused parameter 'limit' [-Wunused-parameter]
+  917 | static long long poptRandomValue(long long limit)
+      |                                  ~~~~~~~~~~^~~~~
+gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c popt/popthelp.c -o popt/popthelp.o
+popt/popthelp.c: In function 'getArgDescrip':
+popt/popthelp.c:157:30: warning: unused parameter 'translation_domain' [-Wunused-parameter]
+  157 |                 const char * translation_domain)
+      |                 ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
+popt/popthelp.c: In function 'singleOptionDefaultValue':
+popt/popthelp.c:209:30: warning: unused parameter 'translation_domain' [-Wunused-parameter]
+  209 |                 const char * translation_domain)
+      |                 ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
+gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c popt/poptparse.c -o popt/poptparse.o
+gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c popt/poptint.c -o popt/poptint.o
+popt/poptint.c: In function 'POPT_fprintf':
+popt/poptint.c:147:24: warning: unused variable 'ob' [-Wunused-variable]
+  147 |     char * b = NULL, * ob = NULL;
+      |                        ^~
+gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c flist.c -o flist.o
+gcc -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -o rsync flist.o rsync.o generator.o receiver.o cleanup.o sender.o exclude.o util1.o util2.o checksum.o match.o syscall.o log.o backup.o delete.o main.o options.o io.o compat.o hlink.o token.o uidlist.o socket.o hashtable.o usage.o fileio.o batch.o clientname.o chmod.o acls.o xattrs.o progress.o pipe.o    params.o loadparm.o clientserver.o access.o connection.o authenticate.o lib/wildmatch.o lib/compat.o lib/snprintf.o lib/mdfour.o lib/md5.o lib/permstring.o lib/pool_alloc.o lib/sysacls.o lib/sysxattrs.o lib/acl.o  zlib/deflate.o zlib/inffast.o zlib/inflate.o zlib/inftrees.o zlib/trees.o zlib/zutil.o zlib/adler32.o zlib/compress.o zlib/crc32.o popt/popt.o  popt/poptconfig.o popt/popthelp.o popt/poptparse.o popt/poptint.o /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/baseline-tmp/interspec-rlbox-wasm2c/p9b_wasm_bridge.o  /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/baseline-tmp/interspec-rlbox-wasm2c/build/libglue_lib_imported.a -lstdc++ -pthread -ldl -lrt -lm
+/usr/bin/ld: /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/baseline-tmp/interspec-rlbox-wasm2c/p9b_wasm_bridge.o: in function `poptReadDefaultConfig':
+p9b_wasm_bridge.cpp:(.text+0x1000): multiple definition of `poptReadDefaultConfig'; popt/poptconfig.o:/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/baseline-tmp/interspec-rlbox-wasm2c/rsync-src/popt/poptconfig.c:438: first defined here
+/usr/bin/ld: /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/baseline-tmp/interspec-rlbox-wasm2c/p9b_wasm_bridge.o: in function `poptAddAlias':
+p9b_wasm_bridge.cpp:(.text+0x1010): multiple definition of `poptAddAlias'; popt/popt.o:/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/baseline-tmp/interspec-rlbox-wasm2c/rsync-src/popt/popt.c:1556: first defined here
+/usr/bin/ld: /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/baseline-tmp/interspec-rlbox-wasm2c/p9b_wasm_bridge.o: in function `poptGetNextOpt':
+p9b_wasm_bridge.cpp:(.text+0x22c0): multiple definition of `poptGetNextOpt'; popt/popt.o:/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/baseline-tmp/interspec-rlbox-wasm2c/rsync-src/popt/popt.c:1210: first defined here
+/usr/bin/ld: /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/baseline-tmp/interspec-rlbox-wasm2c/p9b_wasm_bridge.o: in function `poptGetOptArg':
+p9b_wasm_bridge.cpp:(.text+0x2640): multiple definition of `poptGetOptArg'; popt/popt.o:/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/baseline-tmp/interspec-rlbox-wasm2c/rsync-src/popt/popt.c:1472: first defined here
+/usr/bin/ld: /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/baseline-tmp/interspec-rlbox-wasm2c/p9b_wasm_bridge.o: in function `poptGetArgs':
+p9b_wasm_bridge.cpp:(.text+0x26e0): multiple definition of `poptGetArgs'; popt/popt.o:/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/baseline-tmp/interspec-rlbox-wasm2c/rsync-src/popt/popt.c:1498: first defined here
+/usr/bin/ld: /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/baseline-tmp/interspec-rlbox-wasm2c/p9b_wasm_bridge.o: in function `poptBadOption':
+p9b_wasm_bridge.cpp:(.text+0x2980): multiple definition of `poptBadOption'; popt/popt.o:/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/baseline-tmp/interspec-rlbox-wasm2c/rsync-src/popt/popt.c:1617: first defined here
+/usr/bin/ld: /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/baseline-tmp/interspec-rlbox-wasm2c/p9b_wasm_bridge.o: in function `poptFreeContext':
+p9b_wasm_bridge.cpp:(.text+0x2a30): multiple definition of `poptFreeContext'; popt/popt.o:/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/baseline-tmp/interspec-rlbox-wasm2c/rsync-src/popt/popt.c:1527: first defined here
+/usr/bin/ld: /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/baseline-tmp/interspec-rlbox-wasm2c/p9b_wasm_bridge.o: in function `poptGetContext':
+p9b_wasm_bridge.cpp:(.text+0x4230): multiple definition of `poptGetContext'; popt/popt.o:/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/baseline-tmp/interspec-rlbox-wasm2c/rsync-src/popt/popt.c:156: first defined here
+collect2: error: ld returned 1 exit status
+make: *** [Makefile:139: rsync] Error 1
+exit=2

@@ -1,0 +1,5 @@
+PASS rsync benign all_on
+PASS rsync benign all_off
+PASS rsync benign sp1_only
+PASS rsync benign sp2_only
+PASS rsync benign sp3_only

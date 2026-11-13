@@ -1,0 +1,2 @@
+FAULT_INJECTION mode=2 target=2 original=0x101868 replacement=0x1101790
+INTERSPEC_REJECT reason=InterSpec rejected popt char pointer: untracked

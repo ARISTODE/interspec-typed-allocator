@@ -1,0 +1,8 @@
+.d..t...... ./
+>f+++++++++ input.txt
+>f+++++++++ large.txt
+cd+++++++++ nested/
+>f+++++++++ nested/data.bin
+>f+++++++++ nested/skip.tmp
+cd+++++++++ nested/deep/
+>f+++++++++ nested/deep/empty

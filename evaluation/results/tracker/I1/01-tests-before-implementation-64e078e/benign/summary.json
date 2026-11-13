@@ -1,0 +1,129 @@
+{
+  "rsync_sha256": "fc6c5aaf69c968969129d1f56cbb16c99f1ff4659c46a8c814756cbfa2d75975",
+  "native_sha256": "ba40fb39179bd98431d9c4e1d629362c84aa8879144a76ba204ff18dbce8b0fe",
+  "native_exits": {
+    "version": 0,
+    "dry_run": 0,
+    "sync": 0,
+    "bad_option": 1
+  },
+  "configs": {
+    "all_on": {
+      "passed": false,
+      "checks": {
+        "version_exit_matches_native": true,
+        "version_stdout_matches_native": true,
+        "version_reports_configuration": false,
+        "version_no_rejection": true,
+        "dry_run_exit_matches_native": true,
+        "dry_run_stdout_matches_native": true,
+        "dry_run_reports_configuration": false,
+        "dry_run_no_rejection": true,
+        "sync_exit_matches_native": true,
+        "sync_stdout_matches_native": true,
+        "sync_reports_configuration": false,
+        "sync_no_rejection": true,
+        "bad_option_exit_matches_native": true,
+        "bad_option_stdout_matches_native": true,
+        "bad_option_reports_configuration": false,
+        "bad_option_no_rejection": true,
+        "destination_tree_matches_native": true,
+        "destination_tree_matches_source": true
+      }
+    },
+    "all_off": {
+      "passed": false,
+      "checks": {
+        "version_exit_matches_native": true,
+        "version_stdout_matches_native": true,
+        "version_reports_configuration": false,
+        "version_no_rejection": true,
+        "dry_run_exit_matches_native": true,
+        "dry_run_stdout_matches_native": true,
+        "dry_run_reports_configuration": false,
+        "dry_run_no_rejection": true,
+        "sync_exit_matches_native": true,
+        "sync_stdout_matches_native": true,
+        "sync_reports_configuration": false,
+        "sync_no_rejection": true,
+        "bad_option_exit_matches_native": true,
+        "bad_option_stdout_matches_native": true,
+        "bad_option_reports_configuration": false,
+        "bad_option_no_rejection": true,
+        "destination_tree_matches_native": true,
+        "destination_tree_matches_source": true
+      }
+    },
+    "sp1_only": {
+      "passed": false,
+      "checks": {
+        "version_exit_matches_native": true,
+        "version_stdout_matches_native": true,
+        "version_reports_configuration": false,
+        "version_no_rejection": true,
+        "dry_run_exit_matches_native": true,
+        "dry_run_stdout_matches_native": true,
+        "dry_run_reports_configuration": false,
+        "dry_run_no_rejection": true,
+        "sync_exit_matches_native": true,
+        "sync_stdout_matches_native": true,
+        "sync_reports_configuration": false,
+        "sync_no_rejection": true,
+        "bad_option_exit_matches_native": true,
+        "bad_option_stdout_matches_native": true,
+        "bad_option_reports_configuration": false,
+        "bad_option_no_rejection": true,
+        "destination_tree_matches_native": true,
+        "destination_tree_matches_source": true
+      }
+    },
+    "sp2_only": {
+      "passed": false,
+      "checks": {
+        "version_exit_matches_native": true,
+        "version_stdout_matches_native": true,
+        "version_reports_configuration": false,
+        "version_no_rejection": true,
+        "dry_run_exit_matches_native": true,
+        "dry_run_stdout_matches_native": true,
+        "dry_run_reports_configuration": false,
+        "dry_run_no_rejection": true,
+        "sync_exit_matches_native": true,
+        "sync_stdout_matches_native": true,
+        "sync_reports_configuration": false,
+        "sync_no_rejection": true,
+        "bad_option_exit_matches_native": true,
+        "bad_option_stdout_matches_native": true,
+        "bad_option_reports_configuration": false,
+        "bad_option_no_rejection": true,
+        "destination_tree_matches_native": true,
+        "destination_tree_matches_source": true
+      }
+    },
+    "sp3_only": {
+      "passed": false,
+      "checks": {
+        "version_exit_matches_native": true,
+        "version_stdout_matches_native": true,
+        "version_reports_configuration": false,
+        "version_no_rejection": true,
+        "dry_run_exit_matches_native": true,
+        "dry_run_stdout_matches_native": true,
+        "dry_run_reports_configuration": false,
+        "dry_run_no_rejection": true,
+        "sync_exit_matches_native": true,
+        "sync_stdout_matches_native": true,
+        "sync_reports_configuration": false,
+        "sync_no_rejection": true,
+        "bad_option_exit_matches_native": true,
+        "bad_option_stdout_matches_native": true,
+        "bad_option_reports_configuration": false,
+        "bad_option_no_rejection": true,
+        "destination_tree_matches_native": true,
+        "destination_tree_matches_source": true
+      }
+    }
+  },
+  "native_reference_ok": true,
+  "passed": false
+}

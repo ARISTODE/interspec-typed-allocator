@@ -1,0 +1,24 @@
+FAIL rsync_popt sp1
+  sp1_off_u_reads: failed stderr has /^INTERSPEC_POLICY boundary=rsync_popt sp1=0 sp2=1 sp3=full$/
+  sp1_on_u_reads: failed stdout has /stage=context secret_help_in_u=0 secret_arg_in_u=0 /
+  sp1_on_u_reads: failed stderr has /^INTERSPEC_POLICY boundary=rsync_popt sp1=1 sp2=1 sp3=full$/
+  sp1_on_u_reads: failed stderr has /\[SP1\] sandbox read option='set' descrip='\(null\)' argDescrip='\(null\)'/
+FAIL rsync_popt sp2
+  sp2_off_u_writes: failed stdout has /stage=context .*readonly_val=1337$/
+  sp2_off_u_writes: failed stdout has /stage=done rc=-1 g_slot=hello readonly_val=1337 /
+  sp2_off_u_writes: failed stderr has /^INTERSPEC_POLICY boundary=rsync_popt sp1=1 sp2=0 sp3=full$/
+  sp2_on_u_writes: failed stderr has /^INTERSPEC_POLICY boundary=rsync_popt sp1=1 sp2=1 sp3=full$/
+FAIL rsync_popt sp3
+  sp3_off_bad_pointer: failed exit==0 (observed -6)
+  sp3_off_bad_pointer: failed stdout has /stage=done rc=-1 g_slot=hello readonly_val=42 /
+  sp3_off_bad_pointer: failed stderr has /^INTERSPEC_POLICY boundary=rsync_popt sp1=1 sp2=1 sp3=off$/
+  sp3_off_bad_pointer: failed stderr lacks /INTERSPEC_REJECT/
+  sp3_domain_bad_pointer: failed exit==0 (observed -6)
+  sp3_domain_bad_pointer: failed stdout has /stage=done rc=-1 g_slot=hello readonly_val=42 /
+  sp3_domain_bad_pointer: failed stderr has /^INTERSPEC_POLICY boundary=rsync_popt sp1=1 sp2=1 sp3=domain$/
+  sp3_domain_bad_pointer: failed stderr lacks /INTERSPEC_REJECT/
+  sp3_on_bad_pointer: failed stderr has /^INTERSPEC_POLICY boundary=rsync_popt sp1=1 sp2=1 sp3=full$/
+FAIL rsync_popt benign
+  benign_all_on: failed stdout has /stage=context secret_help_in_u=0 secret_arg_in_u=0 readonly_val=42$/
+  benign_all_on: failed stderr has /^INTERSPEC_POLICY boundary=rsync_popt sp1=1 sp2=1 sp3=full$/
+  benign_all_off: failed stderr has /^INTERSPEC_POLICY boundary=rsync_popt sp1=0 sp2=0 sp3=off$/
