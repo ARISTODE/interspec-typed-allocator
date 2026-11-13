@@ -1,0 +1,9 @@
+base: &anchor
+  name: shared
+  count: !!int "3"
+copy: *anchor
+tagged: !custom [1, 2]
+explicit: !!str 42
+list:
+  - &item entry
+  - *item

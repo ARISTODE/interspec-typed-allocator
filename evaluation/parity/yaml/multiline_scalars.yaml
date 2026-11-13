@@ -1,0 +1,15 @@
+literal: |
+  line one
+  line two
+
+  after blank
+folded: >
+  folded text
+  continues here
+
+  new paragraph
+keep: |+
+  trailing
+
+strip: >-
+  no newline

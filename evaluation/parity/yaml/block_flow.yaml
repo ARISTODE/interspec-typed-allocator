@@ -1,0 +1,6 @@
+key: value
+list:
+  - one
+  - two
+flow: [a, b]
+map: {x: 1}

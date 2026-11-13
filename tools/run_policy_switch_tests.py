@@ -53,6 +53,14 @@ NGX_BENIGN = (r"^T_OBSERVE stage=exec rc=3 subject=" + NGX_SUBJECT +
               r" captures=0-16,7-10,11-16$")
 NGX_FAULT = {"INTERSPEC_NGINX_FAULT_PATH": "2", "INTERSPEC_NGINX_FAULT_KIND": "2"}
 
+# yaml/libyaml: the driver is the fault build of yaml_app_bench, run on
+# evaluation/parity/yaml/block_flow.yaml (first byte 'k' = 0x6b). The bench
+# rejects with exit status 86 instead of aborting.
+YAML_ARGS = ["extended_sp3", "{document}", "1"]
+YAML_BENIGN = (r"^YAML_BENCH mode=extended_sp3 iterations=1 input_bytes=\d+ "
+               r"events=23 scalars=11 scalar_bytes=\d+ hash=[0-9a-f]{16} ")
+YAML_REJECT_EXIT = 86
+
 # Each case: switch settings, test-only U behavior, and what must be observed.
 # "exit" is a return code; a negative value is the signal that ended the process.
 BOUNDARIES = {
@@ -305,6 +313,61 @@ BOUNDARIES = {
             },
         },
     },
+    "yaml_libyaml": {
+        # No SP1 test: T sends U only the document, which U has to read, so
+        # there is no field to withhold (EVAL_TRACKER.md, I3).
+        "tests": {
+            "sp2": ["sp2_off_u_writes", "sp2_on_u_writes"],
+            "sp3": ["sp3_off_bad_pointer", "sp3_on_bad_pointer"],
+            "benign": ["benign_all_on", "benign_all_off"],
+        },
+        "cases": {
+            # SP2: U overwrites its copy of the document after parsing.
+            "sp2_off_u_writes": {
+                "env": {**switches(sp2="0"), "INTERSPEC_TEST_POC_FLAGS": "2"},
+                "args": YAML_ARGS, "exit": 0,
+                "stdout": [YAML_BENIGN],
+                "stderr": [r"\[SP2\] sandbox mutated document byte=0 old=0x6b new=0x94$",
+                           r"^INTERSPEC_T_OBSERVE boundary=yaml_libyaml input_first_byte=0x94$"],
+            },
+            "sp2_on_u_writes": {
+                "env": {**switches(), "INTERSPEC_TEST_POC_FLAGS": "2"},
+                "args": YAML_ARGS, "exit": 0,
+                "stdout": [YAML_BENIGN],
+                "stderr": [r"\[SP2\] sandbox mutated document byte=0 old=0x6b new=0x94$",
+                           r"^INTERSPEC_T_OBSERVE boundary=yaml_libyaml input_first_byte=0x6b$"],
+            },
+            # SP3: U returns an untracked heap copy of the first scalar.
+            "sp3_off_bad_pointer": {
+                "env": switches(sp3="0"),
+                "args": YAML_ARGS + ["2"], "exit": 0,
+                "stdout": [YAML_BENIGN],
+                "stderr": [r"^FAULT_INJECTION boundary=yaml_libyaml mode=2 "],
+                "stderr_absent": [r"INTERSPEC_REJECT"],
+            },
+            "sp3_on_bad_pointer": {
+                "env": switches(),
+                "args": YAML_ARGS + ["2"], "exit": YAML_REJECT_EXIT,
+                "stdout_absent": [r"YAML_BENCH"],
+                "stderr": [r"^FAULT_INJECTION boundary=yaml_libyaml mode=2 ",
+                           r"^INTERSPEC_REJECT boundary=yaml_libyaml reason=untracked$"],
+            },
+            "benign_all_on": {
+                "env": switches(),
+                "args": YAML_ARGS, "exit": 0,
+                "stdout": [YAML_BENIGN + r"checks=11 "],
+                "stderr": [r"^INTERSPEC_T_OBSERVE boundary=yaml_libyaml input_first_byte=0x6b$"],
+                "stderr_absent": [r"INTERSPEC_REJECT", r"FAULT_INJECTION", r"PoC"],
+            },
+            "benign_all_off": {
+                "env": switches(sp1="0", sp2="0", sp3="0"),
+                "args": YAML_ARGS, "exit": 0,
+                "stdout": [YAML_BENIGN + r"checks=0 "],
+                "stderr": [r"^INTERSPEC_T_OBSERVE boundary=yaml_libyaml input_first_byte=0x6b$"],
+                "stderr_absent": [r"INTERSPEC_REJECT", r"FAULT_INJECTION", r"PoC"],
+            },
+        },
+    },
 }
 
 
@@ -316,7 +379,7 @@ def sha256(path):
     return digest.hexdigest()
 
 
-def run_case(boundary, name, case, driver, out_dir, timeout):
+def run_case(boundary, name, case, driver, out_dir, timeout, document=None):
     case_dir = out_dir / name
     case_dir.mkdir()
     # Only the declared variables reach the driver. Nothing is inherited that
@@ -326,7 +389,10 @@ def run_case(boundary, name, case, driver, out_dir, timeout):
     (case_dir / "env.json").write_text(json.dumps(env, indent=2, sort_keys=True) + "\n")
     timed_out = False
     try:
-        done = subprocess.run([str(driver)], env=env, stdout=subprocess.PIPE,
+        command = [str(driver)] + [str(document) if arg == "{document}" else arg
+                                   for arg in case.get("args", [])]
+        (case_dir / "command.json").write_text(json.dumps(command) + "\n")
+        done = subprocess.run(command, env=env, stdout=subprocess.PIPE,
                               stderr=subprocess.PIPE, timeout=timeout)
         code, out, err = done.returncode, done.stdout, done.stderr
     except subprocess.TimeoutExpired as expired:
@@ -360,12 +426,14 @@ def main():
     parser.add_argument("--driver", required=True, type=Path)
     parser.add_argument("--out", required=True, type=Path)
     parser.add_argument("--timeout", type=float, default=120.0)
+    parser.add_argument("--document", type=Path,
+                        help="input file for drivers that take one (yaml_libyaml)")
     args = parser.parse_args()
 
     spec = BOUNDARIES[args.boundary]
     args.out.mkdir(parents=True)  # fails if it exists: no overwriting evidence
     results = {name: run_case(args.boundary, name, case, args.driver, args.out,
-                              args.timeout)
+                              args.timeout, args.document)
                for name, case in spec["cases"].items()}
     tests = {test: {"cases": names,
                     "passed": all(results[name]["passed"] for name in names)}

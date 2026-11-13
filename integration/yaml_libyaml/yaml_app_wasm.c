@@ -284,8 +284,25 @@ uint32_t interspec_yaml_scalar_size(void)
     return g_return_len;
 }
 
+#if INTERSPEC_FAULT_TESTS
+/* Policy-switch tests (tracker item I3), same flag bit as the other
+ * boundaries: 2 = U overwrites its copy of the document after parsing. There
+ * is no bit 1 here: T sends U nothing that U does not have to read. */
+static uint32_t g_poc_flags;
+void interspec_yaml_poc(uint32_t flags) { g_poc_flags = flags; }
+#endif
+
 void interspec_yaml_end(void)
 {
+#if INTERSPEC_FAULT_TESTS
+    if ((g_poc_flags & 2u) && g_input && g_input_size) {
+        const unsigned old = g_input[0];
+        g_input[0] ^= 0xff;
+        fprintf(stderr, "[InterSpec][PoC][SP2] sandbox mutated document byte=0 old=0x%02x new=0x%02x\n",
+                old, (unsigned)g_input[0]);
+        fflush(stderr);
+    }
+#endif
     clear_event();
     if (g_parser_live) {
         yaml_parser_delete(&g_parser);
