@@ -1,0 +1,3 @@
+INTERSPEC_POLICY boundary=memcached_bipbuffer sp1=1 sp2=1 sp3=full
+FAULT_INJECTION boundary=memcached_bipbuffer mode=2 target=2 control=0 original=0x200d64 replacement=0x204d60 bytes=16
+INTERSPEC_REJECT boundary=memcached_bipbuffer operation=peek_all reason=untracked

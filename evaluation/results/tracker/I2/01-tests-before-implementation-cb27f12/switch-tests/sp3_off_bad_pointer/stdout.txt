@@ -1,0 +1,1 @@
+T_OBSERVE stage=offer written=16 record=545f5245434f52445f30313233343536

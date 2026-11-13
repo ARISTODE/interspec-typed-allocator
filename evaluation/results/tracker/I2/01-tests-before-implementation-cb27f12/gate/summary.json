@@ -1,0 +1,575 @@
+{
+  "passed": 50,
+  "total": 50,
+  "binary_sha256": {
+    "memcached-diagnostics": "40e2441b8b6c5547d0846e8cf1c7ea8d5a5d8cad356310b0c67e6a1eee372233",
+    "memcached-interspec": "c4c2edcb72b9640922aae8d22bbcc1d6a1220d1cf128d76338a771d1c5027ea8",
+    "memcached-interspec-debug": "2a9a9d6fbe92a7367cbaea348cdf9d1df0008db5a18ac678044de893fb553b89",
+    "memcached-native": "3ad23591c2efacb752c82f1caefecdd87c93617891f762016decb757284538d0",
+    "memcached-native-debug": "b960db08ce289c26c586c0c95cdaa20d455c1f917fbf777916be4490af562b46",
+    "memcached-rlbox-only": "dead6d9bff1ffeaf7cddebd52704bc31d1dbb127f5f78430c5d07561320ca012",
+    "memcached-tracked-no-check": "bf7dff0d38ec5c290d8a6b0996b1ef873fa68824e21ab0f81ec34a4be2cfefe0"
+  },
+  "cases": [
+    {
+      "case": "normal-native",
+      "pass": true,
+      "seconds": 3.0574179189998176,
+      "checks": [
+        "lru_async_item_bumps",
+        "set_get_flags",
+        "add_replace",
+        "cas",
+        "append_prepend",
+        "incr_decr",
+        "binary_256k",
+        "multiget",
+        "touch_delete",
+        "fragmented_request",
+        "invalid_commands",
+        "expiry",
+        "flush_all",
+        "watch_log_content",
+        "concurrent_cache_2000_ops",
+        "watcher_churn_25"
+      ],
+      "checks_passed": 16
+    },
+    {
+      "case": "normal-rlbox-only",
+      "pass": true,
+      "seconds": 3.057233786000097,
+      "checks": [
+        "lru_async_item_bumps",
+        "set_get_flags",
+        "add_replace",
+        "cas",
+        "append_prepend",
+        "incr_decr",
+        "binary_256k",
+        "multiget",
+        "touch_delete",
+        "fragmented_request",
+        "invalid_commands",
+        "expiry",
+        "flush_all",
+        "watch_log_content",
+        "concurrent_cache_2000_ops",
+        "watcher_churn_25"
+      ],
+      "checks_passed": 16
+    },
+    {
+      "case": "normal-tracked-no-check",
+      "pass": true,
+      "seconds": 3.0531309640000472,
+      "checks": [
+        "lru_async_item_bumps",
+        "set_get_flags",
+        "add_replace",
+        "cas",
+        "append_prepend",
+        "incr_decr",
+        "binary_256k",
+        "multiget",
+        "touch_delete",
+        "fragmented_request",
+        "invalid_commands",
+        "expiry",
+        "flush_all",
+        "watch_log_content",
+        "concurrent_cache_2000_ops",
+        "watcher_churn_25"
+      ],
+      "checks_passed": 16
+    },
+    {
+      "case": "normal-interspec",
+      "pass": true,
+      "seconds": 3.0469316869998693,
+      "checks": [
+        "lru_async_item_bumps",
+        "set_get_flags",
+        "add_replace",
+        "cas",
+        "append_prepend",
+        "incr_decr",
+        "binary_256k",
+        "multiget",
+        "touch_delete",
+        "fragmented_request",
+        "invalid_commands",
+        "expiry",
+        "flush_all",
+        "watch_log_content",
+        "concurrent_cache_2000_ops",
+        "watcher_churn_25"
+      ],
+      "checks_passed": 16
+    },
+    {
+      "case": "normal-diagnostics",
+      "pass": true,
+      "seconds": 3.0456394569998793,
+      "checks": [
+        "lru_async_item_bumps",
+        "set_get_flags",
+        "add_replace",
+        "cas",
+        "append_prepend",
+        "incr_decr",
+        "binary_256k",
+        "multiget",
+        "touch_delete",
+        "fragmented_request",
+        "invalid_commands",
+        "expiry",
+        "flush_all",
+        "watch_log_content",
+        "concurrent_cache_2000_ops",
+        "watcher_churn_25"
+      ],
+      "checks_passed": 16
+    },
+    {
+      "case": "fault-r1-t1-m1",
+      "pass": true,
+      "seconds": 0.02809856899989427,
+      "role": 1,
+      "target": 1,
+      "mode": 1,
+      "reason": "wrong_type",
+      "exit_code": -6
+    },
+    {
+      "case": "fault-r1-t1-m2",
+      "pass": true,
+      "seconds": 0.028676532999952542,
+      "role": 1,
+      "target": 1,
+      "mode": 2,
+      "reason": "untracked",
+      "exit_code": -6
+    },
+    {
+      "case": "fault-r1-t1-m3",
+      "pass": true,
+      "seconds": 0.027923772999884022,
+      "role": 1,
+      "target": 1,
+      "mode": 3,
+      "reason": "untracked",
+      "exit_code": -6
+    },
+    {
+      "case": "fault-r1-t1-m4",
+      "pass": true,
+      "seconds": 0.027917280999872673,
+      "role": 1,
+      "target": 1,
+      "mode": 4,
+      "reason": "out_of_bounds",
+      "exit_code": -6
+    },
+    {
+      "case": "fault-r1-t2-m1",
+      "pass": true,
+      "seconds": 0.0293415979999736,
+      "role": 1,
+      "target": 2,
+      "mode": 1,
+      "reason": "wrong_type",
+      "exit_code": -6
+    },
+    {
+      "case": "fault-r1-t2-m2",
+      "pass": true,
+      "seconds": 0.029087643999901047,
+      "role": 1,
+      "target": 2,
+      "mode": 2,
+      "reason": "untracked",
+      "exit_code": -6
+    },
+    {
+      "case": "fault-r1-t2-m3",
+      "pass": true,
+      "seconds": 0.02972451599998749,
+      "role": 1,
+      "target": 2,
+      "mode": 3,
+      "reason": "untracked",
+      "exit_code": -6
+    },
+    {
+      "case": "fault-r1-t2-m4",
+      "pass": true,
+      "seconds": 0.03107979699984753,
+      "role": 1,
+      "target": 2,
+      "mode": 4,
+      "reason": "out_of_bounds",
+      "exit_code": -6
+    },
+    {
+      "case": "fault-r1-t3-m1",
+      "pass": true,
+      "seconds": 0.028188390000195795,
+      "role": 1,
+      "target": 3,
+      "mode": 1,
+      "reason": "wrong_type",
+      "exit_code": -6
+    },
+    {
+      "case": "fault-r1-t3-m2",
+      "pass": true,
+      "seconds": 0.028492250999988755,
+      "role": 1,
+      "target": 3,
+      "mode": 2,
+      "reason": "untracked",
+      "exit_code": -6
+    },
+    {
+      "case": "fault-r1-t3-m3",
+      "pass": true,
+      "seconds": 0.029791383999963728,
+      "role": 1,
+      "target": 3,
+      "mode": 3,
+      "reason": "untracked",
+      "exit_code": -6
+    },
+    {
+      "case": "fault-r1-t3-m4",
+      "pass": true,
+      "seconds": 0.028312439000046652,
+      "role": 1,
+      "target": 3,
+      "mode": 4,
+      "reason": "out_of_bounds",
+      "exit_code": -6
+    },
+    {
+      "case": "fault-r2-t1-m1",
+      "pass": true,
+      "seconds": 0.027974054999958753,
+      "role": 2,
+      "target": 1,
+      "mode": 1,
+      "reason": "wrong_type",
+      "exit_code": -6
+    },
+    {
+      "case": "fault-r2-t1-m2",
+      "pass": true,
+      "seconds": 0.029147859999966386,
+      "role": 2,
+      "target": 1,
+      "mode": 2,
+      "reason": "untracked",
+      "exit_code": -6
+    },
+    {
+      "case": "fault-r2-t1-m3",
+      "pass": true,
+      "seconds": 0.028449930999840944,
+      "role": 2,
+      "target": 1,
+      "mode": 3,
+      "reason": "untracked",
+      "exit_code": -6
+    },
+    {
+      "case": "fault-r2-t1-m4",
+      "pass": true,
+      "seconds": 0.02827192900008413,
+      "role": 2,
+      "target": 1,
+      "mode": 4,
+      "reason": "out_of_bounds",
+      "exit_code": -6
+    },
+    {
+      "case": "fault-r2-t2-m1",
+      "pass": true,
+      "seconds": 0.027798415999995996,
+      "role": 2,
+      "target": 2,
+      "mode": 1,
+      "reason": "wrong_type",
+      "exit_code": -6
+    },
+    {
+      "case": "fault-r2-t2-m2",
+      "pass": true,
+      "seconds": 0.028241514999990613,
+      "role": 2,
+      "target": 2,
+      "mode": 2,
+      "reason": "untracked",
+      "exit_code": -6
+    },
+    {
+      "case": "fault-r2-t2-m3",
+      "pass": true,
+      "seconds": 0.02684449000003042,
+      "role": 2,
+      "target": 2,
+      "mode": 3,
+      "reason": "untracked",
+      "exit_code": -6
+    },
+    {
+      "case": "fault-r2-t2-m4",
+      "pass": true,
+      "seconds": 0.027545498999870688,
+      "role": 2,
+      "target": 2,
+      "mode": 4,
+      "reason": "out_of_bounds",
+      "exit_code": -6
+    },
+    {
+      "case": "fault-r2-t3-m1",
+      "pass": true,
+      "seconds": 0.026430610000033994,
+      "role": 2,
+      "target": 3,
+      "mode": 1,
+      "reason": "wrong_type",
+      "exit_code": -6
+    },
+    {
+      "case": "fault-r2-t3-m2",
+      "pass": true,
+      "seconds": 0.02831234699988272,
+      "role": 2,
+      "target": 3,
+      "mode": 2,
+      "reason": "untracked",
+      "exit_code": -6
+    },
+    {
+      "case": "fault-r2-t3-m3",
+      "pass": true,
+      "seconds": 0.028017281000074945,
+      "role": 2,
+      "target": 3,
+      "mode": 3,
+      "reason": "untracked",
+      "exit_code": -6
+    },
+    {
+      "case": "fault-r2-t3-m4",
+      "pass": true,
+      "seconds": 0.027465050000046176,
+      "role": 2,
+      "target": 3,
+      "mode": 4,
+      "reason": "out_of_bounds",
+      "exit_code": -6
+    },
+    {
+      "case": "fault-r3-t1-m1",
+      "pass": true,
+      "seconds": 0.05636723899988283,
+      "role": 3,
+      "target": 1,
+      "mode": 1,
+      "reason": "wrong_type",
+      "exit_code": -6
+    },
+    {
+      "case": "fault-r3-t1-m2",
+      "pass": true,
+      "seconds": 0.05170940099992549,
+      "role": 3,
+      "target": 1,
+      "mode": 2,
+      "reason": "untracked",
+      "exit_code": -6
+    },
+    {
+      "case": "fault-r3-t1-m3",
+      "pass": true,
+      "seconds": 0.048258365000037884,
+      "role": 3,
+      "target": 1,
+      "mode": 3,
+      "reason": "untracked",
+      "exit_code": -6
+    },
+    {
+      "case": "fault-r3-t1-m4",
+      "pass": true,
+      "seconds": 0.0549327070000345,
+      "role": 3,
+      "target": 1,
+      "mode": 4,
+      "reason": "out_of_bounds",
+      "exit_code": -6
+    },
+    {
+      "case": "fault-r3-t2-m1",
+      "pass": true,
+      "seconds": 0.060447787000157405,
+      "role": 3,
+      "target": 2,
+      "mode": 1,
+      "reason": "wrong_type",
+      "exit_code": -6
+    },
+    {
+      "case": "fault-r3-t2-m2",
+      "pass": true,
+      "seconds": 0.053648801999997886,
+      "role": 3,
+      "target": 2,
+      "mode": 2,
+      "reason": "untracked",
+      "exit_code": -6
+    },
+    {
+      "case": "fault-r3-t2-m3",
+      "pass": true,
+      "seconds": 0.054086804999997184,
+      "role": 3,
+      "target": 2,
+      "mode": 3,
+      "reason": "untracked",
+      "exit_code": -6
+    },
+    {
+      "case": "fault-r3-t2-m4",
+      "pass": true,
+      "seconds": 0.05407863499999621,
+      "role": 3,
+      "target": 2,
+      "mode": 4,
+      "reason": "out_of_bounds",
+      "exit_code": -6
+    },
+    {
+      "case": "fault-r3-t3-m1",
+      "pass": true,
+      "seconds": 0.04863766900007249,
+      "role": 3,
+      "target": 3,
+      "mode": 1,
+      "reason": "wrong_type",
+      "exit_code": -6
+    },
+    {
+      "case": "fault-r3-t3-m2",
+      "pass": true,
+      "seconds": 0.05314611900007549,
+      "role": 3,
+      "target": 3,
+      "mode": 2,
+      "reason": "untracked",
+      "exit_code": -6
+    },
+    {
+      "case": "fault-r3-t3-m3",
+      "pass": true,
+      "seconds": 0.055813069999885556,
+      "role": 3,
+      "target": 3,
+      "mode": 3,
+      "reason": "untracked",
+      "exit_code": -6
+    },
+    {
+      "case": "fault-r3-t3-m4",
+      "pass": true,
+      "seconds": 0.04626359400003821,
+      "role": 3,
+      "target": 3,
+      "mode": 4,
+      "reason": "out_of_bounds",
+      "exit_code": -6
+    },
+    {
+      "case": "control-r1-m5",
+      "pass": true,
+      "seconds": 1.0465448079999078,
+      "mode": 5,
+      "role": 1,
+      "outcome": "accepted_same_type"
+    },
+    {
+      "case": "control-r2-m5",
+      "pass": true,
+      "seconds": 1.045163771000034,
+      "mode": 5,
+      "role": 2,
+      "outcome": "accepted_same_type"
+    },
+    {
+      "case": "control-r3-m5",
+      "pass": true,
+      "seconds": 1.0317734779998773,
+      "mode": 5,
+      "role": 3,
+      "outcome": "accepted_same_type"
+    },
+    {
+      "case": "control-r1-m6",
+      "pass": true,
+      "seconds": 0.028343251000023884,
+      "mode": 6,
+      "role": 1,
+      "outcome": "rejected_malformed_record"
+    },
+    {
+      "case": "control-r3-m6",
+      "pass": true,
+      "seconds": 0.0469213960000161,
+      "mode": 6,
+      "role": 3,
+      "outcome": "rejected_unknown_handle"
+    },
+    {
+      "case": "control-r3-m7",
+      "pass": true,
+      "seconds": 0.051151635999985956,
+      "mode": 7,
+      "role": 3,
+      "outcome": "rejected_wrong_item_hash"
+    },
+    {
+      "case": "control-r3-m8",
+      "pass": true,
+      "seconds": 0.05579679499987833,
+      "mode": 8,
+      "role": 3,
+      "outcome": "rejected_malformed_record"
+    },
+    {
+      "case": "upstream-native",
+      "pass": true,
+      "seconds": 14.389027788000021,
+      "tests": [
+        "t/watcher.t",
+        "t/watcher_connid.t"
+      ],
+      "transport": "loopback_tcp",
+      "test_assertions": "unmodified",
+      "launcher_sha256": "4fd28c15cc2cf110a20bf16753b35056d99f1c19984f11af1826e19e0160a795"
+    },
+    {
+      "case": "upstream-interspec",
+      "pass": true,
+      "seconds": 14.342518972000107,
+      "tests": [
+        "t/watcher.t",
+        "t/watcher_connid.t"
+      ],
+      "transport": "loopback_tcp",
+      "test_assertions": "unmodified",
+      "launcher_sha256": "4fd28c15cc2cf110a20bf16753b35056d99f1c19984f11af1826e19e0160a795"
+    }
+  ]
+}

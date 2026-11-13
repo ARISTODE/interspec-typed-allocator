@@ -1,0 +1,25 @@
+{
+  "project_commit": "cb27f121e9ff57bc65743abf3aac75b5354a00c6",
+  "project_dirty": false,
+  "memcached_revision": "2d51e364799bc9698bd4b11728ea978cea12da6e",
+  "rlbox_wasm2c_revision": "c4f18c48cea47421617f72ba5edc95c68aa85671",
+  "configure": [
+    "--disable-extstore",
+    "--disable-proxy",
+    "--disable-docs"
+  ],
+  "host_cflags": "-O2 -g",
+  "wasm_cflags": "-O3",
+  "bridge_source_sha256": "e70d1751ea2f45f8e0e987c58a510baf59be6afac09df8129a280e968f9a452d",
+  "untrusted_source_sha256": "6deae40fcd2e03d5dd30faffb1c66971fbf88135b9521453bcc4bca69e7df26c",
+  "generated_policy_sha256": "52f7b0d3c4b668557ff7f80b155daa8997c6d2e1a997846473c70642e68c0fec",
+  "binary_sha256": {
+    "memcached-diagnostics": "40e2441b8b6c5547d0846e8cf1c7ea8d5a5d8cad356310b0c67e6a1eee372233",
+    "memcached-interspec": "c4c2edcb72b9640922aae8d22bbcc1d6a1220d1cf128d76338a771d1c5027ea8",
+    "memcached-interspec-debug": "2a9a9d6fbe92a7367cbaea348cdf9d1df0008db5a18ac678044de893fb553b89",
+    "memcached-native": "3ad23591c2efacb752c82f1caefecdd87c93617891f762016decb757284538d0",
+    "memcached-native-debug": "b960db08ce289c26c586c0c95cdaa20d455c1f917fbf777916be4490af562b46",
+    "memcached-rlbox-only": "dead6d9bff1ffeaf7cddebd52704bc31d1dbb127f5f78430c5d07561320ca012",
+    "memcached-tracked-no-check": "bf7dff0d38ec5c290d8a6b0996b1ef873fa68824e21ab0f81ec34a4be2cfefe0"
+  }
+}

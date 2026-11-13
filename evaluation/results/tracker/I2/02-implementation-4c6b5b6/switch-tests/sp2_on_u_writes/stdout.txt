@@ -1,0 +1,4 @@
+T_OBSERVE stage=offer written=16 record=545f5245434f52445f30313233343536
+T_OBSERVE stage=peek_all size=16 data=545f5245434f52445f30313233343536
+T_OBSERVE stage=poll returned=1 empty=1
+T_OBSERVE stage=done

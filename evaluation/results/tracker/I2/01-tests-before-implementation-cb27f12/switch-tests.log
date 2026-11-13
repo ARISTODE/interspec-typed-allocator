@@ -1,0 +1,23 @@
+FAIL memcached_bipbuffer sp1
+  sp1_off_u_reads: failed stderr has /^INTERSPEC_POLICY boundary=memcached_bipbuffer sp1=0 sp2=1 sp3=full$/
+  sp1_off_u_reads: failed stderr has /\[SP1\] sandbox read peek_all len_in=0x5ec2e7$/
+  sp1_on_u_reads: failed stderr has /^INTERSPEC_POLICY boundary=memcached_bipbuffer sp1=1 sp2=1 sp3=full$/
+FAIL memcached_bipbuffer sp2
+  sp2_off_u_writes: failed stdout has /^T_OBSERVE stage=offer written=16 record=ab5f5245434f52445f30313233343536$/
+  sp2_off_u_writes: failed stderr has /^INTERSPEC_POLICY boundary=memcached_bipbuffer sp1=1 sp2=0 sp3=full$/
+  sp2_on_u_writes: failed stderr has /^INTERSPEC_POLICY boundary=memcached_bipbuffer sp1=1 sp2=1 sp3=full$/
+FAIL memcached_bipbuffer sp3
+  sp3_off_bad_pointer: failed exit==0 (observed -6)
+  sp3_off_bad_pointer: failed stdout has /^T_OBSERVE stage=peek_all size=16 data=545f5245434f52445f30313233343536$/
+  sp3_off_bad_pointer: failed stdout has /^T_OBSERVE stage=done$/
+  sp3_off_bad_pointer: failed stderr has /^INTERSPEC_POLICY boundary=memcached_bipbuffer sp1=1 sp2=1 sp3=off$/
+  sp3_off_bad_pointer: failed stderr lacks /INTERSPEC_REJECT/
+  sp3_domain_bad_pointer: failed exit==0 (observed -6)
+  sp3_domain_bad_pointer: failed stdout has /^T_OBSERVE stage=peek_all size=16 data=545f5245434f52445f30313233343536$/
+  sp3_domain_bad_pointer: failed stdout has /^T_OBSERVE stage=done$/
+  sp3_domain_bad_pointer: failed stderr has /^INTERSPEC_POLICY boundary=memcached_bipbuffer sp1=1 sp2=1 sp3=domain$/
+  sp3_domain_bad_pointer: failed stderr lacks /INTERSPEC_REJECT/
+  sp3_on_bad_pointer: failed stderr has /^INTERSPEC_POLICY boundary=memcached_bipbuffer sp1=1 sp2=1 sp3=full$/
+FAIL memcached_bipbuffer benign
+  benign_all_on: failed stderr has /^INTERSPEC_POLICY boundary=memcached_bipbuffer sp1=1 sp2=1 sp3=full$/
+  benign_all_off: failed stderr has /^INTERSPEC_POLICY boundary=memcached_bipbuffer sp1=0 sp2=0 sp3=off$/

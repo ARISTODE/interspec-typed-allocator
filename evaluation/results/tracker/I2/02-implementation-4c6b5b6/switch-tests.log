@@ -1,0 +1,4 @@
+PASS memcached_bipbuffer sp1
+PASS memcached_bipbuffer sp2
+PASS memcached_bipbuffer sp3
+PASS memcached_bipbuffer benign

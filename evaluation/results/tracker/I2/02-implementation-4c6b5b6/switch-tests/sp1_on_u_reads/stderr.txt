@@ -1,0 +1,2 @@
+INTERSPEC_POLICY boundary=memcached_bipbuffer sp1=1 sp2=1 sp3=full
+[InterSpec][PoC][SP1] sandbox read peek_all len_in=0x0
