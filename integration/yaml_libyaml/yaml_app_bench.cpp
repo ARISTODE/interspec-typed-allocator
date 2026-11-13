@@ -10,6 +10,7 @@
 
 #include "interspec/policy_runtime.h"
 #include "interspec/pointer_census.h"
+#include "interspec/policy_switches.h"
 #include "interspec_yaml_t_policy.h"
 #include "yaml.h"
 #include "yaml_scalar_staging.h"
@@ -31,6 +32,20 @@ namespace {
 using SandboxType = rlbox::rlbox_wasm2c_sandbox;
 using Sandbox = rlbox::rlbox_sandbox<SandboxType>;
 namespace P = interspec::yaml_libyaml_generated;
+
+// Per-policy switches (INTERSPEC_SP2, INTERSPEC_SP3).
+//
+// SP1: nothing to switch. T sends U only the document, which U has to read;
+//      the parser and event objects live in U. INTERSPEC_SP1 is read and
+//      reported but has no effect at this boundary.
+// SP2: the document is read by U and never written by it, so U's copy is not
+//      copied back. Off: it is copied back after each parse.
+// SP3: the object-registry check on each scalar pointer U returns, in the
+//      modes that check at all (extended_sp3, typed_staging_identity). Off:
+//      only the sandbox confinement check that every mode performs remains.
+static const interspec::PolicySwitches& switches() {
+  return interspec::policy_switches("yaml_libyaml");
+}
 
 extern "C" {
 unsigned char* interspec_yaml_setup(uint32_t);
@@ -119,7 +134,8 @@ class Engine {
   bool tracking() const { return mode_ != Mode::rlbox_only; }
   bool typed_staging() const { return mode_ == Mode::typed_staging_identity; }
   bool checks_enabled() const {
-    return mode_ == Mode::extended_sp3 || typed_staging();
+    return (mode_ == Mode::extended_sp3 || typed_staging()) &&
+           switches().sp3 == interspec::Sp3Mode::full;
   }
 
   interspec::Runtime& runtime() {
@@ -205,7 +221,7 @@ class Engine {
   }
 #endif
 
-  Stats run(const std::vector<unsigned char>& input, uint32_t iterations) {
+  Stats run(std::vector<unsigned char>& input, uint32_t iterations) {
     if (!sandbox_ready_ || input.size() != input_size_)
       throw std::runtime_error("input_setup_mismatch");
 
@@ -291,6 +307,12 @@ class Engine {
       }
 
       sandbox_.invoke_sandbox_function(interspec_yaml_end);
+      if (!switches().sp2 && !input.empty() &&
+          std::memcmp(input_raw_, input.data(), input.size()) != 0) {
+        // SP2 off: copy U's version of the document back, as a wrapper
+        // without the policy would. Only a changed document is written.
+        std::memcpy(input.data(), input_raw_, input.size());
+      }
     }
     return stats;
   }
@@ -416,7 +438,7 @@ int main(int argc, char** argv) {
   try {
     const std::string mode_name = argv[1];
     const Mode mode = parse_mode(mode_name);
-    const auto input = read_file(argv[2]);
+    auto input = read_file(argv[2]);
     const uint32_t iterations =
         static_cast<uint32_t>(std::stoul(argv[3]));
     const uint32_t fault =
@@ -432,6 +454,7 @@ int main(int argc, char** argv) {
       throw std::runtime_error("fault_requires_separate_security_binary");
 #endif
 
+    switches();  // read (and, if asked, report) the configuration first
     Engine engine(mode);
     engine.setup(input);
     if (fault)
