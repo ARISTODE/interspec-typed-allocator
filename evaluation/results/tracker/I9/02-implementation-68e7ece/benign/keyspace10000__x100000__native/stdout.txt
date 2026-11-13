@@ -1,0 +1,1 @@
+HASH_BENCH variant=native ops=100000 keyspace=10000 sink=b2d9a8991279fd4e checks=0 elapsed_ns=780413
