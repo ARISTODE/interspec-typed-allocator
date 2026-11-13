@@ -1,0 +1,78 @@
+benchmark,function,binding_kind,binding_id,direction,slot_path,slot_type,category,file
+rsync_popt,poptAddAlias,param,0,T_TO_U,,poptContext_s *,pointer,benchmarks/rsync/popt/popt.c
+rsync_popt,poptAddAlias,param,1,T_TO_U,,poptAlias,struct,benchmarks/rsync/popt/popt.c
+rsync_popt,poptAddAlias,param,1,T_TO_U,/field:argc,int,scalar,benchmarks/rsync/popt/popt.c
+rsync_popt,poptAddAlias,param,1,T_TO_U,/field:argv,char **,pointer,benchmarks/rsync/popt/popt.c
+rsync_popt,poptAddAlias,param,1,T_TO_U,/field:argv/deref,char *,pointer,benchmarks/rsync/popt/popt.c
+rsync_popt,poptAddAlias,param,1,T_TO_U,/field:argv/deref/deref,char,scalar,benchmarks/rsync/popt/popt.c
+rsync_popt,poptAddAlias,param,1,T_TO_U,/field:longName,char *,pointer,benchmarks/rsync/popt/popt.c
+rsync_popt,poptAddAlias,param,1,T_TO_U,/field:longName/deref,char,scalar,benchmarks/rsync/popt/popt.c
+rsync_popt,poptAddAlias,param,1,T_TO_U,/field:shortName,char,scalar,benchmarks/rsync/popt/popt.c
+rsync_popt,poptAddAlias,param,2,T_TO_U,,int,scalar,benchmarks/rsync/popt/popt.c
+rsync_popt,poptAddAlias,return_scalar,return,U_TO_T,,int,scalar,benchmarks/rsync/popt/popt.c
+rsync_popt,poptBadOption,param,0,T_TO_U,,poptContext_s *,pointer,benchmarks/rsync/popt/popt.c
+rsync_popt,poptBadOption,param,1,T_TO_U,,unsigned int,scalar,benchmarks/rsync/popt/popt.c
+rsync_popt,poptBadOption,return,return,U_TO_T,,char *,pointer,benchmarks/rsync/popt/popt.c
+rsync_popt,poptBadOption,return_ptr,return,U_TO_T,/deref,char,scalar,benchmarks/rsync/popt/popt.c
+rsync_popt,poptFreeContext,param,0,T_TO_U,,poptContext_s *,pointer,benchmarks/rsync/popt/popt.c
+rsync_popt,poptFreeContext,return,return,U_TO_T,,poptContext_s *,pointer,benchmarks/rsync/popt/popt.c
+rsync_popt,poptGetArgs,param,0,T_TO_U,,poptContext_s *,pointer,benchmarks/rsync/popt/popt.c
+rsync_popt,poptGetArgs,return,return,U_TO_T,,char **,pointer,benchmarks/rsync/popt/popt.c
+rsync_popt,poptGetArgs,return_ptr,return,U_TO_T,/deref,char *,pointer,benchmarks/rsync/popt/popt.c
+rsync_popt,poptGetArgs,return_ptr,return,U_TO_T,/deref/deref,char,scalar,benchmarks/rsync/popt/popt.c
+rsync_popt,poptGetContext,param,0,T_TO_U,,char *,pointer,benchmarks/rsync/popt/popt.c
+rsync_popt,poptGetContext,param,0,T_TO_U,/deref,char,scalar,benchmarks/rsync/popt/popt.c
+rsync_popt,poptGetContext,param,1,T_TO_U,,int,scalar,benchmarks/rsync/popt/popt.c
+rsync_popt,poptGetContext,param,2,T_TO_U,,char **,pointer,benchmarks/rsync/popt/popt.c
+rsync_popt,poptGetContext,param,2,T_TO_U,/deref,char *,pointer,benchmarks/rsync/popt/popt.c
+rsync_popt,poptGetContext,param,2,T_TO_U,/deref/deref,char,scalar,benchmarks/rsync/popt/popt.c
+rsync_popt,poptGetContext,param,3,T_TO_U,,poptOption *,pointer,benchmarks/rsync/popt/popt.c
+rsync_popt,poptGetContext,param,3,T_TO_U,/deref,poptOption,struct,benchmarks/rsync/popt/popt.c
+rsync_popt,poptGetContext,param,3,T_TO_U,/deref/field:arg,void *,pointer,benchmarks/rsync/popt/popt.c
+rsync_popt,poptGetContext,param,3,T_TO_U,/deref/field:argDescrip,char *,pointer,benchmarks/rsync/popt/popt.c
+rsync_popt,poptGetContext,param,3,T_TO_U,/deref/field:argDescrip/deref,char,scalar,benchmarks/rsync/popt/popt.c
+rsync_popt,poptGetContext,param,3,T_TO_U,/deref/field:argInfo,unsigned int,scalar,benchmarks/rsync/popt/popt.c
+rsync_popt,poptGetContext,param,3,T_TO_U,/deref/field:descrip,char *,pointer,benchmarks/rsync/popt/popt.c
+rsync_popt,poptGetContext,param,3,T_TO_U,/deref/field:descrip/deref,char,scalar,benchmarks/rsync/popt/popt.c
+rsync_popt,poptGetContext,param,3,T_TO_U,/deref/field:longName,char *,pointer,benchmarks/rsync/popt/popt.c
+rsync_popt,poptGetContext,param,3,T_TO_U,/deref/field:longName/deref,char,scalar,benchmarks/rsync/popt/popt.c
+rsync_popt,poptGetContext,param,3,T_TO_U,/deref/field:shortName,char,scalar,benchmarks/rsync/popt/popt.c
+rsync_popt,poptGetContext,param,3,T_TO_U,/deref/field:val,int,scalar,benchmarks/rsync/popt/popt.c
+rsync_popt,poptGetContext,param,4,T_TO_U,,unsigned int,scalar,benchmarks/rsync/popt/popt.c
+rsync_popt,poptGetContext,return,return,U_TO_T,,poptContext_s *,pointer,benchmarks/rsync/popt/popt.c
+rsync_popt,poptGetNextOpt,param,0,T_TO_U,,poptContext_s *,pointer,benchmarks/rsync/popt/popt.c
+rsync_popt,poptGetNextOpt,return_scalar,return,U_TO_T,,int,scalar,benchmarks/rsync/popt/popt.c
+rsync_popt,poptGetOptArg,param,0,T_TO_U,,poptContext_s *,pointer,benchmarks/rsync/popt/popt.c
+rsync_popt,poptGetOptArg,return,return,U_TO_T,,char *,pointer,benchmarks/rsync/popt/popt.c
+rsync_popt,poptGetOptArg,return_ptr,return,U_TO_T,/deref,char,scalar,benchmarks/rsync/popt/popt.c
+rsync_popt,poptSaveArg,param,0,T_TO_U,,poptContext_s *,pointer,benchmarks/rsync/popt/popt.c
+rsync_popt,poptSaveArg,param,1,T_TO_U,,poptOption *,pointer,benchmarks/rsync/popt/popt.c
+rsync_popt,poptSaveArg,param,1,T_TO_U,/deref,poptOption,struct,benchmarks/rsync/popt/popt.c
+rsync_popt,poptSaveArg,param,1,T_TO_U,/deref/field:arg,void *,pointer,benchmarks/rsync/popt/popt.c
+rsync_popt,poptSaveArg,param,1,T_TO_U,/deref/field:argDescrip,char *,pointer,benchmarks/rsync/popt/popt.c
+rsync_popt,poptSaveArg,param,1,T_TO_U,/deref/field:argDescrip/deref,char,scalar,benchmarks/rsync/popt/popt.c
+rsync_popt,poptSaveArg,param,1,T_TO_U,/deref/field:argInfo,unsigned int,scalar,benchmarks/rsync/popt/popt.c
+rsync_popt,poptSaveArg,param,1,T_TO_U,/deref/field:descrip,char *,pointer,benchmarks/rsync/popt/popt.c
+rsync_popt,poptSaveArg,param,1,T_TO_U,/deref/field:descrip/deref,char,scalar,benchmarks/rsync/popt/popt.c
+rsync_popt,poptSaveArg,param,1,T_TO_U,/deref/field:longName,char *,pointer,benchmarks/rsync/popt/popt.c
+rsync_popt,poptSaveArg,param,1,T_TO_U,/deref/field:longName/deref,char,scalar,benchmarks/rsync/popt/popt.c
+rsync_popt,poptSaveArg,param,1,T_TO_U,/deref/field:shortName,char,scalar,benchmarks/rsync/popt/popt.c
+rsync_popt,poptSaveArg,param,1,T_TO_U,/deref/field:val,int,scalar,benchmarks/rsync/popt/popt.c
+rsync_popt,poptSaveArg,return_scalar,return,U_TO_T,,int,scalar,benchmarks/rsync/popt/popt.c
+rsync_popt,poptStrerror,param,0,T_TO_U,,int,scalar,benchmarks/rsync/popt/popt.c
+rsync_popt,poptStrerror,return,return,U_TO_T,,char *,pointer,benchmarks/rsync/popt/popt.c
+rsync_popt,poptStrerror,return_ptr,return,U_TO_T,/deref,char,scalar,benchmarks/rsync/popt/popt.c
+rsync_popt,poptReadDefaultConfig,param,0,T_TO_U,,poptContext_s *,pointer,benchmarks/rsync/popt/poptconfig.c
+rsync_popt,poptReadDefaultConfig,param,1,T_TO_U,,int,scalar,benchmarks/rsync/popt/poptconfig.c
+rsync_popt,poptReadDefaultConfig,return_scalar,return,U_TO_T,,int,scalar,benchmarks/rsync/popt/poptconfig.c
+rsync_popt,poptDupArgv,param,0,T_TO_U,,int,scalar,benchmarks/rsync/popt/poptparse.c
+rsync_popt,poptDupArgv,param,1,T_TO_U,,char **,pointer,benchmarks/rsync/popt/poptparse.c
+rsync_popt,poptDupArgv,param,1,T_TO_U,/deref,char *,pointer,benchmarks/rsync/popt/poptparse.c
+rsync_popt,poptDupArgv,param,1,T_TO_U,/deref/deref,char,scalar,benchmarks/rsync/popt/poptparse.c
+rsync_popt,poptDupArgv,param,2,T_TO_U,,int *,pointer,benchmarks/rsync/popt/poptparse.c
+rsync_popt,poptDupArgv,param,2,T_TO_U,/deref,int,scalar,benchmarks/rsync/popt/poptparse.c
+rsync_popt,poptDupArgv,param,3,T_TO_U,,char ***,pointer,benchmarks/rsync/popt/poptparse.c
+rsync_popt,poptDupArgv,param,3,T_TO_U,/deref,char **,pointer,benchmarks/rsync/popt/poptparse.c
+rsync_popt,poptDupArgv,param,3,T_TO_U,/deref/deref,char *,pointer,benchmarks/rsync/popt/poptparse.c
+rsync_popt,poptDupArgv,param,3,T_TO_U,/deref/deref/deref,char,scalar,benchmarks/rsync/popt/poptparse.c
+rsync_popt,poptDupArgv,return_scalar,return,U_TO_T,,int,scalar,benchmarks/rsync/popt/poptparse.c

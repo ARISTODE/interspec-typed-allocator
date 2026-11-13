@@ -1,0 +1,1 @@
+ZIP_BENCH variant=interspec iterations=1 archive_bytes=98 entries=1 checksum=28ca1f60e73a0706 last_name=(empty) last_size=0 checks=0 elapsed_ns=1205

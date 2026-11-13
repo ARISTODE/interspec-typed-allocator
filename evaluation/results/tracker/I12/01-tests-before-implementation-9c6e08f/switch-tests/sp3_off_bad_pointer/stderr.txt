@@ -1,0 +1,3 @@
+INTERSPEC_POLICY boundary=zip_libzip sp1=1 sp2=1 sp3=off
+FAULT_INJECTION boundary=zip_libzip mode=2 original=0x104710 replacement=0x1104b10 bytes=4
+INTERSPEC_REJECT boundary=zip_libzip operation=name_direct reason=untracked

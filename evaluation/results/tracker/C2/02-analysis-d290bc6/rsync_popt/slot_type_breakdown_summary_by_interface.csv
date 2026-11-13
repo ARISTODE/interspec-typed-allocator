@@ -1,0 +1,12 @@
+benchmark,function,file,total_fields,pointer_fields,scalar_fields,struct_fields,array_fields,other_fields
+rsync_popt,poptAddAlias,benchmarks/rsync/popt/popt.c,11,4,6,1,0,0
+rsync_popt,poptBadOption,benchmarks/rsync/popt/popt.c,4,2,2,0,0,0
+rsync_popt,poptDupArgv,benchmarks/rsync/popt/poptparse.c,11,6,5,0,0,0
+rsync_popt,poptFreeContext,benchmarks/rsync/popt/popt.c,2,2,0,0,0,0
+rsync_popt,poptGetArgs,benchmarks/rsync/popt/popt.c,4,3,1,0,0,0
+rsync_popt,poptGetContext,benchmarks/rsync/popt/popt.c,20,9,10,1,0,0
+rsync_popt,poptGetNextOpt,benchmarks/rsync/popt/popt.c,2,1,1,0,0,0
+rsync_popt,poptGetOptArg,benchmarks/rsync/popt/popt.c,3,2,1,0,0,0
+rsync_popt,poptReadDefaultConfig,benchmarks/rsync/popt/poptconfig.c,3,1,2,0,0,0
+rsync_popt,poptSaveArg,benchmarks/rsync/popt/popt.c,14,6,7,1,0,0
+rsync_popt,poptStrerror,benchmarks/rsync/popt/popt.c,3,1,2,0,0,0

@@ -1,0 +1,486 @@
+{
+  "boundary": "zip_libzip",
+  "driver": "/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i12-work-0082565/bin/zip-interspec-fault",
+  "driver_sha256": "c129cc47c20c8745d45e210837296cb20c77f447eac2943388e924de1e84ff3f",
+  "tests": {
+    "sp1": {
+      "cases": [
+        "sp1_off_u_reads",
+        "sp1_on_u_reads"
+      ],
+      "passed": true
+    },
+    "sp2": {
+      "cases": [
+        "sp2_off_u_writes",
+        "sp2_on_u_writes"
+      ],
+      "passed": true
+    },
+    "sp3": {
+      "cases": [
+        "sp3_off_bad_pointer",
+        "sp3_on_bad_pointer"
+      ],
+      "passed": true
+    },
+    "sp3_other_faults": {
+      "cases": [
+        "sp3_on_wrong_type",
+        "sp3_on_released",
+        "sp3_on_unterminated"
+      ],
+      "passed": true
+    },
+    "benign": {
+      "cases": [
+        "benign_all_on",
+        "benign_all_off"
+      ],
+      "passed": true
+    },
+    "limit_static_empty_name": {
+      "cases": [
+        "limit_empty_name_sp3_off",
+        "limit_empty_name_sp3_on"
+      ],
+      "passed": true
+    }
+  },
+  "cases": {
+    "sp1_off_u_reads": {
+      "case": "sp1_off_u_reads",
+      "exit": 0,
+      "timed_out": false,
+      "passed": true,
+      "checks": [
+        {
+          "check": "no_timeout",
+          "ok": true
+        },
+        {
+          "check": "exit==0",
+          "ok": true,
+          "observed": 0
+        },
+        {
+          "check": "stdout has /^ZIP_BENCH variant=interspec iterations=1 archive_bytes=412 entries=3 checksum=[0-9a-f]{16} last_name=74657374 last_size=5 /",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_POLICY boundary=zip_libzip sp1=0 sp2=1 sp3=full$/",
+          "ok": true
+        },
+        {
+          "check": "stderr has /\\[SP1\\] sandbox read out-parameters size_in=0x5ec2e70100000001 name_direct_in=0x5ec2e702 name_stat_in=0x5ec2e703$/",
+          "ok": true
+        }
+      ]
+    },
+    "sp1_on_u_reads": {
+      "case": "sp1_on_u_reads",
+      "exit": 0,
+      "timed_out": false,
+      "passed": true,
+      "checks": [
+        {
+          "check": "no_timeout",
+          "ok": true
+        },
+        {
+          "check": "exit==0",
+          "ok": true,
+          "observed": 0
+        },
+        {
+          "check": "stdout has /^ZIP_BENCH variant=interspec iterations=1 archive_bytes=412 entries=3 checksum=[0-9a-f]{16} last_name=74657374 last_size=5 /",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_POLICY boundary=zip_libzip sp1=1 sp2=1 sp3=full$/",
+          "ok": true
+        },
+        {
+          "check": "stderr has /\\[SP1\\] sandbox read out-parameters size_in=0x0 name_direct_in=0x0 name_stat_in=0x0$/",
+          "ok": true
+        },
+        {
+          "check": "stderr lacks /5ec2e7/",
+          "ok": true
+        }
+      ]
+    },
+    "sp2_off_u_writes": {
+      "case": "sp2_off_u_writes",
+      "exit": 0,
+      "timed_out": false,
+      "passed": true,
+      "checks": [
+        {
+          "check": "no_timeout",
+          "ok": true
+        },
+        {
+          "check": "exit==0",
+          "ok": true,
+          "observed": 0
+        },
+        {
+          "check": "stdout has /^ZIP_BENCH variant=interspec iterations=1 archive_bytes=412 entries=3 checksum=[0-9a-f]{16} last_name=74657374 last_size=5 /",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_POLICY boundary=zip_libzip sp1=1 sp2=0 sp3=full$/",
+          "ok": true
+        },
+        {
+          "check": "stderr has /\\[SP2\\] sandbox mutated archive byte=0 old=0x50 new=0xaf$/",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_T_OBSERVE boundary=zip_libzip archive_first_byte=0xaf$/",
+          "ok": true
+        }
+      ]
+    },
+    "sp2_on_u_writes": {
+      "case": "sp2_on_u_writes",
+      "exit": 0,
+      "timed_out": false,
+      "passed": true,
+      "checks": [
+        {
+          "check": "no_timeout",
+          "ok": true
+        },
+        {
+          "check": "exit==0",
+          "ok": true,
+          "observed": 0
+        },
+        {
+          "check": "stdout has /^ZIP_BENCH variant=interspec iterations=1 archive_bytes=412 entries=3 checksum=[0-9a-f]{16} last_name=74657374 last_size=5 /",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_POLICY boundary=zip_libzip sp1=1 sp2=1 sp3=full$/",
+          "ok": true
+        },
+        {
+          "check": "stderr has /\\[SP2\\] sandbox mutated archive byte=0 old=0x50 new=0xaf$/",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_T_OBSERVE boundary=zip_libzip archive_first_byte=0x50$/",
+          "ok": true
+        }
+      ]
+    },
+    "sp3_off_bad_pointer": {
+      "case": "sp3_off_bad_pointer",
+      "exit": 0,
+      "timed_out": false,
+      "passed": true,
+      "checks": [
+        {
+          "check": "no_timeout",
+          "ok": true
+        },
+        {
+          "check": "exit==0",
+          "ok": true,
+          "observed": 0
+        },
+        {
+          "check": "stdout has /^ZIP_BENCH variant=interspec iterations=1 archive_bytes=412 entries=3 checksum=[0-9a-f]{16} last_name=74657374 last_size=5 checks=0 /",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_POLICY boundary=zip_libzip sp1=1 sp2=1 sp3=off$/",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^FAULT_INJECTION boundary=zip_libzip mode=2 /",
+          "ok": true
+        },
+        {
+          "check": "stderr lacks /INTERSPEC_REJECT/",
+          "ok": true
+        }
+      ]
+    },
+    "sp3_on_bad_pointer": {
+      "case": "sp3_on_bad_pointer",
+      "exit": 86,
+      "timed_out": false,
+      "passed": true,
+      "checks": [
+        {
+          "check": "no_timeout",
+          "ok": true
+        },
+        {
+          "check": "exit==86",
+          "ok": true,
+          "observed": 86
+        },
+        {
+          "check": "stdout lacks /ZIP_BENCH/",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_POLICY boundary=zip_libzip sp1=1 sp2=1 sp3=full$/",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^FAULT_INJECTION boundary=zip_libzip mode=2 /",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_REJECT boundary=zip_libzip operation=name_direct reason=untracked$/",
+          "ok": true
+        }
+      ]
+    },
+    "sp3_on_wrong_type": {
+      "case": "sp3_on_wrong_type",
+      "exit": 86,
+      "timed_out": false,
+      "passed": true,
+      "checks": [
+        {
+          "check": "no_timeout",
+          "ok": true
+        },
+        {
+          "check": "exit==86",
+          "ok": true,
+          "observed": 86
+        },
+        {
+          "check": "stdout lacks /ZIP_BENCH/",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_POLICY boundary=zip_libzip sp1=1 sp2=1 sp3=full$/",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^FAULT_INJECTION boundary=zip_libzip mode=1 /",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_REJECT boundary=zip_libzip operation=name_direct reason=wrong_type$/",
+          "ok": true
+        }
+      ]
+    },
+    "sp3_on_released": {
+      "case": "sp3_on_released",
+      "exit": 86,
+      "timed_out": false,
+      "passed": true,
+      "checks": [
+        {
+          "check": "no_timeout",
+          "ok": true
+        },
+        {
+          "check": "exit==86",
+          "ok": true,
+          "observed": 86
+        },
+        {
+          "check": "stdout lacks /ZIP_BENCH/",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_POLICY boundary=zip_libzip sp1=1 sp2=1 sp3=full$/",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^FAULT_INJECTION boundary=zip_libzip mode=3 /",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_REJECT boundary=zip_libzip operation=name_direct reason=untracked$/",
+          "ok": true
+        }
+      ]
+    },
+    "sp3_on_unterminated": {
+      "case": "sp3_on_unterminated",
+      "exit": 86,
+      "timed_out": false,
+      "passed": true,
+      "checks": [
+        {
+          "check": "no_timeout",
+          "ok": true
+        },
+        {
+          "check": "exit==86",
+          "ok": true,
+          "observed": 86
+        },
+        {
+          "check": "stdout lacks /ZIP_BENCH/",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_POLICY boundary=zip_libzip sp1=1 sp2=1 sp3=full$/",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^FAULT_INJECTION boundary=zip_libzip mode=4 /",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_REJECT boundary=zip_libzip operation=name_direct reason=out_of_bounds$/",
+          "ok": true
+        }
+      ]
+    },
+    "benign_all_on": {
+      "case": "benign_all_on",
+      "exit": 0,
+      "timed_out": false,
+      "passed": true,
+      "checks": [
+        {
+          "check": "no_timeout",
+          "ok": true
+        },
+        {
+          "check": "exit==0",
+          "ok": true,
+          "observed": 0
+        },
+        {
+          "check": "stdout has /^ZIP_BENCH variant=interspec iterations=1 archive_bytes=412 entries=3 checksum=[0-9a-f]{16} last_name=74657374 last_size=5 checks=2 /",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_POLICY boundary=zip_libzip sp1=1 sp2=1 sp3=full$/",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_T_OBSERVE boundary=zip_libzip archive_first_byte=0x50$/",
+          "ok": true
+        },
+        {
+          "check": "stderr lacks /INTERSPEC_REJECT/",
+          "ok": true
+        },
+        {
+          "check": "stderr lacks /FAULT_INJECTION/",
+          "ok": true
+        },
+        {
+          "check": "stderr lacks /PoC/",
+          "ok": true
+        }
+      ]
+    },
+    "benign_all_off": {
+      "case": "benign_all_off",
+      "exit": 0,
+      "timed_out": false,
+      "passed": true,
+      "checks": [
+        {
+          "check": "no_timeout",
+          "ok": true
+        },
+        {
+          "check": "exit==0",
+          "ok": true,
+          "observed": 0
+        },
+        {
+          "check": "stdout has /^ZIP_BENCH variant=interspec iterations=1 archive_bytes=412 entries=3 checksum=[0-9a-f]{16} last_name=74657374 last_size=5 checks=0 /",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_POLICY boundary=zip_libzip sp1=0 sp2=0 sp3=off$/",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_T_OBSERVE boundary=zip_libzip archive_first_byte=0x50$/",
+          "ok": true
+        },
+        {
+          "check": "stderr lacks /INTERSPEC_REJECT/",
+          "ok": true
+        },
+        {
+          "check": "stderr lacks /FAULT_INJECTION/",
+          "ok": true
+        },
+        {
+          "check": "stderr lacks /PoC/",
+          "ok": true
+        }
+      ]
+    },
+    "limit_empty_name_sp3_off": {
+      "case": "limit_empty_name_sp3_off",
+      "exit": 0,
+      "timed_out": false,
+      "passed": true,
+      "checks": [
+        {
+          "check": "no_timeout",
+          "ok": true
+        },
+        {
+          "check": "exit==0",
+          "ok": true,
+          "observed": 0
+        },
+        {
+          "check": "stdout has /^ZIP_BENCH variant=interspec iterations=1 archive_bytes=98 entries=1 checksum=[0-9a-f]{16} last_name=\\(empty\\) /",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_POLICY boundary=zip_libzip sp1=1 sp2=1 sp3=off$/",
+          "ok": true
+        },
+        {
+          "check": "stderr lacks /INTERSPEC_REJECT/",
+          "ok": true
+        }
+      ]
+    },
+    "limit_empty_name_sp3_on": {
+      "case": "limit_empty_name_sp3_on",
+      "exit": 86,
+      "timed_out": false,
+      "passed": true,
+      "checks": [
+        {
+          "check": "no_timeout",
+          "ok": true
+        },
+        {
+          "check": "exit==86",
+          "ok": true,
+          "observed": 86
+        },
+        {
+          "check": "stdout lacks /ZIP_BENCH/",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_POLICY boundary=zip_libzip sp1=1 sp2=1 sp3=full$/",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_REJECT boundary=zip_libzip operation=name_direct reason=untracked$/",
+          "ok": true
+        }
+      ]
+    }
+  },
+  "passed": true
+}

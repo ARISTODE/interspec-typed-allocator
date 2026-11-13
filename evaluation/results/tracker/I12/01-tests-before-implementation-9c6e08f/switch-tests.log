@@ -1,0 +1,16 @@
+FAIL zip_libzip sp1
+  sp1_on_u_reads: failed stderr has /\[SP1\] sandbox read out-parameters size_in=0x0 name_direct_in=0x0 name_stat_in=0x0$/
+  sp1_on_u_reads: failed stderr lacks /5ec2e7/
+FAIL zip_libzip sp2
+  sp2_on_u_writes: failed stderr has /^INTERSPEC_T_OBSERVE boundary=zip_libzip archive_first_byte=0x50$/
+FAIL zip_libzip sp3
+  sp3_off_bad_pointer: failed exit==0 (observed 86)
+  sp3_off_bad_pointer: failed stdout has /^ZIP_BENCH variant=interspec iterations=1 archive_bytes=412 entries=3 checksum=[0-9a-f]{16} last_name=74657374 last_size=5 checks=0 /
+  sp3_off_bad_pointer: failed stderr lacks /INTERSPEC_REJECT/
+PASS zip_libzip sp3_other_faults
+FAIL zip_libzip benign
+  benign_all_off: failed stdout has /^ZIP_BENCH variant=interspec iterations=1 archive_bytes=412 entries=3 checksum=[0-9a-f]{16} last_name=74657374 last_size=5 checks=0 /
+FAIL zip_libzip limit_static_empty_name
+  limit_empty_name_sp3_off: failed exit==0 (observed 86)
+  limit_empty_name_sp3_off: failed stdout has /^ZIP_BENCH variant=interspec iterations=1 archive_bytes=98 entries=1 checksum=[0-9a-f]{16} last_name=\(empty\) /
+  limit_empty_name_sp3_off: failed stderr lacks /INTERSPEC_REJECT/

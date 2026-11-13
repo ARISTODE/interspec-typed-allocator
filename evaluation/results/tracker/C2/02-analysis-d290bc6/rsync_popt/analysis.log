@@ -1,0 +1,59 @@
+[slot-policy] Activating manifest (isolated) -> config/rsync_popt.json
+Generated /tmp/slot_policy_pack_xqkg9tww/ql/generated/RsyncPoptConfig.qll without updating ql/generated/index.qll.
+[slot-policy] Running pointer slot query (param) -> reports/rsync_popt/_pointer_query_split/pointer_slots.param.bqrs
+Compiling query plan for /tmp/slot_policy_pack_xqkg9tww/ql/queries/pointer_slots_split_825n6yj5/pointer_slots_param.ql.
+WARNING: unused predicate 'aggregateReturnPtrSlotRow' (/tmp/slot_policy_pack_xqkg9tww/ql/queries/pointer_slots_split_825n6yj5/pointer_slots_param.ql:1491,11-36)
+WARNING: unused predicate 'returnSlotRow' (/tmp/slot_policy_pack_xqkg9tww/ql/queries/pointer_slots_split_825n6yj5/pointer_slots_param.ql:1576,11-24)
+WARNING: unused predicate 'returnPtrSlotRow' (/tmp/slot_policy_pack_xqkg9tww/ql/queries/pointer_slots_split_825n6yj5/pointer_slots_param.ql:1655,11-27)
+[1/1 comp 35.5s] Compiled /tmp/slot_policy_pack_xqkg9tww/ql/queries/pointer_slots_split_825n6yj5/pointer_slots_param.ql.
+Starting evaluation of interspec-pointer-analysis/queries/pointer_slots_split_825n6yj5/pointer_slots_param.ql.
+[1/1 eval 1m18s] Evaluation done; writing results to /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/root/reports/rsync_popt/_pointer_query_split/pointer_slots.param.bqrs.
+Shutting down query evaluator.
+[slot-policy] Running pointer slot query (return) -> reports/rsync_popt/_pointer_query_split/pointer_slots.return.bqrs
+Compiling query plan for /tmp/slot_policy_pack_xqkg9tww/ql/queries/pointer_slots_split_825n6yj5/pointer_slots_return.ql.
+WARNING: unused predicate 'parameterSlotRow' (/tmp/slot_policy_pack_xqkg9tww/ql/queries/pointer_slots_split_825n6yj5/pointer_slots_return.ql:1195,11-27)
+WARNING: unused predicate 'aggregateReturnPtrSlotRow' (/tmp/slot_policy_pack_xqkg9tww/ql/queries/pointer_slots_split_825n6yj5/pointer_slots_return.ql:1491,11-36)
+WARNING: unused predicate 'returnPtrSlotRow' (/tmp/slot_policy_pack_xqkg9tww/ql/queries/pointer_slots_split_825n6yj5/pointer_slots_return.ql:1655,11-27)
+[1/1 comp 25.8s] Compiled /tmp/slot_policy_pack_xqkg9tww/ql/queries/pointer_slots_split_825n6yj5/pointer_slots_return.ql.
+Starting evaluation of interspec-pointer-analysis/queries/pointer_slots_split_825n6yj5/pointer_slots_return.ql.
+[1/1 eval 31.2s] Evaluation done; writing results to /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/root/reports/rsync_popt/_pointer_query_split/pointer_slots.return.bqrs.
+Shutting down query evaluator.
+[slot-policy] Running pointer slot query (return_ptr) -> reports/rsync_popt/_pointer_query_split/pointer_slots.return_ptr.bqrs
+Compiling query plan for /tmp/slot_policy_pack_xqkg9tww/ql/queries/pointer_slots_split_825n6yj5/pointer_slots_return_ptr.ql.
+WARNING: unused predicate 'parameterSlotRow' (/tmp/slot_policy_pack_xqkg9tww/ql/queries/pointer_slots_split_825n6yj5/pointer_slots_return_ptr.ql:1195,11-27)
+WARNING: unused predicate 'aggregateReturnPtrSlotRow' (/tmp/slot_policy_pack_xqkg9tww/ql/queries/pointer_slots_split_825n6yj5/pointer_slots_return_ptr.ql:1491,11-36)
+WARNING: unused predicate 'returnSlotRow' (/tmp/slot_policy_pack_xqkg9tww/ql/queries/pointer_slots_split_825n6yj5/pointer_slots_return_ptr.ql:1576,11-24)
+[1/1 comp 29.7s] Compiled /tmp/slot_policy_pack_xqkg9tww/ql/queries/pointer_slots_split_825n6yj5/pointer_slots_return_ptr.ql.
+Starting evaluation of interspec-pointer-analysis/queries/pointer_slots_split_825n6yj5/pointer_slots_return_ptr.ql.
+[1/1 eval 1m5s] Evaluation done; writing results to /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/root/reports/rsync_popt/_pointer_query_split/pointer_slots.return_ptr.bqrs.
+Shutting down query evaluator.
+[slot-policy] Running pointer slot query (aggregate_return_ptr) -> reports/rsync_popt/_pointer_query_split/pointer_slots.aggregate_return_ptr.bqrs
+Compiling query plan for /tmp/slot_policy_pack_xqkg9tww/ql/queries/pointer_slots_split_825n6yj5/pointer_slots_aggregate_return_ptr.ql.
+WARNING: unused predicate 'parameterSlotRow' (/tmp/slot_policy_pack_xqkg9tww/ql/queries/pointer_slots_split_825n6yj5/pointer_slots_aggregate_return_ptr.ql:1195,11-27)
+WARNING: unused predicate 'returnSlotRow' (/tmp/slot_policy_pack_xqkg9tww/ql/queries/pointer_slots_split_825n6yj5/pointer_slots_aggregate_return_ptr.ql:1576,11-24)
+WARNING: unused predicate 'returnPtrSlotRow' (/tmp/slot_policy_pack_xqkg9tww/ql/queries/pointer_slots_split_825n6yj5/pointer_slots_aggregate_return_ptr.ql:1655,11-27)
+[1/1 comp 25.3s] Compiled /tmp/slot_policy_pack_xqkg9tww/ql/queries/pointer_slots_split_825n6yj5/pointer_slots_aggregate_return_ptr.ql.
+Starting evaluation of interspec-pointer-analysis/queries/pointer_slots_split_825n6yj5/pointer_slots_aggregate_return_ptr.ql.
+[1/1 eval 6.5s] Evaluation done; writing results to /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/root/reports/rsync_popt/_pointer_query_split/pointer_slots.aggregate_return_ptr.bqrs.
+Shutting down query evaluator.
+[slot-policy] Exporting pointer slot rows -> reports/rsync_popt/pointer_slots_classification.csv
+[slot-policy] Exporting pointer slots -> reports/rsync_popt/pointer_slots_summary_by_interface.csv
+[slot-policy] Exporting SP3 cases -> reports/rsync_popt/sp3_cases.csv
+[slot-policy] Running scalar slot query -> reports/rsync_popt/scalar_slots.bqrs
+Compiling query plan for /tmp/slot_policy_pack_xqkg9tww/ql/queries/scalar_slots_classification.ql.
+[1/1 comp 31.7s] Compiled /tmp/slot_policy_pack_xqkg9tww/ql/queries/scalar_slots_classification.ql.
+Starting evaluation of interspec-pointer-analysis/queries/scalar_slots_classification.ql.
+[1/1 eval 2m16s] Evaluation done; writing results to /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/root/reports/rsync_popt/scalar_slots.bqrs.
+Shutting down query evaluator.
+[slot-policy] Exporting scalar slots -> reports/rsync_popt/scalar_slots_summary_by_interface.csv
+[slot-policy] Running slot-type breakdown query -> reports/rsync_popt/slot_type_breakdown.bqrs
+Compiling query plan for /tmp/slot_policy_pack_xqkg9tww/ql/queries/slot_type_breakdown.ql.
+[1/1 comp 22.6s] Compiled /tmp/slot_policy_pack_xqkg9tww/ql/queries/slot_type_breakdown.ql.
+Starting evaluation of interspec-pointer-analysis/queries/slot_type_breakdown.ql.
+[1/1 eval 3.5s] Evaluation done; writing results to /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/root/reports/rsync_popt/slot_type_breakdown.bqrs.
+Shutting down query evaluator.
+[slot-policy] Exporting slot type rows -> reports/rsync_popt/slot_type_breakdown.csv
+[slot-policy] Exporting slot types -> reports/rsync_popt/slot_type_breakdown_summary_by_interface.csv
+[slot-policy] Exporting node surface -> reports/rsync_popt/node_surface_summary_by_interface.csv
+[slot-policy] Consolidating -> reports/rsync_popt/policy_summary.csv
+[slot-policy] Done
