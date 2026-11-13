@@ -1,0 +1,21 @@
+{
+  "types": [
+    "ucl_string_value",
+    "ucl_emitted"
+  ],
+  "allocations": [],
+  "uses": [
+    {
+      "name": "ucl_string_value_range",
+      "type": "ucl_string_value",
+      "offset": 0,
+      "dynamic_bytes": true
+    },
+    {
+      "name": "ucl_emitted_range",
+      "type": "ucl_emitted",
+      "offset": 0,
+      "dynamic_bytes": true
+    }
+  ]
+}

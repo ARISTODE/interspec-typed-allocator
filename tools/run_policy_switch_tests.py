@@ -61,6 +61,14 @@ YAML_BENIGN = (r"^YAML_BENCH mode=extended_sp3 iterations=1 input_bytes=\d+ "
                r"events=23 scalars=11 scalar_bytes=\d+ hash=[0-9a-f]{16} ")
 YAML_REJECT_EXIT = 86
 
+# ucl/libucl: the driver is the test build of ucl_app_bench on
+# evaluation/parity/ucl/nested.conf (first byte 's' = 0x73), looking up
+# server.name ("alpha") and logging.level ("debug"). Rejections exit with 86.
+UCL_ARGS = ["{document}", "server.name", "logging.level", "1"]
+UCL_BENIGN = (r"^UCL_BENCH variant=interspec iterations=1 input_bytes=\d+ "
+              r"val1=616c706861 val2=6465627567 emitted_bytes=\d+ emitted_fnv=[0-9a-f]{16} ")
+UCL_T_UNCHANGED = r"^INTERSPEC_T_OBSERVE boundary=ucl_libucl input_first_byte=0x73 key1_first_byte=0x73$"
+
 # Each case: switch settings, test-only U behavior, and what must be observed.
 # "exit" is a return code; a negative value is the signal that ended the process.
 BOUNDARIES = {
@@ -339,6 +347,77 @@ BOUNDARIES = {
                 "args": YAML_ARGS, "exit": 0,
                 "stdout": [YAML_BENIGN + r"checks=0 "],
                 "stderr": [r"^INTERSPEC_T_OBSERVE boundary=yaml_libyaml input_first_byte=0x6b$"],
+                "stderr_absent": [r"INTERSPEC_REJECT", r"FAULT_INJECTION", r"PoC"],
+            },
+        },
+    },
+    "ucl_libucl": {
+        "tests": {
+            "sp1": ["sp1_off_u_reads", "sp1_on_u_reads"],
+            "sp2": ["sp2_off_u_writes", "sp2_on_u_writes"],
+            "sp3": ["sp3_off_bad_pointer", "sp3_on_bad_pointer"],
+            "benign": ["benign_all_on", "benign_all_off"],
+        },
+        "cases": {
+            # SP1: U reads what it was handed for the three out-parameters.
+            "sp1_off_u_reads": {
+                "env": {**switches(sp1="0"), "INTERSPEC_TEST_POC_FLAGS": "1"},
+                "args": UCL_ARGS, "exit": 0,
+                "stdout": [UCL_BENIGN],
+                "stderr": [r"\[SP1\] sandbox read out-parameters val1_in=0x5ec2e701 "
+                           r"val2_in=0x5ec2e702 emitted_in=0x5ec2e703$"],
+            },
+            "sp1_on_u_reads": {
+                "env": {**switches(), "INTERSPEC_TEST_POC_FLAGS": "1"},
+                "args": UCL_ARGS, "exit": 0,
+                "stdout": [UCL_BENIGN],
+                "stderr": [r"\[SP1\] sandbox read out-parameters val1_in=0x0 "
+                           r"val2_in=0x0 emitted_in=0x0$"],
+                "stderr_absent": [r"5ec2e7"],
+            },
+            # SP2: U overwrites its copy of the document after parsing.
+            "sp2_off_u_writes": {
+                "env": {**switches(sp2="0"), "INTERSPEC_TEST_POC_FLAGS": "2"},
+                "args": UCL_ARGS, "exit": 0,
+                "stdout": [UCL_BENIGN],
+                "stderr": [r"\[SP2\] sandbox mutated document byte=0 old=0x73 new=0x8c$",
+                           r"^INTERSPEC_T_OBSERVE boundary=ucl_libucl input_first_byte=0x8c "],
+            },
+            "sp2_on_u_writes": {
+                "env": {**switches(), "INTERSPEC_TEST_POC_FLAGS": "2"},
+                "args": UCL_ARGS, "exit": 0,
+                "stdout": [UCL_BENIGN],
+                "stderr": [r"\[SP2\] sandbox mutated document byte=0 old=0x73 new=0x8c$",
+                           UCL_T_UNCHANGED],
+            },
+            # SP3: U returns an untracked heap copy of the first string.
+            "sp3_off_bad_pointer": {
+                "env": switches(sp3="0"),
+                "args": UCL_ARGS + ["2"], "exit": 0,
+                "stdout": [UCL_BENIGN + r"checks=0 "],
+                "stderr": [r"^FAULT_INJECTION boundary=ucl_libucl mode=2 "],
+                "stderr_absent": [r"INTERSPEC_REJECT"],
+            },
+            "sp3_on_bad_pointer": {
+                "env": switches(),
+                "args": UCL_ARGS + ["2"], "exit": 86,
+                "stdout_absent": [r"UCL_BENCH"],
+                "stderr": [r"^FAULT_INJECTION boundary=ucl_libucl mode=2 ",
+                           r"^INTERSPEC_REJECT boundary=ucl_libucl operation=string_value "
+                           r"reason=untracked$"],
+            },
+            "benign_all_on": {
+                "env": switches(),
+                "args": UCL_ARGS, "exit": 0,
+                "stdout": [UCL_BENIGN + r"checks=3 "],
+                "stderr": [UCL_T_UNCHANGED],
+                "stderr_absent": [r"INTERSPEC_REJECT", r"FAULT_INJECTION", r"PoC"],
+            },
+            "benign_all_off": {
+                "env": switches(sp1="0", sp2="0", sp3="0"),
+                "args": UCL_ARGS, "exit": 0,
+                "stdout": [UCL_BENIGN + r"checks=0 "],
+                "stderr": [UCL_T_UNCHANGED],
                 "stderr_absent": [r"INTERSPEC_REJECT", r"FAULT_INJECTION", r"PoC"],
             },
         },

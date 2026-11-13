@@ -1,0 +1,122 @@
+#!/usr/bin/env python3
+"""Benign run of a registry port against its native build (items I7 to I12).
+
+For every case in the boundary's corpus and for one and two iterations, the
+native program and the three isolated variants (RLBox-only, tracking without
+check, InterSpec with all three policies on) run once each. Every isolated run
+must exit 0, print one result line whose result fields equal the native run's,
+report the expected number of registry checks, and write nothing to stderr but
+the wrapper's configuration line. Raw output is written before anything is
+compared; nothing is retried. Elapsed time in the output is not used.
+"""
+
+import argparse
+import hashlib
+import json
+import os
+import re
+import subprocess
+import sys
+from pathlib import Path
+
+VARIANTS = ("native", "rlbox-only", "tracked-no-check", "interspec")
+
+# Per boundary: binary prefix, result-line tag, how a case becomes arguments,
+# and the fields that are not part of the result.
+BOUNDARIES = {
+    "ucl_libucl": {
+        "prefix": "ucl", "tag": "UCL_BENCH",
+        "args": lambda corpus, case, n: [str(corpus / case["document"]), case["key1"],
+                                         case["key2"], n],
+        "name": lambda case: f"{Path(case['document']).stem}__{case['key1']}__{case['key2']}",
+    },
+}
+NOT_RESULT = {"variant", "checks", "elapsed_ns"}
+
+
+def parse(tag, stdout):
+    lines = stdout.splitlines()
+    if len(lines) != 1 or not lines[0].startswith(tag + " "):
+        return None
+    fields = dict(token.split("=", 1) for token in lines[0].split()[1:])
+    return fields
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--boundary", required=True, choices=sorted(BOUNDARIES))
+    parser.add_argument("--corpus", required=True, type=Path)
+    parser.add_argument("--bin", required=True, type=Path)
+    parser.add_argument("--out", required=True, type=Path)
+    args = parser.parse_args()
+    spec = BOUNDARIES[args.boundary]
+    cases = json.loads((args.corpus / "cases.json").read_text())["cases"]
+    env = {"PATH": os.environ.get("PATH", "/usr/bin:/bin"), "INTERSPEC_SP1": "1",
+           "INTERSPEC_SP2": "1", "INTERSPEC_SP3": "1", "INTERSPEC_POLICY_REPORT": "1"}
+    args.out.mkdir(parents=True)
+
+    plan = []
+    for case in cases:
+        for iterations in ("1", "2"):
+            for variant in VARIANTS:
+                run = f"{spec['name'](case).replace('/', '_')}__x{iterations}__{variant}"
+                binary = args.bin / f"{spec['prefix']}-{variant}"
+                plan.append((run, case, iterations, variant,
+                             [str(binary)] + spec["args"](args.corpus, case, iterations)))
+    for run, _, _, _, command in plan:
+        directory = args.out / run
+        directory.mkdir()
+        done = subprocess.run(command, env=env, stdout=subprocess.PIPE,
+                              stderr=subprocess.PIPE, timeout=300)
+        (directory / "command.json").write_text(json.dumps(command) + "\n")
+        (directory / "stdout.txt").write_bytes(done.stdout)
+        (directory / "stderr.txt").write_bytes(done.stderr)
+        (directory / "exit_code.txt").write_text(f"{done.returncode}\n")
+
+    def load(run):
+        directory = args.out / run
+        return (int((directory / "exit_code.txt").read_text()),
+                (directory / "stdout.txt").read_text(errors="replace"),
+                (directory / "stderr.txt").read_text(errors="replace"))
+
+    rows, failures = [], 0
+    native = {}
+    for run, case, iterations, variant, _ in plan:
+        code, stdout, stderr = load(run)
+        fields = parse(spec["tag"], stdout)
+        key = (spec["name"](case), iterations)
+        checks = {"exit_zero": code == 0, "one_result_line": fields is not None}
+        if variant == "native":
+            native[key] = fields
+            checks["no_stderr"] = stderr == ""
+        elif fields is not None and native.get(key) is not None:
+            checks["variant"] = fields.get("variant") == variant
+            checks["result_matches_native"] = (
+                {k: v for k, v in fields.items() if k not in NOT_RESULT}
+                == {k: v for k, v in native[key].items() if k not in NOT_RESULT})
+            count = int(fields.get("checks", "-1"))
+            checks["checks"] = count > 0 if variant == "interspec" else count == 0
+            other = [l for l in stderr.splitlines() if not l.startswith("INTERSPEC_POLICY ")]
+            checks["no_other_stderr"] = not other
+            if variant == "interspec":
+                checks["reports_all_on"] = (
+                    f"INTERSPEC_POLICY boundary={args.boundary} sp1=1 sp2=1 sp3=full" in stderr)
+        else:
+            checks["native_reference_available"] = False
+        passed = all(checks.values())
+        failures += not passed
+        rows.append({"run": run, "passed": passed, "checks": checks})
+        if not passed:
+            print(f"FAIL {run}: " + ", ".join(k for k, v in checks.items() if not v))
+    summary = {"boundary": args.boundary, "total": len(rows), "passed": len(rows) - failures,
+               "binaries_sha256": {v: hashlib.sha256(
+                   (args.bin / f"{spec['prefix']}-{v}").read_bytes()).hexdigest()
+                   for v in VARIANTS},
+               "runs": rows}
+    (args.out / "summary.json").write_text(json.dumps(summary, indent=2) + "\n")
+    print(f"{args.boundary} benign: {summary['passed']}/{summary['total']} runs passed")
+    return 0 if failures == 0 else 1
+
+
+if __name__ == "__main__":
+    sys.exit(main())
