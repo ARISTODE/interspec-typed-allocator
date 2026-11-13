@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/root/scripts/run_slot_policy_analysis.py", line 637, in <module>
+    main()
+    ~~~~^^
+  File "/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/root/scripts/run_slot_policy_analysis.py", line 353, in main
+    manifest_path = resolve_manifest_path(args.benchmark, args.manifest)
+  File "/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/root/scripts/run_slot_policy_analysis.py", line 263, in resolve_manifest_path
+    return find_manifest_for_benchmark(bench_id, DEFAULT_MANIFEST_DIR)
+  File "/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/root/scripts/run_slot_policy_analysis.py", line 256, in find_manifest_for_benchmark
+    raise FileNotFoundError(f"No manifest found for benchmark id {bench_id!r} under {manifest_dir}")
+FileNotFoundError: No manifest found for benchmark id 'yaml_libyaml' under config
+exit=1

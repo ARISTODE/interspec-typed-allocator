@@ -1,0 +1,397 @@
+benchmark,function,binding_kind,binding_id,direction,slot_path,slot_type,owned_by_t,exposed_to_u,u_reads,u_writes,u_forwarded,t_uses,u_influenced,escapes_to_t,flow_cut,sp1,sp2,sp3,file,t_domain_invariant,sp3_target_t,sp3_target_u,sp3_target_null
+yaml_libyaml,yaml_event_delete,param,0,T_TO_U,,yaml_event_s *,1,1,1,0,0,0,0,0,0,0,1,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_event_delete,param,0,T_TO_U,,yaml_event_t *,1,1,1,0,0,0,0,0,0,0,1,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_event_delete,param,0,T_TO_U,/deref/field:data/field:alias/field:anchor,unsigned char *,1,1,1,0,1,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_event_delete,param,0,T_TO_U,/deref/field:data/field:document_start/field:tag_directives/field:end,yaml_tag_directive_s *,1,1,1,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_event_delete,param,0,T_TO_U,/deref/field:data/field:document_start/field:tag_directives/field:end/deref/field:handle,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_event_delete,param,0,T_TO_U,/deref/field:data/field:document_start/field:tag_directives/field:end/deref/field:prefix,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_event_delete,param,0,T_TO_U,/deref/field:data/field:document_start/field:tag_directives/field:start,yaml_tag_directive_s *,1,1,1,1,1,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_event_delete,param,0,T_TO_U,/deref/field:data/field:document_start/field:tag_directives/field:start/deref/field:handle,unsigned char *,0,1,1,0,1,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_event_delete,param,0,T_TO_U,/deref/field:data/field:document_start/field:tag_directives/field:start/deref/field:prefix,unsigned char *,0,1,1,0,1,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_event_delete,param,0,T_TO_U,/deref/field:data/field:document_start/field:version_directive,yaml_version_directive_s *,1,1,1,0,1,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_event_delete,param,0,T_TO_U,/deref/field:data/field:mapping_start/field:anchor,unsigned char *,1,1,1,0,1,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_event_delete,param,0,T_TO_U,/deref/field:data/field:mapping_start/field:tag,unsigned char *,1,1,1,0,1,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_event_delete,param,0,T_TO_U,/deref/field:data/field:scalar/field:anchor,unsigned char *,1,1,1,0,1,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_event_delete,param,0,T_TO_U,/deref/field:data/field:scalar/field:tag,unsigned char *,1,1,1,0,1,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_event_delete,param,0,T_TO_U,/deref/field:data/field:scalar/field:value,unsigned char *,1,1,1,0,1,0,0,0,0,0,1,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_event_delete,param,0,T_TO_U,/deref/field:data/field:sequence_start/field:anchor,unsigned char *,1,1,1,0,1,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_event_delete,param,0,T_TO_U,/deref/field:data/field:sequence_start/field:tag,unsigned char *,1,1,1,0,1,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,,yaml_parser_s *,1,1,1,0,0,0,0,0,0,0,1,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,,yaml_parser_t *,1,1,1,0,0,0,0,0,0,0,1,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:aliases/field:end,yaml_alias_data_s *,1,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:aliases/field:end/deref/field:anchor,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:aliases/field:start,yaml_alias_data_s *,1,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:aliases/field:start/deref/field:anchor,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:aliases/field:top,yaml_alias_data_s *,1,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:aliases/field:top/deref/field:anchor,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:buffer/field:end,unsigned char *,1,1,0,1,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:buffer/field:last,unsigned char *,1,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:buffer/field:pointer,unsigned char *,1,1,0,1,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:buffer/field:start,unsigned char *,1,1,1,1,1,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:context,char *,1,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:document,yaml_document_s *,1,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:document/deref/field:nodes/field:end,yaml_node_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:document/deref/field:nodes/field:end/deref/field:tag,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:document/deref/field:nodes/field:start,yaml_node_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:document/deref/field:nodes/field:start/deref/field:tag,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:document/deref/field:nodes/field:top,yaml_node_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:document/deref/field:nodes/field:top/deref/field:tag,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:document/deref/field:tag_directives/field:end,yaml_tag_directive_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:document/deref/field:tag_directives/field:end/deref/field:handle,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:document/deref/field:tag_directives/field:end/deref/field:prefix,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:document/deref/field:tag_directives/field:start,yaml_tag_directive_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:document/deref/field:tag_directives/field:start/deref/field:handle,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:document/deref/field:tag_directives/field:start/deref/field:prefix,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:document/deref/field:version_directive,yaml_version_directive_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:indents/field:end,int *,1,1,0,1,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:indents/field:start,int *,1,1,1,1,1,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:indents/field:top,int *,1,1,0,1,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:input/field:file,_IO_FILE *,1,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:input/field:string/field:current,unsigned char *,1,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:input/field:string/field:end,unsigned char *,1,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:input/field:string/field:start,unsigned char *,1,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:marks/field:end,yaml_mark_s *,1,1,0,1,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:marks/field:start,yaml_mark_s *,1,1,1,1,1,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:marks/field:top,yaml_mark_s *,1,1,0,1,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:problem,char *,1,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:raw_buffer/field:end,unsigned char *,1,1,0,1,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:raw_buffer/field:last,unsigned char *,1,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:raw_buffer/field:pointer,unsigned char *,1,1,0,1,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:raw_buffer/field:start,unsigned char *,1,1,1,1,1,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:read_handler_data,void *,1,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:simple_keys/field:end,yaml_simple_key_s *,1,1,0,1,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:simple_keys/field:start,yaml_simple_key_s *,1,1,1,1,1,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:simple_keys/field:top,yaml_simple_key_s *,1,1,0,1,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:states/field:end,yaml_parser_state_e *,1,1,0,1,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:states/field:start,yaml_parser_state_e *,1,1,1,1,1,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:states/field:top,yaml_parser_state_e *,1,1,0,1,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:tag_directives/field:end,yaml_tag_directive_s *,1,1,0,1,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:tag_directives/field:end/deref/field:handle,unsigned char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:tag_directives/field:end/deref/field:prefix,unsigned char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:tag_directives/field:start,yaml_tag_directive_s *,1,1,1,1,1,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:tag_directives/field:start/deref/field:handle,unsigned char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:tag_directives/field:start/deref/field:prefix,unsigned char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:tag_directives/field:top,yaml_tag_directive_s *,1,1,1,1,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:tag_directives/field:top/deref/field:handle,unsigned char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:tag_directives/field:top/deref/field:prefix,unsigned char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:tokens/field:end,yaml_token_s *,1,1,0,1,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:tokens/field:end/deref/field:data/field:alias/field:value,unsigned char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:tokens/field:end/deref/field:data/field:anchor/field:value,unsigned char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:tokens/field:end/deref/field:data/field:scalar/field:value,unsigned char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:tokens/field:end/deref/field:data/field:tag/field:handle,unsigned char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:tokens/field:end/deref/field:data/field:tag/field:suffix,unsigned char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:tokens/field:end/deref/field:data/field:tag_directive/field:handle,unsigned char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:tokens/field:end/deref/field:data/field:tag_directive/field:prefix,unsigned char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:tokens/field:head,yaml_token_s *,1,1,1,1,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:tokens/field:head/deref/field:data/field:alias/field:value,unsigned char *,0,1,1,0,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:tokens/field:head/deref/field:data/field:anchor/field:value,unsigned char *,0,1,1,0,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:tokens/field:head/deref/field:data/field:scalar/field:value,unsigned char *,0,1,1,0,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:tokens/field:head/deref/field:data/field:tag/field:handle,unsigned char *,0,1,1,0,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:tokens/field:head/deref/field:data/field:tag/field:suffix,unsigned char *,0,1,1,0,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:tokens/field:head/deref/field:data/field:tag_directive/field:handle,unsigned char *,0,1,1,0,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:tokens/field:head/deref/field:data/field:tag_directive/field:prefix,unsigned char *,0,1,1,0,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:tokens/field:start,yaml_token_s *,1,1,1,1,1,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:tokens/field:start/deref/field:data/field:alias/field:value,unsigned char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:tokens/field:start/deref/field:data/field:anchor/field:value,unsigned char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:tokens/field:start/deref/field:data/field:scalar/field:value,unsigned char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:tokens/field:start/deref/field:data/field:tag/field:handle,unsigned char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:tokens/field:start/deref/field:data/field:tag/field:suffix,unsigned char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:tokens/field:start/deref/field:data/field:tag_directive/field:handle,unsigned char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:tokens/field:start/deref/field:data/field:tag_directive/field:prefix,unsigned char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:tokens/field:tail,yaml_token_s *,1,1,1,1,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:tokens/field:tail/deref/field:data/field:alias/field:value,unsigned char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:tokens/field:tail/deref/field:data/field:anchor/field:value,unsigned char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:tokens/field:tail/deref/field:data/field:scalar/field:value,unsigned char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:tokens/field:tail/deref/field:data/field:tag/field:handle,unsigned char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:tokens/field:tail/deref/field:data/field:tag/field:suffix,unsigned char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:tokens/field:tail/deref/field:data/field:tag_directive/field:handle,unsigned char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_delete,param,0,T_TO_U,/deref/field:tokens/field:tail/deref/field:data/field:tag_directive/field:prefix,unsigned char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,,yaml_parser_s *,1,1,1,0,0,0,0,0,0,0,1,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,,yaml_parser_t *,1,1,1,0,0,0,0,0,0,0,1,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:aliases/field:end,yaml_alias_data_s *,1,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:aliases/field:end/deref/field:anchor,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:aliases/field:start,yaml_alias_data_s *,1,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:aliases/field:start/deref/field:anchor,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:aliases/field:top,yaml_alias_data_s *,1,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:aliases/field:top/deref/field:anchor,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:buffer/field:end,unsigned char *,1,1,0,1,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:buffer/field:last,unsigned char *,1,1,0,1,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:buffer/field:pointer,unsigned char *,1,1,0,1,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:buffer/field:start,unsigned char *,1,1,1,1,1,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:context,char *,1,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:document,yaml_document_s *,1,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:document/deref/field:nodes/field:end,yaml_node_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:document/deref/field:nodes/field:end/deref/field:tag,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:document/deref/field:nodes/field:start,yaml_node_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:document/deref/field:nodes/field:start/deref/field:tag,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:document/deref/field:nodes/field:top,yaml_node_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:document/deref/field:nodes/field:top/deref/field:tag,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:document/deref/field:tag_directives/field:end,yaml_tag_directive_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:document/deref/field:tag_directives/field:end/deref/field:handle,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:document/deref/field:tag_directives/field:end/deref/field:prefix,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:document/deref/field:tag_directives/field:start,yaml_tag_directive_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:document/deref/field:tag_directives/field:start/deref/field:handle,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:document/deref/field:tag_directives/field:start/deref/field:prefix,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:document/deref/field:version_directive,yaml_version_directive_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:indents/field:end,int *,1,1,0,1,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:indents/field:start,int *,1,1,1,1,1,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:indents/field:top,int *,1,1,0,1,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:input/field:file,_IO_FILE *,1,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:input/field:string/field:current,unsigned char *,1,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:input/field:string/field:end,unsigned char *,1,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:input/field:string/field:start,unsigned char *,1,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:marks/field:end,yaml_mark_s *,1,1,0,1,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:marks/field:start,yaml_mark_s *,1,1,1,1,1,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:marks/field:top,yaml_mark_s *,1,1,0,1,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:problem,char *,1,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:raw_buffer/field:end,unsigned char *,1,1,0,1,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:raw_buffer/field:last,unsigned char *,1,1,0,1,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:raw_buffer/field:pointer,unsigned char *,1,1,0,1,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:raw_buffer/field:start,unsigned char *,1,1,1,1,1,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:read_handler_data,void *,1,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:simple_keys/field:end,yaml_simple_key_s *,1,1,0,1,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:simple_keys/field:start,yaml_simple_key_s *,1,1,1,1,1,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:simple_keys/field:top,yaml_simple_key_s *,1,1,0,1,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:states/field:end,yaml_parser_state_e *,1,1,0,1,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:states/field:start,yaml_parser_state_e *,1,1,1,1,1,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:states/field:top,yaml_parser_state_e *,1,1,0,1,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:tag_directives/field:end,yaml_tag_directive_s *,1,1,0,1,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:tag_directives/field:end/deref/field:handle,unsigned char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:tag_directives/field:end/deref/field:prefix,unsigned char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:tag_directives/field:start,yaml_tag_directive_s *,1,1,1,1,1,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:tag_directives/field:start/deref/field:handle,unsigned char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:tag_directives/field:start/deref/field:prefix,unsigned char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:tag_directives/field:top,yaml_tag_directive_s *,1,1,0,1,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:tag_directives/field:top/deref/field:handle,unsigned char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:tag_directives/field:top/deref/field:prefix,unsigned char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:tokens/field:end,yaml_token_s *,1,1,0,1,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:tokens/field:end/deref/field:data/field:alias/field:value,unsigned char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:tokens/field:end/deref/field:data/field:anchor/field:value,unsigned char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:tokens/field:end/deref/field:data/field:scalar/field:value,unsigned char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:tokens/field:end/deref/field:data/field:tag/field:handle,unsigned char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:tokens/field:end/deref/field:data/field:tag/field:suffix,unsigned char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:tokens/field:end/deref/field:data/field:tag_directive/field:handle,unsigned char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:tokens/field:end/deref/field:data/field:tag_directive/field:prefix,unsigned char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:tokens/field:head,yaml_token_s *,1,1,0,1,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:tokens/field:head/deref/field:data/field:alias/field:value,unsigned char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:tokens/field:head/deref/field:data/field:anchor/field:value,unsigned char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:tokens/field:head/deref/field:data/field:scalar/field:value,unsigned char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:tokens/field:head/deref/field:data/field:tag/field:handle,unsigned char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:tokens/field:head/deref/field:data/field:tag/field:suffix,unsigned char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:tokens/field:head/deref/field:data/field:tag_directive/field:handle,unsigned char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:tokens/field:head/deref/field:data/field:tag_directive/field:prefix,unsigned char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:tokens/field:start,yaml_token_s *,1,1,1,1,1,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:tokens/field:start/deref/field:data/field:alias/field:value,unsigned char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:tokens/field:start/deref/field:data/field:anchor/field:value,unsigned char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:tokens/field:start/deref/field:data/field:scalar/field:value,unsigned char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:tokens/field:start/deref/field:data/field:tag/field:handle,unsigned char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:tokens/field:start/deref/field:data/field:tag/field:suffix,unsigned char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:tokens/field:start/deref/field:data/field:tag_directive/field:handle,unsigned char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:tokens/field:start/deref/field:data/field:tag_directive/field:prefix,unsigned char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:tokens/field:tail,yaml_token_s *,1,1,0,1,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:tokens/field:tail/deref/field:data/field:alias/field:value,unsigned char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:tokens/field:tail/deref/field:data/field:anchor/field:value,unsigned char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:tokens/field:tail/deref/field:data/field:scalar/field:value,unsigned char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:tokens/field:tail/deref/field:data/field:tag/field:handle,unsigned char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:tokens/field:tail/deref/field:data/field:tag/field:suffix,unsigned char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:tokens/field:tail/deref/field:data/field:tag_directive/field:handle,unsigned char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,param,0,T_TO_U,/deref/field:tokens/field:tail/deref/field:data/field:tag_directive/field:prefix,unsigned char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,,yaml_parser_s *,1,1,1,0,0,0,0,0,0,0,1,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,,yaml_parser_t *,1,1,1,0,0,0,0,0,0,0,1,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:aliases/field:end,yaml_alias_data_s *,1,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:aliases/field:end/deref/field:anchor,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:aliases/field:start,yaml_alias_data_s *,1,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:aliases/field:start/deref/field:anchor,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:aliases/field:top,yaml_alias_data_s *,1,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:aliases/field:top/deref/field:anchor,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:buffer/field:end,unsigned char *,1,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:buffer/field:last,unsigned char *,1,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:buffer/field:pointer,unsigned char *,1,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:buffer/field:start,unsigned char *,1,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:context,char *,1,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:document,yaml_document_s *,1,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:document/deref/field:nodes/field:end,yaml_node_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:document/deref/field:nodes/field:end/deref/field:tag,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:document/deref/field:nodes/field:start,yaml_node_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:document/deref/field:nodes/field:start/deref/field:tag,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:document/deref/field:nodes/field:top,yaml_node_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:document/deref/field:nodes/field:top/deref/field:tag,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:document/deref/field:tag_directives/field:end,yaml_tag_directive_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:document/deref/field:tag_directives/field:end/deref/field:handle,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:document/deref/field:tag_directives/field:end/deref/field:prefix,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:document/deref/field:tag_directives/field:start,yaml_tag_directive_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:document/deref/field:tag_directives/field:start/deref/field:handle,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:document/deref/field:tag_directives/field:start/deref/field:prefix,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:document/deref/field:version_directive,yaml_version_directive_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:indents/field:end,int *,1,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:indents/field:start,int *,1,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:indents/field:top,int *,1,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:input/field:file,_IO_FILE *,1,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:input/field:string/field:current,unsigned char *,1,1,0,1,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:input/field:string/field:end,unsigned char *,1,1,0,1,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:input/field:string/field:start,unsigned char *,1,1,0,1,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:marks/field:end,yaml_mark_s *,1,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:marks/field:start,yaml_mark_s *,1,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:marks/field:top,yaml_mark_s *,1,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:problem,char *,1,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:raw_buffer/field:end,unsigned char *,1,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:raw_buffer/field:last,unsigned char *,1,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:raw_buffer/field:pointer,unsigned char *,1,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:raw_buffer/field:start,unsigned char *,1,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:read_handler_data,void *,1,1,0,1,0,0,1,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:simple_keys/field:end,yaml_simple_key_s *,1,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:simple_keys/field:start,yaml_simple_key_s *,1,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:simple_keys/field:top,yaml_simple_key_s *,1,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:states/field:end,yaml_parser_state_e *,1,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:states/field:start,yaml_parser_state_e *,1,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:states/field:top,yaml_parser_state_e *,1,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:tag_directives/field:end,yaml_tag_directive_s *,1,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:tag_directives/field:end/deref/field:handle,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:tag_directives/field:end/deref/field:prefix,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:tag_directives/field:start,yaml_tag_directive_s *,1,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:tag_directives/field:start/deref/field:handle,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:tag_directives/field:start/deref/field:prefix,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:tag_directives/field:top,yaml_tag_directive_s *,1,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:tag_directives/field:top/deref/field:handle,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:tag_directives/field:top/deref/field:prefix,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:tokens/field:end,yaml_token_s *,1,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:tokens/field:end/deref/field:data/field:alias/field:value,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:tokens/field:end/deref/field:data/field:anchor/field:value,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:tokens/field:end/deref/field:data/field:scalar/field:value,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:tokens/field:end/deref/field:data/field:tag/field:handle,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:tokens/field:end/deref/field:data/field:tag/field:suffix,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:tokens/field:end/deref/field:data/field:tag_directive/field:handle,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:tokens/field:end/deref/field:data/field:tag_directive/field:prefix,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:tokens/field:head,yaml_token_s *,1,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:tokens/field:head/deref/field:data/field:alias/field:value,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:tokens/field:head/deref/field:data/field:anchor/field:value,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:tokens/field:head/deref/field:data/field:scalar/field:value,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:tokens/field:head/deref/field:data/field:tag/field:handle,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:tokens/field:head/deref/field:data/field:tag/field:suffix,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:tokens/field:head/deref/field:data/field:tag_directive/field:handle,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:tokens/field:head/deref/field:data/field:tag_directive/field:prefix,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:tokens/field:start,yaml_token_s *,1,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:tokens/field:start/deref/field:data/field:alias/field:value,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:tokens/field:start/deref/field:data/field:anchor/field:value,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:tokens/field:start/deref/field:data/field:scalar/field:value,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:tokens/field:start/deref/field:data/field:tag/field:handle,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:tokens/field:start/deref/field:data/field:tag/field:suffix,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:tokens/field:start/deref/field:data/field:tag_directive/field:handle,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:tokens/field:start/deref/field:data/field:tag_directive/field:prefix,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:tokens/field:tail,yaml_token_s *,1,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:tokens/field:tail/deref/field:data/field:alias/field:value,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:tokens/field:tail/deref/field:data/field:anchor/field:value,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:tokens/field:tail/deref/field:data/field:scalar/field:value,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:tokens/field:tail/deref/field:data/field:tag/field:handle,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:tokens/field:tail/deref/field:data/field:tag/field:suffix,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:tokens/field:tail/deref/field:data/field:tag_directive/field:handle,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,0,T_TO_U,/deref/field:tokens/field:tail/deref/field:data/field:tag_directive/field:prefix,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,1,T_TO_U,,const unsigned char *,1,1,1,0,0,0,0,0,0,0,1,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_set_input_string,param,1,T_TO_U,,unsigned char *,1,1,1,0,0,0,0,0,0,0,1,0,third_party/libyaml/src/api.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,,yaml_parser_s *,1,1,1,0,1,0,0,0,0,0,1,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,,yaml_parser_t *,1,1,1,0,1,0,0,0,0,0,1,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:aliases/field:end,yaml_alias_data_s *,1,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:aliases/field:end/deref/field:anchor,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:aliases/field:start,yaml_alias_data_s *,1,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:aliases/field:start/deref/field:anchor,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:aliases/field:top,yaml_alias_data_s *,1,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:aliases/field:top/deref/field:anchor,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:buffer/field:end,unsigned char *,1,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:buffer/field:last,unsigned char *,1,1,1,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:buffer/field:pointer,unsigned char *,1,1,1,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:buffer/field:start,unsigned char *,1,1,1,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:context,char *,1,1,0,1,0,0,1,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:document,yaml_document_s *,1,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:document/deref/field:nodes/field:end,yaml_node_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:document/deref/field:nodes/field:end/deref/field:tag,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:document/deref/field:nodes/field:start,yaml_node_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:document/deref/field:nodes/field:start/deref/field:tag,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:document/deref/field:nodes/field:top,yaml_node_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:document/deref/field:nodes/field:top/deref/field:tag,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:document/deref/field:tag_directives/field:end,yaml_tag_directive_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:document/deref/field:tag_directives/field:end/deref/field:handle,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:document/deref/field:tag_directives/field:end/deref/field:prefix,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:document/deref/field:tag_directives/field:start,yaml_tag_directive_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:document/deref/field:tag_directives/field:start/deref/field:handle,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:document/deref/field:tag_directives/field:start/deref/field:prefix,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:document/deref/field:version_directive,yaml_version_directive_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:indents/field:end,int *,1,1,1,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:indents/field:start,int *,1,1,1,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:indents/field:top,int *,1,1,1,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:input/field:file,_IO_FILE *,1,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:input/field:string/field:current,unsigned char *,1,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:input/field:string/field:end,unsigned char *,1,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:input/field:string/field:start,unsigned char *,1,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:marks/field:end,yaml_mark_s *,1,1,1,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:marks/field:start,yaml_mark_s *,1,1,1,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:marks/field:top,yaml_mark_s *,1,1,1,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:problem,char *,1,1,0,1,0,0,1,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:raw_buffer/field:end,unsigned char *,1,1,1,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:raw_buffer/field:last,unsigned char *,1,1,1,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:raw_buffer/field:pointer,unsigned char *,1,1,1,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:raw_buffer/field:start,unsigned char *,1,1,1,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:read_handler_data,void *,1,1,1,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:simple_keys/field:end,yaml_simple_key_s *,1,1,1,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:simple_keys/field:start,yaml_simple_key_s *,1,1,1,1,0,0,1,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:simple_keys/field:top,yaml_simple_key_s *,1,1,1,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:states/field:end,yaml_parser_state_e *,1,1,1,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:states/field:start,yaml_parser_state_e *,1,1,1,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:states/field:top,yaml_parser_state_e *,1,1,1,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:tag_directives/field:end,yaml_tag_directive_s *,1,1,1,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:tag_directives/field:end/deref/field:handle,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:tag_directives/field:end/deref/field:prefix,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:tag_directives/field:start,yaml_tag_directive_s *,1,1,1,1,0,0,1,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:tag_directives/field:start/deref/field:handle,unsigned char *,0,1,1,0,0,0,1,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:tag_directives/field:start/deref/field:prefix,unsigned char *,0,1,1,0,0,0,1,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:tag_directives/field:top,yaml_tag_directive_s *,1,1,1,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:tag_directives/field:top/deref/field:handle,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:tag_directives/field:top/deref/field:prefix,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:tokens/field:end,yaml_token_s *,1,1,1,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:tokens/field:end/deref/field:data/field:alias/field:value,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:tokens/field:end/deref/field:data/field:anchor/field:value,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:tokens/field:end/deref/field:data/field:scalar/field:value,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:tokens/field:end/deref/field:data/field:tag/field:handle,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:tokens/field:end/deref/field:data/field:tag/field:suffix,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:tokens/field:end/deref/field:data/field:tag_directive/field:handle,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:tokens/field:end/deref/field:data/field:tag_directive/field:prefix,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:tokens/field:head,yaml_token_s *,1,1,1,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:tokens/field:head/deref/field:data/field:alias/field:value,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:tokens/field:head/deref/field:data/field:anchor/field:value,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:tokens/field:head/deref/field:data/field:scalar/field:value,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:tokens/field:head/deref/field:data/field:tag/field:handle,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:tokens/field:head/deref/field:data/field:tag/field:suffix,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:tokens/field:head/deref/field:data/field:tag_directive/field:handle,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:tokens/field:head/deref/field:data/field:tag_directive/field:prefix,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:tokens/field:start,yaml_token_s *,1,1,1,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:tokens/field:start/deref/field:data/field:alias/field:value,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:tokens/field:start/deref/field:data/field:anchor/field:value,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:tokens/field:start/deref/field:data/field:scalar/field:value,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:tokens/field:start/deref/field:data/field:tag/field:handle,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:tokens/field:start/deref/field:data/field:tag/field:suffix,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:tokens/field:start/deref/field:data/field:tag_directive/field:handle,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:tokens/field:start/deref/field:data/field:tag_directive/field:prefix,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:tokens/field:tail,yaml_token_s *,1,1,1,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:tokens/field:tail/deref/field:data/field:alias/field:value,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:tokens/field:tail/deref/field:data/field:anchor/field:value,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:tokens/field:tail/deref/field:data/field:scalar/field:value,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:tokens/field:tail/deref/field:data/field:tag/field:handle,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:tokens/field:tail/deref/field:data/field:tag/field:suffix,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:tokens/field:tail/deref/field:data/field:tag_directive/field:handle,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,0,T_TO_U,/deref/field:tokens/field:tail/deref/field:data/field:tag_directive/field:prefix,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,1,T_TO_U,,yaml_event_s *,1,1,1,0,1,0,0,0,0,0,1,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,1,T_TO_U,,yaml_event_t *,1,1,1,0,1,0,0,0,0,0,1,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,1,T_TO_U,/deref/field:data/field:alias/field:anchor,unsigned char *,1,1,0,1,0,0,1,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,1,T_TO_U,/deref/field:data/field:document_start/field:tag_directives/field:end,yaml_tag_directive_s *,1,1,0,1,0,0,1,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,1,T_TO_U,/deref/field:data/field:document_start/field:tag_directives/field:end/deref/field:handle,unsigned char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,1,T_TO_U,/deref/field:data/field:document_start/field:tag_directives/field:end/deref/field:prefix,unsigned char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,1,T_TO_U,/deref/field:data/field:document_start/field:tag_directives/field:start,yaml_tag_directive_s *,1,1,0,1,0,0,1,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,1,T_TO_U,/deref/field:data/field:document_start/field:tag_directives/field:start/deref/field:handle,unsigned char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,1,T_TO_U,/deref/field:data/field:document_start/field:tag_directives/field:start/deref/field:prefix,unsigned char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,1,T_TO_U,/deref/field:data/field:document_start/field:version_directive,yaml_version_directive_s *,1,1,0,1,0,0,1,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,1,T_TO_U,/deref/field:data/field:mapping_start/field:anchor,unsigned char *,1,1,0,1,0,0,1,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,1,T_TO_U,/deref/field:data/field:mapping_start/field:tag,unsigned char *,1,1,0,1,0,0,1,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,1,T_TO_U,/deref/field:data/field:scalar/field:anchor,unsigned char *,1,1,0,1,0,0,1,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,1,T_TO_U,/deref/field:data/field:scalar/field:tag,unsigned char *,1,1,0,1,0,0,1,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,1,T_TO_U,/deref/field:data/field:scalar/field:value,unsigned char *,1,1,0,1,0,1,1,0,0,0,0,1,third_party/libyaml/src/parser.c,0,0,1,1
+yaml_libyaml,yaml_parser_parse,param,1,T_TO_U,/deref/field:data/field:sequence_start/field:anchor,unsigned char *,1,1,0,1,0,0,1,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0
+yaml_libyaml,yaml_parser_parse,param,1,T_TO_U,/deref/field:data/field:sequence_start/field:tag,unsigned char *,1,1,0,1,0,0,1,0,0,0,0,0,third_party/libyaml/src/parser.c,0,0,0,0

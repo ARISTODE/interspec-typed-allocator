@@ -1,0 +1,82 @@
+[slot-policy] Activating manifest (isolated) -> config/yaml_libyaml.json
+Generated /tmp/slot_policy_pack_l1bpp4zw/ql/generated/YamlLibyamlConfig.qll without updating ql/generated/index.qll.
+[slot-policy] Running pointer slot query (param) -> reports/yaml_libyaml/_pointer_query_split/pointer_slots.param.bqrs
+Compiling query plan for /tmp/slot_policy_pack_l1bpp4zw/ql/queries/pointer_slots_split_eehubbb7/pointer_slots_param.ql.
+WARNING: unused predicate 'aggregateReturnPtrSlotRow' (/tmp/slot_policy_pack_l1bpp4zw/ql/queries/pointer_slots_split_eehubbb7/pointer_slots_param.ql:1491,11-36)
+WARNING: unused predicate 'returnSlotRow' (/tmp/slot_policy_pack_l1bpp4zw/ql/queries/pointer_slots_split_eehubbb7/pointer_slots_param.ql:1576,11-24)
+WARNING: unused predicate 'returnPtrSlotRow' (/tmp/slot_policy_pack_l1bpp4zw/ql/queries/pointer_slots_split_eehubbb7/pointer_slots_param.ql:1655,11-27)
+[1/1 comp 1m40s] Compiled /tmp/slot_policy_pack_l1bpp4zw/ql/queries/pointer_slots_split_eehubbb7/pointer_slots_param.ql.
+Starting evaluation of interspec-pointer-analysis/queries/pointer_slots_split_eehubbb7/pointer_slots_param.ql.
+[1/1 eval 1m59s] Evaluation done; writing results to /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/root/reports/yaml_libyaml/_pointer_query_split/pointer_slots.param.bqrs.
+Shutting down query evaluator.
+[slot-policy] Running pointer slot query (return) -> reports/yaml_libyaml/_pointer_query_split/pointer_slots.return.bqrs
+Compiling query plan for /tmp/slot_policy_pack_l1bpp4zw/ql/queries/pointer_slots_split_eehubbb7/pointer_slots_return.ql.
+WARNING: unused predicate 'parameterSlotRow' (/tmp/slot_policy_pack_l1bpp4zw/ql/queries/pointer_slots_split_eehubbb7/pointer_slots_return.ql:1195,11-27)
+WARNING: unused predicate 'aggregateReturnPtrSlotRow' (/tmp/slot_policy_pack_l1bpp4zw/ql/queries/pointer_slots_split_eehubbb7/pointer_slots_return.ql:1491,11-36)
+WARNING: unused predicate 'returnPtrSlotRow' (/tmp/slot_policy_pack_l1bpp4zw/ql/queries/pointer_slots_split_eehubbb7/pointer_slots_return.ql:1655,11-27)
+[1/1 comp 34.6s] Compiled /tmp/slot_policy_pack_l1bpp4zw/ql/queries/pointer_slots_split_eehubbb7/pointer_slots_return.ql.
+Starting evaluation of interspec-pointer-analysis/queries/pointer_slots_split_eehubbb7/pointer_slots_return.ql.
+[1/1 eval 2.7s] Evaluation done; writing results to /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/root/reports/yaml_libyaml/_pointer_query_split/pointer_slots.return.bqrs.
+Shutting down query evaluator.
+[slot-policy] Running pointer slot query (return_ptr) -> reports/yaml_libyaml/_pointer_query_split/pointer_slots.return_ptr.bqrs
+Compiling query plan for /tmp/slot_policy_pack_l1bpp4zw/ql/queries/pointer_slots_split_eehubbb7/pointer_slots_return_ptr.ql.
+WARNING: unused predicate 'parameterSlotRow' (/tmp/slot_policy_pack_l1bpp4zw/ql/queries/pointer_slots_split_eehubbb7/pointer_slots_return_ptr.ql:1195,11-27)
+WARNING: unused predicate 'aggregateReturnPtrSlotRow' (/tmp/slot_policy_pack_l1bpp4zw/ql/queries/pointer_slots_split_eehubbb7/pointer_slots_return_ptr.ql:1491,11-36)
+WARNING: unused predicate 'returnSlotRow' (/tmp/slot_policy_pack_l1bpp4zw/ql/queries/pointer_slots_split_eehubbb7/pointer_slots_return_ptr.ql:1576,11-24)
+[1/1 comp 38.8s] Compiled /tmp/slot_policy_pack_l1bpp4zw/ql/queries/pointer_slots_split_eehubbb7/pointer_slots_return_ptr.ql.
+Starting evaluation of interspec-pointer-analysis/queries/pointer_slots_split_eehubbb7/pointer_slots_return_ptr.ql.
+[1/1 eval 2.6s] Evaluation done; writing results to /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/root/reports/yaml_libyaml/_pointer_query_split/pointer_slots.return_ptr.bqrs.
+Shutting down query evaluator.
+[slot-policy] Running pointer slot query (aggregate_return_ptr) -> reports/yaml_libyaml/_pointer_query_split/pointer_slots.aggregate_return_ptr.bqrs
+Compiling query plan for /tmp/slot_policy_pack_l1bpp4zw/ql/queries/pointer_slots_split_eehubbb7/pointer_slots_aggregate_return_ptr.ql.
+WARNING: unused predicate 'parameterSlotRow' (/tmp/slot_policy_pack_l1bpp4zw/ql/queries/pointer_slots_split_eehubbb7/pointer_slots_aggregate_return_ptr.ql:1195,11-27)
+WARNING: unused predicate 'returnSlotRow' (/tmp/slot_policy_pack_l1bpp4zw/ql/queries/pointer_slots_split_eehubbb7/pointer_slots_aggregate_return_ptr.ql:1576,11-24)
+WARNING: unused predicate 'returnPtrSlotRow' (/tmp/slot_policy_pack_l1bpp4zw/ql/queries/pointer_slots_split_eehubbb7/pointer_slots_aggregate_return_ptr.ql:1655,11-27)
+[1/1 comp 37.7s] Compiled /tmp/slot_policy_pack_l1bpp4zw/ql/queries/pointer_slots_split_eehubbb7/pointer_slots_aggregate_return_ptr.ql.
+Starting evaluation of interspec-pointer-analysis/queries/pointer_slots_split_eehubbb7/pointer_slots_aggregate_return_ptr.ql.
+[1/1 eval 7.7s] Evaluation done; writing results to /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/root/reports/yaml_libyaml/_pointer_query_split/pointer_slots.aggregate_return_ptr.bqrs.
+Shutting down query evaluator.
+[slot-policy] Exporting pointer slot rows -> reports/yaml_libyaml/pointer_slots_classification.csv
+Traceback (most recent call last):
+  File "/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/root/scripts/export_pointer_slots_rows.py", line 161, in <module>
+    main()
+    ~~~~^^
+  File "/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/root/scripts/export_pointer_slots_rows.py", line 100, in main
+    payload = decode_bqrs_to_json(args.codeql, bqrs_path)
+  File "/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/root/scripts/export_pointer_slots_rows.py", line 29, in decode_bqrs_to_json
+    result = subprocess.run(
+        [str(codeql_path), "bqrs", "decode", str(bqrs_path), "--format=json"],
+    ...<2 lines>...
+        text=True,
+    )
+  File "/usr/local/lib/python3.13/subprocess.py", line 555, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/subprocess.py", line 1040, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        pass_fds, cwd, env,
+                        ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+                        gid, gids, uid, umask,
+                        ^^^^^^^^^^^^^^^^^^^^^^
+                        start_new_session, process_group)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/subprocess.py", line 1992, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'tools/codeql/codeql'
+Traceback (most recent call last):
+  File "/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/root/scripts/run_slot_policy_analysis.py", line 637, in <module>
+    main()
+    ~~~~^^
+  File "/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/root/scripts/run_slot_policy_analysis.py", line 486, in main
+    run(pointer_rows_cmd)
+    ~~~^^^^^^^^^^^^^^^^^^
+  File "/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/root/scripts/run_slot_policy_analysis.py", line 50, in run
+    subprocess.run(cmd, check=True, cwd=cwd)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/subprocess.py", line 578, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['python3', 'scripts/export_pointer_slots_rows.py', '--output', 'reports/yaml_libyaml/pointer_slots_classification.csv', '--bqrs', 'reports/yaml_libyaml/_pointer_query_split/pointer_slots.param.bqrs', '--bqrs', 'reports/yaml_libyaml/_pointer_query_split/pointer_slots.return.bqrs', '--bqrs', 'reports/yaml_libyaml/_pointer_query_split/pointer_slots.return_ptr.bqrs', '--bqrs', 'reports/yaml_libyaml/_pointer_query_split/pointer_slots.aggregate_return_ptr.bqrs', '--benchmark', 'yaml_libyaml']' returned non-zero exit status 1.
+exit=1
