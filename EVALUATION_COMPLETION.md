@@ -2,6 +2,134 @@
 
 ## Current progress: 13 November 2026
 
+**Stage 19's ordinary YAML effective-policy path diagnostic is complete and
+independently accepted. The broader evaluation remains incomplete.** The
+existing final-validation switch changes the executed check path on two valid
+libyaml inputs while preserving the declared functional outputs. This narrows
+one current-integration question; original-paper attribution, independent
+all-policy ablations, source-derived coverage and causal costs remain open.
+
+### Stage 19 validated results
+
+- The frozen plan ran exactly once on the available VM: two valid inputs ×
+  four modes × existing observation off/on, each with one parse iteration,
+  for 16 ordinary real-libyaml processes. All exited zero and passed, with no
+  failures, timeouts, retries, replacements or missing cells.
+- Native, RLBox-only, tracked-no-check and Extended SP3 all matched the
+  independent predeclared event/scalar counts, decoded byte totals and ordered
+  scalar-byte rolling hashes in both observation settings:
+
+| Input | Input bytes | Events | Scalars | Decoded bytes | Rolling hash |
+| --- | ---: | ---: | ---: | ---: | --- |
+| `block_flow` | 58 | 19 | 9 | 39 | `058a636345d985ce` |
+| `multi_document_empty` | 35 | 15 | 3 | 0 | `14650fb0739d0383` |
+
+- Extended mode reported nine and three checks per respective parse; the
+  other modes reported zero. Across both observation settings this is 24
+  Extended driver-counter increments. With observation on, Extended emitted
+  12 downstream scalar occurrences, and the six sandbox invocations each
+  emitted one input-copy occurrence. The three-document input still has one
+  parse iteration and one input-copy occurrence per sandbox invocation.
+- Observation-off stderr and native stderr were empty. Observation-on sandbox
+  stderr contained exactly the expected records and no other diagnostics.
+  The empty-scalar input entered the check path three times despite its zero
+  decoded-byte total.
+- Before/after identities matched. All 35 retained build artifacts, nine
+  relevant source files and two inputs were verified. The explicit six-variable
+  child environment excluded inherited loader overrides and credentials.
+  Independent saved-output verification accepted all 16 records; a relocated
+  replay produced byte-identical review results without launching applications.
+
+### What demonstrates the executed check path
+
+The driver increments its counter **before** calling the generated check, so
+the count alone is insufficient. Narrow source inspection and retained typed
+binary disassembly establish a mode-dependent branch into live-allocation
+metadata lookup, expected-type comparison and remaining-extent comparison.
+Only a successful return reaches the enabled post-check observation before
+scalar copying. This compiled path is not an erased or counter-only stub.
+The source, compiled path and downstream occurrences together support the
+selected valid-input path-activation result.
+
+The observer's accepted/storage label is caller-supplied, not an independent
+metadata probe. Raw address, PID and storage fields were retained without
+interpretation. These valid-input results do not establish invalid-input
+rejection effectiveness, adversarial resistance, object-identity protection or
+comprehensive enforcement correctness. The functional oracle checks aggregates
+and a non-cryptographic 64-bit rolling hash, not complete event sequences,
+scalar boundaries, tags, anchors or alias resolution. It does not establish
+complete YAML semantic equality or collision-proof content equivalence.
+
+### Executable provenance and actual policy inventory
+
+Tracked-no-check and Extended SP3 use the **same** retained typed executable,
+SHA-256 `7e6a68896521d82174b5715552e09c9c28980975325c093015362050916e1dcf`,
+and the same generated policy/module bytes. The intervention changes a runtime
+path, not compiled policy bytes. Ordinary and typed build artifacts differ,
+including their staging-allocation paths; that broader contrast is not the
+isolated final-check intervention.
+
+The executable remains the Stage 12 build from source commit
+`333d2b0d10af992fa93e2f653f800d443d8c6b8d`, tree
+`23927085a6aacb17227071427b1833b3aa492e0c`, with libyaml
+`90a56d4500aa1a1798514c5cb55c3ad4cb095f94`. Nine relevant source files have
+the same bytes as historical Stage 15 source. No rebuild occurred, and neither
+Stage 15 nor a later ledger-only commit is relabeled as the executable source.
+
+The generated policy records **zero precise source-derived allocation sites**,
+two helper declarations, one ordinary scalar-staging helper and one dynamic-byte
+scalar-range use. The other helper has a declared adversarial role and was not
+exercised. Generated `api.c` is byte-identical to pinned upstream `src/api.c`.
+This inventory does not say that libyaml allocates nothing. It supplies no
+source-coverage denominator or recall measurement and does not validate the
+paper's coverage percentages. This driver has no independently implemented
+SP1, SP2 or all-policy selectors. Its legacy byte-range check is distinct from
+other typed-element and object-identity APIs. The exact binaries do not export
+allocation/lifecycle counters; no instrumentation or trace-enabled build was
+introduced to fill that gap.
+
+### Retained Stage 19 review and archive
+
+- Final independent review: `independent-review/final-review.json`.
+- Report SHA-256:
+  `d547cea36591a044704b92838750c2395009d88eb494010cde095ef8670ec3a8`.
+- Archive: `interspec-yaml-policy-path-verified-20261113.tar.gz`;
+  SHA-256 `ae3316cf9eafce983ec75cf0aff525f99234afc1b3e07b4d2db90fa24e74411a`;
+  1,536,188 bytes. The official download matched its SHA-256 and size, and
+  all 140 manifest entries verified. The archive contains 141 regular files,
+  including the manifest, and is retained privately in Space rather than
+  published as a GitHub artifact.
+- Evidence members include `REPORT.md`, `STATIC_FINDINGS.md`,
+  `plan/commands.json`, `plan/expected.json`, `plan/identities.json`,
+  `plan/freeze.json`, `attempt/summary.json`, `attempt/<execution_id>/`,
+  `observed-results.json`, `results-freeze.json`,
+  `evidence/artifact-comparison.json`, `evidence/api-source-comparison.json`,
+  `evidence/scalar-mode-copy.asm`, `evidence/scalar-check-postcheck.asm`,
+  `independent-review/verify_saved_results.py` and
+  `independent-review/saved-audit-executions.json`.
+  All listed member paths are relative to the archive's
+  `interspec-yaml-policy-path-evidence/` root, not repository-relative links.
+
+### What remains open after Stage 19
+
+Ledger items 6 and 7 remain open. The original 12 application pairs still lack
+complete historical source/build/workload/mode/raw-repetition bindings in the
+inspected archive. Effective independent policy ablations, comprehensive
+source-derived coverage, lifecycle visibility, rejection effectiveness and
+causal cost attribution are not closed by this diagnostic. Stages 16 and 17
+retain their accepted descriptive VM throughput and latency scope. No timing
+comparison is reported here; incidental raw elapsed values were not analyzed.
+
+Stage 19 used only the available VM. No CloudLab or other host, rebuild,
+fault/security experiment, invalid-pointer exercise, restricted source analysis,
+broad test suite, hardware counter, paper edit or CI dispatch was used. This
+publication changes only `EVALUATION_COMPLETION.md`, with `[skip ci]`, and does
+not claim a CI pass. Earlier dated sections retain their historical status and
+attribution.
+
+
+## Progress through Stage 18: 13 November 2026
+
 **Stage 18 completes the document-location and arithmetic portion of the
 original-paper provenance review. The broader evaluation remains incomplete.**
 All 12 original performance rows now have exact manuscript and processed-data
