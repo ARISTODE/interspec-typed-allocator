@@ -5,6 +5,14 @@
 // T-level interface (the shim call of the artifact wrapper):
 //   stat_and_get_names(idx, &size, &name_direct, &name_stat)
 // on an archive that T opened from a buffer.
+// Policies at this boundary:
+//   SP1  the three out-parameters are written by U and never read by it, so
+//        T's values in them are not copied in.
+//   SP2  the archive bytes are read by U and never written by it (the archive
+//        is opened read-only), so U's copy is not copied back.
+//   SP3  the two name pointers U returns are checked against the object
+//        registry (live object, expected type, terminator inside the object)
+//        before T reads the names.
 #define RLBOX_USE_EXCEPTIONS
 #define RLBOX_USE_STATIC_CALLS() rlbox_wasm2c_sandbox_lookup_symbol
 #define RLBOX_WASM2C_MODULE_NAME glue__lib__wasm2c
@@ -116,17 +124,18 @@ class Engine {
         port_.sandbox()
             .invoke_sandbox_function(interspec_zip_open, static_cast<uint32_t>(archive.size()))
             .UNSAFE_unverified();
-    // U's version of the archive bytes is copied back over T's.
-    std::memcpy(archive.data(), archive_, archive.size());
+    // SP2: U's copy of the archive is not copied back.
+    port_.copy_back_unless_sp2(archive.data(), archive_, archive.size());
     return entries;
   }
 
   // The out-parameters keep T's previous contents until U's results arrive.
   int stat_and_get_names(uint64_t idx, uint64_t* size, Name* name_direct, Name* name_stat) {
-    // T's current values of the three out-parameters are copied in.
-    const unsigned long long size_in = *size;
-    const uint32_t direct_in = low32(name_direct->data);
-    const uint32_t stat_in = low32(name_stat->data);
+    // SP1: U is handed zero for the three out-parameters unless SP1 is off.
+    const unsigned long long size_in =
+        Port::withheld_unless_sp1_off(static_cast<unsigned long long>(*size));
+    const uint32_t direct_in = Port::withheld_unless_sp1_off(low32(name_direct->data));
+    const uint32_t stat_in = Port::withheld_unless_sp1_off(low32(name_stat->data));
     const int rc = port_.sandbox()
                        .invoke_sandbox_function(interspec_zip_stat_and_get_names,
                                                 static_cast<unsigned long long>(idx), size_in,
@@ -144,8 +153,8 @@ class Engine {
     return static_cast<uint32_t>(reinterpret_cast<uintptr_t>(pointer));
   }
 
-  // The pointer U returns for a name must lie in a live registered object of
-  // the expected type, and the terminator must lie inside that object.
+  // SP3: the pointer U returns for a name must lie in a live registered object
+  // of the expected type, and the terminator must lie inside that object.
   Name fetch(uint32_t which, const char* operation) {
     auto pointer = port_.sandbox().invoke_sandbox_function(interspec_zip_name, which);
     Name name;

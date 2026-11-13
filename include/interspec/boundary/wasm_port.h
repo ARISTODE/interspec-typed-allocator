@@ -145,9 +145,9 @@ class WasmPort {
   }
 
   // NUL-terminated string that U returns, at most `limit` bytes before the
-  // terminator. Confinement always. In the InterSpec build the pointer must
-  // lie in a live registered object of the expected type and the terminator
-  // must lie inside that object. The bytes stay in U memory; `length` receives
+  // terminator. Confinement always. With SP3 on, the pointer must lie in a
+  // live registered object of the expected type and the terminator must lie
+  // inside that object. The bytes stay in U memory; `length` receives
   // the string length.
   template <class Access>
   const char* c_string(Pointer pointer, size_t limit, const Access& access,
@@ -162,7 +162,7 @@ class WasmPort {
         std::min<uint64_t>(static_cast<uint64_t>(limit) + 1, total - address));
     bool bounded_by_object = false;
 #if INTERSPEC_CHECKS
-    {
+    if (sp3()) {
       ++checks_;
       size_t remaining = 0;
       const CheckResult result = Policy::remaining(*runtime_, address, access, remaining);
