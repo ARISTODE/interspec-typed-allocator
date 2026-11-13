@@ -1,0 +1,8 @@
+{
+  "description": "Benign inputs for the memcached/hash port (tracker item I9). Each case is a key space and the numbers of hash operations to run, with the key generator and seed of the artifact's microbenchmark. The expectation is the output of the native build of the same hash function; no value is written by hand.",
+  "cases": [
+    {"keyspace": "1", "iterations": ["1", "2"]},
+    {"keyspace": "100", "iterations": ["1", "1000"]},
+    {"keyspace": "10000", "iterations": ["10", "100000"]}
+  ]
+}

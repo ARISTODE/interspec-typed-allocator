@@ -108,6 +108,13 @@ TLS_BENIGN = (r"^TLS_BENCH variant=interspec rounds=1 request_bytes=64 response_
               r"client_received_fnv=[0-9a-f]{16} checks=0 ")
 TLS_T_UNCHANGED = r"^INTERSPEC_T_OBSERVE boundary=nginx_openssl response_first_byte=0x46$"
 
+# memcached/hash: the driver is the test build of hash_app_bench hashing one
+# key from a key space of one: "k0", first byte 0x6b. The call returns a
+# number: there is no SP1 field and no SP3 field at this boundary.
+HASH_ARGS = ["1", "1"]
+HASH_BENIGN = r"^HASH_BENCH variant=interspec ops=1 keyspace=1 sink=[0-9a-f]{16} checks=0 "
+HASH_T_UNCHANGED = r"^INTERSPEC_T_OBSERVE boundary=memcached_hash key_first_byte=0x6b$"
+
 # Each case: switch settings, test-only U behavior, and what must be observed.
 # "exit" is a return code; a negative value is the signal that ended the process.
 BOUNDARIES = {
@@ -837,6 +844,62 @@ BOUNDARIES = {
                 "args": TLS_ARGS, "exit": 0,
                 "stdout": [TLS_BENIGN],
                 "stderr": [TLS_T_UNCHANGED],
+                "stderr_absent": [r"INTERSPEC_REJECT", r"FAULT_INJECTION", r"PoC"],
+            },
+        },
+    },
+    "memcached_hash": {
+        "tests": {
+            "sp2": ["sp2_off_u_writes", "sp2_on_u_writes"],
+            # Recorded, not switch tests: the call hands U nothing it does not
+            # read and U returns no pointer, so these switches have nothing to
+            # act on.
+            "sp1_no_field": ["benign_all_on", "sp1_off_same_behavior"],
+            "sp3_no_field": ["benign_all_on", "sp3_off_same_behavior"],
+            "benign": ["benign_all_on", "benign_all_off"],
+        },
+        "cases": {
+            # SP2: U overwrites its copy of the key after hashing it.
+            "sp2_off_u_writes": {
+                "env": {**switches(sp2="0"), "INTERSPEC_TEST_POC_FLAGS": "2"},
+                "args": HASH_ARGS, "exit": 0,
+                "stdout": [HASH_BENIGN],
+                "stderr": [r"\[SP2\] sandbox mutated key byte=0 old=0x6b new=0x94$",
+                           r"^INTERSPEC_T_OBSERVE boundary=memcached_hash key_first_byte=0x94$"],
+            },
+            "sp2_on_u_writes": {
+                "env": {**switches(), "INTERSPEC_TEST_POC_FLAGS": "2"},
+                "args": HASH_ARGS, "exit": 0,
+                "stdout": [HASH_BENIGN],
+                "stderr": [r"\[SP2\] sandbox mutated key byte=0 old=0x6b new=0x94$",
+                           HASH_T_UNCHANGED],
+            },
+            "sp1_off_same_behavior": {
+                "env": switches(sp1="0"),
+                "args": HASH_ARGS, "exit": 0,
+                "stdout": [HASH_BENIGN],
+                "stderr": [HASH_T_UNCHANGED],
+                "stderr_absent": [r"INTERSPEC_REJECT", r"FAULT_INJECTION", r"PoC"],
+            },
+            "sp3_off_same_behavior": {
+                "env": switches(sp3="0"),
+                "args": HASH_ARGS, "exit": 0,
+                "stdout": [HASH_BENIGN],
+                "stderr": [HASH_T_UNCHANGED],
+                "stderr_absent": [r"INTERSPEC_REJECT", r"FAULT_INJECTION", r"PoC"],
+            },
+            "benign_all_on": {
+                "env": switches(),
+                "args": HASH_ARGS, "exit": 0,
+                "stdout": [HASH_BENIGN],
+                "stderr": [HASH_T_UNCHANGED],
+                "stderr_absent": [r"INTERSPEC_REJECT", r"FAULT_INJECTION", r"PoC"],
+            },
+            "benign_all_off": {
+                "env": switches(sp1="0", sp2="0", sp3="0"),
+                "args": HASH_ARGS, "exit": 0,
+                "stdout": [HASH_BENIGN],
+                "stderr": [HASH_T_UNCHANGED],
                 "stderr_absent": [r"INTERSPEC_REJECT", r"FAULT_INJECTION", r"PoC"],
             },
         },

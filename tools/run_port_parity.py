@@ -54,6 +54,13 @@ BOUNDARIES = {
         "args": lambda corpus, case, n: [case["request_bytes"], case["response_bytes"], n],
         "name": lambda case: f"{case['request_bytes']}_{case['response_bytes']}",
     },
+    # As for nginx_openssl: no registry at this boundary.
+    "memcached_hash": {
+        "prefix": "hash", "tag": "HASH_BENCH",
+        "variants": ("native", "rlbox-only", "interspec"), "registry": False,
+        "args": lambda corpus, case, n: [case["keyspace"], n],
+        "name": lambda case: f"keyspace{case['keyspace']}",
+    },
 }
 NOT_RESULT = {"variant", "checks", "elapsed_ns"}
 
