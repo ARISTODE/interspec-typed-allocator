@@ -35,6 +35,10 @@ for pair in "code/analysis/scripts scripts" "code/analysis/ql ql" "configs confi
   set -- $pair
   [[ -e "$root/$2" ]] || cp -a "$artifact/$1" "$root/$2"
 done
+# The artifact's analysis driver looks for config/ and tools/codeql/codeql.
+[[ -e "$root/config" ]] || ln -s configs "$root/config"
+mkdir -p "$root/tools"
+[[ -e "$root/tools/codeql" ]] || ln -s "$(dirname "$codeql")" "$root/tools/codeql"
 mkdir -p "$root/coverage"
 cp "$repo"/evaluation/coverage/build_*_for_codeql.sh "$root/coverage/"
 

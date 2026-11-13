@@ -1,0 +1,2 @@
+ffmpeg benchmarks/ffmpeg/ffmpeg-8.0 140fd653aed8cad774f991ba083e2d01e86420c7
+libvpx benchmarks/libvpx/libvpx-1.15.2 d168454ecd099805c675d4a98c66f4891373302a
