@@ -2,6 +2,149 @@
 
 ## Current progress: 13 November 2026
 
+**Stage 18 completes the document-location and arithmetic portion of the
+original-paper provenance review. The broader evaluation remains incomplete.**
+All 12 original performance rows now have exact manuscript and processed-data
+locations, but none has a complete historical source, executable, workload,
+policy-mode and raw-repetition binding in the inspected archive. This is
+partial progress on ledger item 6, not completion of that item or validation
+of the original application measurements. Item 7 remains open.
+
+### Stage 18 verified findings
+
+- The 12 rows in `data/processed/paper/performance_overhead.csv:2–13` match
+  `tex/eval.tex:54–77`. The displayed pairs give a geometric mean runtime-ratio
+  overhead of 7.4988998677%, rounding to 7.5%. Stored policy percentages give
+  geometric means of −0.7626303%, +0.1608451% and +10.4332630%, rounding to
+  −0.8%, +0.2% and +10.4%. These are processed-table arithmetic results.
+- All 132 pinned input blobs and the complete set of 110 compact performance
+  rollup files were retained and checked. The artifact explicitly omits full
+  performance raw logs, generated datasets, binaries, build directories and
+  upstream Git histories (`docs/DATA_PROVENANCE.md:19–28`). Its table-checking
+  script reads processed CSVs; inspecting it does not establish run identity.
+- Nine of 24 policy-ablation percentage cells numerically correspond to five
+  historical microbenchmark CSVs: PNG SP3, bipbuffer c1/c8 SP3, and YAML/ZIP
+  SP1/SP2/SP3. Twelve cells are stored as zero; three other nonzero cells remain
+  unmapped. Neither the zero cells nor the unmapped cells are independently
+  validated by those nine correspondences.
+- Three complete phase-percentage vectors match retained profiles at displayed
+  precision: PNG, YAML and ZIP. Bipbuffer is a partial match: copy-out is
+  17.6243%, rounding to 17.6%, rather than the stored 17.7%; its other three
+  phase percentages match. Nginx and rsync remain unresolved.
+- Supplied coverage counts reproduce 3,179/7,523 = 42.2571%,
+  4,426/7,523 = 58.8329% and 1,955/1,966 = 99.4405%, with consistent stored
+  partitions. This verifies count arithmetic, not source-derived coverage,
+  effective enforcement or the underlying policy transformations.
+
+### Numerical matches do not establish historical derivation
+
+The nine ablation matches use ratios of arithmetic means of five `ns_per_op`
+samples per mode. Ratios of medians from those same files do not reproduce the
+cells at two decimals. The paper states median-of-five measurements
+(`tex/eval.tex:14`), so the estimator would need reconciliation **if these files
+were used to derive those cells**. The match alone does not establish that
+historical derivation or disprove the methodology of an unbound application
+row. For example, ZIP SP3 is 50.9285% by mean ratio and 36.0810% by median ratio.
+
+SP3-only records are expected for an SP3 ablation. Their presence does not
+conflict by itself with the combined table's all-policy-off versus all-policy-on
+caption (`tex/eval.tex:82–87`). The relevant overlap is narrower:
+
+| Boundary | SP3 ablation cell | Combined displayed delta | Ratio of combined absolute pair | Historical SP3-only mean ratio | Same-file all-policy mean ratio |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| YAML | 6.17% | 6.2% | 6.236559% | 6.170938% | 5.748659% |
+| ZIP | 50.93% | 50.9% | 50.909091% | 50.928471% | 61.059338% |
+
+The SP3-only mean ratios reproduce the ablation cells and round to the combined
+displayed deltas, but do not recover the combined table's absolute application
+pairs. This warrants reconciliation if those files are offered as combined-table
+support; it does not prove that the combined measurements used SP3-only mode.
+Stored mode flags are not independent evidence of effective enforcement.
+
+ZIP's matching SP3-only profile gives 53.53561 ns guard time per profiled
+operation and a 41.409% guard share. Multiplying the paper's 0.2656 µs whole-query
+latency by that share rounds to 0.110 µs, but no evidence binds the two scopes
+to the same run/build. The profile does not independently validate a measured
+110 ns guard interval. YAML and ZIP profile operation counts also differ from
+the paper's stated workloads. No causal cost or copy-removal speedup is closed.
+
+### Evidence identities and separation from later results
+
+The original artifact is pinned at
+[`2b2d2fd4de69ee44a4363e69f8cfb82ceed132db`](https://github.com/ARISTODE/interspec-artifact/tree/2b2d2fd4de69ee44a4363e69f8cfb82ceed132db),
+tree `79e5315d72d6055b33dd03ce1ac88f23af82ddb6`. Its README names paper snapshot
+[`c692d9581e17689ca1dc20545c48a355c6a86ff6`](https://github.com/ARISTODE/Automatic-Access-Policy-Enforcement/tree/c692d9581e17689ca1dc20545c48a355c6a86ff6).
+The retained `tex/eval.tex` is blob `9dd820668fcd83fc588ea104cf10b35e9aee16f1`.
+That file and the two retained ablation/phase TSVs have identical bytes at
+observed paper head `5bb54e15f45b0f369018e2a6d9762e1a7d88c585`; this is not a
+claim that the whole paper is unchanged. The saved PDF text read corroborates
+the relevant cells and workloads, but is not a PDF-byte hash. No paper was edited.
+
+Later retained application data contains 400 CSV rows across 12 workloads and
+four boundaries, not the original ten boundaries. Its recorded sources remain
+distinct:
+
+| Later dataset | Rows | Recorded execution/source commit |
+| --- | ---: | --- |
+| Memcached hosted 38092306794 | 120 | `d1546785002fc9f9005d2d17360bddaf4839e4a4` |
+| Nginx hosted 37835791042 | 40 | `2c9d51dc56d896ce7c543fe726d0e31def34b13c` |
+| YAML hosted 37593628736 | 60 | `cdef5b825e7c2db213127fcb9cb228270cf2667d` |
+| Rsync retained reference | 180 | `6c9df666bba8ef6d5d12679a4bd3e6a24bdbe973` |
+
+This pass counted and hashed these files without repeating prior full
+experimental audits. They do not replace the original application evidence,
+validate the historical negative nginx claim, or become results of the later
+VM servers or Stage 15 measurement source. Later nginx uses PCRE8, while the
+original provenance documentation describes PCRE2.
+
+### Retained Stage 18 review and archive
+
+Final independent review accepted the clarified narrative, identities and
+arithmetic. All 163 primary inputs and numerical mappings remained unchanged;
+all 174 inner-manifest entries verified. Both saved-data verifiers produced
+byte-identical results after relocation, without launching applications.
+
+- Archive: `interspec-original-provenance-verified-20261113.tar.gz`;
+  SHA-256 `ab7723ffed8cea3dc789b30ca9e5c60bde7f3bbc058b2cea343bcdf8db07266a`;
+  227,351 bytes. The official download matched its SHA-256 and size; all 185
+  package-manifest entries and all 174 inner-manifest entries verified.
+  The archive is retained privately in Space, not published as a GitHub artifact.
+- Final review members: `independent-review/FINAL_ACCEPTANCE.md` and
+  `independent-review/FINAL_ACCEPTANCE.json`.
+
+- Report SHA-256:
+  `2ea5b44425806c773462ee19229d1c9b1b1232fec87d13065c0521741265f3e8`.
+- Detailed archive members include `stage18-provenance/REPORT.md`,
+  `stage18-provenance/findings/PAPER_ROW_MAPPING.json`,
+  `stage18-provenance/findings/ABLATION_NUMERICAL_MAPPING.json`,
+  `stage18-provenance/findings/PHASE_NUMERICAL_MAPPING.json`,
+  `stage18-provenance/findings/PROCESSED_ARITHMETIC.json`,
+  `stage18-provenance/findings/INPUT_IDENTITIES.json` and
+  `stage18-provenance/findings/LATER_DATASET_IDENTITIES.json`.
+  All listed member paths are relative to the archive's
+  `interspec-stage18-evidence/` root, not repository-relative links.
+
+### What remains open after Stage 18
+
+The useful next evidence is the actual run manifests, source/dependency
+revisions, executable hashes, workload inputs and raw repetitions for the 12
+original application pairs. Their absence from the inspected archive does not
+prove that no other archive exists. Estimator, mode and profile-scope questions
+remain conditional on establishing those bindings. Effective ablations,
+source-derived coverage, causal claims and publication measurements remain open.
+The Stage 16 throughput and Stage 17 latency references retain their accepted
+descriptive scope. The older controlled-host/headroom protocol remains
+unfulfilled; missing records are not a request for CloudLab or another host.
+
+Stage 18 used read-only retrieval and saved-document arithmetic. No target
+application, build, test suite, benchmark, CI workflow, hardware counter,
+security/fault experiment or restricted pointer/callback analysis ran.
+This publication changes only `EVALUATION_COMPLETION.md`, with `[skip ci]`.
+No source, workflow or paper edits are included and no CI pass is claimed.
+Earlier dated sections below retain their historical status and attribution.
+
+## Progress through Stage 17: 13 November 2026
+
 **Stage 17's fixed-work, all-response VM latency reference is complete and
 independently accepted. The broader evaluation remains incomplete.** All six
 memcached scenarios × four variants × eight balanced blocks completed once:
