@@ -12,6 +12,9 @@ import threading
 import time
 
 CLIENT = sys.argv[1]
+COUNT_ONLY_VALID = sys.argv[2:] == ["--count-only-valid"]
+if sys.argv[2:] and not COUNT_ONLY_VALID:
+    raise SystemExit("only --count-only-valid is supported")
 MASK = (1 << 64) - 1
 SEED = 20261109
 
@@ -125,7 +128,7 @@ def fixture(pipeline, value_bytes, count, pct=50, fragment=False, corrupt=None,
 
 
 cases = 0
-for mode in ['count-only','full','sampled']:
+for mode in (['count-only'] if COUNT_ONLY_VALID else ['count-only','full','sampled']):
     for fragment in [False, True]:
         cases += fixture(16, 16, 67, fragment=fragment, mode=mode)
 for pipeline in [1, 16]:
@@ -134,8 +137,9 @@ for pipeline in [1, 16]:
 # Multiple small responses fill the bounded buffer; final batch is incomplete.
 cases += fixture(256, 256, 515, pct=100)
 cases += fixture(16, 16, 67, legacy=True)
-for corrupt in ['first','middle','last',65535,65536]:
-    cases += fixture(4, 70000, 9, pct=100, corrupt=corrupt)
-cases += fixture(4, 70000, 9, pct=100, truncate=True)
-cases += fixture(16, 16, 67, truncate=True)
+if not COUNT_ONLY_VALID:
+    for corrupt in ['first','middle','last',65535,65536]:
+        cases += fixture(4, 70000, 9, pct=100, corrupt=corrupt)
+    cases += fixture(4, 70000, 9, pct=100, truncate=True)
+    cases += fixture(16, 16, 67, truncate=True)
 print(f'{cases} buffered stream functional cases passed; no performance evidence')
