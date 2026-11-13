@@ -16,6 +16,7 @@ codeql=${CODEQL:?set CODEQL to the codeql executable}
 work=${COVERAGE_WORK:-${TMPDIR:-/tmp}/interspec-coverage}
 root="$work/root"
 threads=${COVERAGE_THREADS:-0}
+ram=${COVERAGE_RAM_MB:-}   # optional CodeQL evaluator memory limit in MB
 status=0
 mkdir -p "$root/db" "$root/reports"
 
@@ -29,6 +30,7 @@ for item in "$@"; do
   command=(python3 scripts/run_slot_policy_analysis.py --database "db/$database"
            --benchmark "$benchmark" --output-dir "reports/$benchmark"
            --split-pointer-query --threads "$threads" --codeql "$codeql")
+  [[ -z "$ram" ]] || command+=(--ram "$ram")
   # A configuration written for the rebuilt databases replaces the artifact's.
   if [[ -f "$repo/evaluation/coverage/configs/$benchmark.json" ]]; then
     mkdir -p "$root/coverage/configs"
