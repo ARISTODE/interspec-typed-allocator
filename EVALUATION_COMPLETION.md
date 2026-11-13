@@ -2,6 +2,169 @@
 
 ## Current progress: 13 November 2026
 
+**Stage 20 adds an opt-in trusted typed-staging integration to the ordinary
+YAML adapter and validates its normal real-libyaml path. The broader evaluation
+remains incomplete.** The single frozen batch matched all 75 predeclared
+outcomes: 71 successful parsing processes and four expected sandbox capacity-limit
+exits.
+This is a new application integration, not completion of the original-paper
+evaluation or a security-effectiveness result.
+
+### Stage 20 integration and validated outcomes
+
+- New explicit mode `typed_staging_identity` allocates one 8192-byte aggregate
+  through trusted setup and retains its nonzero expected base independently
+  of guest results. The four-argument typed API checks returned scalar ranges
+  before copying. The aggregate is one element, not 8192 independent chars.
+- Existing native, RLBox-only, tracked-no-check and legacy extended modes
+  remain. The original one-argument setup export remains; a new two-argument
+  export accepts the trusted staging offset. The host retains ownership of
+  supplied staging; the guest frees only helper-owned storage.
+  The new mode is not selected by default and introduces no independent SP1,
+  SP2 or all-policy selector.
+- Seven valid documents × five modes × one/two iterations produced 70
+  successful parsing processes and 105 completed stream-processing iterations.
+  Coverage includes block/flow syntax, decoded escapes and
+  embedded NUL, multiline scalars, anchors/tags, multiple documents and empty
+  scalars, UTF-16LE BOM and an 8191-byte maximum supported scalar.
+- Five separate one-iteration controls used a valid 8192-byte scalar. Native
+  parsed it successfully, bringing the totals to 71 successful processes and
+  106 completed stream-processing iterations. Each sandbox mode returned the
+  exact predeclared
+  capacity-limit exit, empty stdout, one input-copy observation and the normal
+  capacity diagnostic. These four exits are expected capacity limits,
+  not successful sandbox parses or typed-check rejection evidence.
+- The new mode had 14 successful parsing processes and one expected capacity
+  exit. New and legacy extended modes each recorded 96 driver check counts
+  and 96 existing downstream observations. Each sandbox mode had 22 input-copy
+  occurrences. Observation was uniformly enabled and trace disabled.
+- One offline ordinary-only build succeeded on its first attempt. All 35 new
+  build artifacts were retained and checked. All 75 declared process outcomes
+  matched once, with no unexpected failures, timeouts, retries, replacements
+  or unexecuted cells. Incidental elapsed values remain raw and were not analyzed.
+
+The independent predeclared oracle supplies event/scalar counts, decoded-byte
+totals and an ordered-byte rolling hash. The driver exposes those aggregates,
+not full event sequences or scalar boundaries. Acceptance is not complete YAML
+conformance, alias/tag/anchor equality or collision-proof semantic equivalence.
+
+### Effective path and lifecycle evidence
+
+Actual Wasm metadata and linked symbols retain the original `(i32)->i32` setup
+ABI and include the new `(i32,i32)->i32` setup ABI. Narrow compiled inspection
+shows typed allocation metadata, 8192-byte element size and alignment one,
+the mode branch, live metadata lookup, expected type, typed stride/exact element
+start and extent, and comparison with the independently retained trusted base.
+Successful validation precedes the existing observation and scalar copy.
+
+The counter increments before validation, and observation labels are supplied
+by the caller; neither alone proves an effective check. Source, actual compiled
+data flow and the downstream occurrences together support the valid-path claim.
+Normal success is gated on guest shutdown and successful checked metadata
+release. No independent allocation/release counter is exposed. The four
+capacity exits exercise ordinary error unwinding but do not prove every
+exceptional lifecycle property.
+
+### Tested source and publication mapping
+
+The source-only publication is commit `308766480eb9c00a3203b0a5afdaab664173699b`, parent
+`5145be16f43ebd5183cc01780bc1ed4dadbb862e`, with full publication tree
+`08353b8b97502e26f9915f8723b2f0e267046cc2`. The separate ledger child changes
+only `EVALUATION_COMPLETION.md`; no benchmark was rerun after publication.
+
+The build and collection used frozen staged tree
+`faae265527340ba5c03e5370a742149b33d6811d`. Later local commit
+`7546ad49a68954e1dff7ed45de71a2b4d6fe2bd1` records that exact already-tested tree
+without byte changes; it was created after collection. Its local mirror parent
+`4c7c4cef287181557bf9519c5a7cc0b719ba7b28` reproduces the earlier remote base
+`293286f1e277fc383ab75a979d5160cdd72846ae`, tree
+`f4ce6fb1b12a444365433643e94abdd9037f1c2f`, but does not claim remote ancestry.
+
+Before publication, concurrent work advanced the branch to `5145be16`, tree
+`ee5f01c54dffe85abeddd0bb700e89dca91deced`. All 388 earlier base file blobs and
+modes remained unchanged; exactly three files were added:
+`.github/workflows/controlled-publication-evaluation.yml`,
+`CONTROLLED_GITHUB_CI.md` and `EVAL_TRACKER.md`. Publication preserves those
+concurrent additions verbatim. The new source commit retains all 390 paths,
+bytes and modes from the tested tree, plus those three additions. Its full tree
+therefore differs from the tested tree. The concurrent workflow and documents
+were not build inputs and were not validated by the Stage 20 runs. Trigger
+inspection found the added workflow manual-only; it was not dispatched.
+The API-created commit has remote ancestry and different commit metadata.
+
+Exactly five source paths changed, preserving Git file modes:
+`integration/yaml_libyaml/yaml_app_bench.cpp`, `yaml_app_wasm.c`,
+`yaml_scalar_staging.h`, `TYPED_STAGING.md` in that same directory, and
+`scripts/run_yaml_libyaml_evaluation.sh`. The script change is only one adjacent
+header-copy line; that all-in-one script was never run. No generic runtime,
+policy/generator, backend, other adapter, workflow or paper was changed by
+Stage 20.
+
+The candidate patch SHA-256 is
+`5fa7b82101e3747cabdcc59447985e41214b8c5bc7058c35bd40e62db154fcab`.
+The new native, ordinary and typed executable SHA-256 identities are respectively
+`63c25501e6c458cb1d87271c7d12d8973eff24b76f87aeec5e1095709f1c5f28`,
+`a05e313706f2d82af6ae6e2f0a7b8db7c39f396c1b95a487fe7d00ca901eb527` and
+`0da34341dedcb4c41f0714cdaa53050ff22f87f322e8f64cc34197bc9ef1c6e2`.
+Tracked-no-check, legacy extended and new typed-staging modes share that new
+typed executable. Stage 19 retains its distinct legacy-path/Stage 12 provenance.
+
+### Retained Stage 20 evidence
+
+- Final independent saved-result acceptance: `independent-review/final-review.json`,
+  SHA-256 `efe5ee673c1d855fc8d363198370a1d874445ebe23651c281e03ada71ee85536`.
+  Report `REPORT.md` SHA-256:
+  `dc9264ddb90d518126e19886dada8f33275aaec14d42d989f9d0af6c39adcb7e`.
+- Archive: `interspec-typed-yaml-staging-verified-20261113.tar.gz`; SHA-256 `1e1f616ba69f8172bb728bb9f203c643a80c67ec8f6839b6c310a2c14efc2946`;
+  5,305,925 bytes, 428 manifest entries and
+  429 regular archive files including the manifest.
+  The official Space download matched the archive SHA-256 and size; all
+  manifest files verified. A relocated saved-data replay was byte-identical
+  without launching applications.
+- Evidence includes `REPORT.md`, `API_INVENTORY.md`, `source/candidate.patch`,
+  `source/tested-source-identity.json`, the complete tested-source bundle and
+  snapshot, `plan/prebuild-freeze.json`, `plan/launch-freeze.json`,
+  `plan/commands.json`, `plan/expected.json`, `plan/input-oracle.json`,
+  `build-attempt/`, `built-artifact-manifest.json`, `built-artifacts/`,
+  `compiled/COMPILED_PATH.md`, `attempt/summary.json`, every per-cell raw
+  command/record/stdout/stderr, `observed-results.json` and the independent
+  review/audit files. Paths are relative to `interspec-typed-yaml-staging-evidence/` inside the
+  private Space archive, not repository-relative links. No private file ID or
+  download URL is published in the repository.
+
+### What remains open after Stage 20
+
+The contract identifies the selected staging aggregate, not libyaml's original
+allocation, the semantic provenance of the current event, a new identity per
+scalar or temporal/ABA protection. Its fixed bound largely coincides with the
+old staging limit. The narrower addition is typed exact element-start and
+trusted expected-base validation. Valid-input acceptance does not demonstrate
+invalid-pointer rejection, adversarial resistance or security effectiveness.
+
+The application-authored aggregate is not new source-derived precise allocation
+coverage. Generated policy remains unchanged: zero precise source-derived
+allocation sites, two helper declarations and one dynamic-byte scalar use.
+Generated `api.c` still matches pinned upstream libyaml
+`90a56d4500aa1a1798514c5cb55c3ad4cb095f94`. Existing memcached and YAML delta API
+references were inventoried only; their restricted nested-pointer/security
+paths were not followed or exercised.
+
+Ledger items 6 and 7 remain open. Historical original-paper attribution,
+independent all-policy ablations, source-derived coverage/recall, comprehensive
+lifecycle visibility, rejection effectiveness and causal cost attribution are
+not closed. New-mode allocation ownership and validation both change, so this
+is not an isolated final-check cost ablation. Stages 16 and 17 retain their
+descriptive VM throughput and latency scope.
+
+Stage 20 used only the available VM, with no CloudLab/host search, corruption,
+fault or invalid-pointer experiment, broad CTest, all-in-one script, hardware
+counter or paper edit. Both publication commits include `[skip ci]`; no workflow
+was dispatched and no CI pass is claimed. Earlier dated sections retain their
+historical status and attribution.
+
+
+## Progress through Stage 19: 13 November 2026
+
 **Stage 19's ordinary YAML effective-policy path diagnostic is complete and
 independently accepted. The broader evaluation remains incomplete.** The
 existing final-validation switch changes the executed check path on two valid
