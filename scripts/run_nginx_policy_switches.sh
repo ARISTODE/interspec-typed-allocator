@@ -7,10 +7,11 @@
 #      fault-test U module, where U misbehaves on request.
 #   3. The repository's nginx deployment gate with all three policies on.
 #
-# The 104-response parity set named by the tracker is not in this repository
-# and is not run here. Every log, stdout, stderr and exit status is kept in the
-# output directory, including those of a failing step. Nothing here is a timing
-# measurement.
+#   4. The 104-response parity set rebuilt from the Stage 13 description
+#      (evaluation/parity/nginx), on the four release variants.
+#
+# Every log, stdout, stderr and exit status is kept in the output directory,
+# including those of a failing step. Nothing here is a timing measurement.
 set -uo pipefail
 
 root=$(cd "$(dirname "$0")/.." && pwd)
@@ -50,6 +51,8 @@ if step build bash "$root/scripts/build_nginx_deployment.sh"; then
   fi
   step gate env INTERSPEC_SP1=1 INTERSPEC_SP2=1 INTERSPEC_SP3=1 \
     python3 "$root/tools/test_nginx_deployment.py" --work "$work" --out "$out/gate" --workers 2
+  step parity python3 "$root/tools/run_nginx_parity.py" --work "$work" \
+    --corpus "$root/evaluation/parity/nginx" --out "$out/parity"
 fi
 
 git -C "$root" rev-parse HEAD > "$out/source-commit.txt" 2>/dev/null || true
