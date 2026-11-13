@@ -29,6 +29,13 @@ for item in "$@"; do
   command=(python3 scripts/run_slot_policy_analysis.py --database "db/$database"
            --benchmark "$benchmark" --output-dir "reports/$benchmark"
            --split-pointer-query --threads "$threads" --codeql "$codeql")
+  # A configuration written for the rebuilt databases replaces the artifact's.
+  if [[ -f "$repo/evaluation/coverage/configs/$benchmark.json" ]]; then
+    mkdir -p "$root/coverage/configs"
+    cp "$repo/evaluation/coverage/configs/$benchmark.json" "$root/coverage/configs/"
+    cp "$repo/evaluation/coverage/configs/$benchmark.json" "$record/manifest.json"
+    command+=(--manifest "coverage/configs/$benchmark.json")
+  fi
   printf '%q ' "${command[@]}" > "$record/command.txt"; echo >> "$record/command.txt"
   (cd "$root" && "${command[@]}") 2>&1 | grep -v 'JAVA_TOOL_OPTIONS' > "$record/analysis.log"
   code=${PIPESTATUS[0]}
