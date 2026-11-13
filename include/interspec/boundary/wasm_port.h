@@ -52,6 +52,7 @@ class WasmPort {
   using Pointer = rlbox::tainted<unsigned char*, Backend>;
 
   explicit WasmPort(uint32_t arena_bytes) {
+    switches();  // read (and, if asked, report) the configuration first
     if (!sandbox_.create_sandbox()) throw std::runtime_error("sandbox_creation");
     try {
 #if INTERSPEC_TRACKING
@@ -98,11 +99,15 @@ class WasmPort {
 #endif
     return policy_switches(name.c_str());
   }
-  // Not switchable yet: a plain wrapper that copies both ways and, in the
-  // InterSpec variant, always checks. The switch tests are expected to fail.
-  static bool sp1() { return false; }
-  static bool sp2() { return false; }
-  static bool sp3() { return INTERSPEC_CHECKS != 0; }
+  static bool sp1() { return switches().sp1; }
+  static bool sp2() { return switches().sp2; }
+  static bool sp3() {
+#if INTERSPEC_CHECKS
+    return switches().sp3 == Sp3Mode::full;
+#else
+    return false;
+#endif
+  }
 
   [[noreturn]] static void reject(const char* operation, const char* reason) {
     std::fprintf(stderr, "INTERSPEC_REJECT boundary=%s operation=%s reason=%s\n",
