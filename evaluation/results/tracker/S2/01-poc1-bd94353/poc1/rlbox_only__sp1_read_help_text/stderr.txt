@@ -1,0 +1,2 @@
+INTERSPEC_POLICY boundary=rsync_popt+sp3_fixed_at_compile_time sp1=0 sp2=0 sp3=full
+[InterSpec][PoC][SP1] sandbox read option='set' descrip='SECRET_HELP' argDescrip='SECRET_ARG'

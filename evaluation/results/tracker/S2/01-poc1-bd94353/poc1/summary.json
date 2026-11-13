@@ -1,0 +1,265 @@
+{
+  "drivers_sha256": {
+    "extended": "08c398d375a7df3cb47808ef11c45c525ba569cc2c144f2a7f7a96a8ec7e5fb6",
+    "rlbox": "b61fb629e3a6c326eae4e1ca80e8f1ae717f9d77d08de28c15cc0dd88c685ef3"
+  },
+  "results": {
+    "rlbox_only": {
+      "benign": {
+        "exit": 0,
+        "signal": null,
+        "process": "completed",
+        "rejection_reason": null,
+        "secret_in_u_memory": true,
+        "u_printed_secret": false,
+        "t_readonly_val_last_seen": 42,
+        "t_slot_value": "hello"
+      },
+      "sp1_read_help_text": {
+        "exit": 0,
+        "signal": null,
+        "process": "completed",
+        "rejection_reason": null,
+        "secret_in_u_memory": true,
+        "u_printed_secret": true,
+        "t_readonly_val_last_seen": 42,
+        "t_slot_value": "hello"
+      },
+      "sp2_write_readonly_val": {
+        "exit": 0,
+        "signal": null,
+        "process": "completed",
+        "rejection_reason": null,
+        "secret_in_u_memory": true,
+        "u_printed_secret": false,
+        "t_readonly_val_last_seen": 1337,
+        "t_slot_value": "hello"
+      },
+      "sp3_pointer_outside_sandbox": {
+        "exit": -6,
+        "signal": "SIGABRT",
+        "process": "rejected",
+        "rejection_reason": "RLBox rejected outside-sandbox popt string",
+        "secret_in_u_memory": true,
+        "u_printed_secret": false,
+        "t_readonly_val_last_seen": 42,
+        "t_slot_value": null
+      },
+      "sp3_pointer_untracked_in_sandbox": {
+        "exit": 0,
+        "signal": null,
+        "process": "completed",
+        "rejection_reason": null,
+        "secret_in_u_memory": true,
+        "u_printed_secret": false,
+        "t_readonly_val_last_seen": 42,
+        "t_slot_value": "hello"
+      },
+      "poc1_all_three": {
+        "exit": -6,
+        "signal": "SIGABRT",
+        "process": "rejected",
+        "rejection_reason": "RLBox rejected outside-sandbox popt string",
+        "secret_in_u_memory": true,
+        "u_printed_secret": true,
+        "t_readonly_val_last_seen": 1337,
+        "t_slot_value": null
+      }
+    },
+    "switches_all_off": {
+      "benign": {
+        "exit": 0,
+        "signal": null,
+        "process": "completed",
+        "rejection_reason": null,
+        "secret_in_u_memory": true,
+        "u_printed_secret": false,
+        "t_readonly_val_last_seen": 42,
+        "t_slot_value": "hello"
+      },
+      "sp1_read_help_text": {
+        "exit": 0,
+        "signal": null,
+        "process": "completed",
+        "rejection_reason": null,
+        "secret_in_u_memory": true,
+        "u_printed_secret": true,
+        "t_readonly_val_last_seen": 42,
+        "t_slot_value": "hello"
+      },
+      "sp2_write_readonly_val": {
+        "exit": 0,
+        "signal": null,
+        "process": "completed",
+        "rejection_reason": null,
+        "secret_in_u_memory": true,
+        "u_printed_secret": false,
+        "t_readonly_val_last_seen": 1337,
+        "t_slot_value": "hello"
+      },
+      "sp3_pointer_outside_sandbox": {
+        "exit": -11,
+        "signal": "SIGSEGV",
+        "process": "crashed",
+        "rejection_reason": null,
+        "secret_in_u_memory": true,
+        "u_printed_secret": false,
+        "t_readonly_val_last_seen": 42,
+        "t_slot_value": null
+      },
+      "sp3_pointer_untracked_in_sandbox": {
+        "exit": 0,
+        "signal": null,
+        "process": "completed",
+        "rejection_reason": null,
+        "secret_in_u_memory": true,
+        "u_printed_secret": false,
+        "t_readonly_val_last_seen": 42,
+        "t_slot_value": "hello"
+      },
+      "poc1_all_three": {
+        "exit": -11,
+        "signal": "SIGSEGV",
+        "process": "crashed",
+        "rejection_reason": null,
+        "secret_in_u_memory": true,
+        "u_printed_secret": true,
+        "t_readonly_val_last_seen": 1337,
+        "t_slot_value": null
+      }
+    },
+    "domain_only_sp3": {
+      "benign": {
+        "exit": 0,
+        "signal": null,
+        "process": "completed",
+        "rejection_reason": null,
+        "secret_in_u_memory": false,
+        "u_printed_secret": false,
+        "t_readonly_val_last_seen": 42,
+        "t_slot_value": "hello"
+      },
+      "sp1_read_help_text": {
+        "exit": 0,
+        "signal": null,
+        "process": "completed",
+        "rejection_reason": null,
+        "secret_in_u_memory": false,
+        "u_printed_secret": false,
+        "t_readonly_val_last_seen": 42,
+        "t_slot_value": "hello"
+      },
+      "sp2_write_readonly_val": {
+        "exit": 0,
+        "signal": null,
+        "process": "completed",
+        "rejection_reason": null,
+        "secret_in_u_memory": false,
+        "u_printed_secret": false,
+        "t_readonly_val_last_seen": 42,
+        "t_slot_value": "hello"
+      },
+      "sp3_pointer_outside_sandbox": {
+        "exit": -6,
+        "signal": "SIGABRT",
+        "process": "rejected",
+        "rejection_reason": "InterSpec rejected popt char pointer: outside_domain",
+        "secret_in_u_memory": false,
+        "u_printed_secret": false,
+        "t_readonly_val_last_seen": 42,
+        "t_slot_value": null
+      },
+      "sp3_pointer_untracked_in_sandbox": {
+        "exit": 0,
+        "signal": null,
+        "process": "completed",
+        "rejection_reason": null,
+        "secret_in_u_memory": false,
+        "u_printed_secret": false,
+        "t_readonly_val_last_seen": 42,
+        "t_slot_value": "hello"
+      },
+      "poc1_all_three": {
+        "exit": -6,
+        "signal": "SIGABRT",
+        "process": "rejected",
+        "rejection_reason": "InterSpec rejected popt char pointer: outside_domain",
+        "secret_in_u_memory": false,
+        "u_printed_secret": false,
+        "t_readonly_val_last_seen": 42,
+        "t_slot_value": null
+      }
+    },
+    "full_sp3": {
+      "benign": {
+        "exit": 0,
+        "signal": null,
+        "process": "completed",
+        "rejection_reason": null,
+        "secret_in_u_memory": false,
+        "u_printed_secret": false,
+        "t_readonly_val_last_seen": 42,
+        "t_slot_value": "hello"
+      },
+      "sp1_read_help_text": {
+        "exit": 0,
+        "signal": null,
+        "process": "completed",
+        "rejection_reason": null,
+        "secret_in_u_memory": false,
+        "u_printed_secret": false,
+        "t_readonly_val_last_seen": 42,
+        "t_slot_value": "hello"
+      },
+      "sp2_write_readonly_val": {
+        "exit": 0,
+        "signal": null,
+        "process": "completed",
+        "rejection_reason": null,
+        "secret_in_u_memory": false,
+        "u_printed_secret": false,
+        "t_readonly_val_last_seen": 42,
+        "t_slot_value": "hello"
+      },
+      "sp3_pointer_outside_sandbox": {
+        "exit": -6,
+        "signal": "SIGABRT",
+        "process": "rejected",
+        "rejection_reason": "InterSpec rejected popt char pointer: untracked",
+        "secret_in_u_memory": false,
+        "u_printed_secret": false,
+        "t_readonly_val_last_seen": 42,
+        "t_slot_value": null
+      },
+      "sp3_pointer_untracked_in_sandbox": {
+        "exit": -6,
+        "signal": "SIGABRT",
+        "process": "rejected",
+        "rejection_reason": "InterSpec rejected popt char pointer: untracked",
+        "secret_in_u_memory": false,
+        "u_printed_secret": false,
+        "t_readonly_val_last_seen": 42,
+        "t_slot_value": null
+      },
+      "poc1_all_three": {
+        "exit": -6,
+        "signal": "SIGABRT",
+        "process": "rejected",
+        "rejection_reason": "InterSpec rejected popt char pointer: untracked",
+        "secret_in_u_memory": false,
+        "u_printed_secret": false,
+        "t_readonly_val_last_seen": 42,
+        "t_slot_value": null
+      }
+    }
+  },
+  "effects": {
+    "sp1_vs_rlbox_only": true,
+    "sp2_vs_rlbox_only": true,
+    "domain_sp3_vs_rlbox_only_outside_pointer": false,
+    "domain_sp3_vs_switches_all_off_outside_pointer": true,
+    "full_sp3_vs_domain_only_untracked_pointer": true
+  },
+  "benign_ok": true,
+  "crashes_counted_as_rejections": 0
+}

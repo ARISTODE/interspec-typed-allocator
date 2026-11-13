@@ -1,0 +1,4 @@
+INTERSPEC_POLICY boundary=rsync_popt sp1=0 sp2=0 sp3=off
+[InterSpec][PoC][SP1] sandbox read option='set' descrip='SECRET_HELP' argDescrip='SECRET_ARG'
+[InterSpec][PoC][SP2] sandbox mutated option='readonly' field=val old=42 new=1337
+[InterSpec][PoC][SP3] sandbox corrupting output pointer slot=0 value=0xdeadbeef
