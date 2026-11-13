@@ -79,8 +79,13 @@ jobs:
             --correctness-summary memcached-results/correctness/summary.json
       - name: Profile SP3 check frequency
         run: |
-          bash scripts/run_memcached_profile.sh \
-            memcached-results/check-frequency memcached-results/correctness/summary.json
+          python3 tools/profile_memcached_checks_hosted.py \
+            --out memcached-results/check-frequency --operations 5000 --key-cap 512 \
+            --write-operations 200000 --write-key-cap 10000 --require-coverage \
+            --correctness-summary memcached-results/correctness/summary.json
+          python3 tools/verify_memcached_profile.py \
+            --profile memcached-results/check-frequency \
+            --correctness-summary memcached-results/correctness/summary.json
       - name: Build separate boundary measurement binaries
         run: bash scripts/build_memcached_boundary_bench.sh
       - name: Collect and independently validate actual wasm2c boundary costs

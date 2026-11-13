@@ -45,3 +45,18 @@ with the same access pattern:
 Limits: as for memcached, `INTERSPEC_SP3=0` and `domain` are the same here,
 because every isolated variant already checks confinement. The gate ran with all
 three on only.
+
+## Run with the rebuilt parity set (`03-with-parity-2bc267e/`)
+
+Same script at `2bc267e`, after JH's decisions of 2026-11-13: the
+`INTERSPEC_SP3=domain` setting is gone (one SP3), and the script now also runs
+the 104-response parity set rebuilt from the Stage 13 description
+(`evaluation/parity/nginx/`: 13 requests with hand-written expected status and
+body, four release variants, forward and reverse order on one persistent
+connection each). Result: switch tests pass, gate 24/24, parity 104/104, and
+each variant passes its version command, syntax check and clean exit.
+
+The "Not covered" section above describes the state before this run. The set
+is rebuilt, not the original Stage 13 corpus. Before this formal run the runner
+was tried once on the binaries of `02-implementation-30852b9`; it also gave
+104/104 and the expectations were not changed afterwards.

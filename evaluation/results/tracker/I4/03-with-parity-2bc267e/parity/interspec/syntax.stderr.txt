@@ -1,0 +1,3 @@
+INTERSPEC_POLICY boundary=nginx_pcre sp1=1 sp2=1 sp3=full
+nginx: the configuration file /home/user/interspec-typed-allocator/evaluation/results/tracker/I4/03-with-parity-2bc267e/parity/interspec/nginx.conf syntax is ok
+nginx: configuration file /home/user/interspec-typed-allocator/evaluation/results/tracker/I4/03-with-parity-2bc267e/parity/interspec/nginx.conf test is successful
