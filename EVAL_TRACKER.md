@@ -39,7 +39,7 @@ Keep it at the root of `interspec-typed-allocator` and update it in the same com
 
 | ID | Item | Done when | Where | Status | Evidence | Notes |
 |---|---|---|---|---|---|---|
-| F1 | Merge the PR stack (#15 to #28) and `claude/nifty-cray-ik99hh` into `main` of `interspec-typed-allocator` | `main` contains the work, the core, memcached, nginx and sp3-security-delta workflows pass at that commit, and tag `eval-base` points to it | cc | todo | | Ask JH before the merge and before the tag |
+| F1 | Merge the PR stack (#15 to #28) and `claude/nifty-cray-ik99hh` into `main` of `interspec-typed-allocator` | `main` contains the work, the core, memcached, nginx and sp3-security-delta workflows pass at that commit, and tag `eval-base` points to it | cc | doing | | Ask JH before the merge and before the tag. Missing: workflow passes at the candidate commit, JH approval, fast-forward of `main`, tag. PRs #15 to #27 were already in the branch; #28 merged into the branch on 2026-11-13 (2 new files, no conflict). `main` is an ancestor of the branch, so a fast-forward is possible. Last CI before this was at `6e164d3`; `545474d` (42 tooling paths) never ran CI |
 
 ## Phase 2: Implementation gaps
 
@@ -102,3 +102,5 @@ Keep it at the root of `interspec-typed-allocator` and update it in the same com
 One line per change: date, item, old status to new status, evidence or reason.
 
 - 2026-11-13: tracker created, all items `todo`.
+- 2026-11-13: tracker committed to `interspec-typed-allocator` (`fd5bf5f`).
+- 2026-11-13: F1 `todo` to `doing`. PR #28 merged into `claude/nifty-cray-ik99hh`; candidate pushed without `[skip ci]` so the workflows run at the exact commit proposed for `main`. Merge to `main` and tag wait for JH.
