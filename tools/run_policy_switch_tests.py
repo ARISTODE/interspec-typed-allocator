@@ -40,6 +40,13 @@ def policy_line(boundary, env):
 
 REJECT = signal.SIGABRT
 
+# memcached/bipbuffer driver: the 16-byte record "T_RECORD_0123456" in hex.
+MC_RECORD = "545f5245434f52445f30313233343536"
+MC_BENIGN_OFFER = r"^T_OBSERVE stage=offer written=16 record=" + MC_RECORD + "$"
+MC_BENIGN_PEEK = r"^T_OBSERVE stage=peek_all size=16 data=" + MC_RECORD + "$"
+MC_FAULT = {"INTERSPEC_TEST_FAULT": "2", "INTERSPEC_TEST_TARGET": "2",
+            "INTERSPEC_TEST_ROLE": "1"}
+
 # Each case: switch settings, test-only U behavior, and what must be observed.
 # "exit" is a return code; a negative value is the signal that ended the process.
 BOUNDARIES = {
@@ -130,6 +137,86 @@ BOUNDARIES = {
                 "stdout": [r"stage=next rc=42 readonly_val=42$",
                            r"stage=done rc=-1 g_slot=hello readonly_val=42 "
                            r"set_descrip=SECRET_HELP set_arg_descrip=SECRET_ARG$"],
+                "stderr_absent": [r"INTERSPEC_REJECT", r"FAULT_INJECTION", r"PoC"],
+            },
+        },
+    },
+    "memcached_bipbuffer": {
+        "tests": {
+            "sp1": ["sp1_off_u_reads", "sp1_on_u_reads"],
+            "sp2": ["sp2_off_u_writes", "sp2_on_u_writes"],
+            "sp3": ["sp3_off_bad_pointer", "sp3_domain_bad_pointer",
+                    "sp3_on_bad_pointer"],
+            "benign": ["benign_all_on", "benign_all_off"],
+        },
+        "cases": {
+            # SP1: U reads the value handed to it for the length out-parameter
+            # of bipbuf_peek_all. T's value before the call is 0x5ec2e7.
+            "sp1_off_u_reads": {
+                "env": {**switches(sp1="0"), "INTERSPEC_TEST_POC_FLAGS": "1"},
+                "exit": 0,
+                "stdout": [MC_BENIGN_PEEK, r"^T_OBSERVE stage=done$"],
+                "stderr": [r"\[SP1\] sandbox read peek_all len_in=0x5ec2e7$"],
+            },
+            "sp1_on_u_reads": {
+                "env": {**switches(), "INTERSPEC_TEST_POC_FLAGS": "1"},
+                "exit": 0,
+                "stdout": [MC_BENIGN_PEEK, r"^T_OBSERVE stage=done$"],
+                "stderr": [r"\[SP1\] sandbox read peek_all len_in=0x0$"],
+                "stderr_absent": [r"5ec2e7"],
+            },
+            # SP2: U overwrites its copy of the data T passed to bipbuf_offer.
+            "sp2_off_u_writes": {
+                "env": {**switches(sp2="0"), "INTERSPEC_TEST_POC_FLAGS": "2"},
+                "exit": 0,
+                "stdout": [r"^T_OBSERVE stage=offer written=16 record=ab" + MC_RECORD[2:] + "$",
+                           MC_BENIGN_PEEK, r"^T_OBSERVE stage=done$"],
+                "stderr": [r"\[SP2\] sandbox mutated offer data byte=0 old=0x54 new=0xab$"],
+            },
+            "sp2_on_u_writes": {
+                "env": {**switches(), "INTERSPEC_TEST_POC_FLAGS": "2"},
+                "exit": 0,
+                "stdout": [MC_BENIGN_OFFER, MC_BENIGN_PEEK, r"^T_OBSERVE stage=done$"],
+                "stderr": [r"\[SP2\] sandbox mutated offer data byte=0 old=0x54 new=0xab$"],
+            },
+            # SP3: U returns an untracked heap copy from bipbuf_peek_all.
+            "sp3_off_bad_pointer": {
+                "env": {**switches(sp3="0"), **MC_FAULT},
+                "exit": 0,
+                "stdout": [MC_BENIGN_PEEK, r"^T_OBSERVE stage=done$"],
+                "stderr": [r"^FAULT_INJECTION boundary=memcached_bipbuffer mode=2 target=2 "],
+                "stderr_absent": [r"INTERSPEC_REJECT"],
+            },
+            "sp3_domain_bad_pointer": {
+                "env": {**switches(sp3="domain"), **MC_FAULT},
+                "exit": 0,
+                "stdout": [MC_BENIGN_PEEK, r"^T_OBSERVE stage=done$"],
+                "stderr": [r"^FAULT_INJECTION boundary=memcached_bipbuffer mode=2 target=2 "],
+                "stderr_absent": [r"INTERSPEC_REJECT"],
+            },
+            "sp3_on_bad_pointer": {
+                "env": {**switches(), **MC_FAULT},
+                "exit": -REJECT,
+                "stdout": [MC_BENIGN_OFFER],
+                "stdout_absent": [r"stage=peek_all", r"stage=done"],
+                "stderr": [r"^FAULT_INJECTION boundary=memcached_bipbuffer mode=2 target=2 ",
+                           r"^INTERSPEC_REJECT boundary=memcached_bipbuffer "
+                           r"operation=peek_all reason=untracked$"],
+            },
+            "benign_all_on": {
+                "env": switches(),
+                "exit": 0,
+                "stdout": [MC_BENIGN_OFFER, MC_BENIGN_PEEK,
+                           r"^T_OBSERVE stage=poll returned=1 empty=1$",
+                           r"^T_OBSERVE stage=done$"],
+                "stderr_absent": [r"INTERSPEC_REJECT", r"FAULT_INJECTION", r"PoC"],
+            },
+            "benign_all_off": {
+                "env": switches(sp1="0", sp2="0", sp3="0"),
+                "exit": 0,
+                "stdout": [MC_BENIGN_OFFER, MC_BENIGN_PEEK,
+                           r"^T_OBSERVE stage=poll returned=1 empty=1$",
+                           r"^T_OBSERVE stage=done$"],
                 "stderr_absent": [r"INTERSPEC_REJECT", r"FAULT_INJECTION", r"PoC"],
             },
         },

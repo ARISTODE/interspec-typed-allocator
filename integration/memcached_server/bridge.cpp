@@ -42,6 +42,7 @@ uint32_t interspec_mc_bench_noop(uint32_t);
 #endif
 #ifdef INTERSPEC_FAULT_TESTS
 void interspec_mc_fault(uint32_t, uint32_t);
+void interspec_mc_poc(uint32_t);
 #endif
 }
 
@@ -219,9 +220,13 @@ void interspec_bipbuf_role(bipbuf_t *ptr, unsigned int role) {
             const char *s = std::getenv(key);
             return s ? static_cast<uint32_t>(std::strtoul(s, nullptr, 10)) : fallback;
         };
-        if (role == value("INTERSPEC_TEST_ROLE", 1))
+        if (role == value("INTERSPEC_TEST_ROLE", 1)) {
             MC_CALL(b, interspec_mc_fault,
                 value("INTERSPEC_TEST_FAULT", 0), value("INTERSPEC_TEST_TARGET", 2));
+            /* Policy-switch tests only. Not traced, and not called unless asked. */
+            if (uint32_t flags = value("INTERSPEC_TEST_POC_FLAGS", 0))
+                b.sandbox.invoke_sandbox_function(interspec_mc_poc, flags);
+        }
 #else
         (void)role;
 #endif

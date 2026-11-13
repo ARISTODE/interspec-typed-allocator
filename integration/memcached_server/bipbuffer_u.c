@@ -26,6 +26,11 @@ void interspec_mc_fault(uint32_t mode, uint32_t target) {
     fault_mode = mode;
     fault_target = target;
 }
+/* Policy-switch tests (tracker item I2), same flag bits as the rsync/popt PoC:
+ * 1 = U reads the value it was handed for the peek_all length out-parameter,
+ * 2 = U overwrites its copy of the data passed to offer. */
+static uint32_t poc_flags;
+void interspec_mc_poc(uint32_t flags) { poc_flags = flags; }
 #endif
 
 unsigned char *interspec_mc_new(uint32_t size) {
@@ -139,8 +144,26 @@ unsigned char *interspec_mc_request(uint32_t size) {
     return mutate(bipbuf_request(owner, (int)size), 1);
 }
 int interspec_mc_push(uint32_t size) { return bipbuf_push(owner, (int)size); }
-int interspec_mc_offer(uint32_t size) { return bipbuf_offer(owner, input, (int)size); }
+int interspec_mc_offer(uint32_t size) {
+    int written = bipbuf_offer(owner, input, (int)size);
+#ifdef INTERSPEC_FAULT_TESTS
+    if ((poc_flags & 2u) && size) {
+        const unsigned old = input[0];
+        input[0] ^= 0xff;
+        fprintf(stderr, "[InterSpec][PoC][SP2] sandbox mutated offer data byte=0 old=0x%02x new=0x%02x\n",
+                old, (unsigned)input[0]);
+        fflush(stderr);
+    }
+#endif
+    return written;
+}
 unsigned char *interspec_mc_peek_all(void) {
+#ifdef INTERSPEC_FAULT_TESTS
+    if (poc_flags & 1u) {
+        fprintf(stderr, "[InterSpec][PoC][SP1] sandbox read peek_all len_in=0x%x\n", last_size);
+        fflush(stderr);
+    }
+#endif
     last_size = 0;
     unsigned char *ptr = bipbuf_peek_all(owner, &last_size);
     return mutate(ptr, 2);
