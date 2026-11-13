@@ -1,0 +1,3 @@
+INTERSPEC_POLICY boundary=ucl_libucl sp1=1 sp2=0 sp3=full
+[InterSpec][PoC][SP2] sandbox mutated document byte=0 old=0x73 new=0x8c
+INTERSPEC_T_OBSERVE boundary=ucl_libucl input_first_byte=0x8c key1_first_byte=0x73

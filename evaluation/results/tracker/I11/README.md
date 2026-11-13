@@ -14,6 +14,8 @@ wrapper and workload, not libucl.
 |---|---|---|
 | `01-tests-before-implementation-4ed7d54/` | `4ed7d54` | The port and its tests exist; the three policies are not switchable (the wrapper copies both ways and always checks). The "on" cases of SP1 and SP2 and the "off" case of SP3 fail, as intended. Benign 30/40: the ten InterSpec runs fail only because no configuration is reported. |
 | `02-implementation-ef8a85b/` | `ef8a85b` | Switch tests pass; benign 40/40. |
+| `03-arena-exhaustion-before-reuse-0972491/` | `0972491` | Not a pass or fail run: the port as first committed fails between 20,000 and 30,000 parses in both variants with the registry, because the typed arena does not reuse released addresses. See the README there. |
+| `04-buffer-reuse-f8962c2/` | `f8962c2` | After the shim was changed to keep one buffer per result: switch tests pass, benign 40/40, and 200,000 parses complete in all three isolated variants (`long-run-*`). |
 
 Each run is the unmodified output of `scripts/run_ucl_port.sh`, started once
 from a clean checkout. Before the two commits were made, the port was built
@@ -34,6 +36,8 @@ The registry knows the returned objects through two declared helper sites in
 the U shim (`string_value`, `emitted`): the shim copies each result into a
 typed allocation before handing it to T. libucl's own allocation sites are not
 instrumented.
+Since `f8962c2` the shim keeps one such allocation per result and reuses it
+while it is large enough, in every variant.
 
 ## Benign run (`benign/`)
 
