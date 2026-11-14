@@ -1,0 +1,1 @@
+ASSOC_BENCH variant=rlbox-only ops=2000 keyspace=1000 finds=1195 hits=256 inserts=446 deletes=44 live=402 checksum=d2be2a3da11f93d7 iterated=402 iter_xor=d16548e9d13b4ee7 checks=0 elapsed_ns=273000

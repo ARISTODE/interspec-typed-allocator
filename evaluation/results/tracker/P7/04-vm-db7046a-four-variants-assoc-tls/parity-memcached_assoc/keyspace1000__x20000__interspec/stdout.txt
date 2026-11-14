@@ -1,0 +1,1 @@
+ASSOC_BENCH variant=interspec ops=20000 keyspace=1000 finds=11956 hits=7742 inserts=2054 deletes=1298 live=756 checksum=caddbe8b9f31411b iterated=756 iter_xor=336226e90479f725 checks=13800 elapsed_ns=6172734
