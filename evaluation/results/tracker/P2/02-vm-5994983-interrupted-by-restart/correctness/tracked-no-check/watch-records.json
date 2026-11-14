@@ -1,0 +1,7 @@
+[
+  "ts=1794621207.60817 gid=2 type=item_get key=evidence status=not_found clsid=0 cfd=28 size=0",
+  "ts=1794621207.60819 gid=3 type=item_store key=evidence status=stored cmd=set ttl=0 clsid=1 cfd=28 size=7",
+  "ts=1794621207.60916 gid=4 type=item_get key=evidence status=found clsid=1 cfd=28 size=7",
+  "ts=1794621207.60969 gid=5 type=item_get key=evidence status=found clsid=1 cfd=28 size=7",
+  "ts=1794621207.60969 gid=6 type=deleted key=evidence cmd=delete clsid=1 size=7"
+]

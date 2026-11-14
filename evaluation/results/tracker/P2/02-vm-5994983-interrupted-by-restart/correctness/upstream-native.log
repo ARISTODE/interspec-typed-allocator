@@ -1,0 +1,59 @@
+t/watcher.t ......... 
+1..43
+ok 1 - watcher enabled
+ok 2 - basic get works
+ok 3 - skipped some lines
+ok 4 - saw a real log line after a skip
+ok 5 - stored the long key
+ok 6 - got the correct uri encoded key length
+ok 7 - connevents watcher enabled
+ok 8 - logged new connection
+ok 9 - logged closed connection due to client disconnect
+ok 10 - logged new connection
+ok 11 - logged closed connection due to client protocol error
+ok 12 - new watcher enabled
+ok 13 - evictions watcher enabled
+ok 14 - found rawcmd log entry
+ok 15 - found eviction log entry
+ok 16 # skip Mysteriously fails on travis CI.
+ok 17 - fetchers and mutations watcher enabled
+ok 18 - stored the key
+ok 19 - read the key header
+ok 20 - read the key value
+ok 21 - read the value trailer
+ok 22 - logged initial item fetch
+ok 23 - logged item store with correct size
+ok 24 - logged item get with correct size
+ok 25 - fetchers watcher enabled
+ok 26 - tracked new fetchers watcher
+ok 27 - mutations watcher enabled
+ok 28 - tracked new mutations watcher
+ok 29 - untracked all watchers
+ok 30 - attempted watch gave client error with no_watch option set
+ok 31 - deletions watcher enabled
+ok 32 - stored the key
+ok 33 - non-existing key can't be deleted
+ok 34 - key was deleted
+ok 35 - delete command logged with correct size
+ok 36 - stored the key
+ok 37 - key was deleted
+ok 38 - meta-delete command logged with correct size
+ok 39 - stored the key
+ok 40 - key was marked stale
+ok 41 - mg shows key is stale and won recache
+ok 42 - key was deleted
+ok 43 - delete command logged with correct size
+ok
+t/watcher_connid.t .. 
+1..4
+ok 1 - watching enabled for fetchers and mutations
+ts=1794621231.255186 gid=2 type=item_get key=foo status=not_found clsid=0 cfd=27 size=0
+ok 2 - Saw a miss with the connection id 27
+ts=1794621231.255193 gid=3 type=item_store key=foo status=stored cmd=set ttl=0 clsid=1 cfd=27 size=5
+ok 3 - Saw a set with the connection id 27
+ts=1794621231.260631 gid=4 type=item_get key=foo status=found clsid=1 cfd=29 size=5
+ok 4 - Saw a get with the connection id 29
+ok
+All tests successful.
+Files=2, Tests=47, 13 wallclock secs ( 0.02 usr  0.01 sys +  0.35 cusr  1.25 csys =  1.63 CPU)
+Result: PASS
