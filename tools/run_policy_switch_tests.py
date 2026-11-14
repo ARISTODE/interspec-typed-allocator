@@ -163,6 +163,65 @@ HASH_ARGS = ["1", "1"]
 HASH_BENIGN = r"^HASH_BENCH variant=interspec ops=1 keyspace=1 sink=[0-9a-f]{16} checks=0 "
 HASH_T_UNCHANGED = r"^INTERSPEC_T_OBSERVE boundary=memcached_hash key_first_byte=0x6b$"
 
+# memcached/hash with the hash table in U: the driver is the test build of
+# assoc_app_bench. The workload cases run 40 cache operations on four keys;
+# the first item T inserts has refcount 1 and a key that starts with 'k'
+# (0x6b), an expiry time of 0x5ec2e701 and a value that starts with "T_SE".
+# The script cases run a fixed order of calls and print which item T was
+# handed for key k0.
+ASSOC_ARGS = ["4", "40"]
+ASSOC_BENCH = r"ops=40 keyspace=4 finds=\d+ hits=\d+ inserts=\d+ deletes=\d+ live=\d+ "
+ASSOC_T_UNCHANGED = (r"^INTERSPEC_T_OBSERVE boundary=memcached_hash first_item_refcount=1 "
+                     r"first_item_key_byte=0x6b$")
+
+
+def assoc_handle_cases(variant, registry):
+    """What T is handed for k0: legitimate, and three altered handles."""
+    script = lambda name, fault=None: {
+        **switches(), "INTERSPEC_TEST_SCRIPT": name,
+        **({"INTERSPEC_TEST_FAULT": fault} if fault else {})}
+    rejected = lambda reason: {
+        "args": ASSOC_ARGS, "exit": 86, "stdout_absent": [r"ASSOC_SCRIPT"],
+        "stderr": [rf"^INTERSPEC_REJECT boundary=memcached_hash operation=assoc_find "
+                   rf"reason={reason}$"]}
+    cases = {
+        "handle_legitimate": {
+            "env": script("find"), "args": ASSOC_ARGS, "exit": 0,
+            "stdout": [r"^ASSOC_SCRIPT script=find find_k0=k0$"],
+            "stderr_absent": [r"INTERSPEC_REJECT", r"FAULT_INJECTION"]},
+        "handle_after_delete_legitimate": {
+            "env": script("stale"), "args": ASSOC_ARGS, "exit": 0,
+            "stdout": [r"^ASSOC_SCRIPT script=stale find_k0=none$"],
+            "stderr_absent": [r"INTERSPEC_REJECT", r"FAULT_INJECTION"]},
+        # A value T never issued: refused in every build.
+        "handle_never_issued": {
+            "env": script("find", "1"),
+            **rejected("untracked" if registry else "unknown_handle"),
+        },
+        # The handle of another live item: accepted in every build; T is handed
+        # the item of k1 for k0. SP3 cannot tell two live items apart.
+        "handle_other_live_item": {
+            "env": script("find", "3"), "args": ASSOC_ARGS, "exit": 0,
+            "stdout": [r"^ASSOC_SCRIPT script=find find_k0=k1$"],
+            "stderr": [r"^FAULT_INJECTION boundary=memcached_hash mode=3 "],
+            "stderr_absent": [r"INTERSPEC_REJECT"]},
+    }
+    # The handle of an item T has freed, after T inserted another item.
+    if registry:
+        cases["handle_of_freed_item"] = {"env": script("stale", "2"), **rejected("untracked")}
+        cases["handle_of_freed_item"]["stderr"] = [
+            r"^FAULT_INJECTION boundary=memcached_hash mode=2 "] + \
+            cases["handle_of_freed_item"]["stderr"]
+    else:
+        # T's handle table has reused the slot: T is handed the new item.
+        cases["handle_of_freed_item"] = {
+            "env": script("stale", "2"), "args": ASSOC_ARGS, "exit": 0,
+            "stdout": [r"^ASSOC_SCRIPT script=stale find_k0=k1$"],
+            "stderr": [r"^FAULT_INJECTION boundary=memcached_hash mode=2 "],
+            "stderr_absent": [r"INTERSPEC_REJECT"]}
+    return cases
+
+
 # Each case: switch settings, test-only U behavior, and what must be observed.
 # "exit" is a return code; a negative value is the signal that ended the process.
 BOUNDARIES = {
@@ -975,6 +1034,97 @@ BOUNDARIES = {
                 "stderr_absent": [r"INTERSPEC_REJECT", r"FAULT_INJECTION", r"PoC"],
             },
         },
+    },
+    "memcached_assoc": {
+        "reported_as": "memcached_hash",
+        "tests": {
+            "sp1": ["sp1_off_u_reads", "sp1_on_u_reads"],
+            "sp2": ["sp2_off_u_writes", "sp2_on_u_writes"],
+            # SP3: U returns the handle of an item that T has freed.
+            "sp3": ["sp3_off_bad_pointer", "sp3_on_bad_pointer"],
+            "handles": ["handle_legitimate", "handle_after_delete_legitimate",
+                        "handle_never_issued", "handle_of_freed_item",
+                        "handle_other_live_item"],
+            "benign": ["benign_all_on", "benign_all_off"],
+        },
+        "cases": {
+            # SP1: U reads the item fields and value bytes that the hash table
+            # does not need.
+            "sp1_off_u_reads": {
+                "env": {**switches(sp1="0"), "INTERSPEC_TEST_POC_FLAGS": "1"},
+                "args": ASSOC_ARGS, "exit": 0,
+                "stdout": [r"^ASSOC_BENCH variant=interspec " + ASSOC_BENCH],
+                "stderr": [r"\[SP1\] sandbox read item exptime=0x5ec2e701 nbytes=[1-9]\d* "
+                           r"value_bytes_received=[1-9]\d* value_first4=545f5345$"],
+            },
+            "sp1_on_u_reads": {
+                "env": {**switches(), "INTERSPEC_TEST_POC_FLAGS": "1"},
+                "args": ASSOC_ARGS, "exit": 0,
+                "stdout": [r"^ASSOC_BENCH variant=interspec " + ASSOC_BENCH],
+                "stderr": [r"\[SP1\] sandbox read item exptime=0x0 nbytes=0 "
+                           r"value_bytes_received=0 value_first4=00000000$"],
+                "stderr_absent": [r"5ec2e7", r"545f5345"],
+            },
+            # SP2: U overwrites the reference count and the key in its copy of
+            # the item. Without SP2 T's item is changed, and its cache with it.
+            "sp2_off_u_writes": {
+                "env": {**switches(sp2="0"), "INTERSPEC_TEST_POC_FLAGS": "2"},
+                "args": ASSOC_ARGS, "exit": 0,
+                "stderr": [r"\[SP2\] sandbox mutated item refcount=0xffff key_byte0=0x94$",
+                           r"^INTERSPEC_T_OBSERVE boundary=memcached_hash "
+                           r"first_item_refcount=65535 first_item_key_byte=0x94$"],
+            },
+            "sp2_on_u_writes": {
+                "env": {**switches(), "INTERSPEC_TEST_POC_FLAGS": "2"},
+                "args": ASSOC_ARGS, "exit": 0,
+                "stdout": [r"^ASSOC_BENCH variant=interspec " + ASSOC_BENCH],
+                "stderr": [r"\[SP2\] sandbox mutated item refcount=0xffff key_byte0=0x94$",
+                           ASSOC_T_UNCHANGED],
+            },
+            "sp3_off_bad_pointer": {
+                "env": {**switches(sp3="0"), "INTERSPEC_TEST_SCRIPT": "stale",
+                        "INTERSPEC_TEST_FAULT": "2"},
+                "args": ASSOC_ARGS, "exit": 0,
+                "stdout": [r"^ASSOC_SCRIPT script=stale find_k0=k1$"],
+                "stderr": [r"^FAULT_INJECTION boundary=memcached_hash mode=2 "],
+                "stderr_absent": [r"INTERSPEC_REJECT"],
+            },
+            "sp3_on_bad_pointer": {
+                "env": {**switches(), "INTERSPEC_TEST_SCRIPT": "stale",
+                        "INTERSPEC_TEST_FAULT": "2"},
+                "args": ASSOC_ARGS, "exit": 86,
+                "stdout_absent": [r"ASSOC_SCRIPT"],
+                "stderr": [r"^FAULT_INJECTION boundary=memcached_hash mode=2 ",
+                           r"^INTERSPEC_REJECT boundary=memcached_hash operation=assoc_find "
+                           r"reason=untracked$"],
+            },
+            **assoc_handle_cases("interspec", True),
+            "benign_all_on": {
+                "env": switches(),
+                "args": ASSOC_ARGS, "exit": 0,
+                "stdout": [r"^ASSOC_BENCH variant=interspec " + ASSOC_BENCH +
+                           r".* checks=[1-9]\d* "],
+                "stderr": [ASSOC_T_UNCHANGED],
+                "stderr_absent": [r"INTERSPEC_REJECT", r"FAULT_INJECTION", r"PoC"],
+            },
+            "benign_all_off": {
+                "env": switches(sp1="0", sp2="0", sp3="0"),
+                "args": ASSOC_ARGS, "exit": 0,
+                "stdout": [r"^ASSOC_BENCH variant=interspec " + ASSOC_BENCH + r".* checks=0 "],
+                "stderr": [ASSOC_T_UNCHANGED],
+                "stderr_absent": [r"INTERSPEC_REJECT", r"FAULT_INJECTION", r"PoC"],
+            },
+        },
+    },
+    # The same handle cases on the build without any InterSpec check.
+    "memcached_assoc_rlbox_only": {
+        "reported_as": "memcached_hash+sp3_fixed_at_compile_time",
+        "tests": {
+            "handles": ["handle_legitimate", "handle_after_delete_legitimate",
+                        "handle_never_issued", "handle_of_freed_item",
+                        "handle_other_live_item"],
+        },
+        "cases": assoc_handle_cases("rlbox-only", False),
     },
 }
 

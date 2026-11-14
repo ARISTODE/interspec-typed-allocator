@@ -63,6 +63,15 @@ BOUNDARIES = {
         "args": lambda corpus, case, n: [case["keyspace"], n],
         "name": lambda case: f"keyspace{case['keyspace']}",
     },
+    # The hash table in U: the registry holds T's items; one check for every
+    # item that U hands back. No object of U is registered, so there is no
+    # tracking-without-check variant.
+    "memcached_assoc": {
+        "prefix": "assoc", "tag": "ASSOC_BENCH", "reported_as": "memcached_hash",
+        "variants": ("native", "rlbox-only", "interspec"),
+        "args": lambda corpus, case, n: [case["keyspace"], n],
+        "name": lambda case: f"keyspace{case['keyspace']}",
+    },
 }
 NOT_RESULT = {"variant", "checks", "elapsed_ns"}
 
@@ -135,7 +144,8 @@ def main():
             checks["no_other_stderr"] = not other
             if variant == "interspec":
                 checks["reports_all_on"] = (
-                    f"INTERSPEC_POLICY boundary={args.boundary} sp1=1 sp2=1 sp3=full" in stderr)
+                    f"INTERSPEC_POLICY boundary={spec.get('reported_as', args.boundary)} "
+                    "sp1=1 sp2=1 sp3=full" in stderr)
         else:
             checks["native_reference_available"] = False
         passed = all(checks.values())

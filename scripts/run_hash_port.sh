@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
-# Tracker item I9: memcached/hash as the interspec-artifact isolates it, the
-# hash function alone, with SP2 behind its switch. The call takes a key and
-# returns a number, so there is no SP1 field, no SP3 field and no registry.
+# Tracker item I9: memcached/hash. Two cuts are built and tested:
+#   - the hash function alone, as the interspec-artifact isolates it (SP2 is
+#     the only policy with a field): steps switch-tests and benign;
+#   - the hash function and memcached's hash table in U (JH decision of
+#     2026-11-14), with SP1, SP2 and SP3 behind one switch each: steps assoc-*.
 #
 #   1. Build the hash function natively and as Wasm modules (with and without
 #      the test hook), and the bench programs.
@@ -37,6 +39,15 @@ if step build bash "$root/scripts/build_hash_port.sh" "$work"; then
     --out "$out/switch-tests"
   step benign python3 "$root/tools/run_port_parity.py" --boundary memcached_hash \
     --corpus "$root/evaluation/parity/hash" --bin "$work/bin" --out "$out/benign"
+  # The hash table in U (JH decision of 2026-11-14).
+  step assoc-switch-tests python3 "$root/tools/run_policy_switch_tests.py" \
+    --boundary memcached_assoc --driver "$work/bin/assoc-interspec-fault" \
+    --out "$out/assoc-switch-tests"
+  step assoc-handles-rlbox-only python3 "$root/tools/run_policy_switch_tests.py" \
+    --boundary memcached_assoc_rlbox_only --driver "$work/bin/assoc-rlbox-only-fault" \
+    --out "$out/assoc-handles-rlbox-only"
+  step assoc-benign python3 "$root/tools/run_port_parity.py" --boundary memcached_assoc \
+    --corpus "$root/evaluation/parity/assoc" --bin "$work/bin" --out "$out/assoc-benign"
 fi
 
 git -C "$root" rev-parse HEAD > "$out/source-commit.txt" 2>/dev/null || true

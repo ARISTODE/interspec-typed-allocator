@@ -36,5 +36,23 @@ port_host "$work/bin/hash-rlbox-only" ordinary 0 0 -- -I"$dir" "$dir/hash_app_be
 port_host "$work/bin/hash-interspec" ordinary 0 1 -- -I"$dir" "$dir/hash_app_bench.cpp"
 port_host "$work/bin/hash-interspec-fault" fault 0 1 -- -I"$dir" \
   -DINTERSPEC_FAULT_TESTS=1 "$dir/hash_app_bench.cpp"
-(cd "$work/bin" && sha256sum hash-*) > "$work/binaries.sha256"
+
+# The hash table in U (JH decision of 2026-11-14): memcached's assoc logic on
+# U's copies of the items (assoc_u.c), in one module with the hash function.
+port_module assoc - -- -I"$dir" "$dir/hash_u.c" "$dir/assoc_u.c" "$shim"
+port_module assoc-fault - -- -I"$dir" -DINTERSPEC_FAULT_TESTS=1 \
+  "$dir/hash_u.c" "$dir/assoc_u.c" "$shim"
+if grep -q 'interspec_assoc_fault\|interspec_assoc_poc' "$work/assoc/glue_lib_wasm2c.h"; then
+  echo 'Release module unexpectedly contains test hooks' >&2; exit 1
+fi
+cc -O3 -I"$dir" -c "$dir/assoc_u.c" -o "$work/native/assoc_u.o"
+g++ -std=c++17 -O2 -I"$dir" "$dir/assoc_native_bench.cpp" "$work/native/assoc_u.o" \
+  "$work/native/hash_untrusted.o" -o "$work/bin/assoc-native"
+port_host "$work/bin/assoc-rlbox-only" assoc 0 0 -- -I"$dir" "$dir/assoc_app_bench.cpp"
+port_host "$work/bin/assoc-interspec" assoc 0 1 -- -I"$dir" "$dir/assoc_app_bench.cpp"
+port_host "$work/bin/assoc-interspec-fault" assoc-fault 0 1 -- -I"$dir" \
+  -DINTERSPEC_FAULT_TESTS=1 "$dir/assoc_app_bench.cpp"
+port_host "$work/bin/assoc-rlbox-only-fault" assoc-fault 0 0 -- -I"$dir" \
+  -DINTERSPEC_FAULT_TESTS=1 "$dir/assoc_app_bench.cpp"
+(cd "$work/bin" && sha256sum hash-* assoc-*) > "$work/binaries.sha256"
 echo "memcached $(git -C "$memcached" rev-parse HEAD)" > "$work/source-revisions.txt"
