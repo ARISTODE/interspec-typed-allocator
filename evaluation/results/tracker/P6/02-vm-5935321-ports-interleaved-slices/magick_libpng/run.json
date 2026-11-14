@@ -1,0 +1,41 @@
+{
+  "boundary": "magick_libpng",
+  "harness_entry": "magick_libpng",
+  "mode": "policies",
+  "configurations": [
+    "rlbox-only",
+    "interspec-all-off",
+    "interspec-sp1",
+    "interspec-sp2",
+    "interspec-sp3",
+    "interspec-all-on"
+  ],
+  "reference": "rlbox-only",
+  "repetitions": 15,
+  "rounds": 30,
+  "time_of_a_repetition": "sum of elapsed_ns over the rounds",
+  "seed": 20261114,
+  "cpu": 0,
+  "case": {
+    "image": "basn4a16.png"
+  },
+  "iterations": 700,
+  "arguments": [
+    "evaluation/parity/png/basn4a16.png",
+    "700"
+  ],
+  "source_commit": "5935321",
+  "label": "Claude Code cloud VM (KVM guest, 4 vCPUs, not a dedicated host)",
+  "machine_start": {
+    "cpu_model": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+    "logical_cpus": 4,
+    "memory": "16473776 kB",
+    "kernel": "6.18.44-fc-v470",
+    "loadavg": "1.00 1.31 1.67 1/107 1343"
+  },
+  "binaries_sha256": {
+    "interspec": "8930ab62b0e5de6ecf18a3d47b0cde8ec08050bff0489b19b42b8b6e514c27ca",
+    "rlbox-only": "1693f26b70750aba519ff5650b24f9940cc9b65c2c7c3c20fb93467b90236483"
+  },
+  "started_utc": "2026-11-14T11:46:04Z"
+}
