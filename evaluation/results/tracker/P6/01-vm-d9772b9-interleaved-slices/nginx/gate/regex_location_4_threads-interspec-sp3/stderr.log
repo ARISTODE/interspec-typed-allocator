@@ -1,0 +1,8 @@
+INTERSPEC_POLICY boundary=nginx_pcre sp1=0 sp2=0 sp3=full
+2026/11/14 11:10:53 [notice] 23678#0: using the "epoll" event method
+2026/11/14 11:10:53 [notice] 23678#0: nginx/1.26.3
+2026/11/14 11:10:53 [notice] 23678#0: built by gcc 13.3.0 (Ubuntu 13.3.0-6ubuntu2~24.04.1) 
+2026/11/14 11:10:53 [notice] 23678#0: OS: Linux 6.18.44-fc-v470
+2026/11/14 11:10:53 [notice] 23678#0: getrlimit(RLIMIT_NOFILE): 20000:20000
+2026/11/14 11:10:55 [notice] 23678#0: signal 3 (SIGQUIT) received from 23530, shutting down
+2026/11/14 11:10:55 [notice] 23678#0: exit

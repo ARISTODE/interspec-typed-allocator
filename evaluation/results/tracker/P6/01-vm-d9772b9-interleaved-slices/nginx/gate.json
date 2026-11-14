@@ -1,0 +1,54 @@
+{
+  "regex_location_4_threads/rlbox-only": {
+    "valid": true,
+    "result": "every response had status 200 and the expected body",
+    "policy_report": [],
+    "result_matches_rlbox_only": true,
+    "report_matches_switches": true
+  },
+  "regex_location_4_threads/interspec-all-off": {
+    "valid": true,
+    "result": "every response had status 200 and the expected body",
+    "policy_report": [
+      "INTERSPEC_POLICY boundary=nginx_pcre sp1=0 sp2=0 sp3=off"
+    ],
+    "result_matches_rlbox_only": true,
+    "report_matches_switches": true
+  },
+  "regex_location_4_threads/interspec-sp1": {
+    "valid": true,
+    "result": "every response had status 200 and the expected body",
+    "policy_report": [
+      "INTERSPEC_POLICY boundary=nginx_pcre sp1=1 sp2=0 sp3=off"
+    ],
+    "result_matches_rlbox_only": true,
+    "report_matches_switches": true
+  },
+  "regex_location_4_threads/interspec-sp2": {
+    "valid": true,
+    "result": "every response had status 200 and the expected body",
+    "policy_report": [
+      "INTERSPEC_POLICY boundary=nginx_pcre sp1=0 sp2=1 sp3=off"
+    ],
+    "result_matches_rlbox_only": true,
+    "report_matches_switches": true
+  },
+  "regex_location_4_threads/interspec-sp3": {
+    "valid": true,
+    "result": "every response had status 200 and the expected body",
+    "policy_report": [
+      "INTERSPEC_POLICY boundary=nginx_pcre sp1=0 sp2=0 sp3=full"
+    ],
+    "result_matches_rlbox_only": true,
+    "report_matches_switches": true
+  },
+  "regex_location_4_threads/interspec-all-on": {
+    "valid": true,
+    "result": "every response had status 200 and the expected body",
+    "policy_report": [
+      "INTERSPEC_POLICY boundary=nginx_pcre sp1=1 sp2=1 sp3=full"
+    ],
+    "result_matches_rlbox_only": true,
+    "report_matches_switches": true
+  }
+}

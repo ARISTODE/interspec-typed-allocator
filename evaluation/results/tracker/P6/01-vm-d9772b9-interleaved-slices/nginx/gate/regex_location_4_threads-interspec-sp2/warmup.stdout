@@ -1,0 +1,14 @@
+Running 1s test @ http://127.0.0.1:49115/items/123/alpha
+  4 threads and 100 connections
+  Thread Stats   Avg      Stdev     Max   +/- Stdev
+    Latency     1.56ms    1.66ms  45.39ms   98.69%
+    Req/Sec    17.26k     3.19k   24.90k    65.91%
+  Latency Distribution
+     50%    1.29ms
+     75%    1.83ms
+     90%    2.13ms
+     99%    3.93ms
+  75489 requests in 1.10s, 11.66MB read
+Requests/sec:  68622.87
+Transfer/sec:     10.60MB
+INTERSPEC_WRK {"requests":75489,"duration_us":1100056,"validated":75489,"bad":0,"p50_us":1293.000,"p99_us":3934.000,"connect_errors":0,"read_errors":0,"write_errors":0,"status_errors":0,"timeouts":0}
