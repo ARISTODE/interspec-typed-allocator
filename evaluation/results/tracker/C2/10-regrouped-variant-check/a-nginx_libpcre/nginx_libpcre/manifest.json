@@ -1,0 +1,14 @@
+{
+  "benchmark": "nginx_libpcre",
+  "trusted": {
+    "files": ["^benchmarks/nginx/src/.*\\.(c|cc|cpp|h)$"],
+    "namespaces": [],
+    "libraries": ["nginx"]
+  },
+  "untrusted": {
+    "files": ["^benchmarks/pcre/.*\\.(c|h)$"],
+    "namespaces": [],
+    "libraries": ["pcre"]
+  },
+  "interfaces": []
+}
