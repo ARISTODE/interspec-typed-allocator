@@ -10,6 +10,16 @@
 //   assoc_delete(key, nkey, hv)
 //   assoc_get_iterator / assoc_iterate(iter, &item) / assoc_iterate_final
 // T keeps its items; U keeps the table. U names an item of T by a handle.
+// Policies at this boundary:
+//   SP1  of an item the hash table reads only nkey and the key. The other
+//        header fields (three of them T pointers) and the value are not
+//        copied in.
+//   SP2  the hash table writes only the chain link of an item, and reads but
+//        never writes a key. U's versions of items and keys are not copied
+//        back.
+//   SP3  T registers each item before its handle reaches U. The handle is
+//        the registration token, and what U hands back must name a live
+//        registered item of T.
 #define RLBOX_USE_EXCEPTIONS
 #define RLBOX_USE_STATIC_CALLS() rlbox_wasm2c_sandbox_lookup_symbol
 #define RLBOX_WASM2C_MODULE_NAME glue__lib__wasm2c
@@ -19,6 +29,7 @@
 
 #include "assoc_workload.h"
 #include "interspec/boundary/wasm_port.h"
+#include "interspec/runtime.h"
 
 #include <unordered_map>
 
@@ -58,6 +69,9 @@ using Port = interspec::WasmPort<AssocPolicy>;
 constexpr const char* kVariant = "rlbox-only";
 #else
 constexpr const char* kVariant = "interspec";
+// T's items in the registry (manual registration in T).
+constexpr interspec::TypeId kItemId = 1;
+constexpr uint64_t kItemType = interspec::type_hash("item");
 #endif
 
 // invoke_sandbox_function is a macro that needs the function's name.
@@ -67,7 +81,13 @@ constexpr const char* kVariant = "interspec";
 
 class SandboxTable {
  public:
-  SandboxTable() : port_(0) {}
+  SandboxTable() : port_(0) {
+#if INTERSPEC_CHECKS
+    if (!objects_.register_type(kItemId, kItemType) ||
+        !objects_.register_type_layout(kItemId, sizeof(Item), alignof(Item)))
+      throw std::runtime_error("type_registration");
+#endif
+  }
   Port& port() { return port_; }
 
   bool init(unsigned hashpower) { return ASSOC_CALL(interspec_assoc_init, hashpower) == 1; }
@@ -79,7 +99,7 @@ class SandboxTable {
     std::memcpy(staged, key.data(), len);
     const unsigned long long value =
         ASSOC_CALL(interspec_hash_run, port_.address_of(staged), len);
-    std::memcpy(&key[0], staged, len);  // U's version of the key is copied back
+    port_.copy_back_unless_sp2(&key[0], staged, len);  // SP2
     return static_cast<uint32_t>(value);
   }
 
@@ -87,26 +107,30 @@ class SandboxTable {
     unsigned char* staged = stage_key(key);
     const uint32_t handle = ASSOC_CALL(interspec_assoc_find, port_.address_of(staged),
                                        static_cast<uint32_t>(key.size()), hv);
-    std::memcpy(&key[0], staged, key.size());  // copied back
+    port_.copy_back_unless_sp2(&key[0], staged, key.size());  // SP2
     return handle ? resolve(handle, "assoc_find") : nullptr;
   }
 
   bool insert(Item* it, uint32_t hv) {
-    // The whole item is copied in: header fields, key and value.
-    const uint32_t body = it->nkey + static_cast<uint32_t>(it->nbytes);
+    // SP1: only nkey and the key are copied in, unless SP1 is off; then the
+    // whole item is: every header field, the key and the value.
+    const bool whole = !Port::sp1();
+    const uint32_t body = it->nkey + (whole ? static_cast<uint32_t>(it->nbytes) : 0);
     const uint32_t bytes = static_cast<uint32_t>(sizeof(assoc_item_image_t)) + body;
     unsigned char* staged = stage(1, bytes);
     assoc_item_image_t image{};
-    image.next = low32(it->next);
-    image.prev = low32(it->prev);
-    image.h_next = low32(it->h_next);
-    image.time = it->time;
-    image.exptime = it->exptime;
-    image.nbytes = it->nbytes;
-    image.refcount = it->refcount;
-    image.it_flags = it->it_flags;
-    image.slabs_clsid = it->slabs_clsid;
     image.nkey = it->nkey;
+    if (whole) {
+      image.next = low32(it->next);
+      image.prev = low32(it->prev);
+      image.h_next = low32(it->h_next);
+      image.time = it->time;
+      image.exptime = it->exptime;
+      image.nbytes = it->nbytes;
+      image.refcount = it->refcount;
+      image.it_flags = it->it_flags;
+      image.slabs_clsid = it->slabs_clsid;
+    }
     std::memcpy(staged, &image, sizeof(image));
     std::memcpy(staged + sizeof(image), it->key(), body);
 
@@ -114,16 +138,21 @@ class SandboxTable {
     const int rc =
         ASSOC_CALL(interspec_assoc_insert, port_.address_of(staged), bytes, handle, hv);
 
-    // U's version of the item is copied back, except the pointer fields.
-    std::memcpy(&image, staged, sizeof(image));
-    it->time = image.time;
-    it->exptime = image.exptime;
-    it->nbytes = image.nbytes;
-    it->refcount = image.refcount;
-    it->it_flags = image.it_flags;
-    it->slabs_clsid = image.slabs_clsid;
-    it->nkey = image.nkey;
-    std::memcpy(it->key(), staged + sizeof(image), body);
+    // SP2: U's version of the item is not copied back. With SP2 off, every
+    // field that was copied in is, except the pointer fields.
+    if (!Port::sp2()) {
+      std::memcpy(&image, staged, sizeof(image));
+      if (whole) {
+        it->time = image.time;
+        it->exptime = image.exptime;
+        it->nbytes = image.nbytes;
+        it->refcount = image.refcount;
+        it->it_flags = image.it_flags;
+        it->slabs_clsid = image.slabs_clsid;
+      }
+      it->nkey = image.nkey;
+      std::memcpy(it->key(), staged + sizeof(image), body);
+    }
     return rc == 1;
   }
 
@@ -131,13 +160,21 @@ class SandboxTable {
     unsigned char* staged = stage_key(key);
     port_.sandbox().invoke_sandbox_function(interspec_assoc_delete, port_.address_of(staged),
                                             static_cast<uint32_t>(key.size()), hv);
-    std::memcpy(&key[0], staged, key.size());  // copied back
+    port_.copy_back_unless_sp2(&key[0], staged, key.size());  // SP2
   }
 
   // T is about to free the item: its handle stops naming it.
   void forget(Item* it) {
     const auto found = handle_of_.find(it);
     if (found == handle_of_.end()) return;
+#if INTERSPEC_CHECKS
+    if (Port::sp3()) {
+      objects_.unregister_external(found->second);
+      by_token_.erase(found->second);
+      handle_of_.erase(found);
+      return;
+    }
+#endif
     slots_[found->second - 1] = nullptr;
     free_slots_.push_back(found->second);
     handle_of_.erase(found);
@@ -159,8 +196,22 @@ class SandboxTable {
     return static_cast<uint32_t>(reinterpret_cast<uintptr_t>(pointer));
   }
 
-  // Handles: slots of a table in T, reused after an item is freed.
+  // Handles. With SP3 on, the handle is the registry's token for the item: a
+  // token is never issued twice, and the registry knows the item's type.
+  // Otherwise it is a slot of a table in T, reused after an item is freed, as
+  // a wrapper without InterSpec would keep.
   uint32_t issue(Item* it) {
+#if INTERSPEC_CHECKS
+    if (Port::sp3()) {
+      const uint64_t token = objects_.register_external_array(
+          reinterpret_cast<uintptr_t>(it), 1, kItemId, interspec::MemoryDomain::trusted,
+          interspec::ObjectStorage::heap);
+      if (token == 0 || token > UINT32_MAX) throw std::runtime_error("item_registration");
+      by_token_[static_cast<uint32_t>(token)] = it;
+      handle_of_[it] = static_cast<uint32_t>(token);
+      return static_cast<uint32_t>(token);
+    }
+#endif
     uint32_t handle;
     if (!free_slots_.empty()) {
       handle = free_slots_.back();
@@ -174,8 +225,22 @@ class SandboxTable {
     return handle;
   }
 
-  // Only a handle whose slot is in use names an item.
+  // SP3 on: the handle must be the token of a live registered item of T.
+  // Otherwise: only a handle whose slot is in use names an item.
   Item* resolve(uint32_t handle, const char* operation) {
+#if INTERSPEC_CHECKS
+    if (Port::sp3()) {
+      port_.count_check();
+      const auto found = by_token_.find(handle);
+      Item* it = found == by_token_.end() ? nullptr : found->second;
+      const auto result = objects_.check_nonheap_element(
+          reinterpret_cast<uintptr_t>(it), sizeof(Item), kItemType,
+          interspec::MemoryDomain::trusted, handle);
+      if (result != interspec::CheckResult::ok)
+        Port::reject(operation, interspec::check_result_name(result));
+      return it;
+    }
+#endif
     if (handle == 0 || handle > slots_.size() || !slots_[handle - 1])
       Port::reject(operation, "unknown_handle");
     return slots_[handle - 1];
@@ -193,6 +258,10 @@ class SandboxTable {
   }
 
   Port port_;
+#if INTERSPEC_CHECKS
+  interspec::Runtime objects_{0, 0};  // no arena: T's items only
+  std::unordered_map<uint32_t, Item*> by_token_;
+#endif
   std::vector<Item*> slots_;
   std::vector<uint32_t> free_slots_;
   std::unordered_map<Item*, uint32_t> handle_of_;
