@@ -1,0 +1,12 @@
+PASS nginx_openssl sp1
+PASS nginx_openssl sp2
+FAIL nginx_openssl sp3
+  sp3_on_bad_pointer: failed exit==86 (observed 0)
+  sp3_on_bad_pointer: failed stdout lacks /TLS_BENCH/
+  sp3_on_bad_pointer: failed stderr has /^INTERSPEC_REJECT boundary=nginx_openssl operation=ex_data reason=wrong_type$/
+FAIL nginx_openssl ex_data
+  ex_data_wrong_type: failed exit==86 (observed 0)
+  ex_data_wrong_type: failed stdout lacks /TLS_BENCH/
+  ex_data_wrong_type: failed stderr has /^INTERSPEC_REJECT boundary=nginx_openssl operation=ex_data reason=wrong_type$/
+FAIL nginx_openssl benign
+  benign_all_on: failed stdout has /^TLS_BENCH variant=interspec rounds=1 request_bytes=64 response_bytes=256 version=TLSv1\.3 cipher=\S+ server_received_fnv=[0-9a-f]{16} client_received_fnv=[0-9a-f]{16} connection_requests=1 checks=1 /

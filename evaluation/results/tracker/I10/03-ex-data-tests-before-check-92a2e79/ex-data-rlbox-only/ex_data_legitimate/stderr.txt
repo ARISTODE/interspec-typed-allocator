@@ -1,0 +1,2 @@
+INTERSPEC_POLICY boundary=nginx_openssl+sp3_fixed_at_compile_time sp1=1 sp2=1 sp3=full
+INTERSPEC_T_OBSERVE boundary=nginx_openssl response_first_byte=0x46 conf_limit=1000 other_requests=0

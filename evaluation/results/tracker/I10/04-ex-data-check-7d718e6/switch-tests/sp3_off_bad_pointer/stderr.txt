@@ -1,0 +1,3 @@
+INTERSPEC_POLICY boundary=nginx_openssl sp1=1 sp2=1 sp3=off
+FAULT_INJECTION boundary=nginx_openssl mode=2 original=0x2 replacement=0x1
+INTERSPEC_T_OBSERVE boundary=nginx_openssl response_first_byte=0x46 conf_limit=1001 other_requests=0
