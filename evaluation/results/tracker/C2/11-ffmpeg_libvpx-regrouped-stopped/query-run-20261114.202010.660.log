@@ -1,0 +1,11 @@
+[2026-11-14 20:20:10] This is codeql query run /tmp/slot_policy_pack_78yof7ia/ql/queries/pointer_slots_split_revhixwn/pointer_slots_return.ql --database db/ffmpeg_vpx_only --search-path /tmp/slot_policy_pack_78yof7ia/ql --threads 4 --ram 10000 --max-disk-cache 6000 --output reports/ffmpeg_libvpx/_pointer_query_split/pointer_slots.return.bqrs
+[2026-11-14 20:20:10] Log file was started late.
+[2026-11-14 20:20:10] Calling plumbing command: codeql resolve ram --dataset=$S/coverage-work-regrouped/root/db/ffmpeg_vpx_only/db-cpp --ram=10000 --format=json
+[2026-11-14 20:20:10] [PROGRESS] resolve ram> Stringpool size measured as 11567546
+[2026-11-14 20:20:10] Plumbing command codeql resolve ram completed:
+                      [
+                        "-J-Xmx4148M",
+                        "--off-heap-ram=4867"
+                      ]
+[2026-11-14 20:20:10] Chaining via /tmp/codeql.H4TLfqbp to plumbing: execute queries -J-Xmx4148M --off-heap-ram=4867 --verbosity=progress --logdir=$S/coverage-work-regrouped/root/db/ffmpeg_vpx_only/log --max-disk-cache=6000 --evaluator-log-level=5 --threads=4 --warnings=show --search-path=/tmp/slot_policy_pack_78yof7ia/ql --qlconfig-file=$S/coverage-work-regrouped/root/qlconfig.yml --dynamic-join-order-mode=none --output=$S/coverage-work-regrouped/root/reports/ffmpeg_libvpx/_pointer_query_split/pointer_slots.return.bqrs -- $S/coverage-work-regrouped/root/db/ffmpeg_vpx_only/db-cpp path:/tmp/slot_policy_pack_78yof7ia/ql/queries/pointer_slots_split_revhixwn/pointer_slots_return.ql
+[2026-11-14 20:20:10] Exiting with code 70

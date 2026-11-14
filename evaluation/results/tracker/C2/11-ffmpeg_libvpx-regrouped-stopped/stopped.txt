@@ -1,0 +1,31 @@
+ffmpeg/libvpx on database ffmpeg_vpx_only, query variant
+paper_counting_rule_regrouped (evaluation/coverage/query_variants/), 4 threads,
+10,000 MB, on the Claude Code cloud VM. Times in UTC (PST is UTC-8).
+
+Started 19:07:51 with a cap of 8 hours (timeout 8h). Stopped by hand at
+22:16:32 with SIGTERM to the timeout process (exit=143 in task-output.txt),
+3 hours 9 minutes after the start.
+
+What finished: the first of the four pointer queries (param), 19:07:52 to
+20:20:09, 72 minutes; its output is pointer_slots.param.bqrs. The predicate
+that stalled run 09/c is no longer a problem: the three helper predicates of
+the regrouped form were evaluated in seconds (218, 8,599 and 0 rows).
+
+Reason for stopping: the second pointer query (return) started at 20:20:10.
+Its evaluator log has no line after 20:34:24. The step in progress was
+iteration 2 of PointerTargetDomain::exprMayTargetUFromHelperCallsite/2#bb,
+inside the recursion over exprMayTargetUFromBoundaryRoots (delta 408 million
+rows) and exprMayTargetUDirectFromBoundaryRoots (2.44 billion rows). The same
+step took 55 seconds in the param query (20:15:03 to 20:15:58). After 102
+minutes in this one step, with two more pointer queries, the scalar query and
+the type query still to come, the run could not have finished under its cap.
+
+The relations of 2.4 billion rows are (functions of the database) x
+(expressions); see ../09-large-boundaries/README.md. The next run uses the
+variant paper_counting_rule_factored, which does not build them
+(../12-factored-variant-check/ and ../13-…).
+
+analysis.log is empty and steps.txt was not written because the driver's
+output is piped through grep and was lost when the run was stopped. The
+scratch directory in command.txt, manifest.json and query-run-*.log is
+written as $S.
