@@ -24,3 +24,39 @@ Cloning into '/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scra
 Cloning into '/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/p5-tmp-9e1b06a/interspec-yaml-libyaml/build/_deps/wasm2c_compiler-src/third_party/picosha2'...
 Cloning into '/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/p5-tmp-9e1b06a/interspec-yaml-libyaml/build/_deps/wasm2c_compiler-src/third_party/ply'...
 Cloning into '/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/p5-tmp-9e1b06a/interspec-yaml-libyaml/build/_deps/wasm2c_compiler-src/third_party/simde'...
+Cloning into '/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/p5-tmp-9e1b06a/interspec-yaml-libyaml/build/_deps/wasm2c_compiler-src/third_party/testsuite'...
+Cloning into '/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/p5-tmp-9e1b06a/interspec-yaml-libyaml/build/_deps/wasm2c_compiler-src/third_party/uvwasi'...
+Cloning into '/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/p5-tmp-9e1b06a/interspec-yaml-libyaml/build/_deps/wasm2c_compiler-src/third_party/wasm-c-api'...
+Submodule 'munit' (https://github.com/nemequ/munit.git) registered for path 'third_party/simde/test/munit'
+Cloning into '/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/p5-tmp-9e1b06a/interspec-yaml-libyaml/build/_deps/wasm2c_compiler-src/third_party/simde/test/munit'...
+CMake Warning:
+  Manually-specified variables were not used by the project:
+
+    LINK_FLAGS
+
+
+gmake[4]: warning: -j0 forced in submake: resetting jobserver mode.
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/p5-tmp-9e1b06a/interspec-yaml-libyaml/build/_deps/wasm2c_compiler-src/src/tools/spectest-interp.cc: In member function ‘spectest::ActionResult spectest::CommandRunner::RunAction(int, const spectest::Action*, RunVerbosity)’:
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/p5-tmp-9e1b06a/interspec-yaml-libyaml/build/_deps/wasm2c_compiler-src/src/tools/spectest-interp.cc:1444:12: warning: variable ‘ok’ set but not used [-Wunused-but-set-variable]
+ 1444 |       auto ok = func->Call(store_, action->args, result.values, &result.trap,
+      |            ^~
+In file included from /home/user/interspec-typed-allocator/integration/yaml_libyaml/yaml_app_bench.cpp:12:
+/home/user/interspec-typed-allocator/include/interspec/pointer_census.h: In function 'void interspec::census::emit(const char*, const char*, const char*, const char*, uintptr_t, const char*)':
+/home/user/interspec-typed-allocator/include/interspec/pointer_census.h:118:18: warning: ignoring return value of 'ssize_t write(int, const void*, size_t)' declared with attribute 'warn_unused_result' [-Wunused-result]
+  118 |     (void)::write(STDERR_FILENO, line, static_cast<size_t>(count));
+      |           ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /home/user/interspec-typed-allocator/integration/yaml_libyaml/yaml_app_bench.cpp:12:
+/home/user/interspec-typed-allocator/include/interspec/pointer_census.h: In function 'void interspec::census::emit(const char*, const char*, const char*, const char*, uintptr_t, const char*)':
+/home/user/interspec-typed-allocator/include/interspec/pointer_census.h:118:18: warning: ignoring return value of 'ssize_t write(int, const void*, size_t)' declared with attribute 'warn_unused_result' [-Wunused-result]
+  118 |     (void)::write(STDERR_FILENO, line, static_cast<size_t>(count));
+      |           ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /home/user/interspec-typed-allocator/integration/yaml_libyaml/yaml_app_bench.cpp:12:
+/home/user/interspec-typed-allocator/include/interspec/pointer_census.h: In function 'void interspec::census::emit(const char*, const char*, const char*, const char*, uintptr_t, const char*)':
+/home/user/interspec-typed-allocator/include/interspec/pointer_census.h:118:18: warning: ignoring return value of 'ssize_t write(int, const void*, size_t)' declared with attribute 'warn_unused_result' [-Wunused-result]
+  118 |     (void)::write(STDERR_FILENO, line, static_cast<size_t>(count));
+      |           ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /home/user/interspec-typed-allocator/integration/yaml_libyaml/yaml_app_bench.cpp:12:
+/home/user/interspec-typed-allocator/include/interspec/pointer_census.h: In function 'void interspec::census::emit(const char*, const char*, const char*, const char*, uintptr_t, const char*)':
+/home/user/interspec-typed-allocator/include/interspec/pointer_census.h:118:18: warning: ignoring return value of 'ssize_t write(int, const void*, size_t)' declared with attribute 'warn_unused_result' [-Wunused-result]
+  118 |     (void)::write(STDERR_FILENO, line, static_cast<size_t>(count));
+      |           ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

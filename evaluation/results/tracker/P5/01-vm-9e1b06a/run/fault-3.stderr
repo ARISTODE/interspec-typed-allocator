@@ -1,0 +1,2 @@
+FAULT_INJECTION boundary=yaml_libyaml mode=3 original=0x102de0 replacement=0x104de0 bytes=6
+INTERSPEC_REJECT boundary=yaml_libyaml reason=untracked
