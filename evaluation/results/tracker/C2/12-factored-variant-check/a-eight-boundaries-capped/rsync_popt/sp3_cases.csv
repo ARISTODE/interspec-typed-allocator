@@ -1,0 +1,22 @@
+benchmark,function,file,binding_kind,binding_id,direction,slot_kind,slot_path,slot_types,sp3_origin_class,owned_by_t,exposed_to_u,u_reads,u_writes,u_forwarded,t_uses,u_influenced,escapes_to_t,flow_cut,t_domain_invariant,sp3_target_class,sp3_target_t,sp3_target_u,sp3_target_null
+rsync_popt,poptAddAlias,benchmarks/rsync/popt/popt.c,param,0,T_TO_U,out_param,/deref/field:aliases,poptItem_s *,T_passed_U_updated,0,1,1,1,0,1,1,0,0,0,U_only,0,1,0
+rsync_popt,poptAddAlias,benchmarks/rsync/popt/popt.c,param,0,T_TO_U,out_param,/deref/field:aliases/deref/field:argv,char **,T_passed_U_updated,0,1,0,0,0,1,1,0,0,0,unknown,0,0,0
+rsync_popt,poptAddAlias,benchmarks/rsync/popt/popt.c,param,0,T_TO_U,out_param,/deref/field:aliases/deref/field:argv/deref,char *,T_passed_U_updated,0,1,0,0,0,1,1,0,0,0,unknown,0,0,0
+rsync_popt,poptAddAlias,benchmarks/rsync/popt/popt.c,param,0,T_TO_U,out_param,/deref/field:aliases/deref/field:option/field:arg,void *,T_passed_U_updated,0,1,0,0,0,1,1,0,0,0,unknown,0,0,0
+rsync_popt,poptAddAlias,benchmarks/rsync/popt/popt.c,param,0,T_TO_U,out_param,/deref/field:aliases/deref/field:option/field:argDescrip,char *,T_passed_U_updated,0,1,0,0,0,1,1,0,0,0,unknown,0,0,0
+rsync_popt,poptAddAlias,benchmarks/rsync/popt/popt.c,param,0,T_TO_U,out_param,/deref/field:aliases/deref/field:option/field:descrip,char *,T_passed_U_updated,0,1,0,0,0,1,1,0,0,0,unknown,0,0,0
+rsync_popt,poptAddAlias,benchmarks/rsync/popt/popt.c,param,0,T_TO_U,out_param,/deref/field:aliases/deref/field:option/field:longName,char *,T_passed_U_updated,0,1,0,0,0,1,1,0,0,0,unknown,0,0,0
+rsync_popt,poptAddAlias,benchmarks/rsync/popt/popt.c,param,0,T_TO_U,out_param,/deref/field:execs,poptItem_s *,T_passed_U_updated,0,1,1,1,0,1,1,0,0,0,U_only,0,1,0
+rsync_popt,poptAddAlias,benchmarks/rsync/popt/popt.c,param,0,T_TO_U,out_param,/deref/field:execs/deref/field:argv,char **,T_passed_U_updated,0,1,0,0,0,1,1,0,0,0,unknown,0,0,0
+rsync_popt,poptAddAlias,benchmarks/rsync/popt/popt.c,param,0,T_TO_U,out_param,/deref/field:execs/deref/field:argv/deref,char *,T_passed_U_updated,0,1,0,0,0,1,1,0,0,0,unknown,0,0,0
+rsync_popt,poptAddAlias,benchmarks/rsync/popt/popt.c,param,0,T_TO_U,out_param,/deref/field:execs/deref/field:option/field:arg,void *,T_passed_U_updated,0,1,0,0,0,1,1,0,0,0,unknown,0,0,0
+rsync_popt,poptAddAlias,benchmarks/rsync/popt/popt.c,param,0,T_TO_U,out_param,/deref/field:execs/deref/field:option/field:argDescrip,char *,T_passed_U_updated,0,1,0,0,0,1,1,0,0,0,unknown,0,0,0
+rsync_popt,poptAddAlias,benchmarks/rsync/popt/popt.c,param,0,T_TO_U,out_param,/deref/field:execs/deref/field:option/field:descrip,char *,T_passed_U_updated,0,1,0,0,0,1,1,0,0,0,unknown,0,0,0
+rsync_popt,poptAddAlias,benchmarks/rsync/popt/popt.c,param,0,T_TO_U,out_param,/deref/field:execs/deref/field:option/field:longName,char *,T_passed_U_updated,0,1,0,0,0,1,1,0,0,0,unknown,0,0,0
+rsync_popt,poptBadOption,benchmarks/rsync/popt/popt.c,return,return,U_TO_T,return,,char *;const char *,T_or_U_round_tripped,0,0,0,0,0,1,1,0,0,0,T_or_U,1,1,0
+rsync_popt,poptGetArgs,benchmarks/rsync/popt/popt.c,return,return,U_TO_T,return,,char **;const char **,U_defined,0,0,0,0,0,1,1,0,0,0,U_only,0,1,0
+rsync_popt,poptGetArgs,benchmarks/rsync/popt/popt.c,return_ptr,return,U_TO_T,return_ptr,/deref,char *,U_defined,0,0,0,0,0,1,1,0,0,0,U_only,0,1,0
+rsync_popt,poptGetOptArg,benchmarks/rsync/popt/popt.c,return,return,U_TO_T,return,,char *,U_defined,0,0,0,0,0,1,1,0,0,0,U_only,0,1,0
+rsync_popt,poptStrerror,benchmarks/rsync/popt/popt.c,return,return,U_TO_T,return,,char *;const char *,U_defined,0,0,0,0,0,1,1,0,0,0,U_only,0,1,0
+rsync_popt,poptDupArgv,benchmarks/rsync/popt/poptparse.c,param,3,T_TO_U,out_param,/deref,char **,T_passed_U_updated,1,1,0,1,0,1,1,1,0,0,U_only,0,1,0
+rsync_popt,poptDupArgv,benchmarks/rsync/popt/poptparse.c,param,3,T_TO_U,out_param,/deref/deref,char *,T_passed_U_updated,0,1,0,0,0,1,1,1,0,0,U_only,0,1,0
