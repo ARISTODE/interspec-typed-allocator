@@ -1,0 +1,21 @@
+{
+  "passed": true,
+  "phases": [
+    {
+      "phase": "after creation",
+      "get_total_memory": 1114112,
+      "sandboxes_found": 1,
+      "size_from_smaps": 1114112,
+      "resident_from_smaps": 4096,
+      "equal": true
+    },
+    {
+      "phase": "after 96 MiB allocated in the sandbox",
+      "get_total_memory": 101777408,
+      "sandboxes_found": 1,
+      "size_from_smaps": 101777408,
+      "resident_from_smaps": 50343936,
+      "equal": true
+    }
+  ]
+}
