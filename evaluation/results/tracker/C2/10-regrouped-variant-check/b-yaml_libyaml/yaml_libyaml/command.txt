@@ -1,0 +1,1 @@
+python3 scripts/run_slot_policy_analysis.py --database db/yaml_libyaml --benchmark yaml_libyaml --output-dir reports/yaml_libyaml --split-pointer-query --threads 4 --codeql $S/codeql-bundle/codeql/codeql --ram 10000 --max-disk-cache 6000 
