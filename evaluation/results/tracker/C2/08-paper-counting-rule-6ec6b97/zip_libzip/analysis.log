@@ -1,0 +1,11 @@
+[slot-policy] Activating manifest (isolated) -> config/zip_libzip.json
+Generated /tmp/slot_policy_pack_onyse9q1/ql/generated/ZipLibzipConfig.qll without updating ql/generated/index.qll.
+[slot-policy] Exporting pointer slot rows -> reports/zip_libzip/pointer_slots_classification.csv
+[slot-policy] Exporting pointer slots -> reports/zip_libzip/pointer_slots_summary_by_interface.csv
+[slot-policy] Exporting SP3 cases -> reports/zip_libzip/sp3_cases.csv
+[slot-policy] Exporting scalar slots -> reports/zip_libzip/scalar_slots_summary_by_interface.csv
+[slot-policy] Exporting slot type rows -> reports/zip_libzip/slot_type_breakdown.csv
+[slot-policy] Exporting slot types -> reports/zip_libzip/slot_type_breakdown_summary_by_interface.csv
+[slot-policy] Exporting node surface -> reports/zip_libzip/node_surface_summary_by_interface.csv
+[slot-policy] Consolidating -> reports/zip_libzip/policy_summary.csv
+[slot-policy] Done

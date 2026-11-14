@@ -1,0 +1,11 @@
+[slot-policy] Activating manifest (isolated) -> config/yaml_libyaml.json
+Generated /tmp/slot_policy_pack_37htnfux/ql/generated/YamlLibyamlConfig.qll without updating ql/generated/index.qll.
+[slot-policy] Exporting pointer slot rows -> reports/yaml_libyaml/pointer_slots_classification.csv
+[slot-policy] Exporting pointer slots -> reports/yaml_libyaml/pointer_slots_summary_by_interface.csv
+[slot-policy] Exporting SP3 cases -> reports/yaml_libyaml/sp3_cases.csv
+[slot-policy] Exporting scalar slots -> reports/yaml_libyaml/scalar_slots_summary_by_interface.csv
+[slot-policy] Exporting slot type rows -> reports/yaml_libyaml/slot_type_breakdown.csv
+[slot-policy] Exporting slot types -> reports/yaml_libyaml/slot_type_breakdown_summary_by_interface.csv
+[slot-policy] Exporting node surface -> reports/yaml_libyaml/node_surface_summary_by_interface.csv
+[slot-policy] Consolidating -> reports/yaml_libyaml/policy_summary.csv
+[slot-policy] Done

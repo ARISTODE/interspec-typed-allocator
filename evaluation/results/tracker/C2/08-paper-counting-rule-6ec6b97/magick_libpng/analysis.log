@@ -1,0 +1,11 @@
+[slot-policy] Activating manifest (isolated) -> config/magick_libpng.json
+Generated /tmp/slot_policy_pack_z0gk47cj/ql/generated/MagickLibpngConfig.qll without updating ql/generated/index.qll.
+[slot-policy] Exporting pointer slot rows -> reports/magick_libpng/pointer_slots_classification.csv
+[slot-policy] Exporting pointer slots -> reports/magick_libpng/pointer_slots_summary_by_interface.csv
+[slot-policy] Exporting SP3 cases -> reports/magick_libpng/sp3_cases.csv
+[slot-policy] Exporting scalar slots -> reports/magick_libpng/scalar_slots_summary_by_interface.csv
+[slot-policy] Exporting slot type rows -> reports/magick_libpng/slot_type_breakdown.csv
+[slot-policy] Exporting slot types -> reports/magick_libpng/slot_type_breakdown_summary_by_interface.csv
+[slot-policy] Exporting node surface -> reports/magick_libpng/node_surface_summary_by_interface.csv
+[slot-policy] Consolidating -> reports/magick_libpng/policy_summary.csv
+[slot-policy] Done

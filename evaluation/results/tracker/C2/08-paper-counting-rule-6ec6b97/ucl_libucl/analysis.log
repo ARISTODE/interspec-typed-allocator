@@ -1,0 +1,11 @@
+[slot-policy] Activating manifest (isolated) -> config/ucl_libucl.json
+Generated /tmp/slot_policy_pack_r6cua_p0/ql/generated/UclLibuclConfig.qll without updating ql/generated/index.qll.
+[slot-policy] Exporting pointer slot rows -> reports/ucl_libucl/pointer_slots_classification.csv
+[slot-policy] Exporting pointer slots -> reports/ucl_libucl/pointer_slots_summary_by_interface.csv
+[slot-policy] Exporting SP3 cases -> reports/ucl_libucl/sp3_cases.csv
+[slot-policy] Exporting scalar slots -> reports/ucl_libucl/scalar_slots_summary_by_interface.csv
+[slot-policy] Exporting slot type rows -> reports/ucl_libucl/slot_type_breakdown.csv
+[slot-policy] Exporting slot types -> reports/ucl_libucl/slot_type_breakdown_summary_by_interface.csv
+[slot-policy] Exporting node surface -> reports/ucl_libucl/node_surface_summary_by_interface.csv
+[slot-policy] Consolidating -> reports/ucl_libucl/policy_summary.csv
+[slot-policy] Done

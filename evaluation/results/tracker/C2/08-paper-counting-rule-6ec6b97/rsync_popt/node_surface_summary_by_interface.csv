@@ -1,0 +1,12 @@
+benchmark,function,file,total_nodes,pointer_nodes,scalar_nodes,struct_nodes,array_nodes,other_nodes,t_to_u_nodes,u_to_t_nodes,t_to_u_sp1_only_nodes,t_to_u_sp2_only_nodes,t_to_u_sp1_and_sp2_nodes,t_to_u_shared_mutable_nodes,t_to_u_unresolved_nodes,t_to_u_confidentiality_protected_nodes,t_to_u_integrity_protected_nodes,u_to_t_consumed_nodes,u_to_t_unconsumed_nodes,u_to_t_consumed_pointer_nodes,u_to_t_pointer_sp3_protected_nodes,u_to_t_pointer_sp3_remaining_nodes,sp3_pointer_nodes,sp3_pointer_protected_nodes,sp3_pointer_remaining_nodes
+rsync_popt,poptAddAlias,benchmarks/rsync/popt/popt.c,170,64,83,18,4,1,168,4,0,4,149,7,8,149,153,0,4,0,0,0,15,0,15
+rsync_popt,poptBadOption,benchmarks/rsync/popt/popt.c,163,62,79,17,4,1,160,2,0,2,147,3,8,147,149,2,0,1,1,0,1,1,0
+rsync_popt,poptDupArgv,benchmarks/rsync/popt/poptparse.c,11,6,5,0,0,0,10,5,2,4,2,2,0,4,6,2,3,2,2,0,3,3,0
+rsync_popt,poptFreeContext,benchmarks/rsync/popt/popt.c,320,122,154,34,8,2,159,159,6,1,110,34,8,116,111,0,159,0,0,0,0,0,0
+rsync_popt,poptGetArgs,benchmarks/rsync/popt/popt.c,163,63,78,17,4,1,159,3,1,2,145,3,8,146,147,3,0,2,2,0,2,2,0
+rsync_popt,poptGetContext,benchmarks/rsync/popt/popt.c,179,69,87,18,4,1,19,159,0,12,7,0,0,7,19,0,159,0,0,0,0,0,0
+rsync_popt,poptGetNextOpt,benchmarks/rsync/popt/popt.c,161,61,78,17,4,1,159,1,4,40,76,31,8,80,116,1,0,0,0,0,0,0,0
+rsync_popt,poptGetOptArg,benchmarks/rsync/popt/popt.c,162,62,78,17,4,1,159,2,0,0,146,5,8,146,146,2,0,1,1,0,1,1,0
+rsync_popt,poptReadDefaultConfig,benchmarks/rsync/popt/poptconfig.c,162,61,79,17,4,1,160,1,0,3,145,4,8,145,148,0,1,0,0,0,0,0,0
+rsync_popt,poptSaveArg,benchmarks/rsync/popt/popt.c,173,66,84,18,4,1,171,1,0,16,147,0,8,147,163,0,1,0,0,0,0,0,0
+rsync_popt,poptStrerror,benchmarks/rsync/popt/popt.c,3,1,2,0,0,0,1,2,0,1,0,0,0,0,1,2,0,1,1,0,1,1,0

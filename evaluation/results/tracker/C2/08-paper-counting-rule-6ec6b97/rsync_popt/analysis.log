@@ -1,0 +1,11 @@
+[slot-policy] Activating manifest (isolated) -> config/rsync_popt.json
+Generated /tmp/slot_policy_pack_yl4nd0hw/ql/generated/RsyncPoptConfig.qll without updating ql/generated/index.qll.
+[slot-policy] Exporting pointer slot rows -> reports/rsync_popt/pointer_slots_classification.csv
+[slot-policy] Exporting pointer slots -> reports/rsync_popt/pointer_slots_summary_by_interface.csv
+[slot-policy] Exporting SP3 cases -> reports/rsync_popt/sp3_cases.csv
+[slot-policy] Exporting scalar slots -> reports/rsync_popt/scalar_slots_summary_by_interface.csv
+[slot-policy] Exporting slot type rows -> reports/rsync_popt/slot_type_breakdown.csv
+[slot-policy] Exporting slot types -> reports/rsync_popt/slot_type_breakdown_summary_by_interface.csv
+[slot-policy] Exporting node surface -> reports/rsync_popt/node_surface_summary_by_interface.csv
+[slot-policy] Consolidating -> reports/rsync_popt/policy_summary.csv
+[slot-policy] Done

@@ -1,0 +1,2 @@
+benchmark,total_fields,pointer_fields,scalar_fields,struct_fields,array_fields,other_fields
+zip_libzip,2230,653,1157,284,0,136

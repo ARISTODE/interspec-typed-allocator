@@ -1,0 +1,3 @@
+benchmark,function,file,binding_kind,binding_id,direction,slot_kind,slot_path,slot_types,sp3_origin_class,owned_by_t,exposed_to_u,u_reads,u_writes,u_forwarded,t_uses,u_influenced,escapes_to_t,flow_cut,t_domain_invariant,sp3_target_class,sp3_target_t,sp3_target_u,sp3_target_null
+memcached_bipbuffer,bipbuf_peek_all,benchmarks/memcached/bipbuffer.c,return,return,U_TO_T,return,,unsigned char *,U_defined,0,0,0,0,0,1,1,0,0,0,U_only,0,1,0
+memcached_bipbuffer,bipbuf_request,benchmarks/memcached/bipbuffer.c,return,return,U_TO_T,return,,unsigned char *,U_defined,0,0,0,0,0,1,1,0,0,0,U_only,0,1,0

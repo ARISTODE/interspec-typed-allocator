@@ -1,0 +1,8 @@
+boundary,fields,sp2_fields,sp2_pct,pointer_fields,pointer_sp2_slots,pointer_sp1_only_slots,pointer_sp3_slots,pointer_other_slots,paper_fields,paper_sp2_fields,paper_pointer_fields,paper_sp3_fields
+magick/libpng,12937,9577,74.0,2183,21,0,1,2161,418,178,96,3
+memcached/bipbuffer,80,45,56.2,12,2,0,2,8,80,7,12,2
+memcached/hash,86,48,55.8,24,8,0,5,11,86,33,26,4
+rsync/popt,1667,1159,69.5,637,8,0,21,608,767,116,37,7
+ucl/libucl,1622,1035,63.8,649,2,0,1,646,152,8,64,3
+yaml/libyaml,1919,1460,76.1,461,8,0,1,452,1903,1194,461,1
+zip/libzip,2230,947,42.5,653,8,0,2,643,2230,947,653,3
