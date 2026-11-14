@@ -1,0 +1,5 @@
+{
+  "report": "/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/p2-state/reports/e271caadf5cf45dca9aaa0e06a824d45",
+  "excluded": [],
+  "grid_complete": true
+}

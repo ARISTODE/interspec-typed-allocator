@@ -1,0 +1,2 @@
+Verified 360 raw samples: six scenarios, four variants, 15 pairs. Publication readiness remains false.
+verifier=0
