@@ -3,10 +3,15 @@
 
 For one boundary, measures the InterSpec binary with each policy alone, with
 all policies on and with all off, and the RLBox-only binary for reference. One
-repetition measures every configuration once, in an order drawn from a seeded
-generator, so every configuration is paired with the others inside each
-repetition. The policies are selected with the run-time switches
-INTERSPEC_SP1, INTERSPEC_SP2 and INTERSPEC_SP3 (tracker items I1 to I4).
+repetition consists of a number of rounds (`--rounds WORKLOAD=N`); a round
+measures every configuration once, in an order drawn from a seeded generator.
+The value of a configuration in a repetition is the sum of its slices (time) or
+the mean of its windows (throughput; all windows have the same length). The
+configurations of one repetition so do the same work in short alternating
+pieces, which exposes them to the same conditions on a machine whose speed
+changes from second to second. The policies are selected with the run-time
+switches INTERSPEC_SP1, INTERSPEC_SP2 and INTERSPEC_SP3 (tracker items I1 to
+I4).
 
 Each measurement validates the result of the work it timed (file contents for
 rsync, the parse hash for yaml, per-response validation for nginx, server and
@@ -98,7 +103,7 @@ def expected_report(switches):
 # --- rsync/popt -------------------------------------------------------------
 
 class Rsync:
-    unit, higher_is_better = "ns", False
+    unit, higher_is_better, keeps_run_files = "ns", False, False
     workloads = ("option_parse", "file_sync_194mb")
 
     def __init__(self, a):
@@ -146,7 +151,7 @@ class Rsync:
 # --- yaml/libyaml -----------------------------------------------------------
 
 class Yaml:
-    unit, higher_is_better = "ns", False
+    unit, higher_is_better, keeps_run_files = "ns", False, False
     workloads = ("yaml_parse_1mb",)
 
     def __init__(self, a):
@@ -193,7 +198,7 @@ class Yaml:
 # --- memcached/bipbuffer ----------------------------------------------------
 
 class Memcached:
-    unit, higher_is_better = "operations_per_s", True
+    unit, higher_is_better, keeps_run_files = "operations_per_s", True, True
     workloads = ("watch_moderate",)
 
     def __init__(self, a):
@@ -269,7 +274,7 @@ class Memcached:
 # --- nginx/libpcre ----------------------------------------------------------
 
 class Nginx:
-    unit, higher_is_better = "requests_per_s", True
+    unit, higher_is_better, keeps_run_files = "requests_per_s", True, True
     workloads = ("regex_location_4_threads",)
 
     def __init__(self, a):
@@ -341,6 +346,8 @@ def main():
     common.add_argument("--scratch", required=True, type=Path,
                         help="directory for working files (not evidence)")
     common.add_argument("--repetitions", type=int, default=15)
+    common.add_argument("--rounds", nargs="*", default=[], metavar="WORKLOAD=N",
+                        help="interleaved slices per repetition, per workload (default 1)")
     common.add_argument("--seed", type=int, default=20261114)
     common.add_argument("--label", required=True)
     common.add_argument("--source-commit", required=True)
@@ -370,12 +377,21 @@ def main():
     a.scratch.mkdir(parents=True, exist_ok=True)
     adapter = adapter_class(a)
     configs = configurations(policies)
+    rounds = {w: 1 for w in adapter.workloads}
+    for item in a.rounds:
+        workload, _, count = item.partition("=")
+        if workload not in rounds or not count.isdigit() or int(count) < 1:
+            sys.exit(f"--rounds: unknown workload or count in {item!r}")
+        rounds[workload] = int(count)
     a.out.mkdir(parents=True)
     metadata = {"boundary": boundary, "policies_at_this_boundary": list(policies),
                 "configurations": {n: {"binary": b, "switches": dict(zip(SWITCHES, s)) if s else None}
                                    for n, (b, s) in configs.items()},
                 "workloads": list(adapter.workloads), "unit": adapter.unit,
-                "repetitions": a.repetitions, "seed": a.seed, "parameters": adapter.parameters,
+                "repetitions": a.repetitions, "rounds": rounds,
+                "value_of_a_repetition": ("mean of the windows" if adapter.higher_is_better
+                                          else "sum of the slices"),
+                "seed": a.seed, "parameters": adapter.parameters,
                 "source_commit": a.source_commit, "label": a.label, "machine_start": machine(),
                 "binaries_sha256": {k: hashlib.sha256(Path(v).read_bytes()).hexdigest()
                                     for k, v in adapter.binaries.items()},
@@ -411,31 +427,35 @@ def main():
         return 1
 
     rng = random.Random(a.seed)
-    columns = ["workload", "repetition", "position", "configuration", "binary", "value", "unit",
+    columns = ["workload", "repetition", "round", "position", "configuration", "binary", "value", "unit",
                "valid", "result_matches_rlbox_only"]
     samples, failed = [], False
     with (a.out / "samples.csv").open("w", newline="") as handle:
         writer = csv.DictWriter(handle, fieldnames=columns)
         writer.writeheader()
-        for workload in adapter.workloads:
-            for repetition in range(1, a.repetitions + 1):
-                order = list(configs)
-                rng.shuffle(order)
-                for position, name in enumerate(order, 1):
-                    binary, switches = configs[name]
-                    directory = a.out / "runs" / f"{workload}-r{repetition:02d}-{name}"
+        for workload, repetition, round_ in (
+                (w, i, k) for w in adapter.workloads for i in range(1, a.repetitions + 1)
+                for k in range(1, rounds[w] + 1)):
+            order = list(configs)
+            rng.shuffle(order)
+            for position, name in enumerate(order, 1):
+                binary, switches = configs[name]
+                directory = a.out / "runs" / f"{workload}-r{repetition:02d}-k{round_:02d}-{name}"
+                if adapter.keeps_run_files:
                     directory.mkdir(parents=True)
-                    m = adapter.measure(workload, binary, switches, directory)
-                    row = {"workload": workload, "repetition": repetition, "position": position,
-                           "configuration": name, "binary": binary, "value": m["value"],
-                           "unit": adapter.unit, "valid": m["valid"],
-                           "result_matches_rlbox_only": m["result"] == expected[workload]}
-                    if not (row["valid"] and row["result_matches_rlbox_only"]):
-                        failed = True
-                        (directory / "failed.stderr.txt").write_text(m["stderr"])
-                    writer.writerow(row)
-                    handle.flush()
-                    samples.append(row)
+                m = adapter.measure(workload, binary, switches, directory)
+                row = {"workload": workload, "repetition": repetition, "round": round_,
+                       "position": position,
+                       "configuration": name, "binary": binary, "value": m["value"],
+                       "unit": adapter.unit, "valid": m["valid"],
+                       "result_matches_rlbox_only": m["result"] == expected[workload]}
+                if not (row["valid"] and row["result_matches_rlbox_only"]):
+                    failed = True
+                    directory.mkdir(parents=True, exist_ok=True)
+                    (directory / "failed.stderr.txt").write_text(m["stderr"])
+                writer.writerow(row)
+                handle.flush()
+                samples.append(row)
     (a.out / "finish.json").write_text(json.dumps(
         {"machine_end": machine(), "all_measurements_valid": not failed,
          "finished_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())}, indent=2) + "\n")
@@ -447,11 +467,16 @@ def main():
     # increase in time per unit of work (time ratio, or inverse throughput ratio).
     summary = []
     for workload in adapter.workloads:
-        by = {(r["repetition"], r["configuration"]): float(r["value"])
-              for r in samples if r["workload"] == workload}
+        slices = {}
+        for r in samples:
+            if r["workload"] == workload:
+                slices.setdefault((r["repetition"], r["configuration"]), []).append(float(r["value"]))
+        by = {k: (statistics.mean(v) if adapter.higher_is_better else sum(v))
+              for k, v in slices.items()}
         for name in configs:
             values = [by[(i, name)] for i in range(1, a.repetitions + 1)]
             row = {"workload": workload, "configuration": name, "repetitions": len(values),
+                   "rounds": rounds[workload],
                    "unit": adapter.unit, "median": round(statistics.median(values), 3),
                    "min": round(min(values), 3), "max": round(max(values), 3)}
             for baseline in ("interspec-all-off", "rlbox-only"):

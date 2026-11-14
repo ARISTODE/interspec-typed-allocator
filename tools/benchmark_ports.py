@@ -1,10 +1,16 @@
 #!/usr/bin/env python3
 """Paired timing of a ported boundary (tracker items P7 and P6).
 
-One repetition runs every configuration once, in an order drawn from a seeded
-generator, each as a fresh process pinned to one CPU. The time taken is the
-`elapsed_ns` the program reports for its workload loop (sandbox creation and
-input loading are outside it); the wall time of the process is recorded too.
+One repetition consists of `--rounds` rounds. A round runs every configuration
+once, in an order drawn from a seeded generator, each as a fresh process pinned
+to one CPU. The time of one run is the `elapsed_ns` the program reports for its
+workload loop (sandbox creation and input loading are outside it); the wall
+time of the process is recorded too. The time of a configuration in a
+repetition is the sum over the rounds, so the configurations of one repetition
+do the same work in short slices that alternate. On a machine whose speed
+changes from second to second (a shared virtual machine) this exposes all
+configurations of a repetition to the same conditions; with one long run per
+configuration it does not.
 
 Modes:
   variants  the binaries native, rlbox-only, tracked-no-check (where the
@@ -67,6 +73,8 @@ def main():
                         help="JSON: boundary -> {case: index into the corpus, iterations}")
     parser.add_argument("--out", required=True, type=Path)
     parser.add_argument("--repetitions", type=int, default=15)
+    parser.add_argument("--rounds", type=int, default=1,
+                        help="interleaved slices per repetition (see above)")
     parser.add_argument("--cpu", type=int, default=0)
     parser.add_argument("--seed", type=int, default=20261114)
     parser.add_argument("--label", required=True, help="description of the machine")
@@ -114,7 +122,9 @@ def main():
     metadata = {
         "boundary": spec.get("reported_as", args.boundary), "harness_entry": args.boundary,
         "mode": args.mode, "configurations": list(configs), "reference": reference,
-        "repetitions": args.repetitions, "seed": args.seed, "cpu": args.cpu,
+        "repetitions": args.repetitions, "rounds": args.rounds,
+        "time_of_a_repetition": "sum of elapsed_ns over the rounds",
+        "seed": args.seed, "cpu": args.cpu,
         "case": case, "iterations": workload["iterations"], "arguments": arguments,
         "source_commit": args.source_commit, "label": args.label, "machine_start": machine(),
         "binaries_sha256": {b: hashlib.sha256(
@@ -145,27 +155,30 @@ def main():
         return 1
 
     rng = random.Random(args.seed)
-    columns = ["repetition", "position", "configuration", "binary", "elapsed_ns", "wall_ns",
+    columns = ["repetition", "round", "position", "configuration", "binary", "elapsed_ns", "wall_ns",
                "checks", "exit_code", "result_matches_reference"]
     samples, failed = [], False
     with (args.out / "samples.csv").open("w", newline="") as handle:
         writer = csv.DictWriter(handle, fieldnames=columns)
         writer.writeheader()
-        for repetition in range(1, args.repetitions + 1):
+        for repetition, round_ in ((i, k) for i in range(1, args.repetitions + 1)
+                                   for k in range(1, args.rounds + 1)):
             order = list(configs)
             rng.shuffle(order)
             for position, name in enumerate(order, 1):
                 done, wall = run(name)
                 fields = parse(spec["tag"], done.stdout.decode(errors="replace")) or {}
-                row = {"repetition": repetition, "position": position, "configuration": name,
+                row = {"repetition": repetition, "round": round_, "position": position,
+                       "configuration": name,
                        "binary": configs[name][0], "elapsed_ns": fields.get("elapsed_ns", ""),
                        "wall_ns": wall, "checks": fields.get("checks", ""),
                        "exit_code": done.returncode,
                        "result_matches_reference": bool(fields) and result_of(fields) == expected}
                 if done.returncode != 0 or not row["result_matches_reference"]:
                     failed = True
-                    (args.out / f"failed-r{repetition}-{name}.stderr.txt").write_bytes(done.stderr)
-                    (args.out / f"failed-r{repetition}-{name}.stdout.txt").write_bytes(done.stdout)
+                    stem = f"failed-r{repetition}-k{round_}-{name}"
+                    (args.out / f"{stem}.stderr.txt").write_bytes(done.stderr)
+                    (args.out / f"{stem}.stdout.txt").write_bytes(done.stdout)
                 writer.writerow(row)
                 handle.flush()
                 samples.append(row)
@@ -177,16 +190,19 @@ def main():
         print("a timed run failed or returned a different result; no summary written")
         return 1
 
-    by = {(r["repetition"], r["configuration"]): int(r["elapsed_ns"]) for r in samples}
+    by = {}
+    for r in samples:
+        key = (r["repetition"], r["configuration"])
+        by[key] = by.get(key, 0) + int(r["elapsed_ns"])
     baselines = [reference] + (["rlbox-only"] if args.mode == "variants" else ["interspec-all-off"])
     summary = []
     for name in configs:
         values = [by[(i, name)] for i in range(1, args.repetitions + 1)]
-        row = {"configuration": name, "repetitions": len(values),
+        row = {"configuration": name, "repetitions": len(values), "rounds": args.rounds,
                "median_elapsed_ms": round(statistics.median(values) / 1e6, 3),
                "min_elapsed_ms": round(min(values) / 1e6, 3),
                "max_elapsed_ms": round(max(values) / 1e6, 3),
-               "checks_per_run": gate[name].get("checks", 0)}
+               "checks_per_slice": gate[name].get("checks", 0)}
         for baseline in baselines:
             ratios = [by[(i, name)] / by[(i, baseline)] for i in range(1, args.repetitions + 1)]
             row[f"median_ratio_to_{baseline}"] = round(statistics.median(ratios), 4)

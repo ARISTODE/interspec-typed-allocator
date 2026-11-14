@@ -3,9 +3,11 @@
 tools/benchmark_policy_cost.py (tracker items P7 and P6).
 
 Everything is recomputed from samples.csv; the summary.csv files written by the
-harnesses are not read. The estimator is the median over repetitions of the
-paired ratio (same repetition, two configurations), with the smallest and
-largest ratio next to it.
+harnesses are not read. The value of a configuration in a repetition is the
+sum of its slices (time) or the mean of its windows (throughput; the windows
+have equal length). The estimator is the median over repetitions of the paired
+ratio (same repetition, two configurations), with the smallest and largest
+ratio next to it.
 """
 
 import argparse
@@ -38,18 +40,24 @@ def ports(directories, out):
             sys.exit(f"{directory}: a timed run was not correct")
         configs = run["configurations"]
         repetitions = sorted({int(r["repetition"]) for r in rows})
-        by = {(int(r["repetition"]), r["configuration"]): int(r["elapsed_ns"]) for r in rows}
-        if len(by) != len(configs) * len(repetitions) or len(repetitions) != run["repetitions"]:
+        rounds = run.get("rounds", 1)
+        by = {}
+        for r in rows:
+            key = (int(r["repetition"]), r["configuration"])
+            by[key] = by.get(key, 0) + int(r["elapsed_ns"])
+        if (len(by) != len(configs) * len(repetitions) or len(repetitions) != run["repetitions"]
+                or len(rows) != len(by) * rounds):
             sys.exit(f"{directory}: incomplete grid")
         gate = json.loads((directory / "gate.json").read_text())
         title = run["boundary"] + ("" if run["boundary"] == run["harness_entry"]
                                     else f" ({run['harness_entry']})")
         lines += [f"### {title}, {run['mode']}", "",
                   f"Workload: {' '.join(run['arguments'][-3:])} "
-                  f"({len(repetitions)} paired repetitions, CPU {run['cpu']}).", ""]
+                  f"per slice; {len(repetitions)} paired repetitions of {rounds} interleaved "
+                  f"slices each; CPU {run['cpu']}.", ""]
         baselines = (["native", "rlbox-only"] if run["mode"] == "variants"
                      else ["rlbox-only", "interspec-all-off"])
-        lines += ["| Configuration | Median time (ms) | Checks per run | " +
+        lines += ["| Configuration | Median time of a repetition (ms) | Checks per slice | " +
                   " | ".join(f"Against {b}: median (range)" for b in baselines) + " |",
                   "|---|---:|---:|" + "---:|" * len(baselines)]
         for name in configs:
@@ -73,14 +81,21 @@ def policies(directories, out):
         for workload in run["workloads"]:
             subset = [r for r in rows if r["workload"] == workload]
             repetitions = sorted({int(r["repetition"]) for r in subset})
-            by = {(int(r["repetition"]), r["configuration"]): float(r["value"]) for r in subset}
+            rounds = run.get("rounds", {}).get(workload, 1)
+            slices = {}
+            for r in subset:
+                slices.setdefault((int(r["repetition"]), r["configuration"]), []).append(
+                    float(r["value"]))
+            by = {k: (statistics.mean(v) if higher else sum(v)) for k, v in slices.items()}
             configs = list(run["configurations"])
-            if len(by) != len(configs) * len(repetitions) or len(repetitions) != run["repetitions"]:
+            if (len(by) != len(configs) * len(repetitions) or len(repetitions) != run["repetitions"]
+                    or any(len(v) != rounds for v in slices.values())):
                 sys.exit(f"{directory}: incomplete grid for {workload}")
             lines += [f"### {run['boundary']}, {workload}", "",
-                      f"{len(repetitions)} paired repetitions; unit {run['unit']}. Cost is the "
+                      f"{len(repetitions)} paired repetitions of {rounds} interleaved "
+                      f"{'windows' if higher else 'slices'} each; unit {run['unit']}. Cost is the "
                       "relative increase in time per unit of work.", "",
-                      "| Configuration | Median | Cost against all policies off: median (range) | "
+                      "| Configuration | Median of the repetitions | Cost against all policies off: median (range) | "
                       "Cost against RLBox-only: median (range) |", "|---|---:|---:|---:|"]
             for name in configs:
                 values = [by[(i, name)] for i in repetitions]
