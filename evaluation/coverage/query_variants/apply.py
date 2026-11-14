@@ -7,8 +7,12 @@ Paths are relative to the analysis root (the directory with `ql/` and
 Every replacement must match exactly once, so a query pack that differs from
 the one this was written against is refused instead of silently left as is.
 """
+import hashlib
 import sys
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import factored  # noqa: E402
 
 VARIANTS = {
     "without_opacity_rule": [
@@ -128,11 +132,40 @@ VARIANTS["paper_counting_rule_regrouped"] = VARIANTS["paper_counting_rule"] + [
 ]
 
 
+# paper_counting_rule_regrouped, and seven predicates of the target-domain
+# library factored into a part that does not depend on the function argument
+# and a part that does (factored.py). Same results; without it the relations
+# have (functions in the database) x (expressions) rows.
+VARIANTS["paper_counting_rule_factored"] = VARIANTS["paper_counting_rule_regrouped"] + [
+    ("predicate", "ql/lib/PointerTargetDomain.qll", name, sha256, new)
+    for name, (sha256, new) in factored.PREDICATES.items()
+]
+
+
+def predicate_block(text, relative, name):
+    """The text of predicate `name`: from `  predicate NAME(` to the next `  }` line."""
+    start = "  predicate " + name + "("
+    if text.count(start) != 1:
+        sys.exit(f"{relative}: expected exactly one definition of {name}")
+    begin = text.index(start)
+    end = text.index("\n  }\n", begin) + len("\n  }\n")
+    return text[begin:end]
+
+
 def main():
     variant, pack = sys.argv[1], Path(sys.argv[2])
-    for relative, old, new in VARIANTS[variant]:
-        path = pack / relative
-        text = path.read_text()
+    for change in VARIANTS[variant]:
+        if change[0] == "predicate":
+            _, relative, name, sha256, new = change
+            path = pack / relative
+            text = path.read_text()
+            old = predicate_block(text, relative, name)
+            if hashlib.sha256(old.encode()).hexdigest() != sha256:
+                sys.exit(f"{relative}: predicate {name} differs from the one this variant was written against")
+        else:
+            relative, old, new = change
+            path = pack / relative
+            text = path.read_text()
         if text.count(old) != 1:
             sys.exit(f"{relative}: expected exactly one occurrence of the text to replace")
         path.write_text(text.replace(old, new))
