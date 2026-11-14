@@ -329,6 +329,10 @@ ADAPTERS = {"rsync": (Rsync, "rsync_popt", ("sp1", "sp2", "sp3")),
             "nginx": (Nginx, "nginx_libpcre", ("sp1", "sp2", "sp3"))}
 
 
+# The name under which a bridge reports its switches, where it differs.
+REPORT_NAME = {"nginx_libpcre": "nginx_pcre"}
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__,
                                      formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -394,7 +398,8 @@ def main():
             entry["result_matches_rlbox_only"] = m["result"] == expected[workload]
             entry["report_matches_switches"] = (
                 switches is None or any(expected_report(switches) in l and
-                                        f"boundary={boundary} " in l for l in reports))
+                                        f"boundary={REPORT_NAME.get(boundary, boundary)} " in l
+                                        for l in reports))
             if "checks" in m:
                 entry["checks"] = m["checks"]
             gate[f"{workload}/{name}"] = entry
