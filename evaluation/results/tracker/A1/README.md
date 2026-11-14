@@ -23,7 +23,7 @@ match an object of another site or type.
 
 | Directory | Commit | Result |
 |---|---|---|
-| `01-test-before-change-ae58f4e/` | test only | `tests/runtime_address_reuse.cpp` against the unchanged allocator: 8 checks fail. A loop of allocate and release in a 4 KiB arena stops after 34 steps. |
+| `01-test-before-change-cb8524c/` | test only | `tests/runtime_address_reuse.cpp` against the unchanged allocator: 8 checks fail. A loop of allocate and release in a 4 KiB arena stops after 34 steps. |
 | `02-change-62cd9c7/` | `62cd9c7` | From a clean checkout: the whole unit-test suite (40 tests) passes, and the new test passes: one million allocate and release steps in a 4 KiB arena, 100,000 rounds of growth by reallocation. |
 
 In `02-change-62cd9c7/` the absolute paths of the scratch checkout and build
