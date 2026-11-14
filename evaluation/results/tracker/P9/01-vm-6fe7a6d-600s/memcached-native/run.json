@@ -1,0 +1,21 @@
+{
+  "application": "memcached",
+  "variant": "native",
+  "seconds": 600,
+  "interval_seconds": 5.0,
+  "server_cpus": "0-1",
+  "client_cpus": "2-3",
+  "label": "Claude Code cloud VM (KVM guest, 4 vCPUs, not a dedicated host)",
+  "source_commit": "6fe7a6d",
+  "binary_sha256": "5b88d00e759fc2e0e4b8be0f271dd1cbaa585b701e5c7608b718abeaee0f8522",
+  "started_utc": "2026-11-14T13:34:02Z",
+  "load": {
+    "scenario": "watch_moderate",
+    "clients": 2,
+    "pipeline": 2,
+    "value_bytes": 256,
+    "keys": 10000,
+    "get_percent": 50,
+    "watcher": "fetchers mutations"
+  }
+}
