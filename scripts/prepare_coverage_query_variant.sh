@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Tracker item C2: build a work directory for scripts/run_coverage_analysis.sh
-# whose copy of the artifact's query pack has one named change applied
+# whose copies of the artifact's query pack and scripts have one named variant applied
 # (evaluation/coverage/query_variants/). The databases and everything else are
 # shared with the original work directory through symbolic links.
 #
@@ -17,10 +17,11 @@ mkdir -p "$target/root/db" "$target/root/reports" "$target/root/coverage"
 for entry in "$work/root"/*; do
   name=$(basename "$entry")
   case $name in
-    db|reports|coverage|ql) ;;
+    db|reports|coverage|ql|scripts) ;;
     *) ln -s "$entry" "$target/root/$name" ;;
   esac
 done
 cp -r "$work/root/ql" "$target/root/ql"
-python3 "$repo/evaluation/coverage/query_variants/apply.py" "$variant" "$target/root/ql"
+cp -r "$work/root/scripts" "$target/root/scripts"
+python3 "$repo/evaluation/coverage/query_variants/apply.py" "$variant" "$target/root"
 echo "$variant" > "$target/query-variant.txt"

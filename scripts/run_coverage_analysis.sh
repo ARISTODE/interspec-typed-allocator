@@ -17,6 +17,10 @@ work=${COVERAGE_WORK:-${TMPDIR:-/tmp}/interspec-coverage}
 root="$work/root"
 threads=${COVERAGE_THREADS:-0}
 ram=${COVERAGE_RAM_MB:-}   # optional CodeQL evaluator memory limit in MB
+cache=${COVERAGE_MAX_DISK_CACHE_MB:-}  # optional cap on CodeQL's query cache on disk
+# COVERAGE_REUSE_BQRS=1: do not run the queries again; redo only the export
+# steps on the query output already under $root/reports/BENCHMARK.
+reuse=${COVERAGE_REUSE_BQRS:-0}
 status=0
 mkdir -p "$root/db" "$root/reports"
 
@@ -26,11 +30,13 @@ for item in "$@"; do
   record="$out/$benchmark"
   mkdir "$record" || { echo "$benchmark: record directory exists, not overwriting" | tee -a "$out/steps.txt"; status=1; continue; }
   ln -sfn "$work/db/$database" "$root/db/$database"
-  rm -rf "$root/reports/$benchmark"
+  [[ $reuse == 1 ]] || rm -rf "$root/reports/$benchmark"
   command=(python3 scripts/run_slot_policy_analysis.py --database "db/$database"
            --benchmark "$benchmark" --output-dir "reports/$benchmark"
            --split-pointer-query --threads "$threads" --codeql "$codeql")
   [[ -z "$ram" ]] || command+=(--ram "$ram")
+  [[ -z "$cache" ]] || command+=(--max-disk-cache "$cache")
+  [[ $reuse != 1 ]] || command+=(--reuse-bqrs)
   # A configuration written for the rebuilt databases replaces the artifact's.
   if [[ -f "$repo/evaluation/coverage/configs/$benchmark.json" ]]; then
     mkdir -p "$root/coverage/configs"
