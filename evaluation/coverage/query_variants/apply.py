@@ -20,6 +20,18 @@ VARIANTS = {
          "  }\n"),
     ],
 }
+# The opacity change plus: every struct counts as owned by T for the purpose
+# of the T-to-U surface, wherever it is defined.
+VARIANTS["without_opacity_rule_all_owned_by_t"] = VARIANTS["without_opacity_rule"] + [
+    ("lib/PointerSlotUnified.qll",
+     "  predicate classTrustedForOwnership(Class cls) {\n"
+     "    PointerBoundaryBase::isTrustedFile(cls.getFile()) or trustedContainerOverride(cls)\n"
+     "  }\n",
+     "  predicate classTrustedForOwnership(Class cls) {\n"
+     "    // C2 diagnostic variant: every struct counts as owned by T.\n"
+     "    exists(cls)\n"
+     "  }\n"),
+]
 
 
 def main():
