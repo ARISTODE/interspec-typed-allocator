@@ -1067,15 +1067,17 @@ BOUNDARIES = {
             },
             # SP2: U overwrites the reference count and the key in its copy of
             # the item. Without SP2 T's item is changed, and its cache with it.
+            # Both cases run with SP1 off, so that the whole item is copied in
+            # and the pair differs in SP2 only.
             "sp2_off_u_writes": {
-                "env": {**switches(sp2="0"), "INTERSPEC_TEST_POC_FLAGS": "2"},
+                "env": {**switches(sp1="0", sp2="0"), "INTERSPEC_TEST_POC_FLAGS": "2"},
                 "args": ASSOC_ARGS, "exit": 0,
                 "stderr": [r"\[SP2\] sandbox mutated item refcount=0xffff key_byte0=0x94$",
                            r"^INTERSPEC_T_OBSERVE boundary=memcached_hash "
                            r"first_item_refcount=65535 first_item_key_byte=0x94$"],
             },
             "sp2_on_u_writes": {
-                "env": {**switches(), "INTERSPEC_TEST_POC_FLAGS": "2"},
+                "env": {**switches(sp1="0"), "INTERSPEC_TEST_POC_FLAGS": "2"},
                 "args": ASSOC_ARGS, "exit": 0,
                 "stdout": [r"^ASSOC_BENCH variant=interspec " + ASSOC_BENCH],
                 "stderr": [r"\[SP2\] sandbox mutated item refcount=0xffff key_byte0=0x94$",
