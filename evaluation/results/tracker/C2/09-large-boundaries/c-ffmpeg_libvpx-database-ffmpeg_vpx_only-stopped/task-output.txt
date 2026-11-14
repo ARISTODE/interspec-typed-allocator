@@ -1,0 +1,19 @@
+{
+  "benchmark": "ffmpeg_libvpx",
+  "trusted": {
+    "files": ["^benchmarks/ffmpeg/ffmpeg-8\\.0/(libavcodec|libavdevice|libavfilter|libavformat|libavutil|libswresample|libswscale|fftools|tools)/.*\\.(c|h)$"],
+    "namespaces": [],
+    "libraries": ["ffmpeg"]
+  },
+  "untrusted": {
+    "files": ["^benchmarks/libvpx/.*\\.(c|h|S)$", "^build/libvpx-1\\.15\\.2/include/vpx/.*\\.h$"],
+    "namespaces": [],
+    "libraries": ["libvpx"]
+  },
+  "interfaces": []
+}
+start 17:09:37
+Terminated
+exit=143 18:41:06
+
+[exited with code 0]

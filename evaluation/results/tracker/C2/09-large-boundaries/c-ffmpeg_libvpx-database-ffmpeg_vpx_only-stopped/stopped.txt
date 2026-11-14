@@ -1,0 +1,16 @@
+Started 17:09:37 UTC with a cap of 115 minutes (timeout 115m). Stopped by hand
+at 18:41:06 UTC with SIGTERM to the timeout process (exit=143 in
+task-output.txt), 91 minutes after the start.
+
+Reason: the evaluator log had no new line since 18:01:49. The only predicate
+that was started and not finished was
+InterCompartmentFlow::helperReadsSlotViaInstalledCallback/2, started at
+17:47:53 (2250 s). Its inputs are small: installedCallbackOnParam 160 rows,
+helperReadsSlotDepth2 139,668 rows, samePointerPointeeType 44,128,414 rows.
+It was still in the first of the four pointer queries (param); the scalar and
+type queries had not started, so the run could not have finished by 19:04.
+
+analysis.log is empty because the driver's output is piped through grep and
+was lost when the run was stopped. steps.txt was not written for the same
+reason. The scratch directory in command.txt and query-run-*.log is written
+as $S.

@@ -50,6 +50,84 @@ VARIANTS["paper_counting_rule"] = VARIANTS["without_opacity_rule"] + [
 ]
 
 
+# paper_counting_rule with one predicate of the pointer library written as a
+# join of two helper predicates. The conjuncts are the same; they are grouped
+# so that the evaluator joins the small relations first. On ffmpeg/libvpx the
+# shipped form ran for 53 minutes on inputs of 160 and 139,668 rows without
+# finishing (C2/09-large-boundaries/c-...). A regrouping of conjuncts under
+# their existential quantifiers cannot change the result; the outputs on
+# nginx/libpcre are compared file by file as a check.
+_OLD_INSTALLED_CALLBACK = """  predicate helperReadsSlotViaInstalledCallback(Parameter param, string path) {
+    PointerBoundaryBase::isUntrustedFile(param.getFunction().getFile()) and
+    exists(ExprCall call, int argIndex, string callbackPath, string contextPath, Parameter setupParam,
+           Function callbackTarget, Parameter callbackContextParam, string contextSourcePath, string callbackSubPath |
+      call.getEnclosingFunction() = param.getFunction() and
+      PointerSlotUnified::exprPathForParameter(param, call.getExpr(), callbackPath) and
+      PointerSlotUnified::exprPathForParameter(param, call.getArgument(argIndex), contextPath) and
+      samePointerPointeeType(param, setupParam) and
+      installedCallbackOnParam(setupParam, callbackPath, callbackTarget, contextPath, contextSourcePath) and
+      callbackContextParam = callbackTarget.getParameter(argIndex) and
+      exists(Type t, PointerType pt |
+        t = callbackContextParam.getType() and PointerSlotUnified::pointerType(t, pt)
+      ) and
+      helperReadsSlotDepth2(callbackContextParam, callbackSubPath) and
+      (
+        contextSourcePath = "" and path = callbackSubPath
+        or contextSourcePath != "" and path = contextSourcePath + callbackSubPath
+      )
+    )
+  }
+"""
+_NEW_INSTALLED_CALLBACK = """  // C2 variant paper_counting_rule_regrouped: the conjuncts of the shipped
+  // predicate, grouped into two helper predicates. Same result.
+  pragma[nomagic]
+  predicate c2CallThroughParamPaths(Parameter param, string callbackPath, string contextPath, int argIndex) {
+    PointerBoundaryBase::isUntrustedFile(param.getFunction().getFile()) and
+    exists(ExprCall call |
+      call.getEnclosingFunction() = param.getFunction() and
+      PointerSlotUnified::exprPathForParameter(param, call.getExpr(), callbackPath) and
+      PointerSlotUnified::exprPathForParameter(param, call.getArgument(argIndex), contextPath)
+    )
+  }
+
+  pragma[nomagic]
+  predicate c2InstalledCallbackReads(
+    Parameter setupParam, string callbackPath, string contextPath, int argIndex, string path
+  ) {
+    exists(Function callbackTarget, Parameter callbackContextParam, string contextSourcePath, string callbackSubPath |
+      installedCallbackOnParam(setupParam, callbackPath, callbackTarget, contextPath, contextSourcePath) and
+      callbackContextParam = callbackTarget.getParameter(argIndex) and
+      exists(Type t, PointerType pt |
+        t = callbackContextParam.getType() and PointerSlotUnified::pointerType(t, pt)
+      ) and
+      helperReadsSlotDepth2(callbackContextParam, callbackSubPath) and
+      (
+        contextSourcePath = "" and path = callbackSubPath
+        or contextSourcePath != "" and path = contextSourcePath + callbackSubPath
+      )
+    )
+  }
+
+  pragma[nomagic]
+  predicate c2CallMatchesInstalledCallback(Parameter param, Parameter setupParam, string path) {
+    exists(string callbackPath, string contextPath, int argIndex |
+      c2CallThroughParamPaths(param, callbackPath, contextPath, argIndex) and
+      c2InstalledCallbackReads(setupParam, callbackPath, contextPath, argIndex, path)
+    )
+  }
+
+  predicate helperReadsSlotViaInstalledCallback(Parameter param, string path) {
+    exists(Parameter setupParam |
+      c2CallMatchesInstalledCallback(param, setupParam, path) and
+      samePointerPointeeType(param, setupParam)
+    )
+  }
+"""
+VARIANTS["paper_counting_rule_regrouped"] = VARIANTS["paper_counting_rule"] + [
+    ("ql/lib/InterCompartmentFlow.qll", _OLD_INSTALLED_CALLBACK, _NEW_INSTALLED_CALLBACK),
+]
+
+
 def main():
     variant, pack = sys.argv[1], Path(sys.argv[2])
     for relative, old, new in VARIANTS[variant]:
