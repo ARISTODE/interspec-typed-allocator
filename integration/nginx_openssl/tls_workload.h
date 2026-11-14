@@ -12,6 +12,11 @@
 //   long read_plain(unsigned char* out, size_t cap)
 //   long write_plain(unsigned char* plaintext, size_t len)
 //   int  handshake_step()
+// and the ex_data pair, as nginx uses it:
+//   bool set_conf(ServerConf*)          SSL_CTX_set_ex_data
+//   bool set_connection(Connection*)    SSL_set_ex_data
+//   bool second_connection(Connection*) another SSL of the same context
+//   Connection* connection()            SSL_get_ex_data
 #pragma once
 
 #include <chrono>
@@ -32,6 +37,16 @@
 namespace tls_workload {
 
 enum { kStatusOk = 0, kStatusWantRead = 1, kStatusWantWrite = 2 };
+
+// T's objects that nginx attaches to OpenSSL objects through ex_data.
+struct ServerConf {
+  uint64_t magic = 0x5e;
+  uint64_t limit = 1000;
+};
+struct Connection {
+  uint64_t magic = 0xc0;
+  uint64_t requests = 0;
+};
 
 struct Fnv {
   uint64_t state = UINT64_C(1469598103934665603);
@@ -136,6 +151,9 @@ struct Result {
   uint64_t server_received_fnv = 0, client_received_fnv = 0;
   uint64_t elapsed_ns = 0;
   unsigned char response_first_byte = 0;  // of T's own response buffer, after the run
+  // T's objects after the run: requests counted on the connection that
+  // ex_data returned each round, and the two objects it must not return.
+  uint64_t connection_requests = 0, other_requests = 0, conf_limit = 0;
 };
 
 // Deterministic payload bytes for round `round` in direction `salt`.
@@ -152,6 +170,11 @@ Result run(Server& server, unsigned rounds, size_t request_bytes, size_t respons
   std::string cert_pem, key_pem;
   make_identity(cert_pem, key_pem);
   if (!server.create(cert_pem, key_pem)) throw std::runtime_error("server_create");
+  ServerConf conf;
+  Connection connection, other;
+  if (!server.set_conf(&conf) || !server.set_connection(&connection) ||
+      !server.second_connection(&other))
+    throw std::runtime_error("ex_data");
 
   SSL_CTX* client_ctx = SSL_CTX_new(TLS_client_method());
   if (!client_ctx) throw std::runtime_error("client_ctx");
@@ -188,6 +211,10 @@ Result run(Server& server, unsigned rounds, size_t request_bytes, size_t respons
       got += static_cast<size_t>(n);
     }
     server_received.add(server_in.data(), got);
+    // As nginx's handlers do: find the connection through ex_data and use it.
+    Connection* current = server.connection();
+    if (!current) throw std::runtime_error("connection");
+    current->requests++;
 
     fill(response, response_bytes, round, 5);
     size_t sent = 0;
@@ -213,6 +240,9 @@ Result run(Server& server, unsigned rounds, size_t request_bytes, size_t respons
   result.server_received_fnv = server_received.state;
   result.client_received_fnv = client_received.state;
   result.response_first_byte = response.empty() ? 0 : response[0];
+  result.connection_requests = connection.requests;
+  result.other_requests = other.requests;
+  result.conf_limit = conf.limit;
   result.elapsed_ns = static_cast<uint64_t>(
       std::chrono::duration_cast<std::chrono::nanoseconds>(finish - start).count());
   SSL_free(client);
@@ -224,11 +254,12 @@ inline void print(const char* variant, unsigned rounds, size_t request_bytes,
                   size_t response_bytes, const Result& r, unsigned long long checks) {
   std::printf(
       "TLS_BENCH variant=%s rounds=%u request_bytes=%zu response_bytes=%zu version=%s "
-      "cipher=%s server_received_fnv=%016llx client_received_fnv=%016llx checks=%llu "
-      "elapsed_ns=%llu\n",
+      "cipher=%s server_received_fnv=%016llx client_received_fnv=%016llx "
+      "connection_requests=%llu checks=%llu elapsed_ns=%llu\n",
       variant, rounds, request_bytes, response_bytes, r.version.c_str(), r.cipher.c_str(),
       static_cast<unsigned long long>(r.server_received_fnv),
-      static_cast<unsigned long long>(r.client_received_fnv), checks,
+      static_cast<unsigned long long>(r.client_received_fnv),
+      static_cast<unsigned long long>(r.connection_requests), checks,
       static_cast<unsigned long long>(r.elapsed_ns));
 }
 

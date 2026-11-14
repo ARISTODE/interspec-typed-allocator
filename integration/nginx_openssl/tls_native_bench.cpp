@@ -4,12 +4,17 @@
 
 extern "C" {
 #include "benchmarks/nginx/src/event/rlbox/ngx_openssl_phase1_sandbox_abi.h"
+// tls_exdata.c
+int interspec_tls_set_conf(unsigned long long, void*);
+int interspec_tls_set_connection(unsigned long long, void*);
+void* interspec_tls_get_connection(unsigned long long);
 }
 
 namespace {
 class NativeServer {
  public:
   ~NativeServer() {
+    ngx_openssl_phase1_sandbox_conn_destroy(second_);
     ngx_openssl_phase1_sandbox_conn_destroy(conn_);
     ngx_openssl_phase1_sandbox_ctx_destroy(ctx_);
     ngx_openssl_phase1_sandbox_shutdown();
@@ -50,10 +55,24 @@ class NativeServer {
   int handshake_step() {
     return ngx_openssl_phase1_sandbox_conn_handshake_step(conn_, nullptr);
   }
+  // Without a sandbox the stored values are T's addresses themselves.
+  bool set_conf(tls_workload::ServerConf* conf) {
+    return interspec_tls_set_conf(ctx_, conf) == 1;
+  }
+  bool set_connection(tls_workload::Connection* connection) {
+    return interspec_tls_set_connection(conn_, connection) == 1;
+  }
+  bool second_connection(tls_workload::Connection* connection) {
+    return ngx_openssl_phase1_sandbox_conn_create(ctx_, &second_) == 0 &&
+           interspec_tls_set_connection(second_, connection) == 1;
+  }
+  tls_workload::Connection* connection() {
+    return static_cast<tls_workload::Connection*>(interspec_tls_get_connection(conn_));
+  }
 
  private:
   ngx_openssl_phase1_sandbox_ctx_handle_t ctx_ = 0;
-  ngx_openssl_phase1_sandbox_conn_handle_t conn_ = 0;
+  ngx_openssl_phase1_sandbox_conn_handle_t conn_ = 0, second_ = 0;
 };
 }  // namespace
 

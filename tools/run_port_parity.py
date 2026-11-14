@@ -46,15 +46,17 @@ BOUNDARIES = {
         "args": lambda corpus, case, n: [case["width"], case["height"], n],
         "name": lambda case: f"{case['width']}x{case['height']}",
     },
-    # No registry at this boundary (U returns no pointer to T): there is no
-    # tracking-without-check variant, and no variant performs a registry check.
+    # U allocates no registered object at this boundary, so there is no
+    # tracking-without-check variant. The registry holds T's objects; one
+    # check per round on what SSL_get_ex_data returns.
     "nginx_openssl": {
         "prefix": "tls", "tag": "TLS_BENCH",
-        "variants": ("native", "rlbox-only", "interspec"), "registry": False,
+        "variants": ("native", "rlbox-only", "interspec"),
         "args": lambda corpus, case, n: [case["request_bytes"], case["response_bytes"], n],
         "name": lambda case: f"{case['request_bytes']}_{case['response_bytes']}",
     },
-    # As for nginx_openssl: no registry at this boundary.
+    # No registry at this boundary (U returns a number): no variant performs
+    # a registry check.
     "memcached_hash": {
         "prefix": "hash", "tag": "HASH_BENCH",
         "variants": ("native", "rlbox-only", "interspec"), "registry": False,

@@ -48,20 +48,18 @@ echo "openssl $(git -C "$ossl" rev-parse HEAD)" > "$work/source-revisions.txt"
 flags=(-I"$dir" -I"$work/ossl-wasm/include" -D_WASI_EMULATED_SIGNAL -D_WASI_EMULATED_MMAN
        -Wl,-z,stack-size=4194304 -Wl,--initial-memory=33554432)
 sources=("$dir/tls_u.c" "$dir/ossl_debug_stub.c"
-         "$dir/samples/nginx_openssl_phase1_bridge_wasm/untrusted/ngx_openssl_phase1_sandbox.c"
+         "$dir/tls_exdata.c"   # includes the artifact's shim, unchanged
          "$work/ossl-wasm/libssl.a" "$work/ossl-wasm/libcrypto.a"
          -lwasi-emulated-getpid -lwasi-emulated-mman -lwasi-emulated-signal)
 port_module ordinary - -- "${flags[@]}" "${sources[@]}"
 port_module fault - -- "${flags[@]}" -DINTERSPEC_FAULT_TESTS=1 "${sources[@]}"
-if grep -q 'interspec_tls_poc' "$work/ordinary/glue_lib_wasm2c.h"; then
+if grep -q 'interspec_tls_poc\|interspec_tls_ex_fault' "$work/ordinary/glue_lib_wasm2c.h"; then
   echo 'Release module unexpectedly contains test hooks' >&2; exit 1
 fi
 
 mkdir -p "$work/bin" "$work/native"
 native=(-I"$dir" -I"$work/ossl-native/include")
-cc -O2 "${native[@]}" -c \
-  "$dir/samples/nginx_openssl_phase1_bridge_wasm/untrusted/ngx_openssl_phase1_sandbox.c" \
-  -o "$work/native/shim.o"
+cc -O2 "${native[@]}" -c "$dir/tls_exdata.c" -o "$work/native/shim.o"
 cc -O2 -c "$dir/ossl_debug_stub.c" -o "$work/native/stub.o"
 g++ -std=c++17 -O2 "${native[@]}" "$dir/tls_native_bench.cpp" "$work/native/shim.o" \
   "$work/native/stub.o" \
@@ -73,5 +71,8 @@ port_host "$work/bin/tls-rlbox-only" ordinary 0 0 -- "${native[@]}" \
 port_host "$work/bin/tls-interspec" ordinary 0 1 -- "${native[@]}" \
   "$dir/tls_app_bench.cpp" "${client[@]}"
 port_host "$work/bin/tls-interspec-fault" fault 0 1 -- "${native[@]}" \
+  -DINTERSPEC_FAULT_TESTS=1 "$dir/tls_app_bench.cpp" "${client[@]}"
+# For I6: the same test hooks without any InterSpec check.
+port_host "$work/bin/tls-rlbox-only-fault" fault 0 0 -- "${native[@]}" \
   -DINTERSPEC_FAULT_TESTS=1 "$dir/tls_app_bench.cpp" "${client[@]}"
 (cd "$work/bin" && sha256sum tls-*) > "$work/binaries.sha256"

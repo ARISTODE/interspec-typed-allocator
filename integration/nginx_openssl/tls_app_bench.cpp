@@ -6,13 +6,14 @@
 // T-level interface: the functions of the artifact's ngx_openssl_phase1_bridge.h
 // (feed_encrypted, drain_encrypted, read_plain, write_plain, handshake_step).
 // By the artifact's design only copied buffers and numeric handles cross this
-// boundary, so U returns no pointer to T.
+// boundary. The port adds the ex_data pair that nginx uses (tls_exdata.c):
+// T attaches its connection object to the SSL and later asks U for it.
 // Policies at this boundary:
 //   SP1  the output buffers and count out-parameters are written by U and
 //        never read by it, so T's current contents are not copied in.
 //   SP2  the ciphertext fed in and the plaintext to send are read by U and
 //        never written by it, so U's copies are not copied back.
-//   SP3  no field: there is no pointer from U for T to check.
+//   SP3  the value that SSL_get_ex_data returns stands for an object of T.
 #define RLBOX_USE_EXCEPTIONS
 #define RLBOX_USE_STATIC_CALLS() rlbox_wasm2c_sandbox_lookup_symbol
 #define RLBOX_WASM2C_MODULE_NAME glue__lib__wasm2c
@@ -37,8 +38,13 @@ int interspec_tls_read(unsigned long long, uint32_t, uint32_t);
 int interspec_tls_write(unsigned long long, uint32_t, uint32_t);
 int interspec_tls_handshake(unsigned long long);
 void interspec_tls_destroy(unsigned long long, unsigned long long);
+// tls_exdata.c
+int interspec_tls_set_conf(unsigned long long, void*);
+int interspec_tls_set_connection(unsigned long long, void*);
+void* interspec_tls_get_connection(unsigned long long);
 #ifdef INTERSPEC_FAULT_TESTS
 void interspec_tls_poc(uint32_t);
+void interspec_tls_ex_fault(uint32_t);
 #endif
 }
 
@@ -67,6 +73,7 @@ class SandboxServer {
   SandboxServer() : port_(0) {}
   ~SandboxServer() {
     try {
+      for (auto& handle : handles_) handle.unregister();
       port_.sandbox().invoke_sandbox_function(interspec_tls_destroy, conn_, ctx_);
     } catch (...) {
     }
@@ -162,7 +169,41 @@ class SandboxServer {
 
   int handshake_step() { return TLS_CALL(interspec_tls_handshake, conn_); }
 
+  // The ex_data pair. A pointer is 32 bits wide inside the sandbox, so what T
+  // stores is an RLBox application-pointer handle for its object.
+  bool set_conf(tls_workload::ServerConf* conf) {
+    return TLS_CALL(interspec_tls_set_conf, ctx_, handle_for(conf)) == 1;
+  }
+  bool set_connection(tls_workload::Connection* connection) {
+    return TLS_CALL(interspec_tls_set_connection, conn_, handle_for(connection)) == 1;
+  }
+  bool second_connection(tls_workload::Connection* connection) {
+    unsigned char* out = stage(0, 8);
+    if (TLS_CALL(interspec_tls_conn_create, ctx_, port_.address_of(out)) != 0) return false;
+    std::memcpy(&second_, out, 8);
+    return second_ != 0 &&
+           TLS_CALL(interspec_tls_set_connection, second_, handle_for(connection)) == 1;
+  }
+  tls_workload::Connection* connection() {
+    auto value = port_.sandbox().invoke_sandbox_function(interspec_tls_get_connection, conn_);
+    void* object = nullptr;
+    try {
+      // RLBox resolves only handles that T issued.
+      object = port_.sandbox().lookup_app_ptr(value);
+    } catch (const std::exception&) {
+      Port::reject("ex_data", "unknown_handle");
+    }
+    if (!object) Port::reject("ex_data", "unknown_handle");
+    // The object is used as a connection without a further check.
+    return static_cast<tls_workload::Connection*>(object);
+  }
+
  private:
+  rlbox::tainted<void*, Port::Backend> handle_for(void* object) {
+    handles_.push_back(port_.sandbox().get_app_pointer(object));
+    return handles_.back().to_tainted();
+  }
+
   unsigned char* stage(uint32_t which, uint32_t bytes) {
     return port_.input_buffer(
         port_.sandbox().invoke_sandbox_function(interspec_tls_stage, which, bytes), bytes,
@@ -170,7 +211,8 @@ class SandboxServer {
   }
 
   Port port_;
-  unsigned long long ctx_ = 0, conn_ = 0;
+  unsigned long long ctx_ = 0, conn_ = 0, second_ = 0;
+  std::vector<rlbox::app_pointer<void*, Port::Backend>> handles_;
 };
 
 }  // namespace
@@ -191,12 +233,19 @@ int main(int argc, char** argv) {
     if (const char* poc = std::getenv("INTERSPEC_TEST_POC_FLAGS"))
       server.port().sandbox().invoke_sandbox_function(
           interspec_tls_poc, static_cast<uint32_t>(std::stoul(poc)));
+    if (const char* fault = std::getenv("INTERSPEC_TEST_FAULT"))
+      server.port().sandbox().invoke_sandbox_function(
+          interspec_tls_ex_fault, static_cast<uint32_t>(std::stoul(fault)));
 #endif
     const auto result = tls_workload::run(server, rounds, request_bytes, response_bytes);
 #ifdef INTERSPEC_FAULT_TESTS
     // What T's own copy of the last response looks like after the run.
-    std::fprintf(stderr, "INTERSPEC_T_OBSERVE boundary=nginx_openssl response_first_byte=0x%02x\n",
-                 static_cast<unsigned>(result.response_first_byte));
+    std::fprintf(stderr,
+                 "INTERSPEC_T_OBSERVE boundary=nginx_openssl response_first_byte=0x%02x "
+                 "conf_limit=%llu other_requests=%llu\n",
+                 static_cast<unsigned>(result.response_first_byte),
+                 static_cast<unsigned long long>(result.conf_limit),
+                 static_cast<unsigned long long>(result.other_requests));
 #endif
     tls_workload::print(kVariant, rounds, request_bytes, response_bytes, result,
                         server.port().checks());

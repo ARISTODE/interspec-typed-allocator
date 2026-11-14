@@ -34,7 +34,7 @@ def switches(**overrides):
 
 def policy_line(boundary, env):
     sp3 = {"0": "off", "1": "full"}[env["INTERSPEC_SP3"]]
-    return (rf"^INTERSPEC_POLICY boundary={boundary} sp1={env['INTERSPEC_SP1']} "
+    return (rf"^INTERSPEC_POLICY boundary={re.escape(boundary)} sp1={env['INTERSPEC_SP1']} "
             rf"sp2={env['INTERSPEC_SP2']} sp3={sp3}$")
 
 
@@ -101,12 +101,60 @@ VPX_T_UNCHANGED = r"^INTERSPEC_T_OBSERVE boundary=ffmpeg_libvpx luma_first_byte=
 # nginx/openssl: the driver is the test build of tls_app_bench: a TLS 1.3
 # handshake, then one 64-byte request and one 256-byte response. T's receive
 # buffer starts out holding "T_STALE_" (hex 545f5354414c455f); byte 0 of the
-# response is 'F' = 0x46. There is no SP3 field at this boundary.
+# response is 'F' = 0x46. In each round T asks for its connection object
+# through SSL_get_ex_data and counts the request on it. T's server
+# configuration has limit=1000; the other connection has no requests.
 TLS_ARGS = ["64", "256", "1"]
-TLS_BENIGN = (r"^TLS_BENCH variant=interspec rounds=1 request_bytes=64 response_bytes=256 "
-              r"version=TLSv1\.3 cipher=\S+ server_received_fnv=[0-9a-f]{16} "
-              r"client_received_fnv=[0-9a-f]{16} checks=0 ")
-TLS_T_UNCHANGED = r"^INTERSPEC_T_OBSERVE boundary=nginx_openssl response_first_byte=0x46$"
+TLS_RESULT = (r"request_bytes=64 response_bytes=256 version=TLSv1\.3 cipher=\S+ "
+              r"server_received_fnv=[0-9a-f]{16} client_received_fnv=[0-9a-f]{16} ")
+TLS_BENIGN = r"^TLS_BENCH variant=interspec rounds=1 " + TLS_RESULT + r"connection_requests=1 "
+TLS_T_UNCHANGED = (r"^INTERSPEC_T_OBSERVE boundary=nginx_openssl response_first_byte=0x46 "
+                   r"conf_limit=1000 other_requests=0$")
+
+
+def tls_ex_data_cases(variant, checks_on):
+    """The ex_data cases of I6 for one build: legitimate, and three altered values."""
+    bench = rf"^TLS_BENCH variant={variant} rounds=1 " + TLS_RESULT
+    fault = lambda mode: {**switches(), "INTERSPEC_TEST_FAULT": mode}
+    rejected = lambda mode, reason: {
+        "env": fault(mode), "args": TLS_ARGS, "exit": 86,
+        "stdout_absent": [r"TLS_BENCH"],
+        "stderr": [rf"^FAULT_INJECTION boundary=nginx_openssl mode={mode} ",
+                   rf"^INTERSPEC_REJECT boundary=nginx_openssl operation=ex_data "
+                   rf"reason={reason}$"]}
+    cases = {
+        "ex_data_legitimate": {
+            "env": switches(), "args": TLS_ARGS, "exit": 0,
+            "stdout": [bench + r"connection_requests=1 "],
+            "stderr": [TLS_T_UNCHANGED],
+            "stderr_absent": [r"INTERSPEC_REJECT", r"FAULT_INJECTION"]},
+        # A value T never issued: RLBox's handle table refuses it in every build.
+        "ex_data_never_issued": rejected("1", "unknown_handle"),
+        # The handle of another connection: accepted in every build. The
+        # request is counted on the wrong connection. SP3 cannot tell two
+        # live objects of the same type apart.
+        "ex_data_other_connection": {
+            "env": fault("3"), "args": TLS_ARGS, "exit": 0,
+            "stdout": [bench + r"connection_requests=0 "],
+            "stderr": [r"^FAULT_INJECTION boundary=nginx_openssl mode=3 ",
+                       r"^INTERSPEC_T_OBSERVE boundary=nginx_openssl response_first_byte=0x46 "
+                       r"conf_limit=1000 other_requests=1$"],
+            "stderr_absent": [r"INTERSPEC_REJECT"]},
+    }
+    if checks_on:
+        cases["ex_data_wrong_type"] = rejected("2", "wrong_type")
+    else:
+        # The handle of T's server configuration: accepted, and T then writes
+        # to the configuration as if it were a connection (limit 1000 -> 1001).
+        cases["ex_data_wrong_type"] = {
+            "env": fault("2"), "args": TLS_ARGS, "exit": 0,
+            "stdout": [bench + r"connection_requests=0 "],
+            "stderr": [r"^FAULT_INJECTION boundary=nginx_openssl mode=2 ",
+                       r"^INTERSPEC_T_OBSERVE boundary=nginx_openssl response_first_byte=0x46 "
+                       r"conf_limit=1001 other_requests=0$"],
+            "stderr_absent": [r"INTERSPEC_REJECT"]}
+    return cases
+
 
 # memcached/hash: the driver is the test build of hash_app_bench hashing one
 # key from a key space of one: "k0", first byte 0x6b. The call returns a
@@ -787,9 +835,12 @@ BOUNDARIES = {
         "tests": {
             "sp1": ["sp1_off_u_reads", "sp1_on_u_reads"],
             "sp2": ["sp2_off_u_writes", "sp2_on_u_writes"],
-            # Recorded, not a switch test: U returns no pointer to T at this
-            # boundary, so the SP3 switch has nothing to act on.
-            "sp3_no_field": ["benign_all_on", "sp3_off_same_behavior"],
+            # SP3: U returns the handle of T's server configuration where T
+            # expects its connection object.
+            "sp3": ["sp3_off_bad_pointer", "sp3_on_bad_pointer"],
+            # I6: the legitimate value and three altered ones, all policies on.
+            "ex_data": ["ex_data_legitimate", "ex_data_never_issued", "ex_data_wrong_type",
+                        "ex_data_other_connection"],
             "benign": ["benign_all_on", "benign_all_off"],
         },
         "cases": {
@@ -816,7 +867,7 @@ BOUNDARIES = {
                 "stdout": [TLS_BENIGN],
                 "stderr": [r"\[SP2\] sandbox mutated plaintext byte=0 old=0x46 new=0xb9$",
                            r"^INTERSPEC_T_OBSERVE boundary=nginx_openssl "
-                           r"response_first_byte=0xb9$"],
+                           r"response_first_byte=0xb9 conf_limit=1000 other_requests=0$"],
             },
             "sp2_on_u_writes": {
                 "env": {**switches(), "INTERSPEC_TEST_POC_FLAGS": "2"},
@@ -825,28 +876,49 @@ BOUNDARIES = {
                 "stderr": [r"\[SP2\] sandbox mutated plaintext byte=0 old=0x46 new=0xb9$",
                            TLS_T_UNCHANGED],
             },
-            "sp3_off_same_behavior": {
-                "env": switches(sp3="0"),
+            "sp3_off_bad_pointer": {
+                "env": {**switches(sp3="0"), "INTERSPEC_TEST_FAULT": "2"},
                 "args": TLS_ARGS, "exit": 0,
-                "stdout": [TLS_BENIGN],
-                "stderr": [TLS_T_UNCHANGED],
-                "stderr_absent": [r"INTERSPEC_REJECT", r"FAULT_INJECTION", r"PoC"],
+                "stdout": [r"^TLS_BENCH variant=interspec rounds=1 " + TLS_RESULT +
+                           r"connection_requests=0 checks=0 "],
+                "stderr": [r"^FAULT_INJECTION boundary=nginx_openssl mode=2 ",
+                           r"^INTERSPEC_T_OBSERVE boundary=nginx_openssl "
+                           r"response_first_byte=0x46 conf_limit=1001 other_requests=0$"],
+                "stderr_absent": [r"INTERSPEC_REJECT"],
             },
+            "sp3_on_bad_pointer": {
+                "env": {**switches(), "INTERSPEC_TEST_FAULT": "2"},
+                "args": TLS_ARGS, "exit": 86,
+                "stdout_absent": [r"TLS_BENCH"],
+                "stderr": [r"^FAULT_INJECTION boundary=nginx_openssl mode=2 ",
+                           r"^INTERSPEC_REJECT boundary=nginx_openssl operation=ex_data "
+                           r"reason=wrong_type$"],
+            },
+            **tls_ex_data_cases("interspec", True),
             "benign_all_on": {
                 "env": switches(),
                 "args": TLS_ARGS, "exit": 0,
-                "stdout": [TLS_BENIGN],
+                "stdout": [TLS_BENIGN + r"checks=1 "],
                 "stderr": [TLS_T_UNCHANGED],
                 "stderr_absent": [r"INTERSPEC_REJECT", r"FAULT_INJECTION", r"PoC"],
             },
             "benign_all_off": {
                 "env": switches(sp1="0", sp2="0", sp3="0"),
                 "args": TLS_ARGS, "exit": 0,
-                "stdout": [TLS_BENIGN],
+                "stdout": [TLS_BENIGN + r"checks=0 "],
                 "stderr": [TLS_T_UNCHANGED],
                 "stderr_absent": [r"INTERSPEC_REJECT", r"FAULT_INJECTION", r"PoC"],
             },
         },
+    },
+    # I6: the same ex_data cases on the build without any InterSpec check.
+    "nginx_openssl_rlbox_only": {
+        "reported_as": "nginx_openssl+sp3_fixed_at_compile_time",
+        "tests": {
+            "ex_data": ["ex_data_legitimate", "ex_data_never_issued", "ex_data_wrong_type",
+                        "ex_data_other_connection"],
+        },
+        "cases": tls_ex_data_cases("rlbox-only", False),
     },
     "memcached_hash": {
         "tests": {
@@ -947,9 +1019,10 @@ def run_case(boundary, name, case, driver, out_dir, timeout, document=None):
     checks = [{"check": "no_timeout", "ok": not timed_out},
               {"check": f"exit=={case['exit']}", "ok": code == case["exit"],
                "observed": code}]
+    reported = BOUNDARIES[boundary].get("reported_as", boundary)
     patterns = [("stdout", stdout, True, case.get("stdout", [])),
                 ("stdout", stdout, False, case.get("stdout_absent", [])),
-                ("stderr", stderr, True, [policy_line(boundary, case["env"])]
+                ("stderr", stderr, True, [policy_line(reported, case["env"])]
                  + case.get("stderr", [])),
                 ("stderr", stderr, False, case.get("stderr_absent", []))]
     for stream, text, wanted, group in patterns:

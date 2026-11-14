@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
-# Tracker item I10: nginx/openssl, the TLS bridge of the interspec-artifact
-# wrapper, with SP1 and SP2 behind one switch each. U returns no pointer to T
-# at this boundary, so there is no SP3 field and no registry.
+# Tracker items I10 and I6: nginx/openssl, the TLS bridge of the
+# interspec-artifact wrapper plus the ex_data pair that nginx uses, with SP1,
+# SP2 and SP3 behind one switch each.
 #
 #   1. Build OpenSSL at the pinned revision natively and as Wasm modules
 #      (with and without test hooks), and the bench programs.
 #   2. Switch tests on the test build, where U misbehaves on request.
+#      The ex_data cases also run on a test build without any InterSpec check.
 #   3. Benign run: every isolated variant must print the same result fields as
 #      the native build on the cases in evaluation/parity/tls.
 #
@@ -35,6 +36,9 @@ if step build bash "$root/scripts/build_tls_port.sh" "$work"; then
   step switch-tests python3 "$root/tools/run_policy_switch_tests.py" \
     --boundary nginx_openssl --driver "$work/bin/tls-interspec-fault" \
     --out "$out/switch-tests"
+  step ex-data-rlbox-only python3 "$root/tools/run_policy_switch_tests.py" \
+    --boundary nginx_openssl_rlbox_only --driver "$work/bin/tls-rlbox-only-fault" \
+    --out "$out/ex-data-rlbox-only"
   step benign python3 "$root/tools/run_port_parity.py" --boundary nginx_openssl \
     --corpus "$root/evaluation/parity/tls" --bin "$work/bin" --out "$out/benign"
 fi
