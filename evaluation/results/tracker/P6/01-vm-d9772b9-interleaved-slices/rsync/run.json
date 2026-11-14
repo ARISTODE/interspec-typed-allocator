@@ -1,0 +1,84 @@
+{
+  "boundary": "rsync_popt",
+  "policies_at_this_boundary": [
+    "sp1",
+    "sp2",
+    "sp3"
+  ],
+  "configurations": {
+    "rlbox-only": {
+      "binary": "rlbox-only",
+      "switches": null
+    },
+    "interspec-all-off": {
+      "binary": "interspec",
+      "switches": {
+        "INTERSPEC_SP1": "0",
+        "INTERSPEC_SP2": "0",
+        "INTERSPEC_SP3": "0"
+      }
+    },
+    "interspec-sp1": {
+      "binary": "interspec",
+      "switches": {
+        "INTERSPEC_SP1": "1",
+        "INTERSPEC_SP2": "0",
+        "INTERSPEC_SP3": "0"
+      }
+    },
+    "interspec-sp2": {
+      "binary": "interspec",
+      "switches": {
+        "INTERSPEC_SP1": "0",
+        "INTERSPEC_SP2": "1",
+        "INTERSPEC_SP3": "0"
+      }
+    },
+    "interspec-sp3": {
+      "binary": "interspec",
+      "switches": {
+        "INTERSPEC_SP1": "0",
+        "INTERSPEC_SP2": "0",
+        "INTERSPEC_SP3": "1"
+      }
+    },
+    "interspec-all-on": {
+      "binary": "interspec",
+      "switches": {
+        "INTERSPEC_SP1": "1",
+        "INTERSPEC_SP2": "1",
+        "INTERSPEC_SP3": "1"
+      }
+    }
+  },
+  "workloads": [
+    "option_parse",
+    "file_sync_194mb"
+  ],
+  "unit": "ns",
+  "repetitions": 15,
+  "rounds": {
+    "option_parse": 100,
+    "file_sync_194mb": 8
+  },
+  "value_of_a_repetition": "sum of the slices",
+  "seed": 20261114,
+  "parameters": {
+    "file": "194 MiB of zero bytes, as in P4",
+    "cpu": 0
+  },
+  "source_commit": "d9772b9",
+  "label": "Claude Code cloud VM (KVM guest, 4 vCPUs, not a dedicated host)",
+  "machine_start": {
+    "cpu_model": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+    "logical_cpus": 4,
+    "memory": "16473776 kB",
+    "kernel": "6.18.44-fc-v470",
+    "loadavg": "1.38 1.15 1.12 1/105 27019"
+  },
+  "binaries_sha256": {
+    "rlbox-only": "78aed683063dd932e0ff00696055cb7b0125c0418b0e50fdc2a8f32414e9710b",
+    "interspec": "022b84df18baa905f9e28e19182a8e454a1e75360c4821f649b661e4f0ef7842"
+  },
+  "started_utc": "2026-11-14T09:52:23Z"
+}

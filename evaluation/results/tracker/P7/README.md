@@ -56,7 +56,9 @@ Full tables: `03-…/TABLES.md` and `04-…/TABLES.md`.
 - Four boundaries show no cost of InterSpec over RLBox-only that this machine
   can resolve: ffmpeg/libvpx, nginx/openssl, the hash call and ucl/libucl
   have medians between +0.3% and +4.1% with ranges that include zero. For
-  magick/libpng the median is +7.2% and the range reaches -1.6%.
+  magick/libpng the median is +7.2% and the range reaches -1.6%; tracking
+  alone has the same median (+7.0%), so what cost there is comes from the
+  typed arena in U and not from the check.
 - Two workloads show a clear cost, and both are loops of very cheap calls,
   so the fixed cost per call dominates.
   zip/libzip: about 113 ns per iteration without checks, two registry
@@ -75,10 +77,9 @@ Full tables: `03-…/TABLES.md` and `04-…/TABLES.md`.
   decision to move the hash table into U (I9) the hash table is the registry
   part of the memcached/hash boundary and has all four.
 - The ranges are those of this VM. The ffmpeg/libvpx and magick/libpng ranges
-  are about ±12%, wider than the noise probe's ±3%; their slices are the
-  longest in wall time per unit of loop work, and the medians should be read
-  with that range. These are not dedicated-host numbers; the paper has to
-  describe the VM (P1) with them.
+  are about ±12%, wider than the noise probe's ±3%. I did not find the cause;
+  the medians should be read with that range. These are not dedicated-host
+  numbers; the paper has to describe the VM (P1) with them.
 - The workloads are harness loops over one boundary, not application
   benchmarks. Application-level cost is P2 (memcached), P3 (nginx), P4 and
   P5.

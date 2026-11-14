@@ -1,0 +1,50 @@
+{
+  "yaml_parse_1mb/rlbox-only": {
+    "valid": true,
+    "result": "iterations=12 input_bytes=1048576 events=6216 scalars=6144 scalar_bytes=12306432 hash=09e5a07ffdd503e3",
+    "policy_report": [],
+    "result_matches_rlbox_only": true,
+    "report_matches_switches": true,
+    "checks": 0
+  },
+  "yaml_parse_1mb/interspec-all-off": {
+    "valid": true,
+    "result": "iterations=12 input_bytes=1048576 events=6216 scalars=6144 scalar_bytes=12306432 hash=09e5a07ffdd503e3",
+    "policy_report": [
+      "INTERSPEC_POLICY boundary=yaml_libyaml sp1=0 sp2=0 sp3=off"
+    ],
+    "result_matches_rlbox_only": true,
+    "report_matches_switches": true,
+    "checks": 0
+  },
+  "yaml_parse_1mb/interspec-sp2": {
+    "valid": true,
+    "result": "iterations=12 input_bytes=1048576 events=6216 scalars=6144 scalar_bytes=12306432 hash=09e5a07ffdd503e3",
+    "policy_report": [
+      "INTERSPEC_POLICY boundary=yaml_libyaml sp1=0 sp2=1 sp3=off"
+    ],
+    "result_matches_rlbox_only": true,
+    "report_matches_switches": true,
+    "checks": 0
+  },
+  "yaml_parse_1mb/interspec-sp3": {
+    "valid": true,
+    "result": "iterations=12 input_bytes=1048576 events=6216 scalars=6144 scalar_bytes=12306432 hash=09e5a07ffdd503e3",
+    "policy_report": [
+      "INTERSPEC_POLICY boundary=yaml_libyaml sp1=0 sp2=0 sp3=full"
+    ],
+    "result_matches_rlbox_only": true,
+    "report_matches_switches": true,
+    "checks": 6144
+  },
+  "yaml_parse_1mb/interspec-all-on": {
+    "valid": true,
+    "result": "iterations=12 input_bytes=1048576 events=6216 scalars=6144 scalar_bytes=12306432 hash=09e5a07ffdd503e3",
+    "policy_report": [
+      "INTERSPEC_POLICY boundary=yaml_libyaml sp1=0 sp2=1 sp3=full"
+    ],
+    "result_matches_rlbox_only": true,
+    "report_matches_switches": true,
+    "checks": 6144
+  }
+}
