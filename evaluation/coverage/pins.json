@@ -28,6 +28,8 @@
     "memcached": {"boundaries": ["memcached/bipbuffer", "memcached/hash"], "sources": ["memcached"], "command": "bash scripts/build_memcached_for_codeql.sh"},
     "rsync_popt": {"boundaries": ["rsync/popt"], "sources": ["rsync"], "command": "bash coverage/build_rsync_for_codeql.sh"},
     "nginx": {"boundaries": ["nginx/libpcre", "nginx/openssl"], "sources": ["nginx", "pcre", "openssl"], "command": "bash coverage/build_nginx_for_codeql.sh"},
+    "nginx_pcre": {"boundaries": ["nginx/libpcre"], "sources": ["nginx", "pcre", "openssl"], "prepare": "bash coverage/prepare_nginx_pcre_for_codeql.sh", "command": "bash coverage/build_nginx_pcre_for_codeql.sh", "basis": "same nginx configuration as the database nginx; OpenSSL is built before tracing starts, so its 27,954 functions are not in the database. The queries did not finish for nginx/libpcre on the database nginx (evaluation/results/tracker/C2/09)"},
+    "ffmpeg_vpx_only": {"boundaries": ["ffmpeg/libvpx"], "sources": ["ffmpeg", "libvpx"], "prepare": "bash coverage/prepare_ffmpeg_vpx_only_for_codeql.sh", "command": "bash coverage/build_ffmpeg_vpx_only_for_codeql.sh", "basis": "libvpx as in the database ffmpeg_libvpx; ffmpeg configured with only the components of a VP8/VP9 transcode through libvpx. The queries did not finish on the database ffmpeg_libvpx (evaluation/results/tracker/C2/09)"},
     "ffmpeg_libvpx": {"boundaries": ["ffmpeg/libvpx"], "sources": ["ffmpeg", "libvpx"], "command": "bash coverage/build_ffmpeg_for_codeql.sh"}
   }
 }

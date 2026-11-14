@@ -1,0 +1,11 @@
+[2026-11-14 14:34:24] This is codeql query run /tmp/slot_policy_pack_j8lipckr/ql/queries/pointer_slots_split_dmre2ugj/pointer_slots_param.ql --database db/nginx --search-path /tmp/slot_policy_pack_j8lipckr/ql --threads 4 --ram 10000 --max-disk-cache 6000 --output reports/nginx_libpcre/_pointer_query_split/pointer_slots.param.bqrs
+[2026-11-14 14:34:24] Log file was started late.
+[2026-11-14 14:34:24] Calling plumbing command: codeql resolve ram --dataset=$S/coverage-work-paper-rule/root/db/nginx/db-cpp --ram=10000 --format=json
+[2026-11-14 14:34:24] [PROGRESS] resolve ram> Stringpool size measured as 23101898
+[2026-11-14 14:34:24] Plumbing command codeql resolve ram completed:
+                      [
+                        "-J-Xmx4094M",
+                        "--off-heap-ram=4795"
+                      ]
+[2026-11-14 14:34:24] Chaining via /tmp/codeql.vzx91410 to plumbing: execute queries -J-Xmx4094M --off-heap-ram=4795 --verbosity=progress --logdir=$S/coverage-work-paper-rule/root/db/nginx/log --max-disk-cache=6000 --evaluator-log-level=5 --threads=4 --warnings=show --search-path=/tmp/slot_policy_pack_j8lipckr/ql --qlconfig-file=$S/coverage-work-paper-rule/root/qlconfig.yml --dynamic-join-order-mode=none --output=$S/coverage-work-paper-rule/root/reports/nginx_libpcre/_pointer_query_split/pointer_slots.param.bqrs -- $S/coverage-work-paper-rule/root/db/nginx/db-cpp path:/tmp/slot_policy_pack_j8lipckr/ql/queries/pointer_slots_split_dmre2ugj/pointer_slots_param.ql
+[2026-11-14 14:34:24] Exiting with code 70

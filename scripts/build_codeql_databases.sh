@@ -40,7 +40,7 @@ done
 mkdir -p "$root/tools"
 [[ -e "$root/tools/codeql" ]] || ln -s "$(dirname "$codeql")" "$root/tools/codeql"
 mkdir -p "$root/coverage"
-cp "$repo"/evaluation/coverage/build_*_for_codeql.sh "$root/coverage/"
+cp "$repo"/evaluation/coverage/*_for_codeql.sh "$root/coverage/"
 
 fetch() {  # fetch SOURCE_NAME: clone the pinned revision into its path
   local name=$1 url revision path
@@ -74,6 +74,12 @@ for name in "${databases[@]}"; do
   create=("$codeql" database create "$work/db/$name" --language=cpp --source-root="$root"
           --overwrite --threads=0 "--command=$command")
   printf '%q ' "${create[@]}" > "$record/command.txt"; echo >> "$record/command.txt"
+  # Optional untraced step before the traced build (pins.json: "prepare").
+  prepare=$(python3 -c "import json,sys; print(json.load(open(sys.argv[1]))['databases'][sys.argv[2]].get('prepare',''))" "$pins" "$name")
+  if [[ $ok == 1 && -n "$prepare" ]]; then
+    echo "$prepare" > "$record/prepare-command.txt"
+    (cd "$root" && bash -c "$prepare") > "$record/prepare.log" 2>&1 || ok=0
+  fi
   code=97
   if [[ $ok == 1 ]]; then
     (cd "$root" && "${create[@]}") > "$record/build.log" 2>&1

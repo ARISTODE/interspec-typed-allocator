@@ -1,0 +1,3 @@
+"col0","calls","accesses"
+"benchmarks/ffmpeg/ffmpeg-8.0/libavcodec/libvpxenc.c",28,275
+"benchmarks/ffmpeg/ffmpeg-8.0/libavcodec/libvpxdec.c",15,58

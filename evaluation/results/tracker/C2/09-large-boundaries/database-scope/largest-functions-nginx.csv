@@ -1,0 +1,9 @@
+"col0","col1","n"
+"benchmarks/openssl/crypto/sm3/sm3.c","ossl_sm3_block_data_order",22006
+"benchmarks/openssl/providers/implementations/digests/blake2b_prov.c","blake2b_compress",15107
+"benchmarks/openssl/providers/implementations/digests/blake2s_prov.c","blake2s_compress",12632
+"benchmarks/openssl/apps/speed.c","speed_main",12096
+"benchmarks/openssl/crypto/ripemd/rmd_dgst.c","ripemd160_block_data_order",11387
+"benchmarks/pcre/pcre_exec.c","match",9992
+"benchmarks/pcre/pcre_compile.c","compile_branch",8374
+"benchmarks/pcre/pcre_dfa_exec.c","internal_dfa_exec",8310
