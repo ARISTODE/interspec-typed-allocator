@@ -145,9 +145,13 @@ int main() {
         }
 
         size_t size = 0;
+        // Since released addresses are reused within a site (2026-11-14),
+        // another thread may own this address again right after the release,
+        // so "untracked after release" holds only without concurrent
+        // allocation at the same site; tests/runtime_address_reuse.cpp
+        // asserts it single-threaded.
         if (!concurrent.allocation_size(ptr, size) || size != 16 ||
-            !concurrent.release(ptr) ||
-            concurrent.check(ptr, 1, kItem) != CheckResult::untracked) {
+            !concurrent.release(ptr)) {
           failed.store(true);
           return;
         }
