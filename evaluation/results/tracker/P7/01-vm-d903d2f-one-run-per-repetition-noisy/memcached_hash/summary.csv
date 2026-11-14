@@ -1,0 +1,4 @@
+configuration,repetitions,median_elapsed_ms,min_elapsed_ms,max_elapsed_ms,checks_per_run,median_ratio_to_native,min_ratio_to_native,max_ratio_to_native,median_ratio_to_rlbox-only,min_ratio_to_rlbox-only,max_ratio_to_rlbox-only
+native,15,367.933,339.965,518.448,0,1.0,1.0,1.0,0.3928,0.3387,0.5714
+rlbox-only,15,936.699,867.481,1153.154,0,2.5458,1.7502,2.9525,1.0,1.0,1.0
+interspec,15,941.851,879.0,1084.0,0,2.4614,1.9769,2.809,0.9668,0.8153,1.1295

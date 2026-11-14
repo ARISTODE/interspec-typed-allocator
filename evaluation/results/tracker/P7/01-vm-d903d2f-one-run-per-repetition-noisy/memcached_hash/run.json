@@ -1,0 +1,41 @@
+{
+  "boundary": "memcached_hash",
+  "harness_entry": "memcached_hash",
+  "mode": "variants",
+  "configurations": [
+    "native",
+    "rlbox-only",
+    "interspec"
+  ],
+  "reference": "native",
+  "repetitions": 15,
+  "seed": 20261114,
+  "cpu": 0,
+  "case": {
+    "keyspace": "10000",
+    "iterations": [
+      "10",
+      "100000"
+    ]
+  },
+  "iterations": 50000000,
+  "arguments": [
+    "10000",
+    "50000000"
+  ],
+  "source_commit": "d903d2f",
+  "label": "Claude Code cloud VM (KVM guest, 4 vCPUs, not a dedicated host)",
+  "machine_start": {
+    "cpu_model": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+    "logical_cpus": 4,
+    "memory": "16473776 kB",
+    "kernel": "6.18.44-fc-v470",
+    "loadavg": "1.31 2.08 2.34 1/108 11784"
+  },
+  "binaries_sha256": {
+    "interspec": "370a53e6080b2cee71a9f94b5f73912544fa8893fce7f2748c2ee1ecdb0dc2f4",
+    "native": "e923189f17be91e4bf3eefd69a7644b34b17a1a9291f7199de73948ee2a60982",
+    "rlbox-only": "c2d1a1ca5a1b8991c908533ecb07f5efc4f9ce01a45eb73c8dc90c523f217950"
+  },
+  "started_utc": "2026-11-14T09:14:06Z"
+}

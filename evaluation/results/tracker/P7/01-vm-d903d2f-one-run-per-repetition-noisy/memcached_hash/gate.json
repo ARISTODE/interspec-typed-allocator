@@ -1,0 +1,23 @@
+{
+  "native": {
+    "exit_code": 0,
+    "stdout": "HASH_BENCH variant=native ops=50000000 keyspace=10000 sink=8009b7c959af1ad1 checks=0 elapsed_ns=372498762\n",
+    "stderr": "",
+    "result_matches_reference": true,
+    "checks": 0
+  },
+  "rlbox-only": {
+    "exit_code": 0,
+    "stdout": "HASH_BENCH variant=rlbox-only ops=50000000 keyspace=10000 sink=8009b7c959af1ad1 checks=0 elapsed_ns=897503121\n",
+    "stderr": "",
+    "result_matches_reference": true,
+    "checks": 0
+  },
+  "interspec": {
+    "exit_code": 0,
+    "stdout": "HASH_BENCH variant=interspec ops=50000000 keyspace=10000 sink=8009b7c959af1ad1 checks=0 elapsed_ns=880702711\n",
+    "stderr": "",
+    "result_matches_reference": true,
+    "checks": 0
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "native": {
+    "exit_code": 0,
+    "stdout": "VPX_BENCH variant=native frames=12 width=352 height=288 packets=12 encoded_bytes=7625 encoded_fnv=57fd0dff124053c9 decoded_frames=12 decoded_fnv=9769587963e28e74 checks=0 elapsed_ns=92933782\n",
+    "stderr": "",
+    "result_matches_reference": true,
+    "checks": 0
+  },
+  "rlbox-only": {
+    "exit_code": 0,
+    "stdout": "VPX_BENCH variant=rlbox-only frames=12 width=352 height=288 packets=12 encoded_bytes=7625 encoded_fnv=57fd0dff124053c9 decoded_frames=12 decoded_fnv=9769587963e28e74 checks=0 elapsed_ns=97008440\n",
+    "stderr": "",
+    "result_matches_reference": true,
+    "checks": 0
+  },
+  "tracked-no-check": {
+    "exit_code": 0,
+    "stdout": "VPX_BENCH variant=tracked-no-check frames=12 width=352 height=288 packets=12 encoded_bytes=7625 encoded_fnv=57fd0dff124053c9 decoded_frames=12 decoded_fnv=9769587963e28e74 checks=0 elapsed_ns=100192442\n",
+    "stderr": "",
+    "result_matches_reference": true,
+    "checks": 0
+  },
+  "interspec": {
+    "exit_code": 0,
+    "stdout": "VPX_BENCH variant=interspec frames=12 width=352 height=288 packets=12 encoded_bytes=7625 encoded_fnv=57fd0dff124053c9 decoded_frames=12 decoded_fnv=9769587963e28e74 checks=48 elapsed_ns=95697624\n",
+    "stderr": "",
+    "result_matches_reference": true,
+    "checks": 48
+  }
+}
