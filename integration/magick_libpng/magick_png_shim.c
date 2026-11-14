@@ -7,14 +7,10 @@
 
 /* The shim of the interspec-artifact wrapper (magick_png_rlbox_shim.c) with
  * one change, marked "port:" below: the two buffers that are handed to T, the
- * decoded pixels and the encoded PNG, come from returned_reserve().
- *
- * In the tracked builds each buffer is allocated at a declared site that the
- * trusted registry knows. In every build the shim keeps one buffer of each
- * kind and reuses it for the next call while it is large enough, instead of
- * allocating and freeing one per call as the artifact shim does: the
- * registry's arena does not reuse released addresses, so a buffer per call
- * would exhaust it. magickpng_free() therefore keeps the buffer. */
+ * decoded pixels and the encoded PNG, are allocated, grown and freed through
+ * the three functions below. In the tracked builds each buffer comes from a
+ * declared site that the trusted registry knows; otherwise the functions are
+ * malloc, realloc and free, as in the artifact shim. */
 #ifndef INTERSPEC_TRACKING
 #define INTERSPEC_TRACKING 0
 #endif
@@ -23,38 +19,47 @@
 #endif
 
 enum { RETURNED_PIXELS = 0, RETURNED_PNG = 1 };
-static unsigned char* g_returned[2];
-static size_t g_returned_cap[2];
 
-/* The buffer of `kind` with room for `bytes`; its first `keep` bytes survive. */
-static unsigned char* returned_reserve(int kind, size_t bytes, size_t keep)
+static unsigned char* returned_alloc(int kind, size_t bytes)
 {
-  if (bytes <= g_returned_cap[kind]) {
-    return g_returned[kind];
-  }
 #if INTERSPEC_TRACKING
-  unsigned char* p = (unsigned char*)(uintptr_t)(
+  return (unsigned char*)(uintptr_t)(
     kind == RETURNED_PIXELS ? INTERSPEC_SITE_DECODED_PIXELS_ALLOC(bytes)
                             : INTERSPEC_SITE_ENCODED_PNG_ALLOC(bytes));
 #else
-  unsigned char* p = (unsigned char*)malloc(bytes);
+  (void)kind;
+  return (unsigned char*)malloc(bytes);
 #endif
+}
+
+static void returned_free(unsigned char* p)
+{
+#if INTERSPEC_TRACKING
+  if (p) {
+    (void)interspec_wasm_release((uint32_t)(uintptr_t)p);
+  }
+#else
+  free(p);
+#endif
+}
+
+/* realloc for the encoded PNG: a new buffer with the first `keep` bytes. */
+static unsigned char* returned_grow(unsigned char* old, size_t bytes, size_t keep)
+{
+#if INTERSPEC_TRACKING
+  unsigned char* p = returned_alloc(RETURNED_PNG, bytes);
   if (!p) {
     return NULL;
   }
-  if (keep) {
-    memcpy(p, g_returned[kind], keep);
+  if (old && keep) {
+    memcpy(p, old, keep);
   }
-#if INTERSPEC_TRACKING
-  if (g_returned[kind]) {
-    (void)interspec_wasm_release((uint32_t)(uintptr_t)g_returned[kind]);
-  }
-#else
-  free(g_returned[kind]);
-#endif
-  g_returned[kind] = p;
-  g_returned_cap[kind] = bytes;
+  returned_free(old);
   return p;
+#else
+  (void)keep;
+  return (unsigned char*)realloc(old, bytes);
+#endif
 }
 
 typedef struct
@@ -109,7 +114,7 @@ static void write_cb(png_structp png_ptr, png_bytep data, png_size_t length)
       new_cap = next;
     }
     /* port: was realloc(w->data, new_cap) */
-    unsigned char* p = returned_reserve(RETURNED_PNG, new_cap, w->size);
+    unsigned char* p = returned_grow(w->data, new_cap, w->size);
     if (!p) {
       png_error(png_ptr, "oom");
       return;
@@ -208,7 +213,7 @@ magickpng_decode_rgba(const unsigned char* input,
   }
 
   /* port: was malloc((size_t)total) */
-  unsigned char* out = returned_reserve(RETURNED_PIXELS, (size_t)total, 0);
+  unsigned char* out = returned_alloc(RETURNED_PIXELS, (size_t)total);
   if (!out) {
     png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
     return NULL;
@@ -216,7 +221,7 @@ magickpng_decode_rgba(const unsigned char* input,
 
   png_bytep* rows = (png_bytep*)malloc(sizeof(png_bytep) * (size_t)height);
   if (!rows) {
-    /* port: was free(out) */
+    returned_free(out); /* port: was free(out) */
     png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
     return NULL;
   }
@@ -262,10 +267,9 @@ magickpng_encode_rgba(const unsigned char* rgba,
   }
 
   mem_writer_t writer;
-  /* port: was data = NULL, cap = 0 */
-  writer.data = g_returned[RETURNED_PNG];
+  writer.data = NULL;
   writer.size = 0;
-  writer.cap = g_returned_cap[RETURNED_PNG];
+  writer.cap = 0;
   png_set_write_fn(png_ptr, &writer, write_cb, flush_cb);
 
   png_set_IHDR(png_ptr,
@@ -283,7 +287,7 @@ magickpng_encode_rgba(const unsigned char* rgba,
   png_bytep* rows = (png_bytep*)malloc(sizeof(png_bytep) * (size_t)height);
   if (!rows) {
     png_destroy_write_struct(&png_ptr, &info_ptr);
-    /* port: was free(writer.data) */
+    returned_free(writer.data); /* port: was free(writer.data) */
     return NULL;
   }
 
@@ -299,7 +303,7 @@ magickpng_encode_rgba(const unsigned char* rgba,
   png_destroy_write_struct(&png_ptr, &info_ptr);
 
   if (writer.size == 0 || writer.size > UINT32_MAX) {
-    /* port: was free(writer.data) */
+    returned_free(writer.data); /* port: was free(writer.data) */
     return NULL;
   }
 
@@ -310,6 +314,5 @@ magickpng_encode_rgba(const unsigned char* rgba,
 void
 magickpng_free(unsigned char* p)
 {
-  /* port: was free(p); the buffer is kept for the next call */
-  (void)p;
+  returned_free(p); /* port: was free(p) */
 }
