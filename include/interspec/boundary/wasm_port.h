@@ -232,6 +232,8 @@ class WasmPort {
   }
 
   uint64_t checks() const { return checks_; }
+  // For a registry check that the port performs itself (objects of T).
+  void count_check() { ++checks_; }
 
  private:
   Sandbox sandbox_;

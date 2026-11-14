@@ -13,7 +13,10 @@
 //        never read by it, so T's current contents are not copied in.
 //   SP2  the ciphertext fed in and the plaintext to send are read by U and
 //        never written by it, so U's copies are not copied back.
-//   SP3  the value that SSL_get_ex_data returns stands for an object of T.
+//   SP3  the value that SSL_get_ex_data returns stands for an object of T. T
+//        registers its connection and configuration objects, and the
+//        object behind the returned handle must be a live registered object
+//        of T of the connection type before T uses it.
 #define RLBOX_USE_EXCEPTIONS
 #define RLBOX_USE_STATIC_CALLS() rlbox_wasm2c_sandbox_lookup_symbol
 #define RLBOX_WASM2C_MODULE_NAME glue__lib__wasm2c
@@ -22,6 +25,7 @@
 #include "rlbox_wasm2c_sandbox.hpp"
 
 #include "interspec/boundary/wasm_port.h"
+#include "interspec/runtime.h"
 #include "tls_workload.h"
 
 #include <openssl/rand.h>
@@ -64,13 +68,30 @@ constexpr const char* kVariant = "interspec";
 
 constexpr size_t kMaxBytes = 1u << 20;
 
+#if INTERSPEC_CHECKS
+// T's objects in the registry (manual registration in T).
+constexpr interspec::TypeId kConnectionId = 1, kConfId = 2;
+constexpr uint64_t kConnectionType = interspec::type_hash("tls_connection");
+constexpr uint64_t kConfType = interspec::type_hash("tls_server_conf");
+#endif
+
 // invoke_sandbox_function is a macro that needs the function's name.
 #define TLS_CALL(name, ...) \
   (port_.sandbox().invoke_sandbox_function(name, __VA_ARGS__).UNSAFE_unverified())
 
 class SandboxServer {
  public:
-  SandboxServer() : port_(0) {}
+  SandboxServer() : port_(0) {
+#if INTERSPEC_CHECKS
+    if (!objects_.register_type(kConnectionId, kConnectionType) ||
+        !objects_.register_type_layout(kConnectionId, sizeof(tls_workload::Connection),
+                                       alignof(tls_workload::Connection)) ||
+        !objects_.register_type(kConfId, kConfType) ||
+        !objects_.register_type_layout(kConfId, sizeof(tls_workload::ServerConf),
+                                       alignof(tls_workload::ServerConf)))
+      throw std::runtime_error("type_registration");
+#endif
+  }
   ~SandboxServer() {
     try {
       for (auto& handle : handles_) handle.unregister();
@@ -172,12 +193,15 @@ class SandboxServer {
   // The ex_data pair. A pointer is 32 bits wide inside the sandbox, so what T
   // stores is an RLBox application-pointer handle for its object.
   bool set_conf(tls_workload::ServerConf* conf) {
+    if (!record(conf, 2)) return false;
     return TLS_CALL(interspec_tls_set_conf, ctx_, handle_for(conf)) == 1;
   }
   bool set_connection(tls_workload::Connection* connection) {
+    if (!record(connection, 1)) return false;
     return TLS_CALL(interspec_tls_set_connection, conn_, handle_for(connection)) == 1;
   }
   bool second_connection(tls_workload::Connection* connection) {
+    if (!record(connection, 1)) return false;
     unsigned char* out = stage(0, 8);
     if (TLS_CALL(interspec_tls_conn_create, ctx_, port_.address_of(out)) != 0) return false;
     std::memcpy(&second_, out, 8);
@@ -194,11 +218,37 @@ class SandboxServer {
       Port::reject("ex_data", "unknown_handle");
     }
     if (!object) Port::reject("ex_data", "unknown_handle");
-    // The object is used as a connection without a further check.
+#if INTERSPEC_CHECKS
+    // SP3: the object must be a live registered object of T of the
+    // connection type.
+    if (Port::sp3()) {
+      port_.count_check();
+      const auto result = objects_.check_external_element_by_address(
+          reinterpret_cast<uintptr_t>(object), sizeof(tls_workload::Connection),
+          kConnectionType, interspec::MemoryDomain::trusted);
+      if (result != interspec::CheckResult::ok)
+        Port::reject("ex_data", interspec::check_result_name(result));
+    }
+#endif
     return static_cast<tls_workload::Connection*>(object);
   }
 
  private:
+  // T registers an object before a handle to it reaches U. `type` is 1 for a
+  // connection and 2 for the server configuration.
+  bool record(void* object, int type) {
+#if INTERSPEC_CHECKS
+    return objects_.register_external_array(reinterpret_cast<uintptr_t>(object), 1,
+                                            type == 1 ? kConnectionId : kConfId,
+                                            interspec::MemoryDomain::trusted,
+                                            interspec::ObjectStorage::stack) != 0;
+#else
+    (void)object;
+    (void)type;
+    return true;
+#endif
+  }
+
   rlbox::tainted<void*, Port::Backend> handle_for(void* object) {
     handles_.push_back(port_.sandbox().get_app_pointer(object));
     return handles_.back().to_tainted();
@@ -211,6 +261,9 @@ class SandboxServer {
   }
 
   Port port_;
+#if INTERSPEC_CHECKS
+  interspec::Runtime objects_{0, 0};  // no arena: T's objects only
+#endif
   unsigned long long ctx_ = 0, conn_ = 0, second_ = 0;
   std::vector<rlbox::app_pointer<void*, Port::Backend>> handles_;
 };
