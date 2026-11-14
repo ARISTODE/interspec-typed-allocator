@@ -1,0 +1,3 @@
+INTERSPEC_POLICY boundary=memcached_hash sp1=1 sp2=0 sp3=full
+[InterSpec][PoC][SP2] sandbox mutated key byte=0 old=0x6b new=0x94
+INTERSPEC_T_OBSERVE boundary=memcached_hash key_first_byte=0x94

@@ -1,0 +1,5 @@
+PASS memcached_assoc sp1
+PASS memcached_assoc sp2
+PASS memcached_assoc sp3
+PASS memcached_assoc handles
+PASS memcached_assoc benign

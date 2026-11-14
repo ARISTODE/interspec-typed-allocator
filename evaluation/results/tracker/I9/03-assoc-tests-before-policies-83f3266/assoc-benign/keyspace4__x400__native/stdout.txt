@@ -1,0 +1,1 @@
+ASSOC_BENCH variant=native ops=400 keyspace=4 finds=260 hits=170 inserts=28 deletes=24 live=4 checksum=af38e9d4cf6b9d62 iterated=4 iter_xor=0000040000000c9c checks=0 elapsed_ns=36406

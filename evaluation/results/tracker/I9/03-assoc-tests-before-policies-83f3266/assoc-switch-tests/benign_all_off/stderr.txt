@@ -1,0 +1,2 @@
+INTERSPEC_POLICY boundary=memcached_hash sp1=0 sp2=0 sp3=off
+INTERSPEC_T_OBSERVE boundary=memcached_hash first_item_refcount=1 first_item_key_byte=0x6b

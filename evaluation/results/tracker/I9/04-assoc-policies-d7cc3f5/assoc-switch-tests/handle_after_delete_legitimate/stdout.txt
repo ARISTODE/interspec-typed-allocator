@@ -1,0 +1,1 @@
+ASSOC_SCRIPT script=stale find_k0=none

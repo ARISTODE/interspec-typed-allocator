@@ -1,0 +1,3 @@
+INTERSPEC_POLICY boundary=memcached_hash sp1=1 sp2=1 sp3=full
+FAULT_INJECTION boundary=memcached_hash mode=1 original=0x1 replacement=0x5ec2e7f0
+INTERSPEC_REJECT boundary=memcached_hash operation=assoc_find reason=unknown_handle
