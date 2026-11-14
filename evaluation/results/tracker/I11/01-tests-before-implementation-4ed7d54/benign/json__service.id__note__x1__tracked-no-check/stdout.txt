@@ -1,0 +1,1 @@
+UCL_BENCH variant=tracked-no-check iterations=1 input_bytes=112 val1=7376632d3137 val2=6a736f6e20696e70757420c3a9 emitted_bytes=96 emitted_fnv=5a34b6363dabcde1 checks=0 elapsed_ns=26995

@@ -1,0 +1,23 @@
+{
+  "native": {
+    "exit_code": 0,
+    "stdout": "TLS_BENCH variant=native rounds=5000 request_bytes=512 response_bytes=4096 version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 server_received_fnv=07c5e4ea9ee56083 client_received_fnv=8e4b8dceaf5cf6c3 connection_requests=5000 checks=0 elapsed_ns=103704935\n",
+    "stderr": "",
+    "result_matches_reference": true,
+    "checks": 0
+  },
+  "rlbox-only": {
+    "exit_code": 0,
+    "stdout": "TLS_BENCH variant=rlbox-only rounds=5000 request_bytes=512 response_bytes=4096 version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 server_received_fnv=07c5e4ea9ee56083 client_received_fnv=8e4b8dceaf5cf6c3 connection_requests=5000 checks=0 elapsed_ns=517062333\n",
+    "stderr": "",
+    "result_matches_reference": true,
+    "checks": 0
+  },
+  "interspec": {
+    "exit_code": 0,
+    "stdout": "TLS_BENCH variant=interspec rounds=5000 request_bytes=512 response_bytes=4096 version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 server_received_fnv=07c5e4ea9ee56083 client_received_fnv=8e4b8dceaf5cf6c3 connection_requests=5000 checks=5000 elapsed_ns=474189388\n",
+    "stderr": "",
+    "result_matches_reference": true,
+    "checks": 5000
+  }
+}

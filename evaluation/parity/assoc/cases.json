@@ -1,0 +1,8 @@
+{
+  "description": "Benign inputs for the memcached/hash port with the hash table in U (tracker item I9). Each case is a key space and the numbers of cache operations to run (about 60% get, 30% set, 10% delete, drawn with a fixed seed), followed by a walk over the whole table. The expectation is the output of the native build of the same hash table and hash function; no value is written by hand.",
+  "cases": [
+    {"keyspace": "4", "iterations": ["40", "400"]},
+    {"keyspace": "1000", "iterations": ["2000", "20000"]},
+    {"keyspace": "20000", "iterations": ["100000"]}
+  ]
+}

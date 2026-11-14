@@ -1,0 +1,2 @@
+benchmark,total_fields,pointer_fields,scalar_fields,struct_fields,array_fields,other_fields
+memcached_bipbuffer,24,12,12,0,0,0

@@ -1,0 +1,1 @@
+INTERSPEC_POLICY boundary=ffmpeg_libvpx sp1=1 sp2=1 sp3=full

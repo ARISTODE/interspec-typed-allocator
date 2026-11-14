@@ -1,0 +1,44 @@
+{
+  "rlbox-only": {
+    "exit_code": 0,
+    "stdout": "ASSOC_BENCH variant=rlbox-only ops=400000 keyspace=20000 finds=240127 hits=157741 inserts=41131 deletes=26026 live=15105 checksum=50f3c28864920221 iterated=15105 iter_xor=a3f31de59c262672 checks=0 elapsed_ns=79277188\n",
+    "stderr": "",
+    "result_matches_reference": true,
+    "checks": 0
+  },
+  "interspec-all-off": {
+    "exit_code": 0,
+    "stdout": "ASSOC_BENCH variant=interspec ops=400000 keyspace=20000 finds=240127 hits=157741 inserts=41131 deletes=26026 live=15105 checksum=50f3c28864920221 iterated=15105 iter_xor=a3f31de59c262672 checks=0 elapsed_ns=90476823\n",
+    "stderr": "",
+    "result_matches_reference": true,
+    "checks": 0
+  },
+  "interspec-sp1": {
+    "exit_code": 0,
+    "stdout": "ASSOC_BENCH variant=interspec ops=400000 keyspace=20000 finds=240127 hits=157741 inserts=41131 deletes=26026 live=15105 checksum=50f3c28864920221 iterated=15105 iter_xor=a3f31de59c262672 checks=0 elapsed_ns=96426214\n",
+    "stderr": "",
+    "result_matches_reference": true,
+    "checks": 0
+  },
+  "interspec-sp2": {
+    "exit_code": 0,
+    "stdout": "ASSOC_BENCH variant=interspec ops=400000 keyspace=20000 finds=240127 hits=157741 inserts=41131 deletes=26026 live=15105 checksum=50f3c28864920221 iterated=15105 iter_xor=a3f31de59c262672 checks=0 elapsed_ns=79187507\n",
+    "stderr": "",
+    "result_matches_reference": true,
+    "checks": 0
+  },
+  "interspec-sp3": {
+    "exit_code": 0,
+    "stdout": "ASSOC_BENCH variant=interspec ops=400000 keyspace=20000 finds=240127 hits=157741 inserts=41131 deletes=26026 live=15105 checksum=50f3c28864920221 iterated=15105 iter_xor=a3f31de59c262672 checks=277994 elapsed_ns=206499842\n",
+    "stderr": "",
+    "result_matches_reference": true,
+    "checks": 277994
+  },
+  "interspec-all-on": {
+    "exit_code": 0,
+    "stdout": "ASSOC_BENCH variant=interspec ops=400000 keyspace=20000 finds=240127 hits=157741 inserts=41131 deletes=26026 live=15105 checksum=50f3c28864920221 iterated=15105 iter_xor=a3f31de59c262672 checks=277994 elapsed_ns=200794673\n",
+    "stderr": "",
+    "result_matches_reference": true,
+    "checks": 277994
+  }
+}

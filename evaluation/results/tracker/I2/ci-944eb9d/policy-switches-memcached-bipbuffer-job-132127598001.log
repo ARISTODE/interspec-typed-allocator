@@ -1,0 +1,279 @@
+﻿2026-11-13T19:47:56.1030404Z Current runner version: '2.338.2'
+2026-11-13T19:47:56.1069652Z ##[group]Runner Image Provisioner
+2026-11-13T19:47:56.1070872Z Hosted Compute Agent
+2026-11-13T19:47:56.1071758Z Version: 20261103.629
+2026-11-13T19:47:56.1072852Z Commit: 15dbd9ccb5dbf34fae002b6ed1a2670f52df37bc
+2026-11-13T19:47:56.1074416Z Build Date: 2026-11-03T17:26:59Z
+2026-11-13T19:47:56.1075764Z Worker ID: {b7f216de-e798-497a-9d8a-086c81f50b8c}
+2026-11-13T19:47:56.1077006Z Region: eastus
+2026-11-13T19:47:56.1077932Z Cloud: Azure
+2026-11-13T19:47:56.1079005Z ##[endgroup]
+2026-11-13T19:47:56.1082007Z ##[group]Operating System
+2026-11-13T19:47:56.1083207Z Ubuntu
+2026-11-13T19:47:56.1084338Z 26.04.1
+2026-11-13T19:47:56.1085324Z LTS
+2026-11-13T19:47:56.1086231Z ##[endgroup]
+2026-11-13T19:47:56.1087289Z ##[group]Runner Image
+2026-11-13T19:47:56.1088446Z Image: ubuntu-26.04
+2026-11-13T19:47:56.1089441Z Version: 20261111.196.1
+2026-11-13T19:47:56.1091674Z Included Software: https://github.com/actions/runner-images/blob/ubuntu26/20261111.196/images/ubuntu/Ubuntu2604-Readme.md
+2026-11-13T19:47:56.1094715Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu26%2F20261111.196
+2026-11-13T19:47:56.1096556Z ##[endgroup]
+2026-11-13T19:47:56.1098513Z ##[group]GITHUB_TOKEN Permissions
+2026-11-13T19:47:56.1101500Z Contents: read
+2026-11-13T19:47:56.1102626Z Metadata: read
+2026-11-13T19:47:56.1103580Z ##[endgroup]
+2026-11-13T19:47:56.1107412Z Secret source: Actions
+2026-11-13T19:47:56.1109028Z Cache mode: write
+2026-11-13T19:47:56.1110809Z Prepare workflow directory
+2026-11-13T19:47:56.1609714Z Prepare all required actions
+2026-11-13T19:47:56.1683498Z Getting action download info
+2026-11-13T19:47:56.4608124Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-11-13T19:47:56.5987198Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+2026-11-13T19:47:56.7826678Z Complete job name: memcached-bipbuffer
+2026-11-13T19:47:56.8615169Z ##[group]Run sudo apt-get update
+2026-11-13T19:47:56.8615886Z [36;1msudo apt-get update[0m
+2026-11-13T19:47:56.8616607Z [36;1msudo DEBIAN_FRONTEND=noninteractive apt-get install -y \[0m
+2026-11-13T19:47:56.8617526Z [36;1m  autoconf automake build-essential ca-certificates git python3 \[0m
+2026-11-13T19:47:56.8618335Z [36;1m  libevent-dev libio-socket-inet6-perl[0m
+2026-11-13T19:47:56.8672206Z shell: /usr/bin/bash -e {0}
+2026-11-13T19:47:56.8673413Z ##[endgroup]
+2026-11-13T19:47:56.9641360Z Get:1 file:/etc/apt/apt-mirrors.txt Mirrorlist [144 B]
+2026-11-13T19:47:56.9858422Z Get:6 https://packages.microsoft.com/ubuntu/26.04/prod resolute InRelease [3964 B]
+2026-11-13T19:47:56.9984513Z Hit:2 http://azure.archive.ubuntu.com/ubuntu resolute InRelease
+2026-11-13T19:47:57.0013386Z Get:3 http://azure.archive.ubuntu.com/ubuntu resolute-updates InRelease [137 kB]
+2026-11-13T19:47:57.0056152Z Get:4 http://azure.archive.ubuntu.com/ubuntu resolute-backports InRelease [137 kB]
+2026-11-13T19:47:57.0107400Z Get:5 http://azure.archive.ubuntu.com/ubuntu resolute-security InRelease [137 kB]
+2026-11-13T19:47:57.0186606Z Get:7 https://packages.microsoft.com/ubuntu/26.04/prod resolute/main arm64 Packages [143 kB]
+2026-11-13T19:47:57.0396734Z Get:8 https://packages.microsoft.com/ubuntu/26.04/prod resolute/main amd64 Packages [158 kB]
+2026-11-13T19:47:57.0546340Z Get:9 http://azure.archive.ubuntu.com/ubuntu resolute-updates/main amd64v3 Packages [869 kB]
+2026-11-13T19:47:57.0722578Z Get:10 http://azure.archive.ubuntu.com/ubuntu resolute-updates/main Translation-en [195 kB]
+2026-11-13T19:47:57.0788941Z Get:11 http://azure.archive.ubuntu.com/ubuntu resolute-updates/universe amd64v3 Packages [390 kB]
+2026-11-13T19:47:57.0791590Z Get:12 http://azure.archive.ubuntu.com/ubuntu resolute-updates/universe Translation-en [122 kB]
+2026-11-13T19:47:57.0978869Z Get:13 http://azure.archive.ubuntu.com/ubuntu resolute-security/main amd64v3 Packages [718 kB]
+2026-11-13T19:47:57.1035755Z Get:14 http://azure.archive.ubuntu.com/ubuntu resolute-security/main Translation-en [157 kB]
+2026-11-13T19:47:57.1060679Z Get:15 http://azure.archive.ubuntu.com/ubuntu resolute-security/universe amd64v3 Packages [220 kB]
+2026-11-13T19:47:57.1077253Z Get:16 http://azure.archive.ubuntu.com/ubuntu resolute-security/universe Translation-en [72.5 kB]
+2026-11-13T19:47:57.1101464Z Get:17 http://azure.archive.ubuntu.com/ubuntu resolute-security/restricted amd64v3 Packages [590 kB]
+2026-11-13T19:47:57.1149335Z Get:18 http://azure.archive.ubuntu.com/ubuntu resolute-security/restricted Translation-en [122 kB]
+2026-11-13T19:47:59.1638196Z Fetched 4172 kB in 0s (11.4 MB/s)
+2026-11-13T19:47:59.8372926Z Reading package lists...
+2026-11-13T19:47:59.8714825Z Reading package lists...
+2026-11-13T19:48:00.0228033Z Building dependency tree...
+2026-11-13T19:48:00.0237162Z Reading state information...
+2026-11-13T19:48:00.0592408Z autoconf is already the newest version (2.72-3.1ubuntu2).
+2026-11-13T19:48:00.0593372Z automake is already the newest version (1:1.18.1-3build1).
+2026-11-13T19:48:00.0594418Z ca-certificates is already the newest version (20260816ubuntu0.26.04.2).
+2026-11-13T19:48:00.0595286Z git is already the newest version (1:2.56.1-0ppa1~ubuntu26.04.1).
+2026-11-13T19:48:00.0595903Z git set to manually installed.
+2026-11-13T19:48:00.0596431Z python3 is already the newest version (3.14.3-0ubuntu2).
+2026-11-13T19:48:00.1192315Z Solving dependencies...
+2026-11-13T19:48:00.2256266Z The following NEW packages will be installed:
+2026-11-13T19:48:00.2257155Z   build-essential libevent-2.1-7t64 libevent-dev libevent-extra-2.1-7t64
+2026-11-13T19:48:00.2260172Z   libevent-openssl-2.1-7t64 libevent-pthreads-2.1-7t64 libio-socket-inet6-perl
+2026-11-13T19:48:00.2262286Z   libsocket6-perl
+2026-11-13T19:48:00.2474836Z 0 upgraded, 8 newly installed, 0 to remove and 24 not upgraded.
+2026-11-13T19:48:00.2475403Z Need to get 548 kB of archives.
+2026-11-13T19:48:00.2475844Z After this operation, 2553 kB of additional disk space will be used.
+2026-11-13T19:48:00.2476785Z Get:1 file:/etc/apt/apt-mirrors.txt Mirrorlist [144 B]
+2026-11-13T19:48:00.3422571Z Get:2 http://azure.archive.ubuntu.com/ubuntu resolute-updates/main amd64v3 build-essential amd64 12.12ubuntu2.26.04.2 [5172 B]
+2026-11-13T19:48:00.4202238Z Get:3 http://azure.archive.ubuntu.com/ubuntu resolute-updates/main amd64v3 libevent-2.1-7t64 amd64 2.1.12-stable-10ubuntu0.2 [146 kB]
+2026-11-13T19:48:00.5004457Z Get:4 http://azure.archive.ubuntu.com/ubuntu resolute-updates/main amd64v3 libevent-extra-2.1-7t64 amd64 2.1.12-stable-10ubuntu0.2 [64.9 kB]
+2026-11-13T19:48:00.5792314Z Get:5 http://azure.archive.ubuntu.com/ubuntu resolute-updates/main amd64v3 libevent-pthreads-2.1-7t64 amd64 2.1.12-stable-10ubuntu0.2 [8188 B]
+2026-11-13T19:48:00.6570811Z Get:6 http://azure.archive.ubuntu.com/ubuntu resolute-updates/main amd64v3 libevent-openssl-2.1-7t64 amd64 2.1.12-stable-10ubuntu0.2 [15.9 kB]
+2026-11-13T19:48:00.7347481Z Get:7 http://azure.archive.ubuntu.com/ubuntu resolute-updates/main amd64v3 libevent-dev amd64 2.1.12-stable-10ubuntu0.2 [276 kB]
+2026-11-13T19:48:00.8192918Z Get:8 http://azure.archive.ubuntu.com/ubuntu resolute/main amd64v3 libsocket6-perl amd64 0.29-3build4 [17.6 kB]
+2026-11-13T19:48:00.8971078Z Get:9 http://azure.archive.ubuntu.com/ubuntu resolute/universe amd64v3 libio-socket-inet6-perl all 2.73-1 [14.7 kB]
+2026-11-13T19:48:01.2465557Z Fetched 548 kB in 1s (827 kB/s)
+2026-11-13T19:48:01.2716685Z Selecting previously unselected package build-essential.
+2026-11-13T19:48:01.3103398Z (Reading database ... 
+2026-11-13T19:48:01.3105231Z (Reading database ... 5%
+2026-11-13T19:48:01.3106173Z (Reading database ... 10%
+2026-11-13T19:48:01.3106766Z (Reading database ... 15%
+2026-11-13T19:48:01.3107338Z (Reading database ... 20%
+2026-11-13T19:48:01.3107912Z (Reading database ... 25%
+2026-11-13T19:48:01.3108531Z (Reading database ... 30%
+2026-11-13T19:48:01.3109250Z (Reading database ... 35%
+2026-11-13T19:48:01.3109748Z (Reading database ... 40%
+2026-11-13T19:48:01.3110201Z (Reading database ... 45%
+2026-11-13T19:48:01.3110726Z (Reading database ... 50%
+2026-11-13T19:48:01.3980148Z (Reading database ... 55%
+2026-11-13T19:48:01.5817780Z (Reading database ... 60%
+2026-11-13T19:48:01.7724884Z (Reading database ... 65%
+2026-11-13T19:48:01.8854279Z (Reading database ... 70%
+2026-11-13T19:48:02.0845693Z (Reading database ... 75%
+2026-11-13T19:48:02.1905744Z (Reading database ... 80%
+2026-11-13T19:48:02.3418886Z (Reading database ... 85%
+2026-11-13T19:48:02.4917084Z (Reading database ... 90%
+2026-11-13T19:48:02.6514297Z (Reading database ... 95%
+2026-11-13T19:48:02.6515143Z (Reading database ... 100%
+2026-11-13T19:48:02.6515978Z (Reading database ... 213946 files and directories currently installed.)
+2026-11-13T19:48:02.6563169Z Preparing to unpack .../0-build-essential_12.12ubuntu2.26.04.2_amd64v3.deb ...
+2026-11-13T19:48:02.6594764Z Unpacking build-essential (12.12ubuntu2.26.04.2) ...
+2026-11-13T19:48:02.6852660Z Selecting previously unselected package libevent-2.1-7t64:amd64.
+2026-11-13T19:48:02.6997352Z Preparing to unpack .../1-libevent-2.1-7t64_2.1.12-stable-10ubuntu0.2_amd64v3.deb ...
+2026-11-13T19:48:02.7016559Z Unpacking libevent-2.1-7t64:amd64 (2.1.12-stable-10ubuntu0.2) ...
+2026-11-13T19:48:02.7347479Z Selecting previously unselected package libevent-extra-2.1-7t64:amd64.
+2026-11-13T19:48:02.7491131Z Preparing to unpack .../2-libevent-extra-2.1-7t64_2.1.12-stable-10ubuntu0.2_amd64v3.deb ...
+2026-11-13T19:48:02.7500267Z Unpacking libevent-extra-2.1-7t64:amd64 (2.1.12-stable-10ubuntu0.2) ...
+2026-11-13T19:48:02.7766689Z Selecting previously unselected package libevent-pthreads-2.1-7t64:amd64.
+2026-11-13T19:48:02.7910154Z Preparing to unpack .../3-libevent-pthreads-2.1-7t64_2.1.12-stable-10ubuntu0.2_amd64v3.deb ...
+2026-11-13T19:48:02.7924041Z Unpacking libevent-pthreads-2.1-7t64:amd64 (2.1.12-stable-10ubuntu0.2) ...
+2026-11-13T19:48:02.8156352Z Selecting previously unselected package libevent-openssl-2.1-7t64:amd64.
+2026-11-13T19:48:02.8301687Z Preparing to unpack .../4-libevent-openssl-2.1-7t64_2.1.12-stable-10ubuntu0.2_amd64v3.deb ...
+2026-11-13T19:48:02.8311882Z Unpacking libevent-openssl-2.1-7t64:amd64 (2.1.12-stable-10ubuntu0.2) ...
+2026-11-13T19:48:02.8575398Z Selecting previously unselected package libevent-dev.
+2026-11-13T19:48:02.8717498Z Preparing to unpack .../5-libevent-dev_2.1.12-stable-10ubuntu0.2_amd64v3.deb ...
+2026-11-13T19:48:02.8725420Z Unpacking libevent-dev (2.1.12-stable-10ubuntu0.2) ...
+2026-11-13T19:48:02.9099671Z Selecting previously unselected package libsocket6-perl.
+2026-11-13T19:48:02.9241291Z Preparing to unpack .../6-libsocket6-perl_0.29-3build4_amd64v3.deb ...
+2026-11-13T19:48:02.9248513Z Unpacking libsocket6-perl (0.29-3build4) ...
+2026-11-13T19:48:02.9485598Z Selecting previously unselected package libio-socket-inet6-perl.
+2026-11-13T19:48:02.9627142Z Preparing to unpack .../7-libio-socket-inet6-perl_2.73-1_all.deb ...
+2026-11-13T19:48:02.9634436Z Unpacking libio-socket-inet6-perl (2.73-1) ...
+2026-11-13T19:48:03.0073113Z Setting up libevent-pthreads-2.1-7t64:amd64 (2.1.12-stable-10ubuntu0.2) ...
+2026-11-13T19:48:03.0099239Z Setting up libevent-openssl-2.1-7t64:amd64 (2.1.12-stable-10ubuntu0.2) ...
+2026-11-13T19:48:03.0127605Z Setting up libevent-2.1-7t64:amd64 (2.1.12-stable-10ubuntu0.2) ...
+2026-11-13T19:48:03.0151125Z Setting up libsocket6-perl (0.29-3build4) ...
+2026-11-13T19:48:03.0173821Z Setting up libevent-extra-2.1-7t64:amd64 (2.1.12-stable-10ubuntu0.2) ...
+2026-11-13T19:48:03.0196313Z Setting up build-essential (12.12ubuntu2.26.04.2) ...
+2026-11-13T19:48:03.0218753Z Setting up libio-socket-inet6-perl (2.73-1) ...
+2026-11-13T19:48:03.0241904Z Setting up libevent-dev (2.1.12-stable-10ubuntu0.2) ...
+2026-11-13T19:48:03.0266133Z Processing triggers for man-db (2.13.1-1build1) ...
+2026-11-13T19:48:03.0293585Z Not building database; man-db/auto-update is not 'true'.
+2026-11-13T19:48:03.0322892Z Processing triggers for libc-bin (2.43-2ubuntu2.4) ...
+2026-11-13T19:48:03.7425811Z 
+2026-11-13T19:48:03.7426738Z Running kernel seems to be up-to-date.
+2026-11-13T19:48:03.7427178Z 
+2026-11-13T19:48:03.7427413Z Restarting services...
+2026-11-13T19:48:03.7522689Z 
+2026-11-13T19:48:03.7523142Z Service restarts being deferred:
+2026-11-13T19:48:03.7528442Z  systemctl restart hosted-compute-agent.service
+2026-11-13T19:48:03.7528868Z 
+2026-11-13T19:48:03.7529512Z No containers need to be restarted.
+2026-11-13T19:48:03.7529954Z 
+2026-11-13T19:48:03.7530232Z No user sessions are running outdated binaries.
+2026-11-13T19:48:03.7530711Z 
+2026-11-13T19:48:03.7531145Z No VM guests are running outdated hypervisor (qemu) binaries on this host.
+2026-11-13T19:48:04.6762961Z ##[group]Run actions/checkout@v4
+2026-11-13T19:48:04.6763292Z with:
+2026-11-13T19:48:04.6763542Z   repository: ARISTODE/interspec-typed-allocator
+2026-11-13T19:48:04.6766549Z   token: ***
+2026-11-13T19:48:04.6766764Z   ssh-strict: true
+2026-11-13T19:48:04.6766977Z   ssh-user: git
+2026-11-13T19:48:04.6767188Z   persist-credentials: true
+2026-11-13T19:48:04.6767432Z   clean: true
+2026-11-13T19:48:04.6767644Z   sparse-checkout-cone-mode: true
+2026-11-13T19:48:04.6767904Z   fetch-depth: 1
+2026-11-13T19:48:04.6768128Z   fetch-tags: false
+2026-11-13T19:48:04.6768339Z   show-progress: true
+2026-11-13T19:48:04.6768545Z   lfs: false
+2026-11-13T19:48:04.6768731Z   submodules: false
+2026-11-13T19:48:04.6768940Z   set-safe-directory: true
+2026-11-13T19:48:04.6769196Z   allow-unsafe-pr-checkout: false
+2026-11-13T19:48:04.6769482Z ##[endgroup]
+2026-11-13T19:48:05.0331276Z Syncing repository: ARISTODE/interspec-typed-allocator
+2026-11-13T19:48:05.0332634Z ##[group]Getting Git version info
+2026-11-13T19:48:05.0333230Z Working directory is '/home/runner/work/interspec-typed-allocator/interspec-typed-allocator'
+2026-11-13T19:48:05.0333935Z [command]/usr/bin/git version
+2026-11-13T19:48:05.0362415Z git version 2.56.1
+2026-11-13T19:48:05.0393108Z ##[endgroup]
+2026-11-13T19:48:05.0422792Z Temporarily overriding HOME='/home/runner/work/_temp/18785040-5eda-4a39-9b5d-fb4055079d5b' before making global git config changes
+2026-11-13T19:48:05.0424565Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-13T19:48:05.0429094Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/interspec-typed-allocator/interspec-typed-allocator
+2026-11-13T19:48:05.0508448Z Deleting the contents of '/home/runner/work/interspec-typed-allocator/interspec-typed-allocator'
+2026-11-13T19:48:05.0513279Z ##[group]Initializing the repository
+2026-11-13T19:48:05.0518799Z [command]/usr/bin/git init /home/runner/work/interspec-typed-allocator/interspec-typed-allocator
+2026-11-13T19:48:05.0660103Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-11-13T19:48:05.0661754Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-11-13T19:48:05.0663137Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-11-13T19:48:05.0664438Z hint: call:
+2026-11-13T19:48:05.0664744Z hint:
+2026-11-13T19:48:05.0665197Z hint: 	git config --global init.defaultBranch <name>
+2026-11-13T19:48:05.0665706Z hint:
+2026-11-13T19:48:05.0666176Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-11-13T19:48:05.0667055Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-11-13T19:48:05.0667692Z hint:
+2026-11-13T19:48:05.0667993Z hint: 	git branch -m <name>
+2026-11-13T19:48:05.0668363Z hint:
+2026-11-13T19:48:05.0668884Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-11-13T19:48:05.0684719Z Initialized empty Git repository in /home/runner/work/interspec-typed-allocator/interspec-typed-allocator/.git/
+2026-11-13T19:48:05.0697067Z [command]/usr/bin/git remote add origin https://github.com/ARISTODE/interspec-typed-allocator
+2026-11-13T19:48:05.0759732Z ##[endgroup]
+2026-11-13T19:48:05.0760554Z ##[group]Disabling automatic garbage collection
+2026-11-13T19:48:05.0764350Z [command]/usr/bin/git config --local gc.auto 0
+2026-11-13T19:48:05.0808100Z ##[endgroup]
+2026-11-13T19:48:05.0808748Z ##[group]Setting up auth
+2026-11-13T19:48:05.0817788Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-13T19:48:05.0858075Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-13T19:48:05.1414043Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-13T19:48:05.1450502Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-13T19:48:05.1726583Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-13T19:48:05.1762422Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-13T19:48:05.2040579Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-11-13T19:48:05.2080754Z ##[endgroup]
+2026-11-13T19:48:05.2081244Z ##[group]Fetching the repository
+2026-11-13T19:48:05.2092347Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +944eb9d866d72335a527b864943bb28d63ee6188:refs/remotes/origin/claude/nifty-cray-ik99hh
+2026-11-13T19:48:05.7690212Z From https://github.com/ARISTODE/interspec-typed-allocator
+2026-11-13T19:48:05.7691473Z  * [new ref]         944eb9d866d72335a527b864943bb28d63ee6188 -> origin/claude/nifty-cray-ik99hh
+2026-11-13T19:48:05.7696661Z ##[endgroup]
+2026-11-13T19:48:05.7697372Z ##[group]Determining the checkout info
+2026-11-13T19:48:05.7700082Z ##[endgroup]
+2026-11-13T19:48:05.7707974Z [command]/usr/bin/git sparse-checkout disable
+2026-11-13T19:48:05.7770477Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-11-13T19:48:05.7800224Z ##[group]Checking out the ref
+2026-11-13T19:48:05.7807261Z [command]/usr/bin/git checkout --progress --force -B claude/nifty-cray-ik99hh refs/remotes/origin/claude/nifty-cray-ik99hh
+2026-11-13T19:48:05.9135387Z Switched to a new branch 'claude/nifty-cray-ik99hh'
+2026-11-13T19:48:05.9142495Z branch 'claude/nifty-cray-ik99hh' set up to track 'origin/claude/nifty-cray-ik99hh'.
+2026-11-13T19:48:05.9242732Z ##[endgroup]
+2026-11-13T19:48:05.9245356Z [command]/usr/bin/git log -1 --format=%H
+2026-11-13T19:48:05.9246135Z 944eb9d866d72335a527b864943bb28d63ee6188
+2026-11-13T19:48:05.9402734Z ##[group]Run bash scripts/run_memcached_policy_switches.sh policy-switches-memcached-bipbuffer
+2026-11-13T19:48:05.9403533Z [36;1mbash scripts/run_memcached_policy_switches.sh policy-switches-memcached-bipbuffer[0m
+2026-11-13T19:48:05.9454825Z shell: /usr/bin/bash -e {0}
+2026-11-13T19:48:05.9455148Z ##[endgroup]
+2026-11-13T19:50:33.1453929Z build exit=0
+2026-11-13T19:50:35.5894514Z build-driver exit=0
+2026-11-13T19:50:35.7737290Z switch-tests exit=0
+2026-11-13T19:51:28.8590162Z gate exit=0
+2026-11-13T19:51:28.8863943Z gate-check exit=0
+2026-11-13T19:51:28.9016229Z overall exit=0
+2026-11-13T19:51:28.9093575Z ##[group]Run actions/upload-artifact@v4
+2026-11-13T19:51:28.9093919Z with:
+2026-11-13T19:51:28.9094439Z   name: policy-switches-memcached-bipbuffer
+2026-11-13T19:51:28.9094804Z   if-no-files-found: error
+2026-11-13T19:51:28.9095083Z   path: policy-switches-memcached-bipbuffer
+2026-11-13T19:51:28.9095380Z   compression-level: 6
+2026-11-13T19:51:28.9095597Z   overwrite: false
+2026-11-13T19:51:28.9095814Z   include-hidden-files: false
+2026-11-13T19:51:28.9096056Z ##[endgroup]
+2026-11-13T19:51:29.0863221Z (node:9554) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-13T19:51:29.0864807Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-13T19:51:29.1348674Z With the provided path, there will be 154 files uploaded
+2026-11-13T19:51:29.1356360Z Artifact name is valid!
+2026-11-13T19:51:29.1357165Z Root directory input is valid!
+2026-11-13T19:51:29.3586218Z Beginning upload of artifact content to blob storage
+2026-11-13T19:51:29.5647095Z (node:9554) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-11-13T19:51:29.6497059Z Uploaded bytes 272894
+2026-11-13T19:51:29.6686840Z Finished uploading artifact content to blob storage!
+2026-11-13T19:51:29.6688424Z SHA256 digest of uploaded artifact zip is af681a4de4e4172d254bc319e2ad3d6fcbd4fcaa211af02f95345e80b3a05d23
+2026-11-13T19:51:29.6690844Z Finalizing artifact upload
+2026-11-13T19:51:29.9921315Z Artifact policy-switches-memcached-bipbuffer.zip successfully finalized. Artifact ID 14071198845
+2026-11-13T19:51:29.9924023Z Artifact policy-switches-memcached-bipbuffer has been successfully uploaded! Final size is 272894 bytes. Artifact ID is 14071198845
+2026-11-13T19:51:29.9931320Z Artifact download URL: https://github.com/ARISTODE/interspec-typed-allocator/actions/runs/43495554784/artifacts/14071198845
+2026-11-13T19:51:30.0172172Z Post job cleanup.
+2026-11-13T19:51:30.1058006Z [command]/usr/bin/git version
+2026-11-13T19:51:30.1106009Z git version 2.56.1
+2026-11-13T19:51:30.1147665Z Temporarily overriding HOME='/home/runner/work/_temp/13496ebc-3da7-4163-bdfb-40df849375a3' before making global git config changes
+2026-11-13T19:51:30.1149265Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-13T19:51:30.1153280Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/interspec-typed-allocator/interspec-typed-allocator
+2026-11-13T19:51:30.1199565Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-13T19:51:30.1239016Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-13T19:51:30.1551889Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-13T19:51:30.1582328Z http.https://github.com/.extraheader
+2026-11-13T19:51:30.1597389Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-11-13T19:51:30.1639164Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-13T19:51:30.1969307Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-13T19:51:30.2012090Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-13T19:51:30.2474037Z Cleaning up orphan processes
+2026-11-13T19:51:30.3059022Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

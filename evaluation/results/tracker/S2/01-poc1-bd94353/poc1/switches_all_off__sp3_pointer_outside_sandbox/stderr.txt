@@ -1,0 +1,2 @@
+INTERSPEC_POLICY boundary=rsync_popt sp1=0 sp2=0 sp3=off
+[InterSpec][PoC][SP3] sandbox corrupting output pointer slot=0 value=0xdeadbeef

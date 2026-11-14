@@ -1,0 +1,13 @@
+{
+  "schema": "ordinary-profile-evidence-archive-v1",
+  "filename": "interspec-ordinary-memcached-profile-708ceb7-20261113.tar.gz",
+  "sha256": "9614bb77cd0ae7e3f2951e630f4ee787073ddd83ff3da067a6102439ddcf5922",
+  "bytes": 4158087,
+  "manifest_files": 294,
+  "delivery": "Full raw archive retained separately and provided to the owner as a file attachment. This repository directory is the companion summary/protocol evidence, not the raw archive.",
+  "source_commit": "708ceb73c8b048966b9c2becfeaabca2c3b0769e",
+  "initial_plan_sha256": "d9ec81e30f0edd4e56810c4c71c371dfb5f147eafc7292254f4ef2ca5e6ea2df",
+  "corrected_plan_sha256": "d3612af1f97d29896faf359be24c5e57384e7738391b45ae925ae0360d1400d2",
+  "saved_evidence_replay_after_copy": "passed",
+  "archive_member_hash_validation": "passed"
+}

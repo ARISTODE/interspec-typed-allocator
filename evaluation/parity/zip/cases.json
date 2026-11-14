@@ -1,0 +1,10 @@
+{
+  "description": "Benign inputs for the zip/libzip port (tracker item I12). The archives are copied unchanged from regress/ of libzip at the revision pinned in evaluation/coverage/pins.json (BSD 3-clause license, see that repository); SHA256SUMS lists them. Each case names an archive and the iteration counts to run: iteration i reads entry i modulo the number of entries, so the larger count reads every entry at least twice. test-cp437.zip has names that libzip converts to UTF-8, which come from a second allocation site. The expectation is the output of the native build of the same libzip revision; no value is written by hand. filename_empty.zip is not a benign case: see the limit cases in tools/run_policy_switch_tests.py.",
+  "cases": [
+    {"archive": "test.zip", "iterations": ["1", "7"]},
+    {"archive": "test-cp437.zip", "iterations": ["1", "33"]},
+    {"archive": "test-utf8.zip", "iterations": ["1", "3"]},
+    {"archive": "testcomment.zip", "iterations": ["1", "9"]},
+    {"archive": "cm-default.zip", "iterations": ["1", "9"]}
+  ]
+}

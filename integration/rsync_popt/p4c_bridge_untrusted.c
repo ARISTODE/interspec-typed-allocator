@@ -84,6 +84,7 @@ static unsigned int interspec_poc_flags;
 enum {
   INTERSPEC_POC_SP1 = 1u << 0, /* U reads the help-text fields of "set". */
   INTERSPEC_POC_SP2 = 1u << 1, /* U overwrites val of "readonly". */
+  INTERSPEC_POC_SP3 = 1u << 2, /* U returns 0xDEADBEEF for a string slot. */
 };
 
 void interspec_poc_set_flags(int flags)
@@ -251,6 +252,15 @@ char* interspec_p4c_slot_get_string(void* opaque, uint32_t index)
       table->slots[index].kind != INTERSPEC_P4C_SLOT_STRING)
     return NULL;
 #ifdef INTERSPEC_FAULT_TESTS
+  /* PoC 1, SP3 part, as in the interspec-artifact popt.c: an address that is
+   * not U memory replaces the string U was asked to produce. */
+  if ((interspec_poc_flags & INTERSPEC_POC_SP3) && table->slots[index].value.s) {
+    fprintf(stderr,
+            "[InterSpec][PoC][SP3] sandbox corrupting output pointer slot=%u value=0xdeadbeef\n",
+            index);
+    fflush(stderr);
+    return (char*)(uintptr_t)0xDEADBEEFu;
+  }
   return inject_pointer(table->slots[index].value.s, 2);
 #else
   return table->slots[index].value.s;

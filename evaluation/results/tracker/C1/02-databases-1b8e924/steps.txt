@@ -1,0 +1,7 @@
+yaml_libyaml exit=0
+zip_libzip exit=97
+ucl_libucl exit=0
+magick_libpng exit=97
+memcached exit=0
+rsync_popt exit=0
+overall exit=1

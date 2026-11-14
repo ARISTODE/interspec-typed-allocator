@@ -1,0 +1,3 @@
+INTERSPEC_POLICY boundary=zip_libzip sp1=1 sp2=1 sp3=full
+[InterSpec][PoC][SP2] sandbox mutated archive byte=0 old=0x50 new=0xaf
+INTERSPEC_T_OBSERVE boundary=zip_libzip archive_first_byte=0xaf

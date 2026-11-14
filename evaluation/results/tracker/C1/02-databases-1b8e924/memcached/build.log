@@ -1,0 +1,365 @@
+Picked up JAVA_TOOL_OPTIONS: -Djavax.net.ssl.trustStore=/etc/ssl/certs/java/cacerts -Djavax.net.ssl.trustStoreType=JKS -Dhttps.proxyHost=127.0.0.1 -Dhttps.proxyPort=36745 -Dhttp.nonProxyHosts=localhost|127.0.0.1|::1|127.*|0.*|::|169.254.*|api.anthropic.com|api-staging.anthropic.com|api-pr-preview.anthropic.com|mcp-proxy.anthropic.com|mcp-proxy-staging.anthropic.com|registry.npmjs.org|jsr.io|npm.jsr.io|pypi.org|files.pythonhosted.org|index.crates.io|proxy.golang.org|host.docker.internal|10.*|172.16.*|172.17.*|172.18.*|172.19.*|172.20.*|172.21.*|172.22.*|172.23.*|172.24.*|172.25.*|172.26.*|172.27.*|172.28.*|172.29.*|172.30.*|172.31.*|192.168.*|100.64.0.0/10|*.svc.cluster.local|*.svc.cluster.local -Djdk.http.auth.tunneling.disabledSchemes= -Djdk.http.auth.proxying.disabledSchemes=
+Initializing database at /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/db/memcached.
+Running build command: [bash, scripts/build_memcached_for_codeql.sh]
+Running command in /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/root: [bash, scripts/build_memcached_for_codeql.sh]
+[2026-11-13 19:57:26] [build-stderr] +++ dirname -- scripts/build_memcached_for_codeql.sh
+[2026-11-13 19:57:26] [build-stderr] ++ cd -- scripts/..
+[2026-11-13 19:57:26] [build-stderr] ++ pwd
+[2026-11-13 19:57:26] [build-stderr] + ROOT=/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/root
+[2026-11-13 19:57:26] [build-stderr] + cd /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/root/benchmarks/memcached
+[2026-11-13 19:57:26] [build-stderr] + '[' '!' -f configure ']'
+[2026-11-13 19:57:26] [build-stderr] + ./autogen.sh
+[2026-11-13 19:57:26] [build-stdout] aclocal...
+[2026-11-13 19:57:26] [build-stdout] autoheader...
+[2026-11-13 19:57:27] [build-stdout] automake...
+[2026-11-13 19:57:27] [build-stderr] configure.ac:10: installing './compile'
+[2026-11-13 19:57:27] [build-stderr] configure.ac:5: installing './config.guess'
+[2026-11-13 19:57:27] [build-stderr] configure.ac:5: installing './config.sub'
+[2026-11-13 19:57:27] [build-stderr] configure.ac:7: installing './install-sh'
+[2026-11-13 19:57:27] [build-stderr] configure.ac:7: installing './missing'
+[2026-11-13 19:57:27] [build-stderr] Makefile.am:11: warning: source file 'vendor/mcmc/mcmc.c' is in a subdirectory,
+[2026-11-13 19:57:27] [build-stderr] Makefile.am:11: but option 'subdir-objects' is disabled
+[2026-11-13 19:57:27] [build-stderr] automake: warning: possible forward-incompatibility.
+[2026-11-13 19:57:27] [build-stderr] automake: At least one source file is in a subdirectory, but the 'subdir-objects'
+[2026-11-13 19:57:27] [build-stderr] automake: automake option hasn't been enabled.  For now, the corresponding output
+[2026-11-13 19:57:27] [build-stderr] automake: object file(s) will be placed in the top-level directory.  However, this
+[2026-11-13 19:57:27] [build-stderr] automake: behavior may change in a future Automake major version, with object
+[2026-11-13 19:57:27] [build-stderr] automake: files being placed in the same subdirectory as the corresponding sources.
+[2026-11-13 19:57:27] [build-stderr] automake: You are advised to start using 'subdir-objects' option throughout your
+[2026-11-13 19:57:27] [build-stderr] automake: project, to avoid future incompatibilities.
+[2026-11-13 19:57:27] [build-stderr] Makefile.am: installing './depcomp'
+[2026-11-13 19:57:27] [build-stdout] autoconf...
+[2026-11-13 19:57:28] [build-stderr] configure.ac:8: warning: 'AM_CONFIG_HEADER': this macro is obsolete.
+[2026-11-13 19:57:28] [build-stderr] configure.ac:8: You should use the 'AC_CONFIG_HEADERS' macro instead.
+[2026-11-13 19:57:28] [build-stderr] ./lib/autoconf/general.m4:2434: AC_DIAGNOSE is expanded from...
+[2026-11-13 19:57:28] [build-stderr] aclocal.m4:1089: AM_CONFIG_HEADER is expanded from...
+[2026-11-13 19:57:28] [build-stderr] configure.ac:8: the top level
+[2026-11-13 19:57:28] [build-stderr] configure.ac:190: warning: The macro `AC_TRY_COMPILE' is obsolete.
+[2026-11-13 19:57:28] [build-stderr] configure.ac:190: You should run autoupdate.
+[2026-11-13 19:57:28] [build-stderr] ./lib/autoconf/general.m4:2847: AC_TRY_COMPILE is expanded from...
+[2026-11-13 19:57:28] [build-stderr] lib/m4sugar/m4sh.m4:692: _AS_IF_ELSE is expanded from...
+[2026-11-13 19:57:28] [build-stderr] lib/m4sugar/m4sh.m4:699: AS_IF is expanded from...
+[2026-11-13 19:57:28] [build-stderr] ./lib/autoconf/general.m4:2249: AC_CACHE_VAL is expanded from...
+[2026-11-13 19:57:28] [build-stderr] ./lib/autoconf/general.m4:2270: AC_CACHE_CHECK is expanded from...
+[2026-11-13 19:57:28] [build-stderr] configure.ac:147: AC_C_DETECT_SASL_CB_GETCONF is expanded from...
+[2026-11-13 19:57:28] [build-stderr] configure.ac:190: the top level
+[2026-11-13 19:57:28] [build-stderr] configure.ac:191: warning: The macro `AC_TRY_COMPILE' is obsolete.
+[2026-11-13 19:57:28] [build-stderr] configure.ac:191: You should run autoupdate.
+[2026-11-13 19:57:28] [build-stderr] ./lib/autoconf/general.m4:2847: AC_TRY_COMPILE is expanded from...
+[2026-11-13 19:57:28] [build-stderr] lib/m4sugar/m4sh.m4:692: _AS_IF_ELSE is expanded from...
+[2026-11-13 19:57:28] [build-stderr] lib/m4sugar/m4sh.m4:699: AS_IF is expanded from...
+[2026-11-13 19:57:28] [build-stderr] ./lib/autoconf/general.m4:2249: AC_CACHE_VAL is expanded from...
+[2026-11-13 19:57:28] [build-stderr] ./lib/autoconf/general.m4:2270: AC_CACHE_CHECK is expanded from...
+[2026-11-13 19:57:28] [build-stderr] configure.ac:170: AC_C_DETECT_SASL_CB_GETCONFPATH is expanded from...
+[2026-11-13 19:57:28] [build-stderr] configure.ac:191: the top level
+[2026-11-13 19:57:28] [build-stderr] configure.ac:377: warning: The macro `AC_TRY_LINK' is obsolete.
+[2026-11-13 19:57:28] [build-stderr] configure.ac:377: You should run autoupdate.
+[2026-11-13 19:57:28] [build-stderr] ./lib/autoconf/general.m4:2920: AC_TRY_LINK is expanded from...
+[2026-11-13 19:57:28] [build-stderr] lib/m4sugar/m4sh.m4:692: _AS_IF_ELSE is expanded from...
+[2026-11-13 19:57:28] [build-stderr] lib/m4sugar/m4sh.m4:699: AS_IF is expanded from...
+[2026-11-13 19:57:28] [build-stderr] ./lib/autoconf/general.m4:2249: AC_CACHE_VAL is expanded from...
+[2026-11-13 19:57:28] [build-stderr] ./lib/autoconf/general.m4:2270: AC_CACHE_CHECK is expanded from...
+[2026-11-13 19:57:28] [build-stderr] configure.ac:377: the top level
+[2026-11-13 19:57:28] [build-stderr] configure.ac:480: warning: The macro `AC_TRY_LINK' is obsolete.
+[2026-11-13 19:57:28] [build-stderr] configure.ac:480: You should run autoupdate.
+[2026-11-13 19:57:28] [build-stderr] ./lib/autoconf/general.m4:2920: AC_TRY_LINK is expanded from...
+[2026-11-13 19:57:28] [build-stderr] lib/m4sugar/m4sh.m4:692: _AS_IF_ELSE is expanded from...
+[2026-11-13 19:57:28] [build-stderr] lib/m4sugar/m4sh.m4:699: AS_IF is expanded from...
+[2026-11-13 19:57:28] [build-stderr] ./lib/autoconf/general.m4:2249: AC_CACHE_VAL is expanded from...
+[2026-11-13 19:57:28] [build-stderr] ./lib/autoconf/general.m4:2270: AC_CACHE_CHECK is expanded from...
+[2026-11-13 19:57:28] [build-stderr] aclocal.m4:161: PKG_CHECK_MODULES is expanded from...
+[2026-11-13 19:57:28] [build-stderr] configure.ac:480: the top level
+[2026-11-13 19:57:28] [build-stderr] configure.ac:606: warning: The macro `AC_TRY_COMPILE' is obsolete.
+[2026-11-13 19:57:28] [build-stderr] configure.ac:606: You should run autoupdate.
+[2026-11-13 19:57:28] [build-stderr] ./lib/autoconf/general.m4:2847: AC_TRY_COMPILE is expanded from...
+[2026-11-13 19:57:28] [build-stderr] lib/m4sugar/m4sh.m4:692: _AS_IF_ELSE is expanded from...
+[2026-11-13 19:57:28] [build-stderr] lib/m4sugar/m4sh.m4:699: AS_IF is expanded from...
+[2026-11-13 19:57:28] [build-stderr] ./lib/autoconf/general.m4:2249: AC_CACHE_VAL is expanded from...
+[2026-11-13 19:57:28] [build-stderr] ./lib/autoconf/general.m4:2270: AC_CACHE_CHECK is expanded from...
+[2026-11-13 19:57:28] [build-stderr] configure.ac:585: AC_HAVE_SASL_CALLBACK_FT is expanded from...
+[2026-11-13 19:57:28] [build-stderr] configure.ac:606: the top level
+[2026-11-13 19:57:28] [build-stderr] configure.ac:632: warning: The macro `AC_TRY_COMPILE' is obsolete.
+[2026-11-13 19:57:28] [build-stderr] configure.ac:632: You should run autoupdate.
+[2026-11-13 19:57:28] [build-stderr] ./lib/autoconf/general.m4:2847: AC_TRY_COMPILE is expanded from...
+[2026-11-13 19:57:28] [build-stderr] lib/m4sugar/m4sh.m4:692: _AS_IF_ELSE is expanded from...
+[2026-11-13 19:57:28] [build-stderr] lib/m4sugar/m4sh.m4:699: AS_IF is expanded from...
+[2026-11-13 19:57:28] [build-stderr] ./lib/autoconf/general.m4:2249: AC_CACHE_VAL is expanded from...
+[2026-11-13 19:57:28] [build-stderr] ./lib/autoconf/general.m4:2270: AC_CACHE_CHECK is expanded from...
+[2026-11-13 19:57:28] [build-stderr] configure.ac:613: AC_C_DETECT_UINT64_SUPPORT is expanded from...
+[2026-11-13 19:57:28] [build-stderr] configure.ac:632: the top level
+[2026-11-13 19:57:28] [build-stderr] configure.ac:663: warning: The macro `AC_TRY_COMPILE' is obsolete.
+[2026-11-13 19:57:28] [build-stderr] configure.ac:663: You should run autoupdate.
+[2026-11-13 19:57:28] [build-stderr] ./lib/autoconf/general.m4:2847: AC_TRY_COMPILE is expanded from...
+[2026-11-13 19:57:28] [build-stderr] lib/m4sugar/m4sh.m4:692: _AS_IF_ELSE is expanded from...
+[2026-11-13 19:57:28] [build-stderr] lib/m4sugar/m4sh.m4:699: AS_IF is expanded from...
+[2026-11-13 19:57:28] [build-stderr] ./lib/autoconf/general.m4:2249: AC_CACHE_VAL is expanded from...
+[2026-11-13 19:57:28] [build-stderr] ./lib/autoconf/general.m4:2270: AC_CACHE_CHECK is expanded from...
+[2026-11-13 19:57:28] [build-stderr] configure.ac:644: AC_C_SOCKLEN_T is expanded from...
+[2026-11-13 19:57:28] [build-stderr] configure.ac:663: the top level
+[2026-11-13 19:57:28] [build-stderr] configure.ac:693: warning: The macro `AC_TRY_LINK' is obsolete.
+[2026-11-13 19:57:28] [build-stderr] configure.ac:693: You should run autoupdate.
+[2026-11-13 19:57:28] [build-stderr] ./lib/autoconf/general.m4:2920: AC_TRY_LINK is expanded from...
+[2026-11-13 19:57:28] [build-stderr] configure.ac:671: AC_C_HTONLL is expanded from...
+[2026-11-13 19:57:28] [build-stderr] configure.ac:693: the top level
+[2026-11-13 19:57:28] [build-stderr] configure.ac:767: warning: The macro `AC_TRY_LINK' is obsolete.
+[2026-11-13 19:57:28] [build-stderr] configure.ac:767: You should run autoupdate.
+[2026-11-13 19:57:28] [build-stderr] ./lib/autoconf/general.m4:2920: AC_TRY_LINK is expanded from...
+[2026-11-13 19:57:28] [build-stderr] configure.ac:767: the top level
+[2026-11-13 19:57:28] [build-stderr] configure.ac:780: warning: The macro `AC_TRY_LINK' is obsolete.
+[2026-11-13 19:57:28] [build-stderr] configure.ac:780: You should run autoupdate.
+[2026-11-13 19:57:28] [build-stderr] ./lib/autoconf/general.m4:2920: AC_TRY_LINK is expanded from...
+[2026-11-13 19:57:28] [build-stderr] configure.ac:780: the top level
+[2026-11-13 19:57:28] [build-stderr] + make clean
+[2026-11-13 19:57:28] [build-stderr] make: *** No rule to make target 'clean'.  Stop.
+[2026-11-13 19:57:28] [build-stderr] + true
+[2026-11-13 19:57:28] [build-stderr] + ./configure --disable-coverage
+[2026-11-13 19:57:28] [build-stdout] checking build system type... x86_64-pc-linux-gnu
+[2026-11-13 19:57:28] [build-stdout] checking host system type... x86_64-pc-linux-gnu
+[2026-11-13 19:57:28] [build-stdout] checking for a BSD-compatible install... /usr/bin/install -c
+[2026-11-13 19:57:28] [build-stdout] checking whether build environment is sane... yes
+[2026-11-13 19:57:28] [build-stdout] checking for a race-free mkdir -p... /usr/bin/mkdir -p
+[2026-11-13 19:57:28] [build-stdout] checking for gawk... no
+[2026-11-13 19:57:28] [build-stdout] checking for mawk... mawk
+[2026-11-13 19:57:28] [build-stdout] checking whether make sets $(MAKE)... yes
+[2026-11-13 19:57:28] [build-stdout] checking whether make supports nested variables... yes
+[2026-11-13 19:57:28] [build-stdout] checking for gcc... gcc
+[2026-11-13 19:57:28] [build-stdout] checking whether the C compiler works... yes
+[2026-11-13 19:57:28] [build-stdout] checking for C compiler default output file name... a.out
+[2026-11-13 19:57:28] [build-stdout] checking for suffix of executables... 
+[2026-11-13 19:57:28] [build-stdout] checking whether we are cross compiling... no
+[2026-11-13 19:57:28] [build-stdout] checking for suffix of object files... o
+[2026-11-13 19:57:28] [build-stdout] checking whether the compiler supports GNU C... yes
+[2026-11-13 19:57:28] [build-stdout] checking whether gcc accepts -g... yes
+[2026-11-13 19:57:28] [build-stdout] checking for gcc option to enable C11 features... none needed
+[2026-11-13 19:57:28] [build-stdout] checking whether gcc understands -c and -o together... yes
+[2026-11-13 19:57:28] [build-stdout] checking whether make supports the include directive... yes (GNU style)
+[2026-11-13 19:57:28] [build-stdout] checking dependency style of gcc... gcc3
+[2026-11-13 19:57:28] [build-stdout] checking how to run the C preprocessor... gcc -E
+[2026-11-13 19:57:28] [build-stdout] checking for grep that handles long lines and -e... /usr/bin/grep
+[2026-11-13 19:57:28] [build-stdout] checking for egrep... /usr/bin/grep -E
+[2026-11-13 19:57:28] [build-stdout] checking for icc in use... no
+[2026-11-13 19:57:28] [build-stdout] checking for clang in use... no
+[2026-11-13 19:57:29] [build-stdout] checking for gcc options needed to detect all undeclared functions... none needed
+[2026-11-13 19:57:29] [build-stdout] checking for stdio.h... yes
+[2026-11-13 19:57:29] [build-stdout] checking for stdlib.h... yes
+[2026-11-13 19:57:29] [build-stdout] checking for string.h... yes
+[2026-11-13 19:57:29] [build-stdout] checking for inttypes.h... yes
+[2026-11-13 19:57:29] [build-stdout] checking for stdint.h... yes
+[2026-11-13 19:57:29] [build-stdout] checking for strings.h... yes
+[2026-11-13 19:57:29] [build-stdout] checking for sys/stat.h... yes
+[2026-11-13 19:57:29] [build-stdout] checking for sys/types.h... yes
+[2026-11-13 19:57:29] [build-stdout] checking for unistd.h... yes
+[2026-11-13 19:57:29] [build-stdout] checking whether __SUNPRO_C is declared... no
+[2026-11-13 19:57:29] [build-stdout] checking for gcc option to accept ISO C99... none needed
+[2026-11-13 19:57:29] [build-stdout] checking for sasl/sasl.h... no
+[2026-11-13 19:57:29] [build-stdout] checking size of void *... 8
+[2026-11-13 19:57:29] [build-stdout] checking for library containing clock_gettime... none required
+[2026-11-13 19:57:29] [build-stdout] checking for library containing socket... none required
+[2026-11-13 19:57:29] [build-stdout] checking for library containing gethostbyname... none required
+[2026-11-13 19:57:30] [build-stdout] checking for libevent directory... (system)
+[2026-11-13 19:57:30] [build-stdout] checking for pkg-config... /usr/bin/pkg-config
+[2026-11-13 19:57:30] [build-stdout] checking pkg-config is at least version 0.9.0... yes
+[2026-11-13 19:57:30] [build-stdout] checking for library containing gethugepagesizes... no
+[2026-11-13 19:57:30] [build-stdout] checking for _Bool... yes
+[2026-11-13 19:57:30] [build-stdout] checking for stdbool.h that conforms to C99... yes
+[2026-11-13 19:57:30] [build-stdout] checking for inttypes.h... (cached) yes
+[2026-11-13 19:57:30] [build-stdout] checking for sys/auxv.h... yes
+[2026-11-13 19:57:30] [build-stdout] checking for sasl_callback_ft... no
+[2026-11-13 19:57:30] [build-stdout] checking for print macros for integers (C99 section 7.8.1)... yes
+[2026-11-13 19:57:30] [build-stdout] checking for an ANSI C-conforming const... yes
+[2026-11-13 19:57:30] [build-stdout] checking for socklen_t... yes
+[2026-11-13 19:57:30] [build-stdout] checking whether byte ordering is bigendian... no
+[2026-11-13 19:57:30] [build-stdout] checking for htonll... no
+[2026-11-13 19:57:30] [build-stdout] checking for library containing pthread_create... none required
+[2026-11-13 19:57:30] [build-stdout] checking for mlockall... yes
+[2026-11-13 19:57:30] [build-stdout] checking for getpagesizes... no
+[2026-11-13 19:57:30] [build-stdout] checking for sysconf... yes
+[2026-11-13 19:57:30] [build-stdout] checking for memcntl... no
+[2026-11-13 19:57:30] [build-stdout] checking for clock_gettime... yes
+[2026-11-13 19:57:30] [build-stdout] checking for preadv... yes
+[2026-11-13 19:57:30] [build-stdout] checking for pread... yes
+[2026-11-13 19:57:31] [build-stdout] checking for eventfd... yes
+[2026-11-13 19:57:31] [build-stdout] checking for pthread_setname_np... yes
+[2026-11-13 19:57:31] [build-stdout] checking for accept4... yes
+[2026-11-13 19:57:31] [build-stdout] checking for getopt_long... yes
+[2026-11-13 19:57:31] [build-stdout] checking for alignment... none
+[2026-11-13 19:57:31] [build-stdout] checking for GCC atomics... yes
+[2026-11-13 19:57:31] [build-stdout] checking for GCC 64bit atomics... yes
+[2026-11-13 19:57:31] [build-stdout] checking for setppriv... no
+[2026-11-13 19:57:31] [build-stdout] checking for pledge... no
+[2026-11-13 19:57:31] [build-stdout] checking for cap_enter... no
+[2026-11-13 19:57:31] [build-stdout] checking for sandbox_init... no
+[2026-11-13 19:57:31] [build-stdout] checking for xml2rfc... no
+[2026-11-13 19:57:31] [build-stdout] checking for xsltproc... no
+[2026-11-13 19:57:31] [build-stdout] checking that generated files are newer than configure... done
+[2026-11-13 19:57:31] [build-stdout] configure: creating ./config.status
+[2026-11-13 19:57:31] [build-stdout] config.status: creating Makefile
+[2026-11-13 19:57:31] [build-stdout] config.status: creating doc/Makefile
+[2026-11-13 19:57:31] [build-stdout] config.status: creating config.h
+[2026-11-13 19:57:31] [build-stdout] config.status: executing depfiles commands
+[2026-11-13 19:57:32] [build-stderr] + make -j
+[2026-11-13 19:57:32] [build-stdout] make  all-recursive
+[2026-11-13 19:57:32] [build-stdout] make[1]: Entering directory '/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/root/benchmarks/memcached'
+[2026-11-13 19:57:32] [build-stdout] Making all in doc
+[2026-11-13 19:57:32] [build-stdout] make[2]: Entering directory '/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/root/benchmarks/memcached/doc'
+[2026-11-13 19:57:32] [build-stdout] make  all-am
+[2026-11-13 19:57:32] [build-stdout] make[3]: Entering directory '/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/root/benchmarks/memcached/doc'
+[2026-11-13 19:57:32] [build-stdout] make[3]: Nothing to be done for 'all-am'.
+[2026-11-13 19:57:32] [build-stdout] make[3]: Leaving directory '/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/root/benchmarks/memcached/doc'
+[2026-11-13 19:57:32] [build-stdout] make[2]: Leaving directory '/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/root/benchmarks/memcached/doc'
+[2026-11-13 19:57:32] [build-stdout] make[2]: Entering directory '/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/root/benchmarks/memcached'
+[2026-11-13 19:57:32] [build-stdout] gcc -DHAVE_CONFIG_H -I.  -DNDEBUG   -g -O2 -pthread -Wall -pedantic -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -MT memcached-memcached.o -MD -MP -MF .deps/memcached-memcached.Tpo -c -o memcached-memcached.o `test -f 'memcached.c' || echo './'`memcached.c
+[2026-11-13 19:57:32] [build-stdout] gcc -DHAVE_CONFIG_H -I.  -DNDEBUG   -g -O2 -pthread -Wall -pedantic -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -MT memcached-hash.o -MD -MP -MF .deps/memcached-hash.Tpo -c -o memcached-hash.o `test -f 'hash.c' || echo './'`hash.c
+[2026-11-13 19:57:32] [build-stdout] gcc -DHAVE_CONFIG_H -I.  -DNDEBUG   -g -O2 -pthread -Wall -pedantic -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -MT memcached-jenkins_hash.o -MD -MP -MF .deps/memcached-jenkins_hash.Tpo -c -o memcached-jenkins_hash.o `test -f 'jenkins_hash.c' || echo './'`jenkins_hash.c
+[2026-11-13 19:57:32] [build-stdout] gcc -DHAVE_CONFIG_H -I.  -DNDEBUG   -g -O2 -pthread -Wall -pedantic -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -MT memcached-murmur3_hash.o -MD -MP -MF .deps/memcached-murmur3_hash.Tpo -c -o memcached-murmur3_hash.o `test -f 'murmur3_hash.c' || echo './'`murmur3_hash.c
+[2026-11-13 19:57:32] [build-stdout] gcc -DHAVE_CONFIG_H -I.  -DNDEBUG   -g -O2 -pthread -Wall -pedantic -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -MT memcached-slabs.o -MD -MP -MF .deps/memcached-slabs.Tpo -c -o memcached-slabs.o `test -f 'slabs.c' || echo './'`slabs.c
+[2026-11-13 19:57:32] [build-stdout] gcc -DHAVE_CONFIG_H -I.  -DNDEBUG   -g -O2 -pthread -Wall -pedantic -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -MT memcached-items.o -MD -MP -MF .deps/memcached-items.Tpo -c -o memcached-items.o `test -f 'items.c' || echo './'`items.c
+[2026-11-13 19:57:32] [build-stdout] gcc -DHAVE_CONFIG_H -I.  -DNDEBUG   -g -O2 -pthread -Wall -pedantic -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -MT memcached-assoc.o -MD -MP -MF .deps/memcached-assoc.Tpo -c -o memcached-assoc.o `test -f 'assoc.c' || echo './'`assoc.c
+[2026-11-13 19:57:32] [build-stdout] gcc -DHAVE_CONFIG_H -I.  -DNDEBUG   -g -O2 -pthread -Wall -pedantic -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -MT memcached-thread.o -MD -MP -MF .deps/memcached-thread.Tpo -c -o memcached-thread.o `test -f 'thread.c' || echo './'`thread.c
+[2026-11-13 19:57:32] [build-stdout] gcc -DHAVE_CONFIG_H -I.  -DNDEBUG   -g -O2 -pthread -Wall -pedantic -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -MT memcached-daemon.o -MD -MP -MF .deps/memcached-daemon.Tpo -c -o memcached-daemon.o `test -f 'daemon.c' || echo './'`daemon.c
+[2026-11-13 19:57:32] [build-stdout] gcc -DHAVE_CONFIG_H -I.  -DNDEBUG   -g -O2 -pthread -Wall -pedantic -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -MT memcached-stats_prefix.o -MD -MP -MF .deps/memcached-stats_prefix.Tpo -c -o memcached-stats_prefix.o `test -f 'stats_prefix.c' || echo './'`stats_prefix.c
+[2026-11-13 19:57:32] [build-stdout] gcc -DHAVE_CONFIG_H -I.  -DNDEBUG   -g -O2 -pthread -Wall -pedantic -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -MT memcached-util.o -MD -MP -MF .deps/memcached-util.Tpo -c -o memcached-util.o `test -f 'util.c' || echo './'`util.c
+[2026-11-13 19:57:32] [build-stdout] gcc -DHAVE_CONFIG_H -I.  -DNDEBUG   -g -O2 -pthread -Wall -pedantic -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -MT memcached-cache.o -MD -MP -MF .deps/memcached-cache.Tpo -c -o memcached-cache.o `test -f 'cache.c' || echo './'`cache.c
+[2026-11-13 19:57:32] [build-stdout] gcc -DHAVE_CONFIG_H -I.  -DNDEBUG   -g -O2 -pthread -Wall -pedantic -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -MT memcached-bipbuffer.o -MD -MP -MF .deps/memcached-bipbuffer.Tpo -c -o memcached-bipbuffer.o `test -f 'bipbuffer.c' || echo './'`bipbuffer.c
+[2026-11-13 19:57:32] [build-stdout] gcc -DHAVE_CONFIG_H -I.  -DNDEBUG   -g -O2 -pthread -Wall -pedantic -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -MT memcached-base64.o -MD -MP -MF .deps/memcached-base64.Tpo -c -o memcached-base64.o `test -f 'base64.c' || echo './'`base64.c
+[2026-11-13 19:57:32] [build-stdout] gcc -DHAVE_CONFIG_H -I.  -DNDEBUG   -g -O2 -pthread -Wall -pedantic -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -MT memcached-logger.o -MD -MP -MF .deps/memcached-logger.Tpo -c -o memcached-logger.o `test -f 'logger.c' || echo './'`logger.c
+[2026-11-13 19:57:32] [build-stdout] gcc -DHAVE_CONFIG_H -I.  -DNDEBUG   -g -O2 -pthread -Wall -pedantic -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -MT memcached-crawler.o -MD -MP -MF .deps/memcached-crawler.Tpo -c -o memcached-crawler.o `test -f 'crawler.c' || echo './'`crawler.c
+[2026-11-13 19:57:32] [build-stdout] gcc -DHAVE_CONFIG_H -I.  -DNDEBUG   -g -O2 -pthread -Wall -pedantic -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -MT memcached-itoa_ljust.o -MD -MP -MF .deps/memcached-itoa_ljust.Tpo -c -o memcached-itoa_ljust.o `test -f 'itoa_ljust.c' || echo './'`itoa_ljust.c
+[2026-11-13 19:57:32] [build-stdout] gcc -DHAVE_CONFIG_H -I.  -DNDEBUG   -g -O2 -pthread -Wall -pedantic -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -MT memcached-slab_automove.o -MD -MP -MF .deps/memcached-slab_automove.Tpo -c -o memcached-slab_automove.o `test -f 'slab_automove.c' || echo './'`slab_automove.c
+[2026-11-13 19:57:32] [build-stdout] gcc -DHAVE_CONFIG_H -I.  -DNDEBUG   -g -O2 -pthread -Wall -pedantic -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -MT memcached-slabs_mover.o -MD -MP -MF .deps/memcached-slabs_mover.Tpo -c -o memcached-slabs_mover.o `test -f 'slabs_mover.c' || echo './'`slabs_mover.c
+[2026-11-13 19:57:32] [build-stdout] gcc -DHAVE_CONFIG_H -I.  -DNDEBUG   -g -O2 -pthread -Wall -pedantic -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -MT memcached-authfile.o -MD -MP -MF .deps/memcached-authfile.Tpo -c -o memcached-authfile.o `test -f 'authfile.c' || echo './'`authfile.c
+[2026-11-13 19:57:32] [build-stdout] gcc -DHAVE_CONFIG_H -I.  -DNDEBUG   -g -O2 -pthread -Wall -pedantic -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -MT memcached-restart.o -MD -MP -MF .deps/memcached-restart.Tpo -c -o memcached-restart.o `test -f 'restart.c' || echo './'`restart.c
+[2026-11-13 19:57:32] [build-stdout] gcc -DHAVE_CONFIG_H -I.  -DNDEBUG   -g -O2 -pthread -Wall -pedantic -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -MT memcached-proto_text.o -MD -MP -MF .deps/memcached-proto_text.Tpo -c -o memcached-proto_text.o `test -f 'proto_text.c' || echo './'`proto_text.c
+[2026-11-13 19:57:32] [build-stdout] gcc -DHAVE_CONFIG_H -I.  -DNDEBUG   -g -O2 -pthread -Wall -pedantic -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -MT memcached-proto_bin.o -MD -MP -MF .deps/memcached-proto_bin.Tpo -c -o memcached-proto_bin.o `test -f 'proto_bin.c' || echo './'`proto_bin.c
+[2026-11-13 19:57:32] [build-stdout] gcc -DHAVE_CONFIG_H -I.  -DNDEBUG   -g -O2 -pthread -Wall -pedantic -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -MT memcached-proto_parser.o -MD -MP -MF .deps/memcached-proto_parser.Tpo -c -o memcached-proto_parser.o `test -f 'proto_parser.c' || echo './'`proto_parser.c
+[2026-11-13 19:57:32] [build-stdout] gcc -DHAVE_CONFIG_H -I.  -DNDEBUG   -g -O2 -pthread -Wall -pedantic -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -MT memcached-mcmc.o -MD -MP -MF .deps/memcached-mcmc.Tpo -c -o memcached-mcmc.o `test -f 'vendor/mcmc/mcmc.c' || echo './'`vendor/mcmc/mcmc.c
+[2026-11-13 19:57:32] [build-stdout] gcc -DHAVE_CONFIG_H -I.  -DNDEBUG   -g -O2 -pthread -Wall -pedantic -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -MT memcached-extstore.o -MD -MP -MF .deps/memcached-extstore.Tpo -c -o memcached-extstore.o `test -f 'extstore.c' || echo './'`extstore.c
+[2026-11-13 19:57:32] [build-stdout] gcc -DHAVE_CONFIG_H -I.  -DNDEBUG   -g -O2 -pthread -Wall -pedantic -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -MT memcached-crc32c.o -MD -MP -MF .deps/memcached-crc32c.Tpo -c -o memcached-crc32c.o `test -f 'crc32c.c' || echo './'`crc32c.c
+[2026-11-13 19:57:32] [build-stdout] gcc -DHAVE_CONFIG_H -I.  -DNDEBUG   -g -O2 -pthread -Wall -pedantic -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -MT memcached-storage.o -MD -MP -MF .deps/memcached-storage.Tpo -c -o memcached-storage.o `test -f 'storage.c' || echo './'`storage.c
+[2026-11-13 19:57:32] [build-stdout] gcc -DHAVE_CONFIG_H -I.  -DNDEBUG   -g -O2 -pthread -Wall -pedantic -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -MT memcached-slab_automove_extstore.o -MD -MP -MF .deps/memcached-slab_automove_extstore.Tpo -c -o memcached-slab_automove_extstore.o `test -f 'slab_automove_extstore.c' || echo './'`slab_automove_extstore.c
+[2026-11-13 19:57:32] [build-stdout] gcc -DHAVE_CONFIG_H -I.    -DMEMCACHED_DEBUG -g -O2 -pthread -Wall -pedantic -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -MT memcached_debug-memcached.o -MD -MP -MF .deps/memcached_debug-memcached.Tpo -c -o memcached_debug-memcached.o `test -f 'memcached.c' || echo './'`memcached.c
+[2026-11-13 19:57:32] [build-stdout] gcc -DHAVE_CONFIG_H -I.    -DMEMCACHED_DEBUG -g -O2 -pthread -Wall -pedantic -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -MT memcached_debug-hash.o -MD -MP -MF .deps/memcached_debug-hash.Tpo -c -o memcached_debug-hash.o `test -f 'hash.c' || echo './'`hash.c
+[2026-11-13 19:57:32] [build-stdout] gcc -DHAVE_CONFIG_H -I.    -DMEMCACHED_DEBUG -g -O2 -pthread -Wall -pedantic -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -MT memcached_debug-jenkins_hash.o -MD -MP -MF .deps/memcached_debug-jenkins_hash.Tpo -c -o memcached_debug-jenkins_hash.o `test -f 'jenkins_hash.c' || echo './'`jenkins_hash.c
+[2026-11-13 19:57:32] [build-stdout] gcc -DHAVE_CONFIG_H -I.    -DMEMCACHED_DEBUG -g -O2 -pthread -Wall -pedantic -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -MT memcached_debug-murmur3_hash.o -MD -MP -MF .deps/memcached_debug-murmur3_hash.Tpo -c -o memcached_debug-murmur3_hash.o `test -f 'murmur3_hash.c' || echo './'`murmur3_hash.c
+[2026-11-13 19:57:32] [build-stdout] gcc -DHAVE_CONFIG_H -I.    -DMEMCACHED_DEBUG -g -O2 -pthread -Wall -pedantic -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -MT memcached_debug-slabs.o -MD -MP -MF .deps/memcached_debug-slabs.Tpo -c -o memcached_debug-slabs.o `test -f 'slabs.c' || echo './'`slabs.c
+[2026-11-13 19:57:32] [build-stdout] gcc -DHAVE_CONFIG_H -I.    -DMEMCACHED_DEBUG -g -O2 -pthread -Wall -pedantic -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -MT memcached_debug-items.o -MD -MP -MF .deps/memcached_debug-items.Tpo -c -o memcached_debug-items.o `test -f 'items.c' || echo './'`items.c
+[2026-11-13 19:57:32] [build-stdout] gcc -DHAVE_CONFIG_H -I.    -DMEMCACHED_DEBUG -g -O2 -pthread -Wall -pedantic -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -MT memcached_debug-assoc.o -MD -MP -MF .deps/memcached_debug-assoc.Tpo -c -o memcached_debug-assoc.o `test -f 'assoc.c' || echo './'`assoc.c
+[2026-11-13 19:57:32] [build-stdout] gcc -DHAVE_CONFIG_H -I.    -DMEMCACHED_DEBUG -g -O2 -pthread -Wall -pedantic -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -MT memcached_debug-thread.o -MD -MP -MF .deps/memcached_debug-thread.Tpo -c -o memcached_debug-thread.o `test -f 'thread.c' || echo './'`thread.c
+[2026-11-13 19:57:32] [build-stdout] gcc -DHAVE_CONFIG_H -I.    -DMEMCACHED_DEBUG -g -O2 -pthread -Wall -pedantic -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -MT memcached_debug-daemon.o -MD -MP -MF .deps/memcached_debug-daemon.Tpo -c -o memcached_debug-daemon.o `test -f 'daemon.c' || echo './'`daemon.c
+[2026-11-13 19:57:32] [build-stdout] gcc -DHAVE_CONFIG_H -I.    -DMEMCACHED_DEBUG -g -O2 -pthread -Wall -pedantic -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -MT memcached_debug-stats_prefix.o -MD -MP -MF .deps/memcached_debug-stats_prefix.Tpo -c -o memcached_debug-stats_prefix.o `test -f 'stats_prefix.c' || echo './'`stats_prefix.c
+[2026-11-13 19:57:32] [build-stdout] gcc -DHAVE_CONFIG_H -I.    -DMEMCACHED_DEBUG -g -O2 -pthread -Wall -pedantic -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -MT memcached_debug-util.o -MD -MP -MF .deps/memcached_debug-util.Tpo -c -o memcached_debug-util.o `test -f 'util.c' || echo './'`util.c
+[2026-11-13 19:57:32] [build-stdout] gcc -DHAVE_CONFIG_H -I.    -DMEMCACHED_DEBUG -g -O2 -pthread -Wall -pedantic -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -MT memcached_debug-cache.o -MD -MP -MF .deps/memcached_debug-cache.Tpo -c -o memcached_debug-cache.o `test -f 'cache.c' || echo './'`cache.c
+[2026-11-13 19:57:32] [build-stdout] gcc -DHAVE_CONFIG_H -I.    -DMEMCACHED_DEBUG -g -O2 -pthread -Wall -pedantic -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -MT memcached_debug-bipbuffer.o -MD -MP -MF .deps/memcached_debug-bipbuffer.Tpo -c -o memcached_debug-bipbuffer.o `test -f 'bipbuffer.c' || echo './'`bipbuffer.c
+[2026-11-13 19:57:32] [build-stdout] gcc -DHAVE_CONFIG_H -I.    -DMEMCACHED_DEBUG -g -O2 -pthread -Wall -pedantic -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -MT memcached_debug-base64.o -MD -MP -MF .deps/memcached_debug-base64.Tpo -c -o memcached_debug-base64.o `test -f 'base64.c' || echo './'`base64.c
+[2026-11-13 19:57:32] [build-stdout] gcc -DHAVE_CONFIG_H -I.    -DMEMCACHED_DEBUG -g -O2 -pthread -Wall -pedantic -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -MT memcached_debug-logger.o -MD -MP -MF .deps/memcached_debug-logger.Tpo -c -o memcached_debug-logger.o `test -f 'logger.c' || echo './'`logger.c
+[2026-11-13 19:57:32] [build-stdout] gcc -DHAVE_CONFIG_H -I.    -DMEMCACHED_DEBUG -g -O2 -pthread -Wall -pedantic -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -MT memcached_debug-crawler.o -MD -MP -MF .deps/memcached_debug-crawler.Tpo -c -o memcached_debug-crawler.o `test -f 'crawler.c' || echo './'`crawler.c
+[2026-11-13 19:57:32] [build-stdout] gcc -DHAVE_CONFIG_H -I.    -DMEMCACHED_DEBUG -g -O2 -pthread -Wall -pedantic -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -MT memcached_debug-itoa_ljust.o -MD -MP -MF .deps/memcached_debug-itoa_ljust.Tpo -c -o memcached_debug-itoa_ljust.o `test -f 'itoa_ljust.c' || echo './'`itoa_ljust.c
+[2026-11-13 19:57:32] [build-stdout] gcc -DHAVE_CONFIG_H -I.    -DMEMCACHED_DEBUG -g -O2 -pthread -Wall -pedantic -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -MT memcached_debug-slab_automove.o -MD -MP -MF .deps/memcached_debug-slab_automove.Tpo -c -o memcached_debug-slab_automove.o `test -f 'slab_automove.c' || echo './'`slab_automove.c
+[2026-11-13 19:57:32] [build-stdout] gcc -DHAVE_CONFIG_H -I.    -DMEMCACHED_DEBUG -g -O2 -pthread -Wall -pedantic -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -MT memcached_debug-slabs_mover.o -MD -MP -MF .deps/memcached_debug-slabs_mover.Tpo -c -o memcached_debug-slabs_mover.o `test -f 'slabs_mover.c' || echo './'`slabs_mover.c
+[2026-11-13 19:57:32] [build-stdout] gcc -DHAVE_CONFIG_H -I.    -DMEMCACHED_DEBUG -g -O2 -pthread -Wall -pedantic -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -MT memcached_debug-authfile.o -MD -MP -MF .deps/memcached_debug-authfile.Tpo -c -o memcached_debug-authfile.o `test -f 'authfile.c' || echo './'`authfile.c
+[2026-11-13 19:57:32] [build-stdout] gcc -DHAVE_CONFIG_H -I.    -DMEMCACHED_DEBUG -g -O2 -pthread -Wall -pedantic -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -MT memcached_debug-restart.o -MD -MP -MF .deps/memcached_debug-restart.Tpo -c -o memcached_debug-restart.o `test -f 'restart.c' || echo './'`restart.c
+[2026-11-13 19:57:32] [build-stdout] gcc -DHAVE_CONFIG_H -I.    -DMEMCACHED_DEBUG -g -O2 -pthread -Wall -pedantic -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -MT memcached_debug-proto_text.o -MD -MP -MF .deps/memcached_debug-proto_text.Tpo -c -o memcached_debug-proto_text.o `test -f 'proto_text.c' || echo './'`proto_text.c
+[2026-11-13 19:57:33] [build-stdout] gcc -DHAVE_CONFIG_H -I.    -DMEMCACHED_DEBUG -g -O2 -pthread -Wall -pedantic -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -MT memcached_debug-proto_bin.o -MD -MP -MF .deps/memcached_debug-proto_bin.Tpo -c -o memcached_debug-proto_bin.o `test -f 'proto_bin.c' || echo './'`proto_bin.c
+[2026-11-13 19:57:33] [build-stdout] gcc -DHAVE_CONFIG_H -I.    -DMEMCACHED_DEBUG -g -O2 -pthread -Wall -pedantic -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -MT memcached_debug-proto_parser.o -MD -MP -MF .deps/memcached_debug-proto_parser.Tpo -c -o memcached_debug-proto_parser.o `test -f 'proto_parser.c' || echo './'`proto_parser.c
+[2026-11-13 19:57:33] [build-stdout] gcc -DHAVE_CONFIG_H -I.    -DMEMCACHED_DEBUG -g -O2 -pthread -Wall -pedantic -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -MT memcached_debug-mcmc.o -MD -MP -MF .deps/memcached_debug-mcmc.Tpo -c -o memcached_debug-mcmc.o `test -f 'vendor/mcmc/mcmc.c' || echo './'`vendor/mcmc/mcmc.c
+[2026-11-13 19:57:33] [build-stdout] gcc -DHAVE_CONFIG_H -I.    -DMEMCACHED_DEBUG -g -O2 -pthread -Wall -pedantic -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -MT memcached_debug-extstore.o -MD -MP -MF .deps/memcached_debug-extstore.Tpo -c -o memcached_debug-extstore.o `test -f 'extstore.c' || echo './'`extstore.c
+[2026-11-13 19:57:33] [build-stdout] gcc -DHAVE_CONFIG_H -I.    -DMEMCACHED_DEBUG -g -O2 -pthread -Wall -pedantic -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -MT memcached_debug-crc32c.o -MD -MP -MF .deps/memcached_debug-crc32c.Tpo -c -o memcached_debug-crc32c.o `test -f 'crc32c.c' || echo './'`crc32c.c
+[2026-11-13 19:57:33] [build-stdout] gcc -DHAVE_CONFIG_H -I.    -DMEMCACHED_DEBUG -g -O2 -pthread -Wall -pedantic -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -MT memcached_debug-storage.o -MD -MP -MF .deps/memcached_debug-storage.Tpo -c -o memcached_debug-storage.o `test -f 'storage.c' || echo './'`storage.c
+[2026-11-13 19:57:33] [build-stdout] gcc -DHAVE_CONFIG_H -I.    -DMEMCACHED_DEBUG -g -O2 -pthread -Wall -pedantic -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -MT memcached_debug-slab_automove_extstore.o -MD -MP -MF .deps/memcached_debug-slab_automove_extstore.Tpo -c -o memcached_debug-slab_automove_extstore.o `test -f 'slab_automove_extstore.c' || echo './'`slab_automove_extstore.c
+[2026-11-13 19:57:33] [build-stdout] gcc -DHAVE_CONFIG_H -I.     -g -O2 -pthread -Wall -pedantic -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -MT sizes.o -MD -MP -MF .deps/sizes.Tpo -c -o sizes.o sizes.c
+[2026-11-13 19:57:33] [build-stdout] gcc -DHAVE_CONFIG_H -I.     -g -O2 -pthread -Wall -pedantic -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -MT testapp.o -MD -MP -MF .deps/testapp.Tpo -c -o testapp.o testapp.c
+[2026-11-13 19:57:33] [build-stdout] gcc -DHAVE_CONFIG_H -I.     -g -O2 -pthread -Wall -pedantic -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -MT util.o -MD -MP -MF .deps/util.Tpo -c -o util.o util.c
+[2026-11-13 19:57:33] [build-stdout] gcc -DHAVE_CONFIG_H -I.     -g -O2 -pthread -Wall -pedantic -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -MT stats_prefix.o -MD -MP -MF .deps/stats_prefix.Tpo -c -o stats_prefix.o stats_prefix.c
+[2026-11-13 19:57:33] [build-stdout] gcc -DHAVE_CONFIG_H -I.     -g -O2 -pthread -Wall -pedantic -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -MT jenkins_hash.o -MD -MP -MF .deps/jenkins_hash.Tpo -c -o jenkins_hash.o jenkins_hash.c
+[2026-11-13 19:57:33] [build-stdout] gcc -DHAVE_CONFIG_H -I.     -g -O2 -pthread -Wall -pedantic -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -MT murmur3_hash.o -MD -MP -MF .deps/murmur3_hash.Tpo -c -o murmur3_hash.o murmur3_hash.c
+[2026-11-13 19:57:33] [build-stdout] gcc -DHAVE_CONFIG_H -I.     -g -O2 -pthread -Wall -pedantic -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -MT cache.o -MD -MP -MF .deps/cache.Tpo -c -o cache.o cache.c
+[2026-11-13 19:57:33] [build-stdout] gcc -DHAVE_CONFIG_H -I.     -g -O2 -pthread -Wall -pedantic -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -MT crc32c.o -MD -MP -MF .deps/crc32c.Tpo -c -o crc32c.o crc32c.c
+[2026-11-13 19:57:33] [build-stdout] gcc -DHAVE_CONFIG_H -I.     -g -O2 -pthread -Wall -pedantic -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -MT timedrun.o -MD -MP -MF .deps/timedrun.Tpo -c -o timedrun.o timedrun.c
+[2026-11-13 19:57:39] [build-stdout] mv -f .deps/memcached-crawler.Tpo .deps/memcached-crawler.Po
+[2026-11-13 19:57:39] [build-stdout] mv -f .deps/memcached-bipbuffer.Tpo .deps/memcached-bipbuffer.Po
+[2026-11-13 19:57:40] [build-stdout] mv -f .deps/memcached-mcmc.Tpo .deps/memcached-mcmc.Po
+[2026-11-13 19:57:40] [build-stdout] mv -f .deps/memcached-cache.Tpo .deps/memcached-cache.Po
+[2026-11-13 19:57:40] [build-stdout] mv -f .deps/memcached-jenkins_hash.Tpo .deps/memcached-jenkins_hash.Po
+[2026-11-13 19:57:40] [build-stdout] mv -f .deps/sizes.Tpo .deps/sizes.Po
+[2026-11-13 19:57:40] [build-stdout] mv -f .deps/memcached-crc32c.Tpo .deps/memcached-crc32c.Po
+[2026-11-13 19:57:40] [build-stdout] mv -f .deps/memcached-base64.Tpo .deps/memcached-base64.Po
+[2026-11-13 19:57:40] [build-stdout] mv -f .deps/memcached_debug-murmur3_hash.Tpo .deps/memcached_debug-murmur3_hash.Po
+[2026-11-13 19:57:40] [build-stdout] mv -f .deps/memcached_debug-proto_text.Tpo .deps/memcached_debug-proto_text.Po
+[2026-11-13 19:57:40] [build-stdout] mv -f .deps/memcached-stats_prefix.Tpo .deps/memcached-stats_prefix.Po
+[2026-11-13 19:57:40] [build-stdout] mv -f .deps/memcached-proto_bin.Tpo .deps/memcached-proto_bin.Po
+[2026-11-13 19:57:40] [build-stdout] mv -f .deps/memcached_debug-proto_bin.Tpo .deps/memcached_debug-proto_bin.Po
+[2026-11-13 19:57:40] [build-stdout] mv -f .deps/stats_prefix.Tpo .deps/stats_prefix.Po
+[2026-11-13 19:57:40] [build-stdout] gcc  -g -O2 -pthread -Wall -pedantic -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls   -o sizes sizes.o  -levent 
+[2026-11-13 19:57:40] [build-stdout] mv -f .deps/memcached_debug-stats_prefix.Tpo .deps/memcached_debug-stats_prefix.Po
+[2026-11-13 19:57:40] [build-stdout] mv -f .deps/memcached_debug-assoc.Tpo .deps/memcached_debug-assoc.Po
+[2026-11-13 19:57:40] [build-stdout] mv -f .deps/memcached_debug-slabs_mover.Tpo .deps/memcached_debug-slabs_mover.Po
+[2026-11-13 19:57:40] [build-stdout] mv -f .deps/memcached_debug-storage.Tpo .deps/memcached_debug-storage.Po
+[2026-11-13 19:57:40] [build-stdout] mv -f .deps/memcached_debug-thread.Tpo .deps/memcached_debug-thread.Po
+[2026-11-13 19:57:40] [build-stdout] mv -f .deps/memcached-slabs_mover.Tpo .deps/memcached-slabs_mover.Po
+[2026-11-13 19:57:40] [build-stdout] mv -f .deps/memcached-items.Tpo .deps/memcached-items.Po
+[2026-11-13 19:57:40] [build-stdout] mv -f .deps/memcached_debug-daemon.Tpo .deps/memcached_debug-daemon.Po
+[2026-11-13 19:57:40] [build-stdout] mv -f .deps/memcached-slab_automove_extstore.Tpo .deps/memcached-slab_automove_extstore.Po
+[2026-11-13 19:57:40] [build-stdout] mv -f .deps/memcached_debug-mcmc.Tpo .deps/memcached_debug-mcmc.Po
+[2026-11-13 19:57:40] [build-stdout] mv -f .deps/memcached-thread.Tpo .deps/memcached-thread.Po
+[2026-11-13 19:57:40] [build-stdout] mv -f .deps/util.Tpo .deps/util.Po
+[2026-11-13 19:57:40] [build-stdout] mv -f .deps/memcached-assoc.Tpo .deps/memcached-assoc.Po
+[2026-11-13 19:57:40] [build-stdout] mv -f .deps/crc32c.Tpo .deps/crc32c.Po
+[2026-11-13 19:57:40] [build-stdout] mv -f .deps/memcached_debug-slab_automove.Tpo .deps/memcached_debug-slab_automove.Po
+[2026-11-13 19:57:40] [build-stdout] mv -f .deps/memcached-extstore.Tpo .deps/memcached-extstore.Po
+[2026-11-13 19:57:40] [build-stdout] mv -f .deps/testapp.Tpo .deps/testapp.Po
+[2026-11-13 19:57:41] [build-stdout] mv -f .deps/memcached-restart.Tpo .deps/memcached-restart.Po
+[2026-11-13 19:57:41] [build-stdout] mv -f .deps/memcached-proto_text.Tpo .deps/memcached-proto_text.Po
+[2026-11-13 19:57:41] [build-stdout] mv -f .deps/memcached_debug-restart.Tpo .deps/memcached_debug-restart.Po
+[2026-11-13 19:57:41] [build-stdout] mv -f .deps/memcached_debug-itoa_ljust.Tpo .deps/memcached_debug-itoa_ljust.Po
+[2026-11-13 19:57:41] [build-stdout] mv -f .deps/memcached_debug-slabs.Tpo .deps/memcached_debug-slabs.Po
+[2026-11-13 19:57:41] [build-stdout] mv -f .deps/memcached-slab_automove.Tpo .deps/memcached-slab_automove.Po
+[2026-11-13 19:57:41] [build-stdout] mv -f .deps/memcached-proto_parser.Tpo .deps/memcached-proto_parser.Po
+[2026-11-13 19:57:41] [build-stdout] mv -f .deps/memcached-authfile.Tpo .deps/memcached-authfile.Po
+[2026-11-13 19:57:41] [build-stdout] mv -f .deps/memcached-itoa_ljust.Tpo .deps/memcached-itoa_ljust.Po
+[2026-11-13 19:57:41] [build-stdout] mv -f .deps/memcached-storage.Tpo .deps/memcached-storage.Po
+[2026-11-13 19:57:41] [build-stdout] mv -f .deps/murmur3_hash.Tpo .deps/murmur3_hash.Po
+[2026-11-13 19:57:41] [build-stdout] mv -f .deps/memcached-util.Tpo .deps/memcached-util.Po
+[2026-11-13 19:57:41] [build-stdout] mv -f .deps/jenkins_hash.Tpo .deps/jenkins_hash.Po
+[2026-11-13 19:57:41] [build-stdout] mv -f .deps/memcached-logger.Tpo .deps/memcached-logger.Po
+[2026-11-13 19:57:41] [build-stdout] mv -f .deps/memcached_debug-logger.Tpo .deps/memcached_debug-logger.Po
+[2026-11-13 19:57:41] [build-stdout] mv -f .deps/memcached_debug-crc32c.Tpo .deps/memcached_debug-crc32c.Po
+[2026-11-13 19:57:41] [build-stdout] mv -f .deps/memcached_debug-util.Tpo .deps/memcached_debug-util.Po
+[2026-11-13 19:57:41] [build-stdout] mv -f .deps/memcached_debug-slab_automove_extstore.Tpo .deps/memcached_debug-slab_automove_extstore.Po
+[2026-11-13 19:57:41] [build-stdout] mv -f .deps/memcached_debug-hash.Tpo .deps/memcached_debug-hash.Po
+[2026-11-13 19:57:41] [build-stdout] mv -f .deps/memcached_debug-authfile.Tpo .deps/memcached_debug-authfile.Po
+[2026-11-13 19:57:41] [build-stdout] mv -f .deps/memcached_debug-jenkins_hash.Tpo .deps/memcached_debug-jenkins_hash.Po
+[2026-11-13 19:57:41] [build-stdout] mv -f .deps/memcached_debug-items.Tpo .deps/memcached_debug-items.Po
+[2026-11-13 19:57:41] [build-stdout] mv -f .deps/memcached-hash.Tpo .deps/memcached-hash.Po
+[2026-11-13 19:57:41] [build-stdout] mv -f .deps/memcached_debug-crawler.Tpo .deps/memcached_debug-crawler.Po
+[2026-11-13 19:57:41] [build-stdout] mv -f .deps/cache.Tpo .deps/cache.Po
+[2026-11-13 19:57:41] [build-stdout] mv -f .deps/memcached-daemon.Tpo .deps/memcached-daemon.Po
+[2026-11-13 19:57:41] [build-stdout] mv -f .deps/timedrun.Tpo .deps/timedrun.Po
+[2026-11-13 19:57:41] [build-stdout] mv -f .deps/memcached_debug-base64.Tpo .deps/memcached_debug-base64.Po
+[2026-11-13 19:57:41] [build-stdout] mv -f .deps/memcached_debug-extstore.Tpo .deps/memcached_debug-extstore.Po
+[2026-11-13 19:57:41] [build-stdout] mv -f .deps/memcached-murmur3_hash.Tpo .deps/memcached-murmur3_hash.Po
+[2026-11-13 19:57:41] [build-stdout] mv -f .deps/memcached-slabs.Tpo .deps/memcached-slabs.Po
+[2026-11-13 19:57:41] [build-stdout] mv -f .deps/memcached_debug-bipbuffer.Tpo .deps/memcached_debug-bipbuffer.Po
+[2026-11-13 19:57:41] [build-stdout] mv -f .deps/memcached_debug-cache.Tpo .deps/memcached_debug-cache.Po
+[2026-11-13 19:57:41] [build-stdout] gcc  -g -O2 -pthread -Wall -pedantic -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls   -o testapp testapp.o util.o stats_prefix.o jenkins_hash.o murmur3_hash.o cache.o crc32c.o  -levent 
+[2026-11-13 19:57:41] [build-stdout] gcc  -g -O2 -pthread -Wall -pedantic -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls   -o timedrun timedrun.o  -levent 
+[2026-11-13 19:57:41] [build-stdout] mv -f .deps/memcached_debug-proto_parser.Tpo .deps/memcached_debug-proto_parser.Po
+[2026-11-13 19:57:41] [build-stdout] mv -f .deps/memcached_debug-memcached.Tpo .deps/memcached_debug-memcached.Po
+[2026-11-13 19:57:41] [build-stdout] gcc -DMEMCACHED_DEBUG -g -O2 -pthread -Wall -pedantic -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls   -o memcached-debug memcached_debug-memcached.o memcached_debug-hash.o memcached_debug-jenkins_hash.o memcached_debug-murmur3_hash.o memcached_debug-slabs.o memcached_debug-items.o memcached_debug-assoc.o memcached_debug-thread.o memcached_debug-daemon.o memcached_debug-stats_prefix.o memcached_debug-util.o memcached_debug-cache.o memcached_debug-bipbuffer.o memcached_debug-base64.o memcached_debug-logger.o memcached_debug-crawler.o memcached_debug-itoa_ljust.o memcached_debug-slab_automove.o memcached_debug-slabs_mover.o memcached_debug-authfile.o memcached_debug-restart.o memcached_debug-proto_text.o memcached_debug-proto_bin.o memcached_debug-proto_parser.o memcached_debug-mcmc.o        memcached_debug-extstore.o memcached_debug-crc32c.o memcached_debug-storage.o memcached_debug-slab_automove_extstore.o      -levent 
+[2026-11-13 19:57:41] [build-stdout] mv -f .deps/memcached-memcached.Tpo .deps/memcached-memcached.Po
+[2026-11-13 19:57:41] [build-stdout] gcc  -g -O2 -pthread -Wall -pedantic -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls   -o memcached memcached-memcached.o memcached-hash.o memcached-jenkins_hash.o memcached-murmur3_hash.o memcached-slabs.o memcached-items.o memcached-assoc.o memcached-thread.o memcached-daemon.o memcached-stats_prefix.o memcached-util.o memcached-cache.o memcached-bipbuffer.o memcached-base64.o memcached-logger.o memcached-crawler.o memcached-itoa_ljust.o memcached-slab_automove.o memcached-slabs_mover.o memcached-authfile.o memcached-restart.o memcached-proto_text.o memcached-proto_bin.o memcached-proto_parser.o memcached-mcmc.o        memcached-extstore.o memcached-crc32c.o memcached-storage.o memcached-slab_automove_extstore.o      -levent 
+[2026-11-13 19:57:41] [build-stdout] make[2]: Leaving directory '/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/root/benchmarks/memcached'
+[2026-11-13 19:57:41] [build-stdout] make[1]: Leaving directory '/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/root/benchmarks/memcached'
+Finalizing database at /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/db/memcached.
+Running pre-finalize script /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/codeql-bundle/codeql/cpp/tools/pre-finalize.sh in /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/root.
+Running command in /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/root: [/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/codeql-bundle/codeql/cpp/tools/pre-finalize.sh]
+Pre-finalize script /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/codeql-bundle/codeql/cpp/tools/pre-finalize.sh completed in 15 ms.
+Running TRAP import for CodeQL database at /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/db/memcached...
+Grouping TRAP files by link target
+Grouping unlinked TRAP files together
+Scanning TRAP files
+Importing TRAP files
+Merging relations
+Finished writing database (relations: 4.11 MiB; string pool: 4.78 MiB).
+TRAP import complete (4.3s).
+Finished zipping source archive (742.17 KiB).
+Successfully created database at /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/db/memcached.

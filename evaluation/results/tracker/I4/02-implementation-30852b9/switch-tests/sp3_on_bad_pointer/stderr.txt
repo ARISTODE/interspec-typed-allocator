@@ -1,0 +1,3 @@
+INTERSPEC_POLICY boundary=nginx_pcre sp1=1 sp2=1 sp3=full
+FAULT_INJECTION boundary=nginx_pcre path=2 kind=2 original=0x125350 replacement=0x215360 bytes=36
+INTERSPEC_REJECT boundary=nginx_pcre operation=capture_offsets reason=untracked

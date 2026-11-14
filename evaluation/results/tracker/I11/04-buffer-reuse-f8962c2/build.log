@@ -1,0 +1,1257 @@
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:508:16: warning: assigning to 'const char *' from 'unsigned char *const' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  508 |                 deconst->key = obj->trash_stack[UCL_TRASH_KEY];
+      |                              ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:512:9: warning: returning 'unsigned char *const' from a function with result type 'char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  512 |         return obj->trash_stack[UCL_TRASH_KEY];
+      |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:564:24: warning: assigning to 'const char *' from 'unsigned char *const' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  564 |                                         deconst->value.sv = obj->trash_stack[UCL_TRASH_VALUE];
+      |                                                           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:574:24: warning: assigning to 'const char *' from 'unsigned char *const' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  574 |                                         deconst->value.sv = obj->trash_stack[UCL_TRASH_VALUE];
+      |                                                           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:581:26: warning: passing 'unsigned char *const' to parameter of type 'const char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  581 |                         deconst->len = strlen(obj->trash_stack[UCL_TRASH_VALUE]);
+      |                                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/baseline-tmp/interspec-rlbox-wasm2c/build/_deps/wasiclang-src/share/wasi-sysroot/include/__header_string.h:14:27: note: passing argument to parameter here
+   14 | size_t strlen(const char *) __attribute__((__nothrow__, __leaf__, __pure__, __nonnull__(1)));
+      |                           ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:586:9: warning: returning 'unsigned char *const' from a function with result type 'char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  586 |         return obj->trash_stack[UCL_TRASH_VALUE];
+      |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:889:17: warning: passing 'const unsigned char *' to parameter of type 'const char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  889 |         if ((fd = open(filename, O_RDONLY)) == -1) {
+      |                        ^~~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/baseline-tmp/interspec-rlbox-wasm2c/build/_deps/wasiclang-src/share/wasi-sysroot/include/fcntl.h:38:22: note: passing argument to parameter here
+   38 | int open(const char *, int, ...);
+      |                      ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:1022:21: warning: passing 'char[4096]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+ 1022 |         if (!ucl_fetch_url(urlbuf, &buf, &buflen, &parser->err, params->must_exist)) {
+      |                            ^~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:788:41: note: passing argument to parameter 'url' here
+  788 | bool ucl_fetch_url(const unsigned char *url, unsigned char **buf, size_t *buflen,
+      |                                         ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:1132:22: warning: passing 'char[4096]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+ 1132 |         if (!ucl_fetch_file(realbuf, &buf, &buflen, &parser->err, params->must_exist)) {
+      |                             ^~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:884:42: note: passing argument to parameter 'filename' here
+  884 | bool ucl_fetch_file(const unsigned char *filename, unsigned char **buf, size_t *buflen,
+      |                                          ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:1551:12: warning: passing 'const unsigned char *' to parameter of type 'const char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+ 1551 |                                                                    data, len, parser->include_trace_ud);
+      |                                                                    ^~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:1612:32: warning: passing 'const unsigned char *' to parameter of type 'const char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+ 1612 |                 if (allow_url && ucl_strnstr(data, "://", len) != NULL) {
+      |                                              ^~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_internal.h:367:31: note: passing argument to parameter 's' here
+  367 | char *ucl_strnstr(const char *s, const char *find, int len);
+      |                               ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:1622:32: warning: passing 'const unsigned char *' to parameter of type 'const char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+ 1622 |                 if (allow_url && ucl_strnstr(data, "://", len) != NULL) {
+      |                                              ^~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_internal.h:367:31: note: passing argument to parameter 's' here
+  367 | char *ucl_strnstr(const char *s, const char *find, int len);
+      |                               ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:1632:36: warning: passing 'char[4096]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+ 1632 |                                 if ((search = ucl_include_file(ipath, strlen(ipath),
+      |                                                                ^~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:1430:39: note: passing argument to parameter 'data' here
+ 1430 | ucl_include_file(const unsigned char *data, size_t len,
+      |                                       ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:1857:23: warning: passing 'char *' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+ 1857 |                 if (!ucl_fetch_file(load_file, &buf, &buflen, &parser->err,
+      |                                     ^~~~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:884:42: note: passing argument to parameter 'filename' here
+  884 | bool ucl_fetch_file(const unsigned char *filename, unsigned char **buf, size_t *buflen,
+      |                                          ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:1883:39: warning: passing 'unsigned char *' to parameter of type 'const char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+ 1883 |                         obj = ucl_object_fromstring_common(buf, buflen, flags);
+      |                                                            ^~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/include/ucl.h:353:67: note: passing argument to parameter 'str' here
+  353 | UCL_EXTERN ucl_object_t *ucl_object_fromstring_common(const char *str, size_t len,
+      |                                                                   ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:1937:38: warning: passing 'const unsigned char *' to parameter of type 'const char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+ 1937 |         parent = ucl_object_lookup_len(ctx, data, len);
+      |                                             ^~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/include/ucl.h:724:27: note: passing argument to parameter 'key' here
+  724 |                                                                                                          const char *key, size_t klen);
+      |                                                                                                                      ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:2028:22: warning: passing 'char[4096]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+ 2028 |         if (!ucl_fetch_file(realbuf, &buf, &len, &parser->err, true)) {
+      |                             ^~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:884:42: note: passing argument to parameter 'filename' here
+  884 | bool ucl_fetch_file(const unsigned char *filename, unsigned char **buf, size_t *buflen,
+      |                                          ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:2338:39: warning: assigning to 'unsigned char *' from 'char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+ 2338 |                                 obj->trash_stack[UCL_TRASH_VALUE] = dst;
+      |                                                                   ^ ~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:2347:39: warning: assigning to 'unsigned char *' from 'char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+ 2347 |                                 obj->trash_stack[UCL_TRASH_VALUE] = dst;
+      |                                                                   ^ ~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:2354:39: warning: passing 'char *' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+ 2354 |                                 if (!ucl_maybe_parse_boolean(obj, dst, obj->len) && (flags & UCL_STRING_PARSE_NUMBER)) {
+      |                                                                   ^~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_internal.h:402:65: note: passing argument to parameter 'start' here
+  402 | ucl_maybe_parse_boolean(ucl_object_t *obj, const unsigned char *start, size_t len)
+      |                                                                 ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:3670:14: warning: assigning to 'const char *' from 'unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+ 3670 |                                 new->key = new->trash_stack[UCL_TRASH_KEY];
+      |                                          ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:3675:16: warning: passing 'unsigned char *const' to parameter of type 'const char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+ 3675 |                                 UCL_STRDUP(other->trash_stack[UCL_TRASH_VALUE]);
+      |                                 ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/include/ucl.h:87:41: note: expanded from macro 'UCL_STRDUP'
+   87 | #define UCL_STRDUP(str) ucl_strdup_impl(str)
+      |                                         ^~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/include/ucl.h:80:49: note: passing argument to parameter 's' here
+   80 | static inline char *ucl_strdup_impl(const char *s)
+      |                                                 ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:3674:38: warning: assigning to 'unsigned char *' from 'char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+ 3674 |                         new->trash_stack[UCL_TRASH_VALUE] =
+      |                                                           ^
+ 3675 |                                 UCL_STRDUP(other->trash_stack[UCL_TRASH_VALUE]);
+      |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:3677:19: warning: assigning to 'const char *' from 'unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+ 3677 |                                 new->value.sv = new->trash_stack[UCL_TRASH_VALUE];
+      |                                               ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+24 warnings generated.
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:156:32: warning: passing 'const unsigned char *' to parameter of type 'const char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  156 |                                                 ucl_save_comment(parser, beg, p - beg);
+      |                                                                          ^~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:100:57: note: passing argument to parameter 'begin' here
+  100 | ucl_save_comment(struct ucl_parser *parser, const char *begin, size_t len)
+      |                                                         ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:190:32: warning: passing 'const unsigned char *' to parameter of type 'const char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  190 |                                                 ucl_save_comment(parser, beg, p - beg + 1);
+      |                                                                          ^~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:100:57: note: passing argument to parameter 'begin' here
+  100 | ucl_save_comment(struct ucl_parser *parser, const char *begin, size_t len)
+      |                                                         ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:215:28: warning: passing 'const unsigned char *' to parameter of type 'const char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  215 |                 ucl_save_comment(parser, beg, p - beg);
+      |                                          ^~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:100:57: note: passing argument to parameter 'begin' here
+  100 | ucl_save_comment(struct ucl_parser *parser, const char *begin, size_t len)
+      |                                                         ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:350:27: warning: passing 'const char *' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  350 |                 if (parser->var_handler(ptr, remain, &dst, &dstlen, &need_free,
+      |                                         ^~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:481:28: warning: passing 'const char *' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  481 |                         if (parser->var_handler(p, in_len, &dst, &dstlen, &need_free,
+      |                                                 ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:616:30: warning: passing 'unsigned char *' to parameter of type 'char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  616 |                         ret = ucl_strlcpy_tolower(*dst, src, in_len + 1);
+      |                                                   ^~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_internal.h:365:34: note: passing argument to parameter 'dst' here
+  365 | size_t ucl_strlcpy_tolower(char *dst, const char *src, size_t siz);
+      |                                  ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:616:36: warning: passing 'const unsigned char *' to parameter of type 'const char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  616 |                         ret = ucl_strlcpy_tolower(*dst, src, in_len + 1);
+      |                                                         ^~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_internal.h:365:51: note: passing argument to parameter 'src' here
+  365 | size_t ucl_strlcpy_tolower(char *dst, const char *src, size_t siz);
+      |                                                   ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:619:29: warning: passing 'unsigned char *' to parameter of type 'char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  619 |                         ret = ucl_strlcpy_unsafe(*dst, src, in_len + 1);
+      |                                                  ^~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_internal.h:364:33: note: passing argument to parameter 'dst' here
+  364 | size_t ucl_strlcpy_unsafe(char *dst, const char *src, size_t siz);
+      |                                 ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:619:35: warning: passing 'const unsigned char *' to parameter of type 'const char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  619 |                         ret = ucl_strlcpy_unsafe(*dst, src, in_len + 1);
+      |                                                        ^~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_internal.h:364:50: note: passing argument to parameter 'src' here
+  364 | size_t ucl_strlcpy_unsafe(char *dst, const char *src, size_t siz);
+      |                                                  ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:624:36: warning: passing 'unsigned char *' to parameter of type 'char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  624 |                                 ret = ucl_unescape_json_string(*dst, ret);
+      |                                                                ^~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_internal.h:288:39: note: passing argument to parameter 'str' here
+  288 | size_t ucl_unescape_json_string(char *str, size_t len);
+      |                                       ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:627:39: warning: passing 'unsigned char *' to parameter of type 'char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  627 |                                 ret = ucl_unescape_squoted_string(*dst, ret);
+      |                                                                   ^~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_internal.h:295:42: note: passing argument to parameter 'str' here
+  295 | size_t ucl_unescape_squoted_string(char *str, size_t len);
+      |                                          ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:634:43: warning: passing 'unsigned char *' to parameter of type 'const char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  634 |                         ret = ucl_expand_variable(parser, dst, tmp, ret);
+      |                                                                ^~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:531:18: note: passing argument to parameter 'src' here
+  531 |                                         const char *src, size_t in_len)
+      |                                                     ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:645:14: warning: assigning to 'const char *' from 'unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  645 |                 *dst_const = *dst;
+      |                            ^ ~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:648:14: warning: assigning to 'const char *' from 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  648 |                 *dst_const = src;
+      |                            ^ ~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:1061:36: warning: passing 'const unsigned char *' to parameter of type 'const char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+ 1061 |         ret = ucl_maybe_parse_number(obj, chunk->pos, chunk->end, (const char **) &pos,
+      |                                           ^~~~~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:748:22: note: passing argument to parameter 'start' here
+  748 |                                                    const char *start, const char *end, const char **pos,
+      |                                                                ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:1061:48: warning: passing 'const unsigned char *' to parameter of type 'const char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+ 1061 |         ret = ucl_maybe_parse_number(obj, chunk->pos, chunk->end, (const char **) &pos,
+      |                                                       ^~~~~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:748:41: note: passing argument to parameter 'end' here
+  748 |                                                    const char *start, const char *end, const char **pos,
+      |                                                                                   ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:2234:30: warning: passing 'const unsigned char *' to parameter of type 'const char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+ 2234 |                                 ucl_save_comment(parser, c, p - c);
+      |                                                          ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:100:57: note: passing argument to parameter 'begin' here
+  100 | ucl_save_comment(struct ucl_parser *parser, const char *begin, size_t len)
+      |                                                         ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:2689:12: warning: passing 'const unsigned char *' to parameter of type 'const char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+ 2689 |                                                                                         macro_start, macro_len);
+      |                                                                                         ^~~~~~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:531:18: note: passing argument to parameter 'src' here
+  531 |                                         const char *src, size_t in_len)
+      |                                                     ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:3177:13: warning: passing 'const unsigned char *' to parameter of type 'const char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+ 3177 |                                                                                   (const unsigned char *) data, len, parser->default_priority);
+      |                                                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:3154:76: note: passing argument to parameter 'data' here
+ 3154 | bool ucl_parser_add_string_priority(struct ucl_parser *parser, const char *data,
+      |                                                                            ^
+19 warnings generated.
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter.c:122:33: warning: passing 'const char *const' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  122 |                         func->ucl_emitter_append_len(obj->key, obj->keylen, func->ud);
+      |                                                      ^~~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter.c:126:33: warning: passing 'char[4]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  126 |                         func->ucl_emitter_append_len(" = ", 3, func->ud);
+      |                                                      ^~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter.c:137:33: warning: passing 'const char *const' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  137 |                         func->ucl_emitter_append_len(obj->key, obj->keylen, func->ud);
+      |                                                      ^~~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter.c:140:33: warning: passing 'char[5]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  140 |                         func->ucl_emitter_append_len("null", 4, func->ud);
+      |                                                      ^~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter.c:143:32: warning: passing 'char[3]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  143 |                 func->ucl_emitter_append_len(": ", 2, func->ud);
+      |                                              ^~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter.c:150:33: warning: passing 'char[5]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  150 |                         func->ucl_emitter_append_len("null", 4, func->ud);
+      |                                                      ^~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter.c:157:33: warning: passing 'char[3]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  157 |                         func->ucl_emitter_append_len(": ", 2, func->ud);
+      |                                                      ^~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter.c:172:34: warning: passing 'char[3]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  172 |                                 func->ucl_emitter_append_len(";\n", 2, func->ud);
+      |                                                              ^~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter.c:176:34: warning: passing 'char[3]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  176 |                                 func->ucl_emitter_append_len(",\n", 2, func->ud);
+      |                                                              ^~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter.c:262:34: warning: passing 'char[2]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  262 |                                 func->ucl_emitter_append_len("\n", 1, func->ud);
+      |                                                              ^~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter.c:265:34: warning: passing 'char[3]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  265 |                                 func->ucl_emitter_append_len(",\n", 2, func->ud);
+      |                                                              ^~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter.c:277:32: warning: passing 'char[3]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  277 |                 func->ucl_emitter_append_len("[\n", 2, func->ud);
+      |                                              ^~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter.c:321:34: warning: passing 'char[2]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  321 |                                 func->ucl_emitter_append_len("\n", 1, func->ud);
+      |                                                              ^~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter.c:324:34: warning: passing 'char[3]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  324 |                                 func->ucl_emitter_append_len(",\n", 2, func->ud);
+      |                                                              ^~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter.c:340:33: warning: passing 'char[3]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  340 |                         func->ucl_emitter_append_len("{\n", 2, func->ud);
+      |                                                      ^~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter.c:361:36: warning: passing 'char[3]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  361 |                                                 func->ucl_emitter_append_len(",\n", 2, func->ud);
+      |                                                                              ^~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter.c:401:34: warning: passing 'char[2]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  401 |                                 func->ucl_emitter_append_len("\n", 1, func->ud);
+      |                                                              ^~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter.c:404:34: warning: passing 'char[3]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  404 |                                 func->ucl_emitter_append_len(",\n", 2, func->ud);
+      |                                                              ^~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter.c:419:35: warning: passing 'const char *const' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  419 |                                         func->ucl_emitter_append_len(cur_comment->value.sv,
+      |                                                                      ^~~~~~~~~~~~~~~~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter.c:447:33: warning: passing 'char[5]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  447 |                         func->ucl_emitter_append_len("true", 4, func->ud);
+      |                                                      ^~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter.c:450:33: warning: passing 'char[6]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  450 |                         func->ucl_emitter_append_len("false", 5, func->ud);
+      |                                                      ^~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter.c:476:32: warning: passing 'char[5]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  476 |                 func->ucl_emitter_append_len("null", 4, func->ud);
+      |                                              ^~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter.c:504:33: warning: passing 'const char *const' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  504 |                         func->ucl_emitter_append_len(cur_comment->value.sv,
+      |                                                      ^~~~~~~~~~~~~~~~~~~~~
+23 warnings generated.
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:93:34: warning: passing 'const char *' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+   93 |                                 func->ucl_emitter_append_len(c, len, func->ud);
+      |                                                              ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:97:34: warning: passing 'char[3]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+   97 |                                 func->ucl_emitter_append_len("\\n", 2, func->ud);
+      |                                                              ^~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:100:34: warning: passing 'char[3]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  100 |                                 func->ucl_emitter_append_len("\\r", 2, func->ud);
+      |                                                              ^~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:103:34: warning: passing 'char[3]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  103 |                                 func->ucl_emitter_append_len("\\b", 2, func->ud);
+      |                                                              ^~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:106:34: warning: passing 'char[3]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  106 |                                 func->ucl_emitter_append_len("\\t", 2, func->ud);
+      |                                                              ^~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:109:34: warning: passing 'char[3]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  109 |                                 func->ucl_emitter_append_len("\\f", 2, func->ud);
+      |                                                              ^~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:112:34: warning: passing 'char[7]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  112 |                                 func->ucl_emitter_append_len("\\u000B", 6, func->ud);
+      |                                                              ^~~~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:115:34: warning: passing 'char[3]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  115 |                                 func->ucl_emitter_append_len("\\\\", 2, func->ud);
+      |                                                              ^~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:121:34: warning: passing 'char[3]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  121 |                                 func->ucl_emitter_append_len("\\\"", 2, func->ud);
+      |                                                              ^~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:125:34: warning: passing 'char[7]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  125 |                                 func->ucl_emitter_append_len("\\uFFFD", 6, func->ud);
+      |                                                              ^~~~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:139:32: warning: passing 'const char *' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  139 |                 func->ucl_emitter_append_len(c, len, func->ud);
+      |                                              ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:157:34: warning: passing 'const char *' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  157 |                                 func->ucl_emitter_append_len(c, len, func->ud);
+      |                                                              ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:162:33: warning: passing 'char[3]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  162 |                         func->ucl_emitter_append_len("\\\'", 2, func->ud);
+      |                                                      ^~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:172:32: warning: passing 'const char *' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  172 |                 func->ucl_emitter_append_len(c, len, func->ud);
+      |                                              ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:183:31: warning: passing 'char[7]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  183 |         func->ucl_emitter_append_len("<<EOD\n", sizeof("<<EOD\n") - 1, func->ud);
+      |                                      ^~~~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:184:31: warning: passing 'const char *' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  184 |         func->ucl_emitter_append_len(str, size, func->ud);
+      |                                      ^~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:185:31: warning: passing 'char[5]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  185 |         func->ucl_emitter_append_len("\nEOD", sizeof("\nEOD") - 1, func->ud);
+      |                                      ^~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:472:28: warning: passing 'char[7]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  472 |                         ucl_utstring_append_len("object", 6, buf);
+      |                                                 ^~~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:210:46: note: passing argument to parameter 'str' here
+  210 | ucl_utstring_append_len(const unsigned char *str, size_t len, void *ud)
+      |                                              ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:475:28: warning: passing 'char[6]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  475 |                         ucl_utstring_append_len("array", 5, buf);
+      |                                                 ^~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:210:46: note: passing argument to parameter 'str' here
+  210 | ucl_utstring_append_len(const unsigned char *str, size_t len, void *ud)
+      |                                              ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:485:28: warning: passing 'char[5]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  485 |                         ucl_utstring_append_len("null", 4, buf);
+      |                                                 ^~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:210:46: note: passing argument to parameter 'str' here
+  210 | ucl_utstring_append_len(const unsigned char *str, size_t len, void *ud)
+      |                                              ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:489:29: warning: passing 'char[5]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  489 |                                 ucl_utstring_append_len("true", 4, buf);
+      |                                                         ^~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:210:46: note: passing argument to parameter 'str' here
+  210 | ucl_utstring_append_len(const unsigned char *str, size_t len, void *ud)
+      |                                              ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:492:29: warning: passing 'char[6]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  492 |                                 ucl_utstring_append_len("false", 5, buf);
+      |                                                         ^~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:210:46: note: passing argument to parameter 'str' here
+  210 | ucl_utstring_append_len(const unsigned char *str, size_t len, void *ud)
+      |                                              ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:496:28: warning: passing 'const char *const' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  496 |                         ucl_utstring_append_len(obj->value.sv, obj->len, buf);
+      |                                                 ^~~~~~~~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:210:46: note: passing argument to parameter 'str' here
+  210 | ucl_utstring_append_len(const unsigned char *str, size_t len, void *ud)
+      |                                              ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:499:28: warning: passing 'char[9]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  499 |                         ucl_utstring_append_len("userdata", 8, buf);
+      |                                                 ^~~~~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:210:46: note: passing argument to parameter 'str' here
+  210 | ucl_utstring_append_len(const unsigned char *str, size_t len, void *ud)
+      |                                              ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:502:7: warning: assigning to 'unsigned char *' from 'char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  502 |                 res = utstring_body(buf);
+      |                     ^ ~~~~~~~~~~~~~~~~~~
+25 warnings generated.
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_schema.c:778:24: warning: passing 'const char *' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  778 |                                 if (!ucl_fetch_url(p, &url_buf, &url_buflen, &url_err, true)) {
+      |                                                    ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_internal.h:624:41: note: passing argument to parameter 'url' here
+  624 | bool ucl_fetch_url(const unsigned char *url,
+      |                                         ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_schema.c:793:25: warning: passing 'const char *' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  793 |                                 if (!ucl_fetch_file(p, &url_buf, &url_buflen, &url_err,
+      |                                                     ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_internal.h:638:42: note: passing argument to parameter 'filename' here
+  638 | bool ucl_fetch_file(const unsigned char *filename,
+      |                                          ^
+2 warnings generated.
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_msgpack.c:248:31: warning: passing 'const char *' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  248 |         func->ucl_emitter_append_len(s, len, func->ud);
+      |                                      ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_msgpack.c:280:31: warning: passing 'const char *' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  280 |         func->ucl_emitter_append_len(s, len, func->ud);
+      |                                      ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_msgpack.c:782:12: warning: assigning to 'const char *' from 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  782 |                 obj->key = key;
+      |                          ^ ~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_msgpack.c:1183:10: warning: format specifies type 'size_t' (aka 'unsigned long') but the argument has type 'uintmax_t' (aka 'unsigned long long') [-Wformat]
+ 1182 |                                                    "invalid non-empty container at the end; len=%zu",
+      |                                                                                                 ~~~
+      |                                                                                                 %ju
+ 1183 |                                                    (uintmax_t) len);
+      |                                                    ^~~~~~~~~~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_msgpack.c:1337:16: warning: assigning to 'const char *' from 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+ 1337 |         obj->value.sv = pos;
+      |                       ^ ~~~
+5 warnings generated.
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:508:16: warning: assigning to 'const char *' from 'unsigned char *const' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  508 |                 deconst->key = obj->trash_stack[UCL_TRASH_KEY];
+      |                              ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:512:9: warning: returning 'unsigned char *const' from a function with result type 'char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  512 |         return obj->trash_stack[UCL_TRASH_KEY];
+      |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:564:24: warning: assigning to 'const char *' from 'unsigned char *const' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  564 |                                         deconst->value.sv = obj->trash_stack[UCL_TRASH_VALUE];
+      |                                                           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:574:24: warning: assigning to 'const char *' from 'unsigned char *const' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  574 |                                         deconst->value.sv = obj->trash_stack[UCL_TRASH_VALUE];
+      |                                                           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:581:26: warning: passing 'unsigned char *const' to parameter of type 'const char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  581 |                         deconst->len = strlen(obj->trash_stack[UCL_TRASH_VALUE]);
+      |                                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/baseline-tmp/interspec-rlbox-wasm2c/build/_deps/wasiclang-src/share/wasi-sysroot/include/__header_string.h:14:27: note: passing argument to parameter here
+   14 | size_t strlen(const char *) __attribute__((__nothrow__, __leaf__, __pure__, __nonnull__(1)));
+      |                           ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:586:9: warning: returning 'unsigned char *const' from a function with result type 'char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  586 |         return obj->trash_stack[UCL_TRASH_VALUE];
+      |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:889:17: warning: passing 'const unsigned char *' to parameter of type 'const char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  889 |         if ((fd = open(filename, O_RDONLY)) == -1) {
+      |                        ^~~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/baseline-tmp/interspec-rlbox-wasm2c/build/_deps/wasiclang-src/share/wasi-sysroot/include/fcntl.h:38:22: note: passing argument to parameter here
+   38 | int open(const char *, int, ...);
+      |                      ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:1022:21: warning: passing 'char[4096]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+ 1022 |         if (!ucl_fetch_url(urlbuf, &buf, &buflen, &parser->err, params->must_exist)) {
+      |                            ^~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:788:41: note: passing argument to parameter 'url' here
+  788 | bool ucl_fetch_url(const unsigned char *url, unsigned char **buf, size_t *buflen,
+      |                                         ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:1132:22: warning: passing 'char[4096]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+ 1132 |         if (!ucl_fetch_file(realbuf, &buf, &buflen, &parser->err, params->must_exist)) {
+      |                             ^~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:884:42: note: passing argument to parameter 'filename' here
+  884 | bool ucl_fetch_file(const unsigned char *filename, unsigned char **buf, size_t *buflen,
+      |                                          ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:1551:12: warning: passing 'const unsigned char *' to parameter of type 'const char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+ 1551 |                                                                    data, len, parser->include_trace_ud);
+      |                                                                    ^~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:1612:32: warning: passing 'const unsigned char *' to parameter of type 'const char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+ 1612 |                 if (allow_url && ucl_strnstr(data, "://", len) != NULL) {
+      |                                              ^~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_internal.h:367:31: note: passing argument to parameter 's' here
+  367 | char *ucl_strnstr(const char *s, const char *find, int len);
+      |                               ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:1622:32: warning: passing 'const unsigned char *' to parameter of type 'const char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+ 1622 |                 if (allow_url && ucl_strnstr(data, "://", len) != NULL) {
+      |                                              ^~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_internal.h:367:31: note: passing argument to parameter 's' here
+  367 | char *ucl_strnstr(const char *s, const char *find, int len);
+      |                               ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:1632:36: warning: passing 'char[4096]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+ 1632 |                                 if ((search = ucl_include_file(ipath, strlen(ipath),
+      |                                                                ^~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:1430:39: note: passing argument to parameter 'data' here
+ 1430 | ucl_include_file(const unsigned char *data, size_t len,
+      |                                       ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:1857:23: warning: passing 'char *' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+ 1857 |                 if (!ucl_fetch_file(load_file, &buf, &buflen, &parser->err,
+      |                                     ^~~~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:884:42: note: passing argument to parameter 'filename' here
+  884 | bool ucl_fetch_file(const unsigned char *filename, unsigned char **buf, size_t *buflen,
+      |                                          ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:1883:39: warning: passing 'unsigned char *' to parameter of type 'const char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+ 1883 |                         obj = ucl_object_fromstring_common(buf, buflen, flags);
+      |                                                            ^~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/include/ucl.h:353:67: note: passing argument to parameter 'str' here
+  353 | UCL_EXTERN ucl_object_t *ucl_object_fromstring_common(const char *str, size_t len,
+      |                                                                   ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:1937:38: warning: passing 'const unsigned char *' to parameter of type 'const char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+ 1937 |         parent = ucl_object_lookup_len(ctx, data, len);
+      |                                             ^~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/include/ucl.h:724:27: note: passing argument to parameter 'key' here
+  724 |                                                                                                          const char *key, size_t klen);
+      |                                                                                                                      ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:2028:22: warning: passing 'char[4096]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+ 2028 |         if (!ucl_fetch_file(realbuf, &buf, &len, &parser->err, true)) {
+      |                             ^~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:884:42: note: passing argument to parameter 'filename' here
+  884 | bool ucl_fetch_file(const unsigned char *filename, unsigned char **buf, size_t *buflen,
+      |                                          ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:2338:39: warning: assigning to 'unsigned char *' from 'char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+ 2338 |                                 obj->trash_stack[UCL_TRASH_VALUE] = dst;
+      |                                                                   ^ ~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:2347:39: warning: assigning to 'unsigned char *' from 'char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+ 2347 |                                 obj->trash_stack[UCL_TRASH_VALUE] = dst;
+      |                                                                   ^ ~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:2354:39: warning: passing 'char *' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+ 2354 |                                 if (!ucl_maybe_parse_boolean(obj, dst, obj->len) && (flags & UCL_STRING_PARSE_NUMBER)) {
+      |                                                                   ^~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_internal.h:402:65: note: passing argument to parameter 'start' here
+  402 | ucl_maybe_parse_boolean(ucl_object_t *obj, const unsigned char *start, size_t len)
+      |                                                                 ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:3670:14: warning: assigning to 'const char *' from 'unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+ 3670 |                                 new->key = new->trash_stack[UCL_TRASH_KEY];
+      |                                          ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:3675:16: warning: passing 'unsigned char *const' to parameter of type 'const char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+ 3675 |                                 UCL_STRDUP(other->trash_stack[UCL_TRASH_VALUE]);
+      |                                 ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/include/ucl.h:87:41: note: expanded from macro 'UCL_STRDUP'
+   87 | #define UCL_STRDUP(str) ucl_strdup_impl(str)
+      |                                         ^~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/include/ucl.h:80:49: note: passing argument to parameter 's' here
+   80 | static inline char *ucl_strdup_impl(const char *s)
+      |                                                 ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:3674:38: warning: assigning to 'unsigned char *' from 'char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+ 3674 |                         new->trash_stack[UCL_TRASH_VALUE] =
+      |                                                           ^
+ 3675 |                                 UCL_STRDUP(other->trash_stack[UCL_TRASH_VALUE]);
+      |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:3677:19: warning: assigning to 'const char *' from 'unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+ 3677 |                                 new->value.sv = new->trash_stack[UCL_TRASH_VALUE];
+      |                                               ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+24 warnings generated.
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:156:32: warning: passing 'const unsigned char *' to parameter of type 'const char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  156 |                                                 ucl_save_comment(parser, beg, p - beg);
+      |                                                                          ^~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:100:57: note: passing argument to parameter 'begin' here
+  100 | ucl_save_comment(struct ucl_parser *parser, const char *begin, size_t len)
+      |                                                         ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:190:32: warning: passing 'const unsigned char *' to parameter of type 'const char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  190 |                                                 ucl_save_comment(parser, beg, p - beg + 1);
+      |                                                                          ^~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:100:57: note: passing argument to parameter 'begin' here
+  100 | ucl_save_comment(struct ucl_parser *parser, const char *begin, size_t len)
+      |                                                         ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:215:28: warning: passing 'const unsigned char *' to parameter of type 'const char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  215 |                 ucl_save_comment(parser, beg, p - beg);
+      |                                          ^~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:100:57: note: passing argument to parameter 'begin' here
+  100 | ucl_save_comment(struct ucl_parser *parser, const char *begin, size_t len)
+      |                                                         ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:350:27: warning: passing 'const char *' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  350 |                 if (parser->var_handler(ptr, remain, &dst, &dstlen, &need_free,
+      |                                         ^~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:481:28: warning: passing 'const char *' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  481 |                         if (parser->var_handler(p, in_len, &dst, &dstlen, &need_free,
+      |                                                 ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:616:30: warning: passing 'unsigned char *' to parameter of type 'char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  616 |                         ret = ucl_strlcpy_tolower(*dst, src, in_len + 1);
+      |                                                   ^~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_internal.h:365:34: note: passing argument to parameter 'dst' here
+  365 | size_t ucl_strlcpy_tolower(char *dst, const char *src, size_t siz);
+      |                                  ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:616:36: warning: passing 'const unsigned char *' to parameter of type 'const char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  616 |                         ret = ucl_strlcpy_tolower(*dst, src, in_len + 1);
+      |                                                         ^~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_internal.h:365:51: note: passing argument to parameter 'src' here
+  365 | size_t ucl_strlcpy_tolower(char *dst, const char *src, size_t siz);
+      |                                                   ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:619:29: warning: passing 'unsigned char *' to parameter of type 'char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  619 |                         ret = ucl_strlcpy_unsafe(*dst, src, in_len + 1);
+      |                                                  ^~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_internal.h:364:33: note: passing argument to parameter 'dst' here
+  364 | size_t ucl_strlcpy_unsafe(char *dst, const char *src, size_t siz);
+      |                                 ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:619:35: warning: passing 'const unsigned char *' to parameter of type 'const char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  619 |                         ret = ucl_strlcpy_unsafe(*dst, src, in_len + 1);
+      |                                                        ^~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_internal.h:364:50: note: passing argument to parameter 'src' here
+  364 | size_t ucl_strlcpy_unsafe(char *dst, const char *src, size_t siz);
+      |                                                  ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:624:36: warning: passing 'unsigned char *' to parameter of type 'char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  624 |                                 ret = ucl_unescape_json_string(*dst, ret);
+      |                                                                ^~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_internal.h:288:39: note: passing argument to parameter 'str' here
+  288 | size_t ucl_unescape_json_string(char *str, size_t len);
+      |                                       ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:627:39: warning: passing 'unsigned char *' to parameter of type 'char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  627 |                                 ret = ucl_unescape_squoted_string(*dst, ret);
+      |                                                                   ^~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_internal.h:295:42: note: passing argument to parameter 'str' here
+  295 | size_t ucl_unescape_squoted_string(char *str, size_t len);
+      |                                          ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:634:43: warning: passing 'unsigned char *' to parameter of type 'const char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  634 |                         ret = ucl_expand_variable(parser, dst, tmp, ret);
+      |                                                                ^~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:531:18: note: passing argument to parameter 'src' here
+  531 |                                         const char *src, size_t in_len)
+      |                                                     ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:645:14: warning: assigning to 'const char *' from 'unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  645 |                 *dst_const = *dst;
+      |                            ^ ~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:648:14: warning: assigning to 'const char *' from 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  648 |                 *dst_const = src;
+      |                            ^ ~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:1061:36: warning: passing 'const unsigned char *' to parameter of type 'const char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+ 1061 |         ret = ucl_maybe_parse_number(obj, chunk->pos, chunk->end, (const char **) &pos,
+      |                                           ^~~~~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:748:22: note: passing argument to parameter 'start' here
+  748 |                                                    const char *start, const char *end, const char **pos,
+      |                                                                ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:1061:48: warning: passing 'const unsigned char *' to parameter of type 'const char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+ 1061 |         ret = ucl_maybe_parse_number(obj, chunk->pos, chunk->end, (const char **) &pos,
+      |                                                       ^~~~~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:748:41: note: passing argument to parameter 'end' here
+  748 |                                                    const char *start, const char *end, const char **pos,
+      |                                                                                   ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:2234:30: warning: passing 'const unsigned char *' to parameter of type 'const char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+ 2234 |                                 ucl_save_comment(parser, c, p - c);
+      |                                                          ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:100:57: note: passing argument to parameter 'begin' here
+  100 | ucl_save_comment(struct ucl_parser *parser, const char *begin, size_t len)
+      |                                                         ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:2689:12: warning: passing 'const unsigned char *' to parameter of type 'const char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+ 2689 |                                                                                         macro_start, macro_len);
+      |                                                                                         ^~~~~~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:531:18: note: passing argument to parameter 'src' here
+  531 |                                         const char *src, size_t in_len)
+      |                                                     ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:3177:13: warning: passing 'const unsigned char *' to parameter of type 'const char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+ 3177 |                                                                                   (const unsigned char *) data, len, parser->default_priority);
+      |                                                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:3154:76: note: passing argument to parameter 'data' here
+ 3154 | bool ucl_parser_add_string_priority(struct ucl_parser *parser, const char *data,
+      |                                                                            ^
+19 warnings generated.
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter.c:122:33: warning: passing 'const char *const' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  122 |                         func->ucl_emitter_append_len(obj->key, obj->keylen, func->ud);
+      |                                                      ^~~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter.c:126:33: warning: passing 'char[4]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  126 |                         func->ucl_emitter_append_len(" = ", 3, func->ud);
+      |                                                      ^~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter.c:137:33: warning: passing 'const char *const' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  137 |                         func->ucl_emitter_append_len(obj->key, obj->keylen, func->ud);
+      |                                                      ^~~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter.c:140:33: warning: passing 'char[5]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  140 |                         func->ucl_emitter_append_len("null", 4, func->ud);
+      |                                                      ^~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter.c:143:32: warning: passing 'char[3]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  143 |                 func->ucl_emitter_append_len(": ", 2, func->ud);
+      |                                              ^~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter.c:150:33: warning: passing 'char[5]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  150 |                         func->ucl_emitter_append_len("null", 4, func->ud);
+      |                                                      ^~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter.c:157:33: warning: passing 'char[3]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  157 |                         func->ucl_emitter_append_len(": ", 2, func->ud);
+      |                                                      ^~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter.c:172:34: warning: passing 'char[3]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  172 |                                 func->ucl_emitter_append_len(";\n", 2, func->ud);
+      |                                                              ^~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter.c:176:34: warning: passing 'char[3]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  176 |                                 func->ucl_emitter_append_len(",\n", 2, func->ud);
+      |                                                              ^~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter.c:262:34: warning: passing 'char[2]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  262 |                                 func->ucl_emitter_append_len("\n", 1, func->ud);
+      |                                                              ^~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter.c:265:34: warning: passing 'char[3]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  265 |                                 func->ucl_emitter_append_len(",\n", 2, func->ud);
+      |                                                              ^~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter.c:277:32: warning: passing 'char[3]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  277 |                 func->ucl_emitter_append_len("[\n", 2, func->ud);
+      |                                              ^~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter.c:321:34: warning: passing 'char[2]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  321 |                                 func->ucl_emitter_append_len("\n", 1, func->ud);
+      |                                                              ^~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter.c:324:34: warning: passing 'char[3]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  324 |                                 func->ucl_emitter_append_len(",\n", 2, func->ud);
+      |                                                              ^~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter.c:340:33: warning: passing 'char[3]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  340 |                         func->ucl_emitter_append_len("{\n", 2, func->ud);
+      |                                                      ^~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter.c:361:36: warning: passing 'char[3]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  361 |                                                 func->ucl_emitter_append_len(",\n", 2, func->ud);
+      |                                                                              ^~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter.c:401:34: warning: passing 'char[2]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  401 |                                 func->ucl_emitter_append_len("\n", 1, func->ud);
+      |                                                              ^~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter.c:404:34: warning: passing 'char[3]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  404 |                                 func->ucl_emitter_append_len(",\n", 2, func->ud);
+      |                                                              ^~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter.c:419:35: warning: passing 'const char *const' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  419 |                                         func->ucl_emitter_append_len(cur_comment->value.sv,
+      |                                                                      ^~~~~~~~~~~~~~~~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter.c:447:33: warning: passing 'char[5]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  447 |                         func->ucl_emitter_append_len("true", 4, func->ud);
+      |                                                      ^~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter.c:450:33: warning: passing 'char[6]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  450 |                         func->ucl_emitter_append_len("false", 5, func->ud);
+      |                                                      ^~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter.c:476:32: warning: passing 'char[5]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  476 |                 func->ucl_emitter_append_len("null", 4, func->ud);
+      |                                              ^~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter.c:504:33: warning: passing 'const char *const' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  504 |                         func->ucl_emitter_append_len(cur_comment->value.sv,
+      |                                                      ^~~~~~~~~~~~~~~~~~~~~
+23 warnings generated.
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:93:34: warning: passing 'const char *' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+   93 |                                 func->ucl_emitter_append_len(c, len, func->ud);
+      |                                                              ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:97:34: warning: passing 'char[3]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+   97 |                                 func->ucl_emitter_append_len("\\n", 2, func->ud);
+      |                                                              ^~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:100:34: warning: passing 'char[3]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  100 |                                 func->ucl_emitter_append_len("\\r", 2, func->ud);
+      |                                                              ^~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:103:34: warning: passing 'char[3]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  103 |                                 func->ucl_emitter_append_len("\\b", 2, func->ud);
+      |                                                              ^~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:106:34: warning: passing 'char[3]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  106 |                                 func->ucl_emitter_append_len("\\t", 2, func->ud);
+      |                                                              ^~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:109:34: warning: passing 'char[3]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  109 |                                 func->ucl_emitter_append_len("\\f", 2, func->ud);
+      |                                                              ^~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:112:34: warning: passing 'char[7]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  112 |                                 func->ucl_emitter_append_len("\\u000B", 6, func->ud);
+      |                                                              ^~~~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:115:34: warning: passing 'char[3]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  115 |                                 func->ucl_emitter_append_len("\\\\", 2, func->ud);
+      |                                                              ^~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:121:34: warning: passing 'char[3]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  121 |                                 func->ucl_emitter_append_len("\\\"", 2, func->ud);
+      |                                                              ^~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:125:34: warning: passing 'char[7]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  125 |                                 func->ucl_emitter_append_len("\\uFFFD", 6, func->ud);
+      |                                                              ^~~~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:139:32: warning: passing 'const char *' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  139 |                 func->ucl_emitter_append_len(c, len, func->ud);
+      |                                              ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:157:34: warning: passing 'const char *' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  157 |                                 func->ucl_emitter_append_len(c, len, func->ud);
+      |                                                              ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:162:33: warning: passing 'char[3]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  162 |                         func->ucl_emitter_append_len("\\\'", 2, func->ud);
+      |                                                      ^~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:172:32: warning: passing 'const char *' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  172 |                 func->ucl_emitter_append_len(c, len, func->ud);
+      |                                              ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:183:31: warning: passing 'char[7]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  183 |         func->ucl_emitter_append_len("<<EOD\n", sizeof("<<EOD\n") - 1, func->ud);
+      |                                      ^~~~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:184:31: warning: passing 'const char *' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  184 |         func->ucl_emitter_append_len(str, size, func->ud);
+      |                                      ^~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:185:31: warning: passing 'char[5]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  185 |         func->ucl_emitter_append_len("\nEOD", sizeof("\nEOD") - 1, func->ud);
+      |                                      ^~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:472:28: warning: passing 'char[7]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  472 |                         ucl_utstring_append_len("object", 6, buf);
+      |                                                 ^~~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:210:46: note: passing argument to parameter 'str' here
+  210 | ucl_utstring_append_len(const unsigned char *str, size_t len, void *ud)
+      |                                              ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:475:28: warning: passing 'char[6]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  475 |                         ucl_utstring_append_len("array", 5, buf);
+      |                                                 ^~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:210:46: note: passing argument to parameter 'str' here
+  210 | ucl_utstring_append_len(const unsigned char *str, size_t len, void *ud)
+      |                                              ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:485:28: warning: passing 'char[5]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  485 |                         ucl_utstring_append_len("null", 4, buf);
+      |                                                 ^~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:210:46: note: passing argument to parameter 'str' here
+  210 | ucl_utstring_append_len(const unsigned char *str, size_t len, void *ud)
+      |                                              ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:489:29: warning: passing 'char[5]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  489 |                                 ucl_utstring_append_len("true", 4, buf);
+      |                                                         ^~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:210:46: note: passing argument to parameter 'str' here
+  210 | ucl_utstring_append_len(const unsigned char *str, size_t len, void *ud)
+      |                                              ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:492:29: warning: passing 'char[6]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  492 |                                 ucl_utstring_append_len("false", 5, buf);
+      |                                                         ^~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:210:46: note: passing argument to parameter 'str' here
+  210 | ucl_utstring_append_len(const unsigned char *str, size_t len, void *ud)
+      |                                              ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:496:28: warning: passing 'const char *const' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  496 |                         ucl_utstring_append_len(obj->value.sv, obj->len, buf);
+      |                                                 ^~~~~~~~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:210:46: note: passing argument to parameter 'str' here
+  210 | ucl_utstring_append_len(const unsigned char *str, size_t len, void *ud)
+      |                                              ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:499:28: warning: passing 'char[9]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  499 |                         ucl_utstring_append_len("userdata", 8, buf);
+      |                                                 ^~~~~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:210:46: note: passing argument to parameter 'str' here
+  210 | ucl_utstring_append_len(const unsigned char *str, size_t len, void *ud)
+      |                                              ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:502:7: warning: assigning to 'unsigned char *' from 'char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  502 |                 res = utstring_body(buf);
+      |                     ^ ~~~~~~~~~~~~~~~~~~
+25 warnings generated.
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_schema.c:778:24: warning: passing 'const char *' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  778 |                                 if (!ucl_fetch_url(p, &url_buf, &url_buflen, &url_err, true)) {
+      |                                                    ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_internal.h:624:41: note: passing argument to parameter 'url' here
+  624 | bool ucl_fetch_url(const unsigned char *url,
+      |                                         ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_schema.c:793:25: warning: passing 'const char *' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  793 |                                 if (!ucl_fetch_file(p, &url_buf, &url_buflen, &url_err,
+      |                                                     ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_internal.h:638:42: note: passing argument to parameter 'filename' here
+  638 | bool ucl_fetch_file(const unsigned char *filename,
+      |                                          ^
+2 warnings generated.
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_msgpack.c:248:31: warning: passing 'const char *' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  248 |         func->ucl_emitter_append_len(s, len, func->ud);
+      |                                      ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_msgpack.c:280:31: warning: passing 'const char *' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  280 |         func->ucl_emitter_append_len(s, len, func->ud);
+      |                                      ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_msgpack.c:782:12: warning: assigning to 'const char *' from 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  782 |                 obj->key = key;
+      |                          ^ ~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_msgpack.c:1183:10: warning: format specifies type 'size_t' (aka 'unsigned long') but the argument has type 'uintmax_t' (aka 'unsigned long long') [-Wformat]
+ 1182 |                                                    "invalid non-empty container at the end; len=%zu",
+      |                                                                                                 ~~~
+      |                                                                                                 %ju
+ 1183 |                                                    (uintmax_t) len);
+      |                                                    ^~~~~~~~~~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_msgpack.c:1337:16: warning: assigning to 'const char *' from 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+ 1337 |         obj->value.sv = pos;
+      |                       ^ ~~~
+5 warnings generated.
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:508:16: warning: assigning to 'const char *' from 'unsigned char *const' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  508 |                 deconst->key = obj->trash_stack[UCL_TRASH_KEY];
+      |                              ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:512:9: warning: returning 'unsigned char *const' from a function with result type 'char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  512 |         return obj->trash_stack[UCL_TRASH_KEY];
+      |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:564:24: warning: assigning to 'const char *' from 'unsigned char *const' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  564 |                                         deconst->value.sv = obj->trash_stack[UCL_TRASH_VALUE];
+      |                                                           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:574:24: warning: assigning to 'const char *' from 'unsigned char *const' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  574 |                                         deconst->value.sv = obj->trash_stack[UCL_TRASH_VALUE];
+      |                                                           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:581:26: warning: passing 'unsigned char *const' to parameter of type 'const char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  581 |                         deconst->len = strlen(obj->trash_stack[UCL_TRASH_VALUE]);
+      |                                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/baseline-tmp/interspec-rlbox-wasm2c/build/_deps/wasiclang-src/share/wasi-sysroot/include/__header_string.h:14:27: note: passing argument to parameter here
+   14 | size_t strlen(const char *) __attribute__((__nothrow__, __leaf__, __pure__, __nonnull__(1)));
+      |                           ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:586:9: warning: returning 'unsigned char *const' from a function with result type 'char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  586 |         return obj->trash_stack[UCL_TRASH_VALUE];
+      |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:889:17: warning: passing 'const unsigned char *' to parameter of type 'const char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  889 |         if ((fd = open(filename, O_RDONLY)) == -1) {
+      |                        ^~~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/baseline-tmp/interspec-rlbox-wasm2c/build/_deps/wasiclang-src/share/wasi-sysroot/include/fcntl.h:38:22: note: passing argument to parameter here
+   38 | int open(const char *, int, ...);
+      |                      ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:1022:21: warning: passing 'char[4096]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+ 1022 |         if (!ucl_fetch_url(urlbuf, &buf, &buflen, &parser->err, params->must_exist)) {
+      |                            ^~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:788:41: note: passing argument to parameter 'url' here
+  788 | bool ucl_fetch_url(const unsigned char *url, unsigned char **buf, size_t *buflen,
+      |                                         ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:1132:22: warning: passing 'char[4096]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+ 1132 |         if (!ucl_fetch_file(realbuf, &buf, &buflen, &parser->err, params->must_exist)) {
+      |                             ^~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:884:42: note: passing argument to parameter 'filename' here
+  884 | bool ucl_fetch_file(const unsigned char *filename, unsigned char **buf, size_t *buflen,
+      |                                          ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:1551:12: warning: passing 'const unsigned char *' to parameter of type 'const char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+ 1551 |                                                                    data, len, parser->include_trace_ud);
+      |                                                                    ^~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:1612:32: warning: passing 'const unsigned char *' to parameter of type 'const char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+ 1612 |                 if (allow_url && ucl_strnstr(data, "://", len) != NULL) {
+      |                                              ^~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_internal.h:367:31: note: passing argument to parameter 's' here
+  367 | char *ucl_strnstr(const char *s, const char *find, int len);
+      |                               ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:1622:32: warning: passing 'const unsigned char *' to parameter of type 'const char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+ 1622 |                 if (allow_url && ucl_strnstr(data, "://", len) != NULL) {
+      |                                              ^~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_internal.h:367:31: note: passing argument to parameter 's' here
+  367 | char *ucl_strnstr(const char *s, const char *find, int len);
+      |                               ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:1632:36: warning: passing 'char[4096]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+ 1632 |                                 if ((search = ucl_include_file(ipath, strlen(ipath),
+      |                                                                ^~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:1430:39: note: passing argument to parameter 'data' here
+ 1430 | ucl_include_file(const unsigned char *data, size_t len,
+      |                                       ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:1857:23: warning: passing 'char *' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+ 1857 |                 if (!ucl_fetch_file(load_file, &buf, &buflen, &parser->err,
+      |                                     ^~~~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:884:42: note: passing argument to parameter 'filename' here
+  884 | bool ucl_fetch_file(const unsigned char *filename, unsigned char **buf, size_t *buflen,
+      |                                          ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:1883:39: warning: passing 'unsigned char *' to parameter of type 'const char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+ 1883 |                         obj = ucl_object_fromstring_common(buf, buflen, flags);
+      |                                                            ^~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/include/ucl.h:353:67: note: passing argument to parameter 'str' here
+  353 | UCL_EXTERN ucl_object_t *ucl_object_fromstring_common(const char *str, size_t len,
+      |                                                                   ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:1937:38: warning: passing 'const unsigned char *' to parameter of type 'const char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+ 1937 |         parent = ucl_object_lookup_len(ctx, data, len);
+      |                                             ^~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/include/ucl.h:724:27: note: passing argument to parameter 'key' here
+  724 |                                                                                                          const char *key, size_t klen);
+      |                                                                                                                      ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:2028:22: warning: passing 'char[4096]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+ 2028 |         if (!ucl_fetch_file(realbuf, &buf, &len, &parser->err, true)) {
+      |                             ^~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:884:42: note: passing argument to parameter 'filename' here
+  884 | bool ucl_fetch_file(const unsigned char *filename, unsigned char **buf, size_t *buflen,
+      |                                          ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:2338:39: warning: assigning to 'unsigned char *' from 'char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+ 2338 |                                 obj->trash_stack[UCL_TRASH_VALUE] = dst;
+      |                                                                   ^ ~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:2347:39: warning: assigning to 'unsigned char *' from 'char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+ 2347 |                                 obj->trash_stack[UCL_TRASH_VALUE] = dst;
+      |                                                                   ^ ~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:2354:39: warning: passing 'char *' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+ 2354 |                                 if (!ucl_maybe_parse_boolean(obj, dst, obj->len) && (flags & UCL_STRING_PARSE_NUMBER)) {
+      |                                                                   ^~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_internal.h:402:65: note: passing argument to parameter 'start' here
+  402 | ucl_maybe_parse_boolean(ucl_object_t *obj, const unsigned char *start, size_t len)
+      |                                                                 ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:3670:14: warning: assigning to 'const char *' from 'unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+ 3670 |                                 new->key = new->trash_stack[UCL_TRASH_KEY];
+      |                                          ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:3675:16: warning: passing 'unsigned char *const' to parameter of type 'const char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+ 3675 |                                 UCL_STRDUP(other->trash_stack[UCL_TRASH_VALUE]);
+      |                                 ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/include/ucl.h:87:41: note: expanded from macro 'UCL_STRDUP'
+   87 | #define UCL_STRDUP(str) ucl_strdup_impl(str)
+      |                                         ^~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/include/ucl.h:80:49: note: passing argument to parameter 's' here
+   80 | static inline char *ucl_strdup_impl(const char *s)
+      |                                                 ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:3674:38: warning: assigning to 'unsigned char *' from 'char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+ 3674 |                         new->trash_stack[UCL_TRASH_VALUE] =
+      |                                                           ^
+ 3675 |                                 UCL_STRDUP(other->trash_stack[UCL_TRASH_VALUE]);
+      |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_util.c:3677:19: warning: assigning to 'const char *' from 'unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+ 3677 |                                 new->value.sv = new->trash_stack[UCL_TRASH_VALUE];
+      |                                               ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+24 warnings generated.
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:156:32: warning: passing 'const unsigned char *' to parameter of type 'const char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  156 |                                                 ucl_save_comment(parser, beg, p - beg);
+      |                                                                          ^~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:100:57: note: passing argument to parameter 'begin' here
+  100 | ucl_save_comment(struct ucl_parser *parser, const char *begin, size_t len)
+      |                                                         ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:190:32: warning: passing 'const unsigned char *' to parameter of type 'const char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  190 |                                                 ucl_save_comment(parser, beg, p - beg + 1);
+      |                                                                          ^~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:100:57: note: passing argument to parameter 'begin' here
+  100 | ucl_save_comment(struct ucl_parser *parser, const char *begin, size_t len)
+      |                                                         ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:215:28: warning: passing 'const unsigned char *' to parameter of type 'const char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  215 |                 ucl_save_comment(parser, beg, p - beg);
+      |                                          ^~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:100:57: note: passing argument to parameter 'begin' here
+  100 | ucl_save_comment(struct ucl_parser *parser, const char *begin, size_t len)
+      |                                                         ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:350:27: warning: passing 'const char *' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  350 |                 if (parser->var_handler(ptr, remain, &dst, &dstlen, &need_free,
+      |                                         ^~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:481:28: warning: passing 'const char *' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  481 |                         if (parser->var_handler(p, in_len, &dst, &dstlen, &need_free,
+      |                                                 ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:616:30: warning: passing 'unsigned char *' to parameter of type 'char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  616 |                         ret = ucl_strlcpy_tolower(*dst, src, in_len + 1);
+      |                                                   ^~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_internal.h:365:34: note: passing argument to parameter 'dst' here
+  365 | size_t ucl_strlcpy_tolower(char *dst, const char *src, size_t siz);
+      |                                  ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:616:36: warning: passing 'const unsigned char *' to parameter of type 'const char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  616 |                         ret = ucl_strlcpy_tolower(*dst, src, in_len + 1);
+      |                                                         ^~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_internal.h:365:51: note: passing argument to parameter 'src' here
+  365 | size_t ucl_strlcpy_tolower(char *dst, const char *src, size_t siz);
+      |                                                   ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:619:29: warning: passing 'unsigned char *' to parameter of type 'char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  619 |                         ret = ucl_strlcpy_unsafe(*dst, src, in_len + 1);
+      |                                                  ^~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_internal.h:364:33: note: passing argument to parameter 'dst' here
+  364 | size_t ucl_strlcpy_unsafe(char *dst, const char *src, size_t siz);
+      |                                 ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:619:35: warning: passing 'const unsigned char *' to parameter of type 'const char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  619 |                         ret = ucl_strlcpy_unsafe(*dst, src, in_len + 1);
+      |                                                        ^~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_internal.h:364:50: note: passing argument to parameter 'src' here
+  364 | size_t ucl_strlcpy_unsafe(char *dst, const char *src, size_t siz);
+      |                                                  ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:624:36: warning: passing 'unsigned char *' to parameter of type 'char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  624 |                                 ret = ucl_unescape_json_string(*dst, ret);
+      |                                                                ^~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_internal.h:288:39: note: passing argument to parameter 'str' here
+  288 | size_t ucl_unescape_json_string(char *str, size_t len);
+      |                                       ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:627:39: warning: passing 'unsigned char *' to parameter of type 'char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  627 |                                 ret = ucl_unescape_squoted_string(*dst, ret);
+      |                                                                   ^~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_internal.h:295:42: note: passing argument to parameter 'str' here
+  295 | size_t ucl_unescape_squoted_string(char *str, size_t len);
+      |                                          ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:634:43: warning: passing 'unsigned char *' to parameter of type 'const char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  634 |                         ret = ucl_expand_variable(parser, dst, tmp, ret);
+      |                                                                ^~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:531:18: note: passing argument to parameter 'src' here
+  531 |                                         const char *src, size_t in_len)
+      |                                                     ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:645:14: warning: assigning to 'const char *' from 'unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  645 |                 *dst_const = *dst;
+      |                            ^ ~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:648:14: warning: assigning to 'const char *' from 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  648 |                 *dst_const = src;
+      |                            ^ ~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:1061:36: warning: passing 'const unsigned char *' to parameter of type 'const char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+ 1061 |         ret = ucl_maybe_parse_number(obj, chunk->pos, chunk->end, (const char **) &pos,
+      |                                           ^~~~~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:748:22: note: passing argument to parameter 'start' here
+  748 |                                                    const char *start, const char *end, const char **pos,
+      |                                                                ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:1061:48: warning: passing 'const unsigned char *' to parameter of type 'const char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+ 1061 |         ret = ucl_maybe_parse_number(obj, chunk->pos, chunk->end, (const char **) &pos,
+      |                                                       ^~~~~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:748:41: note: passing argument to parameter 'end' here
+  748 |                                                    const char *start, const char *end, const char **pos,
+      |                                                                                   ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:2234:30: warning: passing 'const unsigned char *' to parameter of type 'const char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+ 2234 |                                 ucl_save_comment(parser, c, p - c);
+      |                                                          ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:100:57: note: passing argument to parameter 'begin' here
+  100 | ucl_save_comment(struct ucl_parser *parser, const char *begin, size_t len)
+      |                                                         ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:2689:12: warning: passing 'const unsigned char *' to parameter of type 'const char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+ 2689 |                                                                                         macro_start, macro_len);
+      |                                                                                         ^~~~~~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:531:18: note: passing argument to parameter 'src' here
+  531 |                                         const char *src, size_t in_len)
+      |                                                     ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:3177:13: warning: passing 'const unsigned char *' to parameter of type 'const char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+ 3177 |                                                                                   (const unsigned char *) data, len, parser->default_priority);
+      |                                                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_parser.c:3154:76: note: passing argument to parameter 'data' here
+ 3154 | bool ucl_parser_add_string_priority(struct ucl_parser *parser, const char *data,
+      |                                                                            ^
+19 warnings generated.
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter.c:122:33: warning: passing 'const char *const' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  122 |                         func->ucl_emitter_append_len(obj->key, obj->keylen, func->ud);
+      |                                                      ^~~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter.c:126:33: warning: passing 'char[4]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  126 |                         func->ucl_emitter_append_len(" = ", 3, func->ud);
+      |                                                      ^~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter.c:137:33: warning: passing 'const char *const' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  137 |                         func->ucl_emitter_append_len(obj->key, obj->keylen, func->ud);
+      |                                                      ^~~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter.c:140:33: warning: passing 'char[5]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  140 |                         func->ucl_emitter_append_len("null", 4, func->ud);
+      |                                                      ^~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter.c:143:32: warning: passing 'char[3]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  143 |                 func->ucl_emitter_append_len(": ", 2, func->ud);
+      |                                              ^~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter.c:150:33: warning: passing 'char[5]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  150 |                         func->ucl_emitter_append_len("null", 4, func->ud);
+      |                                                      ^~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter.c:157:33: warning: passing 'char[3]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  157 |                         func->ucl_emitter_append_len(": ", 2, func->ud);
+      |                                                      ^~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter.c:172:34: warning: passing 'char[3]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  172 |                                 func->ucl_emitter_append_len(";\n", 2, func->ud);
+      |                                                              ^~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter.c:176:34: warning: passing 'char[3]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  176 |                                 func->ucl_emitter_append_len(",\n", 2, func->ud);
+      |                                                              ^~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter.c:262:34: warning: passing 'char[2]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  262 |                                 func->ucl_emitter_append_len("\n", 1, func->ud);
+      |                                                              ^~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter.c:265:34: warning: passing 'char[3]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  265 |                                 func->ucl_emitter_append_len(",\n", 2, func->ud);
+      |                                                              ^~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter.c:277:32: warning: passing 'char[3]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  277 |                 func->ucl_emitter_append_len("[\n", 2, func->ud);
+      |                                              ^~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter.c:321:34: warning: passing 'char[2]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  321 |                                 func->ucl_emitter_append_len("\n", 1, func->ud);
+      |                                                              ^~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter.c:324:34: warning: passing 'char[3]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  324 |                                 func->ucl_emitter_append_len(",\n", 2, func->ud);
+      |                                                              ^~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter.c:340:33: warning: passing 'char[3]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  340 |                         func->ucl_emitter_append_len("{\n", 2, func->ud);
+      |                                                      ^~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter.c:361:36: warning: passing 'char[3]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  361 |                                                 func->ucl_emitter_append_len(",\n", 2, func->ud);
+      |                                                                              ^~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter.c:401:34: warning: passing 'char[2]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  401 |                                 func->ucl_emitter_append_len("\n", 1, func->ud);
+      |                                                              ^~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter.c:404:34: warning: passing 'char[3]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  404 |                                 func->ucl_emitter_append_len(",\n", 2, func->ud);
+      |                                                              ^~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter.c:419:35: warning: passing 'const char *const' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  419 |                                         func->ucl_emitter_append_len(cur_comment->value.sv,
+      |                                                                      ^~~~~~~~~~~~~~~~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter.c:447:33: warning: passing 'char[5]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  447 |                         func->ucl_emitter_append_len("true", 4, func->ud);
+      |                                                      ^~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter.c:450:33: warning: passing 'char[6]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  450 |                         func->ucl_emitter_append_len("false", 5, func->ud);
+      |                                                      ^~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter.c:476:32: warning: passing 'char[5]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  476 |                 func->ucl_emitter_append_len("null", 4, func->ud);
+      |                                              ^~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter.c:504:33: warning: passing 'const char *const' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  504 |                         func->ucl_emitter_append_len(cur_comment->value.sv,
+      |                                                      ^~~~~~~~~~~~~~~~~~~~~
+23 warnings generated.
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:93:34: warning: passing 'const char *' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+   93 |                                 func->ucl_emitter_append_len(c, len, func->ud);
+      |                                                              ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:97:34: warning: passing 'char[3]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+   97 |                                 func->ucl_emitter_append_len("\\n", 2, func->ud);
+      |                                                              ^~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:100:34: warning: passing 'char[3]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  100 |                                 func->ucl_emitter_append_len("\\r", 2, func->ud);
+      |                                                              ^~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:103:34: warning: passing 'char[3]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  103 |                                 func->ucl_emitter_append_len("\\b", 2, func->ud);
+      |                                                              ^~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:106:34: warning: passing 'char[3]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  106 |                                 func->ucl_emitter_append_len("\\t", 2, func->ud);
+      |                                                              ^~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:109:34: warning: passing 'char[3]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  109 |                                 func->ucl_emitter_append_len("\\f", 2, func->ud);
+      |                                                              ^~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:112:34: warning: passing 'char[7]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  112 |                                 func->ucl_emitter_append_len("\\u000B", 6, func->ud);
+      |                                                              ^~~~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:115:34: warning: passing 'char[3]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  115 |                                 func->ucl_emitter_append_len("\\\\", 2, func->ud);
+      |                                                              ^~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:121:34: warning: passing 'char[3]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  121 |                                 func->ucl_emitter_append_len("\\\"", 2, func->ud);
+      |                                                              ^~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:125:34: warning: passing 'char[7]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  125 |                                 func->ucl_emitter_append_len("\\uFFFD", 6, func->ud);
+      |                                                              ^~~~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:139:32: warning: passing 'const char *' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  139 |                 func->ucl_emitter_append_len(c, len, func->ud);
+      |                                              ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:157:34: warning: passing 'const char *' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  157 |                                 func->ucl_emitter_append_len(c, len, func->ud);
+      |                                                              ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:162:33: warning: passing 'char[3]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  162 |                         func->ucl_emitter_append_len("\\\'", 2, func->ud);
+      |                                                      ^~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:172:32: warning: passing 'const char *' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  172 |                 func->ucl_emitter_append_len(c, len, func->ud);
+      |                                              ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:183:31: warning: passing 'char[7]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  183 |         func->ucl_emitter_append_len("<<EOD\n", sizeof("<<EOD\n") - 1, func->ud);
+      |                                      ^~~~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:184:31: warning: passing 'const char *' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  184 |         func->ucl_emitter_append_len(str, size, func->ud);
+      |                                      ^~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:185:31: warning: passing 'char[5]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  185 |         func->ucl_emitter_append_len("\nEOD", sizeof("\nEOD") - 1, func->ud);
+      |                                      ^~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:472:28: warning: passing 'char[7]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  472 |                         ucl_utstring_append_len("object", 6, buf);
+      |                                                 ^~~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:210:46: note: passing argument to parameter 'str' here
+  210 | ucl_utstring_append_len(const unsigned char *str, size_t len, void *ud)
+      |                                              ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:475:28: warning: passing 'char[6]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  475 |                         ucl_utstring_append_len("array", 5, buf);
+      |                                                 ^~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:210:46: note: passing argument to parameter 'str' here
+  210 | ucl_utstring_append_len(const unsigned char *str, size_t len, void *ud)
+      |                                              ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:485:28: warning: passing 'char[5]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  485 |                         ucl_utstring_append_len("null", 4, buf);
+      |                                                 ^~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:210:46: note: passing argument to parameter 'str' here
+  210 | ucl_utstring_append_len(const unsigned char *str, size_t len, void *ud)
+      |                                              ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:489:29: warning: passing 'char[5]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  489 |                                 ucl_utstring_append_len("true", 4, buf);
+      |                                                         ^~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:210:46: note: passing argument to parameter 'str' here
+  210 | ucl_utstring_append_len(const unsigned char *str, size_t len, void *ud)
+      |                                              ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:492:29: warning: passing 'char[6]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  492 |                                 ucl_utstring_append_len("false", 5, buf);
+      |                                                         ^~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:210:46: note: passing argument to parameter 'str' here
+  210 | ucl_utstring_append_len(const unsigned char *str, size_t len, void *ud)
+      |                                              ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:496:28: warning: passing 'const char *const' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  496 |                         ucl_utstring_append_len(obj->value.sv, obj->len, buf);
+      |                                                 ^~~~~~~~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:210:46: note: passing argument to parameter 'str' here
+  210 | ucl_utstring_append_len(const unsigned char *str, size_t len, void *ud)
+      |                                              ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:499:28: warning: passing 'char[9]' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  499 |                         ucl_utstring_append_len("userdata", 8, buf);
+      |                                                 ^~~~~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:210:46: note: passing argument to parameter 'str' here
+  210 | ucl_utstring_append_len(const unsigned char *str, size_t len, void *ud)
+      |                                              ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_emitter_utils.c:502:7: warning: assigning to 'unsigned char *' from 'char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  502 |                 res = utstring_body(buf);
+      |                     ^ ~~~~~~~~~~~~~~~~~~
+25 warnings generated.
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_schema.c:778:24: warning: passing 'const char *' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  778 |                                 if (!ucl_fetch_url(p, &url_buf, &url_buflen, &url_err, true)) {
+      |                                                    ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_internal.h:624:41: note: passing argument to parameter 'url' here
+  624 | bool ucl_fetch_url(const unsigned char *url,
+      |                                         ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_schema.c:793:25: warning: passing 'const char *' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  793 |                                 if (!ucl_fetch_file(p, &url_buf, &url_buflen, &url_err,
+      |                                                     ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_internal.h:638:42: note: passing argument to parameter 'filename' here
+  638 | bool ucl_fetch_file(const unsigned char *filename,
+      |                                          ^
+2 warnings generated.
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_msgpack.c:248:31: warning: passing 'const char *' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  248 |         func->ucl_emitter_append_len(s, len, func->ud);
+      |                                      ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_msgpack.c:280:31: warning: passing 'const char *' to parameter of type 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  280 |         func->ucl_emitter_append_len(s, len, func->ud);
+      |                                      ^
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_msgpack.c:782:12: warning: assigning to 'const char *' from 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+  782 |                 obj->key = key;
+      |                          ^ ~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_msgpack.c:1183:10: warning: format specifies type 'size_t' (aka 'unsigned long') but the argument has type 'uintmax_t' (aka 'unsigned long long') [-Wformat]
+ 1182 |                                                    "invalid non-empty container at the end; len=%zu",
+      |                                                                                                 ~~~
+      |                                                                                                 %ju
+ 1183 |                                                    (uintmax_t) len);
+      |                                                    ^~~~~~~~~~~~~~~
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-f8962c2/src-libucl/src/ucl_msgpack.c:1337:16: warning: assigning to 'const char *' from 'const unsigned char *' converts between pointers to integer types where one is of the unique plain 'char' type and the other is not [-Wpointer-sign]
+ 1337 |         obj->value.sv = pos;
+      |                       ^ ~~~
+5 warnings generated.

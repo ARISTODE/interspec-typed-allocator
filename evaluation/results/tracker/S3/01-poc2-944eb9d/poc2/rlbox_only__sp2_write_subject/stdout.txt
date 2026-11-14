@@ -1,0 +1,3 @@
+T_OBSERVE stage=compile result=ok
+T_OBSERVE stage=exec rc=3 subject=d06974656d732f3132332f616c706861 captures=0-16,7-10,11-16
+T_OBSERVE stage=done

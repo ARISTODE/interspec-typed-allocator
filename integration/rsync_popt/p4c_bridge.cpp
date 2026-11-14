@@ -200,25 +200,6 @@ class Engine {
       // SP3 off: no pointer check. Tracking in U is unchanged; T uses the
       // pointer as returned.
       bytes = std::strlen(raw) + 1;
-    } else if (sp3 == interspec::Sp3Mode::domain) {
-      // Domain-only SP3: the string must lie in U memory. No registry lookup,
-      // so no liveness, type or object-bounds check.
-      if (!sandbox_.is_pointer_in_sandbox_memory(raw)) {
-        event.result = "outside_domain";
-        throw std::runtime_error("InterSpec rejected popt char pointer: outside_domain");
-      }
-      const uintptr_t address = sandbox_.get_sandbox_impl()->sandbox_address(raw);
-      const size_t total = sandbox_.get_total_memory();
-      if (address >= total) {
-        event.result = "outside_domain";
-        throw std::runtime_error("InterSpec rejected popt char pointer: outside_domain");
-      }
-      const void* end = std::memchr(raw, '\0', total - address);
-      if (!end) {
-        event.result = "unterminated_string";
-        throw std::runtime_error("InterSpec rejected unterminated popt string");
-      }
-      bytes = static_cast<const char*>(end) - raw + 1;
     } else {
       const uintptr_t sandbox_ptr =
         sandbox_.get_sandbox_impl()->sandbox_address(raw);

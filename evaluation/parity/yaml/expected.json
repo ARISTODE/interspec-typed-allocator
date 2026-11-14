@@ -1,0 +1,119 @@
+{
+  "oracle": "PyYAML 6.0.3 pure-Python parser (yaml.Loader)",
+  "documents": {
+    "anchors_tags.yaml": {
+      "input_bytes": 136,
+      "sha256": "e5a1f1b6a50d034642708eef7a5f7c4c6a1a97d39fd05626d84ffc3b96b67204",
+      "largest_scalar_bytes": 8,
+      "expected": {
+        "1": {
+          "events": 27,
+          "scalars": 13,
+          "scalar_bytes": 51,
+          "hash": "8668594d1c742fe4"
+        },
+        "2": {
+          "events": 54,
+          "scalars": 26,
+          "scalar_bytes": 102,
+          "hash": "e5b39f6d61f09455"
+        }
+      }
+    },
+    "block_flow.yaml": {
+      "input_bytes": 58,
+      "sha256": "d1f485a21ca8693a6a7a5db9d2dc8fa548d3d1490752ac539954519f8b5cd2d0",
+      "largest_scalar_bytes": 5,
+      "expected": {
+        "1": {
+          "events": 23,
+          "scalars": 11,
+          "scalar_bytes": 29,
+          "hash": "79ceee2086fd38e7"
+        },
+        "2": {
+          "events": 46,
+          "scalars": 22,
+          "scalar_bytes": 58,
+          "hash": "f27a01ac30564033"
+        }
+      }
+    },
+    "multi_document_empty.yaml": {
+      "input_bytes": 38,
+      "sha256": "806d9d61b76f7c075b51d58335f2d18b2122a0f5bfa4554606d4c9cf8a64f35d",
+      "largest_scalar_bytes": 6,
+      "expected": {
+        "1": {
+          "events": 14,
+          "scalars": 4,
+          "scalar_bytes": 11,
+          "hash": "d1b5e7b21c9ffc1f"
+        },
+        "2": {
+          "events": 28,
+          "scalars": 8,
+          "scalar_bytes": 22,
+          "hash": "c2122739792ef063"
+        }
+      }
+    },
+    "multiline_scalars.yaml": {
+      "input_bytes": 150,
+      "sha256": "1496e6c5ac516a195dd19355a5e00b24f6926a28fa4d7bf4518a8029b0290e04",
+      "largest_scalar_bytes": 41,
+      "expected": {
+        "1": {
+          "events": 14,
+          "scalars": 8,
+          "scalar_bytes": 114,
+          "hash": "0c857473c9dc84d7"
+        },
+        "2": {
+          "events": 28,
+          "scalars": 16,
+          "scalar_bytes": 228,
+          "hash": "9316cfa062e6ad73"
+        }
+      }
+    },
+    "unicode_escapes.yaml": {
+      "input_bytes": 87,
+      "sha256": "543cf4012b1f9bb6388528fd4ff32f109bc5160617dd88003d89c11a0c6951fa",
+      "largest_scalar_bytes": 18,
+      "expected": {
+        "1": {
+          "events": 14,
+          "scalars": 8,
+          "scalar_bytes": 56,
+          "hash": "a453af14c37d33b2"
+        },
+        "2": {
+          "events": 28,
+          "scalars": 16,
+          "scalar_bytes": 112,
+          "hash": "9089cc7cbe9993ff"
+        }
+      }
+    },
+    "utf16le_bom.yaml": {
+      "input_bytes": 98,
+      "sha256": "a5f36ca134274ee66a9bfa3b3c6a4078cde924cb4440bebdd12d9b033b709945",
+      "largest_scalar_bytes": 13,
+      "expected": {
+        "1": {
+          "events": 13,
+          "scalars": 5,
+          "scalar_bytes": 34,
+          "hash": "2cb008ee8e2ff4be"
+        },
+        "2": {
+          "events": 26,
+          "scalars": 10,
+          "scalar_bytes": 68,
+          "hash": "a79e3d68e1923597"
+        }
+      }
+    }
+  }
+}

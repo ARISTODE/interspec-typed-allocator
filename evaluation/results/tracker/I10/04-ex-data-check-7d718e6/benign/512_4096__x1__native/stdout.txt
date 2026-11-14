@@ -1,0 +1,1 @@
+TLS_BENCH variant=native rounds=1 request_bytes=512 response_bytes=4096 version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 server_received_fnv=29d6cc75fb7400eb client_received_fnv=5e0c2c2b4695c7c1 connection_requests=1 checks=0 elapsed_ns=989720

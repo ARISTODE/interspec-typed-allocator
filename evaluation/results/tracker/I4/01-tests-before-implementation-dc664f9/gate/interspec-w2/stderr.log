@@ -1,0 +1,55 @@
+2026/11/13 09:11:11 [notice] 22509#0: using the "epoll" event method
+2026/11/13 09:11:11 [notice] 22509#0: nginx/1.26.3
+2026/11/13 09:11:11 [notice] 22509#0: built by gcc 13.3.0 (Ubuntu 13.3.0-6ubuntu2~24.04.1) 
+2026/11/13 09:11:11 [notice] 22509#0: OS: Linux 6.18.44-fc-v445
+2026/11/13 09:11:11 [notice] 22509#0: getrlimit(RLIMIT_NOFILE): 20000:20000
+2026/11/13 09:11:11 [notice] 22509#0: start worker processes
+2026/11/13 09:11:11 [notice] 22509#0: start worker process 22510
+2026/11/13 09:11:11 [notice] 22509#0: start worker process 22511
+2026/11/13 09:11:11 [notice] 22509#0: signal 1 (SIGHUP) received from 22432, reconfiguring
+2026/11/13 09:11:11 [notice] 22509#0: reconfiguring
+2026/11/13 09:11:11 [notice] 22509#0: using the "epoll" event method
+2026/11/13 09:11:11 [notice] 22509#0: start worker processes
+2026/11/13 09:11:11 [notice] 22509#0: start worker process 22520
+2026/11/13 09:11:11 [notice] 22509#0: start worker process 22521
+2026/11/13 09:11:11 [notice] 22510#0: gracefully shutting down
+2026/11/13 09:11:11 [notice] 22510#0: exiting
+2026/11/13 09:11:11 [notice] 22511#0: gracefully shutting down
+2026/11/13 09:11:11 [notice] 22511#0: exiting
+2026/11/13 09:11:11 [notice] 22510#0: exit
+2026/11/13 09:11:11 [notice] 22511#0: exit
+2026/11/13 09:11:11 [notice] 22509#0: signal 17 (SIGCHLD) received from 22510
+2026/11/13 09:11:11 [notice] 22509#0: worker process 22510 exited with code 0
+2026/11/13 09:11:11 [notice] 22509#0: signal 29 (SIGIO) received
+2026/11/13 09:11:11 [notice] 22509#0: signal 17 (SIGCHLD) received from 22511
+2026/11/13 09:11:11 [notice] 22509#0: worker process 22511 exited with code 0
+2026/11/13 09:11:11 [notice] 22509#0: signal 29 (SIGIO) received
+2026/11/13 09:11:11 [notice] 22509#0: signal 1 (SIGHUP) received from 22432, reconfiguring
+2026/11/13 09:11:11 [notice] 22509#0: reconfiguring
+2026/11/13 09:11:11 [notice] 22509#0: using the "epoll" event method
+2026/11/13 09:11:11 [notice] 22509#0: start worker processes
+2026/11/13 09:11:11 [notice] 22509#0: start worker process 22530
+2026/11/13 09:11:11 [notice] 22509#0: start worker process 22531
+2026/11/13 09:11:11 [notice] 22521#0: gracefully shutting down
+2026/11/13 09:11:11 [notice] 22520#0: gracefully shutting down
+2026/11/13 09:11:11 [notice] 22521#0: exiting
+2026/11/13 09:11:11 [notice] 22520#0: exiting
+2026/11/13 09:11:11 [notice] 22520#0: exit
+2026/11/13 09:11:11 [notice] 22521#0: exit
+2026/11/13 09:11:11 [notice] 22509#0: signal 17 (SIGCHLD) received from 22521
+2026/11/13 09:11:11 [notice] 22509#0: worker process 22521 exited with code 0
+2026/11/13 09:11:11 [notice] 22509#0: signal 29 (SIGIO) received
+2026/11/13 09:11:11 [notice] 22509#0: signal 17 (SIGCHLD) received from 22520
+2026/11/13 09:11:11 [notice] 22509#0: worker process 22520 exited with code 0
+2026/11/13 09:11:11 [notice] 22509#0: signal 29 (SIGIO) received
+2026/11/13 09:11:11 [notice] 22509#0: signal 3 (SIGQUIT) received from 22432, shutting down
+2026/11/13 09:11:11 [notice] 22531#0: gracefully shutting down
+2026/11/13 09:11:11 [notice] 22530#0: gracefully shutting down
+2026/11/13 09:11:11 [notice] 22531#0: exiting
+2026/11/13 09:11:11 [notice] 22530#0: exiting
+2026/11/13 09:11:11 [notice] 22530#0: exit
+2026/11/13 09:11:11 [notice] 22531#0: exit
+2026/11/13 09:11:11 [notice] 22509#0: signal 17 (SIGCHLD) received from 22530
+2026/11/13 09:11:11 [notice] 22509#0: worker process 22530 exited with code 0
+2026/11/13 09:11:11 [notice] 22509#0: worker process 22531 exited with code 0
+2026/11/13 09:11:11 [notice] 22509#0: exit

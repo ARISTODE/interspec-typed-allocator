@@ -1,0 +1,3 @@
+INTERSPEC_POLICY boundary=magick_libpng sp1=1 sp2=1 sp3=full
+FAULT_INJECTION boundary=magick_libpng mode=3 original=0x107ef0 replacement=0x108ef0 bytes=4096
+INTERSPEC_REJECT boundary=magick_libpng operation=decoded_pixels reason=untracked

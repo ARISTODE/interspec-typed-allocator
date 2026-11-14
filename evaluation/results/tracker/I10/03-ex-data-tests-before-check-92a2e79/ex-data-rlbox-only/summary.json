@@ -1,0 +1,163 @@
+{
+  "boundary": "nginx_openssl_rlbox_only",
+  "driver": "/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i10x-work-92a2e79/bin/tls-rlbox-only-fault",
+  "driver_sha256": "5ef4f71cfb242f665d3dc3bb1da90320cdc688b6cb3980832c5606614dcc0a85",
+  "tests": {
+    "ex_data": {
+      "cases": [
+        "ex_data_legitimate",
+        "ex_data_never_issued",
+        "ex_data_wrong_type",
+        "ex_data_other_connection"
+      ],
+      "passed": true
+    }
+  },
+  "cases": {
+    "ex_data_legitimate": {
+      "case": "ex_data_legitimate",
+      "exit": 0,
+      "timed_out": false,
+      "passed": true,
+      "checks": [
+        {
+          "check": "no_timeout",
+          "ok": true
+        },
+        {
+          "check": "exit==0",
+          "ok": true,
+          "observed": 0
+        },
+        {
+          "check": "stdout has /^TLS_BENCH variant=rlbox-only rounds=1 request_bytes=64 response_bytes=256 version=TLSv1\\.3 cipher=\\S+ server_received_fnv=[0-9a-f]{16} client_received_fnv=[0-9a-f]{16} connection_requests=1 /",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_POLICY boundary=nginx_openssl\\+sp3_fixed_at_compile_time sp1=1 sp2=1 sp3=full$/",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_T_OBSERVE boundary=nginx_openssl response_first_byte=0x46 conf_limit=1000 other_requests=0$/",
+          "ok": true
+        },
+        {
+          "check": "stderr lacks /INTERSPEC_REJECT/",
+          "ok": true
+        },
+        {
+          "check": "stderr lacks /FAULT_INJECTION/",
+          "ok": true
+        }
+      ]
+    },
+    "ex_data_never_issued": {
+      "case": "ex_data_never_issued",
+      "exit": 86,
+      "timed_out": false,
+      "passed": true,
+      "checks": [
+        {
+          "check": "no_timeout",
+          "ok": true
+        },
+        {
+          "check": "exit==86",
+          "ok": true,
+          "observed": 86
+        },
+        {
+          "check": "stdout lacks /TLS_BENCH/",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_POLICY boundary=nginx_openssl\\+sp3_fixed_at_compile_time sp1=1 sp2=1 sp3=full$/",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^FAULT_INJECTION boundary=nginx_openssl mode=1 /",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_REJECT boundary=nginx_openssl operation=ex_data reason=unknown_handle$/",
+          "ok": true
+        }
+      ]
+    },
+    "ex_data_other_connection": {
+      "case": "ex_data_other_connection",
+      "exit": 0,
+      "timed_out": false,
+      "passed": true,
+      "checks": [
+        {
+          "check": "no_timeout",
+          "ok": true
+        },
+        {
+          "check": "exit==0",
+          "ok": true,
+          "observed": 0
+        },
+        {
+          "check": "stdout has /^TLS_BENCH variant=rlbox-only rounds=1 request_bytes=64 response_bytes=256 version=TLSv1\\.3 cipher=\\S+ server_received_fnv=[0-9a-f]{16} client_received_fnv=[0-9a-f]{16} connection_requests=0 /",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_POLICY boundary=nginx_openssl\\+sp3_fixed_at_compile_time sp1=1 sp2=1 sp3=full$/",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^FAULT_INJECTION boundary=nginx_openssl mode=3 /",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_T_OBSERVE boundary=nginx_openssl response_first_byte=0x46 conf_limit=1000 other_requests=1$/",
+          "ok": true
+        },
+        {
+          "check": "stderr lacks /INTERSPEC_REJECT/",
+          "ok": true
+        }
+      ]
+    },
+    "ex_data_wrong_type": {
+      "case": "ex_data_wrong_type",
+      "exit": 0,
+      "timed_out": false,
+      "passed": true,
+      "checks": [
+        {
+          "check": "no_timeout",
+          "ok": true
+        },
+        {
+          "check": "exit==0",
+          "ok": true,
+          "observed": 0
+        },
+        {
+          "check": "stdout has /^TLS_BENCH variant=rlbox-only rounds=1 request_bytes=64 response_bytes=256 version=TLSv1\\.3 cipher=\\S+ server_received_fnv=[0-9a-f]{16} client_received_fnv=[0-9a-f]{16} connection_requests=0 /",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_POLICY boundary=nginx_openssl\\+sp3_fixed_at_compile_time sp1=1 sp2=1 sp3=full$/",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^FAULT_INJECTION boundary=nginx_openssl mode=2 /",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_T_OBSERVE boundary=nginx_openssl response_first_byte=0x46 conf_limit=1001 other_requests=0$/",
+          "ok": true
+        },
+        {
+          "check": "stderr lacks /INTERSPEC_REJECT/",
+          "ok": true
+        }
+      ]
+    }
+  },
+  "passed": true
+}

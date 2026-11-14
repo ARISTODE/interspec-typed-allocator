@@ -1,0 +1,5 @@
+build exit=0
+switch-tests exit=1
+ex-data-rlbox-only exit=0
+benign exit=1
+overall exit=1

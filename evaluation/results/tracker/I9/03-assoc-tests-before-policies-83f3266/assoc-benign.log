@@ -1,0 +1,6 @@
+FAIL keyspace4__x40__interspec: checks
+FAIL keyspace4__x400__interspec: checks
+FAIL keyspace1000__x2000__interspec: checks
+FAIL keyspace1000__x20000__interspec: checks
+FAIL keyspace20000__x100000__interspec: checks
+memcached_assoc benign: 10/15 runs passed

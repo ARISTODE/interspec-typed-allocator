@@ -1,0 +1,136 @@
+{
+  "commit": "fe72b8f56a3db25ed57908f55697655f2c4da7fb",
+  "boundaries": {
+    "rsync/popt": {
+      "boundary_json": "integration/rsync_popt/boundary.json",
+      "boundary_specification_lines": 8,
+      "inferred_policy_json_lines": 36,
+      "inferred_policy_entries": {
+        "types": 2,
+        "allocations": 2,
+        "uses": 1
+      },
+      "manual_type_entries": [
+        {
+          "name": "popt_typed_strdup",
+          "type": "char"
+        }
+      ],
+      "test_only_type_entries": [],
+      "trusted_files": [
+        "integration/rsync_popt/p4c_bridge.cpp"
+      ],
+      "manual_registration_calls": [],
+      "manual_unregistration_calls": [],
+      "generated_registration_calls": [
+        "integration/rsync_popt/p4c_bridge.cpp:114 register_types",
+        "integration/rsync_popt/p4c_bridge.cpp:117 register_allocation_policy"
+      ]
+    },
+    "memcached/bipbuffer": {
+      "boundary_json": "integration/memcached_bipbuffer/boundary.json",
+      "boundary_specification_lines": 11,
+      "inferred_policy_json_lines": 25,
+      "inferred_policy_entries": {
+        "types": 1,
+        "allocations": 1,
+        "uses": 1
+      },
+      "manual_type_entries": [
+        {
+          "name": "input_copy",
+          "type": "char"
+        }
+      ],
+      "test_only_type_entries": [],
+      "trusted_files": [
+        "integration/memcached_server/bridge.cpp"
+      ],
+      "manual_registration_calls": [
+        "integration/memcached_server/bridge.cpp:313 register_type",
+        "integration/memcached_server/bridge.cpp:314 register_type_layout",
+        "integration/memcached_server/bridge.cpp:328 register_external_array"
+      ],
+      "manual_unregistration_calls": [
+        "integration/memcached_server/bridge.cpp:354 unregister_external",
+        "integration/memcached_server/bridge.cpp:388 unregister_external"
+      ],
+      "generated_registration_calls": [
+        "integration/memcached_server/bridge.cpp:137 register_types",
+        "integration/memcached_server/bridge.cpp:137 register_wasm_allocation_policy"
+      ]
+    },
+    "yaml/libyaml": {
+      "boundary_json": "integration/yaml_libyaml/boundary.json",
+      "boundary_specification_lines": 17,
+      "inferred_policy_json_lines": 14,
+      "inferred_policy_entries": {
+        "types": 1,
+        "allocations": 0,
+        "uses": 1
+      },
+      "manual_type_entries": [
+        {
+          "name": "scalar_value",
+          "type": "yaml_scalar_value",
+          "role": "integration"
+        }
+      ],
+      "test_only_type_entries": [
+        {
+          "name": "wrong_type",
+          "type": "char",
+          "role": "adversarial"
+        }
+      ],
+      "trusted_files": [
+        "integration/yaml_libyaml/yaml_app_bench.cpp"
+      ],
+      "manual_registration_calls": [
+        "integration/yaml_libyaml/yaml_app_bench.cpp:143 register_type_layout"
+      ],
+      "manual_unregistration_calls": [],
+      "generated_registration_calls": [
+        "integration/yaml_libyaml/yaml_app_bench.cpp:83 register_types",
+        "integration/yaml_libyaml/yaml_app_bench.cpp:84 register_wasm_allocation_policy"
+      ]
+    },
+    "nginx/libpcre": {
+      "boundary_json": "integration/nginx_server/boundary.json",
+      "boundary_specification_lines": 8,
+      "inferred_policy_json_lines": 9,
+      "inferred_policy_entries": {
+        "types": 3,
+        "allocations": 0,
+        "uses": 3
+      },
+      "manual_type_entries": [
+        {
+          "name": "compiled_regex",
+          "type": "const pcre",
+          "role": "integration"
+        },
+        {
+          "name": "subject_input",
+          "type": "char",
+          "role": "integration"
+        },
+        {
+          "name": "capture_offsets",
+          "type": "int",
+          "role": "integration"
+        }
+      ],
+      "test_only_type_entries": [],
+      "trusted_files": [
+        "integration/nginx_server/bridge.cpp"
+      ],
+      "manual_registration_calls": [],
+      "manual_unregistration_calls": [],
+      "generated_registration_calls": [
+        "integration/nginx_server/bridge.cpp:125 register_types",
+        "integration/nginx_server/bridge.cpp:125 register_wasm_allocation_policy"
+      ]
+    }
+  }
+}

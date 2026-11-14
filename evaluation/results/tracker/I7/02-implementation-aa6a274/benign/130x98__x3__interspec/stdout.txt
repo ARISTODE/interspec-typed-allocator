@@ -1,0 +1,1 @@
+VPX_BENCH variant=interspec frames=3 width=130 height=98 packets=3 encoded_bytes=1092 encoded_fnv=c2be026d6d7749f6 decoded_frames=3 decoded_fnv=d9bd1b36d7c44434 checks=12 elapsed_ns=4841309

@@ -1,0 +1,44 @@
+{
+  "rlbox-only": {
+    "exit_code": 0,
+    "stdout": "VPX_BENCH variant=rlbox-only frames=12 width=352 height=288 packets=12 encoded_bytes=7625 encoded_fnv=57fd0dff124053c9 decoded_frames=12 decoded_fnv=9769587963e28e74 checks=0 elapsed_ns=98570750\n",
+    "stderr": "",
+    "result_matches_reference": true,
+    "checks": 0
+  },
+  "interspec-all-off": {
+    "exit_code": 0,
+    "stdout": "VPX_BENCH variant=interspec frames=12 width=352 height=288 packets=12 encoded_bytes=7625 encoded_fnv=57fd0dff124053c9 decoded_frames=12 decoded_fnv=9769587963e28e74 checks=0 elapsed_ns=95592969\n",
+    "stderr": "",
+    "result_matches_reference": true,
+    "checks": 0
+  },
+  "interspec-sp1": {
+    "exit_code": 0,
+    "stdout": "VPX_BENCH variant=interspec frames=12 width=352 height=288 packets=12 encoded_bytes=7625 encoded_fnv=57fd0dff124053c9 decoded_frames=12 decoded_fnv=9769587963e28e74 checks=0 elapsed_ns=96249815\n",
+    "stderr": "",
+    "result_matches_reference": true,
+    "checks": 0
+  },
+  "interspec-sp2": {
+    "exit_code": 0,
+    "stdout": "VPX_BENCH variant=interspec frames=12 width=352 height=288 packets=12 encoded_bytes=7625 encoded_fnv=57fd0dff124053c9 decoded_frames=12 decoded_fnv=9769587963e28e74 checks=0 elapsed_ns=101336507\n",
+    "stderr": "",
+    "result_matches_reference": true,
+    "checks": 0
+  },
+  "interspec-sp3": {
+    "exit_code": 0,
+    "stdout": "VPX_BENCH variant=interspec frames=12 width=352 height=288 packets=12 encoded_bytes=7625 encoded_fnv=57fd0dff124053c9 decoded_frames=12 decoded_fnv=9769587963e28e74 checks=48 elapsed_ns=95720017\n",
+    "stderr": "",
+    "result_matches_reference": true,
+    "checks": 48
+  },
+  "interspec-all-on": {
+    "exit_code": 0,
+    "stdout": "VPX_BENCH variant=interspec frames=12 width=352 height=288 packets=12 encoded_bytes=7625 encoded_fnv=57fd0dff124053c9 decoded_frames=12 decoded_fnv=9769587963e28e74 checks=48 elapsed_ns=101000802\n",
+    "stderr": "",
+    "result_matches_reference": true,
+    "checks": 48
+  }
+}

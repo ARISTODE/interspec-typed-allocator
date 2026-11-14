@@ -1,0 +1,3 @@
+long-run rlbox-only iterations=200000 exit=0
+long-run tracked-no-check iterations=200000 exit=0
+long-run interspec iterations=200000 exit=0

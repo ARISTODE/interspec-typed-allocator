@@ -18,6 +18,7 @@ from benchmark_memcached_matrix import SCENARIOS
 from memcached_common import Client, Server, guarded_command
 
 SCHEMA = "corrected-profile-v1"
+CURRENT_SCHEMA = "source-profile-v2"
 INTERVAL = ("preload, pre-traffic 0.5 second drain, watcher setup/settle and 0.2 second pause excluded; "
             "trace begins after before-stats, includes fixed client traffic, post-traffic watcher settle "
             "when enabled (0.4 second quiet rule, 5 second ceiling), then 0.5 second drain; "
@@ -79,7 +80,7 @@ def expected_work(operations, keys, percent, seed):
             "scope": "expected key/verb multiset; actual server observations are aggregate counters only"}
 
 
-def prepare(args):
+def prepare(args, schema=SCHEMA):
     root = Path(__file__).resolve().parents[1]
     source = args.client_source_root.resolve()
     provenance = json.loads(args.client_provenance.read_text())
@@ -88,6 +89,8 @@ def prepare(args):
         if digest(source / rel) != expected: raise ValueError("client provenance source")
     revision = subprocess.check_output(["git", "-C", str(source), "rev-parse", "HEAD"], text=True).strip()
     dirty = subprocess.check_output(["git", "-C", str(source), "status", "--porcelain"], text=True)
+    if schema == CURRENT_SCHEMA:
+        dirty = subprocess.check_output(["git", "-C", str(source), "diff", "HEAD", "--"], text=True)
     if revision != provenance["revision"] or dirty: raise ValueError("client revision/clean-tree identity")
     gate = json.loads(args.correctness_summary.read_text())
     manifest = json.loads((args.work / "build-manifest.json").read_text())
@@ -124,6 +127,10 @@ def prepare(args):
                        ("integration/memcached_server/bipbuffer_u.c", "untrusted_source_sha256")):
         if digest(source / rel) != manifest[field]: raise ValueError("server source binding")
         copy(source / rel, "sources/server/" + rel)
+    if schema == CURRENT_SCHEMA:
+        copy(root / "tools/current_memcached_profile.py", "sources/harness/tools/current_memcached_profile.py")
+        for rel in ("compiler-version.txt", "build.stdout", "build.stderr", "protocol.stderr"):
+            copy(prior / rel, "inputs/client-validation/" + rel)
     scenarios = []
     for scenario in SCENARIOS:
         row = dict(scenario)
@@ -131,7 +138,7 @@ def prepare(args):
         row["profile_keys"] = 10000 if row["name"] == "write_heavy" else 2048
         row["expected"] = expected_work(row["operations"], row["profile_keys"], row["get_percent"], 20261109)
         scenarios.append(row)
-    plan = {"schema": SCHEMA, "scenarios": scenarios, "workload_mode": "independent-v1",
+    plan = {"schema": schema, "scenarios": scenarios, "workload_mode": "independent-v1",
             "workload_seed": 20261109, "measurement_mode": "count-only", "files": files,
             "interval": INTERVAL, "attempt_policy": "one attempt per scenario; no resume, replacement or coverage-seeking retries",
             "interpretation": "ordinary functional/profile reconciliation only; no timing/capacity/latency conclusions",
@@ -257,7 +264,7 @@ def collect(plan_path):
     plan, base = check_plan(plan_path)
     if any(key.startswith("INTERSPEC_") for key in os.environ): raise ValueError("unexpected INTERSPEC environment")
     out = Path(plan["out"]); out.mkdir(parents=True, exist_ok=False); sync_dir(out.parent)
-    ledger = {"schema": SCHEMA, "plan_sha256": digest(plan_path), "status": "running", "attempts": [],
+    ledger = {"schema": plan["schema"], "plan_sha256": digest(plan_path), "status": "running", "attempts": [],
               "host": platform.uname()._asdict()}
     save(out / "run.json", ledger)
     for scenario in plan["scenarios"]:
@@ -284,9 +291,18 @@ def main():
     prep = sub.add_parser("prepare", allow_abbrev=False)
     for name in ("plan-directory", "out", "client-binary", "client-provenance", "client-source-root", "client-validation-directory", "work", "correctness-summary"):
         prep.add_argument("--" + name, type=Path, required=True)
+    current = sub.add_parser("prepare-current", allow_abbrev=False)
+    for name in ("plan-directory", "out", "client-build-directory", "work", "correctness-summary"):
+        current.add_argument("--" + name, type=Path, required=True)
     run = sub.add_parser("collect", allow_abbrev=False); run.add_argument("--plan", type=Path, required=True)
     args = parser.parse_args()
-    result = prepare(args) if args.command == "prepare" else collect(args.plan.resolve())
+    if args.command == "prepare-current":
+        from current_memcached_profile import prepare_inputs
+        from verify_memcached_profile import validate_plan
+        result = prepare(prepare_inputs(args, Path(__file__).resolve().parents[1]), CURRENT_SCHEMA)
+        validate_plan(Path(result["plan"]))
+    else:
+        result = prepare(args) if args.command == "prepare" else collect(args.plan.resolve())
     print(json.dumps(result, indent=2))
 
 

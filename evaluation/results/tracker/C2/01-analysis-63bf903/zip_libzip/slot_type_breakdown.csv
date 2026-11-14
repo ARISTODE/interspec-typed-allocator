@@ -1,0 +1,56 @@
+benchmark,function,binding_kind,binding_id,direction,slot_path,slot_type,category,file
+zip_libzip,zip_close,param,0,T_TO_U,,zip *,pointer,third_party/libzip/lib/zip_close.c
+zip_libzip,zip_close,return_scalar,return,U_TO_T,,int,scalar,third_party/libzip/lib/zip_close.c
+zip_libzip,zip_error_fini,param,0,T_TO_U,,zip_error *,pointer,third_party/libzip/lib/zip_error.c
+zip_libzip,zip_error_init,param,0,T_TO_U,,zip_error *,pointer,third_party/libzip/lib/zip_error.c
+zip_libzip,zip_error_strerror,param,0,T_TO_U,,zip_error *,pointer,third_party/libzip/lib/zip_error_strerror.c
+zip_libzip,zip_error_strerror,return,return,U_TO_T,,char *,pointer,third_party/libzip/lib/zip_error_strerror.c
+zip_libzip,zip_error_strerror,return_ptr,return,U_TO_T,/deref,char,scalar,third_party/libzip/lib/zip_error_strerror.c
+zip_libzip,zip_get_name,param,0,T_TO_U,,zip *,pointer,third_party/libzip/lib/zip_get_name.c
+zip_libzip,zip_get_name,param,1,T_TO_U,,unsigned long,scalar,third_party/libzip/lib/zip_get_name.c
+zip_libzip,zip_get_name,param,2,T_TO_U,,unsigned int,scalar,third_party/libzip/lib/zip_get_name.c
+zip_libzip,zip_get_name,return,return,U_TO_T,,char *,pointer,third_party/libzip/lib/zip_get_name.c
+zip_libzip,zip_get_name,return_ptr,return,U_TO_T,/deref,char,scalar,third_party/libzip/lib/zip_get_name.c
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,,zip *,pointer,third_party/libzip/lib/zip_get_num_entries.c
+zip_libzip,zip_get_num_entries,param,1,T_TO_U,,unsigned int,scalar,third_party/libzip/lib/zip_get_num_entries.c
+zip_libzip,zip_get_num_entries,return_scalar,return,U_TO_T,,signed long,scalar,third_party/libzip/lib/zip_get_num_entries.c
+zip_libzip,zip_open_from_source,param,0,T_TO_U,,zip_source *,pointer,third_party/libzip/lib/zip_open.c
+zip_libzip,zip_open_from_source,param,1,T_TO_U,,int,scalar,third_party/libzip/lib/zip_open.c
+zip_libzip,zip_open_from_source,param,2,T_TO_U,,zip_error *,pointer,third_party/libzip/lib/zip_open.c
+zip_libzip,zip_open_from_source,return,return,U_TO_T,,zip *,pointer,third_party/libzip/lib/zip_open.c
+zip_libzip,zip_source_buffer_create,param,0,T_TO_U,,void *,pointer,third_party/libzip/lib/zip_source_buffer.c
+zip_libzip,zip_source_buffer_create,param,1,T_TO_U,,unsigned long,scalar,third_party/libzip/lib/zip_source_buffer.c
+zip_libzip,zip_source_buffer_create,param,2,T_TO_U,,int,scalar,third_party/libzip/lib/zip_source_buffer.c
+zip_libzip,zip_source_buffer_create,param,3,T_TO_U,,zip_error *,pointer,third_party/libzip/lib/zip_source_buffer.c
+zip_libzip,zip_source_buffer_create,return,return,U_TO_T,,zip_source *,pointer,third_party/libzip/lib/zip_source_buffer.c
+zip_libzip,zip_source_free,param,0,T_TO_U,,zip_source *,pointer,third_party/libzip/lib/zip_source_free.c
+zip_libzip,zip_stat_index,param,0,T_TO_U,,zip *,pointer,third_party/libzip/lib/zip_stat_index.c
+zip_libzip,zip_stat_index,param,1,T_TO_U,,unsigned long,scalar,third_party/libzip/lib/zip_stat_index.c
+zip_libzip,zip_stat_index,param,2,T_TO_U,,unsigned int,scalar,third_party/libzip/lib/zip_stat_index.c
+zip_libzip,zip_stat_index,param,3,T_TO_U,,zip_stat *,pointer,third_party/libzip/lib/zip_stat_index.c
+zip_libzip,zip_stat_index,param,3,T_TO_U,/deref,zip_stat,struct,third_party/libzip/lib/zip_stat_index.c
+zip_libzip,zip_stat_index,param,3,T_TO_U,/deref/field:comp_method,unsigned short,scalar,third_party/libzip/lib/zip_stat_index.c
+zip_libzip,zip_stat_index,param,3,T_TO_U,/deref/field:comp_size,unsigned long,scalar,third_party/libzip/lib/zip_stat_index.c
+zip_libzip,zip_stat_index,param,3,T_TO_U,/deref/field:crc,unsigned int,scalar,third_party/libzip/lib/zip_stat_index.c
+zip_libzip,zip_stat_index,param,3,T_TO_U,/deref/field:encryption_method,unsigned short,scalar,third_party/libzip/lib/zip_stat_index.c
+zip_libzip,zip_stat_index,param,3,T_TO_U,/deref/field:flags,unsigned int,scalar,third_party/libzip/lib/zip_stat_index.c
+zip_libzip,zip_stat_index,param,3,T_TO_U,/deref/field:index,unsigned long,scalar,third_party/libzip/lib/zip_stat_index.c
+zip_libzip,zip_stat_index,param,3,T_TO_U,/deref/field:mtime,long,scalar,third_party/libzip/lib/zip_stat_index.c
+zip_libzip,zip_stat_index,param,3,T_TO_U,/deref/field:name,char *,pointer,third_party/libzip/lib/zip_stat_index.c
+zip_libzip,zip_stat_index,param,3,T_TO_U,/deref/field:name/deref,char,scalar,third_party/libzip/lib/zip_stat_index.c
+zip_libzip,zip_stat_index,param,3,T_TO_U,/deref/field:size,unsigned long,scalar,third_party/libzip/lib/zip_stat_index.c
+zip_libzip,zip_stat_index,param,3,T_TO_U,/deref/field:valid,unsigned long,scalar,third_party/libzip/lib/zip_stat_index.c
+zip_libzip,zip_stat_index,return_scalar,return,U_TO_T,,int,scalar,third_party/libzip/lib/zip_stat_index.c
+zip_libzip,zip_stat_init,param,0,T_TO_U,,zip_stat *,pointer,third_party/libzip/lib/zip_stat_init.c
+zip_libzip,zip_stat_init,param,0,T_TO_U,/deref,zip_stat,struct,third_party/libzip/lib/zip_stat_init.c
+zip_libzip,zip_stat_init,param,0,T_TO_U,/deref/field:comp_method,unsigned short,scalar,third_party/libzip/lib/zip_stat_init.c
+zip_libzip,zip_stat_init,param,0,T_TO_U,/deref/field:comp_size,unsigned long,scalar,third_party/libzip/lib/zip_stat_init.c
+zip_libzip,zip_stat_init,param,0,T_TO_U,/deref/field:crc,unsigned int,scalar,third_party/libzip/lib/zip_stat_init.c
+zip_libzip,zip_stat_init,param,0,T_TO_U,/deref/field:encryption_method,unsigned short,scalar,third_party/libzip/lib/zip_stat_init.c
+zip_libzip,zip_stat_init,param,0,T_TO_U,/deref/field:flags,unsigned int,scalar,third_party/libzip/lib/zip_stat_init.c
+zip_libzip,zip_stat_init,param,0,T_TO_U,/deref/field:index,unsigned long,scalar,third_party/libzip/lib/zip_stat_init.c
+zip_libzip,zip_stat_init,param,0,T_TO_U,/deref/field:mtime,long,scalar,third_party/libzip/lib/zip_stat_init.c
+zip_libzip,zip_stat_init,param,0,T_TO_U,/deref/field:name,char *,pointer,third_party/libzip/lib/zip_stat_init.c
+zip_libzip,zip_stat_init,param,0,T_TO_U,/deref/field:name/deref,char,scalar,third_party/libzip/lib/zip_stat_init.c
+zip_libzip,zip_stat_init,param,0,T_TO_U,/deref/field:size,unsigned long,scalar,third_party/libzip/lib/zip_stat_init.c
+zip_libzip,zip_stat_init,param,0,T_TO_U,/deref/field:valid,unsigned long,scalar,third_party/libzip/lib/zip_stat_init.c

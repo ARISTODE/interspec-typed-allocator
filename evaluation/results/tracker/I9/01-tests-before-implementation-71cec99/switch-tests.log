@@ -1,0 +1,5 @@
+FAIL memcached_hash sp2
+  sp2_on_u_writes: failed stderr has /^INTERSPEC_T_OBSERVE boundary=memcached_hash key_first_byte=0x6b$/
+PASS memcached_hash sp1_no_field
+PASS memcached_hash sp3_no_field
+PASS memcached_hash benign

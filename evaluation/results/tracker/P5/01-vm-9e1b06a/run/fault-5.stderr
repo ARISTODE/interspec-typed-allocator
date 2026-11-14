@@ -1,0 +1,2 @@
+FAULT_INJECTION boundary=yaml_libyaml mode=5 original=0x102de0 replacement=0x104de0 bytes=6
+INTERSPEC_T_OBSERVE boundary=yaml_libyaml input_first_byte=0x2d

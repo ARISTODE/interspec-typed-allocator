@@ -1,0 +1,5 @@
+zip_libzip exit=0
+magick_libpng exit=2
+nginx exit=0
+ffmpeg_libvpx exit=0
+overall exit=1

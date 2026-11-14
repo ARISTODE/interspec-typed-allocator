@@ -1,0 +1,17 @@
+{
+  "application": "nginx",
+  "variant": "native",
+  "seconds": 600,
+  "interval_seconds": 5.0,
+  "server_cpus": "0-1",
+  "client_cpus": "2-3",
+  "label": "Claude Code cloud VM (KVM guest, 4 vCPUs, not a dedicated host)",
+  "source_commit": "6fe7a6d",
+  "binary_sha256": "e2b10709d8b590addde33293d3bf3f927246556fab3ea2af9468931b6dff6c5a",
+  "started_utc": "2026-11-14T14:04:06Z",
+  "load": {
+    "threads": 4,
+    "connections": 100,
+    "path": "/items/123/alpha"
+  }
+}

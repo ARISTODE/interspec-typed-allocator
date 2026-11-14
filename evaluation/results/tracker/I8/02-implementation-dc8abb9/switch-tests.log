@@ -1,0 +1,5 @@
+PASS magick_libpng sp1
+PASS magick_libpng sp2
+PASS magick_libpng sp3
+PASS magick_libpng sp3_other_faults
+PASS magick_libpng benign

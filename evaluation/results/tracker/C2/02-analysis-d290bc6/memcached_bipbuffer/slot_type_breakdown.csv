@@ -1,0 +1,25 @@
+benchmark,function,binding_kind,binding_id,direction,slot_path,slot_type,category,file
+memcached_bipbuffer,bipbuf_free,param,0,T_TO_U,,struct <unnamed> *,pointer,benchmarks/memcached/bipbuffer.c
+memcached_bipbuffer,bipbuf_new,param,0,T_TO_U,,unsigned int,scalar,benchmarks/memcached/bipbuffer.c
+memcached_bipbuffer,bipbuf_new,return,return,U_TO_T,,struct <unnamed> *,pointer,benchmarks/memcached/bipbuffer.c
+memcached_bipbuffer,bipbuf_offer,param,0,T_TO_U,,struct <unnamed> *,pointer,benchmarks/memcached/bipbuffer.c
+memcached_bipbuffer,bipbuf_offer,param,1,T_TO_U,,unsigned char *,pointer,benchmarks/memcached/bipbuffer.c
+memcached_bipbuffer,bipbuf_offer,param,1,T_TO_U,/deref,unsigned char,scalar,benchmarks/memcached/bipbuffer.c
+memcached_bipbuffer,bipbuf_offer,param,2,T_TO_U,,int,scalar,benchmarks/memcached/bipbuffer.c
+memcached_bipbuffer,bipbuf_offer,return_scalar,return,U_TO_T,,int,scalar,benchmarks/memcached/bipbuffer.c
+memcached_bipbuffer,bipbuf_peek_all,param,0,T_TO_U,,struct <unnamed> *,pointer,benchmarks/memcached/bipbuffer.c
+memcached_bipbuffer,bipbuf_peek_all,param,1,T_TO_U,,unsigned int *,pointer,benchmarks/memcached/bipbuffer.c
+memcached_bipbuffer,bipbuf_peek_all,param,1,T_TO_U,/deref,unsigned int,scalar,benchmarks/memcached/bipbuffer.c
+memcached_bipbuffer,bipbuf_peek_all,return,return,U_TO_T,,unsigned char *,pointer,benchmarks/memcached/bipbuffer.c
+memcached_bipbuffer,bipbuf_peek_all,return_ptr,return,U_TO_T,/deref,unsigned char,scalar,benchmarks/memcached/bipbuffer.c
+memcached_bipbuffer,bipbuf_poll,param,0,T_TO_U,,struct <unnamed> *,pointer,benchmarks/memcached/bipbuffer.c
+memcached_bipbuffer,bipbuf_poll,param,1,T_TO_U,,unsigned int,scalar,benchmarks/memcached/bipbuffer.c
+memcached_bipbuffer,bipbuf_poll,return,return,U_TO_T,,unsigned char *,pointer,benchmarks/memcached/bipbuffer.c
+memcached_bipbuffer,bipbuf_poll,return_ptr,return,U_TO_T,/deref,unsigned char,scalar,benchmarks/memcached/bipbuffer.c
+memcached_bipbuffer,bipbuf_push,param,0,T_TO_U,,struct <unnamed> *,pointer,benchmarks/memcached/bipbuffer.c
+memcached_bipbuffer,bipbuf_push,param,1,T_TO_U,,int,scalar,benchmarks/memcached/bipbuffer.c
+memcached_bipbuffer,bipbuf_push,return_scalar,return,U_TO_T,,int,scalar,benchmarks/memcached/bipbuffer.c
+memcached_bipbuffer,bipbuf_request,param,0,T_TO_U,,struct <unnamed> *,pointer,benchmarks/memcached/bipbuffer.c
+memcached_bipbuffer,bipbuf_request,param,1,T_TO_U,,int,scalar,benchmarks/memcached/bipbuffer.c
+memcached_bipbuffer,bipbuf_request,return,return,U_TO_T,,unsigned char *,pointer,benchmarks/memcached/bipbuffer.c
+memcached_bipbuffer,bipbuf_request,return_ptr,return,U_TO_T,/deref,unsigned char,scalar,benchmarks/memcached/bipbuffer.c

@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "/workspace/scratch/3b7e7b9da467/stage22-ordinary-profile/harness/run_ordinary_profile.py", line 194, in <module>
+    if __name__=="__main__": main()
+                             ^^^^^^
+  File "/workspace/scratch/3b7e7b9da467/stage22-ordinary-profile/harness/run_ordinary_profile.py", line 191, in main
+    print(json.dumps(prepare(args) if args.command=="prepare" else collect(args.plan),indent=2))
+                                                                   ^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/3b7e7b9da467/stage22-ordinary-profile/harness/run_ordinary_profile.py", line 173, in collect
+    ledger["status"]="normal_failed"; save(out/"run.json",ledger); raise ValueError("normal checks failed: "+variant)
+                                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: normal checks failed: native

@@ -1,0 +1,485 @@
+{
+  "boundary": "memcached_assoc",
+  "driver": "/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i9x-work-83f3266/bin/assoc-interspec-fault",
+  "driver_sha256": "8c30af59fe3f9fc9f0a284f0db09dd012954ffd41ad47fc684e7dd6b77fb73de",
+  "tests": {
+    "sp1": {
+      "cases": [
+        "sp1_off_u_reads",
+        "sp1_on_u_reads"
+      ],
+      "passed": false
+    },
+    "sp2": {
+      "cases": [
+        "sp2_off_u_writes",
+        "sp2_on_u_writes"
+      ],
+      "passed": false
+    },
+    "sp3": {
+      "cases": [
+        "sp3_off_bad_pointer",
+        "sp3_on_bad_pointer"
+      ],
+      "passed": false
+    },
+    "handles": {
+      "cases": [
+        "handle_legitimate",
+        "handle_after_delete_legitimate",
+        "handle_never_issued",
+        "handle_of_freed_item",
+        "handle_other_live_item"
+      ],
+      "passed": false
+    },
+    "benign": {
+      "cases": [
+        "benign_all_on",
+        "benign_all_off"
+      ],
+      "passed": false
+    }
+  },
+  "cases": {
+    "sp1_off_u_reads": {
+      "case": "sp1_off_u_reads",
+      "exit": 0,
+      "timed_out": false,
+      "passed": true,
+      "checks": [
+        {
+          "check": "no_timeout",
+          "ok": true
+        },
+        {
+          "check": "exit==0",
+          "ok": true,
+          "observed": 0
+        },
+        {
+          "check": "stdout has /^ASSOC_BENCH variant=interspec ops=40 keyspace=4 finds=\\d+ hits=\\d+ inserts=\\d+ deletes=\\d+ live=\\d+ /",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_POLICY boundary=memcached_hash sp1=0 sp2=1 sp3=full$/",
+          "ok": true
+        },
+        {
+          "check": "stderr has /\\[SP1\\] sandbox read item exptime=0x5ec2e701 nbytes=[1-9]\\d* value_bytes_received=[1-9]\\d* value_first4=545f5345$/",
+          "ok": true
+        }
+      ]
+    },
+    "sp1_on_u_reads": {
+      "case": "sp1_on_u_reads",
+      "exit": 0,
+      "timed_out": false,
+      "passed": false,
+      "checks": [
+        {
+          "check": "no_timeout",
+          "ok": true
+        },
+        {
+          "check": "exit==0",
+          "ok": true,
+          "observed": 0
+        },
+        {
+          "check": "stdout has /^ASSOC_BENCH variant=interspec ops=40 keyspace=4 finds=\\d+ hits=\\d+ inserts=\\d+ deletes=\\d+ live=\\d+ /",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_POLICY boundary=memcached_hash sp1=1 sp2=1 sp3=full$/",
+          "ok": true
+        },
+        {
+          "check": "stderr has /\\[SP1\\] sandbox read item exptime=0x0 nbytes=0 value_bytes_received=0 value_first4=00000000$/",
+          "ok": false
+        },
+        {
+          "check": "stderr lacks /5ec2e7/",
+          "ok": false
+        },
+        {
+          "check": "stderr lacks /545f5345/",
+          "ok": false
+        }
+      ]
+    },
+    "sp2_off_u_writes": {
+      "case": "sp2_off_u_writes",
+      "exit": 0,
+      "timed_out": false,
+      "passed": true,
+      "checks": [
+        {
+          "check": "no_timeout",
+          "ok": true
+        },
+        {
+          "check": "exit==0",
+          "ok": true,
+          "observed": 0
+        },
+        {
+          "check": "stderr has /^INTERSPEC_POLICY boundary=memcached_hash sp1=0 sp2=0 sp3=full$/",
+          "ok": true
+        },
+        {
+          "check": "stderr has /\\[SP2\\] sandbox mutated item refcount=0xffff key_byte0=0x94$/",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_T_OBSERVE boundary=memcached_hash first_item_refcount=65535 first_item_key_byte=0x94$/",
+          "ok": true
+        }
+      ]
+    },
+    "sp2_on_u_writes": {
+      "case": "sp2_on_u_writes",
+      "exit": 0,
+      "timed_out": false,
+      "passed": false,
+      "checks": [
+        {
+          "check": "no_timeout",
+          "ok": true
+        },
+        {
+          "check": "exit==0",
+          "ok": true,
+          "observed": 0
+        },
+        {
+          "check": "stdout has /^ASSOC_BENCH variant=interspec ops=40 keyspace=4 finds=\\d+ hits=\\d+ inserts=\\d+ deletes=\\d+ live=\\d+ /",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_POLICY boundary=memcached_hash sp1=0 sp2=1 sp3=full$/",
+          "ok": true
+        },
+        {
+          "check": "stderr has /\\[SP2\\] sandbox mutated item refcount=0xffff key_byte0=0x94$/",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_T_OBSERVE boundary=memcached_hash first_item_refcount=1 first_item_key_byte=0x6b$/",
+          "ok": false
+        }
+      ]
+    },
+    "sp3_off_bad_pointer": {
+      "case": "sp3_off_bad_pointer",
+      "exit": 0,
+      "timed_out": false,
+      "passed": true,
+      "checks": [
+        {
+          "check": "no_timeout",
+          "ok": true
+        },
+        {
+          "check": "exit==0",
+          "ok": true,
+          "observed": 0
+        },
+        {
+          "check": "stdout has /^ASSOC_SCRIPT script=stale find_k0=k1$/",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_POLICY boundary=memcached_hash sp1=1 sp2=1 sp3=off$/",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^FAULT_INJECTION boundary=memcached_hash mode=2 /",
+          "ok": true
+        },
+        {
+          "check": "stderr lacks /INTERSPEC_REJECT/",
+          "ok": true
+        }
+      ]
+    },
+    "sp3_on_bad_pointer": {
+      "case": "sp3_on_bad_pointer",
+      "exit": 0,
+      "timed_out": false,
+      "passed": false,
+      "checks": [
+        {
+          "check": "no_timeout",
+          "ok": true
+        },
+        {
+          "check": "exit==86",
+          "ok": false,
+          "observed": 0
+        },
+        {
+          "check": "stdout lacks /ASSOC_SCRIPT/",
+          "ok": false
+        },
+        {
+          "check": "stderr has /^INTERSPEC_POLICY boundary=memcached_hash sp1=1 sp2=1 sp3=full$/",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^FAULT_INJECTION boundary=memcached_hash mode=2 /",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_REJECT boundary=memcached_hash operation=assoc_find reason=untracked$/",
+          "ok": false
+        }
+      ]
+    },
+    "handle_legitimate": {
+      "case": "handle_legitimate",
+      "exit": 0,
+      "timed_out": false,
+      "passed": true,
+      "checks": [
+        {
+          "check": "no_timeout",
+          "ok": true
+        },
+        {
+          "check": "exit==0",
+          "ok": true,
+          "observed": 0
+        },
+        {
+          "check": "stdout has /^ASSOC_SCRIPT script=find find_k0=k0$/",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_POLICY boundary=memcached_hash sp1=1 sp2=1 sp3=full$/",
+          "ok": true
+        },
+        {
+          "check": "stderr lacks /INTERSPEC_REJECT/",
+          "ok": true
+        },
+        {
+          "check": "stderr lacks /FAULT_INJECTION/",
+          "ok": true
+        }
+      ]
+    },
+    "handle_after_delete_legitimate": {
+      "case": "handle_after_delete_legitimate",
+      "exit": 0,
+      "timed_out": false,
+      "passed": true,
+      "checks": [
+        {
+          "check": "no_timeout",
+          "ok": true
+        },
+        {
+          "check": "exit==0",
+          "ok": true,
+          "observed": 0
+        },
+        {
+          "check": "stdout has /^ASSOC_SCRIPT script=stale find_k0=none$/",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_POLICY boundary=memcached_hash sp1=1 sp2=1 sp3=full$/",
+          "ok": true
+        },
+        {
+          "check": "stderr lacks /INTERSPEC_REJECT/",
+          "ok": true
+        },
+        {
+          "check": "stderr lacks /FAULT_INJECTION/",
+          "ok": true
+        }
+      ]
+    },
+    "handle_never_issued": {
+      "case": "handle_never_issued",
+      "exit": 86,
+      "timed_out": false,
+      "passed": false,
+      "checks": [
+        {
+          "check": "no_timeout",
+          "ok": true
+        },
+        {
+          "check": "exit==86",
+          "ok": true,
+          "observed": 86
+        },
+        {
+          "check": "stdout lacks /ASSOC_SCRIPT/",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_POLICY boundary=memcached_hash sp1=1 sp2=1 sp3=full$/",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_REJECT boundary=memcached_hash operation=assoc_find reason=untracked$/",
+          "ok": false
+        }
+      ]
+    },
+    "handle_other_live_item": {
+      "case": "handle_other_live_item",
+      "exit": 0,
+      "timed_out": false,
+      "passed": true,
+      "checks": [
+        {
+          "check": "no_timeout",
+          "ok": true
+        },
+        {
+          "check": "exit==0",
+          "ok": true,
+          "observed": 0
+        },
+        {
+          "check": "stdout has /^ASSOC_SCRIPT script=find find_k0=k1$/",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_POLICY boundary=memcached_hash sp1=1 sp2=1 sp3=full$/",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^FAULT_INJECTION boundary=memcached_hash mode=3 /",
+          "ok": true
+        },
+        {
+          "check": "stderr lacks /INTERSPEC_REJECT/",
+          "ok": true
+        }
+      ]
+    },
+    "handle_of_freed_item": {
+      "case": "handle_of_freed_item",
+      "exit": 0,
+      "timed_out": false,
+      "passed": false,
+      "checks": [
+        {
+          "check": "no_timeout",
+          "ok": true
+        },
+        {
+          "check": "exit==86",
+          "ok": false,
+          "observed": 0
+        },
+        {
+          "check": "stdout lacks /ASSOC_SCRIPT/",
+          "ok": false
+        },
+        {
+          "check": "stderr has /^INTERSPEC_POLICY boundary=memcached_hash sp1=1 sp2=1 sp3=full$/",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^FAULT_INJECTION boundary=memcached_hash mode=2 /",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_REJECT boundary=memcached_hash operation=assoc_find reason=untracked$/",
+          "ok": false
+        }
+      ]
+    },
+    "benign_all_on": {
+      "case": "benign_all_on",
+      "exit": 0,
+      "timed_out": false,
+      "passed": false,
+      "checks": [
+        {
+          "check": "no_timeout",
+          "ok": true
+        },
+        {
+          "check": "exit==0",
+          "ok": true,
+          "observed": 0
+        },
+        {
+          "check": "stdout has /^ASSOC_BENCH variant=interspec ops=40 keyspace=4 finds=\\d+ hits=\\d+ inserts=\\d+ deletes=\\d+ live=\\d+ .* checks=[1-9]\\d* /",
+          "ok": false
+        },
+        {
+          "check": "stderr has /^INTERSPEC_POLICY boundary=memcached_hash sp1=1 sp2=1 sp3=full$/",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_T_OBSERVE boundary=memcached_hash first_item_refcount=1 first_item_key_byte=0x6b$/",
+          "ok": true
+        },
+        {
+          "check": "stderr lacks /INTERSPEC_REJECT/",
+          "ok": true
+        },
+        {
+          "check": "stderr lacks /FAULT_INJECTION/",
+          "ok": true
+        },
+        {
+          "check": "stderr lacks /PoC/",
+          "ok": true
+        }
+      ]
+    },
+    "benign_all_off": {
+      "case": "benign_all_off",
+      "exit": 0,
+      "timed_out": false,
+      "passed": true,
+      "checks": [
+        {
+          "check": "no_timeout",
+          "ok": true
+        },
+        {
+          "check": "exit==0",
+          "ok": true,
+          "observed": 0
+        },
+        {
+          "check": "stdout has /^ASSOC_BENCH variant=interspec ops=40 keyspace=4 finds=\\d+ hits=\\d+ inserts=\\d+ deletes=\\d+ live=\\d+ .* checks=0 /",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_POLICY boundary=memcached_hash sp1=0 sp2=0 sp3=off$/",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_T_OBSERVE boundary=memcached_hash first_item_refcount=1 first_item_key_byte=0x6b$/",
+          "ok": true
+        },
+        {
+          "check": "stderr lacks /INTERSPEC_REJECT/",
+          "ok": true
+        },
+        {
+          "check": "stderr lacks /FAULT_INJECTION/",
+          "ok": true
+        },
+        {
+          "check": "stderr lacks /PoC/",
+          "ok": true
+        }
+      ]
+    }
+  },
+  "passed": false
+}

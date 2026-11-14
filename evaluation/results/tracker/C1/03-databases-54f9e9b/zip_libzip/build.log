@@ -1,0 +1,373 @@
+Picked up JAVA_TOOL_OPTIONS: -Djavax.net.ssl.trustStore=/etc/ssl/certs/java/cacerts -Djavax.net.ssl.trustStoreType=JKS -Dhttps.proxyHost=127.0.0.1 -Dhttps.proxyPort=36745 -Dhttp.nonProxyHosts=localhost|127.0.0.1|::1|127.*|0.*|::|169.254.*|api.anthropic.com|api-staging.anthropic.com|api-pr-preview.anthropic.com|mcp-proxy.anthropic.com|mcp-proxy-staging.anthropic.com|registry.npmjs.org|jsr.io|npm.jsr.io|pypi.org|files.pythonhosted.org|index.crates.io|proxy.golang.org|host.docker.internal|10.*|172.16.*|172.17.*|172.18.*|172.19.*|172.20.*|172.21.*|172.22.*|172.23.*|172.24.*|172.25.*|172.26.*|172.27.*|172.28.*|172.29.*|172.30.*|172.31.*|192.168.*|100.64.0.0/10|*.svc.cluster.local|*.svc.cluster.local -Djdk.http.auth.tunneling.disabledSchemes= -Djdk.http.auth.proxying.disabledSchemes=
+Initializing database at /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/db/zip_libzip.
+Running build command: [bash, scripts/build_codeql_zip_libzip.sh]
+Running command in /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/root: [bash, scripts/build_codeql_zip_libzip.sh]
+[2026-11-13 19:59:30] [build-stdout] [codeql-build] configuring zlib
+[2026-11-13 19:59:31] [build-stdout] -- The C compiler identification is GNU 13.3.0
+[2026-11-13 19:59:31] [build-stdout] -- Detecting C compiler ABI info
+[2026-11-13 19:59:31] [build-stdout] -- Detecting C compiler ABI info - done
+[2026-11-13 19:59:31] [build-stdout] -- Check for working C compiler: /usr/bin/cc - skipped
+[2026-11-13 19:59:31] [build-stdout] -- Detecting C compile features
+[2026-11-13 19:59:31] [build-stdout] -- Detecting C compile features - done
+[2026-11-13 19:59:31] [build-stdout] -- Looking for sys/types.h
+[2026-11-13 19:59:31] [build-stdout] -- Looking for sys/types.h - found
+[2026-11-13 19:59:31] [build-stdout] -- Looking for stdint.h
+[2026-11-13 19:59:32] [build-stdout] -- Looking for stdint.h - found
+[2026-11-13 19:59:32] [build-stdout] -- Looking for stddef.h
+[2026-11-13 19:59:32] [build-stdout] -- Looking for stddef.h - found
+[2026-11-13 19:59:32] [build-stdout] -- Check size of off64_t
+[2026-11-13 19:59:32] [build-stdout] -- Check size of off64_t - done
+[2026-11-13 19:59:32] [build-stdout] -- Looking for fseeko
+[2026-11-13 19:59:32] [build-stdout] -- Looking for fseeko - found
+[2026-11-13 19:59:32] [build-stdout] -- Looking for stdarg.h
+[2026-11-13 19:59:33] [build-stdout] -- Looking for stdarg.h - found
+[2026-11-13 19:59:33] [build-stdout] -- Looking for unistd.h
+[2026-11-13 19:59:33] [build-stdout] -- Looking for unistd.h - found
+[2026-11-13 19:59:33] [build-stdout] -- Performing Test HAVE___ATTR__VIS_HIDDEN
+[2026-11-13 19:59:33] [build-stdout] -- Performing Test HAVE___ATTR__VIS_HIDDEN - Failed
+[2026-11-13 19:59:33] [build-stdout] -- Configuring done (2.8s)
+[2026-11-13 19:59:33] [build-stdout] -- Generating done (0.0s)
+[2026-11-13 19:59:33] [build-stdout] -- Build files have been written to: /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/root/build/codeql_zip_libzip/zlib
+[2026-11-13 19:59:33] [build-stdout] [codeql-build] building zlib
+[2026-11-13 19:59:33] [build-stdout] [  2%] Building C object CMakeFiles/zlib.dir/compress.c.o
+[2026-11-13 19:59:33] [build-stdout] [  4%] Building C object CMakeFiles/zlib.dir/crc32.c.o
+[2026-11-13 19:59:33] [build-stdout] [  6%] Building C object CMakeFiles/zlib.dir/adler32.c.o
+[2026-11-13 19:59:33] [build-stdout] [  8%] Building C object CMakeFiles/zlib.dir/deflate.c.o
+[2026-11-13 19:59:33] [build-stdout] [ 10%] Building C object CMakeFiles/zlibstatic.dir/compress.c.o
+[2026-11-13 19:59:33] [build-stdout] [ 13%] Building C object CMakeFiles/zlibstatic.dir/deflate.c.o
+[2026-11-13 19:59:33] [build-stdout] [ 15%] Building C object CMakeFiles/zlibstatic.dir/adler32.c.o
+[2026-11-13 19:59:33] [build-stdout] [ 17%] Building C object CMakeFiles/zlibstatic.dir/crc32.c.o
+[2026-11-13 19:59:33] [build-stdout] [ 19%] Building C object CMakeFiles/zlib.dir/gzlib.c.o
+[2026-11-13 19:59:33] [build-stdout] [ 21%] Building C object CMakeFiles/zlib.dir/gzclose.c.o
+[2026-11-13 19:59:33] [build-stdout] [ 23%] Building C object CMakeFiles/zlibstatic.dir/gzlib.c.o
+[2026-11-13 19:59:33] [build-stdout] [ 26%] Building C object CMakeFiles/zlibstatic.dir/gzread.c.o
+[2026-11-13 19:59:33] [build-stdout] [ 28%] Building C object CMakeFiles/zlibstatic.dir/gzclose.c.o
+[2026-11-13 19:59:33] [build-stdout] [ 30%] Building C object CMakeFiles/zlibstatic.dir/gzwrite.c.o
+[2026-11-13 19:59:33] [build-stdout] [ 32%] Building C object CMakeFiles/zlib.dir/infback.c.o
+[2026-11-13 19:59:33] [build-stdout] [ 34%] Building C object CMakeFiles/zlib.dir/zutil.c.o
+[2026-11-13 19:59:33] [build-stdout] [ 36%] Building C object CMakeFiles/zlib.dir/inftrees.c.o
+[2026-11-13 19:59:33] [build-stdout] [ 39%] Building C object CMakeFiles/zlib.dir/gzread.c.o
+[2026-11-13 19:59:33] [build-stdout] [ 41%] Building C object CMakeFiles/zlib.dir/inffast.c.o
+[2026-11-13 19:59:33] [build-stdout] [ 43%] Building C object CMakeFiles/zlib.dir/gzwrite.c.o
+[2026-11-13 19:59:33] [build-stdout] [ 45%] Building C object CMakeFiles/zlib.dir/inflate.c.o
+[2026-11-13 19:59:33] [build-stdout] [ 47%] Building C object CMakeFiles/zlib.dir/uncompr.c.o
+[2026-11-13 19:59:33] [build-stdout] [ 50%] Building C object CMakeFiles/zlibstatic.dir/inffast.c.o
+[2026-11-13 19:59:33] [build-stdout] [ 52%] Building C object CMakeFiles/zlibstatic.dir/trees.c.o
+[2026-11-13 19:59:33] [build-stdout] [ 54%] Building C object CMakeFiles/zlibstatic.dir/inftrees.c.o
+[2026-11-13 19:59:33] [build-stdout] [ 56%] Building C object CMakeFiles/zlibstatic.dir/uncompr.c.o
+[2026-11-13 19:59:33] [build-stdout] [ 58%] Building C object CMakeFiles/zlib.dir/trees.c.o
+[2026-11-13 19:59:34] [build-stdout] [ 60%] Building C object CMakeFiles/zlibstatic.dir/zutil.c.o
+[2026-11-13 19:59:34] [build-stdout] [ 63%] Building C object CMakeFiles/zlibstatic.dir/infback.c.o
+[2026-11-13 19:59:34] [build-stdout] [ 65%] Building C object CMakeFiles/zlibstatic.dir/inflate.c.o
+[2026-11-13 19:59:36] [build-stdout] [ 67%] Linking C shared library libz.so
+[2026-11-13 19:59:36] [build-stdout] [ 69%] Linking C static library libz.a
+[2026-11-13 19:59:36] [build-stdout] [ 69%] Built target zlib
+[2026-11-13 19:59:36] [build-stdout] [ 69%] Built target zlibstatic
+[2026-11-13 19:59:36] [build-stdout] [ 71%] Building C object test/CMakeFiles/minigzip.dir/minigzip.c.o
+[2026-11-13 19:59:36] [build-stdout] [ 73%] Building C object test/CMakeFiles/zlib_example.dir/example.c.o
+[2026-11-13 19:59:36] [build-stdout] [ 76%] Building C object test/CMakeFiles/zlib_static_example.dir/example.c.o
+[2026-11-13 19:59:36] [build-stdout] [ 78%] Building C object test/CMakeFiles/zlib_example64.dir/example.c.o
+[2026-11-13 19:59:36] [build-stdout] [ 80%] Building C object test/CMakeFiles/infcover.dir/infcover.c.o
+[2026-11-13 19:59:36] [build-stdout] [ 82%] Building C object test/CMakeFiles/static_minigzip.dir/minigzip.c.o
+[2026-11-13 19:59:36] [build-stdout] [ 84%] Building C object test/CMakeFiles/zlib_static_example64.dir/example.c.o
+[2026-11-13 19:59:37] [build-stdout] [ 86%] Linking C executable minigzip
+[2026-11-13 19:59:37] [build-stdout] [ 89%] Linking C executable static_minigzip
+[2026-11-13 19:59:37] [build-stdout] [ 91%] Linking C executable zlib_example64
+[2026-11-13 19:59:37] [build-stdout] [ 91%] Built target minigzip
+[2026-11-13 19:59:37] [build-stdout] [ 93%] Linking C executable zlib_example
+[2026-11-13 19:59:37] [build-stdout] [ 95%] Linking C executable zlib_static_example
+[2026-11-13 19:59:37] [build-stdout] [ 95%] Built target static_minigzip
+[2026-11-13 19:59:37] [build-stdout] [ 95%] Built target zlib_example64
+[2026-11-13 19:59:37] [build-stdout] [ 95%] Built target zlib_example
+[2026-11-13 19:59:37] [build-stdout] [ 97%] Linking C executable zlib_static_example64
+[2026-11-13 19:59:37] [build-stdout] [100%] Linking C executable infcover
+[2026-11-13 19:59:37] [build-stdout] [100%] Built target zlib_static_example
+[2026-11-13 19:59:37] [build-stdout] [100%] Built target infcover
+[2026-11-13 19:59:37] [build-stdout] [100%] Built target zlib_static_example64
+[2026-11-13 19:59:37] [build-stdout] [codeql-build] configuring libzip (zlib=/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/root/build/codeql_zip_libzip/zlib/libz.a)
+[2026-11-13 19:59:37] [build-stdout] -- The C compiler identification is GNU 13.3.0
+[2026-11-13 19:59:37] [build-stdout] -- Detecting C compiler ABI info
+[2026-11-13 19:59:38] [build-stdout] -- Detecting C compiler ABI info - done
+[2026-11-13 19:59:38] [build-stdout] -- Check for working C compiler: /usr/bin/cc - skipped
+[2026-11-13 19:59:38] [build-stdout] -- Detecting C compile features
+[2026-11-13 19:59:38] [build-stdout] -- Detecting C compile features - done
+[2026-11-13 19:59:38] [build-stdout] -- Looking for _close
+[2026-11-13 19:59:38] [build-stdout] -- Looking for _close - not found
+[2026-11-13 19:59:38] [build-stdout] -- Looking for _dup
+[2026-11-13 19:59:38] [build-stdout] -- Looking for _dup - not found
+[2026-11-13 19:59:38] [build-stdout] -- Looking for _fdopen
+[2026-11-13 19:59:39] [build-stdout] -- Looking for _fdopen - not found
+[2026-11-13 19:59:39] [build-stdout] -- Looking for _fileno
+[2026-11-13 19:59:39] [build-stdout] -- Looking for _fileno - not found
+[2026-11-13 19:59:39] [build-stdout] -- Looking for _fseeki64
+[2026-11-13 19:59:39] [build-stdout] -- Looking for _fseeki64 - not found
+[2026-11-13 19:59:39] [build-stdout] -- Looking for _fstat64
+[2026-11-13 19:59:39] [build-stdout] -- Looking for _fstat64 - not found
+[2026-11-13 19:59:39] [build-stdout] -- Looking for _setmode
+[2026-11-13 19:59:40] [build-stdout] -- Looking for _setmode - not found
+[2026-11-13 19:59:40] [build-stdout] -- Looking for _stat64
+[2026-11-13 19:59:40] [build-stdout] -- Looking for _stat64 - not found
+[2026-11-13 19:59:40] [build-stdout] -- Looking for _snprintf
+[2026-11-13 19:59:40] [build-stdout] -- Looking for _snprintf - not found
+[2026-11-13 19:59:40] [build-stdout] -- Looking for _snprintf_s
+[2026-11-13 19:59:40] [build-stdout] -- Looking for _snprintf_s - not found
+[2026-11-13 19:59:40] [build-stdout] -- Looking for _snwprintf_s
+[2026-11-13 19:59:40] [build-stdout] -- Looking for _snwprintf_s - not found
+[2026-11-13 19:59:40] [build-stdout] -- Looking for _strdup
+[2026-11-13 19:59:41] [build-stdout] -- Looking for _strdup - not found
+[2026-11-13 19:59:41] [build-stdout] -- Looking for _stricmp
+[2026-11-13 19:59:41] [build-stdout] -- Looking for _stricmp - not found
+[2026-11-13 19:59:41] [build-stdout] -- Looking for _strtoi64
+[2026-11-13 19:59:41] [build-stdout] -- Looking for _strtoi64 - not found
+[2026-11-13 19:59:41] [build-stdout] -- Looking for _strtoui64
+[2026-11-13 19:59:41] [build-stdout] -- Looking for _strtoui64 - not found
+[2026-11-13 19:59:41] [build-stdout] -- Looking for _unlink
+[2026-11-13 19:59:42] [build-stdout] -- Looking for _unlink - not found
+[2026-11-13 19:59:42] [build-stdout] -- Looking for arc4random
+[2026-11-13 19:59:42] [build-stdout] -- Looking for arc4random - found
+[2026-11-13 19:59:42] [build-stdout] -- Looking for clonefile
+[2026-11-13 19:59:42] [build-stdout] -- Looking for clonefile - not found
+[2026-11-13 19:59:42] [build-stdout] -- Looking for explicit_bzero
+[2026-11-13 19:59:42] [build-stdout] -- Looking for explicit_bzero - found
+[2026-11-13 19:59:42] [build-stdout] -- Looking for explicit_memset
+[2026-11-13 19:59:43] [build-stdout] -- Looking for explicit_memset - not found
+[2026-11-13 19:59:43] [build-stdout] -- Looking for fchmod
+[2026-11-13 19:59:43] [build-stdout] -- Looking for fchmod - found
+[2026-11-13 19:59:43] [build-stdout] -- Looking for fileno
+[2026-11-13 19:59:43] [build-stdout] -- Looking for fileno - found
+[2026-11-13 19:59:43] [build-stdout] -- Looking for fseeko
+[2026-11-13 19:59:43] [build-stdout] -- Looking for fseeko - found
+[2026-11-13 19:59:43] [build-stdout] -- Looking for ftello
+[2026-11-13 19:59:44] [build-stdout] -- Looking for ftello - found
+[2026-11-13 19:59:44] [build-stdout] -- Looking for getprogname
+[2026-11-13 19:59:44] [build-stdout] -- Looking for getprogname - not found
+[2026-11-13 19:59:44] [build-stdout] -- Looking for GetSecurityInfo
+[2026-11-13 19:59:44] [build-stdout] -- Looking for GetSecurityInfo - not found
+[2026-11-13 19:59:44] [build-stdout] -- Looking for localtime_r
+[2026-11-13 19:59:44] [build-stdout] -- Looking for localtime_r - found
+[2026-11-13 19:59:44] [build-stdout] -- Looking for localtime_s
+[2026-11-13 19:59:45] [build-stdout] -- Looking for localtime_s - not found
+[2026-11-13 19:59:45] [build-stdout] -- Looking for memcpy_s
+[2026-11-13 19:59:45] [build-stdout] -- Looking for memcpy_s - not found
+[2026-11-13 19:59:45] [build-stdout] -- Looking for random
+[2026-11-13 19:59:45] [build-stdout] -- Looking for random - found
+[2026-11-13 19:59:45] [build-stdout] -- Looking for setmode
+[2026-11-13 19:59:45] [build-stdout] -- Looking for setmode - not found
+[2026-11-13 19:59:45] [build-stdout] -- Looking for snprintf
+[2026-11-13 19:59:46] [build-stdout] -- Looking for snprintf - found
+[2026-11-13 19:59:46] [build-stdout] -- Looking for snprintf_s
+[2026-11-13 19:59:46] [build-stdout] -- Looking for snprintf_s - not found
+[2026-11-13 19:59:46] [build-stdout] -- Looking for strcasecmp
+[2026-11-13 19:59:46] [build-stdout] -- Looking for strcasecmp - found
+[2026-11-13 19:59:46] [build-stdout] -- Looking for strdup
+[2026-11-13 19:59:46] [build-stdout] -- Looking for strdup - found
+[2026-11-13 19:59:46] [build-stdout] -- Looking for strerror_s
+[2026-11-13 19:59:47] [build-stdout] -- Looking for strerror_s - not found
+[2026-11-13 19:59:47] [build-stdout] -- Looking for strerrorlen_s
+[2026-11-13 19:59:47] [build-stdout] -- Looking for strerrorlen_s - not found
+[2026-11-13 19:59:47] [build-stdout] -- Looking for stricmp
+[2026-11-13 19:59:47] [build-stdout] -- Looking for stricmp - not found
+[2026-11-13 19:59:47] [build-stdout] -- Looking for strncpy_s
+[2026-11-13 19:59:47] [build-stdout] -- Looking for strncpy_s - not found
+[2026-11-13 19:59:47] [build-stdout] -- Looking for strtoll
+[2026-11-13 19:59:48] [build-stdout] -- Looking for strtoll - found
+[2026-11-13 19:59:48] [build-stdout] -- Looking for strtoull
+[2026-11-13 19:59:48] [build-stdout] -- Looking for strtoull - found
+[2026-11-13 19:59:48] [build-stdout] -- Looking for 3 include files sys/types.h, ..., fts.h
+[2026-11-13 19:59:48] [build-stdout] -- Looking for 3 include files sys/types.h, ..., fts.h - found
+[2026-11-13 19:59:48] [build-stdout] -- Looking for fts_open
+[2026-11-13 19:59:48] [build-stdout] -- Looking for fts_open - found
+[2026-11-13 19:59:48] [build-stdout] -- Looking for include file stdbool.h
+[2026-11-13 19:59:49] [build-stdout] -- Looking for include file stdbool.h - found
+[2026-11-13 19:59:49] [build-stdout] -- Looking for include file strings.h
+[2026-11-13 19:59:49] [build-stdout] -- Looking for include file strings.h - found
+[2026-11-13 19:59:49] [build-stdout] -- Looking for include file unistd.h
+[2026-11-13 19:59:49] [build-stdout] -- Looking for include file unistd.h - found
+[2026-11-13 19:59:49] [build-stdout] -- Looking for include file inttypes.h
+[2026-11-13 19:59:49] [build-stdout] -- Looking for include file inttypes.h - found
+[2026-11-13 19:59:49] [build-stdout] -- Looking for include file stdint.h
+[2026-11-13 19:59:50] [build-stdout] -- Looking for include file stdint.h - found
+[2026-11-13 19:59:50] [build-stdout] -- Looking for include file sys/types.h
+[2026-11-13 19:59:50] [build-stdout] -- Looking for include file sys/types.h - found
+[2026-11-13 19:59:50] [build-stdout] -- Looking for sys/types.h
+[2026-11-13 19:59:50] [build-stdout] -- Looking for sys/types.h - found
+[2026-11-13 19:59:50] [build-stdout] -- Looking for stdint.h
+[2026-11-13 19:59:51] [build-stdout] -- Looking for stdint.h - found
+[2026-11-13 19:59:51] [build-stdout] -- Looking for stddef.h
+[2026-11-13 19:59:51] [build-stdout] -- Looking for stddef.h - found
+[2026-11-13 19:59:51] [build-stdout] -- Check size of __int8
+[2026-11-13 19:59:51] [build-stdout] -- Check size of __int8 - failed
+[2026-11-13 19:59:51] [build-stdout] -- Check size of int8_t
+[2026-11-13 19:59:51] [build-stdout] -- Check size of int8_t - done
+[2026-11-13 19:59:51] [build-stdout] -- Check size of uint8_t
+[2026-11-13 19:59:52] [build-stdout] -- Check size of uint8_t - done
+[2026-11-13 19:59:52] [build-stdout] -- Check size of __int16
+[2026-11-13 19:59:52] [build-stdout] -- Check size of __int16 - failed
+[2026-11-13 19:59:52] [build-stdout] -- Check size of int16_t
+[2026-11-13 19:59:52] [build-stdout] -- Check size of int16_t - done
+[2026-11-13 19:59:52] [build-stdout] -- Check size of uint16_t
+[2026-11-13 19:59:52] [build-stdout] -- Check size of uint16_t - done
+[2026-11-13 19:59:52] [build-stdout] -- Check size of __int32
+[2026-11-13 19:59:52] [build-stdout] -- Check size of __int32 - failed
+[2026-11-13 19:59:52] [build-stdout] -- Check size of int32_t
+[2026-11-13 19:59:53] [build-stdout] -- Check size of int32_t - done
+[2026-11-13 19:59:53] [build-stdout] -- Check size of uint32_t
+[2026-11-13 19:59:53] [build-stdout] -- Check size of uint32_t - done
+[2026-11-13 19:59:53] [build-stdout] -- Check size of __int64
+[2026-11-13 19:59:53] [build-stdout] -- Check size of __int64 - failed
+[2026-11-13 19:59:53] [build-stdout] -- Check size of int64_t
+[2026-11-13 19:59:54] [build-stdout] -- Check size of int64_t - done
+[2026-11-13 19:59:54] [build-stdout] -- Check size of uint64_t
+[2026-11-13 19:59:54] [build-stdout] -- Check size of uint64_t - done
+[2026-11-13 19:59:54] [build-stdout] -- Check size of short
+[2026-11-13 19:59:54] [build-stdout] -- Check size of short - done
+[2026-11-13 19:59:54] [build-stdout] -- Check size of int
+[2026-11-13 19:59:54] [build-stdout] -- Check size of int - done
+[2026-11-13 19:59:54] [build-stdout] -- Check size of long
+[2026-11-13 19:59:55] [build-stdout] -- Check size of long - done
+[2026-11-13 19:59:55] [build-stdout] -- Check size of long long
+[2026-11-13 19:59:55] [build-stdout] -- Check size of long long - done
+[2026-11-13 19:59:55] [build-stdout] -- Check size of off_t
+[2026-11-13 19:59:55] [build-stdout] -- Check size of off_t - done
+[2026-11-13 19:59:55] [build-stdout] -- Check size of size_t
+[2026-11-13 19:59:56] [build-stdout] -- Check size of size_t - done
+[2026-11-13 19:59:56] [build-stdout] -- Performing Test HAVE_FICLONERANGE
+[2026-11-13 19:59:56] [build-stdout] -- Performing Test HAVE_FICLONERANGE - Success
+[2026-11-13 19:59:56] [build-stdout] -- Found ZLIB: /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/root/build/codeql_zip_libzip/zlib/libz.a (found suitable version "1.3.2", minimum required is "1.1.2")
+[2026-11-13 19:59:56] [build-stdout] -- Configuring done (18.6s)
+[2026-11-13 19:59:56] [build-stdout] -- Generating done (0.0s)
+[2026-11-13 19:59:56] [build-stdout] -- Build files have been written to: /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/root/build/codeql_zip_libzip/libzip
+[2026-11-13 19:59:56] [build-stdout] [codeql-build] building libzip
+[2026-11-13 19:59:56] [build-stdout] [  0%] Generating zip_err_str.c
+[2026-11-13 19:59:56] [build-stdout] [  1%] Building C object lib/CMakeFiles/zip.dir/zip_add.c.o
+[2026-11-13 19:59:56] [build-stdout] [  2%] Building C object lib/CMakeFiles/zip.dir/zip_buffer.c.o
+[2026-11-13 19:59:56] [build-stdout] [  3%] Building C object lib/CMakeFiles/zip.dir/zip_add_dir.c.o
+[2026-11-13 19:59:56] [build-stdout] [  4%] Building C object lib/CMakeFiles/zip.dir/zip_algorithm_deflate.c.o
+[2026-11-13 19:59:56] [build-stdout] [  5%] Building C object lib/CMakeFiles/zip.dir/zip_add_entry.c.o
+[2026-11-13 19:59:56] [build-stdout] [  6%] Building C object lib/CMakeFiles/zip.dir/zip_close.c.o
+[2026-11-13 19:59:56] [build-stdout] [  6%] Building C object lib/CMakeFiles/zip.dir/zip_delete.c.o
+[2026-11-13 19:59:56] [build-stdout] [  7%] Building C object lib/CMakeFiles/zip.dir/zip_discard.c.o
+[2026-11-13 19:59:56] [build-stdout] [  8%] Building C object lib/CMakeFiles/zip.dir/zip_dir_add.c.o
+[2026-11-13 19:59:56] [build-stdout] [  9%] Building C object lib/CMakeFiles/zip.dir/zip_entry.c.o
+[2026-11-13 19:59:56] [build-stdout] [ 10%] Building C object lib/CMakeFiles/zip.dir/zip_error.c.o
+[2026-11-13 19:59:56] [build-stdout] [ 11%] Building C object lib/CMakeFiles/zip.dir/zip_error_clear.c.o
+[2026-11-13 19:59:56] [build-stdout] [ 12%] Building C object lib/CMakeFiles/zip.dir/zip_dirent.c.o
+[2026-11-13 19:59:56] [build-stdout] [ 13%] Building C object lib/CMakeFiles/zip.dir/zip_error_strerror.c.o
+[2026-11-13 19:59:56] [build-stdout] [ 14%] Building C object lib/CMakeFiles/zip.dir/zip_error_get_sys_type.c.o
+[2026-11-13 19:59:56] [build-stdout] [ 14%] Building C object lib/CMakeFiles/zip.dir/zip_error_get.c.o
+[2026-11-13 19:59:56] [build-stdout] [ 15%] Building C object lib/CMakeFiles/zip.dir/zip_error_to_str.c.o
+[2026-11-13 19:59:56] [build-stdout] [ 16%] Building C object lib/CMakeFiles/zip.dir/zip_fclose.c.o
+[2026-11-13 19:59:56] [build-stdout] [ 17%] Building C object lib/CMakeFiles/zip.dir/zip_file_error_clear.c.o
+[2026-11-13 19:59:56] [build-stdout] [ 18%] Building C object lib/CMakeFiles/zip.dir/zip_file_add.c.o
+[2026-11-13 19:59:56] [build-stdout] [ 19%] Building C object lib/CMakeFiles/zip.dir/zip_extra_field.c.o
+[2026-11-13 19:59:56] [build-stdout] [ 20%] Building C object lib/CMakeFiles/zip.dir/zip_file_error_get.c.o
+[2026-11-13 19:59:56] [build-stdout] [ 20%] Building C object lib/CMakeFiles/zip.dir/zip_fdopen.c.o
+[2026-11-13 19:59:56] [build-stdout] [ 21%] Building C object lib/CMakeFiles/zip.dir/zip_file_get_offset.c.o
+[2026-11-13 19:59:56] [build-stdout] [ 22%] Building C object lib/CMakeFiles/zip.dir/zip_file_get_external_attributes.c.o
+[2026-11-13 19:59:56] [build-stdout] [ 23%] Building C object lib/CMakeFiles/zip.dir/zip_file_get_comment.c.o
+[2026-11-13 19:59:56] [build-stdout] [ 24%] Building C object lib/CMakeFiles/zip.dir/zip_extra_field_api.c.o
+[2026-11-13 19:59:56] [build-stdout] [ 25%] Building C object lib/CMakeFiles/zip.dir/zip_file_rename.c.o
+[2026-11-13 19:59:56] [build-stdout] [ 26%] Building C object lib/CMakeFiles/zip.dir/zip_file_set_comment.c.o
+[2026-11-13 19:59:56] [build-stdout] [ 27%] Building C object lib/CMakeFiles/zip.dir/zip_file_set_external_attributes.c.o
+[2026-11-13 19:59:56] [build-stdout] [ 28%] Building C object lib/CMakeFiles/zip.dir/zip_file_strerror.c.o
+[2026-11-13 19:59:56] [build-stdout] [ 29%] Building C object lib/CMakeFiles/zip.dir/zip_file_set_mtime.c.o
+[2026-11-13 19:59:56] [build-stdout] [ 30%] Building C object lib/CMakeFiles/zip.dir/zip_file_set_encryption.c.o
+[2026-11-13 19:59:56] [build-stdout] [ 31%] Building C object lib/CMakeFiles/zip.dir/zip_fopen_index_encrypted.c.o
+[2026-11-13 19:59:56] [build-stdout] [ 32%] Building C object lib/CMakeFiles/zip.dir/zip_fseek.c.o
+[2026-11-13 19:59:56] [build-stdout] [ 33%] Building C object lib/CMakeFiles/zip.dir/zip_fopen.c.o
+[2026-11-13 19:59:56] [build-stdout] [ 34%] Building C object lib/CMakeFiles/zip.dir/zip_get_name.c.o
+[2026-11-13 19:59:56] [build-stdout] [ 35%] Building C object lib/CMakeFiles/zip.dir/zip_fread.c.o
+[2026-11-13 19:59:56] [build-stdout] [ 36%] Building C object lib/CMakeFiles/zip.dir/zip_get_num_files.c.o
+[2026-11-13 19:59:56] [build-stdout] [ 37%] Building C object lib/CMakeFiles/zip.dir/zip_get_file_comment.c.o
+[2026-11-13 19:59:56] [build-stdout] [ 38%] Building C object lib/CMakeFiles/zip.dir/zip_get_archive_comment.c.o
+[2026-11-13 19:59:56] [build-stdout] [ 38%] Building C object lib/CMakeFiles/zip.dir/zip_fopen_encrypted.c.o
+[2026-11-13 19:59:56] [build-stdout] [ 39%] Building C object lib/CMakeFiles/zip.dir/zip_rename.c.o
+[2026-11-13 19:59:56] [build-stdout] [ 39%] Building C object lib/CMakeFiles/zip.dir/zip_realloc.c.o
+[2026-11-13 19:59:56] [build-stdout] [ 40%] Building C object lib/CMakeFiles/zip.dir/zip_libzip_version.c.o
+[2026-11-13 19:59:56] [build-stdout] [ 41%] Building C object lib/CMakeFiles/zip.dir/zip_fopen_index.c.o
+[2026-11-13 19:59:56] [build-stdout] [ 42%] Building C object lib/CMakeFiles/zip.dir/zip_ftell.c.o
+[2026-11-13 19:59:56] [build-stdout] [ 43%] Building C object lib/CMakeFiles/zip.dir/zip_source_begin_write.c.o
+[2026-11-13 19:59:56] [build-stdout] [ 43%] Building C object lib/CMakeFiles/zip.dir/zip_get_archive_flag.c.o
+[2026-11-13 19:59:57] [build-stdout] [ 43%] Building C object lib/CMakeFiles/zip.dir/zip_file_replace.c.o
+[2026-11-13 19:59:57] [build-stdout] [ 44%] Building C object lib/CMakeFiles/zip.dir/zip_set_name.c.o
+[2026-11-13 19:59:57] [build-stdout] [ 44%] Building C object lib/CMakeFiles/zip.dir/zip_set_file_compression.c.o
+[2026-11-13 19:59:57] [build-stdout] [ 45%] Building C object lib/CMakeFiles/zip.dir/zip_get_encryption_implementation.c.o
+[2026-11-13 19:59:57] [build-stdout] [ 46%] Building C object lib/CMakeFiles/zip.dir/zip_set_archive_comment.c.o
+[2026-11-13 19:59:57] [build-stdout] [ 47%] Building C object lib/CMakeFiles/zip.dir/zip_source_get_file_attributes.c.o
+[2026-11-13 19:59:57] [build-stdout] [ 48%] Building C object lib/CMakeFiles/zip.dir/zip_source_layered.c.o
+[2026-11-13 19:59:57] [build-stdout] [ 49%] Building C object lib/CMakeFiles/zip.dir/zip_source_function.c.o
+[2026-11-13 19:59:57] [build-stdout] [ 50%] Building C object lib/CMakeFiles/zip.dir/zip_source_open.c.o
+[2026-11-13 19:59:57] [build-stdout] [ 51%] Building C object lib/CMakeFiles/zip.dir/zip_source_get_dostime.c.o
+[2026-11-13 19:59:57] [build-stdout] [ 52%] Building C object lib/CMakeFiles/zip.dir/zip_source_read.c.o
+[2026-11-13 19:59:57] [build-stdout] [ 52%] Building C object lib/CMakeFiles/zip.dir/zip_source_zip_new.c.o
+[2026-11-13 19:59:57] [build-stdout] [ 53%] Building C object lib/CMakeFiles/zip.dir/zip_source_pass_to_lower_layer.c.o
+[2026-11-13 19:59:57] [build-stdout] [ 54%] Building C object lib/CMakeFiles/zip.dir/zip_source_remove.c.o
+[2026-11-13 19:59:57] [build-stdout] [ 55%] Building C object lib/CMakeFiles/zip.dir/zip_source_zip.c.o
+[2026-11-13 19:59:57] [build-stdout] [ 56%] Building C object lib/CMakeFiles/zip.dir/zip_unchange.c.o
+[2026-11-13 19:59:57] [build-stdout] [ 57%] Building C object lib/CMakeFiles/zip.dir/zip_name_locate.c.o
+[2026-11-13 19:59:57] [build-stdout] [ 58%] Building C object lib/CMakeFiles/zip.dir/zip_utf-8.c.o
+[2026-11-13 19:59:57] [build-stdout] [ 59%] Building C object lib/CMakeFiles/zip.dir/zip_source_error.c.o
+[2026-11-13 19:59:57] [build-stdout] [ 60%] Building C object lib/CMakeFiles/zip.dir/zip_source_begin_write_cloning.c.o
+[2026-11-13 19:59:57] [build-stdout] [ 61%] Building C object lib/CMakeFiles/zip.dir/zip_new.c.o
+[2026-11-13 19:59:57] [build-stdout] [ 62%] Building C object lib/CMakeFiles/zip.dir/zip_set_file_comment.c.o
+[2026-11-13 19:59:57] [build-stdout] [ 63%] Building C object lib/CMakeFiles/zip.dir/zip_source_tell.c.o
+[2026-11-13 19:59:57] [build-stdout] [ 64%] Building C object lib/CMakeFiles/zip.dir/zip_source_accept_empty.c.o
+[2026-11-13 19:59:57] [build-stdout] [ 65%] Building C object lib/CMakeFiles/zip.dir/zip_err_str.c.o
+[2026-11-13 19:59:57] [build-stdout] [ 66%] Building C object lib/CMakeFiles/zip.dir/zip_source_tell_write.c.o
+[2026-11-13 19:59:57] [build-stdout] [ 66%] Building C object lib/CMakeFiles/zip.dir/zip_source_free.c.o
+[2026-11-13 19:59:57] [build-stdout] [ 66%] Building C object lib/CMakeFiles/zip.dir/zip_source_pkware_decode.c.o
+[2026-11-13 19:59:57] [build-stdout] [ 67%] Building C object lib/CMakeFiles/zip.dir/zip_source_supports.c.o
+[2026-11-13 19:59:57] [build-stdout] [ 67%] Building C object lib/CMakeFiles/zip.dir/zip_unchange_all.c.o
+[2026-11-13 19:59:57] [build-stdout] [ 67%] Building C object lib/CMakeFiles/zip.dir/zip_io_util.c.o
+[2026-11-13 19:59:57] [build-stdout] [ 67%] Building C object lib/CMakeFiles/zip.dir/zip_source_close.c.o
+[2026-11-13 19:59:57] [build-stdout] [ 68%] Building C object lib/CMakeFiles/zip.dir/zip_source_seek_write.c.o
+[2026-11-13 19:59:57] [build-stdout] [ 68%] Building C object lib/CMakeFiles/zip.dir/zip_source_stat.c.o
+[2026-11-13 19:59:57] [build-stdout] [ 69%] Building C object lib/CMakeFiles/zip.dir/zip_source_file_common.c.o
+[2026-11-13 19:59:57] [build-stdout] [ 70%] Building C object lib/CMakeFiles/zip.dir/zip_pkware.c.o
+[2026-11-13 19:59:57] [build-stdout] [ 71%] Building C object lib/CMakeFiles/zip.dir/zip_set_default_password.c.o
+[2026-11-13 19:59:57] [build-stdout] [ 72%] Building C object lib/CMakeFiles/zip.dir/zip_memdup.c.o
+[2026-11-13 19:59:57] [build-stdout] [ 73%] Building C object lib/CMakeFiles/zip.dir/zip_source_pkware_encode.c.o
+[2026-11-13 19:59:57] [build-stdout] [ 74%] Building C object lib/CMakeFiles/zip.dir/zip_source_window.c.o
+[2026-11-13 19:59:57] [build-stdout] [ 75%] Building C object lib/CMakeFiles/zip.dir/zip_open.c.o
+[2026-11-13 19:59:57] [build-stdout] [ 76%] Building C object lib/CMakeFiles/zip.dir/zip_replace.c.o
+[2026-11-13 19:59:57] [build-stdout] [ 77%] Building C object lib/CMakeFiles/zip.dir/zip_set_archive_flag.c.o
+[2026-11-13 19:59:57] [build-stdout] [ 78%] Building C object lib/CMakeFiles/zip.dir/zip_source_rollback_write.c.o
+[2026-11-13 19:59:57] [build-stdout] [ 79%] Building C object lib/CMakeFiles/zip.dir/zip_source_file_stdio.c.o
+[2026-11-13 19:59:57] [build-stdout] [ 80%] Building C object lib/CMakeFiles/zip.dir/zip_source_compress.c.o
+[2026-11-13 19:59:57] [build-stdout] [ 81%] Building C object lib/CMakeFiles/zip.dir/zip_stat.c.o
+[2026-11-13 19:59:57] [build-stdout] [ 82%] Building C object lib/CMakeFiles/zip.dir/zip_source_commit_write.c.o
+[2026-11-13 19:59:57] [build-stdout] [ 83%] Building C object lib/CMakeFiles/zip.dir/zip_unchange_data.c.o
+[2026-11-13 19:59:57] [build-stdout] [ 84%] Building C object lib/CMakeFiles/zip.dir/zip_source_buffer.c.o
+[2026-11-13 19:59:57] [build-stdout] [ 85%] Building C object lib/CMakeFiles/zip.dir/zip_source_is_deleted.c.o
+[2026-11-13 19:59:57] [build-stdout] [ 86%] Building C object lib/CMakeFiles/zip.dir/zip_source_crc.c.o
+[2026-11-13 19:59:57] [build-stdout] [ 87%] Building C object lib/CMakeFiles/zip.dir/zip_progress.c.o
+[2026-11-13 19:59:57] [build-stdout] [ 88%] Building C object lib/CMakeFiles/zip.dir/zip_strerror.c.o
+[2026-11-13 19:59:57] [build-stdout] [ 89%] Building C object lib/CMakeFiles/zip.dir/zip_source_call.c.o
+[2026-11-13 19:59:57] [build-stdout] [ 90%] Building C object lib/CMakeFiles/zip.dir/zip_random_unix.c.o
+[2026-11-13 19:59:57] [build-stdout] [ 91%] Building C object lib/CMakeFiles/zip.dir/zip_stat_init.c.o
+[2026-11-13 19:59:57] [build-stdout] [ 92%] Building C object lib/CMakeFiles/zip.dir/zip_unchange_archive.c.o
+[2026-11-13 19:59:57] [build-stdout] [ 93%] Building C object lib/CMakeFiles/zip.dir/zip_string.c.o
+[2026-11-13 19:59:57] [build-stdout] [ 94%] Building C object lib/CMakeFiles/zip.dir/zip_source_write.c.o
+[2026-11-13 19:59:57] [build-stdout] [ 95%] Building C object lib/CMakeFiles/zip.dir/zip_hash.c.o
+[2026-11-13 19:59:58] [build-stdout] [ 96%] Building C object lib/CMakeFiles/zip.dir/zip_source_seek.c.o
+[2026-11-13 19:59:58] [build-stdout] [ 97%] Building C object lib/CMakeFiles/zip.dir/zip_get_num_entries.c.o
+[2026-11-13 19:59:58] [build-stdout] [ 98%] Building C object lib/CMakeFiles/zip.dir/zip_stat_index.c.o
+[2026-11-13 19:59:58] [build-stdout] [ 99%] Building C object lib/CMakeFiles/zip.dir/zip_source_file_stdio_named.c.o
+[2026-11-13 20:00:04] [build-stdout] [100%] Linking C static library libzip.a
+[2026-11-13 20:00:04] [build-stdout] [100%] Built target zip
+[2026-11-13 20:00:04] [build-stdout] [codeql-build] compiling trusted microbench
+[2026-11-13 20:00:06] [build-stdout] [codeql-build] done
+Finalizing database at /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/db/zip_libzip.
+Running pre-finalize script /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/codeql-bundle/codeql/cpp/tools/pre-finalize.sh in /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/root.
+Running command in /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/root: [/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/codeql-bundle/codeql/cpp/tools/pre-finalize.sh]
+Pre-finalize script /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/codeql-bundle/codeql/cpp/tools/pre-finalize.sh completed in 20 ms.
+Running TRAP import for CodeQL database at /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/db/zip_libzip...
+Grouping TRAP files by link target
+Grouping unlinked TRAP files together
+Scanning TRAP files
+Importing TRAP files
+Merging relations
+Finished writing database (relations: 4.06 MiB; string pool: 4.78 MiB).
+TRAP import complete (5.6s).
+Finished zipping source archive (1.38 MiB).
+Successfully created database at /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/db/zip_libzip.

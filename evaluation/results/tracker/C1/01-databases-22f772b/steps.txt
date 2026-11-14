@@ -1,0 +1,3 @@
+code/generated_wrappers/samples: record directory exists, not overwriting
+samples exit=2
+overall exit=1

@@ -1,0 +1,49 @@
+In file included from /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/p4-tmp-4107215/interspec-p11-driver/interspec-rlbox-wasm2c/p9b_wasm_bridge.cpp:12:
+/home/user/interspec-typed-allocator/include/interspec/pointer_census.h: In function 'void interspec::census::emit(const char*, const char*, const char*, const char*, uintptr_t, const char*)':
+/home/user/interspec-typed-allocator/include/interspec/pointer_census.h:118:18: warning: ignoring return value of 'ssize_t write(int, const void*, size_t)' declared with attribute 'warn_unused_result' [-Wunused-result]
+  118 |     (void)::write(STDERR_FILENO, line, static_cast<size_t>(count));
+      |           ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/p4-tmp-4107215/interspec-p11-driver/interspec-rlbox-wasm2c/p9b_wasm_bridge.cpp:12:
+/home/user/interspec-typed-allocator/include/interspec/pointer_census.h: In function 'void interspec::census::emit(const char*, const char*, const char*, const char*, uintptr_t, const char*)':
+/home/user/interspec-typed-allocator/include/interspec/pointer_census.h:118:18: warning: ignoring return value of 'ssize_t write(int, const void*, size_t)' declared with attribute 'warn_unused_result' [-Wunused-result]
+  118 |     (void)::write(STDERR_FILENO, line, static_cast<size_t>(count));
+      |           ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+CMake Deprecation Warning at build/_deps/catch2-src/CMakeLists.txt:1 (cmake_minimum_required):
+  Compatibility with CMake < 3.10 will be removed from a future version of
+  CMake.
+
+  Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+  to tell CMake that the project requires at least <min> but has been updated
+  to work with policies introduced by <max> or earlier.
+
+
+In file included from /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/p4-tmp-4107215/interspec-p11-driver/interspec-rlbox-wasm2c/p11_wasm_rlbox_only_bridge.cpp:12:
+/home/user/interspec-typed-allocator/include/interspec/pointer_census.h: In function 'void interspec::census::emit(const char*, const char*, const char*, const char*, uintptr_t, const char*)':
+/home/user/interspec-typed-allocator/include/interspec/pointer_census.h:118:18: warning: ignoring return value of 'ssize_t write(int, const void*, size_t)' declared with attribute 'warn_unused_result' [-Wunused-result]
+  118 |     (void)::write(STDERR_FILENO, line, static_cast<size_t>(count));
+      |           ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Preparing worktree (detached HEAD 7c20b077)
+popt/popt.c: In function 'execCommand':
+popt/popt.c:453:9: warning: variable 'rc' set but not used [-Wunused-but-set-variable]
+  453 |     int rc;
+      |         ^~
+popt/popt.c: In function 'poptRandomValue':
+popt/popt.c:917:44: warning: unused parameter 'limit' [-Wunused-parameter]
+  917 | static long long poptRandomValue(long long limit)
+      |                                  ~~~~~~~~~~^~~~~
+popt/poptconfig.c: In function 'poptReadDefaultConfig':
+popt/poptconfig.c:440:17: warning: unused variable 'sb' [-Wunused-variable]
+  440 |     struct stat sb;
+      |                 ^~
+popt/popthelp.c: In function 'getArgDescrip':
+popt/popthelp.c:157:30: warning: unused parameter 'translation_domain' [-Wunused-parameter]
+  157 |                 const char * translation_domain)
+      |                 ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
+popt/popthelp.c: In function 'singleOptionDefaultValue':
+popt/popthelp.c:209:30: warning: unused parameter 'translation_domain' [-Wunused-parameter]
+  209 |                 const char * translation_domain)
+      |                 ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
+popt/poptint.c: In function 'POPT_fprintf':
+popt/poptint.c:147:24: warning: unused variable 'ob' [-Wunused-variable]
+  147 |     char * b = NULL, * ob = NULL;
+      |                        ^~

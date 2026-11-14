@@ -1,0 +1,1 @@
+ZIP_BENCH variant=native iterations=1 archive_bytes=703 entries=4 checksum=a7a627c036378c60 last_name=66696c6531 last_size=24 checks=0 elapsed_ns=14601

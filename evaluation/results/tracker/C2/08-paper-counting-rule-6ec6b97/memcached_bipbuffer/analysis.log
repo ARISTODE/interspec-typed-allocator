@@ -1,0 +1,11 @@
+[slot-policy] Activating manifest (isolated) -> config/memcached_bipbuffer.json
+Generated /tmp/slot_policy_pack_sbwcz56j/ql/generated/MemcachedBipbufferConfig.qll without updating ql/generated/index.qll.
+[slot-policy] Exporting pointer slot rows -> reports/memcached_bipbuffer/pointer_slots_classification.csv
+[slot-policy] Exporting pointer slots -> reports/memcached_bipbuffer/pointer_slots_summary_by_interface.csv
+[slot-policy] Exporting SP3 cases -> reports/memcached_bipbuffer/sp3_cases.csv
+[slot-policy] Exporting scalar slots -> reports/memcached_bipbuffer/scalar_slots_summary_by_interface.csv
+[slot-policy] Exporting slot type rows -> reports/memcached_bipbuffer/slot_type_breakdown.csv
+[slot-policy] Exporting slot types -> reports/memcached_bipbuffer/slot_type_breakdown_summary_by_interface.csv
+[slot-policy] Exporting node surface -> reports/memcached_bipbuffer/node_surface_summary_by_interface.csv
+[slot-policy] Consolidating -> reports/memcached_bipbuffer/policy_summary.csv
+[slot-policy] Done

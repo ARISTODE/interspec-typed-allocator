@@ -1,0 +1,14 @@
+FAIL yaml_libyaml sp2
+  sp2_off_u_writes: failed stderr has /^INTERSPEC_POLICY boundary=yaml_libyaml sp1=1 sp2=0 sp3=full$/
+  sp2_off_u_writes: failed stderr has /^INTERSPEC_T_OBSERVE boundary=yaml_libyaml input_first_byte=0x94$/
+  sp2_on_u_writes: failed stderr has /^INTERSPEC_POLICY boundary=yaml_libyaml sp1=1 sp2=1 sp3=full$/
+FAIL yaml_libyaml sp3
+  sp3_off_bad_pointer: failed exit==0 (observed 86)
+  sp3_off_bad_pointer: failed stdout has /^YAML_BENCH mode=extended_sp3 iterations=1 input_bytes=\d+ events=23 scalars=11 scalar_bytes=\d+ hash=[0-9a-f]{16} /
+  sp3_off_bad_pointer: failed stderr has /^INTERSPEC_POLICY boundary=yaml_libyaml sp1=1 sp2=1 sp3=off$/
+  sp3_off_bad_pointer: failed stderr lacks /INTERSPEC_REJECT/
+  sp3_on_bad_pointer: failed stderr has /^INTERSPEC_POLICY boundary=yaml_libyaml sp1=1 sp2=1 sp3=full$/
+FAIL yaml_libyaml benign
+  benign_all_on: failed stderr has /^INTERSPEC_POLICY boundary=yaml_libyaml sp1=1 sp2=1 sp3=full$/
+  benign_all_off: failed stdout has /^YAML_BENCH mode=extended_sp3 iterations=1 input_bytes=\d+ events=23 scalars=11 scalar_bytes=\d+ hash=[0-9a-f]{16} checks=0 /
+  benign_all_off: failed stderr has /^INTERSPEC_POLICY boundary=yaml_libyaml sp1=0 sp2=0 sp3=off$/

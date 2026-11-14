@@ -1,0 +1,2 @@
+FAULT_INJECTION boundary=yaml_libyaml mode=4 original=0x102de0 replacement=0x102de0 bytes=8193
+INTERSPEC_REJECT boundary=yaml_libyaml reason=out_of_bounds

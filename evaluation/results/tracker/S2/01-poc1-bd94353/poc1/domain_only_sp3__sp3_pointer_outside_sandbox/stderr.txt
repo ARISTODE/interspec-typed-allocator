@@ -1,0 +1,3 @@
+INTERSPEC_POLICY boundary=rsync_popt sp1=1 sp2=1 sp3=domain
+[InterSpec][PoC][SP3] sandbox corrupting output pointer slot=0 value=0xdeadbeef
+INTERSPEC_REJECT reason=InterSpec rejected popt char pointer: outside_domain

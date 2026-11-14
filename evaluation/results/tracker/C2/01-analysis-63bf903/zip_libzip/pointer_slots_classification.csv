@@ -1,0 +1,39 @@
+benchmark,function,binding_kind,binding_id,direction,slot_path,slot_type,owned_by_t,exposed_to_u,u_reads,u_writes,u_forwarded,t_uses,u_influenced,escapes_to_t,flow_cut,sp1,sp2,sp3,file,t_domain_invariant,sp3_target_t,sp3_target_u,sp3_target_null
+zip_libzip,zip_close,param,0,T_TO_U,,zip *,0,1,1,0,1,0,0,0,0,0,1,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,,zip_t *,0,1,1,0,1,0,0,0,0,0,1,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_error_fini,param,0,T_TO_U,,zip_error *,1,1,1,0,0,0,0,0,0,0,1,0,third_party/libzip/lib/zip_error.c,0,0,0,0
+zip_libzip,zip_error_fini,param,0,T_TO_U,,zip_error_t *,1,1,1,0,0,0,0,0,0,0,1,0,third_party/libzip/lib/zip_error.c,0,0,0,0
+zip_libzip,zip_error_init,param,0,T_TO_U,,zip_error *,1,1,1,0,0,0,0,0,0,0,1,0,third_party/libzip/lib/zip_error.c,0,0,0,0
+zip_libzip,zip_error_init,param,0,T_TO_U,,zip_error_t *,1,1,1,0,0,0,0,0,0,0,1,0,third_party/libzip/lib/zip_error.c,0,0,0,0
+zip_libzip,zip_error_strerror,param,0,T_TO_U,,zip_error *,1,1,1,0,1,0,0,0,0,0,1,0,third_party/libzip/lib/zip_error_strerror.c,0,0,0,0
+zip_libzip,zip_error_strerror,param,0,T_TO_U,,zip_error_t *,1,1,1,0,1,0,0,0,0,0,1,0,third_party/libzip/lib/zip_error_strerror.c,0,0,0,0
+zip_libzip,zip_error_strerror,return,return,U_TO_T,,char *,0,0,0,0,0,1,1,0,0,0,0,1,third_party/libzip/lib/zip_error_strerror.c,0,0,1,0
+zip_libzip,zip_error_strerror,return,return,U_TO_T,,const char *,0,0,0,0,0,1,1,0,0,0,0,1,third_party/libzip/lib/zip_error_strerror.c,0,0,1,0
+zip_libzip,zip_get_name,param,0,T_TO_U,,zip *,0,1,1,0,1,0,0,0,0,0,1,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,,zip_t *,0,1,1,0,1,0,0,0,0,0,1,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,return,return,U_TO_T,,char *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,return,return,U_TO_T,,const char *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,,zip *,0,1,1,0,0,0,0,0,0,0,1,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,,zip_t *,0,1,1,0,0,0,0,0,0,0,1,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_open_from_source,param,0,T_TO_U,,zip_source *,0,1,1,0,1,0,0,0,0,0,1,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,param,0,T_TO_U,,zip_source_t *,0,1,1,0,1,0,0,0,0,0,1,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,param,2,T_TO_U,,zip_error *,1,1,1,0,1,0,0,0,0,0,1,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,param,2,T_TO_U,,zip_error_t *,1,1,1,0,1,0,0,0,0,0,1,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return,return,U_TO_T,,zip *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return,return,U_TO_T,,zip_t *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_source_buffer_create,param,0,T_TO_U,,const void *,1,1,1,0,1,0,0,0,0,0,1,0,third_party/libzip/lib/zip_source_buffer.c,0,0,0,0
+zip_libzip,zip_source_buffer_create,param,0,T_TO_U,,void *,1,1,1,0,1,0,0,0,0,0,1,0,third_party/libzip/lib/zip_source_buffer.c,0,0,0,0
+zip_libzip,zip_source_buffer_create,param,3,T_TO_U,,zip_error *,1,1,1,0,1,0,0,0,0,0,1,0,third_party/libzip/lib/zip_source_buffer.c,0,0,0,0
+zip_libzip,zip_source_buffer_create,param,3,T_TO_U,,zip_error_t *,1,1,1,0,1,0,0,0,0,0,1,0,third_party/libzip/lib/zip_source_buffer.c,0,0,0,0
+zip_libzip,zip_source_buffer_create,return,return,U_TO_T,,zip_source *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_source_buffer.c,0,0,0,0
+zip_libzip,zip_source_buffer_create,return,return,U_TO_T,,zip_source_t *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_source_buffer.c,0,0,0,0
+zip_libzip,zip_source_free,param,0,T_TO_U,,zip_source *,0,1,1,0,1,0,0,0,0,0,1,0,third_party/libzip/lib/zip_source_free.c,0,0,0,0
+zip_libzip,zip_source_free,param,0,T_TO_U,,zip_source_t *,0,1,1,0,1,0,0,0,0,0,1,0,third_party/libzip/lib/zip_source_free.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,,zip *,0,1,1,0,1,0,0,0,0,0,1,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,,zip_t *,0,1,1,0,1,0,0,0,0,0,1,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,3,T_TO_U,,zip_stat *,1,1,1,0,1,0,0,0,0,0,1,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,3,T_TO_U,,zip_stat_t *,1,1,1,0,1,0,0,0,0,0,1,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,3,T_TO_U,/deref/field:name,char *,1,1,0,1,0,1,1,0,0,0,0,1,third_party/libzip/lib/zip_stat_index.c,0,0,1,0
+zip_libzip,zip_stat_init,param,0,T_TO_U,,zip_stat *,1,1,1,0,0,0,0,0,0,0,1,0,third_party/libzip/lib/zip_stat_init.c,0,0,0,0
+zip_libzip,zip_stat_init,param,0,T_TO_U,,zip_stat_t *,1,1,1,0,0,0,0,0,0,0,1,0,third_party/libzip/lib/zip_stat_init.c,0,0,0,0
+zip_libzip,zip_stat_init,param,0,T_TO_U,/deref/field:name,char *,1,1,0,1,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_stat_init.c,0,0,0,0

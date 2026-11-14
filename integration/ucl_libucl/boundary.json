@@ -1,0 +1,22 @@
+{
+  "types": [
+    "char"
+  ],
+  "helper_sites": [
+    {
+      "name": "string_value",
+      "type": "ucl_string_value",
+      "role": "integration"
+    },
+    {
+      "name": "emitted",
+      "type": "ucl_emitted",
+      "role": "integration"
+    },
+    {
+      "name": "wrong_type",
+      "type": "char",
+      "role": "adversarial"
+    }
+  ]
+}

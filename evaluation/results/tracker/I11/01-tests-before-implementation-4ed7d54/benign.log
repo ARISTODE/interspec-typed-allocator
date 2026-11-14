@@ -1,0 +1,11 @@
+FAIL nested__server.name__logging.level__x1__interspec: reports_all_on
+FAIL nested__server.name__logging.level__x2__interspec: reports_all_on
+FAIL nested__server.limits.rate__missing.key__x1__interspec: reports_all_on
+FAIL nested__server.limits.rate__missing.key__x2__interspec: reports_all_on
+FAIL json__service.id__note__x1__interspec: reports_all_on
+FAIL json__service.id__note__x2__interspec: reports_all_on
+FAIL units__section.sub.leaf__key2__x1__interspec: reports_all_on
+FAIL units__section.sub.leaf__key2__x2__interspec: reports_all_on
+FAIL units__multi__section.size__x1__interspec: reports_all_on
+FAIL units__multi__section.size__x2__interspec: reports_all_on
+ucl_libucl benign: 30/40 runs passed

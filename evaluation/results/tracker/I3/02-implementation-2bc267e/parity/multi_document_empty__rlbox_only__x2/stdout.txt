@@ -1,0 +1,1 @@
+YAML_BENCH mode=rlbox_only iterations=2 input_bytes=38 events=28 scalars=8 scalar_bytes=22 hash=c2122739792ef063 checks=0 elapsed_ns=24240

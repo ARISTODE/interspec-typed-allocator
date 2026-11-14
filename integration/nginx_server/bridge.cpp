@@ -7,6 +7,7 @@
 #include "rlbox_wasm2c_sandbox.hpp"
 #include "interspec/runtime.h"
 #include "interspec/pointer_census.h"
+#include "interspec/policy_switches.h"
 #include "pcre.h"
 #if INTERSPEC_TRACKING
 #include "interspec_pcre_t_policy.h"
@@ -31,7 +32,8 @@ int interspec_nginx_info(int);
 int interspec_nginx_study(void);
 unsigned char *interspec_nginx_names(void);
 uint32_t interspec_nginx_names_bytes(void);
-int interspec_nginx_exec(int, int, int, int);
+int interspec_nginx_exec(int, int, int, int, int);
+unsigned char *interspec_nginx_offsets_in(void);
 unsigned char *interspec_nginx_offsets(void);
 uint32_t interspec_nginx_offsets_bytes(void);
 #ifdef INTERSPEC_FAULT_TESTS
@@ -51,6 +53,29 @@ constexpr uint32_t InputCapacity = 65536, OffsetCapacity = 4096;
 constexpr uint32_t CompileErrorCapacity = 512;
 static_assert(sizeof(int) == 4, "nginx PCRE Wasm capture ABI requires 32-bit int");
 enum class Use { input, names, offsets };
+
+/* Per-policy switches (INTERSPEC_SP1, INTERSPEC_SP2, INTERSPEC_SP3).
+ *
+ * SP1: the output vector of pcre_exec is written by U and T's contents are
+ *      never read, so they are not copied in. Off: they are copied in.
+ * SP2: the subject of pcre_exec is read by U and never written by it, so U's
+ *      copy is not copied back. Off: it is copied back.
+ * SP3: the object-registry check. Off leaves the sandbox confinement check
+ *      that every isolated variant performs.
+ * interspec-artifact has no selective copy code for this boundary (its PCRE2
+ * wrapper reads SP1/SP2 switches that control nothing), and its policy export
+ * describes the PCRE2 API. The two fields above are the PCRE 8.45 parameters
+ * with the same access pattern. Variants built without INTERSPEC_CHECKS have
+ * no registry check to switch. */
+#if INTERSPEC_CHECKS
+constexpr const char *kPolicyBoundary = "nginx_pcre";
+#else
+constexpr const char *kPolicyBoundary = "nginx_pcre+sp3_fixed_at_compile_time";
+#endif
+const interspec::PolicySwitches &switches() {
+    return interspec::policy_switches(kPolicyBoundary);
+}
+
 [[noreturn]] void reject(const char *operation, const char *reason) {
     std::fprintf(stderr, "INTERSPEC_REJECT boundary=nginx_pcre operation=%s reason=%s\n", operation, reason);
     std::fflush(stderr);
@@ -88,6 +113,7 @@ struct Regex {
     std::unique_ptr<interspec::Runtime> runtime;
 #endif
     Regex() {
+        switches();  // read (and, if asked, report) the configuration first
         if (!sandbox.create_sandbox()) throw std::runtime_error("sandbox_creation");
         try {
 #if INTERSPEC_TRACKING
@@ -141,11 +167,13 @@ struct Regex {
         if (!sandbox.is_pointer_in_sandbox_memory(ptr) || address > total || bytes > total - address)
             reject(operation, "outside_sandbox");
 #if INTERSPEC_CHECKS
-        const auto policy = use == Use::names ? P::kUsePcreNameTableRange :
-                            use == Use::offsets ? P::kUseCaptureOffsets : P::kUseSubjectInput;
-        const auto result = P::check(*runtime, address, bytes, policy);
-        if (result != interspec::CheckResult::ok) reject(operation, interspec::check_result_name(result));
-        interspec::census::sandbox_result("nginx_pcre", use == Use::names ? "checked_name_table" : use == Use::offsets ? "checked_capture_offsets" : "checked_input_staging", address, true);
+        if (switches().sp3 == interspec::Sp3Mode::full) {
+            const auto policy = use == Use::names ? P::kUsePcreNameTableRange :
+                                use == Use::offsets ? P::kUseCaptureOffsets : P::kUseSubjectInput;
+            const auto result = P::check(*runtime, address, bytes, policy);
+            if (result != interspec::CheckResult::ok) reject(operation, interspec::check_result_name(result));
+            interspec::census::sandbox_result("nginx_pcre", use == Use::names ? "checked_name_table" : use == Use::offsets ? "checked_capture_offsets" : "checked_input_staging", address, true);
+        }
 #endif
         return ptr;
     }
@@ -205,7 +233,24 @@ struct Regex {
             count < 0 || count > static_cast<int>(OffsetCapacity) || (count && !target)) return PCRE_ERROR_BADLENGTH;
         if (count) interspec::census::trusted_adapter_reference("nginx_pcre", "capture_offsets_output", target);
         copy_input(subject, static_cast<uint32_t>(length));
-        int rc = sandbox.invoke_sandbox_function(interspec_nginx_exec, length, start, options, count).UNSAFE_unverified();
+        int copied_in = 0;
+        if (!switches().sp1 && count) {
+            /* SP1 off: copy T's output vector in, as a wrapper without the
+             * policy would. */
+            const uint32_t bytes = static_cast<uint32_t>(count) * sizeof(int);
+            auto staging = sandbox.invoke_sandbox_function(interspec_nginx_offsets_in);
+            std::memcpy(validate(staging, bytes, Use::offsets), target, bytes);
+            copied_in = 1;
+        }
+        int rc = sandbox.invoke_sandbox_function(interspec_nginx_exec, length, start, options, count, copied_in).UNSAFE_unverified();
+        if (!switches().sp2 && length) {
+            /* SP2 off: copy U's version of the subject back. Only differing
+             * bytes are written, so a well-behaved U never causes a write to
+             * T's object. */
+            const unsigned char *copy = validate(input, static_cast<uint32_t>(length), Use::input);
+            if (std::memcmp(copy, subject, length) != 0)
+                std::memcpy(const_cast<char *>(subject), copy, length);
+        }
         if (rc < 0) return rc;
         if (rc > count / 3 || rc > captures + 1) reject("capture_offsets", "malformed_count");
         if (!count) return rc;

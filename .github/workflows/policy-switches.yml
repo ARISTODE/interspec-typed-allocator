@@ -17,6 +17,37 @@ on:
       - 'scripts/run_memcached_policy_switches.sh'
       - 'scripts/build_memcached_deployment.sh'
       - 'tools/test_memcached_deployment.py'
+      - 'integration/nginx_server/**'
+      - 'scripts/run_nginx_policy_switches.sh'
+      - 'scripts/build_nginx_deployment.sh'
+      - 'tools/test_nginx_deployment.py'
+      - 'tools/run_nginx_parity.py'
+      - 'evaluation/parity/**'
+      - 'integration/yaml_libyaml/**'
+      - 'scripts/run_yaml_policy_switches.sh'
+      - 'scripts/run_yaml_libyaml_evaluation.sh'
+      - 'tools/run_yaml_parity.py'
+      - 'include/interspec/boundary/wasm_port.h'
+      - 'integration/ucl_libucl/**'
+      - 'scripts/port_common.sh'
+      - 'scripts/build_ucl_port.sh'
+      - 'scripts/run_ucl_port.sh'
+      - 'tools/run_port_parity.py'
+      - 'integration/zip_libzip/**'
+      - 'scripts/build_zip_port.sh'
+      - 'scripts/run_zip_port.sh'
+      - 'integration/magick_libpng/**'
+      - 'scripts/build_png_port.sh'
+      - 'scripts/run_png_port.sh'
+      - 'integration/ffmpeg_libvpx/**'
+      - 'scripts/build_vpx_port.sh'
+      - 'scripts/run_vpx_port.sh'
+      - 'integration/nginx_openssl/**'
+      - 'scripts/build_tls_port.sh'
+      - 'scripts/run_tls_port.sh'
+      - 'integration/memcached_hash/**'
+      - 'scripts/build_hash_port.sh'
+      - 'scripts/run_hash_port.sh'
       - '.github/workflows/policy-switches.yml'
   workflow_dispatch:
 
@@ -64,3 +95,155 @@ jobs:
           name: policy-switches-memcached-bipbuffer
           if-no-files-found: error
           path: policy-switches-memcached-bipbuffer
+
+  nginx-pcre:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - name: Install build tools
+        run: |
+          sudo apt-get update
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y build-essential cmake git python3 libcrypt-dev
+      - uses: actions/checkout@v4
+      - name: Switch tests, nginx deployment gate and rebuilt 104-response parity set (I4)
+        run: bash scripts/run_nginx_policy_switches.sh policy-switches-nginx-pcre
+      - name: Upload raw output
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: policy-switches-nginx-pcre
+          if-no-files-found: error
+          path: policy-switches-nginx-pcre
+
+  yaml-libyaml:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - name: Install build tools
+        run: |
+          sudo apt-get update
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y build-essential cmake git python3
+      - uses: actions/checkout@v4
+      - name: Switch tests and rebuilt 48-run parity set (I3)
+        run: bash scripts/run_yaml_policy_switches.sh policy-switches-yaml-libyaml
+      - name: Upload raw output
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: policy-switches-yaml-libyaml
+          if-no-files-found: error
+          path: policy-switches-yaml-libyaml
+
+  ucl-libucl:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - name: Install build tools
+        run: |
+          sudo apt-get update
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y build-essential cmake git python3
+      - uses: actions/checkout@v4
+      - name: Registry port, switch tests and benign run against native (I11)
+        run: bash scripts/run_ucl_port.sh policy-switches-ucl-libucl
+      - name: Upload raw output
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: policy-switches-ucl-libucl
+          if-no-files-found: error
+          path: policy-switches-ucl-libucl
+
+  zip-libzip:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - name: Install build tools
+        run: |
+          sudo apt-get update
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y build-essential cmake git python3
+      - uses: actions/checkout@v4
+      - name: Registry port, switch tests and benign run against native (I12)
+        run: bash scripts/run_zip_port.sh policy-switches-zip-libzip
+      - name: Upload raw output
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: policy-switches-zip-libzip
+          if-no-files-found: error
+          path: policy-switches-zip-libzip
+
+  magick-libpng:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - name: Install build tools
+        run: |
+          sudo apt-get update
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y build-essential cmake git python3
+      - uses: actions/checkout@v4
+      - name: Registry port, switch tests and benign run against native (I8)
+        run: bash scripts/run_png_port.sh policy-switches-magick-libpng
+      - name: Upload raw output
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: policy-switches-magick-libpng
+          if-no-files-found: error
+          path: policy-switches-magick-libpng
+
+  ffmpeg-libvpx:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - name: Install build tools
+        run: |
+          sudo apt-get update
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y build-essential cmake git perl python3
+      - uses: actions/checkout@v4
+      - name: Registry port, switch tests and benign run against native (I7)
+        run: bash scripts/run_vpx_port.sh policy-switches-ffmpeg-libvpx
+      - name: Upload raw output
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: policy-switches-ffmpeg-libvpx
+          if-no-files-found: error
+          path: policy-switches-ffmpeg-libvpx
+
+  nginx-openssl:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - name: Install build tools
+        run: |
+          sudo apt-get update
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y build-essential cmake git perl python3
+      - uses: actions/checkout@v4
+      - name: TLS bridge port, switch tests and benign run against native (I10)
+        run: bash scripts/run_tls_port.sh policy-switches-nginx-openssl
+      - name: Upload raw output
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: policy-switches-nginx-openssl
+          if-no-files-found: error
+          path: policy-switches-nginx-openssl
+
+  memcached-hash:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - name: Install build tools
+        run: |
+          sudo apt-get update
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y build-essential cmake git python3
+      - uses: actions/checkout@v4
+      - name: Hash call port and hash table in U, switch tests and benign runs against native (I9)
+        run: bash scripts/run_hash_port.sh policy-switches-memcached-hash
+      - name: Upload raw output
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: policy-switches-memcached-hash
+          if-no-files-found: error
+          path: policy-switches-memcached-hash

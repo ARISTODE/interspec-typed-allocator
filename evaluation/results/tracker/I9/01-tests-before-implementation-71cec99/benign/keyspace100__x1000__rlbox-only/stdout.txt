@@ -1,0 +1,1 @@
+HASH_BENCH variant=rlbox-only ops=1000 keyspace=100 sink=30c5dd90b483c6e0 checks=0 elapsed_ns=16451

@@ -1,0 +1,5 @@
+build exit=0
+build-driver exit=0
+switch-tests exit=0
+gate exit=0
+overall exit=0

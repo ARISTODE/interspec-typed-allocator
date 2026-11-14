@@ -1,0 +1,2 @@
+magick_libpng exit=0
+overall exit=0

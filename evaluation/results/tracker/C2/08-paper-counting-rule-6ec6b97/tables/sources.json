@@ -1,0 +1,9 @@
+{
+  "magick_libpng": "evaluation/results/tracker/C2/08-paper-counting-rule-6ec6b97/magick_libpng/policy_summary.csv",
+  "memcached_bipbuffer": "evaluation/results/tracker/C2/08-paper-counting-rule-6ec6b97/memcached_bipbuffer/policy_summary.csv",
+  "memcached_hash": "evaluation/results/tracker/C2/08-paper-counting-rule-6ec6b97/memcached_hash/policy_summary.csv",
+  "rsync_popt": "evaluation/results/tracker/C2/08-paper-counting-rule-6ec6b97/rsync_popt/policy_summary.csv",
+  "ucl_libucl": "evaluation/results/tracker/C2/08-paper-counting-rule-6ec6b97/ucl_libucl/policy_summary.csv",
+  "yaml_libyaml": "evaluation/results/tracker/C2/08-paper-counting-rule-6ec6b97/yaml_libyaml/policy_summary.csv",
+  "zip_libzip": "evaluation/results/tracker/C2/08-paper-counting-rule-6ec6b97/zip_libzip/policy_summary.csv"
+}

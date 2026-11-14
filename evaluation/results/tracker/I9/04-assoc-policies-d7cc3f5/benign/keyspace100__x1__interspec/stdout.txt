@@ -1,0 +1,1 @@
+HASH_BENCH variant=interspec ops=1 keyspace=100 sink=8b7c4cf9a361f139 checks=0 elapsed_ns=3037

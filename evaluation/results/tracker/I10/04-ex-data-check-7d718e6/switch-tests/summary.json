@@ -1,0 +1,467 @@
+{
+  "boundary": "nginx_openssl",
+  "driver": "/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i10x-work-7d718e6/bin/tls-interspec-fault",
+  "driver_sha256": "f161274ed02870b31855131ef6560099b3bfcdfc4b78019cd9057fdee1e82ef1",
+  "tests": {
+    "sp1": {
+      "cases": [
+        "sp1_off_u_reads",
+        "sp1_on_u_reads"
+      ],
+      "passed": true
+    },
+    "sp2": {
+      "cases": [
+        "sp2_off_u_writes",
+        "sp2_on_u_writes"
+      ],
+      "passed": true
+    },
+    "sp3": {
+      "cases": [
+        "sp3_off_bad_pointer",
+        "sp3_on_bad_pointer"
+      ],
+      "passed": true
+    },
+    "ex_data": {
+      "cases": [
+        "ex_data_legitimate",
+        "ex_data_never_issued",
+        "ex_data_wrong_type",
+        "ex_data_other_connection"
+      ],
+      "passed": true
+    },
+    "benign": {
+      "cases": [
+        "benign_all_on",
+        "benign_all_off"
+      ],
+      "passed": true
+    }
+  },
+  "cases": {
+    "sp1_off_u_reads": {
+      "case": "sp1_off_u_reads",
+      "exit": 0,
+      "timed_out": false,
+      "passed": true,
+      "checks": [
+        {
+          "check": "no_timeout",
+          "ok": true
+        },
+        {
+          "check": "exit==0",
+          "ok": true,
+          "observed": 0
+        },
+        {
+          "check": "stdout has /^TLS_BENCH variant=interspec rounds=1 request_bytes=64 response_bytes=256 version=TLSv1\\.3 cipher=\\S+ server_received_fnv=[0-9a-f]{16} client_received_fnv=[0-9a-f]{16} connection_requests=1 /",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_POLICY boundary=nginx_openssl sp1=0 sp2=1 sp3=full$/",
+          "ok": true
+        },
+        {
+          "check": "stderr has /\\[SP1\\] sandbox read output buffer before writing first8=545f5354414c455f$/",
+          "ok": true
+        }
+      ]
+    },
+    "sp1_on_u_reads": {
+      "case": "sp1_on_u_reads",
+      "exit": 0,
+      "timed_out": false,
+      "passed": true,
+      "checks": [
+        {
+          "check": "no_timeout",
+          "ok": true
+        },
+        {
+          "check": "exit==0",
+          "ok": true,
+          "observed": 0
+        },
+        {
+          "check": "stdout has /^TLS_BENCH variant=interspec rounds=1 request_bytes=64 response_bytes=256 version=TLSv1\\.3 cipher=\\S+ server_received_fnv=[0-9a-f]{16} client_received_fnv=[0-9a-f]{16} connection_requests=1 /",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_POLICY boundary=nginx_openssl sp1=1 sp2=1 sp3=full$/",
+          "ok": true
+        },
+        {
+          "check": "stderr has /\\[SP1\\] sandbox read output buffer before writing first8=[0-9a-f]{16}$/",
+          "ok": true
+        },
+        {
+          "check": "stderr lacks /545f5354414c455f/",
+          "ok": true
+        }
+      ]
+    },
+    "sp2_off_u_writes": {
+      "case": "sp2_off_u_writes",
+      "exit": 0,
+      "timed_out": false,
+      "passed": true,
+      "checks": [
+        {
+          "check": "no_timeout",
+          "ok": true
+        },
+        {
+          "check": "exit==0",
+          "ok": true,
+          "observed": 0
+        },
+        {
+          "check": "stdout has /^TLS_BENCH variant=interspec rounds=1 request_bytes=64 response_bytes=256 version=TLSv1\\.3 cipher=\\S+ server_received_fnv=[0-9a-f]{16} client_received_fnv=[0-9a-f]{16} connection_requests=1 /",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_POLICY boundary=nginx_openssl sp1=1 sp2=0 sp3=full$/",
+          "ok": true
+        },
+        {
+          "check": "stderr has /\\[SP2\\] sandbox mutated plaintext byte=0 old=0x46 new=0xb9$/",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_T_OBSERVE boundary=nginx_openssl response_first_byte=0xb9 conf_limit=1000 other_requests=0$/",
+          "ok": true
+        }
+      ]
+    },
+    "sp2_on_u_writes": {
+      "case": "sp2_on_u_writes",
+      "exit": 0,
+      "timed_out": false,
+      "passed": true,
+      "checks": [
+        {
+          "check": "no_timeout",
+          "ok": true
+        },
+        {
+          "check": "exit==0",
+          "ok": true,
+          "observed": 0
+        },
+        {
+          "check": "stdout has /^TLS_BENCH variant=interspec rounds=1 request_bytes=64 response_bytes=256 version=TLSv1\\.3 cipher=\\S+ server_received_fnv=[0-9a-f]{16} client_received_fnv=[0-9a-f]{16} connection_requests=1 /",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_POLICY boundary=nginx_openssl sp1=1 sp2=1 sp3=full$/",
+          "ok": true
+        },
+        {
+          "check": "stderr has /\\[SP2\\] sandbox mutated plaintext byte=0 old=0x46 new=0xb9$/",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_T_OBSERVE boundary=nginx_openssl response_first_byte=0x46 conf_limit=1000 other_requests=0$/",
+          "ok": true
+        }
+      ]
+    },
+    "sp3_off_bad_pointer": {
+      "case": "sp3_off_bad_pointer",
+      "exit": 0,
+      "timed_out": false,
+      "passed": true,
+      "checks": [
+        {
+          "check": "no_timeout",
+          "ok": true
+        },
+        {
+          "check": "exit==0",
+          "ok": true,
+          "observed": 0
+        },
+        {
+          "check": "stdout has /^TLS_BENCH variant=interspec rounds=1 request_bytes=64 response_bytes=256 version=TLSv1\\.3 cipher=\\S+ server_received_fnv=[0-9a-f]{16} client_received_fnv=[0-9a-f]{16} connection_requests=0 checks=0 /",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_POLICY boundary=nginx_openssl sp1=1 sp2=1 sp3=off$/",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^FAULT_INJECTION boundary=nginx_openssl mode=2 /",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_T_OBSERVE boundary=nginx_openssl response_first_byte=0x46 conf_limit=1001 other_requests=0$/",
+          "ok": true
+        },
+        {
+          "check": "stderr lacks /INTERSPEC_REJECT/",
+          "ok": true
+        }
+      ]
+    },
+    "sp3_on_bad_pointer": {
+      "case": "sp3_on_bad_pointer",
+      "exit": 86,
+      "timed_out": false,
+      "passed": true,
+      "checks": [
+        {
+          "check": "no_timeout",
+          "ok": true
+        },
+        {
+          "check": "exit==86",
+          "ok": true,
+          "observed": 86
+        },
+        {
+          "check": "stdout lacks /TLS_BENCH/",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_POLICY boundary=nginx_openssl sp1=1 sp2=1 sp3=full$/",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^FAULT_INJECTION boundary=nginx_openssl mode=2 /",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_REJECT boundary=nginx_openssl operation=ex_data reason=wrong_type$/",
+          "ok": true
+        }
+      ]
+    },
+    "ex_data_legitimate": {
+      "case": "ex_data_legitimate",
+      "exit": 0,
+      "timed_out": false,
+      "passed": true,
+      "checks": [
+        {
+          "check": "no_timeout",
+          "ok": true
+        },
+        {
+          "check": "exit==0",
+          "ok": true,
+          "observed": 0
+        },
+        {
+          "check": "stdout has /^TLS_BENCH variant=interspec rounds=1 request_bytes=64 response_bytes=256 version=TLSv1\\.3 cipher=\\S+ server_received_fnv=[0-9a-f]{16} client_received_fnv=[0-9a-f]{16} connection_requests=1 /",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_POLICY boundary=nginx_openssl sp1=1 sp2=1 sp3=full$/",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_T_OBSERVE boundary=nginx_openssl response_first_byte=0x46 conf_limit=1000 other_requests=0$/",
+          "ok": true
+        },
+        {
+          "check": "stderr lacks /INTERSPEC_REJECT/",
+          "ok": true
+        },
+        {
+          "check": "stderr lacks /FAULT_INJECTION/",
+          "ok": true
+        }
+      ]
+    },
+    "ex_data_never_issued": {
+      "case": "ex_data_never_issued",
+      "exit": 86,
+      "timed_out": false,
+      "passed": true,
+      "checks": [
+        {
+          "check": "no_timeout",
+          "ok": true
+        },
+        {
+          "check": "exit==86",
+          "ok": true,
+          "observed": 86
+        },
+        {
+          "check": "stdout lacks /TLS_BENCH/",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_POLICY boundary=nginx_openssl sp1=1 sp2=1 sp3=full$/",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^FAULT_INJECTION boundary=nginx_openssl mode=1 /",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_REJECT boundary=nginx_openssl operation=ex_data reason=unknown_handle$/",
+          "ok": true
+        }
+      ]
+    },
+    "ex_data_other_connection": {
+      "case": "ex_data_other_connection",
+      "exit": 0,
+      "timed_out": false,
+      "passed": true,
+      "checks": [
+        {
+          "check": "no_timeout",
+          "ok": true
+        },
+        {
+          "check": "exit==0",
+          "ok": true,
+          "observed": 0
+        },
+        {
+          "check": "stdout has /^TLS_BENCH variant=interspec rounds=1 request_bytes=64 response_bytes=256 version=TLSv1\\.3 cipher=\\S+ server_received_fnv=[0-9a-f]{16} client_received_fnv=[0-9a-f]{16} connection_requests=0 /",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_POLICY boundary=nginx_openssl sp1=1 sp2=1 sp3=full$/",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^FAULT_INJECTION boundary=nginx_openssl mode=3 /",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_T_OBSERVE boundary=nginx_openssl response_first_byte=0x46 conf_limit=1000 other_requests=1$/",
+          "ok": true
+        },
+        {
+          "check": "stderr lacks /INTERSPEC_REJECT/",
+          "ok": true
+        }
+      ]
+    },
+    "ex_data_wrong_type": {
+      "case": "ex_data_wrong_type",
+      "exit": 86,
+      "timed_out": false,
+      "passed": true,
+      "checks": [
+        {
+          "check": "no_timeout",
+          "ok": true
+        },
+        {
+          "check": "exit==86",
+          "ok": true,
+          "observed": 86
+        },
+        {
+          "check": "stdout lacks /TLS_BENCH/",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_POLICY boundary=nginx_openssl sp1=1 sp2=1 sp3=full$/",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^FAULT_INJECTION boundary=nginx_openssl mode=2 /",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_REJECT boundary=nginx_openssl operation=ex_data reason=wrong_type$/",
+          "ok": true
+        }
+      ]
+    },
+    "benign_all_on": {
+      "case": "benign_all_on",
+      "exit": 0,
+      "timed_out": false,
+      "passed": true,
+      "checks": [
+        {
+          "check": "no_timeout",
+          "ok": true
+        },
+        {
+          "check": "exit==0",
+          "ok": true,
+          "observed": 0
+        },
+        {
+          "check": "stdout has /^TLS_BENCH variant=interspec rounds=1 request_bytes=64 response_bytes=256 version=TLSv1\\.3 cipher=\\S+ server_received_fnv=[0-9a-f]{16} client_received_fnv=[0-9a-f]{16} connection_requests=1 checks=1 /",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_POLICY boundary=nginx_openssl sp1=1 sp2=1 sp3=full$/",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_T_OBSERVE boundary=nginx_openssl response_first_byte=0x46 conf_limit=1000 other_requests=0$/",
+          "ok": true
+        },
+        {
+          "check": "stderr lacks /INTERSPEC_REJECT/",
+          "ok": true
+        },
+        {
+          "check": "stderr lacks /FAULT_INJECTION/",
+          "ok": true
+        },
+        {
+          "check": "stderr lacks /PoC/",
+          "ok": true
+        }
+      ]
+    },
+    "benign_all_off": {
+      "case": "benign_all_off",
+      "exit": 0,
+      "timed_out": false,
+      "passed": true,
+      "checks": [
+        {
+          "check": "no_timeout",
+          "ok": true
+        },
+        {
+          "check": "exit==0",
+          "ok": true,
+          "observed": 0
+        },
+        {
+          "check": "stdout has /^TLS_BENCH variant=interspec rounds=1 request_bytes=64 response_bytes=256 version=TLSv1\\.3 cipher=\\S+ server_received_fnv=[0-9a-f]{16} client_received_fnv=[0-9a-f]{16} connection_requests=1 checks=0 /",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_POLICY boundary=nginx_openssl sp1=0 sp2=0 sp3=off$/",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_T_OBSERVE boundary=nginx_openssl response_first_byte=0x46 conf_limit=1000 other_requests=0$/",
+          "ok": true
+        },
+        {
+          "check": "stderr lacks /INTERSPEC_REJECT/",
+          "ok": true
+        },
+        {
+          "check": "stderr lacks /FAULT_INJECTION/",
+          "ok": true
+        },
+        {
+          "check": "stderr lacks /PoC/",
+          "ok": true
+        }
+      ]
+    }
+  },
+  "passed": true
+}

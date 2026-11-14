@@ -19,6 +19,8 @@ jobs:
           python3 tests/memcached_matrix_evidence.py
           python3 tests/memcached_boundary_evidence.py
           python3 tests/memcached_profile_evidence.py
+          python3 tests/memcached_corrected_profile.py
+          python3 tests/memcached_current_profile.py
       - name: Install dependencies
         run: |
           sudo apt-get update

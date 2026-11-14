@@ -1,0 +1,4 @@
+PASS memcached_hash sp2
+PASS memcached_hash sp1_no_field
+PASS memcached_hash sp3_no_field
+PASS memcached_hash benign

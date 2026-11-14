@@ -1,0 +1,2 @@
+nginx: the configuration file /home/user/interspec-typed-allocator/evaluation/results/tracker/I4/03-with-parity-2bc267e/parity/native/nginx.conf syntax is ok
+nginx: configuration file /home/user/interspec-typed-allocator/evaluation/results/tracker/I4/03-with-parity-2bc267e/parity/native/nginx.conf test is successful

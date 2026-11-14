@@ -1,0 +1,18 @@
+{
+  "description": "Rebuilt from the description of the Stage 13 run: 13 requests covering regex virtual-host selection, mixed named and numbered captures, empty and optional captures, zero-capture matches and location precedence. Expected status and body were written by hand from the configuration, before any server was run. This is not the original Stage 13 corpus.",
+  "cases": [
+    {"name": "exact_health", "host": "plain.test", "path": "/health", "status": 200, "body": "ready"},
+    {"name": "named_captures", "host": "plain.test", "path": "/items/123/alpha", "status": 200, "body": "item:123:alpha"},
+    {"name": "mixed_named_numbered", "host": "plain.test", "path": "/mixed/abc/42", "status": 200, "body": "mixed:abc:42"},
+    {"name": "caseless_capture", "host": "plain.test", "path": "/CASE/Hello", "status": 200, "body": "case:Hello"},
+    {"name": "optional_capture_unset", "host": "plain.test", "path": "/optional/b", "status": 200, "body": "optional::b"},
+    {"name": "optional_capture_set", "host": "plain.test", "path": "/optional/ab", "status": 200, "body": "optional:a:b"},
+    {"name": "empty_capture", "host": "plain.test", "path": "/empty/", "status": 200, "body": "empty:[]"},
+    {"name": "zero_captures", "host": "plain.test", "path": "/nocapture/77", "status": 200, "body": "nocapture"},
+    {"name": "prefix_beats_regex", "host": "plain.test", "path": "/static/file.txt", "status": 200, "body": "prefix-wins"},
+    {"name": "first_regex_wins", "host": "plain.test", "path": "/first/second", "status": 200, "body": "first-regex"},
+    {"name": "exact_beats_prefix", "host": "plain.test", "path": "/exact-or-prefix", "status": 200, "body": "exact"},
+    {"name": "regex_virtual_host", "host": "api.regex.test", "path": "/anything", "status": 200, "body": "vhost:api"},
+    {"name": "no_regex_match", "host": "plain.test", "path": "/nomatch/x", "status": 404, "body": "missing"}
+  ]
+}

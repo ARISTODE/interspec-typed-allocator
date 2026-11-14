@@ -1,0 +1,6 @@
+FAIL nginx_openssl sp1
+  sp1_on_u_reads: failed stderr lacks /545f5354414c455f/
+FAIL nginx_openssl sp2
+  sp2_on_u_writes: failed stderr has /^INTERSPEC_T_OBSERVE boundary=nginx_openssl response_first_byte=0x46$/
+PASS nginx_openssl sp3_no_field
+PASS nginx_openssl benign

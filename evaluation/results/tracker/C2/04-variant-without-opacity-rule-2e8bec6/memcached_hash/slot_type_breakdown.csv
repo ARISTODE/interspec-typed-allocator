@@ -1,0 +1,87 @@
+benchmark,function,binding_kind,binding_id,direction,slot_path,slot_type,category,file
+memcached_hash,assoc_delete,param,0,T_TO_U,,char *,pointer,benchmarks/memcached/assoc.c
+memcached_hash,assoc_delete,param,0,T_TO_U,/deref,char,scalar,benchmarks/memcached/assoc.c
+memcached_hash,assoc_delete,param,1,T_TO_U,,unsigned long,scalar,benchmarks/memcached/assoc.c
+memcached_hash,assoc_delete,param,2,T_TO_U,,unsigned int,scalar,benchmarks/memcached/assoc.c
+memcached_hash,assoc_find,param,0,T_TO_U,,char *,pointer,benchmarks/memcached/assoc.c
+memcached_hash,assoc_find,param,0,T_TO_U,/deref,char,scalar,benchmarks/memcached/assoc.c
+memcached_hash,assoc_find,param,1,T_TO_U,,unsigned long,scalar,benchmarks/memcached/assoc.c
+memcached_hash,assoc_find,param,2,T_TO_U,,unsigned int,scalar,benchmarks/memcached/assoc.c
+memcached_hash,assoc_find,return,return,U_TO_T,,_stritem *,pointer,benchmarks/memcached/assoc.c
+memcached_hash,assoc_find,return_ptr,return,U_TO_T,/deref,_stritem,struct,benchmarks/memcached/assoc.c
+memcached_hash,assoc_find,return_ptr,return,U_TO_T,/deref/field:data,union <unnamed>[],array,benchmarks/memcached/assoc.c
+memcached_hash,assoc_find,return_ptr,return,U_TO_T,/deref/field:data/elem,(unnamed class/struct/union),struct,benchmarks/memcached/assoc.c
+memcached_hash,assoc_find,return_ptr,return,U_TO_T,/deref/field:data/elem/field:cas,unsigned long,scalar,benchmarks/memcached/assoc.c
+memcached_hash,assoc_find,return_ptr,return,U_TO_T,/deref/field:data/elem/field:end,char,scalar,benchmarks/memcached/assoc.c
+memcached_hash,assoc_find,return_ptr,return,U_TO_T,/deref/field:exptime,unsigned int,scalar,benchmarks/memcached/assoc.c
+memcached_hash,assoc_find,return_ptr,return,U_TO_T,/deref/field:h_next,_stritem *,pointer,benchmarks/memcached/assoc.c
+memcached_hash,assoc_find,return_ptr,return,U_TO_T,/deref/field:it_flags,unsigned short,scalar,benchmarks/memcached/assoc.c
+memcached_hash,assoc_find,return_ptr,return,U_TO_T,/deref/field:nbytes,int,scalar,benchmarks/memcached/assoc.c
+memcached_hash,assoc_find,return_ptr,return,U_TO_T,/deref/field:next,_stritem *,pointer,benchmarks/memcached/assoc.c
+memcached_hash,assoc_find,return_ptr,return,U_TO_T,/deref/field:nkey,unsigned char,scalar,benchmarks/memcached/assoc.c
+memcached_hash,assoc_find,return_ptr,return,U_TO_T,/deref/field:prev,_stritem *,pointer,benchmarks/memcached/assoc.c
+memcached_hash,assoc_find,return_ptr,return,U_TO_T,/deref/field:refcount,unsigned short,scalar,benchmarks/memcached/assoc.c
+memcached_hash,assoc_find,return_ptr,return,U_TO_T,/deref/field:slabs_clsid,unsigned char,scalar,benchmarks/memcached/assoc.c
+memcached_hash,assoc_find,return_ptr,return,U_TO_T,/deref/field:time,unsigned int,scalar,benchmarks/memcached/assoc.c
+memcached_hash,assoc_get_iterator,return,return,U_TO_T,,void *,pointer,benchmarks/memcached/assoc.c
+memcached_hash,assoc_init,param,0,T_TO_U,,int,scalar,benchmarks/memcached/assoc.c
+memcached_hash,assoc_insert,param,0,T_TO_U,,_stritem *,pointer,benchmarks/memcached/assoc.c
+memcached_hash,assoc_insert,param,0,T_TO_U,/deref,_stritem,struct,benchmarks/memcached/assoc.c
+memcached_hash,assoc_insert,param,0,T_TO_U,/deref/field:data,union <unnamed>[],array,benchmarks/memcached/assoc.c
+memcached_hash,assoc_insert,param,0,T_TO_U,/deref/field:data/elem,(unnamed class/struct/union),struct,benchmarks/memcached/assoc.c
+memcached_hash,assoc_insert,param,0,T_TO_U,/deref/field:data/elem/field:cas,unsigned long,scalar,benchmarks/memcached/assoc.c
+memcached_hash,assoc_insert,param,0,T_TO_U,/deref/field:data/elem/field:end,char,scalar,benchmarks/memcached/assoc.c
+memcached_hash,assoc_insert,param,0,T_TO_U,/deref/field:exptime,unsigned int,scalar,benchmarks/memcached/assoc.c
+memcached_hash,assoc_insert,param,0,T_TO_U,/deref/field:h_next,_stritem *,pointer,benchmarks/memcached/assoc.c
+memcached_hash,assoc_insert,param,0,T_TO_U,/deref/field:it_flags,unsigned short,scalar,benchmarks/memcached/assoc.c
+memcached_hash,assoc_insert,param,0,T_TO_U,/deref/field:nbytes,int,scalar,benchmarks/memcached/assoc.c
+memcached_hash,assoc_insert,param,0,T_TO_U,/deref/field:next,_stritem *,pointer,benchmarks/memcached/assoc.c
+memcached_hash,assoc_insert,param,0,T_TO_U,/deref/field:nkey,unsigned char,scalar,benchmarks/memcached/assoc.c
+memcached_hash,assoc_insert,param,0,T_TO_U,/deref/field:prev,_stritem *,pointer,benchmarks/memcached/assoc.c
+memcached_hash,assoc_insert,param,0,T_TO_U,/deref/field:refcount,unsigned short,scalar,benchmarks/memcached/assoc.c
+memcached_hash,assoc_insert,param,0,T_TO_U,/deref/field:slabs_clsid,unsigned char,scalar,benchmarks/memcached/assoc.c
+memcached_hash,assoc_insert,param,0,T_TO_U,/deref/field:time,unsigned int,scalar,benchmarks/memcached/assoc.c
+memcached_hash,assoc_insert,param,1,T_TO_U,,unsigned int,scalar,benchmarks/memcached/assoc.c
+memcached_hash,assoc_insert,return_scalar,return,U_TO_T,,int,scalar,benchmarks/memcached/assoc.c
+memcached_hash,assoc_iterate,param,0,T_TO_U,,void *,pointer,benchmarks/memcached/assoc.c
+memcached_hash,assoc_iterate,param,1,T_TO_U,,_stritem **,pointer,benchmarks/memcached/assoc.c
+memcached_hash,assoc_iterate,param,1,T_TO_U,/deref,_stritem *,pointer,benchmarks/memcached/assoc.c
+memcached_hash,assoc_iterate,param,1,T_TO_U,/deref/deref,_stritem,struct,benchmarks/memcached/assoc.c
+memcached_hash,assoc_iterate,param,1,T_TO_U,/deref/deref/field:data,union <unnamed>[],array,benchmarks/memcached/assoc.c
+memcached_hash,assoc_iterate,param,1,T_TO_U,/deref/deref/field:data/elem,(unnamed class/struct/union),struct,benchmarks/memcached/assoc.c
+memcached_hash,assoc_iterate,param,1,T_TO_U,/deref/deref/field:data/elem/field:cas,unsigned long,scalar,benchmarks/memcached/assoc.c
+memcached_hash,assoc_iterate,param,1,T_TO_U,/deref/deref/field:data/elem/field:end,char,scalar,benchmarks/memcached/assoc.c
+memcached_hash,assoc_iterate,param,1,T_TO_U,/deref/deref/field:exptime,unsigned int,scalar,benchmarks/memcached/assoc.c
+memcached_hash,assoc_iterate,param,1,T_TO_U,/deref/deref/field:h_next,_stritem *,pointer,benchmarks/memcached/assoc.c
+memcached_hash,assoc_iterate,param,1,T_TO_U,/deref/deref/field:it_flags,unsigned short,scalar,benchmarks/memcached/assoc.c
+memcached_hash,assoc_iterate,param,1,T_TO_U,/deref/deref/field:nbytes,int,scalar,benchmarks/memcached/assoc.c
+memcached_hash,assoc_iterate,param,1,T_TO_U,/deref/deref/field:next,_stritem *,pointer,benchmarks/memcached/assoc.c
+memcached_hash,assoc_iterate,param,1,T_TO_U,/deref/deref/field:nkey,unsigned char,scalar,benchmarks/memcached/assoc.c
+memcached_hash,assoc_iterate,param,1,T_TO_U,/deref/deref/field:prev,_stritem *,pointer,benchmarks/memcached/assoc.c
+memcached_hash,assoc_iterate,param,1,T_TO_U,/deref/deref/field:refcount,unsigned short,scalar,benchmarks/memcached/assoc.c
+memcached_hash,assoc_iterate,param,1,T_TO_U,/deref/deref/field:slabs_clsid,unsigned char,scalar,benchmarks/memcached/assoc.c
+memcached_hash,assoc_iterate,param,1,T_TO_U,/deref/deref/field:time,unsigned int,scalar,benchmarks/memcached/assoc.c
+memcached_hash,assoc_iterate,return_scalar,return,U_TO_T,,bool,scalar,benchmarks/memcached/assoc.c
+memcached_hash,assoc_iterate_final,param,0,T_TO_U,,void *,pointer,benchmarks/memcached/assoc.c
+memcached_hash,assoc_start_expand,param,0,T_TO_U,,unsigned long,scalar,benchmarks/memcached/assoc.c
+memcached_hash,start_assoc_maintenance_thread,return_scalar,return,U_TO_T,,int,scalar,benchmarks/memcached/assoc.c
+memcached_hash,XXH3_hash,param,0,T_TO_U,,void *,pointer,benchmarks/memcached/hash.c
+memcached_hash,XXH3_hash,param,1,T_TO_U,,unsigned long,scalar,benchmarks/memcached/hash.c
+memcached_hash,XXH3_hash,return_scalar,return,U_TO_T,,unsigned int,scalar,benchmarks/memcached/hash.c
+memcached_hash,hash_init,param,0,T_TO_U,,hashfunc_type,scalar,benchmarks/memcached/hash.c
+memcached_hash,hash_init,return_scalar,return,U_TO_T,,int,scalar,benchmarks/memcached/hash.c
+memcached_hash,jenkins_hash,param,0,T_TO_U,,void *,pointer,benchmarks/memcached/jenkins_hash.c
+memcached_hash,jenkins_hash,param,1,T_TO_U,,unsigned long,scalar,benchmarks/memcached/jenkins_hash.c
+memcached_hash,jenkins_hash,return_scalar,return,U_TO_T,,unsigned int,scalar,benchmarks/memcached/jenkins_hash.c
+memcached_hash,MurmurHash3_x86_32,param,0,T_TO_U,,void *,pointer,benchmarks/memcached/murmur3_hash.c
+memcached_hash,MurmurHash3_x86_32,param,1,T_TO_U,,unsigned long,scalar,benchmarks/memcached/murmur3_hash.c
+memcached_hash,MurmurHash3_x86_32,return_scalar,return,U_TO_T,,unsigned int,scalar,benchmarks/memcached/murmur3_hash.c
+memcached_hash,item_lock,param,0,U_TO_T,,unsigned int,scalar,benchmarks/memcached/thread.c
+memcached_hash,item_trylock,param,0,U_TO_T,,unsigned int,scalar,benchmarks/memcached/thread.c
+memcached_hash,item_trylock,return,return,T_TO_U,,void *,pointer,benchmarks/memcached/thread.c
+memcached_hash,item_trylock_unlock,param,0,U_TO_T,,void *,pointer,benchmarks/memcached/thread.c
+memcached_hash,item_unlock,param,0,U_TO_T,,unsigned int,scalar,benchmarks/memcached/thread.c
+memcached_hash,pause_threads,param,0,U_TO_T,,pause_thread_types,scalar,benchmarks/memcached/thread.c
+memcached_hash,thread_setname,param,0,U_TO_T,,unsigned long,scalar,benchmarks/memcached/thread.c
+memcached_hash,thread_setname,param,1,U_TO_T,,char *,pointer,benchmarks/memcached/thread.c
+memcached_hash,thread_setname,param,1,U_TO_T,/deref,char,scalar,benchmarks/memcached/thread.c

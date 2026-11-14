@@ -1,0 +1,11 @@
+steady state: 34 of 1000000 allocate/release steps completed
+FAIL line 52: completed == 1000000
+FAIL line 67: new_object == old_object
+FAIL line 90: runtime.allocate_from_site(64, kSiteA) == released
+FAIL line 103: runtime.allocate_from_site(32, kSiteA) == small
+FAIL line 115: runtime.allocate_from_site(24, kSiteA) == small
+FAIL line 116: runtime.allocate_from_site(200, kSiteA) == large
+repeated growth: 4 of 100000 rounds completed
+FAIL line 132: completed == 100000
+FAIL line 144: second == first
+runtime_address_reuse: 8 checks failed

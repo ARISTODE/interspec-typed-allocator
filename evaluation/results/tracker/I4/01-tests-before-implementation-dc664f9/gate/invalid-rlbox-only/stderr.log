@@ -1,0 +1,3 @@
+nginx: [alert] could not open error log file: open() "/home/user/interspec-typed-allocator/evaluation/results/tracker/I4/01-tests-before-implementation-dc664f9/gate/invalid-rlbox-only/logs/error.log" failed (2: No such file or directory)
+2026/11/13 09:11:11 [emerg] 22541#0: pcre_compile() failed: missing terminating ] for character class in "[" in /home/user/interspec-typed-allocator/evaluation/results/tracker/I4/01-tests-before-implementation-dc664f9/gate/invalid-rlbox-only/nginx.conf:1
+nginx: configuration file /home/user/interspec-typed-allocator/evaluation/results/tracker/I4/01-tests-before-implementation-dc664f9/gate/invalid-rlbox-only/nginx.conf test failed

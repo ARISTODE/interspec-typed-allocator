@@ -1,0 +1,106 @@
+{
+  "option_parse/rlbox-only": {
+    "valid": true,
+    "result": "9732567ae3c641652e7eb6d4fcf57a0e27cf543da31f26ecd7a611fd98d789fe",
+    "policy_report": [],
+    "result_matches_rlbox_only": true,
+    "report_matches_switches": true
+  },
+  "option_parse/interspec-all-off": {
+    "valid": true,
+    "result": "9732567ae3c641652e7eb6d4fcf57a0e27cf543da31f26ecd7a611fd98d789fe",
+    "policy_report": [
+      "INTERSPEC_POLICY boundary=rsync_popt sp1=0 sp2=0 sp3=off"
+    ],
+    "result_matches_rlbox_only": true,
+    "report_matches_switches": true
+  },
+  "option_parse/interspec-sp1": {
+    "valid": true,
+    "result": "9732567ae3c641652e7eb6d4fcf57a0e27cf543da31f26ecd7a611fd98d789fe",
+    "policy_report": [
+      "INTERSPEC_POLICY boundary=rsync_popt sp1=1 sp2=0 sp3=off"
+    ],
+    "result_matches_rlbox_only": true,
+    "report_matches_switches": true
+  },
+  "option_parse/interspec-sp2": {
+    "valid": true,
+    "result": "9732567ae3c641652e7eb6d4fcf57a0e27cf543da31f26ecd7a611fd98d789fe",
+    "policy_report": [
+      "INTERSPEC_POLICY boundary=rsync_popt sp1=0 sp2=1 sp3=off"
+    ],
+    "result_matches_rlbox_only": true,
+    "report_matches_switches": true
+  },
+  "option_parse/interspec-sp3": {
+    "valid": true,
+    "result": "9732567ae3c641652e7eb6d4fcf57a0e27cf543da31f26ecd7a611fd98d789fe",
+    "policy_report": [
+      "INTERSPEC_POLICY boundary=rsync_popt sp1=0 sp2=0 sp3=full"
+    ],
+    "result_matches_rlbox_only": true,
+    "report_matches_switches": true
+  },
+  "option_parse/interspec-all-on": {
+    "valid": true,
+    "result": "9732567ae3c641652e7eb6d4fcf57a0e27cf543da31f26ecd7a611fd98d789fe",
+    "policy_report": [
+      "INTERSPEC_POLICY boundary=rsync_popt sp1=1 sp2=1 sp3=full"
+    ],
+    "result_matches_rlbox_only": true,
+    "report_matches_switches": true
+  },
+  "file_sync_194mb/rlbox-only": {
+    "valid": true,
+    "result": "files equal to source",
+    "policy_report": [],
+    "result_matches_rlbox_only": true,
+    "report_matches_switches": true
+  },
+  "file_sync_194mb/interspec-all-off": {
+    "valid": true,
+    "result": "files equal to source",
+    "policy_report": [
+      "INTERSPEC_POLICY boundary=rsync_popt sp1=0 sp2=0 sp3=off"
+    ],
+    "result_matches_rlbox_only": true,
+    "report_matches_switches": true
+  },
+  "file_sync_194mb/interspec-sp1": {
+    "valid": true,
+    "result": "files equal to source",
+    "policy_report": [
+      "INTERSPEC_POLICY boundary=rsync_popt sp1=1 sp2=0 sp3=off"
+    ],
+    "result_matches_rlbox_only": true,
+    "report_matches_switches": true
+  },
+  "file_sync_194mb/interspec-sp2": {
+    "valid": true,
+    "result": "files equal to source",
+    "policy_report": [
+      "INTERSPEC_POLICY boundary=rsync_popt sp1=0 sp2=1 sp3=off"
+    ],
+    "result_matches_rlbox_only": true,
+    "report_matches_switches": true
+  },
+  "file_sync_194mb/interspec-sp3": {
+    "valid": true,
+    "result": "files equal to source",
+    "policy_report": [
+      "INTERSPEC_POLICY boundary=rsync_popt sp1=0 sp2=0 sp3=full"
+    ],
+    "result_matches_rlbox_only": true,
+    "report_matches_switches": true
+  },
+  "file_sync_194mb/interspec-all-on": {
+    "valid": true,
+    "result": "files equal to source",
+    "policy_report": [
+      "INTERSPEC_POLICY boundary=rsync_popt sp1=1 sp2=1 sp3=full"
+    ],
+    "result_matches_rlbox_only": true,
+    "report_matches_switches": true
+  }
+}

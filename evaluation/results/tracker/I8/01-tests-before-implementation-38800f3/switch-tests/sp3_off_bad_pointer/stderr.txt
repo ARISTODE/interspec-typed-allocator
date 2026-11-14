@@ -1,0 +1,3 @@
+INTERSPEC_POLICY boundary=magick_libpng sp1=1 sp2=1 sp3=off
+FAULT_INJECTION boundary=magick_libpng mode=2 original=0x107f00 replacement=0x4107fd0 bytes=4096
+INTERSPEC_T_OBSERVE boundary=magick_libpng png_first_byte=0x89

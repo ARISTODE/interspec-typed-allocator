@@ -1,0 +1,53 @@
+2026/11/13 09:19:59 [notice] 28773#0: using the "epoll" event method
+2026/11/13 09:19:59 [notice] 28773#0: nginx/1.26.3
+2026/11/13 09:19:59 [notice] 28773#0: built by gcc 13.3.0 (Ubuntu 13.3.0-6ubuntu2~24.04.1) 
+2026/11/13 09:19:59 [notice] 28773#0: OS: Linux 6.18.44-fc-v445
+2026/11/13 09:19:59 [notice] 28773#0: getrlimit(RLIMIT_NOFILE): 20000:20000
+2026/11/13 09:19:59 [notice] 28773#0: start worker processes
+2026/11/13 09:19:59 [notice] 28773#0: start worker process 28774
+2026/11/13 09:19:59 [notice] 28773#0: start worker process 28775
+2026/11/13 09:19:59 [notice] 28773#0: signal 1 (SIGHUP) received from 28695, reconfiguring
+2026/11/13 09:19:59 [notice] 28773#0: reconfiguring
+2026/11/13 09:19:59 [notice] 28773#0: using the "epoll" event method
+2026/11/13 09:19:59 [notice] 28773#0: start worker processes
+2026/11/13 09:19:59 [notice] 28773#0: start worker process 28784
+2026/11/13 09:19:59 [notice] 28773#0: start worker process 28785
+2026/11/13 09:19:59 [notice] 28774#0: gracefully shutting down
+2026/11/13 09:19:59 [notice] 28774#0: exiting
+2026/11/13 09:19:59 [notice] 28775#0: gracefully shutting down
+2026/11/13 09:19:59 [notice] 28775#0: exiting
+2026/11/13 09:19:59 [notice] 28775#0: exit
+2026/11/13 09:19:59 [notice] 28774#0: exit
+2026/11/13 09:19:59 [notice] 28773#0: signal 17 (SIGCHLD) received from 28775
+2026/11/13 09:19:59 [notice] 28773#0: worker process 28775 exited with code 0
+2026/11/13 09:19:59 [notice] 28773#0: signal 29 (SIGIO) received
+2026/11/13 09:19:59 [notice] 28773#0: signal 17 (SIGCHLD) received from 28774
+2026/11/13 09:19:59 [notice] 28773#0: worker process 28774 exited with code 0
+2026/11/13 09:19:59 [notice] 28773#0: signal 29 (SIGIO) received
+2026/11/13 09:19:59 [notice] 28773#0: signal 1 (SIGHUP) received from 28695, reconfiguring
+2026/11/13 09:19:59 [notice] 28773#0: reconfiguring
+2026/11/13 09:19:59 [notice] 28773#0: using the "epoll" event method
+2026/11/13 09:19:59 [notice] 28773#0: start worker processes
+2026/11/13 09:19:59 [notice] 28773#0: start worker process 28794
+2026/11/13 09:19:59 [notice] 28773#0: start worker process 28795
+2026/11/13 09:19:59 [notice] 28785#0: gracefully shutting down
+2026/11/13 09:19:59 [notice] 28784#0: gracefully shutting down
+2026/11/13 09:19:59 [notice] 28785#0: exiting
+2026/11/13 09:19:59 [notice] 28784#0: exiting
+2026/11/13 09:19:59 [notice] 28784#0: exit
+2026/11/13 09:19:59 [notice] 28785#0: exit
+2026/11/13 09:19:59 [notice] 28773#0: signal 17 (SIGCHLD) received from 28784
+2026/11/13 09:19:59 [notice] 28773#0: worker process 28784 exited with code 0
+2026/11/13 09:19:59 [notice] 28773#0: worker process 28785 exited with code 0
+2026/11/13 09:19:59 [notice] 28773#0: signal 29 (SIGIO) received
+2026/11/13 09:19:59 [notice] 28773#0: signal 3 (SIGQUIT) received from 28695, shutting down
+2026/11/13 09:19:59 [notice] 28794#0: gracefully shutting down
+2026/11/13 09:19:59 [notice] 28794#0: exiting
+2026/11/13 09:19:59 [notice] 28795#0: gracefully shutting down
+2026/11/13 09:19:59 [notice] 28795#0: exiting
+2026/11/13 09:19:59 [notice] 28794#0: exit
+2026/11/13 09:19:59 [notice] 28795#0: exit
+2026/11/13 09:19:59 [notice] 28773#0: signal 17 (SIGCHLD) received from 28794
+2026/11/13 09:19:59 [notice] 28773#0: worker process 28794 exited with code 0
+2026/11/13 09:19:59 [notice] 28773#0: worker process 28795 exited with code 0
+2026/11/13 09:19:59 [notice] 28773#0: exit

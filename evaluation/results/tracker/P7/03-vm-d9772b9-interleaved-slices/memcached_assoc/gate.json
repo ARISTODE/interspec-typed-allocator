@@ -1,0 +1,23 @@
+{
+  "native": {
+    "exit_code": 0,
+    "stdout": "ASSOC_BENCH variant=native ops=400000 keyspace=20000 finds=240127 hits=157741 inserts=41131 deletes=26026 live=15105 checksum=50f3c28864920221 iterated=15105 iter_xor=a3f31de59c262672 checks=0 elapsed_ns=83247424\n",
+    "stderr": "",
+    "result_matches_reference": true,
+    "checks": 0
+  },
+  "rlbox-only": {
+    "exit_code": 0,
+    "stdout": "ASSOC_BENCH variant=rlbox-only ops=400000 keyspace=20000 finds=240127 hits=157741 inserts=41131 deletes=26026 live=15105 checksum=50f3c28864920221 iterated=15105 iter_xor=a3f31de59c262672 checks=0 elapsed_ns=91252864\n",
+    "stderr": "",
+    "result_matches_reference": true,
+    "checks": 0
+  },
+  "interspec": {
+    "exit_code": 0,
+    "stdout": "ASSOC_BENCH variant=interspec ops=400000 keyspace=20000 finds=240127 hits=157741 inserts=41131 deletes=26026 live=15105 checksum=50f3c28864920221 iterated=15105 iter_xor=a3f31de59c262672 checks=277994 elapsed_ns=241797414\n",
+    "stderr": "",
+    "result_matches_reference": true,
+    "checks": 277994
+  }
+}

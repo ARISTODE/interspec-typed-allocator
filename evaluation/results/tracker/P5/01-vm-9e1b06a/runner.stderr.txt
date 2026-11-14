@@ -1,0 +1,62 @@
+Cloning into 'rlbox-src'...
+HEAD is now at b0157dc Separate callback tests from remaining tests to simplify new plugin development
+Cloning into 'catch2-src'...
+HEAD is now at 62fd6605 v2.13.9
+CMake Deprecation Warning at build/_deps/catch2-src/CMakeLists.txt:1 (cmake_minimum_required):
+  Compatibility with CMake < 3.10 will be removed from a future version of
+  CMake.
+
+  Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+  to tell CMake that the project requires at least <min> but has been updated
+  to work with policies introduced by <max> or earlier.
+
+
+Cloning into 'wasm2c_compiler-src'...
+HEAD is now at 974221b1 Reject delegate depth overflow in TypeChecker::OnDelegate (#2841)
+Submodule 'third_party/gtest' (https://github.com/google/googletest) registered for path 'third_party/gtest'
+Submodule 'third_party/picosha2' (https://github.com/okdshin/PicoSHA2) registered for path 'third_party/picosha2'
+Submodule 'third_party/ply' (https://github.com/dabeaz/ply) registered for path 'third_party/ply'
+Submodule 'third_party/simde' (https://github.com/simd-everywhere/simde) registered for path 'third_party/simde'
+Submodule 'third_party/testsuite' (https://github.com/WebAssembly/testsuite) registered for path 'third_party/testsuite'
+Submodule 'third_party/uvwasi' (https://github.com/nodejs/uvwasi) registered for path 'third_party/uvwasi'
+Submodule 'third_party/wasm-c-api' (https://github.com/WebAssembly/wasm-c-api) registered for path 'third_party/wasm-c-api'
+Cloning into '/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/p5-tmp-9e1b06a/interspec-yaml-libyaml/build/_deps/wasm2c_compiler-src/third_party/gtest'...
+Cloning into '/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/p5-tmp-9e1b06a/interspec-yaml-libyaml/build/_deps/wasm2c_compiler-src/third_party/picosha2'...
+Cloning into '/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/p5-tmp-9e1b06a/interspec-yaml-libyaml/build/_deps/wasm2c_compiler-src/third_party/ply'...
+Cloning into '/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/p5-tmp-9e1b06a/interspec-yaml-libyaml/build/_deps/wasm2c_compiler-src/third_party/simde'...
+Cloning into '/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/p5-tmp-9e1b06a/interspec-yaml-libyaml/build/_deps/wasm2c_compiler-src/third_party/testsuite'...
+Cloning into '/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/p5-tmp-9e1b06a/interspec-yaml-libyaml/build/_deps/wasm2c_compiler-src/third_party/uvwasi'...
+Cloning into '/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/p5-tmp-9e1b06a/interspec-yaml-libyaml/build/_deps/wasm2c_compiler-src/third_party/wasm-c-api'...
+Submodule 'munit' (https://github.com/nemequ/munit.git) registered for path 'third_party/simde/test/munit'
+Cloning into '/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/p5-tmp-9e1b06a/interspec-yaml-libyaml/build/_deps/wasm2c_compiler-src/third_party/simde/test/munit'...
+CMake Warning:
+  Manually-specified variables were not used by the project:
+
+    LINK_FLAGS
+
+
+gmake[4]: warning: -j0 forced in submake: resetting jobserver mode.
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/p5-tmp-9e1b06a/interspec-yaml-libyaml/build/_deps/wasm2c_compiler-src/src/tools/spectest-interp.cc: In member function ‘spectest::ActionResult spectest::CommandRunner::RunAction(int, const spectest::Action*, RunVerbosity)’:
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/p5-tmp-9e1b06a/interspec-yaml-libyaml/build/_deps/wasm2c_compiler-src/src/tools/spectest-interp.cc:1444:12: warning: variable ‘ok’ set but not used [-Wunused-but-set-variable]
+ 1444 |       auto ok = func->Call(store_, action->args, result.values, &result.trap,
+      |            ^~
+In file included from /home/user/interspec-typed-allocator/integration/yaml_libyaml/yaml_app_bench.cpp:12:
+/home/user/interspec-typed-allocator/include/interspec/pointer_census.h: In function 'void interspec::census::emit(const char*, const char*, const char*, const char*, uintptr_t, const char*)':
+/home/user/interspec-typed-allocator/include/interspec/pointer_census.h:118:18: warning: ignoring return value of 'ssize_t write(int, const void*, size_t)' declared with attribute 'warn_unused_result' [-Wunused-result]
+  118 |     (void)::write(STDERR_FILENO, line, static_cast<size_t>(count));
+      |           ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /home/user/interspec-typed-allocator/integration/yaml_libyaml/yaml_app_bench.cpp:12:
+/home/user/interspec-typed-allocator/include/interspec/pointer_census.h: In function 'void interspec::census::emit(const char*, const char*, const char*, const char*, uintptr_t, const char*)':
+/home/user/interspec-typed-allocator/include/interspec/pointer_census.h:118:18: warning: ignoring return value of 'ssize_t write(int, const void*, size_t)' declared with attribute 'warn_unused_result' [-Wunused-result]
+  118 |     (void)::write(STDERR_FILENO, line, static_cast<size_t>(count));
+      |           ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /home/user/interspec-typed-allocator/integration/yaml_libyaml/yaml_app_bench.cpp:12:
+/home/user/interspec-typed-allocator/include/interspec/pointer_census.h: In function 'void interspec::census::emit(const char*, const char*, const char*, const char*, uintptr_t, const char*)':
+/home/user/interspec-typed-allocator/include/interspec/pointer_census.h:118:18: warning: ignoring return value of 'ssize_t write(int, const void*, size_t)' declared with attribute 'warn_unused_result' [-Wunused-result]
+  118 |     (void)::write(STDERR_FILENO, line, static_cast<size_t>(count));
+      |           ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /home/user/interspec-typed-allocator/integration/yaml_libyaml/yaml_app_bench.cpp:12:
+/home/user/interspec-typed-allocator/include/interspec/pointer_census.h: In function 'void interspec::census::emit(const char*, const char*, const char*, const char*, uintptr_t, const char*)':
+/home/user/interspec-typed-allocator/include/interspec/pointer_census.h:118:18: warning: ignoring return value of 'ssize_t write(int, const void*, size_t)' declared with attribute 'warn_unused_result' [-Wunused-result]
+  118 |     (void)::write(STDERR_FILENO, line, static_cast<size_t>(count));
+      |           ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

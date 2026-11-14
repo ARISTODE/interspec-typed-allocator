@@ -149,7 +149,7 @@ class Evidence(unittest.TestCase):
 class Lifecycle(unittest.TestCase):
     def setUp(self):
         tmp=tempfile.TemporaryDirectory(); self.addCleanup(tmp.cleanup); self.root=Path(tmp.name)
-        self.plan=dict(interval=collector.INTERVAL, workload_mode="independent-v1",workload_seed=20261109,measurement_mode="count-only")
+        self.plan=dict(schema="corrected-profile-v1",interval=collector.INTERVAL, workload_mode="independent-v1",workload_seed=20261109,measurement_mode="count-only")
         self.row=dict(name="balanced_1c",mode="cache_only",clients=1,pipeline=10,value_bytes=256,profile_keys=1,get_percent=50,operations=2)
     def test_existing_output_refused(self):
         with patch.object(collector,"check_plan",return_value=({"out":str(self.root)},self.root)):
@@ -214,7 +214,7 @@ class Lifecycle(unittest.TestCase):
         self.assertEqual(state["failure"]["message"],"validation: client mode/seed")
         self.assertEqual((self.root/"attempt/client.stdout").read_bytes(),b'{"measurement_mode":"full"}')
     def test_duplicate_grid(self):
-        plan={"scenarios":[{"name":"a"},{"name":"b"}]}; p=self.root/"plan.json"; p.write_text("{}")
+        plan={"schema":"corrected-profile-v1","scenarios":[{"name":"a"},{"name":"b"}]}; p=self.root/"plan.json"; p.write_text("{}")
         (self.root/"run.json").write_text(json.dumps({"schema":"corrected-profile-v1","plan_sha256":verifier.sha(p),"status":"collected","attempts":[{"name":"a","attempt":1,"status":"collected"}]*2}))
         with patch.object(verifier,"validate_plan",return_value=plan):
             with self.assertRaisesRegex(ValueError,"attempt grid"): verifier.verify_frozen(self.root,p)

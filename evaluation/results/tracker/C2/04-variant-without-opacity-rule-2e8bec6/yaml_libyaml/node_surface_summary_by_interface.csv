@@ -1,0 +1,6 @@
+benchmark,function,file,total_nodes,pointer_nodes,scalar_nodes,struct_nodes,array_nodes,other_nodes,t_to_u_nodes,u_to_t_nodes,t_to_u_sp1_only_nodes,t_to_u_sp2_only_nodes,t_to_u_sp1_and_sp2_nodes,t_to_u_shared_mutable_nodes,t_to_u_unresolved_nodes,t_to_u_confidentiality_protected_nodes,t_to_u_integrity_protected_nodes,u_to_t_consumed_nodes,u_to_t_unconsumed_nodes,u_to_t_consumed_pointer_nodes,u_to_t_pointer_sp3_protected_nodes,u_to_t_pointer_sp3_remaining_nodes,sp3_pointer_nodes,sp3_pointer_protected_nodes,sp3_pointer_remaining_nodes
+yaml_libyaml,yaml_event_delete,third_party/libyaml/src/api.c,63,16,32,15,0,0,42,6,0,15,21,6,0,21,36,0,6,0,0,0,0,0,0
+yaml_libyaml,yaml_parser_delete,third_party/libyaml/src/api.c,447,107,227,110,2,1,78,35,14,0,43,21,0,57,43,0,35,0,0,0,0,0,0
+yaml_libyaml,yaml_parser_initialize,third_party/libyaml/src/api.c,448,107,228,110,2,1,78,39,20,0,40,18,0,60,40,0,39,0,0,0,0,0,0
+yaml_libyaml,yaml_parser_parse,third_party/libyaml/src/parser.c,511,123,260,125,2,1,120,63,51,44,14,11,0,65,58,7,56,2,2,0,2,2,0
+yaml_libyaml,yaml_parser_set_input_string,third_party/libyaml/src/api.c,450,108,229,110,2,1,81,8,7,2,71,1,0,78,73,0,8,0,0,0,0,0,0

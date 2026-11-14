@@ -1,0 +1,110 @@
+{
+  "drivers_sha256": {
+    "interspec": "0ecd211a584d289a3b63eb1522a8b9e72b80a10ab36756a0f51e741cdde08da5",
+    "rlbox": "2796b66007ad2da6f9882d2d7e4f163f4e7e74d9bf5a7461553e60e782b6e5e1"
+  },
+  "results": {
+    "rlbox_only": {
+      "benign": {
+        "exit": 0,
+        "signal": null,
+        "process": "completed",
+        "rejection": null,
+        "u_read_t_vector_value": null,
+        "t_subject_unchanged": true,
+        "t_captures": "0-16,7-10,11-16"
+      },
+      "sp1_read_output_vector": {
+        "exit": 0,
+        "signal": null,
+        "process": "completed",
+        "rejection": null,
+        "u_read_t_vector_value": true,
+        "t_subject_unchanged": true,
+        "t_captures": "0-16,7-10,11-16"
+      },
+      "sp2_write_subject": {
+        "exit": 0,
+        "signal": null,
+        "process": "completed",
+        "rejection": null,
+        "u_read_t_vector_value": null,
+        "t_subject_unchanged": false,
+        "t_captures": "0-16,7-10,11-16"
+      },
+      "sp3_name_table_outside_sandbox": {
+        "exit": -6,
+        "signal": "SIGABRT",
+        "process": "rejected",
+        "rejection": "name_table: outside_sandbox",
+        "u_read_t_vector_value": null,
+        "t_subject_unchanged": null,
+        "t_captures": null
+      },
+      "sp3_name_table_untracked_in_sandbox": {
+        "exit": 0,
+        "signal": null,
+        "process": "completed",
+        "rejection": null,
+        "u_read_t_vector_value": null,
+        "t_subject_unchanged": true,
+        "t_captures": "0-16,7-10,11-16"
+      }
+    },
+    "interspec": {
+      "benign": {
+        "exit": 0,
+        "signal": null,
+        "process": "completed",
+        "rejection": null,
+        "u_read_t_vector_value": null,
+        "t_subject_unchanged": true,
+        "t_captures": "0-16,7-10,11-16"
+      },
+      "sp1_read_output_vector": {
+        "exit": 0,
+        "signal": null,
+        "process": "completed",
+        "rejection": null,
+        "u_read_t_vector_value": false,
+        "t_subject_unchanged": true,
+        "t_captures": "0-16,7-10,11-16"
+      },
+      "sp2_write_subject": {
+        "exit": 0,
+        "signal": null,
+        "process": "completed",
+        "rejection": null,
+        "u_read_t_vector_value": null,
+        "t_subject_unchanged": true,
+        "t_captures": "0-16,7-10,11-16"
+      },
+      "sp3_name_table_outside_sandbox": {
+        "exit": -6,
+        "signal": "SIGABRT",
+        "process": "rejected",
+        "rejection": "name_table: outside_sandbox",
+        "u_read_t_vector_value": null,
+        "t_subject_unchanged": null,
+        "t_captures": null
+      },
+      "sp3_name_table_untracked_in_sandbox": {
+        "exit": -6,
+        "signal": "SIGABRT",
+        "process": "rejected",
+        "rejection": "name_table: untracked",
+        "u_read_t_vector_value": null,
+        "t_subject_unchanged": null,
+        "t_captures": null
+      }
+    }
+  },
+  "effects": {
+    "sp1": true,
+    "sp2": true,
+    "sp3_untracked_pointer": true,
+    "sp3_outside_pointer": false
+  },
+  "benign_ok": true,
+  "crashes_counted_as_rejections": 0
+}

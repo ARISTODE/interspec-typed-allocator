@@ -1,0 +1,30 @@
+{
+  "native": {
+    "exit_code": 0,
+    "stdout": "PNG_BENCH variant=native iterations=5000 input_bytes=2206 width=32 height=32 rgba_bytes=4096 rgba_fnv=d94609c0b51e57a3 png_bytes=1689 png_fnv=e1049fdb18f31556 checks=0 elapsed_ns=793562933\n",
+    "stderr": "",
+    "result_matches_reference": true,
+    "checks": 0
+  },
+  "rlbox-only": {
+    "exit_code": 0,
+    "stdout": "PNG_BENCH variant=rlbox-only iterations=5000 input_bytes=2206 width=32 height=32 rgba_bytes=4096 rgba_fnv=d94609c0b51e57a3 png_bytes=1689 png_fnv=e1049fdb18f31556 checks=0 elapsed_ns=835739463\n",
+    "stderr": "",
+    "result_matches_reference": true,
+    "checks": 0
+  },
+  "tracked-no-check": {
+    "exit_code": 0,
+    "stdout": "PNG_BENCH variant=tracked-no-check iterations=5000 input_bytes=2206 width=32 height=32 rgba_bytes=4096 rgba_fnv=d94609c0b51e57a3 png_bytes=1689 png_fnv=e1049fdb18f31556 checks=0 elapsed_ns=793284420\n",
+    "stderr": "",
+    "result_matches_reference": true,
+    "checks": 0
+  },
+  "interspec": {
+    "exit_code": 0,
+    "stdout": "PNG_BENCH variant=interspec iterations=5000 input_bytes=2206 width=32 height=32 rgba_bytes=4096 rgba_fnv=d94609c0b51e57a3 png_bytes=1689 png_fnv=e1049fdb18f31556 checks=10000 elapsed_ns=919998038\n",
+    "stderr": "",
+    "result_matches_reference": true,
+    "checks": 10000
+  }
+}

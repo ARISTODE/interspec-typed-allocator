@@ -1,0 +1,21 @@
+In file included from /home/user/interspec-typed-allocator/integration/memcached_server/bridge.cpp:8:
+/home/user/interspec-typed-allocator/include/interspec/pointer_census.h: In function 'void interspec::census::emit(const char*, const char*, const char*, const char*, uintptr_t, const char*)':
+/home/user/interspec-typed-allocator/include/interspec/pointer_census.h:118:18: warning: ignoring return value of 'ssize_t write(int, const void*, size_t)' declared with attribute 'warn_unused_result' [-Wunused-result]
+  118 |     (void)::write(STDERR_FILENO, line, static_cast<size_t>(count));
+      |           ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /home/user/interspec-typed-allocator/integration/memcached_server/bridge.cpp:8:
+/home/user/interspec-typed-allocator/include/interspec/pointer_census.h: In function 'void interspec::census::emit(const char*, const char*, const char*, const char*, uintptr_t, const char*)':
+/home/user/interspec-typed-allocator/include/interspec/pointer_census.h:118:18: warning: ignoring return value of 'ssize_t write(int, const void*, size_t)' declared with attribute 'warn_unused_result' [-Wunused-result]
+  118 |     (void)::write(STDERR_FILENO, line, static_cast<size_t>(count));
+      |           ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /home/user/interspec-typed-allocator/integration/memcached_server/bridge.cpp:8:
+/home/user/interspec-typed-allocator/include/interspec/pointer_census.h: In function 'void interspec::census::emit(const char*, const char*, const char*, const char*, uintptr_t, const char*)':
+/home/user/interspec-typed-allocator/include/interspec/pointer_census.h:118:18: warning: ignoring return value of 'ssize_t write(int, const void*, size_t)' declared with attribute 'warn_unused_result' [-Wunused-result]
+  118 |     (void)::write(STDERR_FILENO, line, static_cast<size_t>(count));
+      |           ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from /home/user/interspec-typed-allocator/integration/memcached_server/bridge.cpp:8:
+/home/user/interspec-typed-allocator/include/interspec/pointer_census.h: In function 'void interspec::census::emit(const char*, const char*, const char*, const char*, uintptr_t, const char*)':
+/home/user/interspec-typed-allocator/include/interspec/pointer_census.h:118:18: warning: ignoring return value of 'ssize_t write(int, const void*, size_t)' declared with attribute 'warn_unused_result' [-Wunused-result]
+  118 |     (void)::write(STDERR_FILENO, line, static_cast<size_t>(count));
+      |           ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Built memcached variants in /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/p2-tmp-5037e6d/interspec-memcached-deployment/bin

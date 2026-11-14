@@ -1,0 +1,4 @@
+plain: café
+quoted: "tab\there \u00e9 \U0001F600 \x41"
+single: 'it''s'
+cjk: 日本語

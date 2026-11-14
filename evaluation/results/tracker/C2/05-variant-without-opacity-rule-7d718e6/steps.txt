@@ -1,0 +1,1 @@
+ffmpeg_libvpx database=ffmpeg_libvpx exit=1

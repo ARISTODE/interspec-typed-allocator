@@ -1,0 +1,91 @@
+{
+  "boundary": "memcached_bipbuffer",
+  "policies_at_this_boundary": [
+    "sp1",
+    "sp2",
+    "sp3"
+  ],
+  "configurations": {
+    "rlbox-only": {
+      "binary": "rlbox-only",
+      "switches": null
+    },
+    "interspec-all-off": {
+      "binary": "interspec",
+      "switches": {
+        "INTERSPEC_SP1": "0",
+        "INTERSPEC_SP2": "0",
+        "INTERSPEC_SP3": "0"
+      }
+    },
+    "interspec-sp1": {
+      "binary": "interspec",
+      "switches": {
+        "INTERSPEC_SP1": "1",
+        "INTERSPEC_SP2": "0",
+        "INTERSPEC_SP3": "0"
+      }
+    },
+    "interspec-sp2": {
+      "binary": "interspec",
+      "switches": {
+        "INTERSPEC_SP1": "0",
+        "INTERSPEC_SP2": "1",
+        "INTERSPEC_SP3": "0"
+      }
+    },
+    "interspec-sp3": {
+      "binary": "interspec",
+      "switches": {
+        "INTERSPEC_SP1": "0",
+        "INTERSPEC_SP2": "0",
+        "INTERSPEC_SP3": "1"
+      }
+    },
+    "interspec-all-on": {
+      "binary": "interspec",
+      "switches": {
+        "INTERSPEC_SP1": "1",
+        "INTERSPEC_SP2": "1",
+        "INTERSPEC_SP3": "1"
+      }
+    }
+  },
+  "workloads": [
+    "watch_moderate"
+  ],
+  "unit": "operations_per_s",
+  "repetitions": 15,
+  "rounds": {
+    "watch_moderate": 6
+  },
+  "value_of_a_repetition": "mean of the windows",
+  "seed": 20261114,
+  "parameters": {
+    "scenario": "watch_moderate",
+    "clients": 2,
+    "pipeline": 2,
+    "value_bytes": 256,
+    "keys": 10000,
+    "get_percent": 50,
+    "seconds": 2,
+    "warmup_seconds": 1,
+    "server_cpus": "0-1",
+    "client_cpus": "2-3",
+    "client_sha256": "d41b39337bc28d153981326f043fc8d3ee75163b28c3d84ea1bc3e166e524b14"
+  },
+  "source_commit": "d9772b9",
+  "label": "Claude Code cloud VM (KVM guest, 4 vCPUs, not a dedicated host)",
+  "machine_start": {
+    "cpu_model": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+    "logical_cpus": 4,
+    "memory": "16473776 kB",
+    "kernel": "6.18.44-fc-v470",
+    "loadavg": "1.00 1.29 1.42 1/104 9008"
+  },
+  "binaries_sha256": {
+    "rlbox-only": "018339e46bc16bd1ddf75d0457ada01319eb286efa048cfb44bc97752ff348af",
+    "interspec": "fb9f381e49e7fad950b70ddc2f1490253800c5071511459d31496f29f94b7c3e"
+  },
+  "started_utc": "2026-11-14T10:13:04Z"
+}

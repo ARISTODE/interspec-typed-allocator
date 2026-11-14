@@ -1,0 +1,4 @@
+yaml_libyaml database=yaml_libyaml exit=0
+zip_libzip database=zip_libzip exit=0
+ucl_libucl database=ucl_libucl exit=0
+interrupted: the machine restarted during magick_libpng (fourth of seven); yaml, zip and ucl finished before that

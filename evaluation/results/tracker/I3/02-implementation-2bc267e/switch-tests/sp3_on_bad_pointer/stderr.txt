@@ -1,0 +1,3 @@
+INTERSPEC_POLICY boundary=yaml_libyaml sp1=1 sp2=1 sp3=full
+FAULT_INJECTION boundary=yaml_libyaml mode=2 original=0x102dd0 replacement=0x123560 bytes=3
+INTERSPEC_REJECT boundary=yaml_libyaml reason=untracked

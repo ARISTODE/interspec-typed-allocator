@@ -1,0 +1,3 @@
+INTERSPEC_POLICY boundary=rsync_popt+sp3_fixed_at_compile_time sp1=0 sp2=0 sp3=full
+[InterSpec][PoC][SP3] sandbox corrupting output pointer slot=0 value=0xdeadbeef
+INTERSPEC_REJECT reason=RLBox rejected outside-sandbox popt string

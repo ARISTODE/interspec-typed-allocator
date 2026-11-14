@@ -1,0 +1,10 @@
+{
+  "description": "Benign inputs for the ucl/libucl port (tracker item I11). Each case names a document and the two lookup paths. The expectation is the output of the native build of the same libucl revision; no value is written by hand.",
+  "cases": [
+    {"document": "nested.conf", "key1": "server.name", "key2": "logging.level"},
+    {"document": "nested.conf", "key1": "server.limits.rate", "key2": "missing.key"},
+    {"document": "json.conf", "key1": "service.id", "key2": "note"},
+    {"document": "units.conf", "key1": "section.sub.leaf", "key2": "key2"},
+    {"document": "units.conf", "key1": "multi", "key2": "section.size"}
+  ]
+}

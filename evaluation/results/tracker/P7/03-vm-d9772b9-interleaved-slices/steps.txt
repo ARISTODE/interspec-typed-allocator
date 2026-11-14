@@ -1,0 +1,7 @@
+ffmpeg_libvpx exit=0 09:30:06
+magick_libpng exit=0 09:34:03
+memcached_hash exit=0 09:37:08
+memcached_assoc exit=0 09:40:12
+nginx_openssl exit=0 09:42:47
+ucl_libucl exit=0 09:46:30
+zip_libzip exit=0 09:50:08

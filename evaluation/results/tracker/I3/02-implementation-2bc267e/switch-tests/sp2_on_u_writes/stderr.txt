@@ -1,0 +1,4 @@
+INTERSPEC_POLICY boundary=yaml_libyaml sp1=1 sp2=1 sp3=full
+[InterSpec][PoC][SP2] sandbox mutated document byte=0 old=0x6b new=0x94
+INTERSPEC_T_OBSERVE boundary=yaml_libyaml input_first_byte=0x6b
+[InterSpec][PoC][SP2] sandbox mutated document byte=0 old=0x94 new=0x6b

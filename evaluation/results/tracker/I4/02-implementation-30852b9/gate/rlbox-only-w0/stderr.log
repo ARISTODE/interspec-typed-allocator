@@ -1,0 +1,7 @@
+2026/11/13 09:19:58 [notice] 28705#0: using the "epoll" event method
+2026/11/13 09:19:58 [notice] 28705#0: nginx/1.26.3
+2026/11/13 09:19:58 [notice] 28705#0: built by gcc 13.3.0 (Ubuntu 13.3.0-6ubuntu2~24.04.1) 
+2026/11/13 09:19:58 [notice] 28705#0: OS: Linux 6.18.44-fc-v445
+2026/11/13 09:19:58 [notice] 28705#0: getrlimit(RLIMIT_NOFILE): 20000:20000
+2026/11/13 09:19:58 [notice] 28705#0: signal 3 (SIGQUIT) received from 28695, shutting down
+2026/11/13 09:19:58 [notice] 28705#0: exit

@@ -1,0 +1,8 @@
+benchmark,function,file,total_fields,pointer_fields,scalar_fields,struct_fields,array_fields,other_fields
+memcached_bipbuffer,bipbuf_free,benchmarks/memcached/bipbuffer.c,1,1,0,0,0,0
+memcached_bipbuffer,bipbuf_new,benchmarks/memcached/bipbuffer.c,2,1,1,0,0,0
+memcached_bipbuffer,bipbuf_offer,benchmarks/memcached/bipbuffer.c,5,2,3,0,0,0
+memcached_bipbuffer,bipbuf_peek_all,benchmarks/memcached/bipbuffer.c,5,3,2,0,0,0
+memcached_bipbuffer,bipbuf_poll,benchmarks/memcached/bipbuffer.c,4,2,2,0,0,0
+memcached_bipbuffer,bipbuf_push,benchmarks/memcached/bipbuffer.c,3,1,2,0,0,0
+memcached_bipbuffer,bipbuf_request,benchmarks/memcached/bipbuffer.c,4,2,2,0,0,0

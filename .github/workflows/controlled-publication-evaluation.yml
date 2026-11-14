@@ -75,7 +75,7 @@ jobs:
       SERVER_CPUS: ${{ inputs.server_cpus }}
       CLIENT_CPUS: ${{ inputs.client_cpus }}
       WORKLOAD: ${{ matrix.workload }}
-      OUTPUT_DIR: controlled-evaluation/${{ matrix.workload }}
+      OUTPUT_DIR: ${{ runner.temp }}/controlled-evaluation/${{ matrix.workload }}
       TMPDIR: /tmp/interspec-controlled-${{ github.run_id }}-${{ matrix.workload }}
     steps:
       - uses: actions/checkout@v4
@@ -164,4 +164,4 @@ jobs:
           name: controlled-evaluation-${{ matrix.workload }}-${{ github.run_id }}
           if-no-files-found: warn
           retention-days: 90
-          path: controlled-evaluation/${{ matrix.workload }}
+          path: ${{ runner.temp }}/controlled-evaluation/${{ matrix.workload }}

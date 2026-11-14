@@ -1,0 +1,75 @@
+{
+  "boundary": "yaml_libyaml",
+  "policies_at_this_boundary": [
+    "sp2",
+    "sp3"
+  ],
+  "configurations": {
+    "rlbox-only": {
+      "binary": "rlbox-only",
+      "switches": null
+    },
+    "interspec-all-off": {
+      "binary": "interspec",
+      "switches": {
+        "INTERSPEC_SP1": "0",
+        "INTERSPEC_SP2": "0",
+        "INTERSPEC_SP3": "0"
+      }
+    },
+    "interspec-sp2": {
+      "binary": "interspec",
+      "switches": {
+        "INTERSPEC_SP1": "0",
+        "INTERSPEC_SP2": "1",
+        "INTERSPEC_SP3": "0"
+      }
+    },
+    "interspec-sp3": {
+      "binary": "interspec",
+      "switches": {
+        "INTERSPEC_SP1": "0",
+        "INTERSPEC_SP2": "0",
+        "INTERSPEC_SP3": "1"
+      }
+    },
+    "interspec-all-on": {
+      "binary": "interspec",
+      "switches": {
+        "INTERSPEC_SP1": "0",
+        "INTERSPEC_SP2": "1",
+        "INTERSPEC_SP3": "1"
+      }
+    }
+  },
+  "workloads": [
+    "yaml_parse_1mb"
+  ],
+  "unit": "ns",
+  "repetitions": 15,
+  "rounds": {
+    "yaml_parse_1mb": 30
+  },
+  "value_of_a_repetition": "sum of the slices",
+  "seed": 20261114,
+  "parameters": {
+    "input": "/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/yaml-build-out/document-1m.yaml",
+    "iterations": 12,
+    "cpu": 0,
+    "input_sha256": "76f5fb2187018406caccec14d86af59e2eb1960df8aa4d852335076a9627923f"
+  },
+  "source_commit": "d9772b9",
+  "label": "Claude Code cloud VM (KVM guest, 4 vCPUs, not a dedicated host)",
+  "machine_start": {
+    "cpu_model": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+    "logical_cpus": 4,
+    "memory": "16473776 kB",
+    "kernel": "6.18.44-fc-v470",
+    "loadavg": "1.73 1.78 1.58 1/104 6715"
+  },
+  "binaries_sha256": {
+    "rlbox-only": "9c2d48f5d24f77b602d4a5e43f18354a89a20f4814db543216dd0e9abb9afafc",
+    "interspec": "0d3164741ff02d14137efce0b90fb02583959b0163bc268caa940e90c3d0b6e7"
+  },
+  "started_utc": "2026-11-14T10:08:16Z"
+}

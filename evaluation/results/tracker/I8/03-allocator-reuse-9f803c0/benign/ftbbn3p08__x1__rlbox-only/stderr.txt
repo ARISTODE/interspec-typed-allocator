@@ -1,0 +1,1 @@
+INTERSPEC_POLICY boundary=magick_libpng+sp3_fixed_at_compile_time sp1=1 sp2=1 sp3=full

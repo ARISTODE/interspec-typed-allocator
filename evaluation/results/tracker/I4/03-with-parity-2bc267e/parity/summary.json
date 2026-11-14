@@ -1,0 +1,872 @@
+{
+  "responses": 104,
+  "responses_passed": 104,
+  "variants": {
+    "native": {
+      "version_exit_zero": true,
+      "syntax_exit_zero": true,
+      "server_exit_zero": true,
+      "no_rejection": true
+    },
+    "rlbox-only": {
+      "version_exit_zero": true,
+      "syntax_exit_zero": true,
+      "server_exit_zero": true,
+      "no_rejection": true
+    },
+    "tracked-no-check": {
+      "version_exit_zero": true,
+      "syntax_exit_zero": true,
+      "server_exit_zero": true,
+      "no_rejection": true
+    },
+    "interspec": {
+      "version_exit_zero": true,
+      "syntax_exit_zero": true,
+      "server_exit_zero": true,
+      "no_rejection": true,
+      "reports_all_on": true
+    }
+  },
+  "binaries_sha256": {
+    "native": "aa5660a7108f55911307a5cc362ed2c19f1e093202d6357b9b2a6a959d7b3190",
+    "rlbox-only": "4226eef794b362b8fb5fb6702cf296d740f9c999eb1798a6250ccae5036e4f7b",
+    "tracked-no-check": "283e965a46b9dd52593ece2d84f5118dbfce624be296989314ab64da460917db",
+    "interspec": "263f16e64596052eac43102b3b7b8c9ab3c9caac2959e062e7edfcfa4d4aed19"
+  },
+  "cases_sha256": "36e23553e6dfcb2b5923277f4bd00ff96c0f5560975a8c1bb97d4a07e160b427",
+  "rows": [
+    {
+      "variant": "native",
+      "order": "forward",
+      "case": "exact_health",
+      "status": 200,
+      "body": "ready",
+      "passed": true
+    },
+    {
+      "variant": "native",
+      "order": "forward",
+      "case": "named_captures",
+      "status": 200,
+      "body": "item:123:alpha",
+      "passed": true
+    },
+    {
+      "variant": "native",
+      "order": "forward",
+      "case": "mixed_named_numbered",
+      "status": 200,
+      "body": "mixed:abc:42",
+      "passed": true
+    },
+    {
+      "variant": "native",
+      "order": "forward",
+      "case": "caseless_capture",
+      "status": 200,
+      "body": "case:Hello",
+      "passed": true
+    },
+    {
+      "variant": "native",
+      "order": "forward",
+      "case": "optional_capture_unset",
+      "status": 200,
+      "body": "optional::b",
+      "passed": true
+    },
+    {
+      "variant": "native",
+      "order": "forward",
+      "case": "optional_capture_set",
+      "status": 200,
+      "body": "optional:a:b",
+      "passed": true
+    },
+    {
+      "variant": "native",
+      "order": "forward",
+      "case": "empty_capture",
+      "status": 200,
+      "body": "empty:[]",
+      "passed": true
+    },
+    {
+      "variant": "native",
+      "order": "forward",
+      "case": "zero_captures",
+      "status": 200,
+      "body": "nocapture",
+      "passed": true
+    },
+    {
+      "variant": "native",
+      "order": "forward",
+      "case": "prefix_beats_regex",
+      "status": 200,
+      "body": "prefix-wins",
+      "passed": true
+    },
+    {
+      "variant": "native",
+      "order": "forward",
+      "case": "first_regex_wins",
+      "status": 200,
+      "body": "first-regex",
+      "passed": true
+    },
+    {
+      "variant": "native",
+      "order": "forward",
+      "case": "exact_beats_prefix",
+      "status": 200,
+      "body": "exact",
+      "passed": true
+    },
+    {
+      "variant": "native",
+      "order": "forward",
+      "case": "regex_virtual_host",
+      "status": 200,
+      "body": "vhost:api",
+      "passed": true
+    },
+    {
+      "variant": "native",
+      "order": "forward",
+      "case": "no_regex_match",
+      "status": 404,
+      "body": "missing",
+      "passed": true
+    },
+    {
+      "variant": "native",
+      "order": "reverse",
+      "case": "no_regex_match",
+      "status": 404,
+      "body": "missing",
+      "passed": true
+    },
+    {
+      "variant": "native",
+      "order": "reverse",
+      "case": "regex_virtual_host",
+      "status": 200,
+      "body": "vhost:api",
+      "passed": true
+    },
+    {
+      "variant": "native",
+      "order": "reverse",
+      "case": "exact_beats_prefix",
+      "status": 200,
+      "body": "exact",
+      "passed": true
+    },
+    {
+      "variant": "native",
+      "order": "reverse",
+      "case": "first_regex_wins",
+      "status": 200,
+      "body": "first-regex",
+      "passed": true
+    },
+    {
+      "variant": "native",
+      "order": "reverse",
+      "case": "prefix_beats_regex",
+      "status": 200,
+      "body": "prefix-wins",
+      "passed": true
+    },
+    {
+      "variant": "native",
+      "order": "reverse",
+      "case": "zero_captures",
+      "status": 200,
+      "body": "nocapture",
+      "passed": true
+    },
+    {
+      "variant": "native",
+      "order": "reverse",
+      "case": "empty_capture",
+      "status": 200,
+      "body": "empty:[]",
+      "passed": true
+    },
+    {
+      "variant": "native",
+      "order": "reverse",
+      "case": "optional_capture_set",
+      "status": 200,
+      "body": "optional:a:b",
+      "passed": true
+    },
+    {
+      "variant": "native",
+      "order": "reverse",
+      "case": "optional_capture_unset",
+      "status": 200,
+      "body": "optional::b",
+      "passed": true
+    },
+    {
+      "variant": "native",
+      "order": "reverse",
+      "case": "caseless_capture",
+      "status": 200,
+      "body": "case:Hello",
+      "passed": true
+    },
+    {
+      "variant": "native",
+      "order": "reverse",
+      "case": "mixed_named_numbered",
+      "status": 200,
+      "body": "mixed:abc:42",
+      "passed": true
+    },
+    {
+      "variant": "native",
+      "order": "reverse",
+      "case": "named_captures",
+      "status": 200,
+      "body": "item:123:alpha",
+      "passed": true
+    },
+    {
+      "variant": "native",
+      "order": "reverse",
+      "case": "exact_health",
+      "status": 200,
+      "body": "ready",
+      "passed": true
+    },
+    {
+      "variant": "rlbox-only",
+      "order": "forward",
+      "case": "exact_health",
+      "status": 200,
+      "body": "ready",
+      "passed": true
+    },
+    {
+      "variant": "rlbox-only",
+      "order": "forward",
+      "case": "named_captures",
+      "status": 200,
+      "body": "item:123:alpha",
+      "passed": true
+    },
+    {
+      "variant": "rlbox-only",
+      "order": "forward",
+      "case": "mixed_named_numbered",
+      "status": 200,
+      "body": "mixed:abc:42",
+      "passed": true
+    },
+    {
+      "variant": "rlbox-only",
+      "order": "forward",
+      "case": "caseless_capture",
+      "status": 200,
+      "body": "case:Hello",
+      "passed": true
+    },
+    {
+      "variant": "rlbox-only",
+      "order": "forward",
+      "case": "optional_capture_unset",
+      "status": 200,
+      "body": "optional::b",
+      "passed": true
+    },
+    {
+      "variant": "rlbox-only",
+      "order": "forward",
+      "case": "optional_capture_set",
+      "status": 200,
+      "body": "optional:a:b",
+      "passed": true
+    },
+    {
+      "variant": "rlbox-only",
+      "order": "forward",
+      "case": "empty_capture",
+      "status": 200,
+      "body": "empty:[]",
+      "passed": true
+    },
+    {
+      "variant": "rlbox-only",
+      "order": "forward",
+      "case": "zero_captures",
+      "status": 200,
+      "body": "nocapture",
+      "passed": true
+    },
+    {
+      "variant": "rlbox-only",
+      "order": "forward",
+      "case": "prefix_beats_regex",
+      "status": 200,
+      "body": "prefix-wins",
+      "passed": true
+    },
+    {
+      "variant": "rlbox-only",
+      "order": "forward",
+      "case": "first_regex_wins",
+      "status": 200,
+      "body": "first-regex",
+      "passed": true
+    },
+    {
+      "variant": "rlbox-only",
+      "order": "forward",
+      "case": "exact_beats_prefix",
+      "status": 200,
+      "body": "exact",
+      "passed": true
+    },
+    {
+      "variant": "rlbox-only",
+      "order": "forward",
+      "case": "regex_virtual_host",
+      "status": 200,
+      "body": "vhost:api",
+      "passed": true
+    },
+    {
+      "variant": "rlbox-only",
+      "order": "forward",
+      "case": "no_regex_match",
+      "status": 404,
+      "body": "missing",
+      "passed": true
+    },
+    {
+      "variant": "rlbox-only",
+      "order": "reverse",
+      "case": "no_regex_match",
+      "status": 404,
+      "body": "missing",
+      "passed": true
+    },
+    {
+      "variant": "rlbox-only",
+      "order": "reverse",
+      "case": "regex_virtual_host",
+      "status": 200,
+      "body": "vhost:api",
+      "passed": true
+    },
+    {
+      "variant": "rlbox-only",
+      "order": "reverse",
+      "case": "exact_beats_prefix",
+      "status": 200,
+      "body": "exact",
+      "passed": true
+    },
+    {
+      "variant": "rlbox-only",
+      "order": "reverse",
+      "case": "first_regex_wins",
+      "status": 200,
+      "body": "first-regex",
+      "passed": true
+    },
+    {
+      "variant": "rlbox-only",
+      "order": "reverse",
+      "case": "prefix_beats_regex",
+      "status": 200,
+      "body": "prefix-wins",
+      "passed": true
+    },
+    {
+      "variant": "rlbox-only",
+      "order": "reverse",
+      "case": "zero_captures",
+      "status": 200,
+      "body": "nocapture",
+      "passed": true
+    },
+    {
+      "variant": "rlbox-only",
+      "order": "reverse",
+      "case": "empty_capture",
+      "status": 200,
+      "body": "empty:[]",
+      "passed": true
+    },
+    {
+      "variant": "rlbox-only",
+      "order": "reverse",
+      "case": "optional_capture_set",
+      "status": 200,
+      "body": "optional:a:b",
+      "passed": true
+    },
+    {
+      "variant": "rlbox-only",
+      "order": "reverse",
+      "case": "optional_capture_unset",
+      "status": 200,
+      "body": "optional::b",
+      "passed": true
+    },
+    {
+      "variant": "rlbox-only",
+      "order": "reverse",
+      "case": "caseless_capture",
+      "status": 200,
+      "body": "case:Hello",
+      "passed": true
+    },
+    {
+      "variant": "rlbox-only",
+      "order": "reverse",
+      "case": "mixed_named_numbered",
+      "status": 200,
+      "body": "mixed:abc:42",
+      "passed": true
+    },
+    {
+      "variant": "rlbox-only",
+      "order": "reverse",
+      "case": "named_captures",
+      "status": 200,
+      "body": "item:123:alpha",
+      "passed": true
+    },
+    {
+      "variant": "rlbox-only",
+      "order": "reverse",
+      "case": "exact_health",
+      "status": 200,
+      "body": "ready",
+      "passed": true
+    },
+    {
+      "variant": "tracked-no-check",
+      "order": "forward",
+      "case": "exact_health",
+      "status": 200,
+      "body": "ready",
+      "passed": true
+    },
+    {
+      "variant": "tracked-no-check",
+      "order": "forward",
+      "case": "named_captures",
+      "status": 200,
+      "body": "item:123:alpha",
+      "passed": true
+    },
+    {
+      "variant": "tracked-no-check",
+      "order": "forward",
+      "case": "mixed_named_numbered",
+      "status": 200,
+      "body": "mixed:abc:42",
+      "passed": true
+    },
+    {
+      "variant": "tracked-no-check",
+      "order": "forward",
+      "case": "caseless_capture",
+      "status": 200,
+      "body": "case:Hello",
+      "passed": true
+    },
+    {
+      "variant": "tracked-no-check",
+      "order": "forward",
+      "case": "optional_capture_unset",
+      "status": 200,
+      "body": "optional::b",
+      "passed": true
+    },
+    {
+      "variant": "tracked-no-check",
+      "order": "forward",
+      "case": "optional_capture_set",
+      "status": 200,
+      "body": "optional:a:b",
+      "passed": true
+    },
+    {
+      "variant": "tracked-no-check",
+      "order": "forward",
+      "case": "empty_capture",
+      "status": 200,
+      "body": "empty:[]",
+      "passed": true
+    },
+    {
+      "variant": "tracked-no-check",
+      "order": "forward",
+      "case": "zero_captures",
+      "status": 200,
+      "body": "nocapture",
+      "passed": true
+    },
+    {
+      "variant": "tracked-no-check",
+      "order": "forward",
+      "case": "prefix_beats_regex",
+      "status": 200,
+      "body": "prefix-wins",
+      "passed": true
+    },
+    {
+      "variant": "tracked-no-check",
+      "order": "forward",
+      "case": "first_regex_wins",
+      "status": 200,
+      "body": "first-regex",
+      "passed": true
+    },
+    {
+      "variant": "tracked-no-check",
+      "order": "forward",
+      "case": "exact_beats_prefix",
+      "status": 200,
+      "body": "exact",
+      "passed": true
+    },
+    {
+      "variant": "tracked-no-check",
+      "order": "forward",
+      "case": "regex_virtual_host",
+      "status": 200,
+      "body": "vhost:api",
+      "passed": true
+    },
+    {
+      "variant": "tracked-no-check",
+      "order": "forward",
+      "case": "no_regex_match",
+      "status": 404,
+      "body": "missing",
+      "passed": true
+    },
+    {
+      "variant": "tracked-no-check",
+      "order": "reverse",
+      "case": "no_regex_match",
+      "status": 404,
+      "body": "missing",
+      "passed": true
+    },
+    {
+      "variant": "tracked-no-check",
+      "order": "reverse",
+      "case": "regex_virtual_host",
+      "status": 200,
+      "body": "vhost:api",
+      "passed": true
+    },
+    {
+      "variant": "tracked-no-check",
+      "order": "reverse",
+      "case": "exact_beats_prefix",
+      "status": 200,
+      "body": "exact",
+      "passed": true
+    },
+    {
+      "variant": "tracked-no-check",
+      "order": "reverse",
+      "case": "first_regex_wins",
+      "status": 200,
+      "body": "first-regex",
+      "passed": true
+    },
+    {
+      "variant": "tracked-no-check",
+      "order": "reverse",
+      "case": "prefix_beats_regex",
+      "status": 200,
+      "body": "prefix-wins",
+      "passed": true
+    },
+    {
+      "variant": "tracked-no-check",
+      "order": "reverse",
+      "case": "zero_captures",
+      "status": 200,
+      "body": "nocapture",
+      "passed": true
+    },
+    {
+      "variant": "tracked-no-check",
+      "order": "reverse",
+      "case": "empty_capture",
+      "status": 200,
+      "body": "empty:[]",
+      "passed": true
+    },
+    {
+      "variant": "tracked-no-check",
+      "order": "reverse",
+      "case": "optional_capture_set",
+      "status": 200,
+      "body": "optional:a:b",
+      "passed": true
+    },
+    {
+      "variant": "tracked-no-check",
+      "order": "reverse",
+      "case": "optional_capture_unset",
+      "status": 200,
+      "body": "optional::b",
+      "passed": true
+    },
+    {
+      "variant": "tracked-no-check",
+      "order": "reverse",
+      "case": "caseless_capture",
+      "status": 200,
+      "body": "case:Hello",
+      "passed": true
+    },
+    {
+      "variant": "tracked-no-check",
+      "order": "reverse",
+      "case": "mixed_named_numbered",
+      "status": 200,
+      "body": "mixed:abc:42",
+      "passed": true
+    },
+    {
+      "variant": "tracked-no-check",
+      "order": "reverse",
+      "case": "named_captures",
+      "status": 200,
+      "body": "item:123:alpha",
+      "passed": true
+    },
+    {
+      "variant": "tracked-no-check",
+      "order": "reverse",
+      "case": "exact_health",
+      "status": 200,
+      "body": "ready",
+      "passed": true
+    },
+    {
+      "variant": "interspec",
+      "order": "forward",
+      "case": "exact_health",
+      "status": 200,
+      "body": "ready",
+      "passed": true
+    },
+    {
+      "variant": "interspec",
+      "order": "forward",
+      "case": "named_captures",
+      "status": 200,
+      "body": "item:123:alpha",
+      "passed": true
+    },
+    {
+      "variant": "interspec",
+      "order": "forward",
+      "case": "mixed_named_numbered",
+      "status": 200,
+      "body": "mixed:abc:42",
+      "passed": true
+    },
+    {
+      "variant": "interspec",
+      "order": "forward",
+      "case": "caseless_capture",
+      "status": 200,
+      "body": "case:Hello",
+      "passed": true
+    },
+    {
+      "variant": "interspec",
+      "order": "forward",
+      "case": "optional_capture_unset",
+      "status": 200,
+      "body": "optional::b",
+      "passed": true
+    },
+    {
+      "variant": "interspec",
+      "order": "forward",
+      "case": "optional_capture_set",
+      "status": 200,
+      "body": "optional:a:b",
+      "passed": true
+    },
+    {
+      "variant": "interspec",
+      "order": "forward",
+      "case": "empty_capture",
+      "status": 200,
+      "body": "empty:[]",
+      "passed": true
+    },
+    {
+      "variant": "interspec",
+      "order": "forward",
+      "case": "zero_captures",
+      "status": 200,
+      "body": "nocapture",
+      "passed": true
+    },
+    {
+      "variant": "interspec",
+      "order": "forward",
+      "case": "prefix_beats_regex",
+      "status": 200,
+      "body": "prefix-wins",
+      "passed": true
+    },
+    {
+      "variant": "interspec",
+      "order": "forward",
+      "case": "first_regex_wins",
+      "status": 200,
+      "body": "first-regex",
+      "passed": true
+    },
+    {
+      "variant": "interspec",
+      "order": "forward",
+      "case": "exact_beats_prefix",
+      "status": 200,
+      "body": "exact",
+      "passed": true
+    },
+    {
+      "variant": "interspec",
+      "order": "forward",
+      "case": "regex_virtual_host",
+      "status": 200,
+      "body": "vhost:api",
+      "passed": true
+    },
+    {
+      "variant": "interspec",
+      "order": "forward",
+      "case": "no_regex_match",
+      "status": 404,
+      "body": "missing",
+      "passed": true
+    },
+    {
+      "variant": "interspec",
+      "order": "reverse",
+      "case": "no_regex_match",
+      "status": 404,
+      "body": "missing",
+      "passed": true
+    },
+    {
+      "variant": "interspec",
+      "order": "reverse",
+      "case": "regex_virtual_host",
+      "status": 200,
+      "body": "vhost:api",
+      "passed": true
+    },
+    {
+      "variant": "interspec",
+      "order": "reverse",
+      "case": "exact_beats_prefix",
+      "status": 200,
+      "body": "exact",
+      "passed": true
+    },
+    {
+      "variant": "interspec",
+      "order": "reverse",
+      "case": "first_regex_wins",
+      "status": 200,
+      "body": "first-regex",
+      "passed": true
+    },
+    {
+      "variant": "interspec",
+      "order": "reverse",
+      "case": "prefix_beats_regex",
+      "status": 200,
+      "body": "prefix-wins",
+      "passed": true
+    },
+    {
+      "variant": "interspec",
+      "order": "reverse",
+      "case": "zero_captures",
+      "status": 200,
+      "body": "nocapture",
+      "passed": true
+    },
+    {
+      "variant": "interspec",
+      "order": "reverse",
+      "case": "empty_capture",
+      "status": 200,
+      "body": "empty:[]",
+      "passed": true
+    },
+    {
+      "variant": "interspec",
+      "order": "reverse",
+      "case": "optional_capture_set",
+      "status": 200,
+      "body": "optional:a:b",
+      "passed": true
+    },
+    {
+      "variant": "interspec",
+      "order": "reverse",
+      "case": "optional_capture_unset",
+      "status": 200,
+      "body": "optional::b",
+      "passed": true
+    },
+    {
+      "variant": "interspec",
+      "order": "reverse",
+      "case": "caseless_capture",
+      "status": 200,
+      "body": "case:Hello",
+      "passed": true
+    },
+    {
+      "variant": "interspec",
+      "order": "reverse",
+      "case": "mixed_named_numbered",
+      "status": 200,
+      "body": "mixed:abc:42",
+      "passed": true
+    },
+    {
+      "variant": "interspec",
+      "order": "reverse",
+      "case": "named_captures",
+      "status": 200,
+      "body": "item:123:alpha",
+      "passed": true
+    },
+    {
+      "variant": "interspec",
+      "order": "reverse",
+      "case": "exact_health",
+      "status": 200,
+      "body": "ready",
+      "passed": true
+    }
+  ]
+}

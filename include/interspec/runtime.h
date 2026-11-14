@@ -9,6 +9,7 @@
 #include <shared_mutex>
 #include <unordered_map>
 #include <unordered_set>
+#include <utility>
 #include <vector>
 #include "diagnostics.h"
 
@@ -27,6 +28,9 @@ struct Allocation {
   size_t element_size = 0;
   size_t element_count = 0;
   size_t element_alignment = 0;
+  // Bytes of arena behind this record, which can be more than `size` when the
+  // record reuses a released block. Kept so that the block can be reused again.
+  size_t capacity = 0;
 };
 
 enum class MemoryDomain { trusted, untrusted };
@@ -313,7 +317,7 @@ class Runtime {
     describe_unlocked(event, ptr);
     const auto allocation = allocations_.find(ptr);
     if (allocation == allocations_.end()) return false;
-    allocations_.erase(allocation);
+    release_unlocked(allocation);
     event.result = "ok";
     return true;
   }
@@ -343,7 +347,7 @@ class Runtime {
     if (old == allocations_.end()) return 0;
 
     if (new_size == 0) {
-      allocations_.erase(old);
+      release_unlocked(old);
       event.result = "released";
       return 0;
     }
@@ -363,7 +367,7 @@ class Runtime {
       next.element_alignment = original.element_alignment;
     }
 
-    allocations_.erase(ptr);
+    release_unlocked(allocations_.find(ptr));
     event.replacement = replacement;
     event.result = "ok";
     return replacement;
@@ -629,6 +633,27 @@ class Runtime {
     if (!arena_valid_ || size == 0 || alignment == 0) return 0;
     size_t aligned = 0;
     if (!aligned_size(size, aligned)) return 0;
+
+    // Reuse: the smallest released block of this site and type that holds the
+    // request and has the required alignment. A released address is never
+    // handed to another site, so a stale pointer can at most meet a later
+    // object of the same site. The record carries the new size, so the bounds
+    // of a check are those of the new object.
+    const auto released = released_.find(ReleasedKey{type_hash, site_id});
+    if (released != released_.end()) {
+      for (auto block = released->second.lower_bound(aligned);
+           block != released->second.end(); ++block) {
+        if (block->second % alignment != 0) continue;
+        const uintptr_t ptr = block->second;
+        const size_t capacity = block->first;
+        Allocation allocation{ptr, size, type_hash, site_id};
+        allocation.capacity = capacity;
+        if (!allocations_.emplace(ptr, allocation).second) return 0;
+        released->second.erase(block);
+        return ptr;
+      }
+    }
+
     if (used_ > capacity_ ||
         used_ > std::numeric_limits<uintptr_t>::max() - base_)
       return 0;
@@ -642,11 +667,23 @@ class Runtime {
         aligned > capacity_ - used_ - padding)
       return 0;
     const uintptr_t ptr = start + padding;
-    const auto inserted = allocations_.emplace(
-        ptr, Allocation{ptr, size, type_hash, site_id});
+    Allocation allocation{ptr, size, type_hash, site_id};
+    allocation.capacity = aligned;
+    const auto inserted = allocations_.emplace(ptr, allocation);
     if (!inserted.second) return 0;
     used_ += padding + aligned;
     return ptr;
+  }
+
+  // Removes the record and keeps the block for a later allocation at the same
+  // site. Until then no record covers the address, so a check of a pointer to
+  // it reports `untracked`.
+  void release_unlocked(std::map<uintptr_t, Allocation>::iterator allocation) {
+    const Allocation& record = allocation->second;
+    if (record.capacity)
+      released_[ReleasedKey{record.type_hash, record.site_id}].emplace(
+          record.capacity, record.base);
+    allocations_.erase(allocation);
   }
 
   const Allocation* find_allocation_unlocked(uintptr_t ptr) const {
@@ -682,6 +719,9 @@ class Runtime {
   const size_t capacity_;
   const bool arena_valid_;
   size_t used_ = 0;
+  // Released arena blocks by (type, site), each list ordered by capacity.
+  using ReleasedKey = std::pair<uint64_t, SiteId>;
+  std::map<ReleasedKey, std::multimap<size_t, uintptr_t>> released_;
 
   mutable std::shared_mutex mu_;
   std::unordered_map<TypeId, uint64_t> types_;

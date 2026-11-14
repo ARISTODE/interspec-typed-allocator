@@ -1,0 +1,84 @@
+{
+  "label": "Claude Code cloud VM (KVM guest, 4 vCPUs, not a dedicated host):read_heavy_1k",
+  "host": {
+    "system": "Linux",
+    "node": "vm",
+    "release": "6.18.44-fc-v470",
+    "version": "#1 SMP PREEMPT_DYNAMIC @0",
+    "machine": "x86_64",
+    "processor": "x86_64"
+  },
+  "parameters": {
+    "work": "/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/p2-state/work",
+    "out": "/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/p2-state/attempts/909a6c1b6880449fb77925d4d4e5e981",
+    "operations": 0,
+    "warmup_operations": 0,
+    "seconds": 30.0,
+    "warmup": 5.0,
+    "repetitions": 15,
+    "clients": 8,
+    "pipeline": 16,
+    "value_bytes": 1024,
+    "keys": 10000,
+    "get_percent": 95,
+    "measurement_mode": "count-only",
+    "sample_every": 1024,
+    "sample_cap_per_client": 100000,
+    "workload_mode": "independent-v1",
+    "workload_seed": 20261109,
+    "variants": "native,rlbox-only,tracked-no-check,interspec",
+    "workloads": "cache_only",
+    "server_cpus": "0-1",
+    "client_cpus": "2-3",
+    "label": "Claude Code cloud VM (KVM guest, 4 vCPUs, not a dedicated host):read_heavy_1k",
+    "correctness_summary": "/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/p2-state/correctness.json",
+    "client_binary": "/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/p2-state/bin/client",
+    "functional_rehearsal": false,
+    "capacity_diagnostic": false
+  },
+  "build": {
+    "project_commit": "5994983f8555ba77fbfb77c35412b44048af4d44",
+    "project_dirty": false,
+    "memcached_revision": "2d51e364799bc9698bd4b11728ea978cea12da6e",
+    "rlbox_wasm2c_revision": "c4f18c48cea47421617f72ba5edc95c68aa85671",
+    "configure": [
+      "--disable-extstore",
+      "--disable-proxy",
+      "--disable-docs"
+    ],
+    "host_cflags": "-O2 -g",
+    "wasm_cflags": "-O3",
+    "bridge_source_sha256": "9c7e3e1c2d5bc094d104f24b8b0b957621f33dbe037d1cf130bd28d065c202e5",
+    "untrusted_source_sha256": "4cebd800b4f1f5b0a28f8e4c55133f8cf61e9c69e2b48fe26c53bc9c2e04b7df",
+    "generated_policy_sha256": "52f7b0d3c4b668557ff7f80b155daa8997c6d2e1a997846473c70642e68c0fec",
+    "binary_sha256": {
+      "memcached-diagnostics": "5465bd8f292c057038ee782ef030ef232154bccc3af233d9fb60516603cec1bd",
+      "memcached-interspec": "fb9f381e49e7fad950b70ddc2f1490253800c5071511459d31496f29f94b7c3e",
+      "memcached-interspec-debug": "b747187746cb03a314be23a6bdcdfa9c3489871afcac6dbda09e457b9e65647b",
+      "memcached-native": "5b88d00e759fc2e0e4b8be0f271dd1cbaa585b701e5c7608b718abeaee0f8522",
+      "memcached-native-debug": "d8561b50b7ded23182506ded0c0e772e3529afd9782c559a221404922c9fdd75",
+      "memcached-rlbox-only": "018339e46bc16bd1ddf75d0457ada01319eb286efa048cfb44bc97752ff348af",
+      "memcached-tracked-no-check": "d03e87f88fe6fe676729d72976d5fda739006913cfded27e75bab8c7ddeb8bad"
+    }
+  },
+  "scope": "collection; host control not asserted",
+  "client_sha256": "d41b39337bc28d153981326f043fc8d3ee75163b28c3d84ea1bc3e166e524b14",
+  "workload_source_sha256": "1e494d9161a99455730a972838a18ca990763dd0d135f0a404df785b644c7ca5",
+  "collector_sha256": "7391eca902a4111d5cc15d47f21315e2d945265152787dddeda5a4cdbd6e2275",
+  "cpuinfo": "processor\t: 0\nvendor_id\t: GenuineIntel\ncpu family\t: 6\nmodel\t\t: 207\nmodel name\t: Intel(R) Xeon(R) Processor @ 2.10GHz\nstepping\t: 2\nmicrocode\t: 0x1\ncpu MHz\t\t: 2100.000\ncache size\t: 266240 KB\nphysical id\t: 0\nsiblings\t: 4\ncore id\t\t: 0\ncpu cores\t: 4\napicid\t\t: 0\ninitial apicid\t: 0\nfpu\t\t: yes\nfpu_exception\t: yes\ncpuid level\t: 32\nwp\t\t: yes\nflags\t\t: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology nonstop_tsc cpuid tsc_known_freq pni pclmulqdq ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch cpuid_fault ssbd ibrs ibpb stibp ibrs_enhanced fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves avx_vnni avx512_bf16 wbnoinvd arat avx512vbmi umip avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid cldemote movdiri movdir64b fsrm md_clear serialize tsxldtrk amx_bf16 avx512_fp16 amx_tile amx_int8 arch_capabilities\nbugs\t\t: spectre_v1 spectre_v2 spec_store_bypass swapgs eibrs_pbrsb bhi ibpb_no_ret spectre_v2_user\nbogomips\t: 4200.00\nclflush size\t: 64\ncache_alignment\t: 64\naddress sizes\t: 52 bits physical, 57 bits virtual\npower management:",
+  "affinity": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "measurement": "loopback closed-loop ASCII clients; per-response latency includes pipelining; traces and fault hooks compiled out",
+  "buffer_configuration_kib": {
+    "worker": 1024,
+    "watcher": 4096
+  },
+  "governor": "unavailable",
+  "intel_no_turbo": "unavailable",
+  "cpu_quota": "unavailable",
+  "memory_limit": "unavailable"
+}

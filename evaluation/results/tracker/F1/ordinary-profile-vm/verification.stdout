@@ -1,0 +1,67 @@
+{
+  "validated": true,
+  "schema": "ordinary-only-memcached-profile-v2",
+  "source_revision": "708ceb73c8b048966b9c2becfeaabca2c3b0769e",
+  "normal_checks": [
+    {
+      "variant": "native",
+      "checks_passed": 16,
+      "wire_connections": 34,
+      "wire_events": 9542
+    },
+    {
+      "variant": "diagnostics",
+      "checks_passed": 16,
+      "wire_connections": 34,
+      "wire_events": 9542
+    }
+  ],
+  "profile": {
+    "name": "balanced_1c",
+    "operations": 5000,
+    "observed_aggregate_counters": {
+      "cmd_get": 2503,
+      "cmd_set": 2497,
+      "get_hits": 2503,
+      "get_misses": 0,
+      "log_worker_dropped": 0,
+      "log_watcher_skipped": 0,
+      "lru_bumps_dropped": 0,
+      "moves_to_warm": 390
+    },
+    "expected_key_verb_multiset_sha256": "eb6de860d3e9b6ef29f6322bd7900fc74e58a867aaaf50f54ff3e63ccbaba417",
+    "runtime_checks": 616,
+    "check_operations": {
+      "request": 306,
+      "push": 306,
+      "peek_all": 2,
+      "poll": 2
+    },
+    "sandbox_call_functions": {
+      "interspec_mc_peek_all": 120,
+      "interspec_mc_last_size": 120,
+      "interspec_mc_request": 612,
+      "interspec_mc_push": 306,
+      "interspec_mc_poll": 2
+    },
+    "copy_into_u_operations": {
+      "push": 4896
+    },
+    "copy_from_u_operations": {
+      "peek_all": 4896,
+      "poll": 4896
+    },
+    "sandbox_calls": 1160,
+    "bytes_into_u": 4896,
+    "bytes_from_u": 9792,
+    "lru_holds": 306,
+    "lru_takes": 306
+  },
+  "plan_sha256": "d3612af1f97d29896faf359be24c5e57384e7738391b45ae925ae0360d1400d2",
+  "full_50_case_gate_status": "not_run",
+  "security_validation": false,
+  "timing_evidence": false,
+  "latency_evidence": false,
+  "bounds": "One ordinary diagnostic scenario at this source on this VM. Normal assertions and profile aggregate/trace recount passed. No security gate, timing, capacity, policy-effectiveness or comparative-performance claim.",
+  "transcript_scope": "Exact normal() socket reads/writes retained with hashes, excluding Server startup probes. Verification checks transcript integrity; it does not independently replay all normal assertions."
+}

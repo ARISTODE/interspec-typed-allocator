@@ -1,0 +1,2 @@
+INTERSPEC_POLICY boundary=nginx_pcre+sp3_fixed_at_compile_time sp1=0 sp2=0 sp3=full
+[InterSpec][PoC][SP2] sandbox mutated subject byte=0 old=0x2f new=0xd0

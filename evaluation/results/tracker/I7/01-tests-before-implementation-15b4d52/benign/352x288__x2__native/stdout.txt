@@ -1,0 +1,1 @@
+VPX_BENCH variant=native frames=2 width=352 height=288 packets=2 encoded_bytes=2288 encoded_fnv=f065ef023ac90ebe decoded_frames=2 decoded_fnv=773c4a3acb06bef7 checks=0 elapsed_ns=29465793

@@ -1,0 +1,1 @@
+python3 scripts/run_slot_policy_analysis.py --database db/ffmpeg_libvpx --benchmark ffmpeg_libvpx --output-dir reports/ffmpeg_libvpx --split-pointer-query --threads 3 --codeql /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/codeql-bundle/codeql/codeql --ram 7000 --manifest coverage/configs/ffmpeg_libvpx.json 

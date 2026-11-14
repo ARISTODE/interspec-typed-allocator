@@ -1,0 +1,1 @@
+ZIP_BENCH variant=tracked-no-check iterations=1 archive_bytes=8702 entries=4 checksum=be10750382849784 last_name=636f6d707265737369626c65 last_size=14 checks=0 elapsed_ns=1766

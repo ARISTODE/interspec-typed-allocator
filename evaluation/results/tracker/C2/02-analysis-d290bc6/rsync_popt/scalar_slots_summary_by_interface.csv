@@ -1,0 +1,11 @@
+benchmark,function,file,total_scalar_slots,sp1_sp2_eligible_scalar_slots,scalar_sp1_slots,scalar_sp2_slots,scalar_sp1_active_slots,scalar_sp2_active_slots,scalar_sp1_only_slots,scalar_sp2_only_slots,scalar_sp1_and_sp2_slots,scalar_sp1_sp2_neither_slots,sp1_sp2_surface_eligible_scalar_slots,scalar_sp1_surface_slots,scalar_sp2_surface_slots,scalar_sp1_only_surface_slots,scalar_sp2_only_surface_slots,scalar_sp1_and_sp2_surface_slots,scalar_sp1_sp2_neither_surface_slots,u_influenced_slots,t_used_slots,bound_candidate_slots,overflow_candidate_slots,sp4_slots,sp4_guarded_slots,sp4_bound_only_slots,sp4_overflow_only_slots,sp4_both_slots,sp4_guarded_bound_only_slots,sp4_guarded_overflow_only_slots,sp4_guarded_both_slots,unguarded_bound_candidate_slots,unguarded_overflow_candidate_slots,guarded_bound_candidate_slots,guarded_overflow_candidate_slots,other_used_slots,unused_slots,flow_cut_slots
+rsync_popt,poptAddAlias,benchmarks/rsync/popt/popt.c,6,3,0,0,0,0,0,0,0,3,3,1,3,0,2,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0
+rsync_popt,poptBadOption,benchmarks/rsync/popt/popt.c,2,1,0,0,0,0,0,0,0,1,1,0,1,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0
+rsync_popt,poptDupArgv,benchmarks/rsync/popt/poptparse.c,5,2,1,1,1,1,1,1,0,0,2,1,1,1,1,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0
+rsync_popt,poptGetArgs,benchmarks/rsync/popt/popt.c,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0
+rsync_popt,poptGetContext,benchmarks/rsync/popt/popt.c,10,6,0,1,0,1,0,1,0,5,6,1,6,0,5,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+rsync_popt,poptGetNextOpt,benchmarks/rsync/popt/popt.c,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,1,0,0,0,1,1,0,0,0,0,0
+rsync_popt,poptGetOptArg,benchmarks/rsync/popt/popt.c,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0
+rsync_popt,poptReadDefaultConfig,benchmarks/rsync/popt/poptconfig.c,2,1,0,0,0,0,0,0,0,1,1,1,1,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0
+rsync_popt,poptSaveArg,benchmarks/rsync/popt/popt.c,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0
+rsync_popt,poptStrerror,benchmarks/rsync/popt/popt.c,2,1,0,1,0,1,0,1,0,0,1,0,1,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0

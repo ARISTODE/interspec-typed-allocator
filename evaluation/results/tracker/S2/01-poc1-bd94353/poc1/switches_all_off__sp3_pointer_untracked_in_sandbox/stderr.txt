@@ -1,0 +1,2 @@
+INTERSPEC_POLICY boundary=rsync_popt sp1=0 sp2=0 sp3=off
+FAULT_INJECTION mode=2 target=2 original=0x1018b8 replacement=0x11017e0

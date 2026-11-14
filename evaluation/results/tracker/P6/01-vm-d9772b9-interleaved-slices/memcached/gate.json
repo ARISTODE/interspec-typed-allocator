@@ -1,0 +1,54 @@
+{
+  "watch_moderate/rlbox-only": {
+    "valid": true,
+    "result": "all operations answered, no GET miss, no log line lost",
+    "policy_report": [],
+    "result_matches_rlbox_only": true,
+    "report_matches_switches": true
+  },
+  "watch_moderate/interspec-all-off": {
+    "valid": true,
+    "result": "all operations answered, no GET miss, no log line lost",
+    "policy_report": [
+      "INTERSPEC_POLICY boundary=memcached_bipbuffer sp1=0 sp2=0 sp3=off"
+    ],
+    "result_matches_rlbox_only": true,
+    "report_matches_switches": true
+  },
+  "watch_moderate/interspec-sp1": {
+    "valid": true,
+    "result": "all operations answered, no GET miss, no log line lost",
+    "policy_report": [
+      "INTERSPEC_POLICY boundary=memcached_bipbuffer sp1=1 sp2=0 sp3=off"
+    ],
+    "result_matches_rlbox_only": true,
+    "report_matches_switches": true
+  },
+  "watch_moderate/interspec-sp2": {
+    "valid": true,
+    "result": "all operations answered, no GET miss, no log line lost",
+    "policy_report": [
+      "INTERSPEC_POLICY boundary=memcached_bipbuffer sp1=0 sp2=1 sp3=off"
+    ],
+    "result_matches_rlbox_only": true,
+    "report_matches_switches": true
+  },
+  "watch_moderate/interspec-sp3": {
+    "valid": true,
+    "result": "all operations answered, no GET miss, no log line lost",
+    "policy_report": [
+      "INTERSPEC_POLICY boundary=memcached_bipbuffer sp1=0 sp2=0 sp3=full"
+    ],
+    "result_matches_rlbox_only": true,
+    "report_matches_switches": true
+  },
+  "watch_moderate/interspec-all-on": {
+    "valid": true,
+    "result": "all operations answered, no GET miss, no log line lost",
+    "policy_report": [
+      "INTERSPEC_POLICY boundary=memcached_bipbuffer sp1=1 sp2=1 sp3=full"
+    ],
+    "result_matches_rlbox_only": true,
+    "report_matches_switches": true
+  }
+}

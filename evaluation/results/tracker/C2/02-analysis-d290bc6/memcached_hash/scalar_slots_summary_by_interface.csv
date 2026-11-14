@@ -1,0 +1,17 @@
+benchmark,function,file,total_scalar_slots,sp1_sp2_eligible_scalar_slots,scalar_sp1_slots,scalar_sp2_slots,scalar_sp1_active_slots,scalar_sp2_active_slots,scalar_sp1_only_slots,scalar_sp2_only_slots,scalar_sp1_and_sp2_slots,scalar_sp1_sp2_neither_slots,sp1_sp2_surface_eligible_scalar_slots,scalar_sp1_surface_slots,scalar_sp2_surface_slots,scalar_sp1_only_surface_slots,scalar_sp2_only_surface_slots,scalar_sp1_and_sp2_surface_slots,scalar_sp1_sp2_neither_surface_slots,u_influenced_slots,t_used_slots,bound_candidate_slots,overflow_candidate_slots,sp4_slots,sp4_guarded_slots,sp4_bound_only_slots,sp4_overflow_only_slots,sp4_both_slots,sp4_guarded_bound_only_slots,sp4_guarded_overflow_only_slots,sp4_guarded_both_slots,unguarded_bound_candidate_slots,unguarded_overflow_candidate_slots,guarded_bound_candidate_slots,guarded_overflow_candidate_slots,other_used_slots,unused_slots,flow_cut_slots
+memcached_hash,MurmurHash3_x86_32,benchmarks/memcached/murmur3_hash.c,2,1,0,0,0,0,0,0,0,1,1,0,1,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0
+memcached_hash,XXH3_hash,benchmarks/memcached/hash.c,2,1,0,0,0,0,0,0,0,1,1,0,1,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0
+memcached_hash,assoc_delete,benchmarks/memcached/assoc.c,3,3,0,0,0,0,0,0,0,3,3,1,3,0,2,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+memcached_hash,assoc_find,benchmarks/memcached/assoc.c,12,3,0,3,0,3,0,3,0,0,3,1,3,0,2,1,0,9,7,2,0,2,0,2,0,0,0,0,0,2,0,0,0,5,2,0
+memcached_hash,assoc_init,benchmarks/memcached/assoc.c,1,1,0,1,0,1,0,1,0,0,1,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+memcached_hash,assoc_insert,benchmarks/memcached/assoc.c,11,10,2,4,2,4,1,3,1,5,10,9,10,0,1,9,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0
+memcached_hash,assoc_iterate,benchmarks/memcached/assoc.c,10,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0
+memcached_hash,assoc_start_expand,benchmarks/memcached/assoc.c,1,1,0,0,0,0,0,0,0,1,1,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+memcached_hash,hash_init,benchmarks/memcached/hash.c,2,1,0,1,0,1,0,1,0,0,1,0,1,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0
+memcached_hash,item_lock,benchmarks/memcached/thread.c,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0
+memcached_hash,item_trylock,benchmarks/memcached/thread.c,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0
+memcached_hash,item_unlock,benchmarks/memcached/thread.c,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0
+memcached_hash,jenkins_hash,benchmarks/memcached/jenkins_hash.c,2,1,0,0,0,0,0,0,0,1,1,0,0,0,0,0,1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0
+memcached_hash,pause_threads,benchmarks/memcached/thread.c,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0
+memcached_hash,start_assoc_maintenance_thread,benchmarks/memcached/assoc.c,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0
+memcached_hash,thread_setname,benchmarks/memcached/thread.c,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0

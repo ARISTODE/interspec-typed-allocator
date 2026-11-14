@@ -1,0 +1,314 @@
+{
+  "boundary": "ucl_libucl",
+  "driver": "/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/i11-work-ef8a85b/bin/ucl-interspec-fault",
+  "driver_sha256": "5afb03164204a744973bf8e354149d97e65d2f4631a5677fe93db02fc96d72a9",
+  "tests": {
+    "sp1": {
+      "cases": [
+        "sp1_off_u_reads",
+        "sp1_on_u_reads"
+      ],
+      "passed": true
+    },
+    "sp2": {
+      "cases": [
+        "sp2_off_u_writes",
+        "sp2_on_u_writes"
+      ],
+      "passed": true
+    },
+    "sp3": {
+      "cases": [
+        "sp3_off_bad_pointer",
+        "sp3_on_bad_pointer"
+      ],
+      "passed": true
+    },
+    "benign": {
+      "cases": [
+        "benign_all_on",
+        "benign_all_off"
+      ],
+      "passed": true
+    }
+  },
+  "cases": {
+    "sp1_off_u_reads": {
+      "case": "sp1_off_u_reads",
+      "exit": 0,
+      "timed_out": false,
+      "passed": true,
+      "checks": [
+        {
+          "check": "no_timeout",
+          "ok": true
+        },
+        {
+          "check": "exit==0",
+          "ok": true,
+          "observed": 0
+        },
+        {
+          "check": "stdout has /^UCL_BENCH variant=interspec iterations=1 input_bytes=\\d+ val1=616c706861 val2=6465627567 emitted_bytes=\\d+ emitted_fnv=[0-9a-f]{16} /",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_POLICY boundary=ucl_libucl sp1=0 sp2=1 sp3=full$/",
+          "ok": true
+        },
+        {
+          "check": "stderr has /\\[SP1\\] sandbox read out-parameters val1_in=0x5ec2e701 val2_in=0x5ec2e702 emitted_in=0x5ec2e703$/",
+          "ok": true
+        }
+      ]
+    },
+    "sp1_on_u_reads": {
+      "case": "sp1_on_u_reads",
+      "exit": 0,
+      "timed_out": false,
+      "passed": true,
+      "checks": [
+        {
+          "check": "no_timeout",
+          "ok": true
+        },
+        {
+          "check": "exit==0",
+          "ok": true,
+          "observed": 0
+        },
+        {
+          "check": "stdout has /^UCL_BENCH variant=interspec iterations=1 input_bytes=\\d+ val1=616c706861 val2=6465627567 emitted_bytes=\\d+ emitted_fnv=[0-9a-f]{16} /",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_POLICY boundary=ucl_libucl sp1=1 sp2=1 sp3=full$/",
+          "ok": true
+        },
+        {
+          "check": "stderr has /\\[SP1\\] sandbox read out-parameters val1_in=0x0 val2_in=0x0 emitted_in=0x0$/",
+          "ok": true
+        },
+        {
+          "check": "stderr lacks /5ec2e7/",
+          "ok": true
+        }
+      ]
+    },
+    "sp2_off_u_writes": {
+      "case": "sp2_off_u_writes",
+      "exit": 0,
+      "timed_out": false,
+      "passed": true,
+      "checks": [
+        {
+          "check": "no_timeout",
+          "ok": true
+        },
+        {
+          "check": "exit==0",
+          "ok": true,
+          "observed": 0
+        },
+        {
+          "check": "stdout has /^UCL_BENCH variant=interspec iterations=1 input_bytes=\\d+ val1=616c706861 val2=6465627567 emitted_bytes=\\d+ emitted_fnv=[0-9a-f]{16} /",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_POLICY boundary=ucl_libucl sp1=1 sp2=0 sp3=full$/",
+          "ok": true
+        },
+        {
+          "check": "stderr has /\\[SP2\\] sandbox mutated document byte=0 old=0x73 new=0x8c$/",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_T_OBSERVE boundary=ucl_libucl input_first_byte=0x8c /",
+          "ok": true
+        }
+      ]
+    },
+    "sp2_on_u_writes": {
+      "case": "sp2_on_u_writes",
+      "exit": 0,
+      "timed_out": false,
+      "passed": true,
+      "checks": [
+        {
+          "check": "no_timeout",
+          "ok": true
+        },
+        {
+          "check": "exit==0",
+          "ok": true,
+          "observed": 0
+        },
+        {
+          "check": "stdout has /^UCL_BENCH variant=interspec iterations=1 input_bytes=\\d+ val1=616c706861 val2=6465627567 emitted_bytes=\\d+ emitted_fnv=[0-9a-f]{16} /",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_POLICY boundary=ucl_libucl sp1=1 sp2=1 sp3=full$/",
+          "ok": true
+        },
+        {
+          "check": "stderr has /\\[SP2\\] sandbox mutated document byte=0 old=0x73 new=0x8c$/",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_T_OBSERVE boundary=ucl_libucl input_first_byte=0x73 key1_first_byte=0x73$/",
+          "ok": true
+        }
+      ]
+    },
+    "sp3_off_bad_pointer": {
+      "case": "sp3_off_bad_pointer",
+      "exit": 0,
+      "timed_out": false,
+      "passed": true,
+      "checks": [
+        {
+          "check": "no_timeout",
+          "ok": true
+        },
+        {
+          "check": "exit==0",
+          "ok": true,
+          "observed": 0
+        },
+        {
+          "check": "stdout has /^UCL_BENCH variant=interspec iterations=1 input_bytes=\\d+ val1=616c706861 val2=6465627567 emitted_bytes=\\d+ emitted_fnv=[0-9a-f]{16} checks=0 /",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_POLICY boundary=ucl_libucl sp1=1 sp2=1 sp3=off$/",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^FAULT_INJECTION boundary=ucl_libucl mode=2 /",
+          "ok": true
+        },
+        {
+          "check": "stderr lacks /INTERSPEC_REJECT/",
+          "ok": true
+        }
+      ]
+    },
+    "sp3_on_bad_pointer": {
+      "case": "sp3_on_bad_pointer",
+      "exit": 86,
+      "timed_out": false,
+      "passed": true,
+      "checks": [
+        {
+          "check": "no_timeout",
+          "ok": true
+        },
+        {
+          "check": "exit==86",
+          "ok": true,
+          "observed": 86
+        },
+        {
+          "check": "stdout lacks /UCL_BENCH/",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_POLICY boundary=ucl_libucl sp1=1 sp2=1 sp3=full$/",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^FAULT_INJECTION boundary=ucl_libucl mode=2 /",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_REJECT boundary=ucl_libucl operation=string_value reason=untracked$/",
+          "ok": true
+        }
+      ]
+    },
+    "benign_all_on": {
+      "case": "benign_all_on",
+      "exit": 0,
+      "timed_out": false,
+      "passed": true,
+      "checks": [
+        {
+          "check": "no_timeout",
+          "ok": true
+        },
+        {
+          "check": "exit==0",
+          "ok": true,
+          "observed": 0
+        },
+        {
+          "check": "stdout has /^UCL_BENCH variant=interspec iterations=1 input_bytes=\\d+ val1=616c706861 val2=6465627567 emitted_bytes=\\d+ emitted_fnv=[0-9a-f]{16} checks=3 /",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_POLICY boundary=ucl_libucl sp1=1 sp2=1 sp3=full$/",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_T_OBSERVE boundary=ucl_libucl input_first_byte=0x73 key1_first_byte=0x73$/",
+          "ok": true
+        },
+        {
+          "check": "stderr lacks /INTERSPEC_REJECT/",
+          "ok": true
+        },
+        {
+          "check": "stderr lacks /FAULT_INJECTION/",
+          "ok": true
+        },
+        {
+          "check": "stderr lacks /PoC/",
+          "ok": true
+        }
+      ]
+    },
+    "benign_all_off": {
+      "case": "benign_all_off",
+      "exit": 0,
+      "timed_out": false,
+      "passed": true,
+      "checks": [
+        {
+          "check": "no_timeout",
+          "ok": true
+        },
+        {
+          "check": "exit==0",
+          "ok": true,
+          "observed": 0
+        },
+        {
+          "check": "stdout has /^UCL_BENCH variant=interspec iterations=1 input_bytes=\\d+ val1=616c706861 val2=6465627567 emitted_bytes=\\d+ emitted_fnv=[0-9a-f]{16} checks=0 /",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_POLICY boundary=ucl_libucl sp1=0 sp2=0 sp3=off$/",
+          "ok": true
+        },
+        {
+          "check": "stderr has /^INTERSPEC_T_OBSERVE boundary=ucl_libucl input_first_byte=0x73 key1_first_byte=0x73$/",
+          "ok": true
+        },
+        {
+          "check": "stderr lacks /INTERSPEC_REJECT/",
+          "ok": true
+        },
+        {
+          "check": "stderr lacks /FAULT_INJECTION/",
+          "ok": true
+        },
+        {
+          "check": "stderr lacks /PoC/",
+          "ok": true
+        }
+      ]
+    }
+  },
+  "passed": true
+}

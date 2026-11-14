@@ -1,0 +1,17 @@
+FAIL memcached_assoc sp1
+  sp1_on_u_reads: failed stderr has /\[SP1\] sandbox read item exptime=0x0 nbytes=0 value_bytes_received=0 value_first4=00000000$/
+  sp1_on_u_reads: failed stderr lacks /5ec2e7/
+  sp1_on_u_reads: failed stderr lacks /545f5345/
+FAIL memcached_assoc sp2
+  sp2_on_u_writes: failed stderr has /^INTERSPEC_T_OBSERVE boundary=memcached_hash first_item_refcount=1 first_item_key_byte=0x6b$/
+FAIL memcached_assoc sp3
+  sp3_on_bad_pointer: failed exit==86 (observed 0)
+  sp3_on_bad_pointer: failed stdout lacks /ASSOC_SCRIPT/
+  sp3_on_bad_pointer: failed stderr has /^INTERSPEC_REJECT boundary=memcached_hash operation=assoc_find reason=untracked$/
+FAIL memcached_assoc handles
+  handle_never_issued: failed stderr has /^INTERSPEC_REJECT boundary=memcached_hash operation=assoc_find reason=untracked$/
+  handle_of_freed_item: failed exit==86 (observed 0)
+  handle_of_freed_item: failed stdout lacks /ASSOC_SCRIPT/
+  handle_of_freed_item: failed stderr has /^INTERSPEC_REJECT boundary=memcached_hash operation=assoc_find reason=untracked$/
+FAIL memcached_assoc benign
+  benign_all_on: failed stdout has /^ASSOC_BENCH variant=interspec ops=40 keyspace=4 finds=\d+ hits=\d+ inserts=\d+ deletes=\d+ live=\d+ .* checks=[1-9]\d* /

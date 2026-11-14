@@ -1,0 +1,6 @@
+benchmark,function,file,total_fields,pointer_fields,scalar_fields,struct_fields,array_fields,other_fields
+yaml_libyaml,yaml_event_delete,third_party/libyaml/src/api.c,63,16,32,15,0,0
+yaml_libyaml,yaml_parser_delete,third_party/libyaml/src/api.c,447,107,227,110,2,1
+yaml_libyaml,yaml_parser_initialize,third_party/libyaml/src/api.c,448,107,228,110,2,1
+yaml_libyaml,yaml_parser_parse,third_party/libyaml/src/parser.c,511,123,260,125,2,1
+yaml_libyaml,yaml_parser_set_input_string,third_party/libyaml/src/api.c,450,108,229,110,2,1

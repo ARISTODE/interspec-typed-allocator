@@ -1,0 +1,4 @@
+PASS nginx_pcre sp1
+PASS nginx_pcre sp2
+PASS nginx_pcre sp3
+PASS nginx_pcre benign

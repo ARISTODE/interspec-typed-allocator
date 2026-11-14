@@ -1,0 +1,12 @@
+rlbox-only iterations=10000 exit=0
+tracked-no-check iterations=10000 exit=0
+interspec iterations=10000 exit=0
+rlbox-only iterations=20000 exit=0
+tracked-no-check iterations=20000 exit=0
+interspec iterations=20000 exit=0
+rlbox-only iterations=30000 exit=0
+tracked-no-check iterations=30000 exit=1
+interspec iterations=30000 exit=1
+rlbox-only iterations=200000 exit=0
+tracked-no-check iterations=200000 exit=1
+interspec iterations=200000 exit=1

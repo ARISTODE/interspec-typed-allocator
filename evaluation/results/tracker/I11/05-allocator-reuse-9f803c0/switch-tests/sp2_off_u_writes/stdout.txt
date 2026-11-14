@@ -1,0 +1,1 @@
+UCL_BENCH variant=interspec iterations=1 input_bytes=141 val1=616c706861 val2=6465627567 emitted_bytes=136 emitted_fnv=950a80d3113caa1c checks=3 elapsed_ns=53352

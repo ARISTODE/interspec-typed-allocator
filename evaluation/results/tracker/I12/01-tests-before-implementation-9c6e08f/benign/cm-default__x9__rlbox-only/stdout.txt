@@ -1,0 +1,1 @@
+ZIP_BENCH variant=rlbox-only iterations=9 archive_bytes=8702 entries=4 checksum=ddc0fb036ea3d2b4 last_name=636f6d707265737369626c65 last_size=14 checks=0 elapsed_ns=4418

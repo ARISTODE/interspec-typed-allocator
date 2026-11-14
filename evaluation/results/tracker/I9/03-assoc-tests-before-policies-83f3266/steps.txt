@@ -1,0 +1,7 @@
+build exit=0
+switch-tests exit=0
+benign exit=0
+assoc-switch-tests exit=1
+assoc-handles-rlbox-only exit=0
+assoc-benign exit=1
+overall exit=1

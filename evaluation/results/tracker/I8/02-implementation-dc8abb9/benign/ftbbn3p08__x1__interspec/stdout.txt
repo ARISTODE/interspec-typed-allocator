@@ -1,0 +1,1 @@
+PNG_BENCH variant=interspec iterations=1 input_bytes=1499 width=32 height=32 rgba_bytes=4096 rgba_fnv=5a4bd1c40ff6da11 png_bytes=1789 png_fnv=486e088958fb44d7 checks=2 elapsed_ns=481225

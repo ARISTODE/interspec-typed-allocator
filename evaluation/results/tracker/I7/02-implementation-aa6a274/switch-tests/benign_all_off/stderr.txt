@@ -1,0 +1,2 @@
+INTERSPEC_POLICY boundary=ffmpeg_libvpx sp1=0 sp2=0 sp3=off
+INTERSPEC_T_OBSERVE boundary=ffmpeg_libvpx luma_first_byte=0x10

@@ -198,6 +198,7 @@ raw="$out/rsync-performance.csv"
 python3 - "$native_rsync" "$rlbox_only_rsync" "$tracked_rsync" "$extended_rsync" \
   "$backup" "$data/src/" "$data/dst/" "$raw" <<'PY'
 import csv
+import filecmp
 import os
 import shutil
 import subprocess
@@ -257,11 +258,27 @@ def run(binary, args):
     subprocess.run(prefix + [binary, *args], check=True, env=env,
                    stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
+# After every invocation that writes files, outside the timed interval: the
+# destination must hold exactly the source's files with the source's bytes.
+compared = 0
+def verify_destination(workload, mode):
+    global compared
+    if not workloads[workload]["reset_destination"]:
+        return
+    names = sorted(os.listdir(src))
+    if sorted(os.listdir(dst)) != names:
+        raise SystemExit(f"{workload}/{mode}: destination file list differs from source")
+    for name in names:
+        if not filecmp.cmp(os.path.join(src, name), os.path.join(dst, name), shallow=False):
+            raise SystemExit(f"{workload}/{mode}: {name} differs from source")
+        compared += 1
+
 for workload, spec in workloads.items():
     for _ in range(warmups):
-        for _, binary in variants:
+        for mode, binary in variants:
             prepare(workload)
             run(binary, spec["args"])
+            verify_destination(workload, mode)
 
 rows = []
 for workload, spec in workloads.items():
@@ -271,12 +288,15 @@ for workload, spec in workloads.items():
             begin = time.perf_counter_ns()
             run(binary, spec["args"])
             elapsed = time.perf_counter_ns() - begin
+            verify_destination(workload, mode)
             rows.append((workload, mode, rep, elapsed))
 
 with open(output, "w", newline="") as f:
     writer = csv.writer(f)
     writer.writerow(["workload", "mode", "repetition", "total_ns"])
     writer.writerows(rows)
+with open(os.path.join(os.path.dirname(output), "file-comparisons.txt"), "w") as f:
+    f.write(f"synced files compared byte for byte with their source: {compared}, all equal\n")
 PY
 
 summary="$out/rsync-performance-summary.csv"

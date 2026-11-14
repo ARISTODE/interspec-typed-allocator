@@ -1,0 +1,420 @@
+Picked up JAVA_TOOL_OPTIONS: -Djavax.net.ssl.trustStore=/etc/ssl/certs/java/cacerts -Djavax.net.ssl.trustStoreType=JKS -Dhttps.proxyHost=127.0.0.1 -Dhttps.proxyPort=36745 -Dhttp.nonProxyHosts=localhost|127.0.0.1|::1|127.*|0.*|::|169.254.*|api.anthropic.com|api-staging.anthropic.com|api-pr-preview.anthropic.com|mcp-proxy.anthropic.com|mcp-proxy-staging.anthropic.com|registry.npmjs.org|jsr.io|npm.jsr.io|pypi.org|files.pythonhosted.org|index.crates.io|proxy.golang.org|host.docker.internal|10.*|172.16.*|172.17.*|172.18.*|172.19.*|172.20.*|172.21.*|172.22.*|172.23.*|172.24.*|172.25.*|172.26.*|172.27.*|172.28.*|172.29.*|172.30.*|172.31.*|192.168.*|100.64.0.0/10|*.svc.cluster.local|*.svc.cluster.local -Djdk.http.auth.tunneling.disabledSchemes= -Djdk.http.auth.proxying.disabledSchemes=
+Initializing database at /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/db/rsync_popt.
+Running build command: [bash, coverage/build_rsync_for_codeql.sh]
+Running command in /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/root: [bash, coverage/build_rsync_for_codeql.sh]
+[2026-11-13 19:57:51] [build-stdout] aclocal -I m4
+[2026-11-13 19:57:52] [build-stdout] autoconf -o configure.sh
+[2026-11-13 19:57:52] [build-stdout] autoheader && touch config.h.in
+[2026-11-13 19:57:53] [build-stdout] checking for gcc... gcc
+[2026-11-13 19:57:53] [build-stdout] checking whether the C compiler works... yes
+[2026-11-13 19:57:53] [build-stdout] checking for C compiler default output file name... a.out
+[2026-11-13 19:57:53] [build-stdout] checking for suffix of executables... 
+[2026-11-13 19:57:53] [build-stdout] checking whether we are cross compiling... no
+[2026-11-13 19:57:53] [build-stdout] checking for suffix of object files... o
+[2026-11-13 19:57:53] [build-stdout] checking whether the compiler supports GNU C... yes
+[2026-11-13 19:57:53] [build-stdout] checking whether gcc accepts -g... yes
+[2026-11-13 19:57:53] [build-stdout] checking for gcc option to enable C11 features... none needed
+[2026-11-13 19:57:53] [build-stdout] checking for stdio.h... yes
+[2026-11-13 19:57:53] [build-stdout] checking for stdlib.h... yes
+[2026-11-13 19:57:53] [build-stdout] checking for string.h... yes
+[2026-11-13 19:57:53] [build-stdout] checking for inttypes.h... yes
+[2026-11-13 19:57:53] [build-stdout] checking for stdint.h... yes
+[2026-11-13 19:57:53] [build-stdout] checking for strings.h... yes
+[2026-11-13 19:57:53] [build-stdout] checking for sys/stat.h... yes
+[2026-11-13 19:57:53] [build-stdout] checking for sys/types.h... yes
+[2026-11-13 19:57:54] [build-stdout] checking for unistd.h... yes
+[2026-11-13 19:57:54] [build-stdout] checking for utime.h... yes
+[2026-11-13 19:57:54] [build-stdout] checking whether byte ordering is bigendian... no
+[2026-11-13 19:57:54] [build-stdout] checking for dirent.h that defines DIR... yes
+[2026-11-13 19:57:54] [build-stdout] checking for library containing opendir... none required
+[2026-11-13 19:57:54] [build-stdout] checking for sys/wait.h that is POSIX.1 compatible... yes
+[2026-11-13 19:57:54] [build-stdout] checking for poll.h... yes
+[2026-11-13 19:57:54] [build-stdout] checking for sys/fcntl.h... yes
+[2026-11-13 19:57:54] [build-stdout] checking for sys/select.h... yes
+[2026-11-13 19:57:54] [build-stdout] checking for fcntl.h... yes
+[2026-11-13 19:57:54] [build-stdout] checking for sys/time.h... yes
+[2026-11-13 19:57:54] [build-stdout] checking for sys/unistd.h... yes
+[2026-11-13 19:57:54] [build-stdout] checking for unistd.h... (cached) yes
+[2026-11-13 19:57:54] [build-stdout] checking for utime.h... (cached) yes
+[2026-11-13 19:57:54] [build-stdout] checking for compat.h... no
+[2026-11-13 19:57:54] [build-stdout] checking for sys/param.h... yes
+[2026-11-13 19:57:54] [build-stdout] checking for ctype.h... yes
+[2026-11-13 19:57:54] [build-stdout] checking for sys/wait.h... (cached) yes
+[2026-11-13 19:57:54] [build-stdout] checking for sys/stat.h... (cached) yes
+[2026-11-13 19:57:54] [build-stdout] checking for sys/ioctl.h... yes
+[2026-11-13 19:57:54] [build-stdout] checking for sys/filio.h... no
+[2026-11-13 19:57:54] [build-stdout] checking for string.h... (cached) yes
+[2026-11-13 19:57:54] [build-stdout] checking for stdlib.h... (cached) yes
+[2026-11-13 19:57:54] [build-stdout] checking for sys/socket.h... yes
+[2026-11-13 19:57:54] [build-stdout] checking for sys/mode.h... no
+[2026-11-13 19:57:54] [build-stdout] checking for grp.h... yes
+[2026-11-13 19:57:54] [build-stdout] checking for sys/un.h... yes
+[2026-11-13 19:57:54] [build-stdout] checking for sys/attr.h... no
+[2026-11-13 19:57:54] [build-stdout] checking for arpa/inet.h... yes
+[2026-11-13 19:57:54] [build-stdout] checking for arpa/nameser.h... yes
+[2026-11-13 19:57:54] [build-stdout] checking for locale.h... yes
+[2026-11-13 19:57:54] [build-stdout] checking for sys/types.h... (cached) yes
+[2026-11-13 19:57:55] [build-stdout] checking for netdb.h... yes
+[2026-11-13 19:57:55] [build-stdout] checking for malloc.h... yes
+[2026-11-13 19:57:55] [build-stdout] checking for float.h... yes
+[2026-11-13 19:57:55] [build-stdout] checking for limits.h... yes
+[2026-11-13 19:57:55] [build-stdout] checking for iconv.h... yes
+[2026-11-13 19:57:55] [build-stdout] checking for libcharset.h... no
+[2026-11-13 19:57:55] [build-stdout] checking for langinfo.h... yes
+[2026-11-13 19:57:55] [build-stdout] checking for mcheck.h... yes
+[2026-11-13 19:57:55] [build-stdout] checking for sys/acl.h... no
+[2026-11-13 19:57:55] [build-stdout] checking for acl/libacl.h... no
+[2026-11-13 19:57:55] [build-stdout] checking for attr/xattr.h... no
+[2026-11-13 19:57:55] [build-stdout] checking for sys/xattr.h... yes
+[2026-11-13 19:57:55] [build-stdout] checking for sys/extattr.h... no
+[2026-11-13 19:57:55] [build-stdout] checking for dl.h... no
+[2026-11-13 19:57:55] [build-stdout] checking for popt.h... yes
+[2026-11-13 19:57:55] [build-stdout] checking for popt/popt.h... no
+[2026-11-13 19:57:55] [build-stdout] checking for linux/falloc.h... yes
+[2026-11-13 19:57:55] [build-stdout] checking for netinet/in_systm.h... yes
+[2026-11-13 19:57:55] [build-stdout] checking for netgroup.h... no
+[2026-11-13 19:57:55] [build-stdout] checking for zlib.h... yes
+[2026-11-13 19:57:55] [build-stdout] checking for xxhash.h... no
+[2026-11-13 19:57:55] [build-stdout] checking for openssl/md4.h... yes
+[2026-11-13 19:57:55] [build-stdout] checking for openssl/md5.h... yes
+[2026-11-13 19:57:55] [build-stdout] checking for zstd.h... no
+[2026-11-13 19:57:55] [build-stdout] checking for lz4.h... no
+[2026-11-13 19:57:56] [build-stdout] checking for sys/file.h... yes
+[2026-11-13 19:57:56] [build-stdout] checking for sys/resource.h... yes
+[2026-11-13 19:57:56] [build-stdout] checking for bsd/string.h... no
+[2026-11-13 19:57:56] [build-stdout] checking for idn2.h... no
+[2026-11-13 19:57:56] [build-stdout] checking for netinet/ip.h... yes
+[2026-11-13 19:57:56] [build-stdout] checking whether sys/types.h defines makedev... no
+[2026-11-13 19:57:56] [build-stdout] checking for sys/mkdev.h... no
+[2026-11-13 19:57:56] [build-stdout] checking for sys/sysmacros.h... yes
+[2026-11-13 19:57:56] [build-stdout] configure.sh: Configuring rsync 3.5.0
+[2026-11-13 19:57:56] [build-stdout] checking build system type... x86_64-pc-linux-gnu
+[2026-11-13 19:57:56] [build-stdout] checking host system type... x86_64-pc-linux-gnu
+[2026-11-13 19:57:56] [build-stdout] checking whether to include debugging symbols... yes
+[2026-11-13 19:57:56] [build-stdout] checking for gcc... (cached) gcc
+[2026-11-13 19:57:56] [build-stdout] checking whether the compiler supports GNU C... (cached) yes
+[2026-11-13 19:57:56] [build-stdout] checking whether gcc accepts -g... (cached) yes
+[2026-11-13 19:57:56] [build-stdout] checking for gcc option to enable C11 features... (cached) none needed
+[2026-11-13 19:57:56] [build-stdout] checking how to run the C preprocessor... gcc -E
+[2026-11-13 19:57:56] [build-stdout] checking for g++... g++
+[2026-11-13 19:57:56] [build-stdout] checking whether the compiler supports GNU C++... yes
+[2026-11-13 19:57:56] [build-stdout] checking whether g++ accepts -g... yes
+[2026-11-13 19:57:56] [build-stdout] checking for g++ option to enable C++11 features... none needed
+[2026-11-13 19:57:56] [build-stdout] checking for gawk... no
+[2026-11-13 19:57:56] [build-stdout] checking for mawk... mawk
+[2026-11-13 19:57:56] [build-stdout] checking for grep that handles long lines and -e... /usr/bin/grep
+[2026-11-13 19:57:56] [build-stdout] checking for egrep... /usr/bin/grep -E
+[2026-11-13 19:57:56] [build-stdout] checking for a BSD-compatible install... /usr/bin/install -c
+[2026-11-13 19:57:56] [build-stdout] checking for strip... strip
+[2026-11-13 19:57:56] [build-stdout] checking for a race-free mkdir -p... /usr/bin/mkdir -p
+[2026-11-13 19:57:56] [build-stdout] checking for perl... /usr/bin/perl
+[2026-11-13 19:57:56] [build-stdout] checking for python3... /usr/local/bin/python3
+[2026-11-13 19:57:56] [build-stdout] checking if md2man can create manpages... no
+[2026-11-13 19:57:56] [build-stdout] Failed to find cmarkgfm or commonmark for python3.
+[2026-11-13 19:57:56] [build-stdout] checking if we require man-page building... no
+[2026-11-13 19:57:56] [build-stdout] checking for remsh... 0
+[2026-11-13 19:57:56] [build-stdout] checking for sh... /usr/bin/sh
+[2026-11-13 19:57:56] [build-stdout] checking for fakeroot... /usr/bin/fakeroot
+[2026-11-13 19:57:56] [build-stdout] checking the group for user "nobody"... nogroup
+[2026-11-13 19:57:56] [build-stdout] checking whether to enable rolling-checksum SIMD optimizations... no
+[2026-11-13 19:57:56] [build-stdout] checking if assembler accepts noexecstack... yes
+[2026-11-13 19:57:56] [build-stdout] checking for openat2... yes
+[2026-11-13 19:57:56] [build-stdout] checking for broken largefile support... no
+[2026-11-13 19:57:56] [build-stdout] checking for special C compiler options needed for large files... no
+[2026-11-13 19:57:56] [build-stdout] checking for _FILE_OFFSET_BITS value needed for large files... no
+[2026-11-13 19:57:56] [build-stdout] checking whether to enable ipv6... yes
+[2026-11-13 19:57:56] [build-stdout] checking whether to call shutdown on all sockets... no
+[2026-11-13 19:57:56] [build-stdout] checking whether to use included zlib... ./zlib
+[2026-11-13 19:57:56] [build-stdout] checking whether to enable use of openssl crypto library... no
+[2026-11-13 19:57:56] [build-stdout] checking whether to enable MD5 ASM optimizations... no
+[2026-11-13 19:57:56] [build-stdout] checking whether to enable rolling-checksum ASM optimizations... no
+[2026-11-13 19:57:56] [build-stdout] checking whether to enable xxhash checksum support... no
+[2026-11-13 19:57:56] [build-stdout] checking whether to enable zstd compression... no
+[2026-11-13 19:57:56] [build-stdout] checking whether to enable LZ4 compression... no
+[2026-11-13 19:57:56] [build-stdout] checking whether to enable IDN support... no
+[2026-11-13 19:57:57] [build-stdout] checking if makedev takes 3 args... no
+[2026-11-13 19:57:57] [build-stdout] checking size of int... 4
+[2026-11-13 19:57:57] [build-stdout] checking size of long... 8
+[2026-11-13 19:57:57] [build-stdout] checking size of long long... 8
+[2026-11-13 19:57:57] [build-stdout] checking size of short... 2
+[2026-11-13 19:57:57] [build-stdout] checking size of int16_t... 2
+[2026-11-13 19:57:57] [build-stdout] checking size of uint16_t... 2
+[2026-11-13 19:57:57] [build-stdout] checking size of int32_t... 4
+[2026-11-13 19:57:57] [build-stdout] checking size of uint32_t... 4
+[2026-11-13 19:57:57] [build-stdout] checking size of int64_t... 8
+[2026-11-13 19:57:57] [build-stdout] checking size of off_t... 8
+[2026-11-13 19:57:57] [build-stdout] checking size of off64_t... 8
+[2026-11-13 19:57:57] [build-stdout] checking size of time_t... 8
+[2026-11-13 19:57:57] [build-stdout] checking size of char*... 8
+[2026-11-13 19:57:57] [build-stdout] checking for inline... inline
+[2026-11-13 19:57:57] [build-stdout] checking for long double with more range or precision than double... yes
+[2026-11-13 19:57:57] [build-stdout] checking for uid_t in sys/types.h... yes
+[2026-11-13 19:57:58] [build-stdout] checking for mode_t... yes
+[2026-11-13 19:57:58] [build-stdout] checking for off_t... yes
+[2026-11-13 19:57:58] [build-stdout] checking for size_t... yes
+[2026-11-13 19:57:58] [build-stdout] checking for pid_t... yes
+[2026-11-13 19:57:58] [build-stdout] checking for id_t... yes
+[2026-11-13 19:57:58] [build-stdout] checking type of array argument to getgroups... gid_t
+[2026-11-13 19:57:58] [build-stdout] checking for struct stat.st_rdev... yes
+[2026-11-13 19:57:58] [build-stdout] checking for struct stat.st_mtimensec... no
+[2026-11-13 19:57:58] [build-stdout] checking for struct stat.st_mtimespec.tv_nsec... no
+[2026-11-13 19:57:58] [build-stdout] checking for struct stat.st_mtim.tv_nsec... yes
+[2026-11-13 19:57:58] [build-stdout] checking for socklen_t... yes
+[2026-11-13 19:57:58] [build-stdout] checking for errno in errno.h... yes
+[2026-11-13 19:57:58] [build-stdout] checking for connect... yes
+[2026-11-13 19:57:58] [build-stdout] checking for library containing inet_ntop... none required
+[2026-11-13 19:57:58] [build-stdout] checking for library containing iconv_open... none required
+[2026-11-13 19:57:59] [build-stdout] checking for library containing libiconv_open... no
+[2026-11-13 19:57:59] [build-stdout] checking for iconv declaration... 
+[2026-11-13 19:57:59] [build-stdout]          extern size_t iconv (iconv_t cd, char * *inbuf, size_t *inbytesleft, char * *outbuf, size_t *outbytesleft);
+[2026-11-13 19:57:59] [build-stdout] checking for inet_ntop... yes
+[2026-11-13 19:57:59] [build-stdout] checking for inet_pton... yes
+[2026-11-13 19:57:59] [build-stdout] checking for struct addrinfo... yes
+[2026-11-13 19:57:59] [build-stdout] checking for struct sockaddr_storage... yes
+[2026-11-13 19:57:59] [build-stdout] checking whether defines needed by getaddrinfo exist... yes
+[2026-11-13 19:57:59] [build-stdout] checking for getaddrinfo... yes
+[2026-11-13 19:57:59] [build-stdout] checking for struct sockaddr.sa_len... no
+[2026-11-13 19:57:59] [build-stdout] checking for struct sockaddr_in.sin_len... no
+[2026-11-13 19:57:59] [build-stdout] checking for struct sockaddr_un.sun_len... no
+[2026-11-13 19:57:59] [build-stdout] checking for struct sockaddr_in6.sin6_scope_id... yes
+[2026-11-13 19:57:59] [build-stdout] checking for struct stat64... yes
+[2026-11-13 19:57:59] [build-stdout] checking for poll... yes
+[2026-11-13 19:57:59] [build-stdout] checking for strcasecmp... yes
+[2026-11-13 19:57:59] [build-stdout] checking for aclsort... no
+[2026-11-13 19:57:59] [build-stdout] checking for aclsort in -lsec... no
+[2026-11-13 19:57:59] [build-stdout] checking whether utime accepts a null argument... yes
+[2026-11-13 19:57:59] [build-stdout] checking for size_t... (cached) yes
+[2026-11-13 19:57:59] [build-stdout] checking for working alloca.h... yes
+[2026-11-13 19:57:59] [build-stdout] checking for alloca... yes
+[2026-11-13 19:57:59] [build-stdout] checking for waitpid... yes
+[2026-11-13 19:58:00] [build-stdout] checking for wait4... yes
+[2026-11-13 19:58:00] [build-stdout] checking for getcwd... yes
+[2026-11-13 19:58:00] [build-stdout] checking for chown... yes
+[2026-11-13 19:58:00] [build-stdout] checking for chmod... yes
+[2026-11-13 19:58:00] [build-stdout] checking for lchmod... yes
+[2026-11-13 19:58:00] [build-stdout] checking for mknod... yes
+[2026-11-13 19:58:00] [build-stdout] checking for mkfifo... yes
+[2026-11-13 19:58:00] [build-stdout] checking for fdopendir... yes
+[2026-11-13 19:58:00] [build-stdout] checking for getrlimit... yes
+[2026-11-13 19:58:00] [build-stdout] checking for setrlimit... yes
+[2026-11-13 19:58:00] [build-stdout] checking for fchmod... yes
+[2026-11-13 19:58:00] [build-stdout] checking for fstat... yes
+[2026-11-13 19:58:00] [build-stdout] checking for ftruncate... yes
+[2026-11-13 19:58:00] [build-stdout] checking for strchr... yes
+[2026-11-13 19:58:00] [build-stdout] checking for readlink... yes
+[2026-11-13 19:58:00] [build-stdout] checking for link... yes
+[2026-11-13 19:58:00] [build-stdout] checking for utime... yes
+[2026-11-13 19:58:00] [build-stdout] checking for utimes... yes
+[2026-11-13 19:58:00] [build-stdout] checking for lutimes... yes
+[2026-11-13 19:58:00] [build-stdout] checking for strftime... yes
+[2026-11-13 19:58:00] [build-stdout] checking for chflags... no
+[2026-11-13 19:58:00] [build-stdout] checking for getattrlist... no
+[2026-11-13 19:58:01] [build-stdout] checking for mktime... yes
+[2026-11-13 19:58:01] [build-stdout] checking for innetgr... yes
+[2026-11-13 19:58:01] [build-stdout] checking for linkat... yes
+[2026-11-13 19:58:01] [build-stdout] checking for mknodat... yes
+[2026-11-13 19:58:01] [build-stdout] checking for mkfifoat... yes
+[2026-11-13 19:58:01] [build-stdout] checking for memmove... yes
+[2026-11-13 19:58:01] [build-stdout] checking for lchown... yes
+[2026-11-13 19:58:01] [build-stdout] checking for vsnprintf... yes
+[2026-11-13 19:58:01] [build-stdout] checking for snprintf... yes
+[2026-11-13 19:58:01] [build-stdout] checking for vasprintf... yes
+[2026-11-13 19:58:01] [build-stdout] checking for asprintf... yes
+[2026-11-13 19:58:01] [build-stdout] checking for setsid... yes
+[2026-11-13 19:58:01] [build-stdout] checking for strpbrk... yes
+[2026-11-13 19:58:01] [build-stdout] checking for strlcat... yes
+[2026-11-13 19:58:01] [build-stdout] checking for strlcpy... yes
+[2026-11-13 19:58:01] [build-stdout] checking for stpcpy... yes
+[2026-11-13 19:58:01] [build-stdout] checking for strtol... yes
+[2026-11-13 19:58:01] [build-stdout] checking for mallinfo... yes
+[2026-11-13 19:58:01] [build-stdout] checking for mallinfo2... yes
+[2026-11-13 19:58:02] [build-stdout] checking for getgroups... yes
+[2026-11-13 19:58:02] [build-stdout] checking for setgroups... yes
+[2026-11-13 19:58:02] [build-stdout] checking for geteuid... yes
+[2026-11-13 19:58:02] [build-stdout] checking for getegid... yes
+[2026-11-13 19:58:02] [build-stdout] checking for setlocale... yes
+[2026-11-13 19:58:02] [build-stdout] checking for setmode... no
+[2026-11-13 19:58:02] [build-stdout] checking for open64... yes
+[2026-11-13 19:58:02] [build-stdout] checking for lseek64... yes
+[2026-11-13 19:58:02] [build-stdout] checking for mkstemp64... yes
+[2026-11-13 19:58:02] [build-stdout] checking for mtrace... yes
+[2026-11-13 19:58:02] [build-stdout] checking for va_copy... no
+[2026-11-13 19:58:02] [build-stdout] checking for __va_copy... no
+[2026-11-13 19:58:02] [build-stdout] checking for seteuid... yes
+[2026-11-13 19:58:02] [build-stdout] checking for strerror... yes
+[2026-11-13 19:58:02] [build-stdout] checking for putenv... yes
+[2026-11-13 19:58:02] [build-stdout] checking for iconv_open... yes
+[2026-11-13 19:58:02] [build-stdout] checking for locale_charset... no
+[2026-11-13 19:58:02] [build-stdout] checking for nl_langinfo... yes
+[2026-11-13 19:58:02] [build-stdout] checking for getxattr... yes
+[2026-11-13 19:58:02] [build-stdout] checking for extattr_get_link... no
+[2026-11-13 19:58:03] [build-stdout] checking for sigaction... yes
+[2026-11-13 19:58:03] [build-stdout] checking for sigprocmask... yes
+[2026-11-13 19:58:03] [build-stdout] checking for setattrlist... no
+[2026-11-13 19:58:03] [build-stdout] checking for getgrouplist... yes
+[2026-11-13 19:58:03] [build-stdout] checking for initgroups... yes
+[2026-11-13 19:58:03] [build-stdout] checking for utimensat... yes
+[2026-11-13 19:58:03] [build-stdout] checking for futimens... yes
+[2026-11-13 19:58:03] [build-stdout] checking for posix_fallocate... yes
+[2026-11-13 19:58:03] [build-stdout] checking for attropen... no
+[2026-11-13 19:58:03] [build-stdout] checking for setvbuf... yes
+[2026-11-13 19:58:03] [build-stdout] checking for nanosleep... yes
+[2026-11-13 19:58:03] [build-stdout] checking for usleep... yes
+[2026-11-13 19:58:03] [build-stdout] checking for setenv... yes
+[2026-11-13 19:58:03] [build-stdout] checking for unsetenv... yes
+[2026-11-13 19:58:03] [build-stdout] checking for dirfd... yes
+[2026-11-13 19:58:03] [build-stdout] checking for useable fallocate... yes
+[2026-11-13 19:58:03] [build-stdout] checking for FALLOC_FL_PUNCH_HOLE... yes
+[2026-11-13 19:58:03] [build-stdout] checking for FALLOC_FL_ZERO_RANGE... yes
+[2026-11-13 19:58:03] [build-stdout] checking for SYS_fallocate... yes
+[2026-11-13 19:58:03] [build-stdout] checking whether posix_fallocate is efficient... no
+[2026-11-13 19:58:03] [build-stdout] checking for getpgrp... yes
+[2026-11-13 19:58:03] [build-stdout] checking for tcgetpgrp... yes
+[2026-11-13 19:58:03] [build-stdout] checking whether getpgrp requires zero arguments... yes
+[2026-11-13 19:58:04] [build-stdout] checking whether chown() modifies symlinks... no
+[2026-11-13 19:58:04] [build-stdout] checking whether link() can hard-link symlinks... yes
+[2026-11-13 19:58:04] [build-stdout] checking whether link() can hard-link special files... yes
+[2026-11-13 19:58:04] [build-stdout] checking for working socketpair... yes
+[2026-11-13 19:58:04] [build-stdout] checking for getpass... yes
+[2026-11-13 19:58:04] [build-stdout] checking whether to use included libpopt... ./popt
+[2026-11-13 19:58:04] [build-stdout] checking for unsigned char... yes
+[2026-11-13 19:58:04] [build-stdout] checking for broken readdir... no
+[2026-11-13 19:58:04] [build-stdout] checking for utimbuf... yes
+[2026-11-13 19:58:04] [build-stdout] checking if gettimeofday takes tz argument... yes
+[2026-11-13 19:58:04] [build-stdout] checking for C99 vsnprintf... yes
+[2026-11-13 19:58:04] [build-stdout] checking for secure mkstemp... yes
+[2026-11-13 19:58:04] [build-stdout] checking whether -c -o works... yes
+[2026-11-13 19:58:04] [build-stdout] checking for _acl... no
+[2026-11-13 19:58:04] [build-stdout] checking for __acl... no
+[2026-11-13 19:58:04] [build-stdout] checking for _facl... no
+[2026-11-13 19:58:04] [build-stdout] checking for __facl... no
+[2026-11-13 19:58:04] [build-stdout] checking whether to support ACLs... running tests:
+[2026-11-13 19:58:04] [build-stdout] checking for acl_get_file in -lacl... no
+[2026-11-13 19:58:04] [build-stdout] checking for ACL support... no
+[2026-11-13 19:58:04] [build-stdout] checking ACL test results... No ACL support found
+[2026-11-13 19:58:04] [build-stdout] checking whether to support extended attributes... Using Linux xattrs
+[2026-11-13 19:58:04] [build-stdout] checking for library containing getxattr... none required
+[2026-11-13 19:58:04] [build-stdout] configure.sh: creating ./config.status
+[2026-11-13 19:58:05] [build-stdout] config.status: creating Makefile
+[2026-11-13 19:58:05] [build-stdout] config.status: creating lib/dummy
+[2026-11-13 19:58:05] [build-stdout] config.status: creating zlib/dummy
+[2026-11-13 19:58:05] [build-stdout] config.status: creating popt/dummy
+[2026-11-13 19:58:05] [build-stdout] config.status: creating shconfig
+[2026-11-13 19:58:05] [build-stdout] config.status: creating config.h
+[2026-11-13 19:58:05] [build-stdout]     rsync 3.5.0 configuration successful
+[2026-11-13 19:58:05] [build-stdout] rm -rf ./testtmp*
+[2026-11-13 19:58:05] [build-stdout] rm -f *~ flist.o rsync.o generator.o receiver.o cleanup.o sender.o exclude.o util1.o util2.o checksum.o match.o syscall.o log.o backup.o delete.o main.o options.o io.o compat.o hlink.o token.o uidlist.o socket.o hashtable.o usage.o fileio.o batch.o clientname.o chmod.o acls.o xattrs.o progress.o pipe.o    params.o loadparm.o clientserver.o access.o connection.o authenticate.o lib/wildmatch.o lib/compat.o lib/snprintf.o lib/mdfour.o lib/md5.o lib/permstring.o lib/pool_alloc.o lib/sysacls.o lib/sysxattrs.o lib/acl.o  zlib/deflate.o zlib/inffast.o zlib/inflate.o zlib/inftrees.o zlib/trees.o zlib/zutil.o zlib/adler32.o zlib/compress.o zlib/crc32.o popt/popt.o  popt/poptconfig.o popt/popthelp.o popt/poptparse.o popt/poptint.o rsync tls getgroups getfsdev testrun trimslash t_unsafe t_chmod_secure t_rename_secure t_symlink_secure t_secure_relpath t_acl t_hashtable_overflow t_iwildmatch t_clean_fname t_safe_arg wildtest simdtest tls.o testrun.o getgroups.o getfsdev.o t_stub.o t_unsafe.o t_chmod_secure.o t_rename_secure.o t_symlink_secure.o t_secure_relpath.o t_acl.o t_hashtable_overflow.o t_iwildmatch.o t_clean_fname.o t_safe_arg.o trimslash.o wildtest.o syscall-no-at-fdcwd.o testsuite/chown-fake_test.py testsuite/devices-fake_test.py testsuite/xattrs-hlink_test.py testsuite/exclude-lsh_test.py  \
+[2026-11-13 19:58:05] [build-stdout] 	git-version.h rounding rounding.h *.old rsync*.1 rsync*.5  \
+[2026-11-13 19:58:05] [build-stdout] 	*.html daemon-parm.h help-*.h default-*.h proto.h proto.h-tstamp
+[2026-11-13 19:58:05] [build-stdout] rm -f *.gcno *.gcda lib/*.gcno lib/*.gcda zlib/*.gcno zlib/*.gcda popt/*.gcno popt/*.gcda
+[2026-11-13 19:58:05] [build-stdout] rm -rf coverage coverage-tcp coverage-all coverage-fallback
+[2026-11-13 19:58:05] [build-stdout] mawk -f ./daemon-parm.awk ./daemon-parm.txt
+[2026-11-13 19:58:05] [build-stdout] mawk -f ./help-from-md.awk -v hfile=help-rsync.h ./rsync.1.md
+[2026-11-13 19:58:05] [build-stdout] mawk -f ./help-from-md.awk -v hfile=help-rsyncd.h ./rsync.1.md
+[2026-11-13 19:58:05] [build-stdout] ./mkgitver
+[2026-11-13 19:58:05] [build-stdout] mawk -f ./define-from-md.awk -v hfile=default-cvsignore.h ./rsync.1.md
+[2026-11-13 19:58:05] [build-stdout] mawk -f ./define-from-md.awk -v hfile=default-dont-compress.h ./rsync.1.md
+[2026-11-13 19:58:05] [build-stdout] mawk -f ./mkproto.awk ./*.c ./lib/compat.c daemon-parm.h
+[2026-11-13 19:58:05] [build-stdout] Updating git-version.h
+[2026-11-13 19:58:05] [build-stdout] gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c rsync.c -o rsync.o
+[2026-11-13 19:58:05] [build-stdout] gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c generator.c -o generator.o
+[2026-11-13 19:58:05] [build-stdout] gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c receiver.c -o receiver.o
+[2026-11-13 19:58:06] [build-stdout] gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c cleanup.c -o cleanup.o
+[2026-11-13 19:58:06] [build-stdout] gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c sender.c -o sender.o
+[2026-11-13 19:58:06] [build-stdout] gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c exclude.c -o exclude.o
+[2026-11-13 19:58:06] [build-stdout] gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c util1.c -o util1.o
+[2026-11-13 19:58:06] [build-stdout] gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c util2.c -o util2.o
+[2026-11-13 19:58:06] [build-stdout] gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c checksum.c -o checksum.o
+[2026-11-13 19:58:06] [build-stdout] gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c match.c -o match.o
+[2026-11-13 19:58:06] [build-stdout] gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c syscall.c -o syscall.o
+[2026-11-13 19:58:07] [build-stdout] gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c log.c -o log.o
+[2026-11-13 19:58:07] [build-stdout] gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c backup.c -o backup.o
+[2026-11-13 19:58:07] [build-stdout] gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c delete.c -o delete.o
+[2026-11-13 19:58:07] [build-stdout] gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c main.c -o main.o
+[2026-11-13 19:58:07] [build-stdout] gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c options.c -o options.o
+[2026-11-13 19:58:07] [build-stdout] gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c io.c -o io.o
+[2026-11-13 19:58:07] [build-stdout] gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c compat.c -o compat.o
+[2026-11-13 19:58:08] [build-stdout] gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c hlink.c -o hlink.o
+[2026-11-13 19:58:08] [build-stdout] gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c token.c -o token.o
+[2026-11-13 19:58:08] [build-stdout] gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c uidlist.c -o uidlist.o
+[2026-11-13 19:58:08] [build-stdout] gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c socket.c -o socket.o
+[2026-11-13 19:58:08] [build-stdout] gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c hashtable.c -o hashtable.o
+[2026-11-13 19:58:08] [build-stdout] gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c usage.c -o usage.o
+[2026-11-13 19:58:08] [build-stdout] gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c fileio.c -o fileio.o
+[2026-11-13 19:58:09] [build-stdout] gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c batch.c -o batch.o
+[2026-11-13 19:58:09] [build-stdout] gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c clientname.c -o clientname.o
+[2026-11-13 19:58:09] [build-stdout] gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c chmod.c -o chmod.o
+[2026-11-13 19:58:09] [build-stdout] gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c acls.c -o acls.o
+[2026-11-13 19:58:09] [build-stdout] gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c xattrs.c -o xattrs.o
+[2026-11-13 19:58:09] [build-stdout] gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c progress.c -o progress.o
+[2026-11-13 19:58:09] [build-stdout] gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c pipe.c -o pipe.o
+[2026-11-13 19:58:09] [build-stdout] gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c params.c -o params.o
+[2026-11-13 19:58:09] [build-stdout] gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c loadparm.c -o loadparm.o
+[2026-11-13 19:58:09] [build-stdout] gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c clientserver.c -o clientserver.o
+[2026-11-13 19:58:09] [build-stdout] gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c access.c -o access.o
+[2026-11-13 19:58:10] [build-stdout] gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c connection.c -o connection.o
+[2026-11-13 19:58:10] [build-stdout] gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c authenticate.c -o authenticate.o
+[2026-11-13 19:58:10] [build-stdout] gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c lib/wildmatch.c -o lib/wildmatch.o
+[2026-11-13 19:58:10] [build-stdout] gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c lib/compat.c -o lib/compat.o
+[2026-11-13 19:58:10] [build-stdout] gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c lib/snprintf.c -o lib/snprintf.o
+[2026-11-13 19:58:10] [build-stdout] gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c lib/mdfour.c -o lib/mdfour.o
+[2026-11-13 19:58:10] [build-stdout] gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c lib/md5.c -o lib/md5.o
+[2026-11-13 19:58:10] [build-stdout] gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c lib/permstring.c -o lib/permstring.o
+[2026-11-13 19:58:10] [build-stdout] gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c lib/pool_alloc.c -o lib/pool_alloc.o
+[2026-11-13 19:58:10] [build-stdout] gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c lib/sysacls.c -o lib/sysacls.o
+[2026-11-13 19:58:10] [build-stdout] gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c lib/sysxattrs.c -o lib/sysxattrs.o
+[2026-11-13 19:58:10] [build-stdout] gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c lib/acl.c -o lib/acl.o
+[2026-11-13 19:58:10] [build-stdout] gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c zlib/deflate.c -o zlib/deflate.o
+[2026-11-13 19:58:11] [build-stdout] gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c zlib/inffast.c -o zlib/inffast.o
+[2026-11-13 19:58:11] [build-stdout] gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c zlib/inflate.c -o zlib/inflate.o
+[2026-11-13 19:58:11] [build-stdout] gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c zlib/inftrees.c -o zlib/inftrees.o
+[2026-11-13 19:58:11] [build-stdout] gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c zlib/trees.c -o zlib/trees.o
+[2026-11-13 19:58:11] [build-stdout] gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c zlib/zutil.c -o zlib/zutil.o
+[2026-11-13 19:58:11] [build-stdout] gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c zlib/adler32.c -o zlib/adler32.o
+[2026-11-13 19:58:11] [build-stdout] gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c zlib/compress.c -o zlib/compress.o
+[2026-11-13 19:58:11] [build-stdout] gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c zlib/crc32.c -o zlib/crc32.o
+[2026-11-13 19:58:11] [build-stdout] gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c popt/popt.c -o popt/popt.o
+[2026-11-13 19:58:11] [build-stderr] popt/popt.c: In function 'execCommand':
+[2026-11-13 19:58:11] [build-stderr] popt/popt.c:453:9: warning: variable 'rc' set but not used [-Wunused-but-set-variable]
+[2026-11-13 19:58:11] [build-stderr]   453 |     int rc;
+[2026-11-13 19:58:11] [build-stderr]       |         ^~
+[2026-11-13 19:58:11] [build-stderr] popt/popt.c: In function 'poptRandomValue':
+[2026-11-13 19:58:11] [build-stderr] popt/popt.c:917:44: warning: unused parameter 'limit' [-Wunused-parameter]
+[2026-11-13 19:58:11] [build-stderr]   917 | static long long poptRandomValue(long long limit)
+[2026-11-13 19:58:11] [build-stderr]       |                                  ~~~~~~~~~~^~~~~
+[2026-11-13 19:58:11] [build-stdout] gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c popt/poptconfig.c -o popt/poptconfig.o
+[2026-11-13 19:58:11] [build-stderr] popt/poptconfig.c: In function 'poptReadDefaultConfig':
+[2026-11-13 19:58:11] [build-stderr] popt/poptconfig.c:440:17: warning: unused variable 'sb' [-Wunused-variable]
+[2026-11-13 19:58:11] [build-stderr]   440 |     struct stat sb;
+[2026-11-13 19:58:11] [build-stderr]       |                 ^~
+[2026-11-13 19:58:11] [build-stdout] gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c popt/popthelp.c -o popt/popthelp.o
+[2026-11-13 19:58:11] [build-stderr] popt/popthelp.c: In function 'getArgDescrip':
+[2026-11-13 19:58:11] [build-stderr] popt/popthelp.c:157:30: warning: unused parameter 'translation_domain' [-Wunused-parameter]
+[2026-11-13 19:58:11] [build-stderr]   157 |                 const char * translation_domain)
+[2026-11-13 19:58:11] [build-stderr]       |                 ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
+[2026-11-13 19:58:11] [build-stderr] popt/popthelp.c: In function 'singleOptionDefaultValue':
+[2026-11-13 19:58:11] [build-stderr] popt/popthelp.c:209:30: warning: unused parameter 'translation_domain' [-Wunused-parameter]
+[2026-11-13 19:58:11] [build-stderr]   209 |                 const char * translation_domain)
+[2026-11-13 19:58:11] [build-stderr]       |                 ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
+[2026-11-13 19:58:12] [build-stdout] gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c popt/poptparse.c -o popt/poptparse.o
+[2026-11-13 19:58:12] [build-stdout] gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c popt/poptint.c -o popt/poptint.o
+[2026-11-13 19:58:12] [build-stderr] popt/poptint.c: In function 'POPT_fprintf':
+[2026-11-13 19:58:12] [build-stderr] popt/poptint.c:147:24: warning: unused variable 'ob' [-Wunused-variable]
+[2026-11-13 19:58:12] [build-stderr]   147 |     char * b = NULL, * ob = NULL;
+[2026-11-13 19:58:12] [build-stderr]       |                        ^~
+[2026-11-13 19:58:12] [build-stdout] gcc -I. -I. -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -c flist.c -o flist.o
+[2026-11-13 19:58:13] [build-stdout] gcc -I./popt -I./zlib -g -O2 -DHAVE_CONFIG_H -Wall -W  -o rsync flist.o rsync.o generator.o receiver.o cleanup.o sender.o exclude.o util1.o util2.o checksum.o match.o syscall.o log.o backup.o delete.o main.o options.o io.o compat.o hlink.o token.o uidlist.o socket.o hashtable.o usage.o fileio.o batch.o clientname.o chmod.o acls.o xattrs.o progress.o pipe.o    params.o loadparm.o clientserver.o access.o connection.o authenticate.o lib/wildmatch.o lib/compat.o lib/snprintf.o lib/mdfour.o lib/md5.o lib/permstring.o lib/pool_alloc.o lib/sysacls.o lib/sysxattrs.o lib/acl.o  zlib/deflate.o zlib/inffast.o zlib/inflate.o zlib/inftrees.o zlib/trees.o zlib/zutil.o zlib/adler32.o zlib/compress.o zlib/crc32.o popt/popt.o  popt/poptconfig.o popt/popthelp.o popt/poptparse.o popt/poptint.o 
+Finalizing database at /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/db/rsync_popt.
+Running pre-finalize script /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/codeql-bundle/codeql/cpp/tools/pre-finalize.sh in /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/root.
+Running command in /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/root: [/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/codeql-bundle/codeql/cpp/tools/pre-finalize.sh]
+Pre-finalize script /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/codeql-bundle/codeql/cpp/tools/pre-finalize.sh completed in 18 ms.
+Running TRAP import for CodeQL database at /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/db/rsync_popt...
+Grouping TRAP files by link target
+Grouping unlinked TRAP files together
+Scanning TRAP files
+Importing TRAP files
+Merging relations
+Finished writing database (relations: 6.10 MiB; string pool: 4.78 MiB).
+TRAP import complete (4.7s).
+Finished zipping source archive (1.00 MiB).
+Successfully created database at /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/db/rsync_popt.

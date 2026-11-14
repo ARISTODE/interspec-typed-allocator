@@ -1,0 +1,13 @@
+workload,configuration,repetitions,rounds,unit,median,min,max,median_cost_pct_vs_interspec-all-off,min_cost_pct_vs_interspec-all-off,max_cost_pct_vs_interspec-all-off,median_cost_pct_vs_rlbox-only,min_cost_pct_vs_rlbox-only,max_cost_pct_vs_rlbox-only
+option_parse,rlbox-only,15,100,ns,375424314.0,345138219.0,400373508.0,-2.036,-5.017,1.322,0.0,0.0,0.0
+option_parse,interspec-all-off,15,100,ns,382228521.0,357233778.0,408597476.0,0.0,0.0,0.0,2.078,-1.305,5.282
+option_parse,interspec-sp1,15,100,ns,378402345.0,352619335.0,412340382.0,-0.708,-4.924,1.644,1.668,-3.068,3.994
+option_parse,interspec-sp2,15,100,ns,376114386.0,353053285.0,404515795.0,-1.287,-3.02,2.277,0.886,-1.075,3.917
+option_parse,interspec-sp3,15,100,ns,383253728.0,348517642.0,420011111.0,-0.035,-3.581,3.869,2.043,-1.636,6.33
+option_parse,interspec-all-on,15,100,ns,382703414.0,355725441.0,408526924.0,-0.448,-2.814,5.359,1.556,-0.849,7.417
+file_sync_194mb,rlbox-only,15,8,ns,10098644706.0,9808221633.0,10236997373.0,0.121,-0.83,2.246,0.0,0.0,0.0
+file_sync_194mb,interspec-all-off,15,8,ns,10072415407.0,9730934484.0,10224586600.0,0.0,0.0,0.0,-0.121,-2.197,0.837
+file_sync_194mb,interspec-sp1,15,8,ns,10052842177.0,9740064534.0,10235451791.0,0.095,-2.144,2.689,-0.52,-2.101,1.405
+file_sync_194mb,interspec-sp2,15,8,ns,10036658191.0,9723363831.0,10277460327.0,-0.636,-2.642,2.837,-0.27,-2.76,2.591
+file_sync_194mb,interspec-sp3,15,8,ns,10044339877.0,9878365866.0,10207563908.0,0.027,-1.857,2.52,-0.102,-1.446,2.386
+file_sync_194mb,interspec-all-on,15,8,ns,10068585922.0,9795367432.0,10239828457.0,0.055,-2.066,3.175,0.148,-2.646,1.896

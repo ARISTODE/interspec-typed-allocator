@@ -1,0 +1,1 @@
+TLS_BENCH variant=interspec rounds=8 request_bytes=64 response_bytes=256 version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 server_received_fnv=0e5b9259cca0ab93 client_received_fnv=543dcf405e38dd83 checks=0 elapsed_ns=2042768

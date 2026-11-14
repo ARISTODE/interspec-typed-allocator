@@ -1,0 +1,8 @@
+benchmark,function,file,total_nodes,pointer_nodes,scalar_nodes,struct_nodes,array_nodes,other_nodes,t_to_u_nodes,u_to_t_nodes,t_to_u_sp1_only_nodes,t_to_u_sp2_only_nodes,t_to_u_sp1_and_sp2_nodes,t_to_u_shared_mutable_nodes,t_to_u_unresolved_nodes,t_to_u_confidentiality_protected_nodes,t_to_u_integrity_protected_nodes,u_to_t_consumed_nodes,u_to_t_unconsumed_nodes,u_to_t_consumed_pointer_nodes,u_to_t_pointer_sp3_protected_nodes,u_to_t_pointer_sp3_remaining_nodes,sp3_pointer_nodes,sp3_pointer_protected_nodes,sp3_pointer_remaining_nodes
+memcached_bipbuffer,bipbuf_free,benchmarks/memcached/bipbuffer.c,9,1,6,1,1,0,9,0,0,1,8,0,0,8,9,0,0,0,0,0,0,0,0
+memcached_bipbuffer,bipbuf_new,benchmarks/memcached/bipbuffer.c,10,1,7,1,1,0,1,9,0,1,0,0,0,0,1,0,9,0,0,0,0,0,0
+memcached_bipbuffer,bipbuf_offer,benchmarks/memcached/bipbuffer.c,13,2,9,1,1,0,12,6,0,4,3,5,0,3,7,0,6,0,0,0,0,0,0
+memcached_bipbuffer,bipbuf_peek_all,benchmarks/memcached/bipbuffer.c,13,3,8,1,1,0,11,4,1,4,5,1,0,6,9,4,0,1,1,0,1,1,0
+memcached_bipbuffer,bipbuf_poll,benchmarks/memcached/bipbuffer.c,12,2,8,1,1,0,10,8,0,2,2,6,0,2,4,0,8,0,0,0,0,0,0
+memcached_bipbuffer,bipbuf_push,benchmarks/memcached/bipbuffer.c,11,1,8,1,1,0,10,6,0,3,2,5,0,2,5,0,6,0,0,0,0,0,0
+memcached_bipbuffer,bipbuf_request,benchmarks/memcached/bipbuffer.c,12,2,8,1,1,0,10,2,0,8,2,0,0,2,10,2,0,1,1,0,1,1,0

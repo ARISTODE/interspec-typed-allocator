@@ -1,0 +1,30 @@
+{
+  "native": {
+    "exit_code": 0,
+    "stdout": "UCL_BENCH variant=native iterations=20000 input_bytes=141 val1=616c706861 val2=6465627567 emitted_bytes=136 emitted_fnv=950a80d3113caa1c checks=0 elapsed_ns=100068760\n",
+    "stderr": "",
+    "result_matches_reference": true,
+    "checks": 0
+  },
+  "rlbox-only": {
+    "exit_code": 0,
+    "stdout": "UCL_BENCH variant=rlbox-only iterations=20000 input_bytes=141 val1=616c706861 val2=6465627567 emitted_bytes=136 emitted_fnv=950a80d3113caa1c checks=0 elapsed_ns=106729283\n",
+    "stderr": "",
+    "result_matches_reference": true,
+    "checks": 0
+  },
+  "tracked-no-check": {
+    "exit_code": 0,
+    "stdout": "UCL_BENCH variant=tracked-no-check iterations=20000 input_bytes=141 val1=616c706861 val2=6465627567 emitted_bytes=136 emitted_fnv=950a80d3113caa1c checks=0 elapsed_ns=125043586\n",
+    "stderr": "",
+    "result_matches_reference": true,
+    "checks": 0
+  },
+  "interspec": {
+    "exit_code": 0,
+    "stdout": "UCL_BENCH variant=interspec iterations=20000 input_bytes=141 val1=616c706861 val2=6465627567 emitted_bytes=136 emitted_fnv=950a80d3113caa1c checks=60000 elapsed_ns=116170365\n",
+    "stderr": "",
+    "result_matches_reference": true,
+    "checks": 60000
+  }
+}

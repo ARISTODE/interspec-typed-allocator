@@ -1,0 +1,21 @@
+{
+  "types": [
+    "png_decoded_pixels",
+    "png_encoded_image"
+  ],
+  "allocations": [],
+  "uses": [
+    {
+      "name": "png_decoded_pixels_range",
+      "type": "png_decoded_pixels",
+      "offset": 0,
+      "dynamic_bytes": true
+    },
+    {
+      "name": "png_encoded_image_range",
+      "type": "png_encoded_image",
+      "offset": 0,
+      "dynamic_bytes": true
+    }
+  ]
+}
