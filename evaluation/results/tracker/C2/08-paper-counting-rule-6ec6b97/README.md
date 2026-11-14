@@ -28,7 +28,7 @@ in `interspec-artifact/data/raw/policy_reports/`, per interface function):
   With that rule the counts rise (1 to 23, 7 to 45; 17 to 33, 33 to 48).
   memcached/hash has 24 pointer fields here against 26 and 5 SP3 fields against 4.
 - ucl/libucl: the paper's 152 fields equal the shipped queries, which skip
-  `struct ucl_parser` because rsync-side code never looks into it
+  `struct ucl_parser` because trusted code never looks into it
   (`../01-analysis-63bf903/ucl_libucl`: 152). Without that rule each function
   that takes the parser gains 294 fields (for example `ucl_parser_new` 2 to 296).
 - rsync/popt: same eleven functions. Nine of them gain 90 fields each, the

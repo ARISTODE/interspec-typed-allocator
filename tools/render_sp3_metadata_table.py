@@ -105,7 +105,7 @@ def main():
         lines.append(f"| {r['boundary']} | `{r['field'].replace('|', ' / ')}` | {r['listed_in']} | "
                      f"{r['expected_domain']} | {r['checked_by_port']} | {r['type_source']} | "
                      f"{r['bounds_source']} | {r['note']} |")
-    lines += ["", "## Boundaries without a field in the port", ""]
+    lines += ["", "## Boundaries whose case file is not joined", ""]
     for benchmark, text in without.items():
         lines.append(f"- **{NAMES[benchmark]}**: {text}")
     sources = Counter(r["type_source"] for r in rows if r["checked_by_port"] == "yes")
