@@ -65,13 +65,34 @@ struct AssocPolicy {
 };
 using Port = interspec::WasmPort<AssocPolicy>;
 
-#if !INTERSPEC_CHECKS
+// Registration of T's items (INTERSPEC_REGISTRY) is separate from the check
+// (INTERSPEC_CHECKS), so that the variant "tracked-no-check"
+// (-DINTERSPEC_T_TRACKING=1 with INTERSPEC_CHECKS=0) registers and
+// unregisters the items, uses the registry's tokens as handles, and never
+// checks a handle against the registry.
+#ifndef INTERSPEC_T_TRACKING
+#define INTERSPEC_T_TRACKING 0
+#endif
+#define INTERSPEC_REGISTRY (INTERSPEC_T_TRACKING || INTERSPEC_CHECKS)
+#if !INTERSPEC_REGISTRY
 constexpr const char* kVariant = "rlbox-only";
 #else
+#if !INTERSPEC_CHECKS
+constexpr const char* kVariant = "tracked-no-check";
+#else
 constexpr const char* kVariant = "interspec";
+#endif
 // T's items in the registry (manual registration in T).
 constexpr interspec::TypeId kItemId = 1;
 constexpr uint64_t kItemType = interspec::type_hash("item");
+// Whether items are registered: the SP3 switch for InterSpec, always for
+// tracking without check. (A macro, so that the InterSpec variant compiles
+// from the same tokens as before the tracking variant existed.)
+#if INTERSPEC_CHECKS
+#define ASSOC_REGISTRY_ON() Port::sp3()
+#else
+#define ASSOC_REGISTRY_ON() true
+#endif
 #endif
 
 // invoke_sandbox_function is a macro that needs the function's name.
@@ -82,7 +103,7 @@ constexpr uint64_t kItemType = interspec::type_hash("item");
 class SandboxTable {
  public:
   SandboxTable() : port_(0) {
-#if INTERSPEC_CHECKS
+#if INTERSPEC_REGISTRY
     if (!objects_.register_type(kItemId, kItemType) ||
         !objects_.register_type_layout(kItemId, sizeof(Item), alignof(Item)))
       throw std::runtime_error("type_registration");
@@ -167,8 +188,8 @@ class SandboxTable {
   void forget(Item* it) {
     const auto found = handle_of_.find(it);
     if (found == handle_of_.end()) return;
-#if INTERSPEC_CHECKS
-    if (Port::sp3()) {
+#if INTERSPEC_REGISTRY
+    if (ASSOC_REGISTRY_ON()) {
       objects_.unregister_external(found->second);
       by_token_.erase(found->second);
       handle_of_.erase(found);
@@ -201,8 +222,8 @@ class SandboxTable {
   // Otherwise it is a slot of a table in T, reused after an item is freed, as
   // a wrapper without InterSpec would keep.
   uint32_t issue(Item* it) {
-#if INTERSPEC_CHECKS
-    if (Port::sp3()) {
+#if INTERSPEC_REGISTRY
+    if (ASSOC_REGISTRY_ON()) {
       const uint64_t token = objects_.register_external_array(
           reinterpret_cast<uintptr_t>(it), 1, kItemId, interspec::MemoryDomain::trusted,
           interspec::ObjectStorage::heap);
@@ -228,17 +249,25 @@ class SandboxTable {
   // SP3 on: the handle must be the token of a live registered item of T.
   // Otherwise: only a handle whose slot is in use names an item.
   Item* resolve(uint32_t handle, const char* operation) {
+#if INTERSPEC_REGISTRY
+    if (ASSOC_REGISTRY_ON()) {
 #if INTERSPEC_CHECKS
-    if (Port::sp3()) {
       port_.count_check();
+#endif
       const auto found = by_token_.find(handle);
       Item* it = found == by_token_.end() ? nullptr : found->second;
+#if !INTERSPEC_CHECKS
+      // Tracking without check: what a wrapper needs to return a pointer.
+      if (!it) Port::reject(operation, "unknown_handle");
+      return it;
+#else
       const auto result = objects_.check_nonheap_element(
           reinterpret_cast<uintptr_t>(it), sizeof(Item), kItemType,
           interspec::MemoryDomain::trusted, handle);
       if (result != interspec::CheckResult::ok)
         Port::reject(operation, interspec::check_result_name(result));
       return it;
+#endif
     }
 #endif
     if (handle == 0 || handle > slots_.size() || !slots_[handle - 1])
@@ -258,7 +287,7 @@ class SandboxTable {
   }
 
   Port port_;
-#if INTERSPEC_CHECKS
+#if INTERSPEC_REGISTRY
   interspec::Runtime objects_{0, 0};  // no arena: T's items only
   std::unordered_map<uint32_t, Item*> by_token_;
 #endif

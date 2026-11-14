@@ -46,12 +46,12 @@ BOUNDARIES = {
         "args": lambda corpus, case, n: [case["width"], case["height"], n],
         "name": lambda case: f"{case['width']}x{case['height']}",
     },
-    # U allocates no registered object at this boundary, so there is no
-    # tracking-without-check variant. The registry holds T's objects; one
-    # check per round on what SSL_get_ex_data returns.
+    # U allocates no registered object at this boundary. The registry holds
+    # T's objects; one check per round on what SSL_get_ex_data returns. The
+    # tracking-without-check variant registers T's objects and never checks.
     "nginx_openssl": {
         "prefix": "tls", "tag": "TLS_BENCH",
-        "variants": ("native", "rlbox-only", "interspec"),
+        "variants": ("native", "rlbox-only", "tracked-no-check", "interspec"),
         "args": lambda corpus, case, n: [case["request_bytes"], case["response_bytes"], n],
         "name": lambda case: f"{case['request_bytes']}_{case['response_bytes']}",
     },
@@ -64,11 +64,12 @@ BOUNDARIES = {
         "name": lambda case: f"keyspace{case['keyspace']}",
     },
     # The hash table in U: the registry holds T's items; one check for every
-    # item that U hands back. No object of U is registered, so there is no
-    # tracking-without-check variant.
+    # item that U hands back. No object of U is registered; the
+    # tracking-without-check variant registers T's items, uses the registry's
+    # tokens as handles and never checks a handle against the registry.
     "memcached_assoc": {
         "prefix": "assoc", "tag": "ASSOC_BENCH", "reported_as": "memcached_hash",
-        "variants": ("native", "rlbox-only", "interspec"),
+        "variants": ("native", "rlbox-only", "tracked-no-check", "interspec"),
         "args": lambda corpus, case, n: [case["keyspace"], n],
         "name": lambda case: f"keyspace{case['keyspace']}",
     },

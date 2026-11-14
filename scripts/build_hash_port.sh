@@ -50,6 +50,9 @@ g++ -std=c++17 -O2 -I"$dir" "$dir/assoc_native_bench.cpp" "$work/native/assoc_u.
   "$work/native/hash_untrusted.o" -o "$work/bin/assoc-native"
 port_host "$work/bin/assoc-rlbox-only" assoc 0 0 -- -I"$dir" "$dir/assoc_app_bench.cpp"
 port_host "$work/bin/assoc-interspec" assoc 0 1 -- -I"$dir" "$dir/assoc_app_bench.cpp"
+# For P7: T registers its items and never checks a handle against the registry.
+port_host "$work/bin/assoc-tracked-no-check" assoc 0 0 -- -I"$dir" -DINTERSPEC_T_TRACKING=1 \
+  "$dir/assoc_app_bench.cpp"
 port_host "$work/bin/assoc-interspec-fault" assoc-fault 0 1 -- -I"$dir" \
   -DINTERSPEC_FAULT_TESTS=1 "$dir/assoc_app_bench.cpp"
 port_host "$work/bin/assoc-rlbox-only-fault" assoc-fault 0 0 -- -I"$dir" \

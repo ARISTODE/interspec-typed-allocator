@@ -60,15 +60,25 @@ struct TlsPolicy {
 };
 using Port = interspec::WasmPort<TlsPolicy>;
 
-#if !INTERSPEC_CHECKS
+// Registration of T's objects (INTERSPEC_REGISTRY) is separate from the check
+// (INTERSPEC_CHECKS), so that the variant "tracked-no-check"
+// (-DINTERSPEC_T_TRACKING=1 with INTERSPEC_CHECKS=0) registers the
+// objects and never checks them.
+#ifndef INTERSPEC_T_TRACKING
+#define INTERSPEC_T_TRACKING 0
+#endif
+#define INTERSPEC_REGISTRY (INTERSPEC_T_TRACKING || INTERSPEC_CHECKS)
+#if !INTERSPEC_REGISTRY
 constexpr const char* kVariant = "rlbox-only";
+#elif !INTERSPEC_CHECKS
+constexpr const char* kVariant = "tracked-no-check";
 #else
 constexpr const char* kVariant = "interspec";
 #endif
 
 constexpr size_t kMaxBytes = 1u << 20;
 
-#if INTERSPEC_CHECKS
+#if INTERSPEC_REGISTRY
 // T's objects in the registry (manual registration in T).
 constexpr interspec::TypeId kConnectionId = 1, kConfId = 2;
 constexpr uint64_t kConnectionType = interspec::type_hash("tls_connection");
@@ -82,7 +92,7 @@ constexpr uint64_t kConfType = interspec::type_hash("tls_server_conf");
 class SandboxServer {
  public:
   SandboxServer() : port_(0) {
-#if INTERSPEC_CHECKS
+#if INTERSPEC_REGISTRY
     if (!objects_.register_type(kConnectionId, kConnectionType) ||
         !objects_.register_type_layout(kConnectionId, sizeof(tls_workload::Connection),
                                        alignof(tls_workload::Connection)) ||
@@ -237,7 +247,7 @@ class SandboxServer {
   // T registers an object before a handle to it reaches U. `type` is 1 for a
   // connection and 2 for the server configuration.
   bool record(void* object, int type) {
-#if INTERSPEC_CHECKS
+#if INTERSPEC_REGISTRY
     return objects_.register_external_array(reinterpret_cast<uintptr_t>(object), 1,
                                             type == 1 ? kConnectionId : kConfId,
                                             interspec::MemoryDomain::trusted,
@@ -261,7 +271,7 @@ class SandboxServer {
   }
 
   Port port_;
-#if INTERSPEC_CHECKS
+#if INTERSPEC_REGISTRY
   interspec::Runtime objects_{0, 0};  // no arena: T's objects only
 #endif
   unsigned long long ctx_ = 0, conn_ = 0, second_ = 0;

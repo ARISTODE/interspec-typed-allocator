@@ -70,6 +70,9 @@ port_host "$work/bin/tls-rlbox-only" ordinary 0 0 -- "${native[@]}" \
   "$dir/tls_app_bench.cpp" "${client[@]}"
 port_host "$work/bin/tls-interspec" ordinary 0 1 -- "${native[@]}" \
   "$dir/tls_app_bench.cpp" "${client[@]}"
+# For P7: T registers its objects and never checks them.
+port_host "$work/bin/tls-tracked-no-check" ordinary 0 0 -- "${native[@]}" -DINTERSPEC_T_TRACKING=1 \
+  "$dir/tls_app_bench.cpp" "${client[@]}"
 port_host "$work/bin/tls-interspec-fault" fault 0 1 -- "${native[@]}" \
   -DINTERSPEC_FAULT_TESTS=1 "$dir/tls_app_bench.cpp" "${client[@]}"
 # For I6: the same test hooks without any InterSpec check.
