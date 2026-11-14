@@ -1,0 +1,12 @@
+{
+  "ready_for_operator_review": false,
+  "publication_ready": false,
+  "errors": [
+    "at least four server and four client CPUs are required by this protocol",
+    "client CPU set has fewer than four distinct physical cores",
+    "dedicated host has not been established by its operator",
+    "frequency policy is not visible; host operator must supply and review its configuration",
+    "missing build/runtime tools: wrk",
+    "server CPU set has fewer than four distinct physical cores"
+  ]
+}
