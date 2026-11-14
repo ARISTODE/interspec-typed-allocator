@@ -1,0 +1,17 @@
+predicate,nginx_libpcre
+c2CallThroughParamPaths,0
+c2UntrustedAddressOf,84
+c2TDirectAnyFunction,27304
+c2TDirectForFunction,17897
+c2AddressExcludedFor,0
+c2UDirectAnyFunction,1523
+c2UDirectForFunction,5185
+c2TSeedForFunction,152
+c2TSeedAnyFunction,27443
+c2USeedAnyFunction,1601
+c2UFullForFunction,6910
+c2UFullAnyFunction,3165
+c2TFullForFunction,6010
+c2TFullAnyFunction,18664
+c2NullForFunction,1591
+c2NullAnyFunction,14041

@@ -1,0 +1,159 @@
+benchmark,function,binding_kind,binding_id,direction,slot_path,slot_type,category,file
+nginx_libpcre,ngx_regex_free,param,0,U_TO_T,,void *,pointer,benchmarks/nginx/src/core/ngx_regex.c
+nginx_libpcre,pcre_compile,param,0,T_TO_U,,char *,pointer,benchmarks/pcre/pcre_compile.c
+nginx_libpcre,pcre_compile,param,0,T_TO_U,/deref,char,scalar,benchmarks/pcre/pcre_compile.c
+nginx_libpcre,pcre_compile,param,1,T_TO_U,,int,scalar,benchmarks/pcre/pcre_compile.c
+nginx_libpcre,pcre_compile,param,2,T_TO_U,,char **,pointer,benchmarks/pcre/pcre_compile.c
+nginx_libpcre,pcre_compile,param,2,T_TO_U,/deref,char *,pointer,benchmarks/pcre/pcre_compile.c
+nginx_libpcre,pcre_compile,param,2,T_TO_U,/deref/deref,char,scalar,benchmarks/pcre/pcre_compile.c
+nginx_libpcre,pcre_compile,param,3,T_TO_U,,int *,pointer,benchmarks/pcre/pcre_compile.c
+nginx_libpcre,pcre_compile,param,3,T_TO_U,/deref,int,scalar,benchmarks/pcre/pcre_compile.c
+nginx_libpcre,pcre_compile,param,4,T_TO_U,,unsigned char *,pointer,benchmarks/pcre/pcre_compile.c
+nginx_libpcre,pcre_compile,param,4,T_TO_U,/deref,unsigned char,scalar,benchmarks/pcre/pcre_compile.c
+nginx_libpcre,pcre_compile,return,return,U_TO_T,,real_pcre8_or_16 *,pointer,benchmarks/pcre/pcre_compile.c
+nginx_libpcre,pcre_compile,return_ptr,return,U_TO_T,/deref,real_pcre8_or_16,struct,benchmarks/pcre/pcre_compile.c
+nginx_libpcre,pcre_compile,return_ptr,return,U_TO_T,/deref/field:dummy1,unsigned short,scalar,benchmarks/pcre/pcre_compile.c
+nginx_libpcre,pcre_compile,return_ptr,return,U_TO_T,/deref/field:dummy2,unsigned short,scalar,benchmarks/pcre/pcre_compile.c
+nginx_libpcre,pcre_compile,return_ptr,return,U_TO_T,/deref/field:dummy3,unsigned short,scalar,benchmarks/pcre/pcre_compile.c
+nginx_libpcre,pcre_compile,return_ptr,return,U_TO_T,/deref/field:first_char,unsigned short,scalar,benchmarks/pcre/pcre_compile.c
+nginx_libpcre,pcre_compile,return_ptr,return,U_TO_T,/deref/field:flags,unsigned int,scalar,benchmarks/pcre/pcre_compile.c
+nginx_libpcre,pcre_compile,return_ptr,return,U_TO_T,/deref/field:limit_match,unsigned int,scalar,benchmarks/pcre/pcre_compile.c
+nginx_libpcre,pcre_compile,return_ptr,return,U_TO_T,/deref/field:limit_recursion,unsigned int,scalar,benchmarks/pcre/pcre_compile.c
+nginx_libpcre,pcre_compile,return_ptr,return,U_TO_T,/deref/field:magic_number,unsigned int,scalar,benchmarks/pcre/pcre_compile.c
+nginx_libpcre,pcre_compile,return_ptr,return,U_TO_T,/deref/field:max_lookbehind,unsigned short,scalar,benchmarks/pcre/pcre_compile.c
+nginx_libpcre,pcre_compile,return_ptr,return,U_TO_T,/deref/field:name_count,unsigned short,scalar,benchmarks/pcre/pcre_compile.c
+nginx_libpcre,pcre_compile,return_ptr,return,U_TO_T,/deref/field:name_entry_size,unsigned short,scalar,benchmarks/pcre/pcre_compile.c
+nginx_libpcre,pcre_compile,return_ptr,return,U_TO_T,/deref/field:name_table_offset,unsigned short,scalar,benchmarks/pcre/pcre_compile.c
+nginx_libpcre,pcre_compile,return_ptr,return,U_TO_T,/deref/field:nullpad,void *,pointer,benchmarks/pcre/pcre_compile.c
+nginx_libpcre,pcre_compile,return_ptr,return,U_TO_T,/deref/field:options,unsigned int,scalar,benchmarks/pcre/pcre_compile.c
+nginx_libpcre,pcre_compile,return_ptr,return,U_TO_T,/deref/field:ref_count,unsigned short,scalar,benchmarks/pcre/pcre_compile.c
+nginx_libpcre,pcre_compile,return_ptr,return,U_TO_T,/deref/field:req_char,unsigned short,scalar,benchmarks/pcre/pcre_compile.c
+nginx_libpcre,pcre_compile,return_ptr,return,U_TO_T,/deref/field:size,unsigned int,scalar,benchmarks/pcre/pcre_compile.c
+nginx_libpcre,pcre_compile,return_ptr,return,U_TO_T,/deref/field:tables,unsigned char *,pointer,benchmarks/pcre/pcre_compile.c
+nginx_libpcre,pcre_compile,return_ptr,return,U_TO_T,/deref/field:tables/deref,unsigned char,scalar,benchmarks/pcre/pcre_compile.c
+nginx_libpcre,pcre_compile,return_ptr,return,U_TO_T,/deref/field:top_backref,unsigned short,scalar,benchmarks/pcre/pcre_compile.c
+nginx_libpcre,pcre_compile,return_ptr,return,U_TO_T,/deref/field:top_bracket,unsigned short,scalar,benchmarks/pcre/pcre_compile.c
+nginx_libpcre,pcre_exec,param,0,T_TO_U,,real_pcre8_or_16 *,pointer,benchmarks/pcre/pcre_exec.c
+nginx_libpcre,pcre_exec,param,0,T_TO_U,/deref,real_pcre8_or_16,struct,benchmarks/pcre/pcre_exec.c
+nginx_libpcre,pcre_exec,param,0,T_TO_U,/deref/field:dummy1,unsigned short,scalar,benchmarks/pcre/pcre_exec.c
+nginx_libpcre,pcre_exec,param,0,T_TO_U,/deref/field:dummy2,unsigned short,scalar,benchmarks/pcre/pcre_exec.c
+nginx_libpcre,pcre_exec,param,0,T_TO_U,/deref/field:dummy3,unsigned short,scalar,benchmarks/pcre/pcre_exec.c
+nginx_libpcre,pcre_exec,param,0,T_TO_U,/deref/field:first_char,unsigned short,scalar,benchmarks/pcre/pcre_exec.c
+nginx_libpcre,pcre_exec,param,0,T_TO_U,/deref/field:flags,unsigned int,scalar,benchmarks/pcre/pcre_exec.c
+nginx_libpcre,pcre_exec,param,0,T_TO_U,/deref/field:limit_match,unsigned int,scalar,benchmarks/pcre/pcre_exec.c
+nginx_libpcre,pcre_exec,param,0,T_TO_U,/deref/field:limit_recursion,unsigned int,scalar,benchmarks/pcre/pcre_exec.c
+nginx_libpcre,pcre_exec,param,0,T_TO_U,/deref/field:magic_number,unsigned int,scalar,benchmarks/pcre/pcre_exec.c
+nginx_libpcre,pcre_exec,param,0,T_TO_U,/deref/field:max_lookbehind,unsigned short,scalar,benchmarks/pcre/pcre_exec.c
+nginx_libpcre,pcre_exec,param,0,T_TO_U,/deref/field:name_count,unsigned short,scalar,benchmarks/pcre/pcre_exec.c
+nginx_libpcre,pcre_exec,param,0,T_TO_U,/deref/field:name_entry_size,unsigned short,scalar,benchmarks/pcre/pcre_exec.c
+nginx_libpcre,pcre_exec,param,0,T_TO_U,/deref/field:name_table_offset,unsigned short,scalar,benchmarks/pcre/pcre_exec.c
+nginx_libpcre,pcre_exec,param,0,T_TO_U,/deref/field:nullpad,void *,pointer,benchmarks/pcre/pcre_exec.c
+nginx_libpcre,pcre_exec,param,0,T_TO_U,/deref/field:options,unsigned int,scalar,benchmarks/pcre/pcre_exec.c
+nginx_libpcre,pcre_exec,param,0,T_TO_U,/deref/field:ref_count,unsigned short,scalar,benchmarks/pcre/pcre_exec.c
+nginx_libpcre,pcre_exec,param,0,T_TO_U,/deref/field:req_char,unsigned short,scalar,benchmarks/pcre/pcre_exec.c
+nginx_libpcre,pcre_exec,param,0,T_TO_U,/deref/field:size,unsigned int,scalar,benchmarks/pcre/pcre_exec.c
+nginx_libpcre,pcre_exec,param,0,T_TO_U,/deref/field:tables,unsigned char *,pointer,benchmarks/pcre/pcre_exec.c
+nginx_libpcre,pcre_exec,param,0,T_TO_U,/deref/field:tables/deref,unsigned char,scalar,benchmarks/pcre/pcre_exec.c
+nginx_libpcre,pcre_exec,param,0,T_TO_U,/deref/field:top_backref,unsigned short,scalar,benchmarks/pcre/pcre_exec.c
+nginx_libpcre,pcre_exec,param,0,T_TO_U,/deref/field:top_bracket,unsigned short,scalar,benchmarks/pcre/pcre_exec.c
+nginx_libpcre,pcre_exec,param,1,T_TO_U,,pcre_extra *,pointer,benchmarks/pcre/pcre_exec.c
+nginx_libpcre,pcre_exec,param,1,T_TO_U,/deref,pcre_extra,struct,benchmarks/pcre/pcre_exec.c
+nginx_libpcre,pcre_exec,param,1,T_TO_U,/deref/field:callout_data,void *,pointer,benchmarks/pcre/pcre_exec.c
+nginx_libpcre,pcre_exec,param,1,T_TO_U,/deref/field:executable_jit,void *,pointer,benchmarks/pcre/pcre_exec.c
+nginx_libpcre,pcre_exec,param,1,T_TO_U,/deref/field:flags,unsigned long,scalar,benchmarks/pcre/pcre_exec.c
+nginx_libpcre,pcre_exec,param,1,T_TO_U,/deref/field:mark,unsigned char **,pointer,benchmarks/pcre/pcre_exec.c
+nginx_libpcre,pcre_exec,param,1,T_TO_U,/deref/field:mark/deref,unsigned char *,pointer,benchmarks/pcre/pcre_exec.c
+nginx_libpcre,pcre_exec,param,1,T_TO_U,/deref/field:mark/deref/deref,unsigned char,scalar,benchmarks/pcre/pcre_exec.c
+nginx_libpcre,pcre_exec,param,1,T_TO_U,/deref/field:match_limit,unsigned long,scalar,benchmarks/pcre/pcre_exec.c
+nginx_libpcre,pcre_exec,param,1,T_TO_U,/deref/field:match_limit_recursion,unsigned long,scalar,benchmarks/pcre/pcre_exec.c
+nginx_libpcre,pcre_exec,param,1,T_TO_U,/deref/field:study_data,void *,pointer,benchmarks/pcre/pcre_exec.c
+nginx_libpcre,pcre_exec,param,1,T_TO_U,/deref/field:tables,unsigned char *,pointer,benchmarks/pcre/pcre_exec.c
+nginx_libpcre,pcre_exec,param,1,T_TO_U,/deref/field:tables/deref,unsigned char,scalar,benchmarks/pcre/pcre_exec.c
+nginx_libpcre,pcre_exec,param,2,T_TO_U,,char *,pointer,benchmarks/pcre/pcre_exec.c
+nginx_libpcre,pcre_exec,param,2,T_TO_U,/deref,char,scalar,benchmarks/pcre/pcre_exec.c
+nginx_libpcre,pcre_exec,param,3,T_TO_U,,int,scalar,benchmarks/pcre/pcre_exec.c
+nginx_libpcre,pcre_exec,param,4,T_TO_U,,int,scalar,benchmarks/pcre/pcre_exec.c
+nginx_libpcre,pcre_exec,param,5,T_TO_U,,int,scalar,benchmarks/pcre/pcre_exec.c
+nginx_libpcre,pcre_exec,param,6,T_TO_U,,int *,pointer,benchmarks/pcre/pcre_exec.c
+nginx_libpcre,pcre_exec,param,6,T_TO_U,/deref,int,scalar,benchmarks/pcre/pcre_exec.c
+nginx_libpcre,pcre_exec,param,7,T_TO_U,,int,scalar,benchmarks/pcre/pcre_exec.c
+nginx_libpcre,pcre_exec,return_scalar,return,U_TO_T,,int,scalar,benchmarks/pcre/pcre_exec.c
+nginx_libpcre,pcre_fullinfo,param,0,T_TO_U,,real_pcre8_or_16 *,pointer,benchmarks/pcre/pcre_fullinfo.c
+nginx_libpcre,pcre_fullinfo,param,0,T_TO_U,/deref,real_pcre8_or_16,struct,benchmarks/pcre/pcre_fullinfo.c
+nginx_libpcre,pcre_fullinfo,param,0,T_TO_U,/deref/field:dummy1,unsigned short,scalar,benchmarks/pcre/pcre_fullinfo.c
+nginx_libpcre,pcre_fullinfo,param,0,T_TO_U,/deref/field:dummy2,unsigned short,scalar,benchmarks/pcre/pcre_fullinfo.c
+nginx_libpcre,pcre_fullinfo,param,0,T_TO_U,/deref/field:dummy3,unsigned short,scalar,benchmarks/pcre/pcre_fullinfo.c
+nginx_libpcre,pcre_fullinfo,param,0,T_TO_U,/deref/field:first_char,unsigned short,scalar,benchmarks/pcre/pcre_fullinfo.c
+nginx_libpcre,pcre_fullinfo,param,0,T_TO_U,/deref/field:flags,unsigned int,scalar,benchmarks/pcre/pcre_fullinfo.c
+nginx_libpcre,pcre_fullinfo,param,0,T_TO_U,/deref/field:limit_match,unsigned int,scalar,benchmarks/pcre/pcre_fullinfo.c
+nginx_libpcre,pcre_fullinfo,param,0,T_TO_U,/deref/field:limit_recursion,unsigned int,scalar,benchmarks/pcre/pcre_fullinfo.c
+nginx_libpcre,pcre_fullinfo,param,0,T_TO_U,/deref/field:magic_number,unsigned int,scalar,benchmarks/pcre/pcre_fullinfo.c
+nginx_libpcre,pcre_fullinfo,param,0,T_TO_U,/deref/field:max_lookbehind,unsigned short,scalar,benchmarks/pcre/pcre_fullinfo.c
+nginx_libpcre,pcre_fullinfo,param,0,T_TO_U,/deref/field:name_count,unsigned short,scalar,benchmarks/pcre/pcre_fullinfo.c
+nginx_libpcre,pcre_fullinfo,param,0,T_TO_U,/deref/field:name_entry_size,unsigned short,scalar,benchmarks/pcre/pcre_fullinfo.c
+nginx_libpcre,pcre_fullinfo,param,0,T_TO_U,/deref/field:name_table_offset,unsigned short,scalar,benchmarks/pcre/pcre_fullinfo.c
+nginx_libpcre,pcre_fullinfo,param,0,T_TO_U,/deref/field:nullpad,void *,pointer,benchmarks/pcre/pcre_fullinfo.c
+nginx_libpcre,pcre_fullinfo,param,0,T_TO_U,/deref/field:options,unsigned int,scalar,benchmarks/pcre/pcre_fullinfo.c
+nginx_libpcre,pcre_fullinfo,param,0,T_TO_U,/deref/field:ref_count,unsigned short,scalar,benchmarks/pcre/pcre_fullinfo.c
+nginx_libpcre,pcre_fullinfo,param,0,T_TO_U,/deref/field:req_char,unsigned short,scalar,benchmarks/pcre/pcre_fullinfo.c
+nginx_libpcre,pcre_fullinfo,param,0,T_TO_U,/deref/field:size,unsigned int,scalar,benchmarks/pcre/pcre_fullinfo.c
+nginx_libpcre,pcre_fullinfo,param,0,T_TO_U,/deref/field:tables,unsigned char *,pointer,benchmarks/pcre/pcre_fullinfo.c
+nginx_libpcre,pcre_fullinfo,param,0,T_TO_U,/deref/field:tables/deref,unsigned char,scalar,benchmarks/pcre/pcre_fullinfo.c
+nginx_libpcre,pcre_fullinfo,param,0,T_TO_U,/deref/field:top_backref,unsigned short,scalar,benchmarks/pcre/pcre_fullinfo.c
+nginx_libpcre,pcre_fullinfo,param,0,T_TO_U,/deref/field:top_bracket,unsigned short,scalar,benchmarks/pcre/pcre_fullinfo.c
+nginx_libpcre,pcre_fullinfo,param,1,T_TO_U,,pcre_extra *,pointer,benchmarks/pcre/pcre_fullinfo.c
+nginx_libpcre,pcre_fullinfo,param,1,T_TO_U,/deref,pcre_extra,struct,benchmarks/pcre/pcre_fullinfo.c
+nginx_libpcre,pcre_fullinfo,param,1,T_TO_U,/deref/field:callout_data,void *,pointer,benchmarks/pcre/pcre_fullinfo.c
+nginx_libpcre,pcre_fullinfo,param,1,T_TO_U,/deref/field:executable_jit,void *,pointer,benchmarks/pcre/pcre_fullinfo.c
+nginx_libpcre,pcre_fullinfo,param,1,T_TO_U,/deref/field:flags,unsigned long,scalar,benchmarks/pcre/pcre_fullinfo.c
+nginx_libpcre,pcre_fullinfo,param,1,T_TO_U,/deref/field:mark,unsigned char **,pointer,benchmarks/pcre/pcre_fullinfo.c
+nginx_libpcre,pcre_fullinfo,param,1,T_TO_U,/deref/field:mark/deref,unsigned char *,pointer,benchmarks/pcre/pcre_fullinfo.c
+nginx_libpcre,pcre_fullinfo,param,1,T_TO_U,/deref/field:mark/deref/deref,unsigned char,scalar,benchmarks/pcre/pcre_fullinfo.c
+nginx_libpcre,pcre_fullinfo,param,1,T_TO_U,/deref/field:match_limit,unsigned long,scalar,benchmarks/pcre/pcre_fullinfo.c
+nginx_libpcre,pcre_fullinfo,param,1,T_TO_U,/deref/field:match_limit_recursion,unsigned long,scalar,benchmarks/pcre/pcre_fullinfo.c
+nginx_libpcre,pcre_fullinfo,param,1,T_TO_U,/deref/field:study_data,void *,pointer,benchmarks/pcre/pcre_fullinfo.c
+nginx_libpcre,pcre_fullinfo,param,1,T_TO_U,/deref/field:tables,unsigned char *,pointer,benchmarks/pcre/pcre_fullinfo.c
+nginx_libpcre,pcre_fullinfo,param,1,T_TO_U,/deref/field:tables/deref,unsigned char,scalar,benchmarks/pcre/pcre_fullinfo.c
+nginx_libpcre,pcre_fullinfo,param,2,T_TO_U,,int,scalar,benchmarks/pcre/pcre_fullinfo.c
+nginx_libpcre,pcre_fullinfo,param,3,T_TO_U,,void *,pointer,benchmarks/pcre/pcre_fullinfo.c
+nginx_libpcre,pcre_fullinfo,return_scalar,return,U_TO_T,,int,scalar,benchmarks/pcre/pcre_fullinfo.c
+nginx_libpcre,pcre_study,param,0,T_TO_U,,real_pcre8_or_16 *,pointer,benchmarks/pcre/pcre_study.c
+nginx_libpcre,pcre_study,param,0,T_TO_U,/deref,real_pcre8_or_16,struct,benchmarks/pcre/pcre_study.c
+nginx_libpcre,pcre_study,param,0,T_TO_U,/deref/field:dummy1,unsigned short,scalar,benchmarks/pcre/pcre_study.c
+nginx_libpcre,pcre_study,param,0,T_TO_U,/deref/field:dummy2,unsigned short,scalar,benchmarks/pcre/pcre_study.c
+nginx_libpcre,pcre_study,param,0,T_TO_U,/deref/field:dummy3,unsigned short,scalar,benchmarks/pcre/pcre_study.c
+nginx_libpcre,pcre_study,param,0,T_TO_U,/deref/field:first_char,unsigned short,scalar,benchmarks/pcre/pcre_study.c
+nginx_libpcre,pcre_study,param,0,T_TO_U,/deref/field:flags,unsigned int,scalar,benchmarks/pcre/pcre_study.c
+nginx_libpcre,pcre_study,param,0,T_TO_U,/deref/field:limit_match,unsigned int,scalar,benchmarks/pcre/pcre_study.c
+nginx_libpcre,pcre_study,param,0,T_TO_U,/deref/field:limit_recursion,unsigned int,scalar,benchmarks/pcre/pcre_study.c
+nginx_libpcre,pcre_study,param,0,T_TO_U,/deref/field:magic_number,unsigned int,scalar,benchmarks/pcre/pcre_study.c
+nginx_libpcre,pcre_study,param,0,T_TO_U,/deref/field:max_lookbehind,unsigned short,scalar,benchmarks/pcre/pcre_study.c
+nginx_libpcre,pcre_study,param,0,T_TO_U,/deref/field:name_count,unsigned short,scalar,benchmarks/pcre/pcre_study.c
+nginx_libpcre,pcre_study,param,0,T_TO_U,/deref/field:name_entry_size,unsigned short,scalar,benchmarks/pcre/pcre_study.c
+nginx_libpcre,pcre_study,param,0,T_TO_U,/deref/field:name_table_offset,unsigned short,scalar,benchmarks/pcre/pcre_study.c
+nginx_libpcre,pcre_study,param,0,T_TO_U,/deref/field:nullpad,void *,pointer,benchmarks/pcre/pcre_study.c
+nginx_libpcre,pcre_study,param,0,T_TO_U,/deref/field:options,unsigned int,scalar,benchmarks/pcre/pcre_study.c
+nginx_libpcre,pcre_study,param,0,T_TO_U,/deref/field:ref_count,unsigned short,scalar,benchmarks/pcre/pcre_study.c
+nginx_libpcre,pcre_study,param,0,T_TO_U,/deref/field:req_char,unsigned short,scalar,benchmarks/pcre/pcre_study.c
+nginx_libpcre,pcre_study,param,0,T_TO_U,/deref/field:size,unsigned int,scalar,benchmarks/pcre/pcre_study.c
+nginx_libpcre,pcre_study,param,0,T_TO_U,/deref/field:tables,unsigned char *,pointer,benchmarks/pcre/pcre_study.c
+nginx_libpcre,pcre_study,param,0,T_TO_U,/deref/field:tables/deref,unsigned char,scalar,benchmarks/pcre/pcre_study.c
+nginx_libpcre,pcre_study,param,0,T_TO_U,/deref/field:top_backref,unsigned short,scalar,benchmarks/pcre/pcre_study.c
+nginx_libpcre,pcre_study,param,0,T_TO_U,/deref/field:top_bracket,unsigned short,scalar,benchmarks/pcre/pcre_study.c
+nginx_libpcre,pcre_study,param,1,T_TO_U,,int,scalar,benchmarks/pcre/pcre_study.c
+nginx_libpcre,pcre_study,param,2,T_TO_U,,char **,pointer,benchmarks/pcre/pcre_study.c
+nginx_libpcre,pcre_study,param,2,T_TO_U,/deref,char *,pointer,benchmarks/pcre/pcre_study.c
+nginx_libpcre,pcre_study,param,2,T_TO_U,/deref/deref,char,scalar,benchmarks/pcre/pcre_study.c
+nginx_libpcre,pcre_study,return,return,U_TO_T,,pcre_extra *,pointer,benchmarks/pcre/pcre_study.c
+nginx_libpcre,pcre_study,return_ptr,return,U_TO_T,/deref,pcre_extra,struct,benchmarks/pcre/pcre_study.c
+nginx_libpcre,pcre_study,return_ptr,return,U_TO_T,/deref/field:callout_data,void *,pointer,benchmarks/pcre/pcre_study.c
+nginx_libpcre,pcre_study,return_ptr,return,U_TO_T,/deref/field:executable_jit,void *,pointer,benchmarks/pcre/pcre_study.c
+nginx_libpcre,pcre_study,return_ptr,return,U_TO_T,/deref/field:flags,unsigned long,scalar,benchmarks/pcre/pcre_study.c
+nginx_libpcre,pcre_study,return_ptr,return,U_TO_T,/deref/field:mark,unsigned char **,pointer,benchmarks/pcre/pcre_study.c
+nginx_libpcre,pcre_study,return_ptr,return,U_TO_T,/deref/field:mark/deref,unsigned char *,pointer,benchmarks/pcre/pcre_study.c
+nginx_libpcre,pcre_study,return_ptr,return,U_TO_T,/deref/field:mark/deref/deref,unsigned char,scalar,benchmarks/pcre/pcre_study.c
+nginx_libpcre,pcre_study,return_ptr,return,U_TO_T,/deref/field:match_limit,unsigned long,scalar,benchmarks/pcre/pcre_study.c
+nginx_libpcre,pcre_study,return_ptr,return,U_TO_T,/deref/field:match_limit_recursion,unsigned long,scalar,benchmarks/pcre/pcre_study.c
+nginx_libpcre,pcre_study,return_ptr,return,U_TO_T,/deref/field:study_data,void *,pointer,benchmarks/pcre/pcre_study.c
+nginx_libpcre,pcre_study,return_ptr,return,U_TO_T,/deref/field:tables,unsigned char *,pointer,benchmarks/pcre/pcre_study.c
+nginx_libpcre,pcre_study,return_ptr,return,U_TO_T,/deref/field:tables/deref,unsigned char,scalar,benchmarks/pcre/pcre_study.c

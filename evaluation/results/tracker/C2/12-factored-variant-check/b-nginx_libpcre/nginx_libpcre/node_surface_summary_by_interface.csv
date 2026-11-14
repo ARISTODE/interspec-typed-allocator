@@ -1,0 +1,6 @@
+benchmark,function,file,total_nodes,pointer_nodes,scalar_nodes,struct_nodes,array_nodes,other_nodes,t_to_u_nodes,u_to_t_nodes,t_to_u_sp1_only_nodes,t_to_u_sp2_only_nodes,t_to_u_sp1_and_sp2_nodes,t_to_u_shared_mutable_nodes,t_to_u_unresolved_nodes,t_to_u_confidentiality_protected_nodes,t_to_u_integrity_protected_nodes,u_to_t_consumed_nodes,u_to_t_unconsumed_nodes,u_to_t_consumed_pointer_nodes,u_to_t_pointer_sp3_protected_nodes,u_to_t_pointer_sp3_remaining_nodes,sp3_pointer_nodes,sp3_pointer_protected_nodes,sp3_pointer_remaining_nodes
+nginx_libpcre,ngx_regex_free,benchmarks/nginx/src/core/ngx_regex.c,1,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0
+nginx_libpcre,pcre_compile,benchmarks/pcre/pcre_compile.c,33,8,24,1,0,0,10,27,2,4,2,2,0,4,6,2,25,0,0,0,0,0,0
+nginx_libpcre,pcre_exec,benchmarks/pcre/pcre_exec.c,45,12,31,2,0,0,44,3,2,23,12,7,0,14,35,0,3,0,0,0,0,0,0
+nginx_libpcre,pcre_fullinfo,benchmarks/pcre/pcre_fullinfo.c,39,11,26,2,0,0,38,1,0,20,15,3,0,15,35,1,0,0,0,0,0,0,0
+nginx_libpcre,pcre_study,benchmarks/pcre/pcre_study.c,40,12,26,2,0,0,27,15,1,18,7,1,0,8,25,0,15,0,0,0,0,0,0
