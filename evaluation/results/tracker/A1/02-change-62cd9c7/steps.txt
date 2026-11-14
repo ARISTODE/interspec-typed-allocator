@@ -1,0 +1,3 @@
+build exit=0
+ctest exit=0
+runtime_address_reuse exit=0

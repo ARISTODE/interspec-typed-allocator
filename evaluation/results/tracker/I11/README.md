@@ -16,6 +16,7 @@ wrapper and workload, not libucl.
 | `02-implementation-ef8a85b/` | `ef8a85b` | Switch tests pass; benign 40/40. |
 | `03-arena-exhaustion-before-reuse-0972491/` | `0972491` | Not a pass or fail run: the port as first committed fails between 20,000 and 30,000 parses in both variants with the registry, because the typed arena does not reuse released addresses. See the README there. |
 | `04-buffer-reuse-f8962c2/` | `f8962c2` | After the shim was changed to keep one buffer per result: switch tests pass, benign 40/40, and 200,000 parses complete in all three isolated variants (`long-run-*`). |
+| `05-allocator-reuse-9f803c0/` | `9f803c0` | After the allocator change, with the shim allocating per parse again: switch tests pass, benign 40/40, 200,000 parses complete in all three isolated variants. |
 
 Each run is the unmodified output of `scripts/run_ucl_port.sh`, started once
 from a clean checkout. Before the two commits were made, the port was built
@@ -36,8 +37,10 @@ The registry knows the returned objects through two declared helper sites in
 the U shim (`string_value`, `emitted`): the shim copies each result into a
 typed allocation before handing it to T. libucl's own allocation sites are not
 instrumented.
-Since `f8962c2` the shim keeps one such allocation per result and reuses it
-while it is large enough, in every variant.
+From `f8962c2` to `9f803c0` the shim kept one such allocation per result and
+reused it. Since the allocator change of 2026-11-14
+(`evaluation/results/tracker/A1/`) it allocates per parse again, as at
+`ef8a85b`.
 
 ## Benign run (`benign/`)
 

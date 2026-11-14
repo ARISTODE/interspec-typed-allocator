@@ -1,0 +1,85 @@
+Test project <build>
+      Start  1: core_poc
+ 1/40 Test  #1: core_poc .........................   Passed    0.00 sec
+      Start  2: memcached_workload_test
+ 2/40 Test  #2: memcached_workload_test ..........   Passed    0.97 sec
+      Start  3: memcached_measurement_test
+ 3/40 Test  #3: memcached_measurement_test .......   Passed    0.06 sec
+      Start  4: runtime_hardening
+ 4/40 Test  #4: runtime_hardening ................   Passed    0.02 sec
+      Start  5: runtime_object_layout
+ 5/40 Test  #5: runtime_object_layout ............   Passed    0.00 sec
+      Start  6: runtime_address_reuse
+ 6/40 Test  #6: runtime_address_reuse ............   Passed    1.47 sec
+      Start  7: policy_runtime
+ 7/40 Test  #7: policy_runtime ...................   Passed    0.00 sec
+      Start  8: p9b_wasm_runtime
+ 8/40 Test  #8: p9b_wasm_runtime .................   Passed    0.00 sec
+      Start  9: p6_security_eval
+ 9/40 Test  #9: p6_security_eval .................   Passed    0.00 sec
+      Start 10: runtime_microbench_evidence
+10/40 Test #10: runtime_microbench_evidence ......   Passed    3.49 sec
+      Start 11: memcached_client_protocol
+11/40 Test #11: memcached_client_protocol ........   Passed    4.35 sec
+      Start 12: memcached_buffered_protocol
+12/40 Test #12: memcached_buffered_protocol ......   Passed    0.79 sec
+      Start 13: evaluation_checkpoint
+13/40 Test #13: evaluation_checkpoint ............   Passed    0.49 sec
+      Start 14: checkpointed_memcached
+14/40 Test #14: checkpointed_memcached ...........   Passed    0.21 sec
+      Start 15: matrix_checkpoint
+15/40 Test #15: matrix_checkpoint ................   Passed    0.30 sec
+      Start 16: capacity_diagnostic
+16/40 Test #16: capacity_diagnostic ..............   Passed    2.07 sec
+      Start 17: capacity_affinity_observation
+17/40 Test #17: capacity_affinity_observation ....   Passed    0.10 sec
+      Start 18: memcached_matrix_evidence
+18/40 Test #18: memcached_matrix_evidence ........   Passed    0.59 sec
+      Start 19: memcached_workload_metadata
+19/40 Test #19: memcached_workload_metadata ......   Passed    0.45 sec
+      Start 20: memcached_lru_transform
+20/40 Test #20: memcached_lru_transform ..........   Passed    0.28 sec
+      Start 21: sp3_security_delta_evidence
+21/40 Test #21: sp3_security_delta_evidence ......   Passed    0.06 sec
+      Start 22: diagnostics
+22/40 Test #22: diagnostics ......................   Passed    0.03 sec
+      Start 23: policy_codegen
+23/40 Test #23: policy_codegen ...................   Passed    0.04 sec
+      Start 24: policy_codegen_hardening
+24/40 Test #24: policy_codegen_hardening .........   Passed    0.03 sec
+      Start 25: policy_inference_build
+25/40 Test #25: policy_inference_build ...........   Passed    0.10 sec
+      Start 26: boundary_codegen
+26/40 Test #26: boundary_codegen .................   Passed    0.04 sec
+      Start 27: p9b_wasm_codegen
+27/40 Test #27: p9b_wasm_codegen .................   Passed    0.04 sec
+      Start 28: p11_wasm_bridge_transform
+28/40 Test #28: p11_wasm_bridge_transform ........   Passed    0.03 sec
+      Start 29: p7c_report
+29/40 Test #29: p7c_report .......................   Passed    0.04 sec
+      Start 30: p7c_report_complete
+30/40 Test #30: p7c_report_complete ..............   Passed    0.03 sec
+      Start 31: p8_report
+31/40 Test #31: p8_report ........................   Passed    0.04 sec
+      Start 32: p8_performance_summary
+32/40 Test #32: p8_performance_summary ...........   Passed    0.03 sec
+      Start 33: p8_application_summary
+33/40 Test #33: p8_application_summary ...........   Passed    0.03 sec
+      Start 34: p8_result_renderer
+34/40 Test #34: p8_result_renderer ...............   Passed    0.03 sec
+      Start 35: p9a_bridge_transform
+35/40 Test #35: p9a_bridge_transform .............   Passed    0.03 sec
+      Start 36: p9a_application_summary
+36/40 Test #36: p9a_application_summary ..........   Passed    0.04 sec
+      Start 37: p9a_result_renderer
+37/40 Test #37: p9a_result_renderer ..............   Passed    0.03 sec
+      Start 38: pointer_census
+38/40 Test #38: pointer_census ...................   Passed    0.00 sec
+      Start 39: pointer_census_evidence
+39/40 Test #39: pointer_census_evidence ..........   Passed    0.06 sec
+      Start 40: behavioral_parity_evidence
+40/40 Test #40: behavioral_parity_evidence .......   Passed    0.06 sec
+
+100% tests passed, 0 tests failed out of 40
+
+Total Test time (real) =  16.47 sec

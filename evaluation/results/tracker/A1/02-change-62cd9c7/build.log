@@ -1,0 +1,39 @@
+[  3%] Building CXX object CMakeFiles/memcached_workload_test.dir/tests/memcached_workload.cpp.o
+[  7%] Building CXX object CMakeFiles/core_poc.dir/tests/core_poc.cpp.o
+[ 11%] Building CXX object CMakeFiles/memcached_measurement_test.dir/tests/memcached_measurement.cpp.o
+[ 15%] Linking CXX executable memcached_measurement_test
+[ 15%] Built target memcached_measurement_test
+[ 19%] Building CXX object CMakeFiles/runtime_hardening.dir/tests/runtime_hardening.cpp.o
+[ 23%] Linking CXX executable memcached_workload_test
+[ 23%] Built target memcached_workload_test
+[ 26%] Building CXX object CMakeFiles/runtime_object_layout.dir/tests/runtime_object_layout.cpp.o
+[ 30%] Linking CXX executable core_poc
+[ 30%] Built target core_poc
+[ 34%] Building CXX object CMakeFiles/runtime_address_reuse.dir/tests/runtime_address_reuse.cpp.o
+[ 38%] Linking CXX executable runtime_hardening
+[ 38%] Built target runtime_hardening
+[ 42%] Building CXX object CMakeFiles/policy_runtime.dir/tests/policy_runtime.cpp.o
+[ 46%] Linking CXX executable runtime_object_layout
+[ 46%] Built target runtime_object_layout
+[ 50%] Building CXX object CMakeFiles/p9b_wasm_runtime.dir/tests/p9b_wasm_runtime.cpp.o
+[ 53%] Linking CXX executable runtime_address_reuse
+[ 53%] Built target runtime_address_reuse
+[ 57%] Building CXX object CMakeFiles/p6_security_eval.dir/evaluation/security_eval.cpp.o
+[ 61%] Linking CXX executable policy_runtime
+[ 61%] Built target policy_runtime
+[ 65%] Building CXX object CMakeFiles/p6_runtime_bench.dir/evaluation/runtime_bench.cpp.o
+[ 69%] Linking CXX executable p9b_wasm_runtime
+[ 73%] Linking CXX executable p6_security_eval
+[ 73%] Built target p6_security_eval
+[ 76%] Building CXX object CMakeFiles/memcached_client.dir/evaluation/memcached_client.cpp.o
+[ 76%] Built target p9b_wasm_runtime
+[ 80%] Building CXX object CMakeFiles/diagnostics.dir/tests/diagnostics.cpp.o
+[ 84%] Linking CXX executable p6_runtime_bench
+[ 88%] Linking CXX executable memcached_client
+[ 88%] Built target p6_runtime_bench
+[ 92%] Building CXX object CMakeFiles/pointer_census.dir/tests/pointer_census.cpp.o
+[ 96%] Linking CXX executable pointer_census
+[ 96%] Built target memcached_client
+[ 96%] Built target pointer_census
+[100%] Linking CXX executable diagnostics
+[100%] Built target diagnostics

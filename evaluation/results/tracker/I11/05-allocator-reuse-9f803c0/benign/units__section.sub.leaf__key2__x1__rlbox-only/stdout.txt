@@ -1,0 +1,1 @@
+UCL_BENCH variant=rlbox-only iterations=1 input_bytes=166 val1=64656570 val2=71756f7465642076616c7565207769746820737061636573 emitted_bytes=143 emitted_fnv=3a7e85d65a15c62c checks=0 elapsed_ns=34628

@@ -17,6 +17,7 @@ libpng alone; ImageMagick is not part of it.
 |---|---|---|
 | `01-tests-before-implementation-38800f3/` | `38800f3` | The port and its tests exist; the wrapper copies T's out-parameter values in and copies both inputs back. The "on" cases of SP1 and SP2 fail, as intended. The SP3 test already passes, because the registry check and its switch are in the shared engine (`include/interspec/boundary/wasm_port.h`, tested red then green under I11). Benign 48/48. |
 | `02-implementation-dc8abb9/` | `dc8abb9` | Switch tests pass; benign 48/48. |
+| `03-allocator-reuse-9f803c0/` | `9f803c0` | After the allocator change and with the shim back to one allocation per call: switch tests pass, benign 48/48, 50,000 rounds complete. |
 
 Each run is the unmodified output of `scripts/run_png_port.sh`, started once
 from a clean checkout. One scratch build preceded the two commits; it was not
@@ -35,19 +36,22 @@ live object of another type (`wrong_type`), a released object (`untracked`),
 and a live object of the right type that is smaller than the size U reports
 (`out_of_bounds`).
 
-## Change to the artifact shim, and why
+## Change to the artifact shim
 
 The artifact shim allocates the decoded pixels and the encoded image with
-`malloc`/`realloc` for every call and frees them when T is done. In the port
-both buffers come from declared allocation sites that the registry knows, and
-the shim keeps one buffer of each kind and reuses it while it is large enough
-(`returned_reserve` in `magick_png_shim.c`; every changed line is marked
-`port:`). The reason is a property of the typed allocator: its arena hands out
-addresses once and does not reuse released ones
-(`allocate_with_hash_unlocked` in `include/interspec/runtime.h`), so a fresh
-buffer per call would exhaust the arena after a number of calls that depends
-on the image size. The reuse is compiled into every variant, including
-RLBox-only and native, so the variants do the same allocation work.
+`malloc`/`realloc` and frees them when T is done. The port's shim does the
+same through three small functions (`returned_alloc`, `returned_grow`,
+`returned_free` in `magick_png_shim.c`; every changed line is marked `port:`),
+which in the tracked builds allocate at declared sites that the registry
+knows. Nothing else differs from the artifact shim.
+
+History: the commits `38800f3` and `dc8abb9` kept one buffer of each kind and
+reused it, because the typed allocator then never reused a released address.
+After the allocator change of 2026-11-14 (`evaluation/results/tracker/A1/`)
+the shim went back to one allocation per call (`9f803c0`).
+`03-allocator-reuse-9f803c0/` is the rerun from a clean checkout: switch tests
+pass, benign 48/48, and 50,000 decode and encode rounds complete in all three
+isolated variants (`long-run-*`).
 
 ## Benign run (`benign/`)
 
