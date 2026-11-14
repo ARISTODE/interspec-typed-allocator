@@ -11,3 +11,16 @@ CMake Deprecation Warning at build/_deps/catch2-src/CMakeLists.txt:1 (cmake_mini
   to work with policies introduced by <max> or earlier.
 
 
+Cloning into 'wasm2c_compiler-src'...
+HEAD is now at 974221b1 Reject delegate depth overflow in TypeChecker::OnDelegate (#2841)
+Submodule 'third_party/gtest' (https://github.com/google/googletest) registered for path 'third_party/gtest'
+Submodule 'third_party/picosha2' (https://github.com/okdshin/PicoSHA2) registered for path 'third_party/picosha2'
+Submodule 'third_party/ply' (https://github.com/dabeaz/ply) registered for path 'third_party/ply'
+Submodule 'third_party/simde' (https://github.com/simd-everywhere/simde) registered for path 'third_party/simde'
+Submodule 'third_party/testsuite' (https://github.com/WebAssembly/testsuite) registered for path 'third_party/testsuite'
+Submodule 'third_party/uvwasi' (https://github.com/nodejs/uvwasi) registered for path 'third_party/uvwasi'
+Submodule 'third_party/wasm-c-api' (https://github.com/WebAssembly/wasm-c-api) registered for path 'third_party/wasm-c-api'
+Cloning into '/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/p5-tmp-9e1b06a/interspec-yaml-libyaml/build/_deps/wasm2c_compiler-src/third_party/gtest'...
+Cloning into '/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/p5-tmp-9e1b06a/interspec-yaml-libyaml/build/_deps/wasm2c_compiler-src/third_party/picosha2'...
+Cloning into '/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/p5-tmp-9e1b06a/interspec-yaml-libyaml/build/_deps/wasm2c_compiler-src/third_party/ply'...
+Cloning into '/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/p5-tmp-9e1b06a/interspec-yaml-libyaml/build/_deps/wasm2c_compiler-src/third_party/simde'...
