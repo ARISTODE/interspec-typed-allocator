@@ -1,0 +1,1 @@
+bash coverage/prepare_nginx_pcre_for_codeql.sh

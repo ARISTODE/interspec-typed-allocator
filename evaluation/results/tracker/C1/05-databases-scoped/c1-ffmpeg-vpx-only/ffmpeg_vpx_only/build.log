@@ -1,0 +1,1118 @@
+Picked up JAVA_TOOL_OPTIONS: -Djavax.net.ssl.trustStore=/etc/ssl/certs/java/cacerts -Djavax.net.ssl.trustStoreType=JKS -Dhttps.proxyHost=127.0.0.1 -Dhttps.proxyPort=42511 -Dhttp.nonProxyHosts=localhost|127.0.0.1|::1|127.*|0.*|::|169.254.*|api.anthropic.com|api-staging.anthropic.com|api-pr-preview.anthropic.com|mcp-proxy.anthropic.com|mcp-proxy-staging.anthropic.com|registry.npmjs.org|jsr.io|npm.jsr.io|pypi.org|files.pythonhosted.org|index.crates.io|proxy.golang.org|host.docker.internal|10.*|172.16.*|172.17.*|172.18.*|172.19.*|172.20.*|172.21.*|172.22.*|172.23.*|172.24.*|172.25.*|172.26.*|172.27.*|172.28.*|172.29.*|172.30.*|172.31.*|192.168.*|100.64.0.0/10|*.svc.cluster.local|*.svc.cluster.local -Djdk.http.auth.tunneling.disabledSchemes= -Djdk.http.auth.proxying.disabledSchemes=
+Initializing database at /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/db/ffmpeg_vpx_only.
+Running build command: [bash, coverage/build_ffmpeg_vpx_only_for_codeql.sh]
+Running command in /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/root: [bash, coverage/build_ffmpeg_vpx_only_for_codeql.sh]
+[2026-11-14 16:48:13] [build-stdout]   disabling examples
+[2026-11-14 16:48:13] [build-stdout]   disabling tools
+[2026-11-14 16:48:13] [build-stdout]   disabling docs
+[2026-11-14 16:48:13] [build-stdout]   disabling unit_tests
+[2026-11-14 16:48:13] [build-stdout]   enabling vp8
+[2026-11-14 16:48:13] [build-stdout]   enabling vp9
+[2026-11-14 16:48:13] [build-stdout]   disabling shared
+[2026-11-14 16:48:13] [build-stdout] Configuring for target 'x86_64-linux-gcc'
+[2026-11-14 16:48:13] [build-stdout]   enabling x86_64
+[2026-11-14 16:48:13] [build-stdout]   enabling pic
+[2026-11-14 16:48:13] [build-stdout]   enabling runtime_cpu_detect
+[2026-11-14 16:48:13] [build-stdout]   enabling mmx
+[2026-11-14 16:48:13] [build-stdout]   enabling sse
+[2026-11-14 16:48:13] [build-stdout]   enabling sse2
+[2026-11-14 16:48:13] [build-stdout]   enabling sse3
+[2026-11-14 16:48:13] [build-stdout]   enabling ssse3
+[2026-11-14 16:48:13] [build-stdout]   enabling sse4_1
+[2026-11-14 16:48:13] [build-stdout]   enabling avx
+[2026-11-14 16:48:13] [build-stdout]   enabling avx2
+[2026-11-14 16:48:13] [build-stdout]   enabling avx512
+[2026-11-14 16:48:14] [build-stdout]   using nasm
+[2026-11-14 16:48:16] [build-stdout]   enabling postproc
+[2026-11-14 16:48:16] [build-stdout]   enabling webm_io
+[2026-11-14 16:48:16] [build-stdout]   enabling libyuv
+[2026-11-14 16:48:17] [build-stdout] Creating makefiles for x86_64-linux-gcc libs
+[2026-11-14 16:48:18] [build-stdout]     [CREATE] vpx_scale_rtcd.h
+[2026-11-14 16:48:18] [build-stdout]     [CREATE] vpx_dsp_rtcd.h
+[2026-11-14 16:48:18] [build-stdout]     [CREATE] vp8_rtcd.h
+[2026-11-14 16:48:18] [build-stdout]     [CREATE] vp9_rtcd.h
+[2026-11-14 16:48:18] [build-stdout]     [DEP] vp8/vp8_ratectrl_rtc.cc.d
+[2026-11-14 16:48:18] [build-stdout]     [DEP] vp9/ratectrl_rtc.cc.d
+[2026-11-14 16:48:18] [build-stdout]     [DEP] vp8/encoder/x86/temporal_filter_apply_sse2.asm.d
+[2026-11-14 16:48:18] [build-stdout]     [DEP] vp8/encoder/x86/block_error_sse2.asm.d
+[2026-11-14 16:48:18] [build-stdout]     [DEP] vp8/encoder/x86/fwalsh_sse2.asm.d
+[2026-11-14 16:48:18] [build-stdout]     [DEP] vp8/encoder/x86/dct_sse2.asm.d
+[2026-11-14 16:48:18] [build-stdout]     [DEP] vp8/encoder/x86/copy_sse3.asm.d
+[2026-11-14 16:48:18] [build-stdout]     [DEP] vp8/encoder/x86/copy_sse2.asm.d
+[2026-11-14 16:48:18] [build-stdout]     [DEP] vp8/common/x86/loopfilter_block_sse2_x86_64.asm.d
+[2026-11-14 16:48:18] [build-stdout]     [DEP] vp8/common/x86/mfqe_sse2.asm.d
+[2026-11-14 16:48:18] [build-stdout]     [DEP] vp8/common/x86/subpixel_ssse3.asm.d
+[2026-11-14 16:48:18] [build-stdout]     [DEP] vp8/common/x86/iwalsh_sse2.asm.d
+[2026-11-14 16:48:18] [build-stdout]     [DEP] vp8/common/x86/loopfilter_sse2.asm.d
+[2026-11-14 16:48:18] [build-stdout]     [DEP] vp8/common/x86/subpixel_sse2.asm.d
+[2026-11-14 16:48:18] [build-stdout]     [DEP] vp8/common/x86/recon_sse2.asm.d
+[2026-11-14 16:48:18] [build-stdout]     [DEP] vp8/common/x86/idctllm_sse2.asm.d
+[2026-11-14 16:48:18] [build-stdout]     [DEP] vp8/common/x86/subpixel_mmx.asm.d
+[2026-11-14 16:48:18] [build-stdout]     [DEP] vp8/common/x86/recon_mmx.asm.d
+[2026-11-14 16:48:18] [build-stdout]     [DEP] vp8/common/x86/idctllm_mmx.asm.d
+[2026-11-14 16:48:18] [build-stdout]     [DEP] vp8/common/x86/dequantize_mmx.asm.d
+[2026-11-14 16:48:18] [build-stdout]     [DEP] vp9/encoder/x86/vp9_error_sse2.asm.d
+[2026-11-14 16:48:18] [build-stdout]     [DEP] vp9/encoder/x86/vp9_dct_sse2.asm.d
+[2026-11-14 16:48:18] [build-stdout]     [DEP] vp8/encoder/x86/vp8_enc_stubs_sse2.c.d
+[2026-11-14 16:48:18] [build-stdout]     [DEP] vp8/encoder/x86/denoising_sse2.c.d
+[2026-11-14 16:48:19] [build-stdout]     [DEP] vp8/encoder/x86/quantize_sse4.c.d
+[2026-11-14 16:48:19] [build-stdout]     [DEP] vp8/encoder/x86/vp8_quantize_ssse3.c.d
+[2026-11-14 16:48:19] [build-stdout]     [DEP] vp8/encoder/x86/vp8_quantize_sse2.c.d
+[2026-11-14 16:48:19] [build-stdout]     [DEP] vp8/encoder/temporal_filter.c.d
+[2026-11-14 16:48:19] [build-stdout]     [DEP] vp8/encoder/treewriter.c.d
+[2026-11-14 16:48:19] [build-stdout]     [DEP] vp8/encoder/tokenize.c.d
+[2026-11-14 16:48:19] [build-stdout]     [DEP] vp8/common/vp8_skin_detection.c.d
+[2026-11-14 16:48:19] [build-stdout]     [DEP] vp8/encoder/segmentation.c.d
+[2026-11-14 16:48:19] [build-stdout]     [DEP] vp8/encoder/rdopt.c.d
+[2026-11-14 16:48:19] [build-stdout]     [DEP] vp8/encoder/ratectrl.c.d
+[2026-11-14 16:48:19] [build-stdout]     [DEP] vp8/encoder/picklpf.c.d
+[2026-11-14 16:48:19] [build-stdout]     [DEP] vp8/encoder/vp8_quantize.c.d
+[2026-11-14 16:48:19] [build-stdout]     [DEP] vp8/encoder/pickinter.c.d
+[2026-11-14 16:48:19] [build-stdout]     [DEP] vp8/encoder/onyx_if.c.d
+[2026-11-14 16:48:19] [build-stdout]     [DEP] vp8/encoder/modecosts.c.d
+[2026-11-14 16:48:19] [build-stdout]     [DEP] vp8/encoder/mcomp.c.d
+[2026-11-14 16:48:19] [build-stdout]     [DEP] vp8/encoder/lookahead.c.d
+[2026-11-14 16:48:19] [build-stdout]     [DEP] vp8/encoder/denoising.c.d
+[2026-11-14 16:48:19] [build-stdout]     [DEP] vp8/encoder/firstpass.c.d
+[2026-11-14 16:48:19] [build-stdout]     [DEP] vp8/encoder/ethreading.c.d
+[2026-11-14 16:48:19] [build-stdout]     [DEP] vp8/encoder/encodemv.c.d
+[2026-11-14 16:48:19] [build-stdout]     [DEP] vp8/encoder/encodemb.c.d
+[2026-11-14 16:48:20] [build-stdout]     [DEP] vp8/encoder/encodeintra.c.d
+[2026-11-14 16:48:20] [build-stdout]     [DEP] vp8/encoder/encodeframe.c.d
+[2026-11-14 16:48:20] [build-stdout]     [DEP] vp8/encoder/copy_c.c.d
+[2026-11-14 16:48:20] [build-stdout]     [DEP] vp8/encoder/dct.c.d
+[2026-11-14 16:48:20] [build-stdout]     [DEP] vp8/encoder/boolhuff.c.d
+[2026-11-14 16:48:20] [build-stdout]     [DEP] vp8/vp8_cx_iface.c.d
+[2026-11-14 16:48:20] [build-stdout]     [DEP] vp8/encoder/bitstream.c.d
+[2026-11-14 16:48:20] [build-stdout]     [DEP] vp8/common/x86/bilinear_filter_sse2.c.d
+[2026-11-14 16:48:20] [build-stdout]     [DEP] vp8/common/x86/idct_blk_sse2.c.d
+[2026-11-14 16:48:20] [build-stdout]     [DEP] vp8/common/x86/idct_blk_mmx.c.d
+[2026-11-14 16:48:20] [build-stdout]     [DEP] vp8/common/postproc.c.d
+[2026-11-14 16:48:20] [build-stdout]     [DEP] vp8/common/mfqe.c.d
+[2026-11-14 16:48:20] [build-stdout]     [DEP] vp8/common/x86/loopfilter_x86.c.d
+[2026-11-14 16:48:20] [build-stdout]     [DEP] vp8/common/x86/vp8_asm_stubs.c.d
+[2026-11-14 16:48:20] [build-stdout]     [DEP] vp8/common/treecoder.c.d
+[2026-11-14 16:48:20] [build-stdout]     [DEP] vp8/common/setupintrarecon.c.d
+[2026-11-14 16:48:20] [build-stdout]     [DEP] vp8/common/swapyv12buffer.c.d
+[2026-11-14 16:48:20] [build-stdout]     [DEP] vp8/common/reconintra4x4.c.d
+[2026-11-14 16:48:20] [build-stdout]     [DEP] vp8/common/reconintra.c.d
+[2026-11-14 16:48:20] [build-stdout]     [DEP] vp8/common/reconinter.c.d
+[2026-11-14 16:48:20] [build-stdout]     [DEP] vp8/common/quant_common.c.d
+[2026-11-14 16:48:20] [build-stdout]     [DEP] vp8/common/modecont.c.d
+[2026-11-14 16:48:20] [build-stdout]     [DEP] vp8/common/mbpitch.c.d
+[2026-11-14 16:48:20] [build-stdout]     [DEP] vp8/common/loopfilter_filters.c.d
+[2026-11-14 16:48:20] [build-stdout]     [DEP] vp8/common/vp8_loopfilter.c.d
+[2026-11-14 16:48:20] [build-stdout]     [DEP] vp8/common/rtcd.c.d
+[2026-11-14 16:48:20] [build-stdout]     [DEP] vp8/common/idctllm.c.d
+[2026-11-14 16:48:20] [build-stdout]     [DEP] vp8/common/idct_blk.c.d
+[2026-11-14 16:48:20] [build-stdout]     [DEP] vp8/common/generic/systemdependent.c.d
+[2026-11-14 16:48:20] [build-stdout]     [DEP] vp8/common/findnearmv.c.d
+[2026-11-14 16:48:20] [build-stdout]     [DEP] vp8/common/filter.c.d
+[2026-11-14 16:48:20] [build-stdout]     [DEP] vp8/common/extend.c.d
+[2026-11-14 16:48:20] [build-stdout]     [DEP] vp8/common/entropymv.c.d
+[2026-11-14 16:48:20] [build-stdout]     [DEP] vp8/common/entropymode.c.d
+[2026-11-14 16:48:20] [build-stdout]     [DEP] vp8/common/entropy.c.d
+[2026-11-14 16:48:20] [build-stdout]     [DEP] vp8/common/dequantize.c.d
+[2026-11-14 16:48:20] [build-stdout]     [DEP] vp8/common/blockd.c.d
+[2026-11-14 16:48:20] [build-stdout]     [DEP] vp8/common/alloccommon.c.d
+[2026-11-14 16:48:21] [build-stdout]     [DEP] vp9/encoder/x86/vp9_error_avx2.c.d
+[2026-11-14 16:48:21] [build-stdout]     [DEP] vp9/encoder/x86/vp9_frame_scale_ssse3.c.d
+[2026-11-14 16:48:21] [build-stdout]     [DEP] vp9/encoder/x86/vp9_dct_intrin_sse2.c.d
+[2026-11-14 16:48:21] [build-stdout]     [DEP] vp9/encoder/x86/vp9_quantize_avx2.c.d
+[2026-11-14 16:48:21] [build-stdout]     [DEP] vp9/encoder/x86/vp9_quantize_ssse3.c.d
+[2026-11-14 16:48:21] [build-stdout]     [DEP] vp9/encoder/x86/vp9_quantize_sse2.c.d
+[2026-11-14 16:48:21] [build-stdout]     [DEP] vp9/encoder/x86/temporal_filter_sse4.c.d
+[2026-11-14 16:48:21] [build-stdout]     [DEP] vp9/encoder/vp9_mbgraph.c.d
+[2026-11-14 16:48:21] [build-stdout]     [DEP] vp9/encoder/vp9_tpl_model.c.d
+[2026-11-14 16:48:21] [build-stdout]     [DEP] vp9/encoder/vp9_temporal_filter.c.d
+[2026-11-14 16:48:21] [build-stdout]     [DEP] vp9/encoder/vp9_ext_ratectrl.c.d
+[2026-11-14 16:48:21] [build-stdout]     [DEP] vp9/encoder/vp9_noise_estimate.c.d
+[2026-11-14 16:48:21] [build-stdout]     [DEP] vp9/encoder/vp9_skin_detection.c.d
+[2026-11-14 16:48:21] [build-stdout]     [DEP] vp9/encoder/vp9_alt_ref_aq.c.d
+[2026-11-14 16:48:21] [build-stdout]     [DEP] vp9/encoder/vp9_aq_complexity.c.d
+[2026-11-14 16:48:21] [build-stdout]     [DEP] vp9/encoder/vp9_aq_cyclicrefresh.c.d
+[2026-11-14 16:48:21] [build-stdout]     [DEP] vp9/encoder/vp9_aq_360.c.d
+[2026-11-14 16:48:21] [build-stdout]     [DEP] vp9/encoder/vp9_aq_variance.c.d
+[2026-11-14 16:48:21] [build-stdout]     [DEP] vp9/encoder/vp9_treewriter.c.d
+[2026-11-14 16:48:21] [build-stdout]     [DEP] vp9/encoder/vp9_tokenize.c.d
+[2026-11-14 16:48:21] [build-stdout]     [DEP] vp9/encoder/vp9_resize.c.d
+[2026-11-14 16:48:21] [build-stdout]     [DEP] vp9/encoder/vp9_svc_layercontext.c.d
+[2026-11-14 16:48:21] [build-stdout]     [DEP] vp9/encoder/vp9_subexp.c.d
+[2026-11-14 16:48:21] [build-stdout]     [DEP] vp9/encoder/vp9_speed_features.c.d
+[2026-11-14 16:48:21] [build-stdout]     [DEP] vp9/encoder/vp9_segmentation.c.d
+[2026-11-14 16:48:21] [build-stdout]     [DEP] vp9/encoder/vp9_pickmode.c.d
+[2026-11-14 16:48:21] [build-stdout]     [DEP] vp9/encoder/vp9_rdopt.c.d
+[2026-11-14 16:48:21] [build-stdout]     [DEP] vp9/encoder/vp9_rd.c.d
+[2026-11-14 16:48:21] [build-stdout]     [DEP] vp9/encoder/vp9_ratectrl.c.d
+[2026-11-14 16:48:21] [build-stdout]     [DEP] vp9/encoder/vp9_quantize.c.d
+[2026-11-14 16:48:21] [build-stdout]     [DEP] vp9/encoder/vp9_picklpf.c.d
+[2026-11-14 16:48:21] [build-stdout]     [DEP] vp9/encoder/vp9_encoder.c.d
+[2026-11-14 16:48:21] [build-stdout]     [DEP] vp9/encoder/vp9_lookahead.c.d
+[2026-11-14 16:48:21] [build-stdout]     [DEP] vp9/encoder/vp9_multi_thread.c.d
+[2026-11-14 16:48:21] [build-stdout]     [DEP] vp9/encoder/vp9_mcomp.c.d
+[2026-11-14 16:48:21] [build-stdout]     [DEP] vp9/encoder/vp9_frame_scale.c.d
+[2026-11-14 16:48:21] [build-stdout]     [DEP] vp9/encoder/vp9_firstpass.c.d
+[2026-11-14 16:48:21] [build-stdout]     [DEP] vp9/encoder/vp9_extend.c.d
+[2026-11-14 16:48:22] [build-stdout]     [DEP] vp9/encoder/vp9_ethread.c.d
+[2026-11-14 16:48:22] [build-stdout]     [DEP] vp9/encoder/vp9_encodemv.c.d
+[2026-11-14 16:48:22] [build-stdout]     [DEP] vp9/encoder/vp9_encodemb.c.d
+[2026-11-14 16:48:22] [build-stdout]     [DEP] vp9/encoder/vp9_encodeframe.c.d
+[2026-11-14 16:48:22] [build-stdout]     [DEP] vp9/encoder/vp9_cost.c.d
+[2026-11-14 16:48:22] [build-stdout]     [DEP] vp9/encoder/vp9_dct.c.d
+[2026-11-14 16:48:22] [build-stdout]     [DEP] vp9/encoder/vp9_context_tree.c.d
+[2026-11-14 16:48:22] [build-stdout]     [DEP] vp9/encoder/vp9_bitstream.c.d
+[2026-11-14 16:48:22] [build-stdout]     [DEP] vp9/vp9_cx_iface.c.d
+[2026-11-14 16:48:22] [build-stdout]     [DEP] vp9/common/x86/vp9_idct_intrin_sse2.c.d
+[2026-11-14 16:48:22] [build-stdout]     [DEP] vp9/common/vp9_scan.c.d
+[2026-11-14 16:48:22] [build-stdout]     [DEP] vp9/common/vp9_common_data.c.d
+[2026-11-14 16:48:22] [build-stdout]     [DEP] vp9/common/vp9_reconintra.c.d
+[2026-11-14 16:48:22] [build-stdout]     [DEP] vp9/common/vp9_reconinter.c.d
+[2026-11-14 16:48:22] [build-stdout]     [DEP] vp9/common/vp9_quant_common.c.d
+[2026-11-14 16:48:22] [build-stdout]     [DEP] vp9/common/vp9_mvref_common.c.d
+[2026-11-14 16:48:22] [build-stdout]     [DEP] vp9/common/vp9_thread_common.c.d
+[2026-11-14 16:48:22] [build-stdout]     [DEP] vp9/common/vp9_loopfilter.c.d
+[2026-11-14 16:48:22] [build-stdout]     [DEP] vp9/common/vp9_tile_common.c.d
+[2026-11-14 16:48:22] [build-stdout]     [DEP] vp9/common/vp9_seg_common.c.d
+[2026-11-14 16:48:22] [build-stdout]     [DEP] vp9/common/vp9_scale.c.d
+[2026-11-14 16:48:22] [build-stdout]     [DEP] vp9/common/vp9_rtcd.c.d
+[2026-11-14 16:48:22] [build-stdout]     [DEP] vp9/common/vp9_pred_common.c.d
+[2026-11-14 16:48:22] [build-stdout]     [DEP] vp9/common/vp9_filter.c.d
+[2026-11-14 16:48:22] [build-stdout]     [DEP] vp9/common/vp9_idct.c.d
+[2026-11-14 16:48:22] [build-stdout]     [DEP] vp9/common/vp9_frame_buffers.c.d
+[2026-11-14 16:48:22] [build-stdout]     [DEP] vp9/common/vp9_entropymv.c.d
+[2026-11-14 16:48:22] [build-stdout]     [DEP] vp9/common/vp9_entropy.c.d
+[2026-11-14 16:48:22] [build-stdout]     [DEP] vp9/common/vp9_entropymode.c.d
+[2026-11-14 16:48:22] [build-stdout]     [DEP] vp9/common/vp9_blockd.c.d
+[2026-11-14 16:48:22] [build-stdout]     [DEP] vp9/common/vp9_alloccommon.c.d
+[2026-11-14 16:48:22] [build-stdout]     [DEP] vp9/vp9_iface_common.c.d
+[2026-11-14 16:48:22] [build-stdout]     [DEP] vpx_dsp/x86/subpel_variance_sse2.asm.d
+[2026-11-14 16:48:22] [build-stdout]     [DEP] vpx_dsp/x86/ssim_opt_x86_64.asm.d
+[2026-11-14 16:48:22] [build-stdout]     [DEP] vpx_dsp/x86/subtract_sse2.asm.d
+[2026-11-14 16:48:22] [build-stdout]     [DEP] vpx_dsp/x86/sad_sse2.asm.d
+[2026-11-14 16:48:22] [build-stdout]     [DEP] vpx_dsp/x86/sad4d_sse2.asm.d
+[2026-11-14 16:48:22] [build-stdout]     [DEP] vpx_dsp/x86/avg_ssse3_x86_64.asm.d
+[2026-11-14 16:48:22] [build-stdout]     [DEP] vpx_dsp/x86/inv_wht_sse2.asm.d
+[2026-11-14 16:48:23] [build-stdout]     [DEP] vpx_dsp/x86/fwd_txfm_ssse3_x86_64.asm.d
+[2026-11-14 16:48:23] [build-stdout]     [DEP] vpx_dsp/x86/vpx_convolve_copy_sse2.asm.d
+[2026-11-14 16:48:23] [build-stdout]     [DEP] vpx_dsp/x86/vpx_subpixel_8t_ssse3.asm.d
+[2026-11-14 16:48:23] [build-stdout]     [DEP] vpx_dsp/x86/vpx_subpixel_bilinear_ssse3.asm.d
+[2026-11-14 16:48:23] [build-stdout]     [DEP] vpx_dsp/x86/vpx_subpixel_bilinear_sse2.asm.d
+[2026-11-14 16:48:23] [build-stdout]     [DEP] vpx_dsp/x86/vpx_subpixel_8t_sse2.asm.d
+[2026-11-14 16:48:23] [build-stdout]     [DEP] vpx_dsp/x86/deblock_sse2.asm.d
+[2026-11-14 16:48:23] [build-stdout]     [DEP] vpx_dsp/x86/add_noise_sse2.asm.d
+[2026-11-14 16:48:23] [build-stdout]     [DEP] vpx_dsp/x86/intrapred_ssse3.asm.d
+[2026-11-14 16:48:23] [build-stdout]     [DEP] vpx_dsp/x86/intrapred_sse2.asm.d
+[2026-11-14 16:48:23] [build-stdout]     [DEP] vpx_ports/emms_mmx.asm.d
+[2026-11-14 16:48:23] [build-stdout]     [DEP] vpx_config.c.d
+[2026-11-14 16:48:23] [build-stdout]     [DEP] vp9/decoder/vp9_job_queue.c.d
+[2026-11-14 16:48:23] [build-stdout]     [DEP] vp9/decoder/vp9_dsubexp.c.d
+[2026-11-14 16:48:23] [build-stdout]     [DEP] vp9/decoder/vp9_decoder.c.d
+[2026-11-14 16:48:23] [build-stdout]     [DEP] vp9/decoder/vp9_decodeframe.c.d
+[2026-11-14 16:48:23] [build-stdout]     [DEP] vp9/decoder/vp9_detokenize.c.d
+[2026-11-14 16:48:23] [build-stdout]     [DEP] vp9/decoder/vp9_decodemv.c.d
+[2026-11-14 16:48:23] [build-stdout]     [DEP] vp9/vp9_dx_iface.c.d
+[2026-11-14 16:48:23] [build-stdout]     [DEP] vp8/decoder/threading.c.d
+[2026-11-14 16:48:23] [build-stdout]     [DEP] vp8/decoder/onyxd_if.c.d
+[2026-11-14 16:48:23] [build-stdout]     [DEP] vp8/decoder/detokenize.c.d
+[2026-11-14 16:48:23] [build-stdout]     [DEP] vp8/decoder/decodeframe.c.d
+[2026-11-14 16:48:23] [build-stdout]     [DEP] vp8/decoder/decodemv.c.d
+[2026-11-14 16:48:23] [build-stdout]     [DEP] vp8/decoder/dboolhuff.c.d
+[2026-11-14 16:48:23] [build-stdout]     [DEP] vp8/vp8_dx_iface.c.d
+[2026-11-14 16:48:23] [build-stdout]     [DEP] vpx_util/vpx_write_yuv_frame.c.d
+[2026-11-14 16:48:23] [build-stdout]     [DEP] vpx_util/vpx_thread.c.d
+[2026-11-14 16:48:23] [build-stdout]     [DEP] vpx_dsp/vpx_dsp_rtcd.c.d
+[2026-11-14 16:48:23] [build-stdout]     [DEP] vpx_dsp/x86/variance_avx2.c.d
+[2026-11-14 16:48:23] [build-stdout]     [DEP] vpx_dsp/x86/variance_sse2.c.d
+[2026-11-14 16:48:23] [build-stdout]     [DEP] vpx_dsp/x86/avg_pred_avx2.c.d
+[2026-11-14 16:48:23] [build-stdout]     [DEP] vpx_dsp/x86/avg_pred_sse2.c.d
+[2026-11-14 16:48:23] [build-stdout]     [DEP] vpx_dsp/variance.c.d
+[2026-11-14 16:48:23] [build-stdout]     [DEP] vpx_dsp/x86/sad4d_avx512.c.d
+[2026-11-14 16:48:23] [build-stdout]     [DEP] vpx_dsp/x86/subtract_avx2.c.d
+[2026-11-14 16:48:23] [build-stdout]     [DEP] vpx_dsp/x86/sad_avx2.c.d
+[2026-11-14 16:48:23] [build-stdout]     [DEP] vpx_dsp/x86/sad4d_avx2.c.d
+[2026-11-14 16:48:23] [build-stdout]     [DEP] vpx_dsp/x86/sum_squares_sse2.c.d
+[2026-11-14 16:48:23] [build-stdout]     [DEP] vpx_dsp/sum_squares.c.d
+[2026-11-14 16:48:23] [build-stdout]     [DEP] vpx_dsp/subtract.c.d
+[2026-11-14 16:48:23] [build-stdout]     [DEP] vpx_dsp/sad.c.d
+[2026-11-14 16:48:23] [build-stdout]     [DEP] vpx_dsp/skin_detection.c.d
+[2026-11-14 16:48:23] [build-stdout]     [DEP] vpx_dsp/x86/avg_intrin_avx2.c.d
+[2026-11-14 16:48:23] [build-stdout]     [DEP] vpx_dsp/x86/avg_intrin_sse2.c.d
+[2026-11-14 16:48:23] [build-stdout]     [DEP] vpx_dsp/avg.c.d
+[2026-11-14 16:48:23] [build-stdout]     [DEP] vpx_dsp/x86/quantize_avx2.c.d
+[2026-11-14 16:48:23] [build-stdout]     [DEP] vpx_dsp/x86/quantize_avx.c.d
+[2026-11-14 16:48:23] [build-stdout]     [DEP] vpx_dsp/x86/quantize_ssse3.c.d
+[2026-11-14 16:48:23] [build-stdout]     [DEP] vpx_dsp/x86/quantize_sse2.c.d
+[2026-11-14 16:48:23] [build-stdout]     [DEP] vpx_dsp/quantize.c.d
+[2026-11-14 16:48:23] [build-stdout]     [DEP] vpx_dsp/x86/inv_txfm_ssse3.c.d
+[2026-11-14 16:48:24] [build-stdout]     [DEP] vpx_dsp/x86/inv_txfm_sse2.c.d
+[2026-11-14 16:48:24] [build-stdout]     [DEP] vpx_dsp/x86/inv_txfm_avx2.c.d
+[2026-11-14 16:48:24] [build-stdout]     [DEP] vpx_dsp/inv_txfm.c.d
+[2026-11-14 16:48:24] [build-stdout]     [DEP] vpx_dsp/x86/fwd_txfm_avx2.c.d
+[2026-11-14 16:48:24] [build-stdout]     [DEP] vpx_dsp/x86/fwd_txfm_sse2.c.d
+[2026-11-14 16:48:24] [build-stdout]     [DEP] vpx_dsp/fwd_txfm.c.d
+[2026-11-14 16:48:24] [build-stdout]     [DEP] vpx_dsp/x86/loopfilter_avx2.c.d
+[2026-11-14 16:48:24] [build-stdout]     [DEP] vpx_dsp/x86/loopfilter_sse2.c.d
+[2026-11-14 16:48:24] [build-stdout]     [DEP] vpx_dsp/loopfilter.c.d
+[2026-11-14 16:48:24] [build-stdout]     [DEP] vpx_dsp/x86/vpx_subpixel_8t_intrin_ssse3.c.d
+[2026-11-14 16:48:24] [build-stdout]     [DEP] vpx_dsp/x86/vpx_subpixel_8t_intrin_avx2.c.d
+[2026-11-14 16:48:24] [build-stdout]     [DEP] vpx_dsp/x86/vpx_subpixel_4t_intrin_sse2.c.d
+[2026-11-14 16:48:24] [build-stdout]     [DEP] vpx_dsp/vpx_convolve.c.d
+[2026-11-14 16:48:24] [build-stdout]     [DEP] vpx_dsp/x86/post_proc_sse2.c.d
+[2026-11-14 16:48:24] [build-stdout]     [DEP] vpx_dsp/deblock.c.d
+[2026-11-14 16:48:24] [build-stdout]     [DEP] vpx_dsp/add_noise.c.d
+[2026-11-14 16:48:24] [build-stdout]     [DEP] vpx_dsp/bitreader_buffer.c.d
+[2026-11-14 16:48:24] [build-stdout]     [DEP] vpx_dsp/intrapred.c.d
+[2026-11-14 16:48:24] [build-stdout]     [DEP] vpx_dsp/bitreader.c.d
+[2026-11-14 16:48:24] [build-stdout]     [DEP] vpx_dsp/x86/sse_avx2.c.d
+[2026-11-14 16:48:24] [build-stdout]     [DEP] vpx_dsp/x86/sse_sse4.c.d
+[2026-11-14 16:48:24] [build-stdout]     [DEP] vpx_dsp/sse.c.d
+[2026-11-14 16:48:24] [build-stdout]     [DEP] vpx_dsp/psnr.c.d
+[2026-11-14 16:48:24] [build-stdout]     [DEP] vpx_dsp/bitwriter_buffer.c.d
+[2026-11-14 16:48:24] [build-stdout]     [DEP] vpx_dsp/bitwriter.c.d
+[2026-11-14 16:48:24] [build-stdout]     [DEP] vpx_scale/vpx_scale_rtcd.c.d
+[2026-11-14 16:48:24] [build-stdout]     [DEP] vpx_dsp/prob.c.d
+[2026-11-14 16:48:24] [build-stdout]     [DEP] vpx_scale/generic/gen_scalers.c.d
+[2026-11-14 16:48:24] [build-stdout]     [DEP] vpx_scale/generic/yv12extend.c.d
+[2026-11-14 16:48:24] [build-stdout]     [DEP] vpx_scale/generic/yv12config.c.d
+[2026-11-14 16:48:24] [build-stdout]     [DEP] vpx_scale/generic/vpx_scale.c.d
+[2026-11-14 16:48:24] [build-stdout]     [DEP] vpx_mem/vpx_mem.c.d
+[2026-11-14 16:48:24] [build-stdout]     [DEP] vpx/src/vpx_image.c.d
+[2026-11-14 16:48:24] [build-stdout]     [DEP] vpx/src/vpx_codec.c.d
+[2026-11-14 16:48:24] [build-stdout]     [DEP] vpx/src/vpx_encoder.c.d
+[2026-11-14 16:48:24] [build-stdout]     [DEP] vpx/src/vpx_decoder.c.d
+[2026-11-14 16:48:24] [build-stdout]     [CREATE] vpx_config.asm
+[2026-11-14 16:48:24] [build-stdout]     [DEP] vp8/encoder/x86/temporal_filter_apply_sse2.asm.d
+[2026-11-14 16:48:24] [build-stdout]     [DEP] vp8/encoder/x86/dct_sse2.asm.d
+[2026-11-14 16:48:24] [build-stdout]     [DEP] vp8/encoder/x86/fwalsh_sse2.asm.d
+[2026-11-14 16:48:24] [build-stdout]     [DEP] vp8/encoder/x86/block_error_sse2.asm.d
+[2026-11-14 16:48:24] [build-stdout]     [DEP] vp8/encoder/x86/copy_sse3.asm.d
+[2026-11-14 16:48:24] [build-stdout]     [DEP] vp8/encoder/x86/copy_sse2.asm.d
+[2026-11-14 16:48:24] [build-stdout]     [DEP] vp8/common/x86/loopfilter_block_sse2_x86_64.asm.d
+[2026-11-14 16:48:24] [build-stdout]     [DEP] vp8/common/x86/mfqe_sse2.asm.d
+[2026-11-14 16:48:24] [build-stdout]     [DEP] vp8/common/x86/subpixel_ssse3.asm.d
+[2026-11-14 16:48:24] [build-stdout]     [DEP] vp8/common/x86/loopfilter_sse2.asm.d
+[2026-11-14 16:48:24] [build-stdout]     [DEP] vp8/common/x86/iwalsh_sse2.asm.d
+[2026-11-14 16:48:24] [build-stdout]     [DEP] vp8/common/x86/subpixel_sse2.asm.d
+[2026-11-14 16:48:24] [build-stdout]     [DEP] vp8/common/x86/recon_sse2.asm.d
+[2026-11-14 16:48:24] [build-stdout]     [DEP] vp8/common/x86/idctllm_sse2.asm.d
+[2026-11-14 16:48:24] [build-stdout]     [DEP] vp8/common/x86/subpixel_mmx.asm.d
+[2026-11-14 16:48:24] [build-stdout]     [DEP] vp8/common/x86/recon_mmx.asm.d
+[2026-11-14 16:48:25] [build-stdout]     [DEP] vp8/common/x86/idctllm_mmx.asm.d
+[2026-11-14 16:48:25] [build-stdout]     [DEP] vp8/common/x86/dequantize_mmx.asm.d
+[2026-11-14 16:48:25] [build-stdout]     [DEP] vp9/encoder/x86/vp9_error_sse2.asm.d
+[2026-11-14 16:48:25] [build-stdout]     [DEP] vp9/encoder/x86/vp9_dct_sse2.asm.d
+[2026-11-14 16:48:25] [build-stdout]     [DEP] vpx_dsp/x86/subpel_variance_sse2.asm.d
+[2026-11-14 16:48:25] [build-stdout]     [DEP] vpx_dsp/x86/ssim_opt_x86_64.asm.d
+[2026-11-14 16:48:25] [build-stdout]     [DEP] vpx_dsp/x86/subtract_sse2.asm.d
+[2026-11-14 16:48:25] [build-stdout]     [DEP] vpx_dsp/x86/sad_sse2.asm.d
+[2026-11-14 16:48:25] [build-stdout]     [DEP] vpx_dsp/x86/sad4d_sse2.asm.d
+[2026-11-14 16:48:25] [build-stdout]     [DEP] vpx_dsp/x86/avg_ssse3_x86_64.asm.d
+[2026-11-14 16:48:25] [build-stdout]     [DEP] vpx_dsp/x86/inv_wht_sse2.asm.d
+[2026-11-14 16:48:25] [build-stdout]     [DEP] vpx_dsp/x86/fwd_txfm_ssse3_x86_64.asm.d
+[2026-11-14 16:48:25] [build-stdout]     [DEP] vpx_dsp/x86/vpx_convolve_copy_sse2.asm.d
+[2026-11-14 16:48:25] [build-stdout]     [DEP] vpx_dsp/x86/vpx_subpixel_bilinear_ssse3.asm.d
+[2026-11-14 16:48:25] [build-stdout]     [DEP] vpx_dsp/x86/vpx_subpixel_8t_ssse3.asm.d
+[2026-11-14 16:48:25] [build-stdout]     [DEP] vpx_dsp/x86/vpx_subpixel_bilinear_sse2.asm.d
+[2026-11-14 16:48:25] [build-stdout]     [DEP] vpx_dsp/x86/vpx_subpixel_8t_sse2.asm.d
+[2026-11-14 16:48:25] [build-stdout]     [DEP] vpx_dsp/x86/deblock_sse2.asm.d
+[2026-11-14 16:48:25] [build-stdout]     [DEP] vpx_dsp/x86/add_noise_sse2.asm.d
+[2026-11-14 16:48:25] [build-stdout]     [DEP] vpx_dsp/x86/intrapred_ssse3.asm.d
+[2026-11-14 16:48:25] [build-stdout]     [DEP] vpx_dsp/x86/intrapred_sse2.asm.d
+[2026-11-14 16:48:25] [build-stdout]     [DEP] vpx_ports/emms_mmx.asm.d
+[2026-11-14 16:48:25] [build-stdout]     [CC] vpx/src/vpx_decoder.c.o
+[2026-11-14 16:48:25] [build-stdout]     [CC] vpx/src/vpx_codec.c.o
+[2026-11-14 16:48:25] [build-stdout]     [CC] vpx/src/vpx_encoder.c.o
+[2026-11-14 16:48:25] [build-stdout]     [CC] vpx/src/vpx_image.c.o
+[2026-11-14 16:48:26] [build-stdout]     [CC] vpx_mem/vpx_mem.c.o
+[2026-11-14 16:48:26] [build-stdout]     [CC] vpx_scale/generic/vpx_scale.c.o
+[2026-11-14 16:48:26] [build-stdout]     [CC] vpx_scale/generic/yv12config.c.o
+[2026-11-14 16:48:26] [build-stdout]     [CC] vpx_scale/generic/yv12extend.c.o
+[2026-11-14 16:48:26] [build-stdout]     [CC] vpx_scale/generic/gen_scalers.c.o
+[2026-11-14 16:48:26] [build-stdout]     [CC] vpx_scale/vpx_scale_rtcd.c.o
+[2026-11-14 16:48:26] [build-stdout]     [CC] vpx_dsp/prob.c.o
+[2026-11-14 16:48:26] [build-stdout]     [CC] vpx_dsp/bitwriter.c.o
+[2026-11-14 16:48:26] [build-stdout]     [CC] vpx_dsp/bitwriter_buffer.c.o
+[2026-11-14 16:48:26] [build-stdout]     [CC] vpx_dsp/psnr.c.o
+[2026-11-14 16:48:26] [build-stdout]     [CC] vpx_dsp/sse.c.o
+[2026-11-14 16:48:26] [build-stdout]     [CC] vpx_dsp/x86/sse_sse4.c.o
+[2026-11-14 16:48:26] [build-stdout]     [CC] vpx_dsp/x86/sse_avx2.c.o
+[2026-11-14 16:48:26] [build-stdout]     [CC] vpx_dsp/bitreader.c.o
+[2026-11-14 16:48:26] [build-stdout]     [CC] vpx_dsp/bitreader_buffer.c.o
+[2026-11-14 16:48:27] [build-stdout]     [CC] vpx_dsp/intrapred.c.o
+[2026-11-14 16:48:27] [build-stdout]     [CC] vpx_dsp/add_noise.c.o
+[2026-11-14 16:48:27] [build-stdout]     [CC] vpx_dsp/deblock.c.o
+[2026-11-14 16:48:27] [build-stdout]     [CC] vpx_dsp/x86/post_proc_sse2.c.o
+[2026-11-14 16:48:27] [build-stdout]     [CC] vpx_dsp/vpx_convolve.c.o
+[2026-11-14 16:48:28] [build-stdout]     [CC] vpx_dsp/x86/vpx_subpixel_4t_intrin_sse2.c.o
+[2026-11-14 16:48:28] [build-stdout]     [CC] vpx_dsp/x86/vpx_subpixel_8t_intrin_avx2.c.o
+[2026-11-14 16:48:28] [build-stdout]     [CC] vpx_dsp/x86/vpx_subpixel_8t_intrin_ssse3.c.o
+[2026-11-14 16:48:29] [build-stdout]     [CC] vpx_dsp/x86/loopfilter_sse2.c.o
+[2026-11-14 16:48:29] [build-stdout]     [CC] vpx_dsp/loopfilter.c.o
+[2026-11-14 16:48:29] [build-stdout]     [CC] vpx_dsp/x86/loopfilter_avx2.c.o
+[2026-11-14 16:48:29] [build-stdout]     [CC] vpx_dsp/fwd_txfm.c.o
+[2026-11-14 16:48:29] [build-stdout]     [CC] vpx_dsp/x86/fwd_txfm_sse2.c.o
+[2026-11-14 16:48:30] [build-stdout]     [CC] vpx_dsp/x86/fwd_txfm_avx2.c.o
+[2026-11-14 16:48:30] [build-stdout]     [CC] vpx_dsp/inv_txfm.c.o
+[2026-11-14 16:48:32] [build-stdout]     [CC] vpx_dsp/x86/inv_txfm_sse2.c.o
+[2026-11-14 16:48:32] [build-stdout]     [CC] vpx_dsp/x86/inv_txfm_avx2.c.o
+[2026-11-14 16:48:33] [build-stdout]     [CC] vpx_dsp/x86/inv_txfm_ssse3.c.o
+[2026-11-14 16:48:33] [build-stdout]     [CC] vpx_dsp/quantize.c.o
+[2026-11-14 16:48:34] [build-stdout]     [CC] vpx_dsp/x86/quantize_sse2.c.o
+[2026-11-14 16:48:34] [build-stdout]     [CC] vpx_dsp/x86/quantize_ssse3.c.o
+[2026-11-14 16:48:34] [build-stdout]     [CC] vpx_dsp/x86/quantize_avx.c.o
+[2026-11-14 16:48:34] [build-stdout]     [CC] vpx_dsp/x86/quantize_avx2.c.o
+[2026-11-14 16:48:35] [build-stdout]     [CC] vpx_dsp/avg.c.o
+[2026-11-14 16:48:35] [build-stdout]     [CC] vpx_dsp/x86/avg_intrin_sse2.c.o
+[2026-11-14 16:48:35] [build-stdout]     [CC] vpx_dsp/x86/avg_intrin_avx2.c.o
+[2026-11-14 16:48:36] [build-stdout]     [CC] vpx_dsp/skin_detection.c.o
+[2026-11-14 16:48:36] [build-stdout]     [CC] vpx_dsp/sad.c.o
+[2026-11-14 16:48:36] [build-stdout]     [CC] vpx_dsp/subtract.c.o
+[2026-11-14 16:48:36] [build-stdout]     [CC] vpx_dsp/sum_squares.c.o
+[2026-11-14 16:48:37] [build-stdout]     [CC] vpx_dsp/x86/sum_squares_sse2.c.o
+[2026-11-14 16:48:37] [build-stdout]     [CC] vpx_dsp/x86/sad4d_avx2.c.o
+[2026-11-14 16:48:37] [build-stdout]     [CC] vpx_dsp/x86/sad_avx2.c.o
+[2026-11-14 16:48:37] [build-stdout]     [CC] vpx_dsp/x86/subtract_avx2.c.o
+[2026-11-14 16:48:37] [build-stdout]     [CC] vpx_dsp/x86/sad4d_avx512.c.o
+[2026-11-14 16:48:39] [build-stdout]     [CC] vpx_dsp/variance.c.o
+[2026-11-14 16:48:39] [build-stdout]     [CC] vpx_dsp/x86/avg_pred_sse2.c.o
+[2026-11-14 16:48:39] [build-stdout]     [CC] vpx_dsp/x86/avg_pred_avx2.c.o
+[2026-11-14 16:48:39] [build-stdout]     [CC] vpx_dsp/x86/variance_sse2.c.o
+[2026-11-14 16:48:41] [build-stdout]     [CC] vpx_dsp/x86/variance_avx2.c.o
+[2026-11-14 16:48:41] [build-stdout]     [CC] vpx_dsp/vpx_dsp_rtcd.c.o
+[2026-11-14 16:48:41] [build-stdout]     [CC] vpx_util/vpx_thread.c.o
+[2026-11-14 16:48:41] [build-stdout]     [CC] vpx_util/vpx_write_yuv_frame.c.o
+[2026-11-14 16:48:41] [build-stdout]     [CC] vp8/common/alloccommon.c.o
+[2026-11-14 16:48:41] [build-stdout]     [CC] vp8/common/blockd.c.o
+[2026-11-14 16:48:41] [build-stdout]     [CC] vp8/common/dequantize.c.o
+[2026-11-14 16:48:41] [build-stdout]     [CC] vp8/common/entropy.c.o
+[2026-11-14 16:48:42] [build-stdout]     [CC] vp8/common/entropymode.c.o
+[2026-11-14 16:48:42] [build-stdout]     [CC] vp8/common/entropymv.c.o
+[2026-11-14 16:48:42] [build-stdout]     [CC] vp8/common/extend.c.o
+[2026-11-14 16:48:42] [build-stdout]     [CC] vp8/common/filter.c.o
+[2026-11-14 16:48:42] [build-stdout]     [CC] vp8/common/findnearmv.c.o
+[2026-11-14 16:48:42] [build-stdout]     [CC] vp8/common/generic/systemdependent.c.o
+[2026-11-14 16:48:42] [build-stdout]     [CC] vp8/common/idct_blk.c.o
+[2026-11-14 16:48:42] [build-stdout]     [CC] vp8/common/idctllm.c.o
+[2026-11-14 16:48:42] [build-stdout]     [CC] vp8/common/rtcd.c.o
+[2026-11-14 16:48:43] [build-stdout]     [CC] vp8/common/vp8_loopfilter.c.o
+[2026-11-14 16:48:43] [build-stdout]     [CC] vp8/common/loopfilter_filters.c.o
+[2026-11-14 16:48:43] [build-stdout]     [CC] vp8/common/mbpitch.c.o
+[2026-11-14 16:48:43] [build-stdout]     [CC] vp8/common/modecont.c.o
+[2026-11-14 16:48:43] [build-stdout]     [CC] vp8/common/quant_common.c.o
+[2026-11-14 16:48:43] [build-stdout]     [CC] vp8/common/reconinter.c.o
+[2026-11-14 16:48:44] [build-stdout]     [CC] vp8/common/reconintra.c.o
+[2026-11-14 16:48:44] [build-stdout]     [CC] vp8/common/reconintra4x4.c.o
+[2026-11-14 16:48:44] [build-stdout]     [CC] vp8/common/setupintrarecon.c.o
+[2026-11-14 16:48:44] [build-stdout]     [CC] vp8/common/swapyv12buffer.c.o
+[2026-11-14 16:48:44] [build-stdout]     [CC] vp8/common/treecoder.c.o
+[2026-11-14 16:48:44] [build-stdout]     [CC] vp8/common/x86/vp8_asm_stubs.c.o
+[2026-11-14 16:48:44] [build-stdout]     [CC] vp8/common/x86/loopfilter_x86.c.o
+[2026-11-14 16:48:44] [build-stdout]     [CC] vp8/common/mfqe.c.o
+[2026-11-14 16:48:44] [build-stdout]     [CC] vp8/common/postproc.c.o
+[2026-11-14 16:48:44] [build-stdout]     [CC] vp8/common/x86/idct_blk_mmx.c.o
+[2026-11-14 16:48:45] [build-stdout]     [CC] vp8/common/x86/idct_blk_sse2.c.o
+[2026-11-14 16:48:45] [build-stdout]     [CC] vp8/common/x86/bilinear_filter_sse2.c.o
+[2026-11-14 16:48:45] [build-stdout]     [CC] vp8/vp8_cx_iface.c.o
+[2026-11-14 16:48:45] [build-stdout]     [CC] vp8/encoder/bitstream.c.o
+[2026-11-14 16:48:45] [build-stdout]     [CC] vp8/encoder/boolhuff.c.o
+[2026-11-14 16:48:45] [build-stdout]     [CC] vp8/encoder/copy_c.c.o
+[2026-11-14 16:48:45] [build-stdout]     [CC] vp8/encoder/dct.c.o
+[2026-11-14 16:48:45] [build-stdout]     [CC] vp8/encoder/encodeframe.c.o
+[2026-11-14 16:48:46] [build-stdout]     [CC] vp8/encoder/encodeintra.c.o
+[2026-11-14 16:48:46] [build-stdout]     [CC] vp8/encoder/encodemb.c.o
+[2026-11-14 16:48:46] [build-stdout]     [CC] vp8/encoder/encodemv.c.o
+[2026-11-14 16:48:46] [build-stdout]     [CC] vp8/encoder/ethreading.c.o
+[2026-11-14 16:48:46] [build-stdout]     [CC] vp8/encoder/firstpass.c.o
+[2026-11-14 16:48:47] [build-stdout]     [CC] vp8/encoder/denoising.c.o
+[2026-11-14 16:48:47] [build-stdout]     [CC] vp8/encoder/lookahead.c.o
+[2026-11-14 16:48:47] [build-stdout]     [CC] vp8/encoder/mcomp.c.o
+[2026-11-14 16:48:47] [build-stdout]     [CC] vp8/encoder/modecosts.c.o
+[2026-11-14 16:48:48] [build-stdout]     [CC] vp8/encoder/onyx_if.c.o
+[2026-11-14 16:48:48] [build-stdout]     [CC] vp8/encoder/pickinter.c.o
+[2026-11-14 16:48:49] [build-stdout]     [CC] vp8/encoder/picklpf.c.o
+[2026-11-14 16:48:49] [build-stdout]     [CC] vp8/encoder/vp8_quantize.c.o
+[2026-11-14 16:48:49] [build-stdout]     [CC] vp8/encoder/ratectrl.c.o
+[2026-11-14 16:48:50] [build-stdout]     [CC] vp8/encoder/rdopt.c.o
+[2026-11-14 16:48:50] [build-stdout]     [CC] vp8/encoder/segmentation.c.o
+[2026-11-14 16:48:50] [build-stdout]     [CC] vp8/common/vp8_skin_detection.c.o
+[2026-11-14 16:48:50] [build-stdout]     [CC] vp8/encoder/tokenize.c.o
+[2026-11-14 16:48:51] [build-stdout]     [CC] vp8/encoder/treewriter.c.o
+[2026-11-14 16:48:51] [build-stdout]     [CC] vp8/encoder/temporal_filter.c.o
+[2026-11-14 16:48:51] [build-stdout]     [CC] vp8/encoder/x86/vp8_quantize_sse2.c.o
+[2026-11-14 16:48:51] [build-stdout]     [CC] vp8/encoder/x86/vp8_quantize_ssse3.c.o
+[2026-11-14 16:48:51] [build-stdout]     [CC] vp8/encoder/x86/quantize_sse4.c.o
+[2026-11-14 16:48:51] [build-stdout]     [CC] vp8/encoder/x86/denoising_sse2.c.o
+[2026-11-14 16:48:52] [build-stdout]     [CC] vp8/encoder/x86/vp8_enc_stubs_sse2.c.o
+[2026-11-14 16:48:52] [build-stdout]     [CC] vp8/vp8_dx_iface.c.o
+[2026-11-14 16:48:52] [build-stdout]     [CC] vp8/decoder/dboolhuff.c.o
+[2026-11-14 16:48:52] [build-stdout]     [CC] vp8/decoder/decodemv.c.o
+[2026-11-14 16:48:52] [build-stdout]     [CC] vp8/decoder/decodeframe.c.o
+[2026-11-14 16:48:52] [build-stdout]     [CC] vp8/decoder/detokenize.c.o
+[2026-11-14 16:48:52] [build-stdout]     [CC] vp8/decoder/onyxd_if.c.o
+[2026-11-14 16:48:53] [build-stdout]     [CC] vp8/decoder/threading.c.o
+[2026-11-14 16:48:53] [build-stdout]     [CC] vp9/vp9_iface_common.c.o
+[2026-11-14 16:48:53] [build-stdout]     [CC] vp9/common/vp9_alloccommon.c.o
+[2026-11-14 16:48:54] [build-stdout]     [CC] vp9/common/vp9_blockd.c.o
+[2026-11-14 16:48:54] [build-stdout]     [CC] vp9/common/vp9_entropy.c.o
+[2026-11-14 16:48:54] [build-stdout]     [CC] vp9/common/vp9_entropymode.c.o
+[2026-11-14 16:48:54] [build-stdout]     [CC] vp9/common/vp9_entropymv.c.o
+[2026-11-14 16:48:54] [build-stdout]     [CC] vp9/common/vp9_frame_buffers.c.o
+[2026-11-14 16:48:54] [build-stdout]     [CC] vp9/common/vp9_idct.c.o
+[2026-11-14 16:48:54] [build-stdout]     [CC] vp9/common/vp9_filter.c.o
+[2026-11-14 16:48:54] [build-stdout]     [CC] vp9/common/vp9_pred_common.c.o
+[2026-11-14 16:48:54] [build-stdout]     [CC] vp9/common/vp9_rtcd.c.o
+[2026-11-14 16:48:54] [build-stdout]     [CC] vp9/common/vp9_scale.c.o
+[2026-11-14 16:48:54] [build-stdout]     [CC] vp9/common/vp9_seg_common.c.o
+[2026-11-14 16:48:54] [build-stdout]     [CC] vp9/common/vp9_tile_common.c.o
+[2026-11-14 16:48:55] [build-stdout]     [CC] vp9/common/vp9_loopfilter.c.o
+[2026-11-14 16:48:55] [build-stdout]     [CC] vp9/common/vp9_thread_common.c.o
+[2026-11-14 16:48:55] [build-stdout]     [CC] vp9/common/vp9_mvref_common.c.o
+[2026-11-14 16:48:55] [build-stdout]     [CC] vp9/common/vp9_quant_common.c.o
+[2026-11-14 16:48:55] [build-stdout]     [CC] vp9/common/vp9_reconinter.c.o
+[2026-11-14 16:48:55] [build-stdout]     [CC] vp9/common/vp9_reconintra.c.o
+[2026-11-14 16:48:56] [build-stdout]     [CC] vp9/common/vp9_common_data.c.o
+[2026-11-14 16:48:56] [build-stdout]     [CC] vp9/common/vp9_scan.c.o
+[2026-11-14 16:48:56] [build-stdout]     [CC] vp9/common/x86/vp9_idct_intrin_sse2.c.o
+[2026-11-14 16:48:56] [build-stdout]     [CC] vp9/vp9_cx_iface.c.o
+[2026-11-14 16:48:56] [build-stdout]     [CC] vp9/encoder/vp9_bitstream.c.o
+[2026-11-14 16:48:56] [build-stdout]     [CC] vp9/encoder/vp9_context_tree.c.o
+[2026-11-14 16:48:57] [build-stdout]     [CC] vp9/encoder/vp9_cost.c.o
+[2026-11-14 16:48:57] [build-stdout]     [CC] vp9/encoder/vp9_dct.c.o
+[2026-11-14 16:48:57] [build-stdout]     [CC] vp9/encoder/vp9_encodeframe.c.o
+[2026-11-14 16:48:58] [build-stdout]     [CC] vp9/encoder/vp9_encodemb.c.o
+[2026-11-14 16:48:58] [build-stdout]     [CC] vp9/encoder/vp9_encodemv.c.o
+[2026-11-14 16:48:58] [build-stdout]     [CC] vp9/encoder/vp9_ethread.c.o
+[2026-11-14 16:48:59] [build-stdout]     [CC] vp9/encoder/vp9_extend.c.o
+[2026-11-14 16:48:59] [build-stdout]     [CC] vp9/encoder/vp9_firstpass.c.o
+[2026-11-14 16:48:59] [build-stdout]     [CC] vp9/encoder/vp9_frame_scale.c.o
+[2026-11-14 16:49:00] [build-stdout]     [CC] vp9/encoder/vp9_lookahead.c.o
+[2026-11-14 16:49:00] [build-stdout]     [CC] vp9/encoder/vp9_multi_thread.c.o
+[2026-11-14 16:49:01] [build-stdout]     [CC] vp9/encoder/vp9_mcomp.c.o
+[2026-11-14 16:49:01] [build-stdout]     [CC] vp9/encoder/vp9_encoder.c.o
+[2026-11-14 16:49:03] [build-stdout]     [CC] vp9/encoder/vp9_picklpf.c.o
+[2026-11-14 16:49:03] [build-stdout]     [CC] vp9/encoder/vp9_quantize.c.o
+[2026-11-14 16:49:04] [build-stdout]     [CC] vp9/encoder/vp9_ratectrl.c.o
+[2026-11-14 16:49:04] [build-stdout]     [CC] vp9/encoder/vp9_rd.c.o
+[2026-11-14 16:49:06] [build-stdout]     [CC] vp9/encoder/vp9_rdopt.c.o
+[2026-11-14 16:49:06] [build-stdout]     [CC] vp9/encoder/vp9_pickmode.c.o
+[2026-11-14 16:49:06] [build-stdout]     [CC] vp9/encoder/vp9_segmentation.c.o
+[2026-11-14 16:49:07] [build-stdout]     [CC] vp9/encoder/vp9_speed_features.c.o
+[2026-11-14 16:49:09] [build-stdout]     [CC] vp9/encoder/vp9_subexp.c.o
+[2026-11-14 16:49:09] [build-stdout]     [CC] vp9/encoder/vp9_svc_layercontext.c.o
+[2026-11-14 16:49:09] [build-stdout]     [CC] vp9/encoder/vp9_resize.c.o
+[2026-11-14 16:49:10] [build-stdout]     [CC] vp9/encoder/vp9_tokenize.c.o
+[2026-11-14 16:49:11] [build-stdout]     [CC] vp9/encoder/vp9_treewriter.c.o
+[2026-11-14 16:49:11] [build-stdout]     [CC] vp9/encoder/vp9_aq_variance.c.o
+[2026-11-14 16:49:11] [build-stdout]     [CC] vp9/encoder/vp9_aq_360.c.o
+[2026-11-14 16:49:11] [build-stdout]     [CC] vp9/encoder/vp9_aq_cyclicrefresh.c.o
+[2026-11-14 16:49:11] [build-stdout]     [CC] vp9/encoder/vp9_aq_complexity.c.o
+[2026-11-14 16:49:11] [build-stdout]     [CC] vp9/encoder/vp9_alt_ref_aq.c.o
+[2026-11-14 16:49:12] [build-stdout]     [CC] vp9/encoder/vp9_skin_detection.c.o
+[2026-11-14 16:49:12] [build-stdout]     [CC] vp9/encoder/vp9_noise_estimate.c.o
+[2026-11-14 16:49:12] [build-stdout]     [CC] vp9/encoder/vp9_ext_ratectrl.c.o
+[2026-11-14 16:49:12] [build-stdout]     [CC] vp9/encoder/vp9_temporal_filter.c.o
+[2026-11-14 16:49:13] [build-stdout]     [CC] vp9/encoder/vp9_tpl_model.c.o
+[2026-11-14 16:49:13] [build-stdout]     [CC] vp9/encoder/vp9_mbgraph.c.o
+[2026-11-14 16:49:13] [build-stdout]     [CC] vp9/encoder/x86/temporal_filter_sse4.c.o
+[2026-11-14 16:49:14] [build-stdout]     [CC] vp9/encoder/x86/vp9_quantize_sse2.c.o
+[2026-11-14 16:49:14] [build-stdout]     [CC] vp9/encoder/x86/vp9_quantize_ssse3.c.o
+[2026-11-14 16:49:14] [build-stdout]     [CC] vp9/encoder/x86/vp9_quantize_avx2.c.o
+[2026-11-14 16:49:14] [build-stdout]     [CC] vp9/encoder/x86/vp9_dct_intrin_sse2.c.o
+[2026-11-14 16:49:14] [build-stdout]     [CC] vp9/encoder/x86/vp9_frame_scale_ssse3.c.o
+[2026-11-14 16:49:15] [build-stdout]     [CC] vp9/encoder/x86/vp9_error_avx2.c.o
+[2026-11-14 16:49:15] [build-stdout]     [CC] vp9/vp9_dx_iface.c.o
+[2026-11-14 16:49:16] [build-stdout]     [CC] vp9/decoder/vp9_decodemv.c.o
+[2026-11-14 16:49:16] [build-stdout]     [CC] vp9/decoder/vp9_decodeframe.c.o
+[2026-11-14 16:49:16] [build-stdout]     [CC] vp9/decoder/vp9_detokenize.c.o
+[2026-11-14 16:49:16] [build-stdout]     [CC] vp9/decoder/vp9_decoder.c.o
+[2026-11-14 16:49:17] [build-stdout]     [CC] vp9/decoder/vp9_dsubexp.c.o
+[2026-11-14 16:49:17] [build-stdout]     [CC] vp9/decoder/vp9_job_queue.c.o
+[2026-11-14 16:49:17] [build-stdout]     [CC] vpx_config.c.o
+[2026-11-14 16:49:17] [build-stdout]     [AS] vpx_ports/emms_mmx.asm.o
+[2026-11-14 16:49:17] [build-stdout]     [AS] vpx_dsp/x86/intrapred_sse2.asm.o
+[2026-11-14 16:49:17] [build-stdout]     [AS] vpx_dsp/x86/intrapred_ssse3.asm.o
+[2026-11-14 16:49:17] [build-stdout]     [AS] vpx_dsp/x86/add_noise_sse2.asm.o
+[2026-11-14 16:49:17] [build-stdout]     [AS] vpx_dsp/x86/deblock_sse2.asm.o
+[2026-11-14 16:49:17] [build-stdout]     [AS] vpx_dsp/x86/vpx_subpixel_8t_sse2.asm.o
+[2026-11-14 16:49:17] [build-stdout]     [AS] vpx_dsp/x86/vpx_subpixel_bilinear_sse2.asm.o
+[2026-11-14 16:49:17] [build-stdout]     [AS] vpx_dsp/x86/vpx_subpixel_8t_ssse3.asm.o
+[2026-11-14 16:49:18] [build-stdout]     [AS] vpx_dsp/x86/vpx_subpixel_bilinear_ssse3.asm.o
+[2026-11-14 16:49:18] [build-stdout]     [AS] vpx_dsp/x86/vpx_convolve_copy_sse2.asm.o
+[2026-11-14 16:49:18] [build-stdout]     [AS] vpx_dsp/x86/fwd_txfm_ssse3_x86_64.asm.o
+[2026-11-14 16:49:18] [build-stdout]     [AS] vpx_dsp/x86/inv_wht_sse2.asm.o
+[2026-11-14 16:49:18] [build-stdout]     [AS] vpx_dsp/x86/avg_ssse3_x86_64.asm.o
+[2026-11-14 16:49:18] [build-stdout]     [AS] vpx_dsp/x86/sad4d_sse2.asm.o
+[2026-11-14 16:49:18] [build-stdout]     [AS] vpx_dsp/x86/sad_sse2.asm.o
+[2026-11-14 16:49:18] [build-stdout]     [AS] vpx_dsp/x86/subtract_sse2.asm.o
+[2026-11-14 16:49:18] [build-stdout]     [AS] vpx_dsp/x86/ssim_opt_x86_64.asm.o
+[2026-11-14 16:49:18] [build-stdout]     [AS] vpx_dsp/x86/subpel_variance_sse2.asm.o
+[2026-11-14 16:49:19] [build-stdout]     [AS] vp8/common/x86/dequantize_mmx.asm.o
+[2026-11-14 16:49:19] [build-stdout]     [AS] vp8/common/x86/idctllm_mmx.asm.o
+[2026-11-14 16:49:19] [build-stdout]     [AS] vp8/common/x86/recon_mmx.asm.o
+[2026-11-14 16:49:19] [build-stdout]     [AS] vp8/common/x86/subpixel_mmx.asm.o
+[2026-11-14 16:49:19] [build-stdout]     [AS] vp8/common/x86/idctllm_sse2.asm.o
+[2026-11-14 16:49:19] [build-stdout]     [AS] vp8/common/x86/recon_sse2.asm.o
+[2026-11-14 16:49:19] [build-stdout]     [AS] vp8/common/x86/subpixel_sse2.asm.o
+[2026-11-14 16:49:19] [build-stdout]     [AS] vp8/common/x86/loopfilter_sse2.asm.o
+[2026-11-14 16:49:19] [build-stdout]     [AS] vp8/common/x86/iwalsh_sse2.asm.o
+[2026-11-14 16:49:19] [build-stdout]     [AS] vp8/common/x86/subpixel_ssse3.asm.o
+[2026-11-14 16:49:19] [build-stdout]     [AS] vp8/common/x86/mfqe_sse2.asm.o
+[2026-11-14 16:49:19] [build-stdout]     [AS] vp8/common/x86/loopfilter_block_sse2_x86_64.asm.o
+[2026-11-14 16:49:19] [build-stdout]     [AS] vp8/encoder/x86/copy_sse2.asm.o
+[2026-11-14 16:49:19] [build-stdout]     [AS] vp8/encoder/x86/copy_sse3.asm.o
+[2026-11-14 16:49:19] [build-stdout]     [AS] vp8/encoder/x86/dct_sse2.asm.o
+[2026-11-14 16:49:19] [build-stdout]     [AS] vp8/encoder/x86/fwalsh_sse2.asm.o
+[2026-11-14 16:49:19] [build-stdout]     [AS] vp8/encoder/x86/block_error_sse2.asm.o
+[2026-11-14 16:49:19] [build-stdout]     [AS] vp8/encoder/x86/temporal_filter_apply_sse2.asm.o
+[2026-11-14 16:49:19] [build-stdout]     [AS] vp9/encoder/x86/vp9_dct_sse2.asm.o
+[2026-11-14 16:49:19] [build-stdout]     [AS] vp9/encoder/x86/vp9_error_sse2.asm.o
+[2026-11-14 16:49:19] [build-stdout]     [CREATE] vpx.pc
+[2026-11-14 16:49:19] [build-stdout]     [CXX] vp9/ratectrl_rtc.cc.o
+[2026-11-14 16:49:20] [build-stdout]     [CXX] vp8/vp8_ratectrl_rtc.cc.o
+[2026-11-14 16:49:22] [build-stdout]     [AR] libvpxrc_g.a
+[2026-11-14 16:49:22] [build-stdout]     [STRIP] libvpxrc.a < libvpxrc_g.a
+[2026-11-14 16:49:24] [build-stdout]     [AR] libvpx_g.a
+[2026-11-14 16:49:24] [build-stdout]     [STRIP] libvpx.a < libvpx_g.a
+[2026-11-14 16:49:25] [build-stdout]     [INSTALL] /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/root/build/libvpx-1.15.2/include/vpx/vp8.h
+[2026-11-14 16:49:25] [build-stdout]     [INSTALL] /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/root/build/libvpx-1.15.2/include/vpx/vp8cx.h
+[2026-11-14 16:49:25] [build-stdout]     [INSTALL] /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/root/build/libvpx-1.15.2/include/vpx/vpx_ext_ratectrl.h
+[2026-11-14 16:49:25] [build-stdout]     [INSTALL] /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/root/build/libvpx-1.15.2/include/vpx/vp8dx.h
+[2026-11-14 16:49:25] [build-stdout]     [INSTALL] /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/root/build/libvpx-1.15.2/include/vpx/vpx_codec.h
+[2026-11-14 16:49:25] [build-stdout]     [INSTALL] /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/root/build/libvpx-1.15.2/include/vpx/vpx_frame_buffer.h
+[2026-11-14 16:49:25] [build-stdout]     [INSTALL] /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/root/build/libvpx-1.15.2/include/vpx/vpx_image.h
+[2026-11-14 16:49:25] [build-stdout]     [INSTALL] /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/root/build/libvpx-1.15.2/include/vpx/vpx_integer.h
+[2026-11-14 16:49:25] [build-stdout]     [INSTALL] /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/root/build/libvpx-1.15.2/include/vpx/vpx_decoder.h
+[2026-11-14 16:49:25] [build-stdout]     [INSTALL] /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/root/build/libvpx-1.15.2/include/vpx/vpx_encoder.h
+[2026-11-14 16:49:25] [build-stdout]     [INSTALL] /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/root/build/libvpx-1.15.2/include/vpx/vpx_tpl.h
+[2026-11-14 16:49:25] [build-stdout]     [INSTALL] /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/root/build/libvpx-1.15.2/lib/libvpx.a
+[2026-11-14 16:49:25] [build-stdout]     [INSTALL] /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/root/build/libvpx-1.15.2/lib/pkgconfig/vpx.pc
+[2026-11-14 16:49:40] [build-stdout] install prefix            /usr/local
+[2026-11-14 16:49:40] [build-stdout] source path               /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/root/benchmarks/ffmpeg/ffmpeg-8.0
+[2026-11-14 16:49:40] [build-stdout] C compiler                gcc
+[2026-11-14 16:49:40] [build-stdout] C library                 glibc
+[2026-11-14 16:49:40] [build-stdout] ARCH                      x86 (generic)
+[2026-11-14 16:49:40] [build-stdout] big-endian                no
+[2026-11-14 16:49:40] [build-stdout] runtime cpu detection     yes
+[2026-11-14 16:49:40] [build-stdout] standalone assembly       no
+[2026-11-14 16:49:40] [build-stdout] x86 assembler             nasm
+[2026-11-14 16:49:40] [build-stdout] MMX enabled               yes
+[2026-11-14 16:49:40] [build-stdout] MMXEXT enabled            yes
+[2026-11-14 16:49:40] [build-stdout] 3DNow! enabled            yes
+[2026-11-14 16:49:40] [build-stdout] 3DNow! extended enabled   yes
+[2026-11-14 16:49:40] [build-stdout] SSE enabled               yes
+[2026-11-14 16:49:40] [build-stdout] SSSE3 enabled             yes
+[2026-11-14 16:49:40] [build-stdout] AESNI enabled             yes
+[2026-11-14 16:49:40] [build-stdout] AVX enabled               yes
+[2026-11-14 16:49:40] [build-stdout] AVX2 enabled              yes
+[2026-11-14 16:49:40] [build-stdout] AVX-512 enabled           yes
+[2026-11-14 16:49:40] [build-stdout] AVX-512ICL enabled        yes
+[2026-11-14 16:49:40] [build-stdout] XOP enabled               yes
+[2026-11-14 16:49:40] [build-stdout] FMA3 enabled              yes
+[2026-11-14 16:49:40] [build-stdout] FMA4 enabled              yes
+[2026-11-14 16:49:40] [build-stdout] i686 features enabled     yes
+[2026-11-14 16:49:40] [build-stdout] CMOV is fast              yes
+[2026-11-14 16:49:40] [build-stdout] EBX available             yes
+[2026-11-14 16:49:40] [build-stdout] EBP available             yes
+[2026-11-14 16:49:40] [build-stdout] debug symbols             yes
+[2026-11-14 16:49:40] [build-stdout] strip symbols             yes
+[2026-11-14 16:49:40] [build-stdout] optimize for size         no
+[2026-11-14 16:49:40] [build-stdout] optimizations             yes
+[2026-11-14 16:49:40] [build-stdout] static                    yes
+[2026-11-14 16:49:40] [build-stdout] shared                    no
+[2026-11-14 16:49:40] [build-stdout] network support           yes
+[2026-11-14 16:49:40] [build-stdout] threading support         pthreads
+[2026-11-14 16:49:40] [build-stdout] safe bitstream reader     yes
+[2026-11-14 16:49:40] [build-stdout] texi2html enabled         no
+[2026-11-14 16:49:40] [build-stdout] perl enabled              yes
+[2026-11-14 16:49:40] [build-stdout] pod2man enabled           yes
+[2026-11-14 16:49:40] [build-stdout] makeinfo enabled          no
+[2026-11-14 16:49:40] [build-stdout] makeinfo supports HTML    no
+[2026-11-14 16:49:40] [build-stdout] xmllint enabled           yes
+[2026-11-14 16:49:40] [build-stdout] External libraries:
+[2026-11-14 16:49:40] [build-stdout] iconv                   libvpx
+[2026-11-14 16:49:40] [build-stdout] External libraries providing hardware acceleration:
+[2026-11-14 16:49:40] [build-stdout] Libraries:
+[2026-11-14 16:49:40] [build-stdout] avcodec                 avformat                swscale
+[2026-11-14 16:49:40] [build-stdout] avdevice                avutil
+[2026-11-14 16:49:40] [build-stdout] avfilter                swresample
+[2026-11-14 16:49:40] [build-stdout] Programs:
+[2026-11-14 16:49:40] [build-stdout] ffmpeg                  ffprobe
+[2026-11-14 16:49:40] [build-stdout] Enabled decoders:
+[2026-11-14 16:49:40] [build-stdout] libvpx_vp8              libvpx_vp9              rawvideo
+[2026-11-14 16:49:40] [build-stdout] Enabled encoders:
+[2026-11-14 16:49:40] [build-stdout] libvpx_vp8              libvpx_vp9              rawvideo
+[2026-11-14 16:49:40] [build-stdout] Enabled hwaccels:
+[2026-11-14 16:49:40] [build-stdout] Enabled parsers:
+[2026-11-14 16:49:40] [build-stdout] vp8                     vp9
+[2026-11-14 16:49:40] [build-stdout] Enabled demuxers:
+[2026-11-14 16:49:40] [build-stdout] ivf                     rawvideo
+[2026-11-14 16:49:40] [build-stdout] matroska                yuv4mpegpipe
+[2026-11-14 16:49:40] [build-stdout] Enabled muxers:
+[2026-11-14 16:49:40] [build-stdout] ivf                     webm
+[2026-11-14 16:49:40] [build-stdout] rawvideo                yuv4mpegpipe
+[2026-11-14 16:49:40] [build-stdout] Enabled protocols:
+[2026-11-14 16:49:40] [build-stdout] file                    pipe
+[2026-11-14 16:49:40] [build-stdout] Enabled filters:
+[2026-11-14 16:49:40] [build-stdout] aformat                 format                  scale
+[2026-11-14 16:49:40] [build-stdout] anull                   hflip                   transpose
+[2026-11-14 16:49:40] [build-stdout] atrim                   null                    trim
+[2026-11-14 16:49:40] [build-stdout] crop                    rotate                  vflip
+[2026-11-14 16:49:40] [build-stdout] Enabled bsfs:
+[2026-11-14 16:49:40] [build-stdout] av1_metadata            vp9_superframe
+[2026-11-14 16:49:40] [build-stdout] Enabled indevs:
+[2026-11-14 16:49:40] [build-stdout] Enabled outdevs:
+[2026-11-14 16:49:40] [build-stdout] License: LGPL version 2.1 or later
+[2026-11-14 16:49:41] [build-stdout] GEN	libavutil/libavutil.version
+[2026-11-14 16:49:41] [build-stdout] GEN	libavcodec/libavcodec.version
+[2026-11-14 16:49:41] [build-stdout] GEN	libavformat/libavformat.version
+[2026-11-14 16:49:41] [build-stdout] GEN	libavfilter/libavfilter.version
+[2026-11-14 16:49:41] [build-stdout] GEN	libavdevice/libavdevice.version
+[2026-11-14 16:49:41] [build-stdout] GEN	libswscale/libswscale.version
+[2026-11-14 16:49:41] [build-stdout] GEN	libswresample/libswresample.version
+[2026-11-14 16:49:42] [build-stdout] CC	libavdevice/alldevices.o
+[2026-11-14 16:49:42] [build-stdout] CC	libavdevice/avdevice.o
+[2026-11-14 16:49:42] [build-stdout] CC	libavdevice/utils.o
+[2026-11-14 16:49:42] [build-stdout] CC	libavdevice/version.o
+[2026-11-14 16:49:43] [build-stdout] GEN	libavdevice/libavdevice.pc
+[2026-11-14 16:49:43] [build-stdout] GEN	libavfilter/libavfilter.pc
+[2026-11-14 16:49:43] [build-stdout] CC	libavformat/allformats.o
+[2026-11-14 16:49:43] [build-stdout] CC	libavformat/av1.o
+[2026-11-14 16:49:43] [build-stdout] CC	libavformat/avformat.o
+[2026-11-14 16:49:43] [build-stdout] CC	libavformat/avio.o
+[2026-11-14 16:49:43] [build-stdout] CC	libavformat/aviobuf.o
+[2026-11-14 16:49:44] [build-stdout] CC	libavformat/avlanguage.o
+[2026-11-14 16:49:44] [build-stdout] CC	libavformat/demux.o
+[2026-11-14 16:49:44] [build-stdout] CC	libavformat/demux_utils.o
+[2026-11-14 16:49:44] [build-stdout] CC	libavformat/dovi_isom.o
+[2026-11-14 16:49:45] [build-stdout] CC	libavformat/dump.o
+[2026-11-14 16:49:45] [build-stdout] CC	libavformat/dv.o
+[2026-11-14 16:49:45] [build-stdout] CC	libavformat/file.o
+[2026-11-14 16:49:46] [build-stdout] CC	libavformat/flac_picture.o
+[2026-11-14 16:49:46] [build-stdout] CC	libavformat/format.o
+[2026-11-14 16:49:46] [build-stdout] CC	libavformat/id3v1.o
+[2026-11-14 16:49:46] [build-stdout] CC	libavformat/id3v2.o
+[2026-11-14 16:49:47] [build-stdout] CC	libavformat/isom_tags.o
+[2026-11-14 16:49:47] [build-stdout] CC	libavformat/ivfdec.o
+[2026-11-14 16:49:47] [build-stdout] CC	libavformat/ivfenc.o
+[2026-11-14 16:49:47] [build-stdout] CC	libavformat/matroska.o
+[2026-11-14 16:49:47] [build-stdout] CC	libavformat/matroskadec.o
+[2026-11-14 16:49:48] [build-stdout] CC	libavformat/matroskaenc.o
+[2026-11-14 16:49:48] [build-stdout] CC	libavformat/metadata.o
+[2026-11-14 16:49:48] [build-stdout] CC	libavformat/mux.o
+[2026-11-14 16:49:48] [build-stdout] CC	libavformat/mux_utils.o
+[2026-11-14 16:49:49] [build-stderr] src/libavformat/matroskaenc.c: In function 'mkv_write_trailer':
+[2026-11-14 16:49:49] [build-stderr] src/libavformat/matroskaenc.c:3346:79: warning: '%012.9f' directive output may be truncated writing between 12 and 320 bytes into a region of size between 8 and 14 [-Wformat-truncation=]
+[2026-11-14 16:49:49] [build-stderr]  3346 |                 snprintf(duration_string, sizeof(duration_string), "%02d:%02d:%012.9f",
+[2026-11-14 16:49:49] [build-stderr]       |                                                                               ^~~~~~~
+[2026-11-14 16:49:49] [build-stderr] In file included from /usr/include/stdio.h:980,
+[2026-11-14 16:49:49] [build-stderr]                  from src/libavformat/avio.h:30,
+[2026-11-14 16:49:49] [build-stderr]                  from src/libavformat/av1.h:26,
+[2026-11-14 16:49:49] [build-stderr]                  from src/libavformat/matroskaenc.c:26:
+[2026-11-14 16:49:49] [build-stderr] In function 'snprintf',
+[2026-11-14 16:49:49] [build-stderr]     inlined from 'mkv_write_trailer' at src/libavformat/matroskaenc.c:3346:17:
+[2026-11-14 16:49:49] [build-stderr] /usr/include/x86_64-linux-gnu/bits/stdio2.h:54:10: note: '__builtin___snprintf_chk' output between 19 and 333 bytes into a destination of size 20
+[2026-11-14 16:49:49] [build-stderr]    54 |   return __builtin___snprintf_chk (__s, __n, __USE_FORTIFY_LEVEL - 1,
+[2026-11-14 16:49:49] [build-stderr]       |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[2026-11-14 16:49:49] [build-stderr]    55 |                                    __glibc_objsize (__s), __fmt,
+[2026-11-14 16:49:49] [build-stderr]       |                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[2026-11-14 16:49:49] [build-stderr]    56 |                                    __va_arg_pack ());
+[2026-11-14 16:49:49] [build-stderr]       |                                    ~~~~~~~~~~~~~~~~~
+[2026-11-14 16:49:49] [build-stdout] CC	libavformat/network.o
+[2026-11-14 16:49:50] [build-stdout] CC	libavformat/oggparsevorbis.o
+[2026-11-14 16:49:50] [build-stdout] CC	libavformat/options.o
+[2026-11-14 16:49:50] [build-stdout] CC	libavformat/os_support.o
+[2026-11-14 16:49:50] [build-stdout] CC	libavformat/protocols.o
+[2026-11-14 16:49:51] [build-stdout] CC	libavformat/qtpalette.o
+[2026-11-14 16:49:51] [build-stdout] CC	libavformat/rawenc.o
+[2026-11-14 16:49:51] [build-stdout] CC	libavformat/rawvideodec.o
+[2026-11-14 16:49:51] [build-stdout] CC	libavformat/replaygain.o
+[2026-11-14 16:49:51] [build-stdout] CC	libavformat/riff.o
+[2026-11-14 16:49:52] [build-stdout] CC	libavformat/riffdec.o
+[2026-11-14 16:49:52] [build-stdout] CC	libavformat/rmsipr.o
+[2026-11-14 16:49:52] [build-stdout] CC	libavformat/sdp.o
+[2026-11-14 16:49:52] [build-stdout] CC	libavformat/seek.o
+[2026-11-14 16:49:52] [build-stdout] CC	libavformat/url.o
+[2026-11-14 16:49:52] [build-stdout] CC	libavformat/utils.o
+[2026-11-14 16:49:53] [build-stdout] CC	libavformat/version.o
+[2026-11-14 16:49:53] [build-stdout] CC	libavformat/vorbiscomment.o
+[2026-11-14 16:49:53] [build-stderr] src/libavformat/vorbiscomment.c: In function 'ff_vorbiscomment_write':
+[2026-11-14 16:49:53] [build-stderr] src/libavformat/vorbiscomment.c:103:63: warning: '%03d' directive output may be truncated writing between 3 and 10 bytes into a region of size 4 [-Wformat-truncation=]
+[2026-11-14 16:49:53] [build-stderr]   103 |             snprintf(chapter_number, sizeof(chapter_number), "%03d", i);
+[2026-11-14 16:49:53] [build-stderr]       |                                                               ^~~~
+[2026-11-14 16:49:53] [build-stderr] src/libavformat/vorbiscomment.c:103:62: note: directive argument in the range [0, 2147483647]
+[2026-11-14 16:49:53] [build-stderr]   103 |             snprintf(chapter_number, sizeof(chapter_number), "%03d", i);
+[2026-11-14 16:49:53] [build-stderr]       |                                                              ^~~~~~
+[2026-11-14 16:49:53] [build-stderr] In file included from /usr/include/stdio.h:980,
+[2026-11-14 16:49:53] [build-stderr]                  from src/libavformat/avio.h:30,
+[2026-11-14 16:49:53] [build-stderr]                  from src/libavformat/vorbiscomment.c:22:
+[2026-11-14 16:49:53] [build-stderr] In function 'snprintf',
+[2026-11-14 16:49:53] [build-stderr]     inlined from 'ff_vorbiscomment_write' at src/libavformat/vorbiscomment.c:103:13:
+[2026-11-14 16:49:53] [build-stderr] /usr/include/x86_64-linux-gnu/bits/stdio2.h:54:10: note: '__builtin___snprintf_chk' output between 4 and 11 bytes into a destination of size 4
+[2026-11-14 16:49:53] [build-stderr]    54 |   return __builtin___snprintf_chk (__s, __n, __USE_FORTIFY_LEVEL - 1,
+[2026-11-14 16:49:53] [build-stderr]       |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[2026-11-14 16:49:53] [build-stderr]    55 |                                    __glibc_objsize (__s), __fmt,
+[2026-11-14 16:49:53] [build-stderr]       |                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[2026-11-14 16:49:53] [build-stderr]    56 |                                    __va_arg_pack ());
+[2026-11-14 16:49:53] [build-stderr]       |                                    ~~~~~~~~~~~~~~~~~
+[2026-11-14 16:49:53] [build-stderr] src/libavformat/vorbiscomment.c: In function 'ff_vorbiscomment_write':
+[2026-11-14 16:49:53] [build-stderr] src/libavformat/vorbiscomment.c:104:69: warning: '%02d' directive output may be truncated writing between 2 and 3 bytes into a region of size between 1 and 7 [-Wformat-truncation=]
+[2026-11-14 16:49:53] [build-stderr]   104 |             snprintf(chapter_time, sizeof(chapter_time), "%02d:%02d:%02d.%03d", h, m, s, ms);
+[2026-11-14 16:49:53] [build-stderr]       |                                                                     ^~~~
+[2026-11-14 16:49:53] [build-stderr] src/libavformat/vorbiscomment.c:104:58: note: directive argument in the range [-59, 59]
+[2026-11-14 16:49:53] [build-stderr]   104 |             snprintf(chapter_time, sizeof(chapter_time), "%02d:%02d:%02d.%03d", h, m, s, ms);
+[2026-11-14 16:49:53] [build-stderr]       |                                                          ^~~~~~~~~~~~~~~~~~~~~
+[2026-11-14 16:49:53] [build-stderr] src/libavformat/vorbiscomment.c:104:58: note: directive argument in the range [-999, 999]
+[2026-11-14 16:49:53] [build-stderr] In function 'snprintf',
+[2026-11-14 16:49:53] [build-stderr]     inlined from 'ff_vorbiscomment_write' at src/libavformat/vorbiscomment.c:104:13:
+[2026-11-14 16:49:53] [build-stderr] /usr/include/x86_64-linux-gnu/bits/stdio2.h:54:10: note: '__builtin___snprintf_chk' output between 13 and 21 bytes into a destination of size 13
+[2026-11-14 16:49:53] [build-stderr]    54 |   return __builtin___snprintf_chk (__s, __n, __USE_FORTIFY_LEVEL - 1,
+[2026-11-14 16:49:53] [build-stderr]       |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[2026-11-14 16:49:53] [build-stderr]    55 |                                    __glibc_objsize (__s), __fmt,
+[2026-11-14 16:49:53] [build-stderr]       |                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[2026-11-14 16:49:53] [build-stderr]    56 |                                    __va_arg_pack ());
+[2026-11-14 16:49:53] [build-stderr]       |                                    ~~~~~~~~~~~~~~~~~
+[2026-11-14 16:49:53] [build-stdout] CC	libavformat/yuv4mpegdec.o
+[2026-11-14 16:49:53] [build-stdout] CC	libavformat/yuv4mpegenc.o
+[2026-11-14 16:49:53] [build-stdout] GEN	libavformat/libavformat.pc
+[2026-11-14 16:49:53] [build-stdout] CC	libavcodec/mpeg4audio_sample_rates.o
+[2026-11-14 16:49:53] [build-stdout] CC	libavcodec/to_upper4.o
+[2026-11-14 16:49:53] [build-stdout] GEN	libavcodec/libavcodec.pc
+[2026-11-14 16:49:54] [build-stdout] GEN	libswresample/libswresample.pc
+[2026-11-14 16:49:54] [build-stdout] GEN	libswscale/libswscale.pc
+[2026-11-14 16:49:54] [build-stdout] CC	libavutil/half2float.o
+[2026-11-14 16:49:54] [build-stdout] GEN	libavutil/libavutil.pc
+[2026-11-14 16:49:54] [build-stdout] HOSTCC	ffbuild/bin2c_host.o
+[2026-11-14 16:49:54] [build-stdout] SED	fftools/resources/graph.css.min
+[2026-11-14 16:49:54] [build-stdout] CC	fftools/cmdutils.o
+[2026-11-14 16:49:54] [build-stdout] CC	fftools/opt_common.o
+[2026-11-14 16:49:54] [build-stdout] CC	fftools/ffmpeg.o
+[2026-11-14 16:49:54] [build-stdout] CC	fftools/ffprobe.o
+[2026-11-14 16:49:55] [build-stdout] AR	libavdevice/libavdevice.a
+[2026-11-14 16:49:55] [build-stdout] CC	libavfilter/af_aformat.o
+[2026-11-14 16:49:55] [build-stdout] CC	libavfilter/af_anull.o
+[2026-11-14 16:49:56] [build-stdout] CC	libavfilter/allfilters.o
+[2026-11-14 16:49:56] [build-stdout] CC	libavfilter/audio.o
+[2026-11-14 16:49:56] [build-stdout] CC	libavfilter/avfilter.o
+[2026-11-14 16:49:56] [build-stdout] CC	libavfilter/avfiltergraph.o
+[2026-11-14 16:49:56] [build-stdout] CC	libavfilter/buffersink.o
+[2026-11-14 16:49:57] [build-stdout] CC	libavfilter/buffersrc.o
+[2026-11-14 16:49:57] [build-stdout] CC	libavfilter/ccfifo.o
+[2026-11-14 16:49:57] [build-stdout] CC	libavfilter/colorspace.o
+[2026-11-14 16:49:57] [build-stdout] CC	libavfilter/drawutils.o
+[2026-11-14 16:49:58] [build-stdout] CC	libavfilter/formats.o
+[2026-11-14 16:49:58] [build-stdout] CC	libavfilter/framepool.o
+[2026-11-14 16:49:58] [build-stdout] CC	libavfilter/framequeue.o
+[2026-11-14 16:49:58] [build-stdout] CC	libavfilter/framesync.o
+[2026-11-14 16:49:58] [build-stdout] CC	libavfilter/graphdump.o
+[2026-11-14 16:49:59] [build-stdout] CC	libavfilter/graphparser.o
+[2026-11-14 16:49:59] [build-stdout] CC	libavfilter/pthread.o
+[2026-11-14 16:49:59] [build-stdout] CC	libavfilter/scale_eval.o
+[2026-11-14 16:49:59] [build-stdout] CC	libavfilter/trim.o
+[2026-11-14 16:49:59] [build-stdout] CC	libavfilter/version.o
+[2026-11-14 16:50:00] [build-stdout] CC	libavfilter/vf_crop.o
+[2026-11-14 16:50:00] [build-stdout] CC	libavfilter/vf_format.o
+[2026-11-14 16:50:00] [build-stdout] CC	libavfilter/vf_hflip.o
+[2026-11-14 16:50:00] [build-stdout] CC	libavfilter/vf_null.o
+[2026-11-14 16:50:00] [build-stdout] CC	libavfilter/vf_rotate.o
+[2026-11-14 16:50:00] [build-stdout] CC	libavfilter/vf_scale.o
+[2026-11-14 16:50:00] [build-stdout] CC	libavfilter/vf_transpose.o
+[2026-11-14 16:50:01] [build-stdout] CC	libavfilter/vf_vflip.o
+[2026-11-14 16:50:01] [build-stdout] CC	libavfilter/video.o
+[2026-11-14 16:50:01] [build-stdout] CC	libavfilter/x86/vf_hflip_init.o
+[2026-11-14 16:50:01] [build-stdout] CC	libavfilter/x86/vf_transpose_init.o
+[2026-11-14 16:50:01] [build-stdout] AR	libavformat/libavformat.a
+[2026-11-14 16:50:01] [build-stdout] CC	libavcodec/adts_parser.o
+[2026-11-14 16:50:01] [build-stdout] CC	libavcodec/ac3_parser.o
+[2026-11-14 16:50:01] [build-stdout] CC	libavcodec/allcodecs.o
+[2026-11-14 16:50:01] [build-stdout] CC	libavcodec/avcodec.o
+[2026-11-14 16:50:02] [build-stdout] CC	libavcodec/avdct.o
+[2026-11-14 16:50:02] [build-stdout] CC	libavcodec/bitstream.o
+[2026-11-14 16:50:02] [build-stdout] CC	libavcodec/bitstream_filters.o
+[2026-11-14 16:50:02] [build-stdout] CC	libavcodec/bsf.o
+[2026-11-14 16:50:02] [build-stdout] CC	libavcodec/bsf/av1_metadata.o
+[2026-11-14 16:50:02] [build-stdout] CC	libavcodec/bsf/vp9_superframe.o
+[2026-11-14 16:50:02] [build-stdout] CC	libavcodec/bswapdsp.o
+[2026-11-14 16:50:03] [build-stdout] CC	libavcodec/cbs.o
+[2026-11-14 16:50:03] [build-stdout] CC	libavcodec/cbs_av1.o
+[2026-11-14 16:50:03] [build-stdout] CC	libavcodec/cbs_bsf.o
+[2026-11-14 16:50:03] [build-stdout] CC	libavcodec/codec_desc.o
+[2026-11-14 16:50:03] [build-stdout] CC	libavcodec/codec_par.o
+[2026-11-14 16:50:04] [build-stdout] CC	libavcodec/d3d11va.o
+[2026-11-14 16:50:04] [build-stdout] CC	libavcodec/decode.o
+[2026-11-14 16:50:04] [build-stdout] CC	libavcodec/dirac.o
+[2026-11-14 16:50:04] [build-stdout] CC	libavcodec/dv_profile.o
+[2026-11-14 16:50:04] [build-stdout] CC	libavcodec/encode.o
+[2026-11-14 16:50:05] [build-stdout] CC	libavcodec/faandct.o
+[2026-11-14 16:50:05] [build-stdout] CC	libavcodec/faanidct.o
+[2026-11-14 16:50:05] [build-stdout] CC	libavcodec/fdctdsp.o
+[2026-11-14 16:50:05] [build-stdout] CC	libavcodec/frame_thread_encoder.o
+[2026-11-14 16:50:05] [build-stdout] CC	libavcodec/get_buffer.o
+[2026-11-14 16:50:06] [build-stdout] CC	libavcodec/idctdsp.o
+[2026-11-14 16:50:06] [build-stdout] CC	libavcodec/imgconvert.o
+[2026-11-14 16:50:06] [build-stdout] CC	libavcodec/jfdctfst.o
+[2026-11-14 16:50:06] [build-stdout] CC	libavcodec/jfdctint.o
+[2026-11-14 16:50:06] [build-stdout] CC	libavcodec/jni.o
+[2026-11-14 16:50:07] [build-stdout] CC	libavcodec/jrevdct.o
+[2026-11-14 16:50:07] [build-stdout] CC	libavcodec/lcevcdec.o
+[2026-11-14 16:50:07] [build-stdout] CC	libavcodec/libvpxdec.o
+[2026-11-14 16:50:07] [build-stdout] CC	libavcodec/libvpxenc.o
+[2026-11-14 16:50:07] [build-stdout] CC	libavcodec/mathtables.o
+[2026-11-14 16:50:08] [build-stdout] CC	libavcodec/mediacodec.o
+[2026-11-14 16:50:08] [build-stdout] CC	libavcodec/mpeg12framerate.o
+[2026-11-14 16:50:08] [build-stdout] CC	libavcodec/options.o
+[2026-11-14 16:50:08] [build-stdout] CC	libavcodec/packet.o
+[2026-11-14 16:50:09] [build-stdout] CC	libavcodec/parser.o
+[2026-11-14 16:50:09] [build-stdout] CC	libavcodec/parsers.o
+[2026-11-14 16:50:09] [build-stdout] CC	libavcodec/profiles.o
+[2026-11-14 16:50:09] [build-stdout] CC	libavcodec/pthread.o
+[2026-11-14 16:50:10] [build-stdout] CC	libavcodec/pthread_frame.o
+[2026-11-14 16:50:10] [build-stdout] CC	libavcodec/pthread_slice.o
+[2026-11-14 16:50:10] [build-stdout] CC	libavcodec/qsv_api.o
+[2026-11-14 16:50:10] [build-stdout] CC	libavcodec/raw.o
+[2026-11-14 16:50:10] [build-stdout] CC	libavcodec/rawdec.o
+[2026-11-14 16:50:10] [build-stdout] CC	libavcodec/rawenc.o
+[2026-11-14 16:50:10] [build-stdout] CC	libavcodec/simple_idct.o
+[2026-11-14 16:50:11] [build-stdout] CC	libavcodec/threadprogress.o
+[2026-11-14 16:50:11] [build-stdout] CC	libavcodec/utils.o
+[2026-11-14 16:50:11] [build-stdout] CC	libavcodec/version.o
+[2026-11-14 16:50:11] [build-stdout] CC	libavcodec/vlc.o
+[2026-11-14 16:50:11] [build-stdout] CC	libavcodec/vorbis_parser.o
+[2026-11-14 16:50:11] [build-stderr] In function 'add_level',
+[2026-11-14 16:50:11] [build-stderr]     inlined from 'add_level' at src/libavcodec/vlc.c:457:17,
+[2026-11-14 16:50:11] [build-stderr]     inlined from 'add_level' at src/libavcodec/vlc.c:457:17,
+[2026-11-14 16:50:11] [build-stderr]     inlined from 'add_level' at src/libavcodec/vlc.c:457:17,
+[2026-11-14 16:50:11] [build-stderr]     inlined from 'vlc_multi_gen' at src/libavcodec/vlc.c:508:5,
+[2026-11-14 16:50:11] [build-stderr]     inlined from 'ff_vlc_init_multi_from_lengths' at src/libavcodec/vlc.c:564:11:
+[2026-11-14 16:50:11] [build-stderr] src/libavcodec/vlc.c:443:36: warning: array subscript 3 is above array bounds of 'uint16_t[3]' {aka 'short unsigned int[3]'} [-Warray-bounds=]
+[2026-11-14 16:50:11] [build-stderr]   443 |             if (is16bit) info.val16[curlevel] = sym;
+[2026-11-14 16:50:11] [build-stderr]       |                          ~~~~~~~~~~^~~~~~~~~~
+[2026-11-14 16:50:11] [build-stderr] In file included from src/libavcodec/vlc.c:39:
+[2026-11-14 16:50:11] [build-stderr] src/libavcodec/vlc.h: In function 'ff_vlc_init_multi_from_lengths':
+[2026-11-14 16:50:11] [build-stderr] src/libavcodec/vlc.h:59:18: note: while referencing 'val16'
+[2026-11-14 16:50:11] [build-stderr]    59 |         uint16_t val16[VLC_MULTI_MAX_SYMBOLS / 2];
+[2026-11-14 16:50:11] [build-stderr]       |                  ^~~~~
+[2026-11-14 16:50:11] [build-stderr] In function 'add_level',
+[2026-11-14 16:50:11] [build-stderr]     inlined from 'add_level' at src/libavcodec/vlc.c:457:17,
+[2026-11-14 16:50:11] [build-stderr]     inlined from 'add_level' at src/libavcodec/vlc.c:457:17,
+[2026-11-14 16:50:11] [build-stderr]     inlined from 'add_level' at src/libavcodec/vlc.c:457:17,
+[2026-11-14 16:50:11] [build-stderr]     inlined from 'add_level' at src/libavcodec/vlc.c:457:17,
+[2026-11-14 16:50:11] [build-stderr]     inlined from 'vlc_multi_gen' at src/libavcodec/vlc.c:508:5,
+[2026-11-14 16:50:11] [build-stderr]     inlined from 'ff_vlc_init_multi_from_lengths' at src/libavcodec/vlc.c:564:11:
+[2026-11-14 16:50:11] [build-stderr] src/libavcodec/vlc.c:443:36: warning: array subscript 4 is above array bounds of 'uint16_t[3]' {aka 'short unsigned int[3]'} [-Warray-bounds=]
+[2026-11-14 16:50:11] [build-stderr]   443 |             if (is16bit) info.val16[curlevel] = sym;
+[2026-11-14 16:50:11] [build-stderr]       |                          ~~~~~~~~~~^~~~~~~~~~
+[2026-11-14 16:50:11] [build-stderr] src/libavcodec/vlc.h: In function 'ff_vlc_init_multi_from_lengths':
+[2026-11-14 16:50:11] [build-stderr] src/libavcodec/vlc.h:59:18: note: while referencing 'val16'
+[2026-11-14 16:50:11] [build-stderr]    59 |         uint16_t val16[VLC_MULTI_MAX_SYMBOLS / 2];
+[2026-11-14 16:50:11] [build-stderr]       |                  ^~~~~
+[2026-11-14 16:50:11] [build-stderr] In function 'add_level',
+[2026-11-14 16:50:11] [build-stderr]     inlined from 'add_level' at src/libavcodec/vlc.c:457:17,
+[2026-11-14 16:50:11] [build-stderr]     inlined from 'add_level' at src/libavcodec/vlc.c:457:17,
+[2026-11-14 16:50:11] [build-stderr]     inlined from 'add_level' at src/libavcodec/vlc.c:457:17,
+[2026-11-14 16:50:11] [build-stderr]     inlined from 'add_level' at src/libavcodec/vlc.c:457:17,
+[2026-11-14 16:50:11] [build-stderr]     inlined from 'add_level' at src/libavcodec/vlc.c:457:17,
+[2026-11-14 16:50:11] [build-stderr]     inlined from 'vlc_multi_gen' at src/libavcodec/vlc.c:508:5,
+[2026-11-14 16:50:11] [build-stderr]     inlined from 'ff_vlc_init_multi_from_lengths' at src/libavcodec/vlc.c:564:11:
+[2026-11-14 16:50:11] [build-stderr] src/libavcodec/vlc.c:443:36: warning: array subscript 5 is above array bounds of 'uint16_t[3]' {aka 'short unsigned int[3]'} [-Warray-bounds=]
+[2026-11-14 16:50:11] [build-stderr]   443 |             if (is16bit) info.val16[curlevel] = sym;
+[2026-11-14 16:50:11] [build-stderr]       |                          ~~~~~~~~~~^~~~~~~~~~
+[2026-11-14 16:50:11] [build-stderr] src/libavcodec/vlc.h: In function 'ff_vlc_init_multi_from_lengths':
+[2026-11-14 16:50:11] [build-stderr] src/libavcodec/vlc.h:59:18: note: while referencing 'val16'
+[2026-11-14 16:50:11] [build-stderr]    59 |         uint16_t val16[VLC_MULTI_MAX_SYMBOLS / 2];
+[2026-11-14 16:50:11] [build-stderr]       |                  ^~~~~
+[2026-11-14 16:50:12] [build-stdout] CC	libavcodec/vp8_parser.o
+[2026-11-14 16:50:12] [build-stdout] CC	libavcodec/vp9_parser.o
+[2026-11-14 16:50:12] [build-stdout] CC	libavcodec/x86/bswapdsp_init.o
+[2026-11-14 16:50:12] [build-stdout] CC	libavcodec/x86/constants.o
+[2026-11-14 16:50:12] [build-stdout] CC	libavcodec/x86/fdct.o
+[2026-11-14 16:50:12] [build-stdout] CC	libavcodec/x86/fdctdsp_init.o
+[2026-11-14 16:50:12] [build-stdout] CC	libavcodec/x86/idctdsp_init.o
+[2026-11-14 16:50:12] [build-stdout] CC	libavcodec/xiph.o
+[2026-11-14 16:50:13] [build-stdout] CC	libswresample/audioconvert.o
+[2026-11-14 16:50:13] [build-stdout] CC	libswresample/dither.o
+[2026-11-14 16:50:13] [build-stdout] CC	libswresample/options.o
+[2026-11-14 16:50:13] [build-stdout] CC	libswresample/rematrix.o
+[2026-11-14 16:50:13] [build-stdout] CC	libswresample/resample.o
+[2026-11-14 16:50:14] [build-stdout] CC	libswresample/resample_dsp.o
+[2026-11-14 16:50:14] [build-stdout] CC	libswresample/swresample.o
+[2026-11-14 16:50:14] [build-stdout] CC	libswresample/swresample_frame.o
+[2026-11-14 16:50:14] [build-stdout] CC	libswresample/version.o
+[2026-11-14 16:50:15] [build-stdout] CC	libswresample/x86/audio_convert_init.o
+[2026-11-14 16:50:15] [build-stdout] CC	libswresample/x86/rematrix_init.o
+[2026-11-14 16:50:15] [build-stdout] CC	libswresample/x86/resample_init.o
+[2026-11-14 16:50:15] [build-stdout] CC	libswscale/alphablend.o
+[2026-11-14 16:50:15] [build-stdout] CC	libswscale/cms.o
+[2026-11-14 16:50:15] [build-stdout] CC	libswscale/csputils.o
+[2026-11-14 16:50:16] [build-stdout] CC	libswscale/format.o
+[2026-11-14 16:50:16] [build-stdout] CC	libswscale/gamma.o
+[2026-11-14 16:50:16] [build-stdout] CC	libswscale/graph.o
+[2026-11-14 16:50:16] [build-stdout] CC	libswscale/hscale.o
+[2026-11-14 16:50:17] [build-stdout] CC	libswscale/hscale_fast_bilinear.o
+[2026-11-14 16:50:17] [build-stdout] CC	libswscale/input.o
+[2026-11-14 16:50:17] [build-stdout] CC	libswscale/lut3d.o
+[2026-11-14 16:50:17] [build-stdout] CC	libswscale/options.o
+[2026-11-14 16:50:18] [build-stdout] CC	libswscale/output.o
+[2026-11-14 16:50:18] [build-stdout] CC	libswscale/rgb2rgb.o
+[2026-11-14 16:50:18] [build-stdout] CC	libswscale/slice.o
+[2026-11-14 16:50:19] [build-stdout] CC	libswscale/swscale.o
+[2026-11-14 16:50:22] [build-stdout] CC	libswscale/swscale_unscaled.o
+[2026-11-14 16:50:23] [build-stdout] CC	libswscale/utils.o
+[2026-11-14 16:50:25] [build-stdout] CC	libswscale/version.o
+[2026-11-14 16:50:25] [build-stdout] CC	libswscale/vscale.o
+[2026-11-14 16:50:26] [build-stdout] CC	libswscale/x86/hscale_fast_bilinear_simd.o
+[2026-11-14 16:50:27] [build-stdout] CC	libswscale/x86/rgb2rgb.o
+[2026-11-14 16:50:29] [build-stdout] CC	libswscale/x86/swscale.o
+[2026-11-14 16:50:30] [build-stdout] CC	libswscale/x86/yuv2rgb.o
+[2026-11-14 16:50:31] [build-stdout] CC	libswscale/yuv2rgb.o
+[2026-11-14 16:50:31] [build-stdout] CC	libavutil/adler32.o
+[2026-11-14 16:50:32] [build-stdout] CC	libavutil/aes.o
+[2026-11-14 16:50:32] [build-stdout] CC	libavutil/aes_ctr.o
+[2026-11-14 16:50:33] [build-stdout] CC	libavutil/ambient_viewing_environment.o
+[2026-11-14 16:50:33] [build-stdout] CC	libavutil/audio_fifo.o
+[2026-11-14 16:50:33] [build-stdout] CC	libavutil/avsscanf.o
+[2026-11-14 16:50:35] [build-stdout] CC	libavutil/avstring.o
+[2026-11-14 16:50:36] [build-stdout] CC	libavutil/base64.o
+[2026-11-14 16:50:36] [build-stdout] CC	libavutil/blowfish.o
+[2026-11-14 16:50:37] [build-stdout] CC	libavutil/bprint.o
+[2026-11-14 16:50:37] [build-stdout] CC	libavutil/buffer.o
+[2026-11-14 16:50:37] [build-stdout] CC	libavutil/camellia.o
+[2026-11-14 16:50:38] [build-stdout] CC	libavutil/cast5.o
+[2026-11-14 16:50:38] [build-stdout] CC	libavutil/channel_layout.o
+[2026-11-14 16:50:39] [build-stdout] CC	libavutil/container_fifo.o
+[2026-11-14 16:50:39] [build-stdout] CC	libavutil/cpu.o
+[2026-11-14 16:50:39] [build-stdout] CC	libavutil/crc.o
+[2026-11-14 16:50:40] [build-stdout] CC	libavutil/csp.o
+[2026-11-14 16:50:40] [build-stdout] CC	libavutil/des.o
+[2026-11-14 16:50:40] [build-stdout] CC	libavutil/detection_bbox.o
+[2026-11-14 16:50:41] [build-stdout] CC	libavutil/dict.o
+[2026-11-14 16:50:41] [build-stdout] CC	libavutil/display.o
+[2026-11-14 16:50:41] [build-stdout] CC	libavutil/dovi_meta.o
+[2026-11-14 16:50:41] [build-stdout] CC	libavutil/downmix_info.o
+[2026-11-14 16:50:41] [build-stdout] CC	libavutil/encryption_info.o
+[2026-11-14 16:50:41] [build-stdout] CC	libavutil/error.o
+[2026-11-14 16:50:42] [build-stdout] CC	libavutil/eval.o
+[2026-11-14 16:50:42] [build-stdout] CC	libavutil/executor.o
+[2026-11-14 16:50:42] [build-stdout] CC	libavutil/fifo.o
+[2026-11-14 16:50:42] [build-stdout] CC	libavutil/file.o
+[2026-11-14 16:50:43] [build-stdout] CC	libavutil/file_open.o
+[2026-11-14 16:50:43] [build-stdout] CC	libavutil/film_grain_params.o
+[2026-11-14 16:50:43] [build-stdout] CC	libavutil/fixed_dsp.o
+[2026-11-14 16:50:43] [build-stdout] CC	libavutil/float_dsp.o
+[2026-11-14 16:50:43] [build-stdout] CC	libavutil/float_scalarproduct.o
+[2026-11-14 16:50:43] [build-stdout] CC	libavutil/frame.o
+[2026-11-14 16:50:43] [build-stdout] CC	libavutil/hash.o
+[2026-11-14 16:50:43] [build-stdout] CC	libavutil/hdr_dynamic_metadata.o
+[2026-11-14 16:50:44] [build-stdout] CC	libavutil/hdr_dynamic_vivid_metadata.o
+[2026-11-14 16:50:44] [build-stdout] CC	libavutil/hmac.o
+[2026-11-14 16:50:44] [build-stdout] CC	libavutil/hwcontext.o
+[2026-11-14 16:50:44] [build-stdout] CC	libavutil/hwcontext_stub.o
+[2026-11-14 16:50:44] [build-stdout] CC	libavutil/iamf.o
+[2026-11-14 16:50:45] [build-stdout] CC	libavutil/imgutils.o
+[2026-11-14 16:50:45] [build-stdout] CC	libavutil/integer.o
+[2026-11-14 16:50:45] [build-stdout] CC	libavutil/intmath.o
+[2026-11-14 16:50:45] [build-stdout] CC	libavutil/lfg.o
+[2026-11-14 16:50:45] [build-stdout] CC	libavutil/lls.o
+[2026-11-14 16:50:46] [build-stdout] CC	libavutil/log.o
+[2026-11-14 16:50:46] [build-stdout] CC	libavutil/log2_tab.o
+[2026-11-14 16:50:46] [build-stdout] CC	libavutil/lzo.o
+[2026-11-14 16:50:46] [build-stdout] CC	libavutil/mastering_display_metadata.o
+[2026-11-14 16:50:46] [build-stdout] CC	libavutil/mathematics.o
+[2026-11-14 16:50:46] [build-stdout] CC	libavutil/md5.o
+[2026-11-14 16:50:46] [build-stdout] CC	libavutil/mem.o
+[2026-11-14 16:50:47] [build-stdout] CC	libavutil/murmur3.o
+[2026-11-14 16:50:47] [build-stdout] CC	libavutil/opt.o
+[2026-11-14 16:50:47] [build-stdout] CC	libavutil/parseutils.o
+[2026-11-14 16:50:47] [build-stdout] CC	libavutil/pixdesc.o
+[2026-11-14 16:50:48] [build-stdout] CC	libavutil/pixelutils.o
+[2026-11-14 16:50:48] [build-stdout] CC	libavutil/random_seed.o
+[2026-11-14 16:50:48] [build-stdout] CC	libavutil/rational.o
+[2026-11-14 16:50:48] [build-stdout] CC	libavutil/rc4.o
+[2026-11-14 16:50:48] [build-stdout] CC	libavutil/refstruct.o
+[2026-11-14 16:50:49] [build-stdout] CC	libavutil/reverse.o
+[2026-11-14 16:50:49] [build-stdout] CC	libavutil/ripemd.o
+[2026-11-14 16:50:49] [build-stdout] CC	libavutil/samplefmt.o
+[2026-11-14 16:50:49] [build-stdout] CC	libavutil/sha.o
+[2026-11-14 16:50:49] [build-stdout] CC	libavutil/sha512.o
+[2026-11-14 16:50:50] [build-stdout] CC	libavutil/side_data.o
+[2026-11-14 16:50:50] [build-stdout] CC	libavutil/slicethread.o
+[2026-11-14 16:50:50] [build-stdout] CC	libavutil/spherical.o
+[2026-11-14 16:50:50] [build-stdout] CC	libavutil/stereo3d.o
+[2026-11-14 16:50:50] [build-stdout] CC	libavutil/tdrdi.o
+[2026-11-14 16:50:50] [build-stdout] CC	libavutil/tea.o
+[2026-11-14 16:50:51] [build-stdout] CC	libavutil/threadmessage.o
+[2026-11-14 16:50:51] [build-stdout] CC	libavutil/time.o
+[2026-11-14 16:50:51] [build-stdout] CC	libavutil/timecode.o
+[2026-11-14 16:50:51] [build-stdout] CC	libavutil/timecode_internal.o
+[2026-11-14 16:50:51] [build-stdout] CC	libavutil/timestamp.o
+[2026-11-14 16:50:51] [build-stdout] CC	libavutil/tree.o
+[2026-11-14 16:50:51] [build-stdout] CC	libavutil/twofish.o
+[2026-11-14 16:50:51] [build-stdout] CC	libavutil/tx.o
+[2026-11-14 16:50:51] [build-stdout] CC	libavutil/tx_double.o
+[2026-11-14 16:50:51] [build-stdout] CC	libavutil/tx_float.o
+[2026-11-14 16:50:52] [build-stdout] CC	libavutil/tx_int32.o
+[2026-11-14 16:50:53] [build-stdout] CC	libavutil/utils.o
+[2026-11-14 16:50:53] [build-stdout] CC	libavutil/uuid.o
+[2026-11-14 16:50:53] [build-stdout] CC	libavutil/version.o
+[2026-11-14 16:50:54] [build-stdout] CC	libavutil/video_enc_params.o
+[2026-11-14 16:50:54] [build-stdout] CC	libavutil/video_hint.o
+[2026-11-14 16:50:55] [build-stdout] CC	libavutil/x86/aes_init.o
+[2026-11-14 16:50:55] [build-stdout] CC	libavutil/x86/cpu.o
+[2026-11-14 16:50:55] [build-stdout] CC	libavutil/x86/fixed_dsp_init.o
+[2026-11-14 16:50:56] [build-stdout] CC	libavutil/x86/float_dsp_init.o
+[2026-11-14 16:50:56] [build-stdout] CC	libavutil/x86/imgutils_init.o
+[2026-11-14 16:50:56] [build-stdout] CC	libavutil/x86/lls_init.o
+[2026-11-14 16:50:56] [build-stdout] CC	libavutil/xga_font_data.o
+[2026-11-14 16:50:56] [build-stdout] CC	libavutil/xtea.o
+[2026-11-14 16:50:57] [build-stdout] CC	fftools/ffmpeg_dec.o
+[2026-11-14 16:50:57] [build-stdout] CC	fftools/ffmpeg_demux.o
+[2026-11-14 16:50:58] [build-stdout] CC	fftools/ffmpeg_enc.o
+[2026-11-14 16:50:59] [build-stdout] CC	fftools/ffmpeg_filter.o
+[2026-11-14 16:50:59] [build-stdout] CC	fftools/ffmpeg_hw.o
+[2026-11-14 16:50:59] [build-stdout] CC	fftools/ffmpeg_mux.o
+[2026-11-14 16:50:59] [build-stdout] CC	fftools/ffmpeg_mux_init.o
+[2026-11-14 16:51:00] [build-stdout] CC	fftools/ffmpeg_opt.o
+[2026-11-14 16:51:00] [build-stdout] CC	fftools/ffmpeg_sched.o
+[2026-11-14 16:51:01] [build-stdout] CC	fftools/graph/graphprint.o
+[2026-11-14 16:51:01] [build-stdout] CC	fftools/sync_queue.o
+[2026-11-14 16:51:02] [build-stdout] CC	fftools/thread_queue.o
+[2026-11-14 16:51:02] [build-stdout] CC	fftools/textformat/avtextformat.o
+[2026-11-14 16:51:02] [build-stdout] CC	fftools/textformat/tf_compact.o
+[2026-11-14 16:51:02] [build-stdout] CC	fftools/textformat/tf_default.o
+[2026-11-14 16:51:02] [build-stdout] CC	fftools/textformat/tf_flat.o
+[2026-11-14 16:51:03] [build-stdout] CC	fftools/textformat/tf_ini.o
+[2026-11-14 16:51:03] [build-stdout] CC	fftools/textformat/tf_json.o
+[2026-11-14 16:51:03] [build-stdout] CC	fftools/textformat/tf_mermaid.o
+[2026-11-14 16:51:03] [build-stdout] CC	fftools/textformat/tf_xml.o
+[2026-11-14 16:51:03] [build-stdout] CC	fftools/textformat/tw_avio.o
+[2026-11-14 16:51:03] [build-stdout] CC	fftools/textformat/tw_buffer.o
+[2026-11-14 16:51:03] [build-stdout] CC	fftools/textformat/tw_stdout.o
+[2026-11-14 16:51:04] [build-stdout] CC	fftools/resources/resman.o
+[2026-11-14 16:51:04] [build-stdout] HOSTLD	ffbuild/bin2c
+[2026-11-14 16:51:04] [build-stdout] AR	libavfilter/libavfilter.a
+[2026-11-14 16:51:04] [build-stdout] AR	libavcodec/libavcodec.a
+[2026-11-14 16:51:04] [build-stdout] AR	libswresample/libswresample.a
+[2026-11-14 16:51:04] [build-stdout] AR	libswscale/libswscale.a
+[2026-11-14 16:51:04] [build-stdout] BIN2C	fftools/resources/graph.html.c
+[2026-11-14 16:51:04] [build-stdout] BIN2C	fftools/resources/graph.css.c
+[2026-11-14 16:51:04] [build-stdout] CC	fftools/resources/graph.html.o
+[2026-11-14 16:51:04] [build-stdout] AR	libavutil/libavutil.a
+[2026-11-14 16:51:04] [build-stdout] CC	fftools/resources/graph.css.o
+[2026-11-14 16:51:04] [build-stdout] LD	ffprobe_g
+[2026-11-14 16:51:04] [build-stdout] LD	ffmpeg_g
+[2026-11-14 16:51:04] [build-stdout] STRIP	ffprobe
+[2026-11-14 16:51:05] [build-stdout] STRIP	ffmpeg
+[2026-11-14 16:51:05] [build-stdout] rm fftools/resources/graph.css.min fftools/resources/graph.html.c fftools/resources/graph.css.c
+Finalizing database at /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/db/ffmpeg_vpx_only.
+Running pre-finalize script /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/codeql-bundle/codeql/cpp/tools/pre-finalize.sh in /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/root.
+Running command in /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/root: [/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/codeql-bundle/codeql/cpp/tools/pre-finalize.sh]
+Pre-finalize script /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/codeql-bundle/codeql/cpp/tools/pre-finalize.sh completed in 33 ms.
+Running TRAP import for CodeQL database at /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/db/ffmpeg_vpx_only...
+Grouping TRAP files by link target
+Grouping unlinked TRAP files together
+Scanning TRAP files
+Importing TRAP files
+Merging relations
+Finished writing database (relations: 44.62 MiB; string pool: 11.03 MiB).
+TRAP import complete (26.4s).
+Finished zipping source archive (4.62 MiB).
+Successfully created database at /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work/db/ffmpeg_vpx_only.

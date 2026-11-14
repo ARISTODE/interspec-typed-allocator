@@ -1,0 +1,2 @@
+nginx_pcre exit=97
+overall exit=1
