@@ -14,6 +14,7 @@ from collections import defaultdict
 MODES = ("native", "rlbox_only", "tracked_no_check", "extended_sp3")
 
 
+import rlbox_only_baseline
 from yaml_measurement_validation import parse_line, validate_result, validate_grid, expected_hash, integer
 
 
@@ -22,6 +23,8 @@ def run(command, check=True, census=False):
     env = {key: value for key, value in os.environ.items() if key != "INTERSPEC_POINTER_CENSUS"}
     if census:
         env["INTERSPEC_POINTER_CENSUS"] = "1"
+    if "rlbox_only" in command:  # the mode argument: RLBox-only copies everything
+        env = rlbox_only_baseline.environment("rlbox_only", env)
     completed = subprocess.run(command, text=True, capture_output=True, env=env)
     if check and completed.returncode != 0:
         raise RuntimeError(

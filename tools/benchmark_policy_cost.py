@@ -44,7 +44,9 @@ SWITCHES = ("INTERSPEC_SP1", "INTERSPEC_SP2", "INTERSPEC_SP3")
 
 def configurations(policies):
     """name -> (binary key, switch values or None)."""
-    result = {"rlbox-only": ("rlbox-only", None),
+    # RLBox-only copies everything (tools/rlbox_only_baseline.py); its registry
+    # is compiled out, so the third switch has no effect.
+    result = {"rlbox-only": ("rlbox-only", ("0", "0", "1")),
               "interspec-all-off": ("interspec", ("0", "0", "0"))}
     for policy in policies:
         index = ("sp1", "sp2", "sp3").index(policy)

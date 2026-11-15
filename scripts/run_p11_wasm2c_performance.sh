@@ -254,8 +254,13 @@ def prepare(workload):
         shutil.rmtree(path, ignore_errors=True)
         os.makedirs(path, exist_ok=True)
 
+# RLBox-only copies everything: it runs with SP1 and SP2 off
+# (tools/rlbox_only_baseline.py). Unset switches mean on.
+rlbox_only_env = dict(env, INTERSPEC_SP1="0", INTERSPEC_SP2="0")
+
 def run(binary, args):
-    subprocess.run(prefix + [binary, *args], check=True, env=env,
+    subprocess.run(prefix + [binary, *args], check=True,
+                   env=rlbox_only_env if binary == rlbox_only else env,
                    stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
 # After every invocation that writes files, outside the timed interval: the

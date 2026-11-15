@@ -40,8 +40,12 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from run_port_parity import BOUNDARIES, NOT_RESULT, VARIANTS, parse  # noqa: E402
 
+# RLBox-only copies everything: SP1 and SP2 off (tools/rlbox_only_baseline.py).
+# Its registry is compiled out, so the third switch has no effect.
+RLBOX_ONLY_SWITCHES = ("0", "0", "1")
+
 POLICY_CONFIGS = {
-    "rlbox-only": ("rlbox-only", None),
+    "rlbox-only": ("rlbox-only", RLBOX_ONLY_SWITCHES),
     "interspec-all-off": ("interspec", ("0", "0", "0")),
     "interspec-sp1": ("interspec", ("1", "0", "0")),
     "interspec-sp2": ("interspec", ("0", "1", "0")),
@@ -89,7 +93,8 @@ def main():
 
     if args.mode == "variants":
         names = list(spec.get("variants", VARIANTS))
-        configs = {name: (name, ("1", "1", "1")) for name in names}
+        configs = {name: (name, RLBOX_ONLY_SWITCHES if name == "rlbox-only" else ("1", "1", "1"))
+                   for name in names}
         reference = "native"
     else:
         configs = dict(POLICY_CONFIGS)

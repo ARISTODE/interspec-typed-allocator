@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Complete-server collection, with an explicitly scoped VM capacity mode."""
 import argparse
+import contextlib
 import csv
 import hashlib
 import json
@@ -15,6 +16,7 @@ import subprocess
 import threading
 import time
 from memcached_common import Client, Server, guarded_command
+import rlbox_only_baseline
 
 VARIANTS = ["native", "rlbox-only", "tracked-no-check", "interspec"]
 
@@ -218,8 +220,12 @@ def main():
             for rank, variant in enumerate(order):
                 name = f"{workload}-{rep}-{variant}"
                 watcher = None
-                with Server(a.work/"bin"/f"memcached-{variant}", a.out/"logs", name, cpu=a.server_cpus, guarded=True,
-                            extra=["-o", "worker_logbuf_size=1024,watcher_logbuf_size=4096"]) as server:
+                with contextlib.ExitStack() as stack:
+                    # RLBox-only copies everything: the server is started with SP1 and SP2 off.
+                    with rlbox_only_baseline.process_environment(variant):
+                        server = stack.enter_context(Server(
+                            a.work/"bin"/f"memcached-{variant}", a.out/"logs", name, cpu=a.server_cpus, guarded=True,
+                            extra=["-o", "worker_logbuf_size=1024,watcher_logbuf_size=4096"]))
                     try:
                         if a.capacity_diagnostic:
                             assert cpu_set(usage(server.proc.pid)["observed_server_cpus"]) == cpu_set(a.server_cpus), "Server affinity mismatch"

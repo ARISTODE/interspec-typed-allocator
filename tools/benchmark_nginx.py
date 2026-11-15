@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Four-way paired wrk measurements, gated by binary-matched correctness."""
 import argparse
+import contextlib
 import csv
 import hashlib
 import json
@@ -11,6 +12,7 @@ import random
 import statistics
 import subprocess
 from nginx_common import Server
+import rlbox_only_baseline
 
 VARIANTS = ['native', 'rlbox-only', 'tracked-no-check', 'interspec']
 
@@ -115,7 +117,10 @@ def main():
             order=VARIANTS.copy(); rng.shuffle(order)
             for position,variant in enumerate(order):
                 directory=a.out/f't{threads}-r{repetition}-{variant}'
-                with Server(a.work/'bin'/f'nginx-{variant}', directory,workers=a.workers,cpu=a.server_cpus) as server:
+                with contextlib.ExitStack() as stack:
+                    # RLBox-only copies everything: the server is started with SP1 and SP2 off.
+                    with rlbox_only_baseline.process_environment(variant):
+                        server = stack.enter_context(Server(a.work/'bin'/f'nginx-{variant}', directory,workers=a.workers,cpu=a.server_cpus))
                     if a.warmup_seconds: wrk(server,threads,a.warmup_seconds,directory,'warmup')
                     before=process_stats(server.proc.pid)
                     data=wrk(server,threads,a.seconds,directory,'measurement')
