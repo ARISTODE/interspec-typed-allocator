@@ -31,6 +31,8 @@ import threading
 import time
 from pathlib import Path
 
+import rlbox_only_baseline
+
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 
@@ -136,7 +138,11 @@ def run(a):
     env_keys = [k for k in os.environ if k.startswith("INTERSPEC_")]
     for key in env_keys:
         del os.environ[key]
+    # RLBox-only copies everything: its server runs with SP1 and SP2 off. The
+    # server inherits this process's environment, so the switches are set here.
+    os.environ.update(rlbox_only_baseline.environment(a.variant, {}))
     metadata = {"application": a.application, "variant": a.variant, "seconds": a.seconds,
+                "policy_switches": rlbox_only_baseline.environment(a.variant, {}),
                 "interval_seconds": a.interval, "server_cpus": a.server_cpus,
                 "client_cpus": a.client_cpus, "label": a.label,
                 "source_commit": a.source_commit,

@@ -1,5 +1,30 @@
 # P4: rsync/popt timing
 
+## Correction of 2026-11-15: what RLBox-only means
+
+JH pointed out on 2026-11-15 that the RLBox-only variant must enforce none of
+SP1, SP2 and SP3: its wrapper copies every field to U and every field back to
+T. The wrapper's switches `INTERSPEC_SP1` and `INTERSPEC_SP2` are on when
+unset, and the timing tools did not set them for the RLBox-only variant, so in
+every run before that date the RLBox-only variant made the same selective
+copies as InterSpec and differed from it only by the object registry. The tools
+now start the RLBox-only variant with both switches off (commit `8fc7020`,
+`tools/rlbox_only_baseline.py`). The binaries did not change; only the
+environment of the RLBox-only process did. Columns of the earlier runs that do
+not involve RLBox-only (InterSpec, tracking without check and native against
+each other) are unaffected.
+
+The run that counts is `03-vm-7dafa19-rlbox-only-copies-everything/`: 180
+samples, 136 synced files compared byte for byte and equal,
+`rlbox-only-policy-report.txt` shows `sp1=0 sp2=0`. 194 MiB file sync, medians:
+native 1,365 ms, RLBox-only 1,368 ms, tracking without check 1,357 ms,
+InterSpec 1,380 ms. InterSpec over RLBox-only +0.7% (-4.1 to +5.5); RLBox-only
+over native +1.0% (-1.8 to +3.9). Table: `PAIRED_RATIOS.md`. No cost that this
+machine can resolve, as before.
+
+The rest of this file describes runs 01 and 02 (RLBox-only with selective
+copies).
+
 Tracker item P4 in `EVAL_TRACKER.md`. Measured on the Claude Code cloud VM
 described in `evaluation/results/tracker/P1/` (KVM guest, 4 virtual CPUs, not a
 dedicated host) on 2026-11-14, every measured rsync process pinned to CPU 0,

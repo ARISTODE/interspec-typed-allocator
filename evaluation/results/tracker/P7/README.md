@@ -1,5 +1,50 @@
 # P7: timing of the six ported boundaries
 
+## Correction of 2026-11-15: what RLBox-only means
+
+JH pointed out on 2026-11-15 that the RLBox-only variant must enforce none of
+SP1, SP2 and SP3: its wrapper copies every field to U and every field back to
+T. The wrapper's switches `INTERSPEC_SP1` and `INTERSPEC_SP2` are on when
+unset, and the timing tools did not set them for the RLBox-only variant, so in
+every run before that date the RLBox-only variant made the same selective
+copies as InterSpec and differed from it only by the object registry. The tools
+now start the RLBox-only variant with both switches off (commit `8fc7020`,
+`tools/rlbox_only_baseline.py`). The binaries did not change; only the
+environment of the RLBox-only process did. Columns of the earlier runs that do
+not involve RLBox-only (InterSpec, tracking without check and native against
+each other) are unaffected.
+
+The run that counts is `05-vm-8fc7020-rlbox-only-copies-everything/`: all seven
+workloads again, same binaries as runs 03 and 04 (`binaries-*.sha256`), same
+design, every timed slice correct. `rlbox-only-policy-report.txt` shows
+`sp1=0 sp2=0` for every boundary. The first launch failed at once for missing
+arguments and is kept in `00-first-launch-failed-missing-arguments/`.
+
+InterSpec against RLBox-only and RLBox-only against native, median of the 15
+paired ratios (smallest to largest); full tables in `TABLES.md`:
+
+| Workload | InterSpec against RLBox-only | RLBox-only against native |
+|---|---:|---:|
+| ffmpeg/libvpx | +1.9% (-4.9 to +9.9) | +10.7% (+2.6 to +21.7) |
+| magick/libpng | +7.3% (+3.7 to +14.1) | -3.3% (-6.7 to +6.9) |
+| memcached hash function | -7.5% (-9.7 to -4.1) | +155.7% (+144.7 to +163.8) |
+| memcached hash table | +146.7% (+135.7 to +153.3) | +27.6% (+22.8 to +31.4) |
+| nginx/openssl | -0.4% (-1.9 to +3.2) | +504.2% (+485.0 to +543.8) |
+| ucl/libucl | +7.4% (-0.8 to +12.3) | +22.3% (+17.4 to +35.5) |
+| zip/libzip | +42.9% (+35.1 to +52.7) | +43.8% (+37.1 to +50.5) |
+
+What changed against runs 03 and 04. The hash function is now 7.5% faster
+under InterSpec than under RLBox-only, with a range below zero: the RLBox-only
+wrapper copies the key back after each call and InterSpec does not (P6 measured
+the same saving with the switches, 7.2% for SP2 alone). magick/libpng keeps its
+median (+7.3%) and its range no longer includes zero. The hash table goes from
++168.5% to +146.7% because the baseline got slower (it now copies everything),
+zip/libzip stays where it was (+41.2% before). The other three stay within the
+noise.
+
+The rest of this file describes runs 01 to 04 (RLBox-only with selective
+copies).
+
 Tracker item P7 in `EVAL_TRACKER.md`. Measured on the Claude Code cloud VM
 described in `evaluation/results/tracker/P1/` (4 virtual CPUs Intel Xeon
 2.10 GHz under KVM, 16 GB, not a dedicated host), all runs pinned to CPU 0,

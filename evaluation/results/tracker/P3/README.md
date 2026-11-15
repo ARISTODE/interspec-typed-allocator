@@ -1,5 +1,46 @@
 # P3: nginx/libpcre timing
 
+## Correction of 2026-11-15: what RLBox-only means
+
+JH pointed out on 2026-11-15 that the RLBox-only variant must enforce none of
+SP1, SP2 and SP3: its wrapper copies every field to U and every field back to
+T. The wrapper's switches `INTERSPEC_SP1` and `INTERSPEC_SP2` are on when
+unset, and the timing tools did not set them for the RLBox-only variant, so in
+every run before that date the RLBox-only variant made the same selective
+copies as InterSpec and differed from it only by the object registry. The tools
+now start the RLBox-only variant with both switches off (commit `8fc7020`,
+`tools/rlbox_only_baseline.py`). The binaries did not change; only the
+environment of the RLBox-only process did. Columns of the earlier runs that do
+not involve RLBox-only (InterSpec, tracking without check and native against
+each other) are unaffected.
+
+The run that counts is `02-vm-702790e-rlbox-only-copies-everything/`: same
+binaries as run 01 (SHA-256 equal, `binaries.sha256`), same protocol, gate 22
+of 22, 120 windows, every response validated. `rlbox-only-policy-report.txt`
+shows the RLBox-only server reporting `sp1=0 sp2=0`, and explains why the
+switches reach the wrapper although nginx.conf has no `env` line for them.
+`paired.py` writes `PAIRED_RATIOS.md`; applied to run 01 it reproduces that
+run's table.
+
+Loss of throughput, median of the 15 paired ratios (smallest to largest):
+
+| Client threads | RLBox-only against native | Tracking against RLBox-only | InterSpec against RLBox-only | InterSpec against native |
+|---:|---:|---:|---:|---:|
+| 4 | +19.93% (+15.99 to +26.26) | -0.47% (-10.82 to +8.19) | +3.29% (-9.25 to +9.91) | +22.86% (+12.71 to +29.12) |
+| 8 | +22.06% (+9.41 to +27.14) | -1.42% (-7.75 to +4.32) | +0.54% (-6.95 to +12.18) | +22.08% (+17.32 to +26.92) |
+
+Median requests per second (native, RLBox-only, tracking without check,
+InterSpec): 79,018, 63,952, 64,411, 62,566 with 4 threads; 79,585, 61,087,
+63,015, 60,659 with 8 threads. InterSpec is slower than RLBox-only in 9 of 15
+repetitions with 4 threads and in 8 of 15 with 8. The sandbox costs about 20%
+of throughput; the cost of the three policies over a wrapper that copies
+everything is a few percent at most and its range includes zero. The absolute
+throughput of the native server with 4 threads is lower than in run 01 (79,018
+against 89,794); the two runs are a day apart on a shared machine, and only
+ratios within a repetition are compared.
+
+The rest of this file describes run 01 (RLBox-only with selective copies).
+
 Tracker item P3 in `EVAL_TRACKER.md`. Measured on the Claude Code cloud VM
 described in `evaluation/results/tracker/P1/` (4 virtual CPUs under KVM, 16 GB,
 not a dedicated host), with nothing else running.
