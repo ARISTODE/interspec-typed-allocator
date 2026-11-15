@@ -1,0 +1,8 @@
+usage: benchmark_ports.py [-h]
+                          --boundary {ffmpeg_libvpx,magick_libpng,memcached_assoc,memcached_hash,nginx_openssl,ucl_libucl,zip_libzip}
+                          --mode {variants,policies} --bin BIN --corpus CORPUS
+                          --workloads WORKLOADS --out OUT
+                          [--repetitions REPETITIONS] [--rounds ROUNDS]
+                          [--cpu CPU] [--seed SEED] --label LABEL
+                          --source-commit SOURCE_COMMIT
+benchmark_ports.py: error: the following arguments are required: --label, --source-commit

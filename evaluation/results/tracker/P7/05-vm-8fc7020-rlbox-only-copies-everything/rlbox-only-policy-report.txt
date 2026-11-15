@@ -1,0 +1,10 @@
+The RLBox-only binary of each boundary, started once with the switches the timing tool uses
+(benchmark_ports.RLBOX_ONLY_SWITCHES = ('0', '0', '1') ) and INTERSPEC_POLICY_REPORT=1, same arguments as the timed run.
+
+ffmpeg_libvpx exit 0 | INTERSPEC_POLICY boundary=ffmpeg_libvpx+sp3_fixed_at_compile_time sp1=0 sp2=0 sp3=full
+magick_libpng exit 0 | INTERSPEC_POLICY boundary=magick_libpng+sp3_fixed_at_compile_time sp1=0 sp2=0 sp3=full
+memcached_hash exit 0 | INTERSPEC_POLICY boundary=memcached_hash+sp3_fixed_at_compile_time sp1=0 sp2=0 sp3=full
+memcached_assoc exit 0 | INTERSPEC_POLICY boundary=memcached_hash+sp3_fixed_at_compile_time sp1=0 sp2=0 sp3=full
+nginx_openssl exit 0 | INTERSPEC_POLICY boundary=nginx_openssl+sp3_fixed_at_compile_time sp1=0 sp2=0 sp3=full
+ucl_libucl exit 0 | INTERSPEC_POLICY boundary=ucl_libucl+sp3_fixed_at_compile_time sp1=0 sp2=0 sp3=full
+zip_libzip exit 0 | INTERSPEC_POLICY boundary=zip_libzip+sp3_fixed_at_compile_time sp1=0 sp2=0 sp3=full
