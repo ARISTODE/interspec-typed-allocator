@@ -15,7 +15,7 @@ import uuid
 from memcached_common import guarded_command
 from evaluation_checkpoint import Ledger, atomic_write, encoded, digest, sync_directory
 
-TOOLS = ('benchmark_memcached_matrix.py', 'benchmark_memcached.py', 'matrix_checkpoint.py', 'evaluation_checkpoint.py', 'memcached_common.py', 'process_guard.py')
+TOOLS = ('benchmark_memcached_matrix.py', 'benchmark_memcached.py', 'rlbox_only_baseline.py', 'matrix_checkpoint.py', 'evaluation_checkpoint.py', 'memcached_common.py', 'process_guard.py')
 SOURCES = ('evaluation/memcached_client.cpp', 'evaluation/memcached_workload.h', 'evaluation/memcached_measurement.h')
 VARIANTS = ('native', 'rlbox-only', 'tracked-no-check', 'interspec')
 

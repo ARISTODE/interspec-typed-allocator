@@ -1,0 +1,11 @@
+nginx RLBox-only binary of this run (nginx-rlbox-only, SHA-256 in binaries.sha256), started with the configuration file of
+the timed window t4-r0-rlbox-only (paths changed to a scratch directory), INTERSPEC_POLICY_REPORT=1 and the environment
+tools/benchmark_nginx.py now uses for this variant (INTERSPEC_SP1=0 INTERSPEC_SP2=0). One request to /items/123/alpha
+returned item:123:alpha. Line printed by the wrapper:
+INTERSPEC_POLICY boundary=nginx_pcre+sp3_fixed_at_compile_time sp1=0 sp2=0 sp3=full
+and without the two switches (what the runs before 2026-11-15 measured):
+INTERSPEC_POLICY boundary=nginx_pcre+sp3_fixed_at_compile_time sp1=1 sp2=1 sp3=full
+
+nginx.conf does not list INTERSPEC_SP1 or INTERSPEC_SP2 in an env directive, and nginx drops unlisted variables when it
+starts its cycle. The wrapper reads the switches once, at its first boundary call, which is the compilation of the regex
+locations while nginx parses the configuration, before the variables are dropped. The line above shows the result.
