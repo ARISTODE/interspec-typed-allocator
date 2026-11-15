@@ -1,0 +1,8 @@
+rsync RLBox-only binary of this run, started with the environment the script now uses for it (INTERSPEC_SP1=0 INTERSPEC_SP2=0) and INTERSPEC_POLICY_REPORT=1, arguments --version:
+INTERSPEC_POLICY boundary=rsync_popt+sp3_fixed_at_compile_time sp1=0 sp2=0 sp3=full
+and without the two switches (what the runs before 2026-11-15 measured):
+INTERSPEC_POLICY boundary=rsync_popt+sp3_fixed_at_compile_time sp1=1 sp2=1 sp3=full
+a75d1435f48aef668526abf064ef0551552602818f31b475c6f5e699e4455fe6  rsync-p11-extended-sp3
+e481747f6e23c502f08ab2acbb00d7a51308e0f742dbc989ecb97b0d311bb596  rsync-p11-native
+9676a51b4d98f8874c640411c88a1add6ea300576dcfa7d97838d1b4fbc0cfc2  rsync-p11-rlbox-only
+99ae1ea2aaf5571e64bf9a14932df01413b99342a0c8f81b4830166d826c520b  rsync-p11-tracked-no-check

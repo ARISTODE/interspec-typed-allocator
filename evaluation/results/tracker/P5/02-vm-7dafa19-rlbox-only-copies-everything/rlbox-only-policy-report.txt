@@ -1,0 +1,7 @@
+yaml RLBox-only binary of this run (mode rlbox_only), started with INTERSPEC_SP1=0 INTERSPEC_SP2=0 as the tool now does, and INTERSPEC_POLICY_REPORT=1:
+INTERSPEC_POLICY boundary=yaml_libyaml sp1=0 sp2=0 sp3=full
+and without the two switches (what the run before 2026-11-15 measured):
+INTERSPEC_POLICY boundary=yaml_libyaml sp1=1 sp2=1 sp3=full
+54015bdfcde0f5480a03446a0a40785af81e87078ccd0586fd2e43f3eeb5cd47  yaml-native-bench
+2fac49c364e111aff5e5165cf3de0e4c245a02ed364afc866370ede63933decb  yaml-rlbox-bench
+a53b192beb81412b78bde94687081c38be68c71201ca0742c6bdc48cedbf1f38  yaml-typed-bench
