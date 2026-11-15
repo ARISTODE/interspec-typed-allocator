@@ -69,12 +69,15 @@ Mean of the ten SP2 percentages: 59.3%.
    unknown; here 2,540 pointer fields need SP3, 543 resolved and 1,997
    unresolved. The paper's intermediate columns are not reproduced.
 
-## What the paper has to decide (W2, not part of C2)
+## Summary rows: decision by JH, 2026-11-14
 
-- nginx/openssl as analysed here swamps the pooled totals. Options: report
-  per-boundary rows with a mean instead of pooled totals; or restrict the
-  interface of the three large boundaries to the functions the bridge wrappers
-  use; or keep the paper's rows for them and say they are bridge-wrapper
-  interfaces.
-- A combined integrity share needs a definition of "pointer fields T does not
-  dereference" in terms of the analysis output.
+Asked with the numbers above, JH chose: keep all ten rows as computed, no
+pooled total, and report the mean of the ten per-boundary percentages. The
+tables have a "Mean of the rows" line: SP1 49.0% (25.9 to 75.8), SP2 59.3%
+(37.6 to 76.1), pointer coverage 99.3% (96.8 to 100.0). The mean of the
+paper's ten SP1 rows is 25.8%. The pooled numbers are kept in
+`pooled_totals.json` for the comparison with the paper's totals only.
+
+Still for the paper (W2): a combined integrity share needs a definition of
+"pointer fields T does not dereference" in terms of the analysis output; the
+tables do not give one.

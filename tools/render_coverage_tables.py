@@ -29,11 +29,17 @@ many do not (sp3_pointer_remaining_nodes). The table reports these and
 (pointer fields - unresolved) / pointer fields. This is the counterpart, in the
 analysis' own columns, of the paper's "pointer integrity coverage"; the paper's
 intermediate columns are not reproduced.
+
+Summary rows. JH decided on 2026-11-14 that the tables report the mean of the
+per-boundary percentages and no pooled total: one boundary (nginx/openssl) has
+93% of all fields and would decide every pooled percentage. The pooled numbers
+are still written to pooled_totals.json, for the comparison with the paper.
 """
 
 import argparse
 import csv
 import json
+import statistics
 from pathlib import Path
 
 BOUNDARIES = {
@@ -47,6 +53,10 @@ BOUNDARIES = {
 
 def pct(part, whole):
     return round(100.0 * part / whole, 1) if whole else 0.0
+
+
+def mean(values):
+    return round(statistics.mean(values), 1)
 
 
 def main():
@@ -126,9 +136,11 @@ def main():
                      f"{r['paper_sp1_fields']} | {r['paper_coverage_pct']}% |")
     if sp1:
         total, covered = sum(r["interface_fields"] for r in sp1), sum(r["sp1_fields"] for r in sp1)
-        lines.append(f"| Subtotal of these rows | {total} | {covered} | {pct(covered, total)}% | "
-                     f"{sum(r['paper_interface_fields'] for r in sp1)} | "
-                     f"{sum(r['paper_sp1_fields'] for r in sp1)} | |")
+        pooled = {"interface_fields": total, "sp1_fields": covered, "sp1_pct": pct(covered, total)}
+        values = [r["coverage_pct"] for r in sp1]
+        paper_values = [r["paper_coverage_pct"] for r in sp1]
+        lines.append(f"| Mean of the rows (smallest to largest) | | | {mean(values)}% "
+                     f"({min(values)} to {max(values)}) | | | {mean(paper_values)}% |")
     lines += ["", "## SP2 and SP3 (integrity)", "",
               "| Boundary | Fields | SP2 fields | SP2 share | Pointer fields | Pointer: SP2 | "
               "Pointer: SP1 only | Pointer: SP3 | Pointer: other | Paper: SP2 | Paper: pointers | Paper: SP3 |",
@@ -151,16 +163,17 @@ def main():
             "fields", "sp2_fields", "pointer_fields", "pointer_sp2_slots", "pointer_sp1_only_slots",
             "pointer_sp3_slots", "pointer_other_slots", "paper_sp2_fields", "paper_pointer_fields",
             "paper_sp3_fields", "pointer_needs_sp3", "pointer_sp3_resolved", "pointer_sp3_unresolved")}
-        lines.append(f"| Subtotal of these rows | {total['fields']} | {total['sp2_fields']} | "
-                     f"{pct(total['sp2_fields'], total['fields'])}% | {total['pointer_fields']} | "
-                     f"{total['pointer_sp2_slots']} | {total['pointer_sp1_only_slots']} | "
-                     f"{total['pointer_sp3_slots']} | {total['pointer_other_slots']} | "
-                     f"{total['paper_sp2_fields']} | {total['paper_pointer_fields']} | "
-                     f"{total['paper_sp3_fields']} |")
-        pointer_lines.append(
-            f"| Subtotal of these rows | {total['pointer_fields']} | {total['pointer_needs_sp3']} | "
-            f"{total['pointer_sp3_resolved']} | {total['pointer_sp3_unresolved']} | "
-            f"{pct(total['pointer_fields'] - total['pointer_sp3_unresolved'], total['pointer_fields'])}% |")
+        values = [r["sp2_pct"] for r in integrity]
+        lines.append(f"| Mean of the rows (smallest to largest) | | | {mean(values)}% "
+                     f"({min(values)} to {max(values)}) | | | | | | | | |")
+        values = [r["pointer_coverage_pct"] for r in integrity]
+        pointer_lines.append(f"| Mean of the rows (smallest to largest) | | | | | {mean(values)}% "
+                             f"({min(values)} to {max(values)}) |")
+        pooled.update(total)
+        pooled["sp2_pct"] = pct(total["sp2_fields"], total["fields"])
+        pooled["pointer_coverage_pct"] = pct(
+            total["pointer_fields"] - total["pointer_sp3_unresolved"], total["pointer_fields"])
+        (args.out / "pooled_totals.json").write_text(json.dumps(pooled, indent=2) + "\n")
     lines += pointer_lines
     (args.out / "COVERAGE_TABLES.md").write_text("\n".join(lines) + "\n")
     (args.out / "sources.json").write_text(json.dumps(sources, indent=2) + "\n")

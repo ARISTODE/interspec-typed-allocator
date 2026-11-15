@@ -16,7 +16,7 @@ Boundaries with output: 10 of 10. Missing: none.
 | ucl/libucl | 1622 | 904 | 55.7% | 152 | 0 | 0.0% |
 | yaml/libyaml | 1919 | 1454 | 75.8% | 1903 | 1303 | 68.5% |
 | zip/libzip | 2230 | 873 | 39.1% | 2230 | 871 | 39.1% |
-| Subtotal of these rows | 377222 | 146304 | 38.8% | 7523 | 3179 | |
+| Mean of the rows (smallest to largest) | | | 49.0% (25.9 to 75.8) | | | 25.8% |
 
 ## SP2 and SP3 (integrity)
 
@@ -32,7 +32,7 @@ Boundaries with output: 10 of 10. Missing: none.
 | ucl/libucl | 1622 | 1035 | 63.8% | 649 | 2 | 0 | 1 | 646 | 8 | 64 | 3 |
 | yaml/libyaml | 1919 | 1460 | 76.1% | 461 | 8 | 0 | 1 | 452 | 1194 | 461 | 1 |
 | zip/libzip | 2230 | 947 | 42.5% | 653 | 8 | 0 | 2 | 643 | 947 | 653 | 3 |
-| Subtotal of these rows | 377222 | 149299 | 39.6% | 125822 | 184 | 1 | 2502 | 123135 | 3286 | 1966 | 32 |
+| Mean of the rows (smallest to largest) | | | 59.3% (37.6 to 76.1) | | | | | | | | |
 
 ## Pointer fields that need SP3
 
@@ -48,4 +48,4 @@ Boundaries with output: 10 of 10. Missing: none.
 | ucl/libucl | 649 | 1 | 1 | 0 | 100.0% |
 | yaml/libyaml | 461 | 2 | 2 | 0 | 100.0% |
 | zip/libzip | 653 | 3 | 3 | 0 | 100.0% |
-| Subtotal of these rows | 125822 | 2540 | 543 | 1997 | 98.4% |
+| Mean of the rows (smallest to largest) | | | | | 99.3% (96.8 to 100.0) |

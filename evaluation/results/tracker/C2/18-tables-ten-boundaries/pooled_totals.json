@@ -1,0 +1,20 @@
+{
+  "interface_fields": 377222,
+  "sp1_fields": 146304,
+  "sp1_pct": 38.8,
+  "fields": 377222,
+  "sp2_fields": 149299,
+  "pointer_fields": 125822,
+  "pointer_sp2_slots": 184,
+  "pointer_sp1_only_slots": 1,
+  "pointer_sp3_slots": 2502,
+  "pointer_other_slots": 123135,
+  "paper_sp2_fields": 3286,
+  "paper_pointer_fields": 1966,
+  "paper_sp3_fields": 32,
+  "pointer_needs_sp3": 2540,
+  "pointer_sp3_resolved": 543,
+  "pointer_sp3_unresolved": 1997,
+  "sp2_pct": 39.6,
+  "pointer_coverage_pct": 98.4
+}
