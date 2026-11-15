@@ -1,0 +1,47 @@
+== execute-queries-20261115.030615.190.log
+GAPS
+(27, 2552, 'Failed to trim disk cache beneath 5.86GiB limit: 6.03GiB are essential')
+BIG
+(4417453226, 1329, '_Expr::Expr.getEnclosingFunction/0#dispred#3960f06c_10#join_rhs#shared#1/2@a54e295s')
+(4417453226, 1164, '_Expr::Expr.getEnclosingFunction/0#dispred#3960f06c_10#join_rhs#shared/2@2aaa24tp')
+(3219662863, 4835, 'PointerBoundaryBase::PointerBoundaryBase::exprUsesVariableOrAlias/3#cace3d33#fbf_021#join_rhs/3@715a54qe')
+(3219662863, 4229, 'PointerBoundaryBase::PointerBoundaryBase::exprUsesVariableOrAlias/3#cace3d33#fbf/3@c97327lj')
+(1971203980, 2552, '_PointerBoundaryBase::PointerBoundaryBase::occursBefore/2#917c11a0__Expr::Expr.getEnclosingFunction/__#shared/2@34d12ena')
+(1971203980, 2112, 'PointerBoundaryBase::PointerBoundaryBase::occursBefore/2#917c11a0/2@14fa28s0')
+(1460614606, 4045, 'scalar_slots_classification::occursBeforeExpr/2#89775eb9#fb/2@2c8dfct9')
+(348014572, 2502, '_Expr::Expr.getEnclosingFunction/0#dispred#3960f06c_10#join_rhs__Call::Call.getArgument/1#dispred#ad__#shared/3@24faaark')
+(261219505, 2895, 'scalar_slots_classification::sinkArgUsesSlotOrAlias/4#f5f1c19e_0312#join_rhs/4@c9b6a03n')
+(261219505, 2742, 'scalar_slots_classification::sinkArgUsesSlotOrAlias/4#f5f1c19e/4@19353865')
+(190707500, 2308, 'scalar_slots_classification::exprContainsSlotRead/4#38b7beba_0312#join_rhs/4@acf841o6')
+(190707500, 2220, 'scalar_slots_classification::exprContainsSlotRead/4#38b7beba/4@a61b06q9')
+(152857478, 2122, '_Expr::Expr.getEnclosingFunction/0#dispred#3960f06c_10#join_rhs__Call::FunctionCall#2b14a517_Expr::E__#shared/2@7c4a22il')
+(143351894, 2129, '_Assignment::Assignment.getLValue/0#dispred#4a59925a_1#antijoin_rhs__Expr::Expr.getEnclosingFunction__#shared/2@9dd2b42v')
+(122678239, 4460, '_Call::Call.getArgument/1#dispred#ada436ba_201#join_rhs_PointerBoundaryBase::PointerBoundaryBase::ex__#shared/4@e9bd57d3')
+(75141487, 2324, 'PointerBoundaryBase::PointerBoundaryBase::occursAfter/2#1e7db2e5_10#join_rhs/2@4717e8fc')
+(75141487, 2243, 'PointerBoundaryBase::PointerBoundaryBase::occursAfter/2#1e7db2e5/2@848c4eum')
+(60993430, 4132, 'scalar_slots_classification::sinkArgSlotValueUseExpr/5#5c293056#fffbf_03412#join_rhs/5@cecc19jm')
+(60993430, 4115, 'scalar_slots_classification::sinkArgSlotValueUseExpr/5#5c293056#fffbf/5@bfb3c0mh')
+(44128414, 2186, 'InterCompartmentFlow::InterCompartmentFlow::samePointerPointeeType/2#80e291c8/2@4f6fc3p6')
+(34189118, 2413, '_Expr::Expr.getEnclosingFunction/0#dispred#3960f06c_10#join_rhs__@cmp_op_expr_Expr::Expr.getEnclosin__#shared/2@ee39a6bg')
+(12446128, 2506, 'PointerBoundaryBase::PointerBoundaryBase::variableAliases/3#232cbb79_102#join_rhs/3@4d4786vv')
+(12446128, 2403, 'PointerBoundaryBase::PointerBoundaryBase::variableAliases/3#232cbb79_021#join_rhs/3@205540kd')
+(12446128, 2264, 'PointerBoundaryBase::PointerBoundaryBase::variableAliases/3#232cbb79/3@dcb42dgs')
+(10292131, 4234, '_Access::ArrayExpr.getArrayOffset/0#dispred#0166701e_PointerBoundaryBase::PointerBoundaryBase::occur__#shared/3@29a5ccsd')
+
+== execute-queries-20261115.042828.843.log
+GAPS
+(32, 4, '>>> Created relation PointerBoundaryBase::PointerBoundaryBase::primaryBaseVar/2#c3235f1b_10#join_rhs/2@d925a35t with 517247 rows and digest 00ba47bqou52fp6joovv6femhfa.')
+BIG
+(113236696, 42, 'PointerBoundaryBase::PointerBoundaryBase::occursBefore/2#917c11a0#bf_10#join_rhs/2@154256ag')
+(113236696, 36, 'PointerBoundaryBase::PointerBoundaryBase::occursBefore/2#917c11a0#bf/2@8ed9e1ro')
+(7931974, 0, 'cached_DataFlowImplCommon::Cached::TNodeEx#b5bba6af/1@f373fdi5')
+(5948496, 0, 'cached_DataFlowImplCommon::Cached::hiddenNode/1#cb85296a/1@e8c42fm5')
+(4888282, 0, 'cached_DataFlowImplCommon::Cached::getSecondLevelScopeEx/1#5e9a92e8/2@2bf7f3pd')
+(3934351, 0, 'cached_DataFlowUtil::TIRDataFlowNode#7541f29a/1@97ccb8cb')
+(3934351, 0, 'cached_DataFlowImplCommon::Cached::nodeType/2#406cc47d/2@29a54e4v')
+(3934351, 0, 'cached_DataFlowImplCommon::Cached::TNodeNormal#bb524404/2@e2e8acll')
+(3934351, 0, 'cached_DataFlowImplCommon::Cached::TNodeImplicitRead#ca5d3a18/2@47fe92fd')
+(3934346, 0, 'cached_DataFlowUtil::Node.getEnclosingCallable/0#dispred#f8bd8d64/2@0d13b6v0')
+(3075120, 0, 'cached_TOperand::Internal::TOperand#db8b8d7c/1@29135e3j')
+(3068439, 0, 'cached_DataFlowImplCommon::Cached::localFlowStepExImpl/3#3c613580/3@aedb16m0')
+

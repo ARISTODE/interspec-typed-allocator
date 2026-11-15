@@ -1,0 +1,11 @@
+[2026-11-15 03:06:14] This is codeql query run /tmp/slot_policy_pack_4u2v9vds/ql/queries/scalar_slots_classification.ql --database db/ffmpeg_vpx_only --search-path /tmp/slot_policy_pack_4u2v9vds/ql --threads 4 --ram 10000 --max-disk-cache 6000 --output reports/ffmpeg_libvpx/scalar_slots.bqrs
+[2026-11-15 03:06:14] Log file was started late.
+[2026-11-15 03:06:14] Calling plumbing command: codeql resolve ram --dataset=$S/coverage-work-inlined-b/root/db/ffmpeg_vpx_only/db-cpp --ram=10000 --format=json
+[2026-11-15 03:06:14] [PROGRESS] resolve ram> Stringpool size measured as 11567546
+[2026-11-15 03:06:14] Plumbing command codeql resolve ram completed:
+                      [
+                        "-J-Xmx4148M",
+                        "--off-heap-ram=4867"
+                      ]
+[2026-11-15 03:06:14] Chaining via /tmp/codeql.ByNB4fQO to plumbing: execute queries -J-Xmx4148M --off-heap-ram=4867 --verbosity=progress --logdir=$S/coverage-work-inlined-b/root/db/ffmpeg_vpx_only/log --max-disk-cache=6000 --evaluator-log-level=5 --threads=4 --warnings=show --search-path=/tmp/slot_policy_pack_4u2v9vds/ql --qlconfig-file=$S/coverage-work-inlined-b/root/qlconfig.yml --dynamic-join-order-mode=none --output=$S/coverage-work-inlined-b/root/reports/ffmpeg_libvpx/scalar_slots.bqrs -- $S/coverage-work-inlined-b/root/db/ffmpeg_vpx_only/db-cpp path:/tmp/slot_policy_pack_4u2v9vds/ql/queries/scalar_slots_classification.ql
+[2026-11-15 03:06:14] Exiting with code 70

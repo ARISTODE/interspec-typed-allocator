@@ -1,0 +1,23 @@
+[slot-policy] Activating manifest (isolated) -> coverage/configs/ffmpeg_libvpx.json
+Generated /tmp/slot_policy_pack_4u2v9vds/ql/generated/FfmpegLibvpxConfig.qll without updating ql/generated/index.qll.
+[slot-policy] Exporting pointer slot rows -> reports/ffmpeg_libvpx/pointer_slots_classification.csv
+[slot-policy] Exporting pointer slots -> reports/ffmpeg_libvpx/pointer_slots_summary_by_interface.csv
+[slot-policy] Exporting SP3 cases -> reports/ffmpeg_libvpx/sp3_cases.csv
+[slot-policy] Running scalar slot query -> reports/ffmpeg_libvpx/scalar_slots.bqrs
+Compiling query plan for /tmp/slot_policy_pack_4u2v9vds/ql/queries/scalar_slots_classification.ql.
+[1/1 comp 35.2s] Compiled /tmp/slot_policy_pack_4u2v9vds/ql/queries/scalar_slots_classification.ql.
+Starting evaluation of interspec-pointer-analysis/queries/scalar_slots_classification.ql.
+[1/1 eval 81m23s] Evaluation done; writing results to $S/coverage-work-inlined-b/root/reports/ffmpeg_libvpx/scalar_slots.bqrs.
+Shutting down query evaluator.
+[slot-policy] Exporting scalar slots -> reports/ffmpeg_libvpx/scalar_slots_summary_by_interface.csv
+[slot-policy] Running slot-type breakdown query -> reports/ffmpeg_libvpx/slot_type_breakdown.bqrs
+Compiling query plan for /tmp/slot_policy_pack_4u2v9vds/ql/queries/slot_type_breakdown.ql.
+[1/1 comp 26.3s] Compiled /tmp/slot_policy_pack_4u2v9vds/ql/queries/slot_type_breakdown.ql.
+Starting evaluation of interspec-pointer-analysis/queries/slot_type_breakdown.ql.
+[1/1 eval 52.7s] Evaluation done; writing results to $S/coverage-work-inlined-b/root/reports/ffmpeg_libvpx/slot_type_breakdown.bqrs.
+Shutting down query evaluator.
+[slot-policy] Exporting slot type rows -> reports/ffmpeg_libvpx/slot_type_breakdown.csv
+[slot-policy] Exporting slot types -> reports/ffmpeg_libvpx/slot_type_breakdown_summary_by_interface.csv
+[slot-policy] Exporting node surface -> reports/ffmpeg_libvpx/node_surface_summary_by_interface.csv
+[slot-policy] Consolidating -> reports/ffmpeg_libvpx/policy_summary.csv
+[slot-policy] Done
