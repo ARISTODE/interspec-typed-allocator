@@ -13,9 +13,18 @@ Claude Code cloud VM, 4 virtual CPUs, 16 GB; CodeQL CLI 2.23.2 with 4 threads,
 | `c-ffmpeg_libvpx-database-ffmpeg_vpx_only-stopped/` | ffmpeg/libvpx on database `ffmpeg_vpx_only` | Stopped by hand after 91 minutes; one predicate had run 53 minutes on small inputs (`stopped.txt`). |
 | `database-scope/` | Counting queries and their output for the databases | See below. |
 
-Later runs of ffmpeg/libvpx and nginx/openssl use the variant
-`paper_counting_rule_regrouped` and are in `../11-…`; the check of that variant
-is in `../10-regrouped-variant-check/`.
+Later runs, each in its own directory next to this one:
+
+| Directory | What |
+|---|---|
+| `../10-regrouped-variant-check/`, `../11-ffmpeg_libvpx-regrouped-stopped/` | Variant `paper_counting_rule_regrouped`; ffmpeg/libvpx stopped by hand in the second pointer query. |
+| `../12-factored-variant-check/`, `../13-ffmpeg_libvpx-factored-disk-full/` | Variant `paper_counting_rule_factored`; the four pointer queries of ffmpeg/libvpx finished, the scalar query filled the disk. |
+| `../14-inlined-variant-check/`, `../15-ffmpeg_libvpx-inlined/` | Variant `paper_counting_rule_inlined`; ffmpeg/libvpx finished: 4,715 fields. |
+| `../17-tables-nine-boundaries/` | Both tables for the nine boundaries with output. |
+
+The three variants change how the queries are evaluated, not what they
+compute; each was checked on all boundaries that finish without it (96 of 96
+output files identical for the last two).
 
 ## Why the analysis did not finish on database `nginx`
 

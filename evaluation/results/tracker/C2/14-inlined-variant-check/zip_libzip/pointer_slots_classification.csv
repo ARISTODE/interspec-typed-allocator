@@ -1,0 +1,672 @@
+benchmark,function,binding_kind,binding_id,direction,slot_path,slot_type,owned_by_t,exposed_to_u,u_reads,u_writes,u_forwarded,t_uses,u_influenced,escapes_to_t,flow_cut,sp1,sp2,sp3,file,t_domain_invariant,sp3_target_t,sp3_target_u,sp3_target_null
+zip_libzip,zip_close,param,0,T_TO_U,,zip *,0,1,1,0,1,0,0,0,0,0,1,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,,zip_t *,0,1,1,0,1,0,0,0,0,0,1,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:comment_changes,zip_string *,0,1,1,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:comment_changes/deref/field:converted,unsigned char *,0,1,1,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:comment_changes/deref/field:raw,unsigned char *,0,1,1,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:comment_orig,zip_string *,0,1,1,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:comment_orig/deref/field:converted,unsigned char *,0,1,1,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:comment_orig/deref/field:raw,unsigned char *,0,1,1,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:default_password,char *,0,1,1,1,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:entry,zip_entry *,0,1,1,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:entry/deref/field:changes,zip_dirent *,0,1,1,1,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:entry/deref/field:changes/deref/field:comment,zip_string *,0,1,1,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:entry/deref/field:changes/deref/field:comment/deref/field:converted,unsigned char *,0,1,1,0,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:entry/deref/field:changes/deref/field:comment/deref/field:raw,unsigned char *,0,1,1,0,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:entry/deref/field:changes/deref/field:extra_fields,zip_extra_field *,0,1,1,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:entry/deref/field:changes/deref/field:extra_fields/deref/field:data,unsigned char *,0,1,1,0,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:entry/deref/field:changes/deref/field:extra_fields/deref/field:next,zip_extra_field *,0,1,1,0,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:entry/deref/field:changes/deref/field:filename,zip_string *,0,1,1,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:entry/deref/field:changes/deref/field:filename/deref/field:converted,unsigned char *,0,1,1,0,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:entry/deref/field:changes/deref/field:filename/deref/field:raw,unsigned char *,0,1,1,0,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:entry/deref/field:changes/deref/field:password,char *,0,1,1,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:entry/deref/field:orig,zip_dirent *,0,1,1,1,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:entry/deref/field:orig/deref/field:comment,zip_string *,0,1,1,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:entry/deref/field:orig/deref/field:comment/deref/field:converted,unsigned char *,0,1,1,0,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:entry/deref/field:orig/deref/field:comment/deref/field:raw,unsigned char *,0,1,1,0,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:entry/deref/field:orig/deref/field:extra_fields,zip_extra_field *,0,1,1,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:entry/deref/field:orig/deref/field:extra_fields/deref/field:data,unsigned char *,0,1,1,0,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:entry/deref/field:orig/deref/field:extra_fields/deref/field:next,zip_extra_field *,0,1,1,0,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:entry/deref/field:orig/deref/field:filename,zip_string *,0,1,1,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:entry/deref/field:orig/deref/field:filename/deref/field:converted,unsigned char *,0,1,1,0,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:entry/deref/field:orig/deref/field:filename/deref/field:raw,unsigned char *,0,1,1,0,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:entry/deref/field:orig/deref/field:password,char *,0,1,1,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:entry/deref/field:source,zip_source *,0,1,1,1,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:entry/deref/field:source/deref/field:error/field:str,char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:entry/deref/field:source/deref/field:source_archive,zip *,0,1,1,1,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:entry/deref/field:source/deref/field:source_archive/deref/field:comment_changes,zip_string *,0,1,0,0,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:entry/deref/field:source/deref/field:source_archive/deref/field:comment_orig,zip_string *,0,1,0,0,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:entry/deref/field:source/deref/field:source_archive/deref/field:default_password,char *,0,1,0,0,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:entry/deref/field:source/deref/field:source_archive/deref/field:entry,zip_entry *,0,1,0,0,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:entry/deref/field:source/deref/field:source_archive/deref/field:names,zip_hash *,0,1,0,0,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:entry/deref/field:source/deref/field:source_archive/deref/field:open_source,zip_source **,0,1,1,1,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:entry/deref/field:source/deref/field:source_archive/deref/field:progress,zip_progress *,0,1,0,0,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:entry/deref/field:source/deref/field:source_archive/deref/field:src,zip_source *,0,1,0,0,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:entry/deref/field:source/deref/field:source_archive/deref/field:write_crc,unsigned int *,0,1,0,0,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:entry/deref/field:source/deref/field:src,zip_source *,0,1,1,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:entry/deref/field:source/deref/field:ud,void *,0,1,1,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:error/field:str,char *,0,1,1,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:names,zip_hash *,0,1,1,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:names/deref/field:table,zip_hash_entry **,0,1,1,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:names/deref/field:table/deref,zip_hash_entry *,0,1,1,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:names/deref/field:table/deref/deref/field:name,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:names/deref/field:table/deref/deref/field:next,zip_hash_entry *,0,1,1,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:open_source,zip_source **,0,1,1,1,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:open_source/deref,zip_source *,0,1,1,1,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:open_source/deref/deref/field:error/field:str,char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:open_source/deref/deref/field:source_archive,zip *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:open_source/deref/deref/field:source_archive/deref/field:comment_changes,zip_string *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:open_source/deref/deref/field:source_archive/deref/field:comment_orig,zip_string *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:open_source/deref/deref/field:source_archive/deref/field:default_password,char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:open_source/deref/deref/field:source_archive/deref/field:entry,zip_entry *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:open_source/deref/deref/field:source_archive/deref/field:error/field:str,char *,0,1,0,0,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:open_source/deref/deref/field:source_archive/deref/field:names,zip_hash *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:open_source/deref/deref/field:source_archive/deref/field:open_source,zip_source **,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:open_source/deref/deref/field:source_archive/deref/field:open_source/deref,zip_source *,0,1,0,0,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:open_source/deref/deref/field:source_archive/deref/field:progress,zip_progress *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:open_source/deref/deref/field:source_archive/deref/field:src,zip_source *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:open_source/deref/deref/field:source_archive/deref/field:write_crc,unsigned int *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:open_source/deref/deref/field:src,zip_source *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:open_source/deref/deref/field:ud,void *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:progress,zip_progress *,0,1,1,0,1,0,0,0,0,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:progress/deref/field:ud_cancel,void *,0,1,1,1,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:progress/deref/field:ud_progress,void *,0,1,1,1,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:progress/deref/field:za,zip *,0,1,1,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:comment_changes,zip_string *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:comment_changes/deref/field:converted,unsigned char *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:comment_changes/deref/field:raw,unsigned char *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:comment_orig,zip_string *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:comment_orig/deref/field:converted,unsigned char *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:comment_orig/deref/field:raw,unsigned char *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:default_password,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:entry,zip_entry *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:entry/deref/field:changes,zip_dirent *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:entry/deref/field:orig,zip_dirent *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:entry/deref/field:source,zip_source *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:error/field:str,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:names,zip_hash *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:names/deref/field:table,zip_hash_entry **,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:open_source,zip_source **,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:open_source/deref,zip_source *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:progress,zip_progress *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:progress/deref/field:ud_cancel,void *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:progress/deref/field:ud_progress,void *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:progress/deref/field:za,zip *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:src,zip_source *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:write_crc,unsigned int *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:src,zip_source *,0,1,1,1,1,0,1,0,0,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_close,param,0,T_TO_U,/deref/field:write_crc,unsigned int *,0,1,1,1,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_close.c,0,0,0,0
+zip_libzip,zip_error_fini,param,0,T_TO_U,,zip_error *,1,1,1,0,0,0,0,0,0,0,1,0,third_party/libzip/lib/zip_error.c,0,0,0,0
+zip_libzip,zip_error_fini,param,0,T_TO_U,,zip_error_t *,1,1,1,0,0,0,0,0,0,0,1,0,third_party/libzip/lib/zip_error.c,0,0,0,0
+zip_libzip,zip_error_fini,param,0,T_TO_U,/deref/field:str,char *,1,1,1,1,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_error.c,0,0,0,0
+zip_libzip,zip_error_init,param,0,T_TO_U,,zip_error *,1,1,1,0,0,0,0,0,0,0,1,0,third_party/libzip/lib/zip_error.c,0,0,0,0
+zip_libzip,zip_error_init,param,0,T_TO_U,,zip_error_t *,1,1,1,0,0,0,0,0,0,0,1,0,third_party/libzip/lib/zip_error.c,0,0,0,0
+zip_libzip,zip_error_init,param,0,T_TO_U,/deref/field:str,char *,1,1,0,1,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_error.c,0,0,0,0
+zip_libzip,zip_error_strerror,param,0,T_TO_U,,zip_error *,1,1,1,0,1,0,0,0,0,0,1,0,third_party/libzip/lib/zip_error_strerror.c,0,0,0,0
+zip_libzip,zip_error_strerror,param,0,T_TO_U,,zip_error_t *,1,1,1,0,1,0,0,0,0,0,1,0,third_party/libzip/lib/zip_error_strerror.c,0,0,0,0
+zip_libzip,zip_error_strerror,param,0,T_TO_U,/deref/field:str,char *,1,1,1,1,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_error_strerror.c,0,0,0,0
+zip_libzip,zip_error_strerror,return,return,U_TO_T,,char *,0,0,0,0,0,1,1,0,0,0,0,1,third_party/libzip/lib/zip_error_strerror.c,0,0,1,0
+zip_libzip,zip_error_strerror,return,return,U_TO_T,,const char *,0,0,0,0,0,1,1,0,0,0,0,1,third_party/libzip/lib/zip_error_strerror.c,0,0,1,0
+zip_libzip,zip_get_name,param,0,T_TO_U,,zip *,0,1,1,0,1,0,0,0,0,0,1,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,,zip_t *,0,1,1,0,1,0,0,0,0,0,1,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:comment_changes,zip_string *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:comment_changes/deref/field:converted,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:comment_changes/deref/field:raw,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:comment_orig,zip_string *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:comment_orig/deref/field:converted,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:comment_orig/deref/field:raw,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:default_password,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:entry,zip_entry *,0,1,1,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:entry/deref/field:changes,zip_dirent *,0,1,1,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:entry/deref/field:changes/deref/field:comment,zip_string *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:entry/deref/field:changes/deref/field:comment/deref/field:converted,unsigned char *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:entry/deref/field:changes/deref/field:comment/deref/field:raw,unsigned char *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:entry/deref/field:changes/deref/field:extra_fields,zip_extra_field *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:entry/deref/field:changes/deref/field:extra_fields/deref/field:data,unsigned char *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:entry/deref/field:changes/deref/field:extra_fields/deref/field:next,zip_extra_field *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:entry/deref/field:changes/deref/field:filename,zip_string *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:entry/deref/field:changes/deref/field:filename/deref/field:converted,unsigned char *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:entry/deref/field:changes/deref/field:filename/deref/field:raw,unsigned char *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:entry/deref/field:changes/deref/field:password,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:entry/deref/field:orig,zip_dirent *,0,1,1,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:entry/deref/field:orig/deref/field:comment,zip_string *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:entry/deref/field:orig/deref/field:comment/deref/field:converted,unsigned char *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:entry/deref/field:orig/deref/field:comment/deref/field:raw,unsigned char *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:entry/deref/field:orig/deref/field:extra_fields,zip_extra_field *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:entry/deref/field:orig/deref/field:extra_fields/deref/field:data,unsigned char *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:entry/deref/field:orig/deref/field:extra_fields/deref/field:next,zip_extra_field *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:entry/deref/field:orig/deref/field:filename,zip_string *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:entry/deref/field:orig/deref/field:filename/deref/field:converted,unsigned char *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:entry/deref/field:orig/deref/field:filename/deref/field:raw,unsigned char *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:entry/deref/field:orig/deref/field:password,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:entry/deref/field:source,zip_source *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:entry/deref/field:source/deref/field:error/field:str,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:entry/deref/field:source/deref/field:source_archive,zip *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:entry/deref/field:source/deref/field:source_archive/deref/field:comment_changes,zip_string *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:entry/deref/field:source/deref/field:source_archive/deref/field:comment_orig,zip_string *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:entry/deref/field:source/deref/field:source_archive/deref/field:default_password,char *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:entry/deref/field:source/deref/field:source_archive/deref/field:entry,zip_entry *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:entry/deref/field:source/deref/field:source_archive/deref/field:names,zip_hash *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:entry/deref/field:source/deref/field:source_archive/deref/field:open_source,zip_source **,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:entry/deref/field:source/deref/field:source_archive/deref/field:progress,zip_progress *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:entry/deref/field:source/deref/field:source_archive/deref/field:src,zip_source *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:entry/deref/field:source/deref/field:source_archive/deref/field:write_crc,unsigned int *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:entry/deref/field:source/deref/field:src,zip_source *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:entry/deref/field:source/deref/field:ud,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:error/field:str,char *,0,1,1,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:names,zip_hash *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:names/deref/field:table,zip_hash_entry **,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:names/deref/field:table/deref,zip_hash_entry *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:names/deref/field:table/deref/deref/field:name,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:names/deref/field:table/deref/deref/field:next,zip_hash_entry *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:open_source,zip_source **,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:open_source/deref,zip_source *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:open_source/deref/deref/field:error/field:str,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:open_source/deref/deref/field:source_archive,zip *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:open_source/deref/deref/field:source_archive/deref/field:comment_changes,zip_string *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:open_source/deref/deref/field:source_archive/deref/field:comment_orig,zip_string *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:open_source/deref/deref/field:source_archive/deref/field:default_password,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:open_source/deref/deref/field:source_archive/deref/field:entry,zip_entry *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:open_source/deref/deref/field:source_archive/deref/field:error/field:str,char *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:open_source/deref/deref/field:source_archive/deref/field:names,zip_hash *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:open_source/deref/deref/field:source_archive/deref/field:open_source,zip_source **,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:open_source/deref/deref/field:source_archive/deref/field:open_source/deref,zip_source *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:open_source/deref/deref/field:source_archive/deref/field:progress,zip_progress *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:open_source/deref/deref/field:source_archive/deref/field:src,zip_source *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:open_source/deref/deref/field:source_archive/deref/field:write_crc,unsigned int *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:open_source/deref/deref/field:src,zip_source *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:open_source/deref/deref/field:ud,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:progress,zip_progress *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:progress/deref/field:ud_cancel,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:progress/deref/field:ud_progress,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:progress/deref/field:za,zip *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:comment_changes,zip_string *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:comment_changes/deref/field:converted,unsigned char *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:comment_changes/deref/field:raw,unsigned char *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:comment_orig,zip_string *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:comment_orig/deref/field:converted,unsigned char *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:comment_orig/deref/field:raw,unsigned char *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:default_password,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:entry,zip_entry *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:entry/deref/field:changes,zip_dirent *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:entry/deref/field:orig,zip_dirent *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:entry/deref/field:source,zip_source *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:error/field:str,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:names,zip_hash *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:names/deref/field:table,zip_hash_entry **,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:open_source,zip_source **,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:open_source/deref,zip_source *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:progress,zip_progress *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:progress/deref/field:ud_cancel,void *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:progress/deref/field:ud_progress,void *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:progress/deref/field:za,zip *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:src,zip_source *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:write_crc,unsigned int *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:src,zip_source *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,param,0,T_TO_U,/deref/field:write_crc,unsigned int *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,return,return,U_TO_T,,char *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_name,return,return,U_TO_T,,const char *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_get_name.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,,zip *,0,1,1,0,0,0,0,0,0,0,1,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,,zip_t *,0,1,1,0,0,0,0,0,0,0,1,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:comment_changes,zip_string *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:comment_changes/deref/field:converted,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:comment_changes/deref/field:raw,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:comment_orig,zip_string *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:comment_orig/deref/field:converted,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:comment_orig/deref/field:raw,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:default_password,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:entry,zip_entry *,0,1,1,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:entry/deref/field:changes,zip_dirent *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:entry/deref/field:changes/deref/field:comment,zip_string *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:entry/deref/field:changes/deref/field:comment/deref/field:converted,unsigned char *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:entry/deref/field:changes/deref/field:comment/deref/field:raw,unsigned char *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:entry/deref/field:changes/deref/field:extra_fields,zip_extra_field *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:entry/deref/field:changes/deref/field:extra_fields/deref/field:data,unsigned char *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:entry/deref/field:changes/deref/field:extra_fields/deref/field:next,zip_extra_field *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:entry/deref/field:changes/deref/field:filename,zip_string *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:entry/deref/field:changes/deref/field:filename/deref/field:converted,unsigned char *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:entry/deref/field:changes/deref/field:filename/deref/field:raw,unsigned char *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:entry/deref/field:changes/deref/field:password,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:entry/deref/field:orig,zip_dirent *,0,1,1,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:entry/deref/field:orig/deref/field:comment,zip_string *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:entry/deref/field:orig/deref/field:comment/deref/field:converted,unsigned char *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:entry/deref/field:orig/deref/field:comment/deref/field:raw,unsigned char *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:entry/deref/field:orig/deref/field:extra_fields,zip_extra_field *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:entry/deref/field:orig/deref/field:extra_fields/deref/field:data,unsigned char *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:entry/deref/field:orig/deref/field:extra_fields/deref/field:next,zip_extra_field *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:entry/deref/field:orig/deref/field:filename,zip_string *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:entry/deref/field:orig/deref/field:filename/deref/field:converted,unsigned char *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:entry/deref/field:orig/deref/field:filename/deref/field:raw,unsigned char *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:entry/deref/field:orig/deref/field:password,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:entry/deref/field:source,zip_source *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:entry/deref/field:source/deref/field:error/field:str,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:entry/deref/field:source/deref/field:source_archive,zip *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:entry/deref/field:source/deref/field:source_archive/deref/field:comment_changes,zip_string *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:entry/deref/field:source/deref/field:source_archive/deref/field:comment_orig,zip_string *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:entry/deref/field:source/deref/field:source_archive/deref/field:default_password,char *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:entry/deref/field:source/deref/field:source_archive/deref/field:entry,zip_entry *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:entry/deref/field:source/deref/field:source_archive/deref/field:names,zip_hash *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:entry/deref/field:source/deref/field:source_archive/deref/field:open_source,zip_source **,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:entry/deref/field:source/deref/field:source_archive/deref/field:progress,zip_progress *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:entry/deref/field:source/deref/field:source_archive/deref/field:src,zip_source *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:entry/deref/field:source/deref/field:source_archive/deref/field:write_crc,unsigned int *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:entry/deref/field:source/deref/field:src,zip_source *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:entry/deref/field:source/deref/field:ud,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:error/field:str,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:names,zip_hash *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:names/deref/field:table,zip_hash_entry **,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:names/deref/field:table/deref,zip_hash_entry *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:names/deref/field:table/deref/deref/field:name,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:names/deref/field:table/deref/deref/field:next,zip_hash_entry *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:open_source,zip_source **,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:open_source/deref,zip_source *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:open_source/deref/deref/field:error/field:str,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:open_source/deref/deref/field:source_archive,zip *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:open_source/deref/deref/field:source_archive/deref/field:comment_changes,zip_string *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:open_source/deref/deref/field:source_archive/deref/field:comment_orig,zip_string *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:open_source/deref/deref/field:source_archive/deref/field:default_password,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:open_source/deref/deref/field:source_archive/deref/field:entry,zip_entry *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:open_source/deref/deref/field:source_archive/deref/field:error/field:str,char *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:open_source/deref/deref/field:source_archive/deref/field:names,zip_hash *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:open_source/deref/deref/field:source_archive/deref/field:open_source,zip_source **,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:open_source/deref/deref/field:source_archive/deref/field:open_source/deref,zip_source *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:open_source/deref/deref/field:source_archive/deref/field:progress,zip_progress *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:open_source/deref/deref/field:source_archive/deref/field:src,zip_source *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:open_source/deref/deref/field:source_archive/deref/field:write_crc,unsigned int *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:open_source/deref/deref/field:src,zip_source *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:open_source/deref/deref/field:ud,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:progress,zip_progress *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:progress/deref/field:ud_cancel,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:progress/deref/field:ud_progress,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:progress/deref/field:za,zip *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:comment_changes,zip_string *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:comment_changes/deref/field:converted,unsigned char *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:comment_changes/deref/field:raw,unsigned char *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:comment_orig,zip_string *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:comment_orig/deref/field:converted,unsigned char *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:comment_orig/deref/field:raw,unsigned char *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:default_password,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:entry,zip_entry *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:entry/deref/field:changes,zip_dirent *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:entry/deref/field:orig,zip_dirent *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:entry/deref/field:source,zip_source *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:error/field:str,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:names,zip_hash *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:names/deref/field:table,zip_hash_entry **,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:open_source,zip_source **,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:open_source/deref,zip_source *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:progress,zip_progress *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:progress/deref/field:ud_cancel,void *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:progress/deref/field:ud_progress,void *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:progress/deref/field:za,zip *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:src,zip_source *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:write_crc,unsigned int *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:src,zip_source *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_get_num_entries,param,0,T_TO_U,/deref/field:write_crc,unsigned int *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_get_num_entries.c,0,0,0,0
+zip_libzip,zip_open_from_source,param,0,T_TO_U,,zip_source *,0,1,1,0,1,0,0,0,0,0,1,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,param,0,T_TO_U,,zip_source_t *,0,1,1,0,1,0,0,0,0,0,1,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,param,0,T_TO_U,/deref/field:error/field:str,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,param,0,T_TO_U,/deref/field:source_archive,zip *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,param,0,T_TO_U,/deref/field:source_archive/deref/field:comment_changes,zip_string *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,param,0,T_TO_U,/deref/field:source_archive/deref/field:comment_changes/deref/field:converted,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,param,0,T_TO_U,/deref/field:source_archive/deref/field:comment_changes/deref/field:raw,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,param,0,T_TO_U,/deref/field:source_archive/deref/field:comment_orig,zip_string *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,param,0,T_TO_U,/deref/field:source_archive/deref/field:comment_orig/deref/field:converted,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,param,0,T_TO_U,/deref/field:source_archive/deref/field:comment_orig/deref/field:raw,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,param,0,T_TO_U,/deref/field:source_archive/deref/field:default_password,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,param,0,T_TO_U,/deref/field:source_archive/deref/field:entry,zip_entry *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,param,0,T_TO_U,/deref/field:source_archive/deref/field:entry/deref/field:changes,zip_dirent *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,param,0,T_TO_U,/deref/field:source_archive/deref/field:entry/deref/field:changes/deref/field:comment,zip_string *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,param,0,T_TO_U,/deref/field:source_archive/deref/field:entry/deref/field:changes/deref/field:extra_fields,zip_extra_field *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,param,0,T_TO_U,/deref/field:source_archive/deref/field:entry/deref/field:changes/deref/field:filename,zip_string *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,param,0,T_TO_U,/deref/field:source_archive/deref/field:entry/deref/field:changes/deref/field:password,char *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,param,0,T_TO_U,/deref/field:source_archive/deref/field:entry/deref/field:orig,zip_dirent *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,param,0,T_TO_U,/deref/field:source_archive/deref/field:entry/deref/field:orig/deref/field:comment,zip_string *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,param,0,T_TO_U,/deref/field:source_archive/deref/field:entry/deref/field:orig/deref/field:extra_fields,zip_extra_field *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,param,0,T_TO_U,/deref/field:source_archive/deref/field:entry/deref/field:orig/deref/field:filename,zip_string *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,param,0,T_TO_U,/deref/field:source_archive/deref/field:entry/deref/field:orig/deref/field:password,char *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,param,0,T_TO_U,/deref/field:source_archive/deref/field:entry/deref/field:source,zip_source *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,param,0,T_TO_U,/deref/field:source_archive/deref/field:entry/deref/field:source/deref/field:source_archive,zip *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,param,0,T_TO_U,/deref/field:source_archive/deref/field:entry/deref/field:source/deref/field:src,zip_source *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,param,0,T_TO_U,/deref/field:source_archive/deref/field:entry/deref/field:source/deref/field:ud,void *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,param,0,T_TO_U,/deref/field:source_archive/deref/field:error/field:str,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,param,0,T_TO_U,/deref/field:source_archive/deref/field:names,zip_hash *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,param,0,T_TO_U,/deref/field:source_archive/deref/field:names/deref/field:table,zip_hash_entry **,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,param,0,T_TO_U,/deref/field:source_archive/deref/field:names/deref/field:table/deref,zip_hash_entry *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,param,0,T_TO_U,/deref/field:source_archive/deref/field:open_source,zip_source **,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,param,0,T_TO_U,/deref/field:source_archive/deref/field:open_source/deref,zip_source *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,param,0,T_TO_U,/deref/field:source_archive/deref/field:open_source/deref/deref/field:error/field:str,char *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,param,0,T_TO_U,/deref/field:source_archive/deref/field:open_source/deref/deref/field:source_archive,zip *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,param,0,T_TO_U,/deref/field:source_archive/deref/field:open_source/deref/deref/field:src,zip_source *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,param,0,T_TO_U,/deref/field:source_archive/deref/field:open_source/deref/deref/field:ud,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,param,0,T_TO_U,/deref/field:source_archive/deref/field:progress,zip_progress *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,param,0,T_TO_U,/deref/field:source_archive/deref/field:progress/deref/field:ud_cancel,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,param,0,T_TO_U,/deref/field:source_archive/deref/field:progress/deref/field:ud_progress,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,param,0,T_TO_U,/deref/field:source_archive/deref/field:progress/deref/field:za,zip *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,param,0,T_TO_U,/deref/field:source_archive/deref/field:progress/deref/field:za/deref/field:comment_changes,zip_string *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,param,0,T_TO_U,/deref/field:source_archive/deref/field:progress/deref/field:za/deref/field:comment_orig,zip_string *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,param,0,T_TO_U,/deref/field:source_archive/deref/field:progress/deref/field:za/deref/field:default_password,char *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,param,0,T_TO_U,/deref/field:source_archive/deref/field:progress/deref/field:za/deref/field:entry,zip_entry *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,param,0,T_TO_U,/deref/field:source_archive/deref/field:progress/deref/field:za/deref/field:names,zip_hash *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,param,0,T_TO_U,/deref/field:source_archive/deref/field:progress/deref/field:za/deref/field:open_source,zip_source **,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,param,0,T_TO_U,/deref/field:source_archive/deref/field:progress/deref/field:za/deref/field:progress,zip_progress *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,param,0,T_TO_U,/deref/field:source_archive/deref/field:progress/deref/field:za/deref/field:src,zip_source *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,param,0,T_TO_U,/deref/field:source_archive/deref/field:progress/deref/field:za/deref/field:write_crc,unsigned int *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,param,0,T_TO_U,/deref/field:source_archive/deref/field:src,zip_source *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,param,0,T_TO_U,/deref/field:source_archive/deref/field:write_crc,unsigned int *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,param,0,T_TO_U,/deref/field:src,zip_source *,0,1,1,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,param,0,T_TO_U,/deref/field:ud,void *,0,1,1,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,param,2,T_TO_U,,zip_error *,1,1,1,0,1,0,0,0,0,0,1,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,param,2,T_TO_U,,zip_error_t *,1,1,1,0,1,0,0,0,0,0,1,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,param,2,T_TO_U,/deref/field:str,char *,1,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return,return,U_TO_T,,zip *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return,return,U_TO_T,,zip_t *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:comment_changes,zip_string *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:comment_changes/deref/field:converted,unsigned char *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:comment_changes/deref/field:raw,unsigned char *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:comment_orig,zip_string *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:comment_orig/deref/field:converted,unsigned char *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:comment_orig/deref/field:raw,unsigned char *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:default_password,char *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:entry,zip_entry *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:entry/deref/field:changes,zip_dirent *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:entry/deref/field:changes/deref/field:comment,zip_string *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:entry/deref/field:changes/deref/field:comment/deref/field:converted,unsigned char *,0,0,0,0,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:entry/deref/field:changes/deref/field:comment/deref/field:raw,unsigned char *,0,0,0,0,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:entry/deref/field:changes/deref/field:extra_fields,zip_extra_field *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:entry/deref/field:changes/deref/field:extra_fields/deref/field:data,unsigned char *,0,0,0,0,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:entry/deref/field:changes/deref/field:extra_fields/deref/field:next,zip_extra_field *,0,0,0,0,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:entry/deref/field:changes/deref/field:filename,zip_string *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:entry/deref/field:changes/deref/field:filename/deref/field:converted,unsigned char *,0,0,0,0,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:entry/deref/field:changes/deref/field:filename/deref/field:raw,unsigned char *,0,0,0,0,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:entry/deref/field:changes/deref/field:password,char *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:entry/deref/field:orig,zip_dirent *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:entry/deref/field:orig/deref/field:comment,zip_string *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:entry/deref/field:orig/deref/field:comment/deref/field:converted,unsigned char *,0,0,0,0,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:entry/deref/field:orig/deref/field:comment/deref/field:raw,unsigned char *,0,0,0,0,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:entry/deref/field:orig/deref/field:extra_fields,zip_extra_field *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:entry/deref/field:orig/deref/field:extra_fields/deref/field:data,unsigned char *,0,0,0,0,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:entry/deref/field:orig/deref/field:extra_fields/deref/field:next,zip_extra_field *,0,0,0,0,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:entry/deref/field:orig/deref/field:filename,zip_string *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:entry/deref/field:orig/deref/field:filename/deref/field:converted,unsigned char *,0,0,0,0,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:entry/deref/field:orig/deref/field:filename/deref/field:raw,unsigned char *,0,0,0,0,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:entry/deref/field:orig/deref/field:password,char *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:entry/deref/field:source,zip_source *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:entry/deref/field:source/deref/field:error/field:str,char *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:entry/deref/field:source/deref/field:source_archive,zip *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:entry/deref/field:source/deref/field:source_archive/deref/field:comment_changes,zip_string *,0,0,0,0,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:entry/deref/field:source/deref/field:source_archive/deref/field:comment_orig,zip_string *,0,0,0,0,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:entry/deref/field:source/deref/field:source_archive/deref/field:default_password,char *,0,0,0,0,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:entry/deref/field:source/deref/field:source_archive/deref/field:entry,zip_entry *,0,0,0,0,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:entry/deref/field:source/deref/field:source_archive/deref/field:names,zip_hash *,0,0,0,0,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:entry/deref/field:source/deref/field:source_archive/deref/field:open_source,zip_source **,0,0,0,0,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:entry/deref/field:source/deref/field:source_archive/deref/field:progress,zip_progress *,0,0,0,0,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:entry/deref/field:source/deref/field:source_archive/deref/field:src,zip_source *,0,0,0,0,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:entry/deref/field:source/deref/field:source_archive/deref/field:write_crc,unsigned int *,0,0,0,0,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:entry/deref/field:source/deref/field:src,zip_source *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:entry/deref/field:source/deref/field:ud,void *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:error/field:str,char *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:names,zip_hash *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:names/deref/field:table,zip_hash_entry **,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:names/deref/field:table/deref,zip_hash_entry *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:names/deref/field:table/deref/deref/field:name,unsigned char *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:names/deref/field:table/deref/deref/field:next,zip_hash_entry *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:open_source,zip_source **,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:open_source/deref,zip_source *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:open_source/deref/deref/field:error/field:str,char *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:open_source/deref/deref/field:source_archive,zip *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:open_source/deref/deref/field:source_archive/deref/field:comment_changes,zip_string *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:open_source/deref/deref/field:source_archive/deref/field:comment_orig,zip_string *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:open_source/deref/deref/field:source_archive/deref/field:default_password,char *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:open_source/deref/deref/field:source_archive/deref/field:entry,zip_entry *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:open_source/deref/deref/field:source_archive/deref/field:error/field:str,char *,0,0,0,0,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:open_source/deref/deref/field:source_archive/deref/field:names,zip_hash *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:open_source/deref/deref/field:source_archive/deref/field:open_source,zip_source **,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:open_source/deref/deref/field:source_archive/deref/field:open_source/deref,zip_source *,0,0,0,0,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:open_source/deref/deref/field:source_archive/deref/field:progress,zip_progress *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:open_source/deref/deref/field:source_archive/deref/field:src,zip_source *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:open_source/deref/deref/field:source_archive/deref/field:write_crc,unsigned int *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:open_source/deref/deref/field:src,zip_source *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:open_source/deref/deref/field:ud,void *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:progress,zip_progress *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:progress/deref/field:ud_cancel,void *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:progress/deref/field:ud_progress,void *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:progress/deref/field:za,zip *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:progress/deref/field:za/deref/field:comment_changes,zip_string *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:progress/deref/field:za/deref/field:comment_changes/deref/field:converted,unsigned char *,0,0,0,0,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:progress/deref/field:za/deref/field:comment_changes/deref/field:raw,unsigned char *,0,0,0,0,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:progress/deref/field:za/deref/field:comment_orig,zip_string *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:progress/deref/field:za/deref/field:comment_orig/deref/field:converted,unsigned char *,0,0,0,0,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:progress/deref/field:za/deref/field:comment_orig/deref/field:raw,unsigned char *,0,0,0,0,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:progress/deref/field:za/deref/field:default_password,char *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:progress/deref/field:za/deref/field:entry,zip_entry *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:progress/deref/field:za/deref/field:entry/deref/field:changes,zip_dirent *,0,0,0,0,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:progress/deref/field:za/deref/field:entry/deref/field:orig,zip_dirent *,0,0,0,0,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:progress/deref/field:za/deref/field:entry/deref/field:source,zip_source *,0,0,0,0,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:progress/deref/field:za/deref/field:error/field:str,char *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:progress/deref/field:za/deref/field:names,zip_hash *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:progress/deref/field:za/deref/field:names/deref/field:table,zip_hash_entry **,0,0,0,0,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:progress/deref/field:za/deref/field:open_source,zip_source **,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:progress/deref/field:za/deref/field:open_source/deref,zip_source *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:progress/deref/field:za/deref/field:progress,zip_progress *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:progress/deref/field:za/deref/field:progress/deref/field:ud_cancel,void *,0,0,0,0,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:progress/deref/field:za/deref/field:progress/deref/field:ud_progress,void *,0,0,0,0,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:progress/deref/field:za/deref/field:progress/deref/field:za,zip *,0,0,0,0,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:progress/deref/field:za/deref/field:src,zip_source *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:progress/deref/field:za/deref/field:write_crc,unsigned int *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:src,zip_source *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_open_from_source,return_ptr,return,U_TO_T,/deref/field:write_crc,unsigned int *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_open.c,0,0,0,0
+zip_libzip,zip_source_buffer_create,param,0,T_TO_U,,const void *,1,1,1,0,1,0,0,0,0,0,1,0,third_party/libzip/lib/zip_source_buffer.c,0,0,0,0
+zip_libzip,zip_source_buffer_create,param,0,T_TO_U,,void *,1,1,1,0,1,0,0,0,0,0,1,0,third_party/libzip/lib/zip_source_buffer.c,0,0,0,0
+zip_libzip,zip_source_buffer_create,param,3,T_TO_U,,zip_error *,1,1,1,0,1,0,0,0,0,0,1,0,third_party/libzip/lib/zip_source_buffer.c,0,0,0,0
+zip_libzip,zip_source_buffer_create,param,3,T_TO_U,,zip_error_t *,1,1,1,0,1,0,0,0,0,0,1,0,third_party/libzip/lib/zip_source_buffer.c,0,0,0,0
+zip_libzip,zip_source_buffer_create,param,3,T_TO_U,/deref/field:str,char *,1,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_source_buffer.c,0,0,0,0
+zip_libzip,zip_source_buffer_create,return,return,U_TO_T,,zip_source *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_source_buffer.c,0,0,0,0
+zip_libzip,zip_source_buffer_create,return,return,U_TO_T,,zip_source_t *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_source_buffer.c,0,0,0,0
+zip_libzip,zip_source_buffer_create,return_ptr,return,U_TO_T,/deref/field:error/field:str,char *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_source_buffer.c,0,0,0,0
+zip_libzip,zip_source_buffer_create,return_ptr,return,U_TO_T,/deref/field:source_archive,zip *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_source_buffer.c,0,0,0,0
+zip_libzip,zip_source_buffer_create,return_ptr,return,U_TO_T,/deref/field:source_archive/deref/field:comment_changes,zip_string *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_source_buffer.c,0,0,0,0
+zip_libzip,zip_source_buffer_create,return_ptr,return,U_TO_T,/deref/field:source_archive/deref/field:comment_changes/deref/field:converted,unsigned char *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_source_buffer.c,0,0,0,0
+zip_libzip,zip_source_buffer_create,return_ptr,return,U_TO_T,/deref/field:source_archive/deref/field:comment_changes/deref/field:raw,unsigned char *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_source_buffer.c,0,0,0,0
+zip_libzip,zip_source_buffer_create,return_ptr,return,U_TO_T,/deref/field:source_archive/deref/field:comment_orig,zip_string *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_source_buffer.c,0,0,0,0
+zip_libzip,zip_source_buffer_create,return_ptr,return,U_TO_T,/deref/field:source_archive/deref/field:comment_orig/deref/field:converted,unsigned char *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_source_buffer.c,0,0,0,0
+zip_libzip,zip_source_buffer_create,return_ptr,return,U_TO_T,/deref/field:source_archive/deref/field:comment_orig/deref/field:raw,unsigned char *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_source_buffer.c,0,0,0,0
+zip_libzip,zip_source_buffer_create,return_ptr,return,U_TO_T,/deref/field:source_archive/deref/field:default_password,char *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_source_buffer.c,0,0,0,0
+zip_libzip,zip_source_buffer_create,return_ptr,return,U_TO_T,/deref/field:source_archive/deref/field:entry,zip_entry *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_source_buffer.c,0,0,0,0
+zip_libzip,zip_source_buffer_create,return_ptr,return,U_TO_T,/deref/field:source_archive/deref/field:entry/deref/field:changes,zip_dirent *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_source_buffer.c,0,0,0,0
+zip_libzip,zip_source_buffer_create,return_ptr,return,U_TO_T,/deref/field:source_archive/deref/field:entry/deref/field:changes/deref/field:comment,zip_string *,0,0,0,0,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_source_buffer.c,0,0,0,0
+zip_libzip,zip_source_buffer_create,return_ptr,return,U_TO_T,/deref/field:source_archive/deref/field:entry/deref/field:changes/deref/field:extra_fields,zip_extra_field *,0,0,0,0,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_source_buffer.c,0,0,0,0
+zip_libzip,zip_source_buffer_create,return_ptr,return,U_TO_T,/deref/field:source_archive/deref/field:entry/deref/field:changes/deref/field:filename,zip_string *,0,0,0,0,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_source_buffer.c,0,0,0,0
+zip_libzip,zip_source_buffer_create,return_ptr,return,U_TO_T,/deref/field:source_archive/deref/field:entry/deref/field:changes/deref/field:password,char *,0,0,0,0,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_source_buffer.c,0,0,0,0
+zip_libzip,zip_source_buffer_create,return_ptr,return,U_TO_T,/deref/field:source_archive/deref/field:entry/deref/field:orig,zip_dirent *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_source_buffer.c,0,0,0,0
+zip_libzip,zip_source_buffer_create,return_ptr,return,U_TO_T,/deref/field:source_archive/deref/field:entry/deref/field:orig/deref/field:comment,zip_string *,0,0,0,0,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_source_buffer.c,0,0,0,0
+zip_libzip,zip_source_buffer_create,return_ptr,return,U_TO_T,/deref/field:source_archive/deref/field:entry/deref/field:orig/deref/field:extra_fields,zip_extra_field *,0,0,0,0,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_source_buffer.c,0,0,0,0
+zip_libzip,zip_source_buffer_create,return_ptr,return,U_TO_T,/deref/field:source_archive/deref/field:entry/deref/field:orig/deref/field:filename,zip_string *,0,0,0,0,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_source_buffer.c,0,0,0,0
+zip_libzip,zip_source_buffer_create,return_ptr,return,U_TO_T,/deref/field:source_archive/deref/field:entry/deref/field:orig/deref/field:password,char *,0,0,0,0,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_source_buffer.c,0,0,0,0
+zip_libzip,zip_source_buffer_create,return_ptr,return,U_TO_T,/deref/field:source_archive/deref/field:entry/deref/field:source,zip_source *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_source_buffer.c,0,0,0,0
+zip_libzip,zip_source_buffer_create,return_ptr,return,U_TO_T,/deref/field:source_archive/deref/field:entry/deref/field:source/deref/field:source_archive,zip *,0,0,0,0,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_source_buffer.c,0,0,0,0
+zip_libzip,zip_source_buffer_create,return_ptr,return,U_TO_T,/deref/field:source_archive/deref/field:entry/deref/field:source/deref/field:src,zip_source *,0,0,0,0,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_source_buffer.c,0,0,0,0
+zip_libzip,zip_source_buffer_create,return_ptr,return,U_TO_T,/deref/field:source_archive/deref/field:entry/deref/field:source/deref/field:ud,void *,0,0,0,0,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_source_buffer.c,0,0,0,0
+zip_libzip,zip_source_buffer_create,return_ptr,return,U_TO_T,/deref/field:source_archive/deref/field:error/field:str,char *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_source_buffer.c,0,0,0,0
+zip_libzip,zip_source_buffer_create,return_ptr,return,U_TO_T,/deref/field:source_archive/deref/field:names,zip_hash *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_source_buffer.c,0,0,0,0
+zip_libzip,zip_source_buffer_create,return_ptr,return,U_TO_T,/deref/field:source_archive/deref/field:names/deref/field:table,zip_hash_entry **,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_source_buffer.c,0,0,0,0
+zip_libzip,zip_source_buffer_create,return_ptr,return,U_TO_T,/deref/field:source_archive/deref/field:names/deref/field:table/deref,zip_hash_entry *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_source_buffer.c,0,0,0,0
+zip_libzip,zip_source_buffer_create,return_ptr,return,U_TO_T,/deref/field:source_archive/deref/field:open_source,zip_source **,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_source_buffer.c,0,0,0,0
+zip_libzip,zip_source_buffer_create,return_ptr,return,U_TO_T,/deref/field:source_archive/deref/field:open_source/deref,zip_source *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_source_buffer.c,0,0,0,0
+zip_libzip,zip_source_buffer_create,return_ptr,return,U_TO_T,/deref/field:source_archive/deref/field:open_source/deref/deref/field:error/field:str,char *,0,0,0,0,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_source_buffer.c,0,0,0,0
+zip_libzip,zip_source_buffer_create,return_ptr,return,U_TO_T,/deref/field:source_archive/deref/field:open_source/deref/deref/field:source_archive,zip *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_source_buffer.c,0,0,0,0
+zip_libzip,zip_source_buffer_create,return_ptr,return,U_TO_T,/deref/field:source_archive/deref/field:open_source/deref/deref/field:src,zip_source *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_source_buffer.c,0,0,0,0
+zip_libzip,zip_source_buffer_create,return_ptr,return,U_TO_T,/deref/field:source_archive/deref/field:open_source/deref/deref/field:ud,void *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_source_buffer.c,0,0,0,0
+zip_libzip,zip_source_buffer_create,return_ptr,return,U_TO_T,/deref/field:source_archive/deref/field:progress,zip_progress *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_source_buffer.c,0,0,0,0
+zip_libzip,zip_source_buffer_create,return_ptr,return,U_TO_T,/deref/field:source_archive/deref/field:progress/deref/field:ud_cancel,void *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_source_buffer.c,0,0,0,0
+zip_libzip,zip_source_buffer_create,return_ptr,return,U_TO_T,/deref/field:source_archive/deref/field:progress/deref/field:ud_progress,void *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_source_buffer.c,0,0,0,0
+zip_libzip,zip_source_buffer_create,return_ptr,return,U_TO_T,/deref/field:source_archive/deref/field:progress/deref/field:za,zip *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_source_buffer.c,0,0,0,0
+zip_libzip,zip_source_buffer_create,return_ptr,return,U_TO_T,/deref/field:source_archive/deref/field:progress/deref/field:za/deref/field:comment_changes,zip_string *,0,0,0,0,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_source_buffer.c,0,0,0,0
+zip_libzip,zip_source_buffer_create,return_ptr,return,U_TO_T,/deref/field:source_archive/deref/field:progress/deref/field:za/deref/field:comment_orig,zip_string *,0,0,0,0,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_source_buffer.c,0,0,0,0
+zip_libzip,zip_source_buffer_create,return_ptr,return,U_TO_T,/deref/field:source_archive/deref/field:progress/deref/field:za/deref/field:default_password,char *,0,0,0,0,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_source_buffer.c,0,0,0,0
+zip_libzip,zip_source_buffer_create,return_ptr,return,U_TO_T,/deref/field:source_archive/deref/field:progress/deref/field:za/deref/field:entry,zip_entry *,0,0,0,0,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_source_buffer.c,0,0,0,0
+zip_libzip,zip_source_buffer_create,return_ptr,return,U_TO_T,/deref/field:source_archive/deref/field:progress/deref/field:za/deref/field:names,zip_hash *,0,0,0,0,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_source_buffer.c,0,0,0,0
+zip_libzip,zip_source_buffer_create,return_ptr,return,U_TO_T,/deref/field:source_archive/deref/field:progress/deref/field:za/deref/field:open_source,zip_source **,0,0,0,0,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_source_buffer.c,0,0,0,0
+zip_libzip,zip_source_buffer_create,return_ptr,return,U_TO_T,/deref/field:source_archive/deref/field:progress/deref/field:za/deref/field:progress,zip_progress *,0,0,0,0,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_source_buffer.c,0,0,0,0
+zip_libzip,zip_source_buffer_create,return_ptr,return,U_TO_T,/deref/field:source_archive/deref/field:progress/deref/field:za/deref/field:src,zip_source *,0,0,0,0,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_source_buffer.c,0,0,0,0
+zip_libzip,zip_source_buffer_create,return_ptr,return,U_TO_T,/deref/field:source_archive/deref/field:progress/deref/field:za/deref/field:write_crc,unsigned int *,0,0,0,0,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_source_buffer.c,0,0,0,0
+zip_libzip,zip_source_buffer_create,return_ptr,return,U_TO_T,/deref/field:source_archive/deref/field:src,zip_source *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_source_buffer.c,0,0,0,0
+zip_libzip,zip_source_buffer_create,return_ptr,return,U_TO_T,/deref/field:source_archive/deref/field:write_crc,unsigned int *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_source_buffer.c,0,0,0,0
+zip_libzip,zip_source_buffer_create,return_ptr,return,U_TO_T,/deref/field:src,zip_source *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_source_buffer.c,0,0,0,0
+zip_libzip,zip_source_buffer_create,return_ptr,return,U_TO_T,/deref/field:ud,void *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_source_buffer.c,0,0,0,0
+zip_libzip,zip_source_free,param,0,T_TO_U,,zip_source *,0,1,1,0,1,0,0,0,0,0,1,0,third_party/libzip/lib/zip_source_free.c,0,0,0,0
+zip_libzip,zip_source_free,param,0,T_TO_U,,zip_source_t *,0,1,1,0,1,0,0,0,0,0,1,0,third_party/libzip/lib/zip_source_free.c,0,0,0,0
+zip_libzip,zip_source_free,param,0,T_TO_U,/deref/field:error/field:str,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_source_free.c,0,0,0,0
+zip_libzip,zip_source_free,param,0,T_TO_U,/deref/field:source_archive,zip *,0,1,1,0,1,0,0,0,0,0,0,0,third_party/libzip/lib/zip_source_free.c,0,0,0,0
+zip_libzip,zip_source_free,param,0,T_TO_U,/deref/field:source_archive/deref/field:comment_changes,zip_string *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_source_free.c,0,0,0,0
+zip_libzip,zip_source_free,param,0,T_TO_U,/deref/field:source_archive/deref/field:comment_changes/deref/field:converted,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_source_free.c,0,0,0,0
+zip_libzip,zip_source_free,param,0,T_TO_U,/deref/field:source_archive/deref/field:comment_changes/deref/field:raw,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_source_free.c,0,0,0,0
+zip_libzip,zip_source_free,param,0,T_TO_U,/deref/field:source_archive/deref/field:comment_orig,zip_string *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_source_free.c,0,0,0,0
+zip_libzip,zip_source_free,param,0,T_TO_U,/deref/field:source_archive/deref/field:comment_orig/deref/field:converted,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_source_free.c,0,0,0,0
+zip_libzip,zip_source_free,param,0,T_TO_U,/deref/field:source_archive/deref/field:comment_orig/deref/field:raw,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_source_free.c,0,0,0,0
+zip_libzip,zip_source_free,param,0,T_TO_U,/deref/field:source_archive/deref/field:default_password,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_source_free.c,0,0,0,0
+zip_libzip,zip_source_free,param,0,T_TO_U,/deref/field:source_archive/deref/field:entry,zip_entry *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_source_free.c,0,0,0,0
+zip_libzip,zip_source_free,param,0,T_TO_U,/deref/field:source_archive/deref/field:entry/deref/field:changes,zip_dirent *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_source_free.c,0,0,0,0
+zip_libzip,zip_source_free,param,0,T_TO_U,/deref/field:source_archive/deref/field:entry/deref/field:changes/deref/field:comment,zip_string *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_source_free.c,0,0,0,0
+zip_libzip,zip_source_free,param,0,T_TO_U,/deref/field:source_archive/deref/field:entry/deref/field:changes/deref/field:extra_fields,zip_extra_field *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_source_free.c,0,0,0,0
+zip_libzip,zip_source_free,param,0,T_TO_U,/deref/field:source_archive/deref/field:entry/deref/field:changes/deref/field:filename,zip_string *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_source_free.c,0,0,0,0
+zip_libzip,zip_source_free,param,0,T_TO_U,/deref/field:source_archive/deref/field:entry/deref/field:changes/deref/field:password,char *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_source_free.c,0,0,0,0
+zip_libzip,zip_source_free,param,0,T_TO_U,/deref/field:source_archive/deref/field:entry/deref/field:orig,zip_dirent *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_source_free.c,0,0,0,0
+zip_libzip,zip_source_free,param,0,T_TO_U,/deref/field:source_archive/deref/field:entry/deref/field:orig/deref/field:comment,zip_string *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_source_free.c,0,0,0,0
+zip_libzip,zip_source_free,param,0,T_TO_U,/deref/field:source_archive/deref/field:entry/deref/field:orig/deref/field:extra_fields,zip_extra_field *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_source_free.c,0,0,0,0
+zip_libzip,zip_source_free,param,0,T_TO_U,/deref/field:source_archive/deref/field:entry/deref/field:orig/deref/field:filename,zip_string *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_source_free.c,0,0,0,0
+zip_libzip,zip_source_free,param,0,T_TO_U,/deref/field:source_archive/deref/field:entry/deref/field:orig/deref/field:password,char *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_source_free.c,0,0,0,0
+zip_libzip,zip_source_free,param,0,T_TO_U,/deref/field:source_archive/deref/field:entry/deref/field:source,zip_source *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_source_free.c,0,0,0,0
+zip_libzip,zip_source_free,param,0,T_TO_U,/deref/field:source_archive/deref/field:entry/deref/field:source/deref/field:source_archive,zip *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_source_free.c,0,0,0,0
+zip_libzip,zip_source_free,param,0,T_TO_U,/deref/field:source_archive/deref/field:entry/deref/field:source/deref/field:src,zip_source *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_source_free.c,0,0,0,0
+zip_libzip,zip_source_free,param,0,T_TO_U,/deref/field:source_archive/deref/field:entry/deref/field:source/deref/field:ud,void *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_source_free.c,0,0,0,0
+zip_libzip,zip_source_free,param,0,T_TO_U,/deref/field:source_archive/deref/field:error/field:str,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_source_free.c,0,0,0,0
+zip_libzip,zip_source_free,param,0,T_TO_U,/deref/field:source_archive/deref/field:names,zip_hash *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_source_free.c,0,0,0,0
+zip_libzip,zip_source_free,param,0,T_TO_U,/deref/field:source_archive/deref/field:names/deref/field:table,zip_hash_entry **,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_source_free.c,0,0,0,0
+zip_libzip,zip_source_free,param,0,T_TO_U,/deref/field:source_archive/deref/field:names/deref/field:table/deref,zip_hash_entry *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_source_free.c,0,0,0,0
+zip_libzip,zip_source_free,param,0,T_TO_U,/deref/field:source_archive/deref/field:open_source,zip_source **,0,1,1,1,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_source_free.c,0,0,0,0
+zip_libzip,zip_source_free,param,0,T_TO_U,/deref/field:source_archive/deref/field:open_source/deref,zip_source *,0,1,1,1,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_source_free.c,0,0,0,0
+zip_libzip,zip_source_free,param,0,T_TO_U,/deref/field:source_archive/deref/field:open_source/deref/deref/field:error/field:str,char *,0,1,0,0,0,0,1,0,1,0,0,0,third_party/libzip/lib/zip_source_free.c,0,0,0,0
+zip_libzip,zip_source_free,param,0,T_TO_U,/deref/field:source_archive/deref/field:open_source/deref/deref/field:source_archive,zip *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_source_free.c,0,0,0,0
+zip_libzip,zip_source_free,param,0,T_TO_U,/deref/field:source_archive/deref/field:open_source/deref/deref/field:src,zip_source *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_source_free.c,0,0,0,0
+zip_libzip,zip_source_free,param,0,T_TO_U,/deref/field:source_archive/deref/field:open_source/deref/deref/field:ud,void *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_source_free.c,0,0,0,0
+zip_libzip,zip_source_free,param,0,T_TO_U,/deref/field:source_archive/deref/field:progress,zip_progress *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_source_free.c,0,0,0,0
+zip_libzip,zip_source_free,param,0,T_TO_U,/deref/field:source_archive/deref/field:progress/deref/field:ud_cancel,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_source_free.c,0,0,0,0
+zip_libzip,zip_source_free,param,0,T_TO_U,/deref/field:source_archive/deref/field:progress/deref/field:ud_progress,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_source_free.c,0,0,0,0
+zip_libzip,zip_source_free,param,0,T_TO_U,/deref/field:source_archive/deref/field:progress/deref/field:za,zip *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_source_free.c,0,0,0,0
+zip_libzip,zip_source_free,param,0,T_TO_U,/deref/field:source_archive/deref/field:progress/deref/field:za/deref/field:comment_changes,zip_string *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_source_free.c,0,0,0,0
+zip_libzip,zip_source_free,param,0,T_TO_U,/deref/field:source_archive/deref/field:progress/deref/field:za/deref/field:comment_orig,zip_string *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_source_free.c,0,0,0,0
+zip_libzip,zip_source_free,param,0,T_TO_U,/deref/field:source_archive/deref/field:progress/deref/field:za/deref/field:default_password,char *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_source_free.c,0,0,0,0
+zip_libzip,zip_source_free,param,0,T_TO_U,/deref/field:source_archive/deref/field:progress/deref/field:za/deref/field:entry,zip_entry *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_source_free.c,0,0,0,0
+zip_libzip,zip_source_free,param,0,T_TO_U,/deref/field:source_archive/deref/field:progress/deref/field:za/deref/field:names,zip_hash *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_source_free.c,0,0,0,0
+zip_libzip,zip_source_free,param,0,T_TO_U,/deref/field:source_archive/deref/field:progress/deref/field:za/deref/field:open_source,zip_source **,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_source_free.c,0,0,0,0
+zip_libzip,zip_source_free,param,0,T_TO_U,/deref/field:source_archive/deref/field:progress/deref/field:za/deref/field:progress,zip_progress *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_source_free.c,0,0,0,0
+zip_libzip,zip_source_free,param,0,T_TO_U,/deref/field:source_archive/deref/field:progress/deref/field:za/deref/field:src,zip_source *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_source_free.c,0,0,0,0
+zip_libzip,zip_source_free,param,0,T_TO_U,/deref/field:source_archive/deref/field:progress/deref/field:za/deref/field:write_crc,unsigned int *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_source_free.c,0,0,0,0
+zip_libzip,zip_source_free,param,0,T_TO_U,/deref/field:source_archive/deref/field:src,zip_source *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_source_free.c,0,0,0,0
+zip_libzip,zip_source_free,param,0,T_TO_U,/deref/field:source_archive/deref/field:write_crc,unsigned int *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_source_free.c,0,0,0,0
+zip_libzip,zip_source_free,param,0,T_TO_U,/deref/field:src,zip_source *,0,1,1,0,1,0,0,0,0,0,0,0,third_party/libzip/lib/zip_source_free.c,0,0,0,0
+zip_libzip,zip_source_free,param,0,T_TO_U,/deref/field:ud,void *,0,1,1,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_source_free.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,,zip *,0,1,1,0,1,0,0,0,0,0,1,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,,zip_t *,0,1,1,0,1,0,0,0,0,0,1,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:comment_changes,zip_string *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:comment_changes/deref/field:converted,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:comment_changes/deref/field:raw,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:comment_orig,zip_string *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:comment_orig/deref/field:converted,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:comment_orig/deref/field:raw,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:default_password,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:entry,zip_entry *,0,1,1,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:entry/deref/field:changes,zip_dirent *,0,1,1,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:entry/deref/field:changes/deref/field:comment,zip_string *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:entry/deref/field:changes/deref/field:comment/deref/field:converted,unsigned char *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:entry/deref/field:changes/deref/field:comment/deref/field:raw,unsigned char *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:entry/deref/field:changes/deref/field:extra_fields,zip_extra_field *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:entry/deref/field:changes/deref/field:extra_fields/deref/field:data,unsigned char *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:entry/deref/field:changes/deref/field:extra_fields/deref/field:next,zip_extra_field *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:entry/deref/field:changes/deref/field:filename,zip_string *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:entry/deref/field:changes/deref/field:filename/deref/field:converted,unsigned char *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:entry/deref/field:changes/deref/field:filename/deref/field:raw,unsigned char *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:entry/deref/field:changes/deref/field:password,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:entry/deref/field:orig,zip_dirent *,0,1,1,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:entry/deref/field:orig/deref/field:comment,zip_string *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:entry/deref/field:orig/deref/field:comment/deref/field:converted,unsigned char *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:entry/deref/field:orig/deref/field:comment/deref/field:raw,unsigned char *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:entry/deref/field:orig/deref/field:extra_fields,zip_extra_field *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:entry/deref/field:orig/deref/field:extra_fields/deref/field:data,unsigned char *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:entry/deref/field:orig/deref/field:extra_fields/deref/field:next,zip_extra_field *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:entry/deref/field:orig/deref/field:filename,zip_string *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:entry/deref/field:orig/deref/field:filename/deref/field:converted,unsigned char *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:entry/deref/field:orig/deref/field:filename/deref/field:raw,unsigned char *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:entry/deref/field:orig/deref/field:password,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:entry/deref/field:source,zip_source *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:entry/deref/field:source/deref/field:error/field:str,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:entry/deref/field:source/deref/field:source_archive,zip *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:entry/deref/field:source/deref/field:source_archive/deref/field:comment_changes,zip_string *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:entry/deref/field:source/deref/field:source_archive/deref/field:comment_orig,zip_string *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:entry/deref/field:source/deref/field:source_archive/deref/field:default_password,char *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:entry/deref/field:source/deref/field:source_archive/deref/field:entry,zip_entry *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:entry/deref/field:source/deref/field:source_archive/deref/field:names,zip_hash *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:entry/deref/field:source/deref/field:source_archive/deref/field:open_source,zip_source **,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:entry/deref/field:source/deref/field:source_archive/deref/field:progress,zip_progress *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:entry/deref/field:source/deref/field:source_archive/deref/field:src,zip_source *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:entry/deref/field:source/deref/field:source_archive/deref/field:write_crc,unsigned int *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:entry/deref/field:source/deref/field:src,zip_source *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:entry/deref/field:source/deref/field:ud,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:error/field:str,char *,0,1,1,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:names,zip_hash *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:names/deref/field:table,zip_hash_entry **,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:names/deref/field:table/deref,zip_hash_entry *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:names/deref/field:table/deref/deref/field:name,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:names/deref/field:table/deref/deref/field:next,zip_hash_entry *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:open_source,zip_source **,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:open_source/deref,zip_source *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:open_source/deref/deref/field:error/field:str,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:open_source/deref/deref/field:source_archive,zip *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:open_source/deref/deref/field:source_archive/deref/field:comment_changes,zip_string *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:open_source/deref/deref/field:source_archive/deref/field:comment_orig,zip_string *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:open_source/deref/deref/field:source_archive/deref/field:default_password,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:open_source/deref/deref/field:source_archive/deref/field:entry,zip_entry *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:open_source/deref/deref/field:source_archive/deref/field:error/field:str,char *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:open_source/deref/deref/field:source_archive/deref/field:names,zip_hash *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:open_source/deref/deref/field:source_archive/deref/field:open_source,zip_source **,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:open_source/deref/deref/field:source_archive/deref/field:open_source/deref,zip_source *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:open_source/deref/deref/field:source_archive/deref/field:progress,zip_progress *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:open_source/deref/deref/field:source_archive/deref/field:src,zip_source *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:open_source/deref/deref/field:source_archive/deref/field:write_crc,unsigned int *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:open_source/deref/deref/field:src,zip_source *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:open_source/deref/deref/field:ud,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:progress,zip_progress *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:progress/deref/field:ud_cancel,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:progress/deref/field:ud_progress,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:progress/deref/field:za,zip *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:comment_changes,zip_string *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:comment_changes/deref/field:converted,unsigned char *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:comment_changes/deref/field:raw,unsigned char *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:comment_orig,zip_string *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:comment_orig/deref/field:converted,unsigned char *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:comment_orig/deref/field:raw,unsigned char *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:default_password,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:entry,zip_entry *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:entry/deref/field:changes,zip_dirent *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:entry/deref/field:orig,zip_dirent *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:entry/deref/field:source,zip_source *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:error/field:str,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:names,zip_hash *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:names/deref/field:table,zip_hash_entry **,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:open_source,zip_source **,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:open_source/deref,zip_source *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:progress,zip_progress *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:progress/deref/field:ud_cancel,void *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:progress/deref/field:ud_progress,void *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:progress/deref/field:za,zip *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:src,zip_source *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:progress/deref/field:za/deref/field:write_crc,unsigned int *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:src,zip_source *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,0,T_TO_U,/deref/field:write_crc,unsigned int *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,3,T_TO_U,,zip_stat *,1,1,1,0,1,0,0,0,0,0,1,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,3,T_TO_U,,zip_stat_t *,1,1,1,0,1,0,0,0,0,0,1,0,third_party/libzip/lib/zip_stat_index.c,0,0,0,0
+zip_libzip,zip_stat_index,param,3,T_TO_U,/deref/field:name,char *,1,1,0,1,0,1,1,0,0,0,0,1,third_party/libzip/lib/zip_stat_index.c,0,0,1,0
+zip_libzip,zip_stat_init,param,0,T_TO_U,,zip_stat *,1,1,1,0,0,0,0,0,0,0,1,0,third_party/libzip/lib/zip_stat_init.c,0,0,0,0
+zip_libzip,zip_stat_init,param,0,T_TO_U,,zip_stat_t *,1,1,1,0,0,0,0,0,0,0,1,0,third_party/libzip/lib/zip_stat_init.c,0,0,0,0
+zip_libzip,zip_stat_init,param,0,T_TO_U,/deref/field:name,char *,1,1,0,1,0,0,1,0,0,0,0,0,third_party/libzip/lib/zip_stat_init.c,0,0,0,0

@@ -1,0 +1,6 @@
+benchmark,function,file,binding_kind,binding_id,direction,slot_kind,slot_path,slot_types,sp3_origin_class,owned_by_t,exposed_to_u,u_reads,u_writes,u_forwarded,t_uses,u_influenced,escapes_to_t,flow_cut,t_domain_invariant,sp3_target_class,sp3_target_t,sp3_target_u,sp3_target_null
+memcached_hash,assoc_find,benchmarks/memcached/assoc.c,return,return,U_TO_T,return,,_stritem *;item *,T_round_tripped,0,0,0,0,0,1,1,0,0,0,T_only,1,0,0
+memcached_hash,assoc_insert,benchmarks/memcached/assoc.c,param,0,T_TO_U,out_param,/deref/field:h_next,_stritem *,T_passed_U_updated,1,1,0,1,0,1,1,1,0,1,T_only,1,0,0
+memcached_hash,assoc_iterate,benchmarks/memcached/assoc.c,param,1,T_TO_U,out_param,/deref,_stritem *,T_passed_U_updated,1,1,0,1,0,1,1,0,0,1,T_only,1,0,0
+memcached_hash,item_trylock_unlock,benchmarks/memcached/thread.c,param,0,U_TO_T,param,,void *,T_round_tripped,0,0,0,0,0,1,1,0,0,0,T_only,1,0,0
+memcached_hash,thread_setname,benchmarks/memcached/thread.c,param,1,U_TO_T,param,,char *;const char *,U_defined,0,0,0,0,0,1,1,0,0,0,U_only,0,1,0

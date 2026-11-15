@@ -1,0 +1,59 @@
+[slot-policy] Activating manifest (isolated) -> coverage/configs/nginx_libpcre.json
+Generated /tmp/slot_policy_pack_p68lmdah/ql/generated/NginxLibpcreConfig.qll without updating ql/generated/index.qll.
+[slot-policy] Running pointer slot query (param) -> reports/nginx_libpcre/_pointer_query_split/pointer_slots.param.bqrs
+Compiling query plan for /tmp/slot_policy_pack_p68lmdah/ql/queries/pointer_slots_split_zbyoe8kz/pointer_slots_param.ql.
+WARNING: unused predicate 'aggregateReturnPtrSlotRow' (/tmp/slot_policy_pack_p68lmdah/ql/queries/pointer_slots_split_zbyoe8kz/pointer_slots_param.ql:1492,11-36)
+WARNING: unused predicate 'returnSlotRow' (/tmp/slot_policy_pack_p68lmdah/ql/queries/pointer_slots_split_zbyoe8kz/pointer_slots_param.ql:1577,11-24)
+WARNING: unused predicate 'returnPtrSlotRow' (/tmp/slot_policy_pack_p68lmdah/ql/queries/pointer_slots_split_zbyoe8kz/pointer_slots_param.ql:1656,11-27)
+[1/1 comp 34.1s] Compiled /tmp/slot_policy_pack_p68lmdah/ql/queries/pointer_slots_split_zbyoe8kz/pointer_slots_param.ql.
+Starting evaluation of interspec-pointer-analysis/queries/pointer_slots_split_zbyoe8kz/pointer_slots_param.ql.
+[1/1 eval 4m15s] Evaluation done; writing results to $S/coverage-work-inlined/root/reports/nginx_libpcre/_pointer_query_split/pointer_slots.param.bqrs.
+Shutting down query evaluator.
+[slot-policy] Running pointer slot query (return) -> reports/nginx_libpcre/_pointer_query_split/pointer_slots.return.bqrs
+Compiling query plan for /tmp/slot_policy_pack_p68lmdah/ql/queries/pointer_slots_split_zbyoe8kz/pointer_slots_return.ql.
+WARNING: unused predicate 'parameterSlotRow' (/tmp/slot_policy_pack_p68lmdah/ql/queries/pointer_slots_split_zbyoe8kz/pointer_slots_return.ql:1196,11-27)
+WARNING: unused predicate 'aggregateReturnPtrSlotRow' (/tmp/slot_policy_pack_p68lmdah/ql/queries/pointer_slots_split_zbyoe8kz/pointer_slots_return.ql:1492,11-36)
+WARNING: unused predicate 'returnPtrSlotRow' (/tmp/slot_policy_pack_p68lmdah/ql/queries/pointer_slots_split_zbyoe8kz/pointer_slots_return.ql:1656,11-27)
+[1/1 comp 25.9s] Compiled /tmp/slot_policy_pack_p68lmdah/ql/queries/pointer_slots_split_zbyoe8kz/pointer_slots_return.ql.
+Starting evaluation of interspec-pointer-analysis/queries/pointer_slots_split_zbyoe8kz/pointer_slots_return.ql.
+[1/1 eval 16.8s] Evaluation done; writing results to $S/coverage-work-inlined/root/reports/nginx_libpcre/_pointer_query_split/pointer_slots.return.bqrs.
+Shutting down query evaluator.
+[slot-policy] Running pointer slot query (return_ptr) -> reports/nginx_libpcre/_pointer_query_split/pointer_slots.return_ptr.bqrs
+Compiling query plan for /tmp/slot_policy_pack_p68lmdah/ql/queries/pointer_slots_split_zbyoe8kz/pointer_slots_return_ptr.ql.
+WARNING: unused predicate 'parameterSlotRow' (/tmp/slot_policy_pack_p68lmdah/ql/queries/pointer_slots_split_zbyoe8kz/pointer_slots_return_ptr.ql:1196,11-27)
+WARNING: unused predicate 'aggregateReturnPtrSlotRow' (/tmp/slot_policy_pack_p68lmdah/ql/queries/pointer_slots_split_zbyoe8kz/pointer_slots_return_ptr.ql:1492,11-36)
+WARNING: unused predicate 'returnSlotRow' (/tmp/slot_policy_pack_p68lmdah/ql/queries/pointer_slots_split_zbyoe8kz/pointer_slots_return_ptr.ql:1577,11-24)
+[1/1 comp 27.6s] Compiled /tmp/slot_policy_pack_p68lmdah/ql/queries/pointer_slots_split_zbyoe8kz/pointer_slots_return_ptr.ql.
+Starting evaluation of interspec-pointer-analysis/queries/pointer_slots_split_zbyoe8kz/pointer_slots_return_ptr.ql.
+[1/1 eval 21.1s] Evaluation done; writing results to $S/coverage-work-inlined/root/reports/nginx_libpcre/_pointer_query_split/pointer_slots.return_ptr.bqrs.
+Shutting down query evaluator.
+[slot-policy] Running pointer slot query (aggregate_return_ptr) -> reports/nginx_libpcre/_pointer_query_split/pointer_slots.aggregate_return_ptr.bqrs
+Compiling query plan for /tmp/slot_policy_pack_p68lmdah/ql/queries/pointer_slots_split_zbyoe8kz/pointer_slots_aggregate_return_ptr.ql.
+WARNING: unused predicate 'parameterSlotRow' (/tmp/slot_policy_pack_p68lmdah/ql/queries/pointer_slots_split_zbyoe8kz/pointer_slots_aggregate_return_ptr.ql:1196,11-27)
+WARNING: unused predicate 'returnSlotRow' (/tmp/slot_policy_pack_p68lmdah/ql/queries/pointer_slots_split_zbyoe8kz/pointer_slots_aggregate_return_ptr.ql:1577,11-24)
+WARNING: unused predicate 'returnPtrSlotRow' (/tmp/slot_policy_pack_p68lmdah/ql/queries/pointer_slots_split_zbyoe8kz/pointer_slots_aggregate_return_ptr.ql:1656,11-27)
+[1/1 comp 26.7s] Compiled /tmp/slot_policy_pack_p68lmdah/ql/queries/pointer_slots_split_zbyoe8kz/pointer_slots_aggregate_return_ptr.ql.
+Starting evaluation of interspec-pointer-analysis/queries/pointer_slots_split_zbyoe8kz/pointer_slots_aggregate_return_ptr.ql.
+[1/1 eval 12.1s] Evaluation done; writing results to $S/coverage-work-inlined/root/reports/nginx_libpcre/_pointer_query_split/pointer_slots.aggregate_return_ptr.bqrs.
+Shutting down query evaluator.
+[slot-policy] Exporting pointer slot rows -> reports/nginx_libpcre/pointer_slots_classification.csv
+[slot-policy] Exporting pointer slots -> reports/nginx_libpcre/pointer_slots_summary_by_interface.csv
+[slot-policy] Exporting SP3 cases -> reports/nginx_libpcre/sp3_cases.csv
+[slot-policy] Running scalar slot query -> reports/nginx_libpcre/scalar_slots.bqrs
+Compiling query plan for /tmp/slot_policy_pack_p68lmdah/ql/queries/scalar_slots_classification.ql.
+[1/1 comp 31s] Compiled /tmp/slot_policy_pack_p68lmdah/ql/queries/scalar_slots_classification.ql.
+Starting evaluation of interspec-pointer-analysis/queries/scalar_slots_classification.ql.
+[1/1 eval 3m40s] Evaluation done; writing results to $S/coverage-work-inlined/root/reports/nginx_libpcre/scalar_slots.bqrs.
+Shutting down query evaluator.
+[slot-policy] Exporting scalar slots -> reports/nginx_libpcre/scalar_slots_summary_by_interface.csv
+[slot-policy] Running slot-type breakdown query -> reports/nginx_libpcre/slot_type_breakdown.bqrs
+Compiling query plan for /tmp/slot_policy_pack_p68lmdah/ql/queries/slot_type_breakdown.ql.
+[1/1] Found in cache: /tmp/slot_policy_pack_p68lmdah/ql/queries/slot_type_breakdown.ql.
+Starting evaluation of interspec-pointer-analysis/queries/slot_type_breakdown.ql.
+[1/1 eval 10.1s] Evaluation done; writing results to $S/coverage-work-inlined/root/reports/nginx_libpcre/slot_type_breakdown.bqrs.
+Shutting down query evaluator.
+[slot-policy] Exporting slot type rows -> reports/nginx_libpcre/slot_type_breakdown.csv
+[slot-policy] Exporting slot types -> reports/nginx_libpcre/slot_type_breakdown_summary_by_interface.csv
+[slot-policy] Exporting node surface -> reports/nginx_libpcre/node_surface_summary_by_interface.csv
+[slot-policy] Consolidating -> reports/nginx_libpcre/policy_summary.csv
+[slot-policy] Done

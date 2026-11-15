@@ -1,0 +1,12 @@
+benchmark,function,file,total_fields,pointer_fields,scalar_fields,struct_fields,array_fields,other_fields
+zip_libzip,zip_close,third_party/libzip/lib/zip_close.c,318,96,161,41,0,20
+zip_libzip,zip_error_fini,third_party/libzip/lib/zip_error.c,6,2,3,1,0,0
+zip_libzip,zip_error_init,third_party/libzip/lib/zip_error.c,6,2,3,1,0,0
+zip_libzip,zip_error_strerror,third_party/libzip/lib/zip_error_strerror.c,8,3,4,1,0,0
+zip_libzip,zip_get_name,third_party/libzip/lib/zip_get_name.c,321,97,163,41,0,20
+zip_libzip,zip_get_num_entries,third_party/libzip/lib/zip_get_num_entries.c,319,96,162,41,0,20
+zip_libzip,zip_open_from_source,third_party/libzip/lib/zip_open.c,515,150,267,66,0,32
+zip_libzip,zip_source_buffer_create,third_party/libzip/lib/zip_source_buffer.c,200,55,108,25,0,12
+zip_libzip,zip_source_free,third_party/libzip/lib/zip_source_free.c,191,52,103,24,0,12
+zip_libzip,zip_stat_index,third_party/libzip/lib/zip_stat_index.c,333,98,173,42,0,20
+zip_libzip,zip_stat_init,third_party/libzip/lib/zip_stat_init.c,13,2,10,1,0,0
