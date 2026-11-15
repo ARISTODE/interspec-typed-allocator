@@ -1,0 +1,14 @@
+{
+  "benchmark": "nginx_openssl",
+  "trusted": {
+    "files": ["^benchmarks/nginx/src/.*\\.(c|cc|cpp|h)$"],
+    "namespaces": [],
+    "libraries": ["nginx"]
+  },
+  "untrusted": {
+    "files": ["^benchmarks/openssl/.*\\.(c|h)$"],
+    "namespaces": [],
+    "libraries": ["openssl"]
+  },
+  "interfaces": []
+}

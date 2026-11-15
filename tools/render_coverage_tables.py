@@ -21,6 +21,14 @@ and "unknown" could not be matched to any column or pair of columns. This
 script therefore reports the partition the analysis itself writes
 (partition_sp2_only + partition_sp1_and_sp2, partition_sp1_only,
 partition_sp3, partition_other) and does not claim it equals the paper's.
+
+Pointer coverage. The analysis also writes, per boundary, the pointer fields
+whose value from U is used by T (sp3_pointer_nodes: these need SP3), how many
+of them have a resolved expected domain (sp3_pointer_protected_nodes) and how
+many do not (sp3_pointer_remaining_nodes). The table reports these and
+(pointer fields - unresolved) / pointer fields. This is the counterpart, in the
+analysis' own columns, of the paper's "pointer integrity coverage"; the paper's
+intermediate columns are not reproduced.
 """
 
 import argparse
@@ -89,6 +97,11 @@ def main():
             "pointer_sp1_only_slots": r["partition_sp1_only_slots"],
             "pointer_sp3_slots": r["partition_sp3_slots"],
             "pointer_other_slots": r["partition_other_slots"],
+            "pointer_needs_sp3": r["sp3_pointer_nodes"],
+            "pointer_sp3_resolved": r["sp3_pointer_protected_nodes"],
+            "pointer_sp3_unresolved": r["sp3_pointer_remaining_nodes"],
+            "pointer_coverage_pct": pct(r["total_pointer_slots"] - r["sp3_pointer_remaining_nodes"],
+                                        r["total_pointer_slots"]),
             "paper_fields": int(paper2[boundary]["fields"]),
             "paper_sp2_fields": int(paper2[boundary]["sp2_fields"]),
             "paper_pointer_fields": int(paper2[boundary]["pointer_fields"]),
@@ -120,12 +133,35 @@ def main():
               "| Boundary | Fields | SP2 fields | SP2 share | Pointer fields | Pointer: SP2 | "
               "Pointer: SP1 only | Pointer: SP3 | Pointer: other | Paper: SP2 | Paper: pointers | Paper: SP3 |",
               "|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|"]
+    pointer_lines = ["", "## Pointer fields that need SP3", "",
+                     "| Boundary | Pointer fields | Value from U used by T (needs SP3) | "
+                     "Expected domain resolved | Unresolved | Pointer coverage |",
+                     "|---|---:|---:|---:|---:|---:|"]
     for r in integrity:
         lines.append(f"| {r['boundary']} | {r['fields']} | {r['sp2_fields']} | {r['sp2_pct']}% | "
                      f"{r['pointer_fields']} | {r['pointer_sp2_slots']} | "
                      f"{r['pointer_sp1_only_slots']} | {r['pointer_sp3_slots']} | "
                      f"{r['pointer_other_slots']} | {r['paper_sp2_fields']} | "
                      f"{r['paper_pointer_fields']} | {r['paper_sp3_fields']} |")
+        pointer_lines.append(f"| {r['boundary']} | {r['pointer_fields']} | {r['pointer_needs_sp3']} | "
+                             f"{r['pointer_sp3_resolved']} | {r['pointer_sp3_unresolved']} | "
+                             f"{r['pointer_coverage_pct']}% |")
+    if integrity:
+        total = {k: sum(r[k] for r in integrity) for k in (
+            "fields", "sp2_fields", "pointer_fields", "pointer_sp2_slots", "pointer_sp1_only_slots",
+            "pointer_sp3_slots", "pointer_other_slots", "paper_sp2_fields", "paper_pointer_fields",
+            "paper_sp3_fields", "pointer_needs_sp3", "pointer_sp3_resolved", "pointer_sp3_unresolved")}
+        lines.append(f"| Subtotal of these rows | {total['fields']} | {total['sp2_fields']} | "
+                     f"{pct(total['sp2_fields'], total['fields'])}% | {total['pointer_fields']} | "
+                     f"{total['pointer_sp2_slots']} | {total['pointer_sp1_only_slots']} | "
+                     f"{total['pointer_sp3_slots']} | {total['pointer_other_slots']} | "
+                     f"{total['paper_sp2_fields']} | {total['paper_pointer_fields']} | "
+                     f"{total['paper_sp3_fields']} |")
+        pointer_lines.append(
+            f"| Subtotal of these rows | {total['pointer_fields']} | {total['pointer_needs_sp3']} | "
+            f"{total['pointer_sp3_resolved']} | {total['pointer_sp3_unresolved']} | "
+            f"{pct(total['pointer_fields'] - total['pointer_sp3_unresolved'], total['pointer_fields'])}% |")
+    lines += pointer_lines
     (args.out / "COVERAGE_TABLES.md").write_text("\n".join(lines) + "\n")
     (args.out / "sources.json").write_text(json.dumps(sources, indent=2) + "\n")
     print("\n".join(lines))

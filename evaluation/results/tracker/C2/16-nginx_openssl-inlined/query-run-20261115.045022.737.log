@@ -1,0 +1,11 @@
+[2026-11-15 04:50:22] This is codeql query run /tmp/slot_policy_pack_jwd5qfzz/ql/queries/pointer_slots_split_h57j5z81/pointer_slots_return.ql --database db/nginx_openssl_libs --search-path /tmp/slot_policy_pack_jwd5qfzz/ql --threads 4 --ram 10000 --max-disk-cache 6000 --output reports/nginx_openssl/_pointer_query_split/pointer_slots.return.bqrs
+[2026-11-15 04:50:22] Log file was started late.
+[2026-11-15 04:50:22] Calling plumbing command: codeql resolve ram --dataset=$S/coverage-work-inlined-b/root/db/nginx_openssl_libs/db-cpp --ram=10000 --format=json
+[2026-11-15 04:50:22] [PROGRESS] resolve ram> Stringpool size measured as 23101898
+[2026-11-15 04:50:22] Plumbing command codeql resolve ram completed:
+                      [
+                        "-J-Xmx4094M",
+                        "--off-heap-ram=4795"
+                      ]
+[2026-11-15 04:50:22] Chaining via /tmp/codeql.Qqbcc9oX to plumbing: execute queries -J-Xmx4094M --off-heap-ram=4795 --verbosity=progress --logdir=$S/coverage-work-inlined-b/root/db/nginx_openssl_libs/log --max-disk-cache=6000 --evaluator-log-level=5 --threads=4 --warnings=show --search-path=/tmp/slot_policy_pack_jwd5qfzz/ql --qlconfig-file=$S/coverage-work-inlined-b/root/qlconfig.yml --dynamic-join-order-mode=none --output=$S/coverage-work-inlined-b/root/reports/nginx_openssl/_pointer_query_split/pointer_slots.return.bqrs -- $S/coverage-work-inlined-b/root/db/nginx_openssl_libs/db-cpp path:/tmp/slot_policy_pack_jwd5qfzz/ql/queries/pointer_slots_split_h57j5z81/pointer_slots_return.ql
+[2026-11-15 04:50:22] Exiting with code 70

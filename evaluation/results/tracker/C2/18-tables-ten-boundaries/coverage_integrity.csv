@@ -1,0 +1,11 @@
+boundary,fields,sp2_fields,sp2_pct,pointer_fields,pointer_sp2_slots,pointer_sp1_only_slots,pointer_sp3_slots,pointer_other_slots,pointer_needs_sp3,pointer_sp3_resolved,pointer_sp3_unresolved,pointer_coverage_pct,paper_fields,paper_sp2_fields,paper_pointer_fields,paper_sp3_fields
+ffmpeg/libvpx,4715,2531,53.7,347,21,1,26,299,29,18,11,96.8,345,138,74,2
+magick/libpng,12937,9577,74.0,2183,21,0,1,2161,1,1,0,100.0,418,178,96,3
+memcached/bipbuffer,80,45,56.2,12,2,0,2,8,2,2,0,100.0,80,7,12,2
+memcached/hash,86,48,55.8,24,8,0,5,11,7,7,0,100.0,86,33,26,4
+nginx/libpcre,158,101,63.9,44,8,0,0,36,0,0,0,100.0,57,14,31,2
+nginx/openssl,351808,132396,37.6,120812,98,0,2443,118271,2472,501,1971,98.4,1485,651,512,5
+rsync/popt,1667,1159,69.5,637,8,0,21,608,23,8,15,97.6,767,116,37,7
+ucl/libucl,1622,1035,63.8,649,2,0,1,646,1,1,0,100.0,152,8,64,3
+yaml/libyaml,1919,1460,76.1,461,8,0,1,452,2,2,0,100.0,1903,1194,461,1
+zip/libzip,2230,947,42.5,653,8,0,2,643,3,3,0,100.0,2230,947,653,3
