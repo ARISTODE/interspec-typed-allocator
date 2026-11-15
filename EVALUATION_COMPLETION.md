@@ -1,6 +1,41 @@
 # Evaluation completion ledger
 
-## Current progress: 13 November 2026
+## Current progress: 15 November 2026
+
+### Stage 21: repair the isolated memcached profile fixture
+
+The latest `memcached-deployment` [run 43766679886](https://github.com/ARISTODE/interspec-typed-allocator/actions/runs/43766679886)
+failed its initial fixture-validation step on branch revision
+`02631e08f07fcc5774c9b4f97f5d709a1f1bf61e` (the PR job checked out merge
+`cb01b0aac749822f17b77a67e1c528158968120b`). The server build and later
+application steps were skipped. The same `ModuleNotFoundError` was reproduced
+locally on the newer head `4ecfe973770f0f78357b782ff004484ef2cfe8ff`, which had
+no Actions runs when checked.
+
+`benchmark_memcached.py` now imports `rlbox_only_baseline.py`, but the profile
+collector's frozen harness list omitted that dependency. Adding the helper to
+`HARNESS` fixes the isolated source fixture and includes the helper's bytes in
+newly prepared plans and live-harness checks. The independent verifier's
+historical required-file sets and pinned identities are unchanged. A new
+regression test checks the frozen helper's hash and runs the frozen profiler's
+`--help` from an unrelated directory without `PYTHONPATH`.
+
+On the available cloud VM, Python 3.12.14 and GCC 14.2.0 passed all five focused
+scripts after the fix: `python3 tests/memcached_matrix_evidence.py` (23 tests),
+`python3 tests/memcached_boundary_evidence.py` (5),
+`python3 tests/memcached_profile_evidence.py` (10),
+`python3 tests/memcached_corrected_profile.py` (39), and
+`python3 tests/memcached_current_profile.py` (18): **95 tests passed**.
+The current-profile fixture also compiles the client and runs its ten
+valid-response count-only loopback cases. Its diagnostic-server identity is
+synthetic and is never executed.
+
+This repairs a pre-build test failure; it is not a server, application,
+performance or security-effectiveness result. No workflow or paper was edited,
+no workflow was dispatched, and no full CI pass is claimed. Publication uses
+`[skip ci]`. Broader evaluation gaps remain separate.
+
+## Progress recorded: 13 November 2026
 
 **Stage 20 adds an opt-in trusted typed-staging integration to the ordinary
 YAML adapter and validates its normal real-libyaml path. The broader evaluation

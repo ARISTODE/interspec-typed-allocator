@@ -25,7 +25,8 @@ INTERVAL = ("preload, pre-traffic 0.5 second drain, watcher setup/settle and 0.2
             "trace ends before after-stats; incidental client timings are raw provenance only")
 HARNESS = ["tools/profile_memcached_checks.py", "tools/verify_memcached_profile.py",
            "tools/benchmark_memcached.py", "tools/benchmark_memcached_matrix.py",
-           "tools/memcached_common.py", "tools/process_guard.py"]
+           "tools/memcached_common.py", "tools/process_guard.py",
+           "tools/rlbox_only_baseline.py"]
 
 
 def digest(path):

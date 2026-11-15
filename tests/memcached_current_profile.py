@@ -82,6 +82,20 @@ class CurrentPlan(unittest.TestCase):
         self.assertEqual(self.result["collected"], False)
         self.assertFalse((self.base / "raw").exists())
 
+    def test_frozen_harness_dependency_closure(self):
+        relative = "sources/harness/tools/rlbox_only_baseline.py"
+        self.assertEqual(self.plan["files"][relative], builder.sha(ROOT / "tools/rlbox_only_baseline.py"))
+        self.assertEqual(builder.sha(self.root / relative), self.plan["files"][relative])
+        unrelated = self.root.parent / "unrelated"
+        unrelated.mkdir()
+        env = {key: value for key, value in os.environ.items() if key != "PYTHONPATH"}
+        result = subprocess.run(
+            [sys.executable, str(self.root / "sources/harness/tools/profile_memcached_checks.py"), "--help"],
+            cwd=unrelated, env=env, capture_output=True, text=True, timeout=20)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn("prepare-current", result.stdout)
+        self.assertEqual(result.stderr, "")
+
     def test_fresh_outputs_required(self):
         result = subprocess.run(self.command, capture_output=True, text=True, timeout=20)
         self.assertNotEqual(result.returncode, 0)
