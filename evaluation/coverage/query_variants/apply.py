@@ -142,6 +142,26 @@ VARIANTS["paper_counting_rule_factored"] = VARIANTS["paper_counting_rule_regroup
 ]
 
 
+# paper_counting_rule_factored, and two predicates of the queries marked
+# pragma[inline]. Both have the parameter `FunctionCall origin` and a first
+# disjunct that does not mention it, so the evaluator pairs that disjunct with
+# every call of the database: (calls) x (uses of variables) rows for
+# exprUsesScalarVariableOrAlias, 3.3 billion on nginx/libpcre and 95.8 billion
+# on ffmpeg/libvpx. Each has one caller, which binds `origin`. An inlined
+# predicate is evaluated inside its caller; the pragma does not change what
+# holds.
+VARIANTS["paper_counting_rule_inlined"] = VARIANTS["paper_counting_rule_factored"] + [
+    ("ql/queries/scalar_slots_classification.ql",
+     "predicate exprUsesScalarVariableOrAlias(Expr expr, Variable var, FunctionCall origin) {",
+     "pragma[inline]\n"
+     "predicate exprUsesScalarVariableOrAlias(Expr expr, Variable var, FunctionCall origin) {"),
+    ("ql/queries/pointer_slots_classification.ql",
+     "predicate returnSlotAliasVar(FunctionCall origin, Variable baseVar, Variable v) {",
+     "pragma[inline]\n"
+     "predicate returnSlotAliasVar(FunctionCall origin, Variable baseVar, Variable v) {"),
+]
+
+
 def predicate_block(text, relative, name):
     """The text of predicate `name`: from `  predicate NAME(` to the next `  }` line."""
     start = "  predicate " + name + "("

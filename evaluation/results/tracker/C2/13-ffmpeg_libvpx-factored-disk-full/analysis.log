@@ -1,0 +1,143 @@
+[slot-policy] Activating manifest (isolated) -> coverage/configs/ffmpeg_libvpx.json
+Generated /tmp/slot_policy_pack_x3hlxyrj/ql/generated/FfmpegLibvpxConfig.qll without updating ql/generated/index.qll.
+[slot-policy] Running pointer slot query (param) -> reports/ffmpeg_libvpx/_pointer_query_split/pointer_slots.param.bqrs
+Compiling query plan for /tmp/slot_policy_pack_x3hlxyrj/ql/queries/pointer_slots_split_dzdu29k0/pointer_slots_param.ql.
+WARNING: unused predicate 'aggregateReturnPtrSlotRow' (/tmp/slot_policy_pack_x3hlxyrj/ql/queries/pointer_slots_split_dzdu29k0/pointer_slots_param.ql:1491,11-36)
+WARNING: unused predicate 'returnSlotRow' (/tmp/slot_policy_pack_x3hlxyrj/ql/queries/pointer_slots_split_dzdu29k0/pointer_slots_param.ql:1576,11-24)
+WARNING: unused predicate 'returnPtrSlotRow' (/tmp/slot_policy_pack_x3hlxyrj/ql/queries/pointer_slots_split_dzdu29k0/pointer_slots_param.ql:1655,11-27)
+[1/1 comp 43.3s] Compiled /tmp/slot_policy_pack_x3hlxyrj/ql/queries/pointer_slots_split_dzdu29k0/pointer_slots_param.ql.
+Starting evaluation of interspec-pointer-analysis/queries/pointer_slots_split_dzdu29k0/pointer_slots_param.ql.
+[1/1 eval 53m53s] Evaluation done; writing results to $S/coverage-work-factored-b/root/reports/ffmpeg_libvpx/_pointer_query_split/pointer_slots.param.bqrs.
+Shutting down query evaluator.
+[slot-policy] Running pointer slot query (return) -> reports/ffmpeg_libvpx/_pointer_query_split/pointer_slots.return.bqrs
+Compiling query plan for /tmp/slot_policy_pack_x3hlxyrj/ql/queries/pointer_slots_split_dzdu29k0/pointer_slots_return.ql.
+WARNING: unused predicate 'parameterSlotRow' (/tmp/slot_policy_pack_x3hlxyrj/ql/queries/pointer_slots_split_dzdu29k0/pointer_slots_return.ql:1195,11-27)
+WARNING: unused predicate 'aggregateReturnPtrSlotRow' (/tmp/slot_policy_pack_x3hlxyrj/ql/queries/pointer_slots_split_dzdu29k0/pointer_slots_return.ql:1491,11-36)
+WARNING: unused predicate 'returnPtrSlotRow' (/tmp/slot_policy_pack_x3hlxyrj/ql/queries/pointer_slots_split_dzdu29k0/pointer_slots_return.ql:1655,11-27)
+[1/1 comp 33s] Compiled /tmp/slot_policy_pack_x3hlxyrj/ql/queries/pointer_slots_split_dzdu29k0/pointer_slots_return.ql.
+Starting evaluation of interspec-pointer-analysis/queries/pointer_slots_split_dzdu29k0/pointer_slots_return.ql.
+[1/1 eval 2m42s] Evaluation done; writing results to $S/coverage-work-factored-b/root/reports/ffmpeg_libvpx/_pointer_query_split/pointer_slots.return.bqrs.
+Shutting down query evaluator.
+[slot-policy] Running pointer slot query (return_ptr) -> reports/ffmpeg_libvpx/_pointer_query_split/pointer_slots.return_ptr.bqrs
+Compiling query plan for /tmp/slot_policy_pack_x3hlxyrj/ql/queries/pointer_slots_split_dzdu29k0/pointer_slots_return_ptr.ql.
+WARNING: unused predicate 'parameterSlotRow' (/tmp/slot_policy_pack_x3hlxyrj/ql/queries/pointer_slots_split_dzdu29k0/pointer_slots_return_ptr.ql:1195,11-27)
+WARNING: unused predicate 'aggregateReturnPtrSlotRow' (/tmp/slot_policy_pack_x3hlxyrj/ql/queries/pointer_slots_split_dzdu29k0/pointer_slots_return_ptr.ql:1491,11-36)
+WARNING: unused predicate 'returnSlotRow' (/tmp/slot_policy_pack_x3hlxyrj/ql/queries/pointer_slots_split_dzdu29k0/pointer_slots_return_ptr.ql:1576,11-24)
+[1/1 comp 34.3s] Compiled /tmp/slot_policy_pack_x3hlxyrj/ql/queries/pointer_slots_split_dzdu29k0/pointer_slots_return_ptr.ql.
+Starting evaluation of interspec-pointer-analysis/queries/pointer_slots_split_dzdu29k0/pointer_slots_return_ptr.ql.
+[1/1 eval 178m9s] Evaluation done; writing results to $S/coverage-work-factored-b/root/reports/ffmpeg_libvpx/_pointer_query_split/pointer_slots.return_ptr.bqrs.
+Shutting down query evaluator.
+[slot-policy] Running pointer slot query (aggregate_return_ptr) -> reports/ffmpeg_libvpx/_pointer_query_split/pointer_slots.aggregate_return_ptr.bqrs
+Compiling query plan for /tmp/slot_policy_pack_x3hlxyrj/ql/queries/pointer_slots_split_dzdu29k0/pointer_slots_aggregate_return_ptr.ql.
+WARNING: unused predicate 'parameterSlotRow' (/tmp/slot_policy_pack_x3hlxyrj/ql/queries/pointer_slots_split_dzdu29k0/pointer_slots_aggregate_return_ptr.ql:1195,11-27)
+WARNING: unused predicate 'returnSlotRow' (/tmp/slot_policy_pack_x3hlxyrj/ql/queries/pointer_slots_split_dzdu29k0/pointer_slots_aggregate_return_ptr.ql:1576,11-24)
+WARNING: unused predicate 'returnPtrSlotRow' (/tmp/slot_policy_pack_x3hlxyrj/ql/queries/pointer_slots_split_dzdu29k0/pointer_slots_aggregate_return_ptr.ql:1655,11-27)
+[1/1 comp 21.8s] Compiled /tmp/slot_policy_pack_x3hlxyrj/ql/queries/pointer_slots_split_dzdu29k0/pointer_slots_aggregate_return_ptr.ql.
+Starting evaluation of interspec-pointer-analysis/queries/pointer_slots_split_dzdu29k0/pointer_slots_aggregate_return_ptr.ql.
+[1/1 eval 4m55s] Evaluation done; writing results to $S/coverage-work-factored-b/root/reports/ffmpeg_libvpx/_pointer_query_split/pointer_slots.aggregate_return_ptr.bqrs.
+Shutting down query evaluator.
+[slot-policy] Exporting pointer slot rows -> reports/ffmpeg_libvpx/pointer_slots_classification.csv
+[slot-policy] Exporting pointer slots -> reports/ffmpeg_libvpx/pointer_slots_summary_by_interface.csv
+[slot-policy] Exporting SP3 cases -> reports/ffmpeg_libvpx/sp3_cases.csv
+[slot-policy] Running scalar slot query -> reports/ffmpeg_libvpx/scalar_slots.bqrs
+Compiling query plan for /tmp/slot_policy_pack_x3hlxyrj/ql/queries/scalar_slots_classification.ql.
+[1/1 comp 24.1s] Compiled /tmp/slot_policy_pack_x3hlxyrj/ql/queries/scalar_slots_classification.ql.
+Starting evaluation of interspec-pointer-analysis/queries/scalar_slots_classification.ql.
+Oops! A fatal internal error occurred. Details:
+com.semmle.util.exception.CatastrophicError: An error occurred while evaluating scalar_slots_classification::exprUsesScalarVariableOrAlias/3#80b9f335/3@984de4h3
+Severe disk cache trouble (corruption or out of space) at $S/coverage-work-factored-b/root/db/ffmpeg_vpx_only/db-cpp/default/cache/pages/d9/0b.pack: Failed to write item to disk
+The RA to evaluate was:
+
+    {3} r1 = JOIN Call::FunctionCall#2b14a517 WITH `PointerBoundaryBase::PointerBoundaryBase::exprUsesVariable/2#834aa02a` CARTESIAN PRODUCT OUTPUT Rhs.0, Rhs.1, Lhs.0
+
+    {3} r2 = SCAN `scalar_slots_classification::scalarVariableAliases/3#8e149f07` OUTPUT In.2, In.0, In.1
+    {3}    | JOIN WITH Call::FunctionCall#2b14a517 ON FIRST 1 OUTPUT Lhs.2, Lhs.0, Lhs.1
+    {3}    | JOIN WITH `PointerBoundaryBase::PointerBoundaryBase::exprUsesVariable/2#834aa02a_10#join_rhs` ON FIRST 1 OUTPUT Rhs.1, Lhs.2, Lhs.1
+
+    {3} r3 = r1 UNION r2
+    return r3
+
+(eventual cause: IOException "No space left on device")
+	at com.semmle.inmemory.pipeline.MetaPipelineInstance.wrapWithRaDump(MetaPipelineInstance.java:212)
+	at com.semmle.inmemory.pipeline.MetaPipelineInstance.exceptionCaught(MetaPipelineInstance.java:182)
+	at com.semmle.inmemory.scheduler.execution.ThreadableWork.handleAndLog(ThreadableWork.java:593)
+	at com.semmle.inmemory.scheduler.execution.ThreadableWork.doSomeWork(ThreadableWork.java:410)
+	at com.semmle.inmemory.scheduler.IntensionalLayer$IntensionalWork.evaluate(IntensionalLayer.java:134)
+	at com.semmle.inmemory.scheduler.SimpleLayerTask$SimpleLayerWork.doWork(SimpleLayerTask.java:78)
+	at com.semmle.inmemory.scheduler.execution.ThreadableWork.doSomeWork(ThreadableWork.java:396)
+	at com.semmle.inmemory.scheduler.execution.ExecutionScheduler.runnerMain(ExecutionScheduler.java:710)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+	at java.base/java.lang.Thread.run(Unknown Source)
+Caused by: Severe disk cache trouble (corruption or out of space) at $S/coverage-work-factored-b/root/db/ffmpeg_vpx_only/db-cpp/default/cache/pages/d9/0b.pack: Failed to write item to disk
+(eventual cause: IOException "No space left on device")
+	at com.semmle.inmemory.caching.RelationCacheImpl.lambda$create$0(RelationCacheImpl.java:87)
+	at com.semmle.inmemory.caching.byhash.disk.OnDiskStore.put(OnDiskStore.java:136)
+	at com.semmle.inmemory.caching.byhash.interfaces.HashBasedCache.putIfPresent(HashBasedCache.java:29)
+	at com.semmle.inmemory.caching.byhash.evict.Evictor$ItemHandle.writeToDisk(Evictor.java:723)
+	at java.base/java.util.ArrayList.forEach(Unknown Source)
+	at com.semmle.inmemory.caching.byhash.evict.Evictor.writeSelectedItems(Evictor.java:1059)
+	at com.semmle.inmemory.caching.byhash.evict.Evictor.reduceMemoryUsage(Evictor.java:459)
+	at com.semmle.inmemory.alloc.MemoryManager.reduceArraySpace(MemoryManager.java:342)
+	at com.semmle.inmemory.alloc.RigidArrayAllocator.allocateArrays(RigidArrayAllocator.java:178)
+	at com.semmle.inmemory.alloc.MemoryManager.allocateArrays(MemoryManager.java:413)
+	at com.semmle.inmemory.relations.IntArraySorter.deliverAndWriteSortedTuples(IntArraySorter.java:350)
+	at com.semmle.inmemory.relations.IntArraySorter.sortAndDeliverCompletePages(IntArraySorter.java:143)
+	at com.semmle.inmemory.relations.writers.IntArrayWriter.sortAndDeliverCompletePages(IntArrayWriter.java:277)
+	at com.semmle.inmemory.relations.writers.UnsortedRelationWriter.makeSpaceIfNeeded(UnsortedRelationWriter.java:133)
+	at com.semmle.inmemory.relations.writers.UnsortedRelationWriter$1.addBatch(UnsortedRelationWriter.java:115)
+	at com.semmle.inmemory.pipeline.RelationWritingStep$RelationWritingState.processBatch(RelationWritingStep.java:90)
+	at com.semmle.inmemory.pipeline.SimpleStep$SimpleState.deliverBatch(SimpleStep.java:146)
+	at com.semmle.inmemory.pipeline.SimpleStep$SimpleState.deliverOwnBatch(SimpleStep.java:130)
+	at com.semmle.inmemory.pipeline.ExpanderStep$ExpanderState.deliverMatchOutput(ExpanderStep.java:85)
+	at com.semmle.inmemory.pipeline.JoinStep$JoinState.processBatch(JoinStep.java:87)
+	at com.semmle.inmemory.pipeline.SimpleStep$SimpleState.deliverBatch(SimpleStep.java:146)
+	at com.semmle.inmemory.pipeline.SimpleStep$SimpleState.deliverOwnBatch(SimpleStep.java:130)
+	at com.semmle.inmemory.pipeline.ExpanderStep$ExpanderState.deliverMatchOutput(ExpanderStep.java:85)
+	at com.semmle.inmemory.pipeline.ExpanderStep.stealSomeWorkAndDoIt(ExpanderStep.java:176)
+	at com.semmle.inmemory.pipeline.PipelineState.doSomeWork(PipelineState.java:94)
+	at com.semmle.inmemory.pipeline.PipelineInstance.doWork(PipelineInstance.java:79)
+	at com.semmle.inmemory.scheduler.execution.ThreadableWork.doSomeWork(ThreadableWork.java:396)
+	at com.semmle.inmemory.scheduler.execution.ChainingWork.doWork(ChainingWork.java:30)
+	at com.semmle.inmemory.scheduler.execution.ThreadableWork.doSomeWork(ThreadableWork.java:396)
+	... 7 more
+Caused by: java.io.IOException: No space left on device
+	at java.base/sun.nio.ch.UnixFileDispatcherImpl.write0(Native Method)
+	at java.base/sun.nio.ch.UnixFileDispatcherImpl.write(Unknown Source)
+	at java.base/sun.nio.ch.IOUtil.writeFromNativeBuffer(Unknown Source)
+	at java.base/sun.nio.ch.IOUtil.write(Unknown Source)
+	at java.base/sun.nio.ch.IOUtil.write(Unknown Source)
+	at java.base/sun.nio.ch.FileChannelImpl.write(Unknown Source)
+	at com.semmle.inmemory.alloc.IntArray.writeToChannel(IntArray.java:223)
+	at com.semmle.inmemory.alloc.IntArray.writeTo(IntArray.java:132)
+	at com.semmle.inmemory.relations.ConcreteIntArrayRelation.serialiseToDisk(ConcreteIntArrayRelation.java:51)
+	at com.semmle.inmemory.caching.PagePrimitives.serialiseItem(PagePrimitives.java:75)
+	at com.semmle.inmemory.caching.PagePrimitives.serialiseItem(PagePrimitives.java:26)
+	at com.semmle.inmemory.caching.byhash.disk.OnDiskPack$Appender.writeItemToSelectedLocation(OnDiskPack.java:337)
+	at com.semmle.inmemory.caching.byhash.disk.OnDiskPack$Appender.selectLocationAndWriteItem(OnDiskPack.java:310)
+	at com.semmle.inmemory.caching.byhash.disk.OnDiskPack$Appender.writeFromRam(OnDiskPack.java:255)
+	at com.semmle.inmemory.caching.byhash.disk.OnDiskPack.store(OnDiskPack.java:224)
+	at com.semmle.inmemory.caching.byhash.disk.OnDiskStore.put(OnDiskStore.java:126)
+	... 34 more
+
+Traceback (most recent call last):
+  File "$S/coverage-work-factored-b/root/scripts/run_slot_policy_analysis.py", line 637, in <module>
+    main()
+    ~~~~^^
+  File "$S/coverage-work-factored-b/root/scripts/run_slot_policy_analysis.py", line 522, in main
+    run(
+    ~~~^
+        build_query_run_cmd(
+        ^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+        )
+        ^
+    )
+    ^
+  File "$S/coverage-work-factored-b/root/scripts/run_slot_policy_analysis.py", line 50, in run
+    subprocess.run(cmd, check=True, cwd=cwd)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/subprocess.py", line 578, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['$S/codeql-bundle/codeql/codeql', 'query', 'run', '/tmp/slot_policy_pack_x3hlxyrj/ql/queries/scalar_slots_classification.ql', '--database', 'db/ffmpeg_vpx_only', '--search-path', '/tmp/slot_policy_pack_x3hlxyrj/ql', '--threads', '4', '--ram', '10000', '--max-disk-cache', '6000', '--output', 'reports/ffmpeg_libvpx/scalar_slots.bqrs']' returned non-zero exit status 100.

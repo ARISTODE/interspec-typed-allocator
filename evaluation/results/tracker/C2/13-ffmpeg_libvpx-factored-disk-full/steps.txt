@@ -1,0 +1,2 @@
+ffmpeg_libvpx database=ffmpeg_vpx_only exit=1
+overall exit=1

@@ -1,0 +1,44 @@
+ffmpeg/libvpx on database ffmpeg_vpx_only, query variant
+paper_counting_rule_factored, 4 threads, 10,000 MB, query cache capped at
+6,000 MB, on the Claude Code cloud VM. Times in UTC (PST is UTC-8).
+
+Started 2026-11-14 22:16:51 with a cap of 10 hours. Ended 2026-11-15 03:02:51
+with exit=1 (steps.txt, task-output.txt) after 4 hours 46 minutes: the disk
+of the VM was full.
+
+What finished: all four pointer queries.
+  param                 22:16:52 to 23:11:32   55 minutes
+  return                23:11:37 to 23:14:58   3.5 minutes
+  return_ptr            23:14:59 to 02:13:47   2 hours 59 minutes
+  aggregate_return_ptr  02:13:48 to 02:19:08   5 minutes
+Their output and the four CSV files the driver derives from it are in
+pointer-queries/ (347 pointer slots, pointer_slots_summary.csv).
+The 2 hours 55 minutes of return_ptr are one join, exprContainsReturnSlotRead
+(1,319,067 rows). Its input returnSlotAliasVar has 105,815,616 rows: its first
+disjunct (v = baseVar) does not bind the call `origin`, so it holds for every
+call of the database (61,772 calls x 1,713 variables).
+
+What failed: the scalar query (scalar_slots_classification.ql), started
+02:19:15. At 03:02:06 the evaluator reported "No space left on device" while
+evaluating scalar_slots_classification::exprUsesScalarVariableOrAlias/3; the
+part of the query cache that could not be trimmed had grown to 17.54 GiB
+against the cap of 5.86 GiB, and the VM's disk allowance (about 39 GB in
+total) was used up. The relational algebra in the error message
+(execute-queries-20261115.021916.013.log.gz) is
+
+    r1 = JOIN Call::FunctionCall WITH PointerBoundaryBase::exprUsesVariable
+         CARTESIAN PRODUCT
+
+The first disjunct of the predicate, exprUsesVariable(expr, var), does not
+mention `origin`, so it is paired with every call of the database: 61,772
+calls x 1,550,970 rows = 95.8 billion rows. On nginx/libpcre the same relation
+has 3,284,349,469 rows (8,789 x 373,588) and is the largest of the analysis.
+No disk of this VM holds 95.8 billion rows of three columns; the query cannot
+finish in the shipped form on this database.
+
+To free space during the run, four temporary build trees of finished tracker
+items were removed from the scratch directory at 03:03 (rsync-tmp, yaml-tmp,
+baseline-tmp, p2-tmp-5037e6d); the evaluator had already failed.
+
+analysis.log is the driver's output. The scratch directory in the text files
+is written as $S.
