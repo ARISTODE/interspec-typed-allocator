@@ -39,6 +39,15 @@ the `samples.csv` files. Only the row labels were rewritten by hand.
 Median (smallest to largest) of 15 paired ratios. The last two columns are
 against the RLBox-only binary.
 
+Note of 2026-11-15. In these runs the RLBox-only binary ran with SP1 and SP2
+on, that is with the selective copies; JH pointed out that RLBox-only must copy
+everything, and the tools were corrected in `8fc7020`. The four columns
+against the configuration with all policies off are not affected: they compare
+configurations of one binary. The last two columns use the old baseline and
+must not be cited; the comparison of InterSpec with a wrapper that copies
+everything is in P2 (run 05), P3 (run 02), P4 (run 03), P5 (run 03) and P7
+(run 05).
+
 | Boundary, workload | SP1 alone | SP2 alone | SP3 alone | All on | All on, against RLBox-only | All off, against RLBox-only |
 |---|---:|---:|---:|---:|---:|---:|
 | rsync/popt, option parsing (about 3 ms per slice) | -0.7% (-4.9 to +1.6) | -1.3% (-3.0 to +2.3) | -0.0% (-3.6 to +3.9) | -0.4% (-2.8 to +5.4) | +1.6% (-0.8 to +7.4) | +2.1% (-1.3 to +5.3) |
