@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "/home/user/interspec-typed-allocator/tools/verify_memcached_matrix.py", line 223, in <module>
+    main()
+    ~~~~^^
+  File "/home/user/interspec-typed-allocator/tools/verify_memcached_matrix.py", line 217, in main
+    result = verify(args.matrix, args.correctness_summary)
+  File "/home/user/interspec-typed-allocator/tools/verify_memcached_matrix.py", line 133, in verify
+    require(not env["build"]["project_dirty"], f"{name}: uncommitted build source")
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/interspec-typed-allocator/tools/verify_memcached_matrix.py", line 29, in require
+    raise ValueError(message)
+ValueError: balanced_1c: uncommitted build source

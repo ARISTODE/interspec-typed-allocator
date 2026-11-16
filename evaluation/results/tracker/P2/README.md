@@ -8,6 +8,21 @@ described in `evaluation/results/tracker/P1/`.
 | `01-vm-5037e6d-failed-driver-setup/` | Not a measurement. The driver (`driver.sh`) built memcached under a scratch directory and then ran the correctness gate without `--work`, so the gate looked for the binaries under its default `/tmp/interspec-memcached-deployment` and all 50 cases failed with "No such file or directory" within milliseconds. No timing was started. An error in the driver, not in memcached. |
 | `02-vm-5994983-interrupted-by-restart/` | Not a complete measurement. With the work directory passed correctly the build and the correctness gate passed (50 of 50) and the timed matrix started (six scenarios, four variants, 15 repetitions of 30 s). The session's machine restarted after 206 of the 360 samples, during the fourth scenario, and the run died with it. The samples that exist are in `matrix.stdout.txt` and `matrix/`; they are kept and are not used for any number. The run was launched detached while the session was idle, and an idle session's machine can be reclaimed. |
 | `03-vm-5994983-checkpointed-complete/` | The measurement. Six scenarios, four variants, 15 paired repetitions, 30 s windows after a 5 s warm-up: 360 samples, none excluded. `tools/verify_memcached_matrix.py` passes on it (`verifier.stdout.txt`). |
+| `04-vm-02631e0-verifier-fails-on-build-record/` | Not the evidence. First run after the correction of 2026-11-15 (below), with the RLBox-only server started with SP1 and SP2 off (`server-environment-observed.txt`). Gate 50 of 50; all six scenarios measured, 360 samples, every sample valid (`PAIRED_RATIOS.md`). `tools/verify_memcached_matrix.py` exits 1 with "uncommitted build source" (`verifier.stdout.txt`): the build record says the source tree was not clean when the build ended. The cause is mine: while the build ran I edited three README files and `tools/measure_memory_cost.py` in the same checkout; they were committed 25 s after the build ended as `4ecfe97`, whose parent is the build's commit `02631e0`. None of the four files is an input of the build, but the verifier has to pass on the raw output, and it does not. Also in this run: the session's machine restarted during the sixth block (watch_moderate, 53 of 60 samples written, kept in `interrupted-watch_moderate/`); the block was reconciled and replaced once, as the plan allows (`ledger.json`, `blocks/reconcile.stdout.txt`). InterSpec against RLBox-only in this run: median loss 0.2% to 2.6% per scenario, every range includes zero. |
+
+## Correction of 2026-11-15: what RLBox-only means
+
+JH pointed out on 2026-11-15 that the RLBox-only variant must enforce none of
+SP1, SP2 and SP3: its wrapper copies every field to U and every field back to
+T. The wrapper's switches `INTERSPEC_SP1` and `INTERSPEC_SP2` are on when
+unset, and the timing tools did not set them for the RLBox-only variant, so in
+runs 01 to 03 the RLBox-only server made the same selective copies as InterSpec
+and differed from it only by the object registry. `tools/benchmark_memcached.py`
+now starts the RLBox-only server with both switches off (commit `8fc7020`), and
+the checkpoint mode carries `tools/rlbox_only_baseline.py` in its frozen copy
+of the tools (`02631e0`). Columns that do not involve RLBox-only are
+unaffected. Run 03 below is therefore a measurement of InterSpec against a
+wrapper with selective copies.
 
 ## The complete run (`03-vm-5994983-checkpointed-complete/`)
 
