@@ -2,9 +2,12 @@
 #define INTERSPEC_RUNTIME_H_INCLUDED
 
 #include <cstddef>
+#include <algorithm>
 #include <cstdint>
+#include <deque>
 #include <limits>
 #include <map>
+#include <memory>
 #include <mutex>
 #include <shared_mutex>
 #include <unordered_map>
@@ -121,16 +124,17 @@ inline const char* check_result_name(CheckResult result) {
 
 // Index from a registration token to its record: an open-addressing table
 // with linear probing, kept at most half full. Tokens are issued in increasing
-// order and never reused, so the low bits of a token spread the entries. One
-// lookup touches one cache line of the table where a node-based map touches a
-// bucket and a node. Removal leaves a tombstone; the table is rebuilt when
-// live entries and tombstones together fill half of it.
+// order, so the slot of a token comes from a multiplicative hash; with the
+// token's low bits as the slot, one collision would push every later token one
+// slot further. One lookup touches one cache line of the table where a
+// node-based map touches a bucket and a node. Removal leaves a tombstone; the
+// table is rebuilt when live entries and tombstones together fill half of it.
 template <class Value>
 class TokenIndex {
  public:
   const Value* find(uint64_t token) const {
     if (token == kEmpty || token == kTombstone || slots_.empty()) return nullptr;
-    for (size_t i = token & mask_;; i = (i + 1) & mask_) {
+    for (size_t i = home(token);; i = (i + 1) & mask_) {
       const Slot& slot = slots_[i];
       if (slot.token == token) return &slot.value;
       if (slot.token == kEmpty) return nullptr;
@@ -139,18 +143,13 @@ class TokenIndex {
 
   void insert(uint64_t token, const Value& value) {
     if ((used_ + 1) * 2 > slots_.size()) rebuild();
-    size_t i = token & mask_;
-    while (slots_[i].token != kEmpty) i = (i + 1) & mask_;
-    slots_[i].token = token;
-    slots_[i].value = value;
-    ++used_;
-    ++live_;
+    place(token, value);
   }
 
   // Removes the entry and hands its value to the caller.
   bool take(uint64_t token, Value& value) {
     if (token == kEmpty || token == kTombstone || slots_.empty()) return false;
-    for (size_t i = token & mask_;; i = (i + 1) & mask_) {
+    for (size_t i = home(token);; i = (i + 1) & mask_) {
       Slot& slot = slots_[i];
       if (slot.token == token) {
         value = slot.value;
@@ -175,30 +174,180 @@ class TokenIndex {
     Value value{};
   };
 
+  size_t home(uint64_t token) const {
+    return static_cast<size_t>((token * UINT64_C(0x9E3779B97F4A7C15)) >> shift_);
+  }
+
+  void place(uint64_t token, const Value& value) {
+    size_t i = home(token);
+    while (slots_[i].token != kEmpty) i = (i + 1) & mask_;
+    slots_[i].token = token;
+    slots_[i].value = value;
+    ++used_;
+    ++live_;
+  }
+
   void rebuild() {
     size_t capacity = 16;
-    while (capacity < (live_ + 1) * 4) capacity *= 2;
+    unsigned bits = 4;
+    while (capacity < (live_ + 1) * 4) {
+      capacity *= 2;
+      ++bits;
+    }
     std::vector<Slot> old(capacity);
     old.swap(slots_);
     mask_ = capacity - 1;
+    shift_ = 64 - bits;
     used_ = live_ = 0;
     for (const Slot& slot : old)
-      if (slot.token != kEmpty && slot.token != kTombstone) {
-        size_t i = slot.token & mask_;
-        while (slots_[i].token != kEmpty) i = (i + 1) & mask_;
-        slots_[i] = slot;
-        ++used_;
-        ++live_;
-      }
+      if (slot.token != kEmpty && slot.token != kTombstone) place(slot.token, slot.value);
   }
 
   std::vector<Slot> slots_;
   size_t mask_ = 0;
+  unsigned shift_ = 60;
   size_t used_ = 0;  // live entries and tombstones
   size_t live_ = 0;
 };
 
-using BorrowedIterator = std::map<uintptr_t, BorrowedObject>::iterator;
+// The externally registered objects, ordered by address. The registry needs
+// the neighbours of an address (to refuse a registration that overlaps another
+// one) and the object that contains an address. Records live in a pool and do
+// not move. The order is kept in blocks of up to kBlock addresses, each block
+// a sorted array, with the first address of every block in one more sorted
+// array. A search is two binary searches over arrays that stay in the cache,
+// written without data-dependent branches; a balanced tree of the same objects
+// is a walk over as many scattered nodes as the tree is deep.
+class OrderedObjects {
+ public:
+  OrderedObjects() = default;
+  OrderedObjects(const OrderedObjects&) = delete;
+  OrderedObjects& operator=(const OrderedObjects&) = delete;
+
+  // The object with the greatest base that is not above `address`.
+  BorrowedObject* floor(uintptr_t address) const {
+    const size_t blocks = count_not_above(firsts_.data(), firsts_.size(), address);
+    if (blocks == 0) return nullptr;
+    const Block& b = *blocks_[blocks - 1];
+    // The block's first key is not above `address`, so the count is positive.
+    return b.values[count_not_above(b.keys, b.count, address) - 1];
+  }
+
+  // Stores `object` unless its bytes overlap a stored object. Returns the
+  // stored record, or nullptr for an overlap. `object.size` must be positive
+  // and base + size must not wrap.
+  BorrowedObject* insert_unless_overlapping(const BorrowedObject& object) {
+    const uintptr_t key = object.base;
+    if (blocks_.empty()) {
+      blocks_.push_back(std::make_unique<Block>());
+      firsts_.push_back(key);
+    }
+    const size_t not_above = count_not_above(firsts_.data(), firsts_.size(), key);
+    size_t block = not_above == 0 ? 0 : not_above - 1;
+    Block* b = blocks_[block].get();
+    size_t position = count_below(b->keys, b->count, key);
+    // The neighbours: the first object at or above `key`, the last one below.
+    const BorrowedObject* next =
+        position < b->count ? b->values[position]
+        : block + 1 < blocks_.size() ? blocks_[block + 1]->values[0] : nullptr;
+    const BorrowedObject* previous =
+        position > 0 ? b->values[position - 1]
+        : block > 0 ? blocks_[block - 1]->values[blocks_[block - 1]->count - 1] : nullptr;
+    if (next && object.base + object.size > next->base) return nullptr;
+    if (previous && previous->base + previous->size > object.base) return nullptr;
+
+    if (b->count == kBlock) {
+      // Split: the upper half moves to a new block behind this one.
+      auto upper = std::make_unique<Block>();
+      const uint32_t half = kBlock / 2;
+      std::copy(b->keys + half, b->keys + kBlock, upper->keys);
+      std::copy(b->values + half, b->values + kBlock, upper->values);
+      upper->count = kBlock - half;
+      b->count = half;
+      firsts_.insert(firsts_.begin() + static_cast<std::ptrdiff_t>(block) + 1, upper->keys[0]);
+      blocks_.insert(blocks_.begin() + static_cast<std::ptrdiff_t>(block) + 1, std::move(upper));
+      if (position > half) {
+        ++block;
+        position -= half;
+      }
+      b = blocks_[block].get();
+    }
+    BorrowedObject* record;
+    if (free_.empty()) {
+      pool_.push_back(object);
+      record = &pool_.back();
+    } else {
+      record = free_.back();
+      free_.pop_back();
+      *record = object;
+    }
+    std::copy_backward(b->keys + position, b->keys + b->count, b->keys + b->count + 1);
+    std::copy_backward(b->values + position, b->values + b->count, b->values + b->count + 1);
+    b->keys[position] = key;
+    b->values[position] = record;
+    ++b->count;
+    if (position == 0) firsts_[block] = key;
+    ++size_;
+    return record;
+  }
+
+  // `record` must have come from insert_unless_overlapping() and not been
+  // erased since.
+  void erase(BorrowedObject* record) {
+    const uintptr_t key = record->base;
+    const size_t block = count_not_above(firsts_.data(), firsts_.size(), key) - 1;
+    Block& b = *blocks_[block];
+    const size_t position = count_below(b.keys, b.count, key);
+    std::copy(b.keys + position + 1, b.keys + b.count, b.keys + position);
+    std::copy(b.values + position + 1, b.values + b.count, b.values + position);
+    --b.count;
+    if (b.count == 0) {
+      blocks_.erase(blocks_.begin() + static_cast<std::ptrdiff_t>(block));
+      firsts_.erase(firsts_.begin() + static_cast<std::ptrdiff_t>(block));
+    } else if (position == 0) {
+      firsts_[block] = b.keys[0];
+    }
+    free_.push_back(record);
+    --size_;
+  }
+
+  size_t size() const { return size_; }
+
+ private:
+  static constexpr uint32_t kBlock = 64;
+  struct Block {
+    uint32_t count = 0;
+    uintptr_t keys[kBlock];
+    BorrowedObject* values[kBlock];
+  };
+
+  // Binary searches over a sorted array whose loop makes the same steps for
+  // every key (the comparison selects an offset, not a branch).
+  static size_t count_below(const uintptr_t* keys, size_t count, uintptr_t key) {
+    size_t base = 0;
+    while (count > 1) {
+      const size_t half = count / 2;
+      base += keys[base + half - 1] < key ? half : 0;
+      count -= half;
+    }
+    return base + (count == 1 && keys[base] < key ? 1 : 0);
+  }
+  static size_t count_not_above(const uintptr_t* keys, size_t count, uintptr_t key) {
+    size_t base = 0;
+    while (count > 1) {
+      const size_t half = count / 2;
+      base += keys[base + half - 1] <= key ? half : 0;
+      count -= half;
+    }
+    return base + (count == 1 && keys[base] <= key ? 1 : 0);
+  }
+
+  std::vector<std::unique_ptr<Block>> blocks_;
+  std::vector<uintptr_t> firsts_;
+  std::deque<BorrowedObject> pool_;
+  std::vector<BorrowedObject*> free_;
+  size_t size_ = 0;
+};
 
 class Runtime {
  public:
@@ -373,16 +522,13 @@ class Runtime {
     const uintptr_t end = ptr + size;
     // Never let an explicit nonheap registration alias the managed heap arena.
     if (arena_valid_ && ptr < base_ + capacity_ && end > base_) return 0;
-    const auto next = borrowed_.lower_bound(ptr);
-    if (next != borrowed_.end() && end > next->second.base) return 0;
-    if (next != borrowed_.begin()) {
-      const auto prev = std::prev(next);
-      if (prev->second.base + prev->second.size > ptr) return 0;
-    }
-    const uint64_t token = next_borrowed_token_++;
-    const auto inserted = borrowed_.emplace_hint(next, ptr, BorrowedObject{
+    // Refused when the bytes overlap another registered object.
+    const uint64_t token = next_borrowed_token_;
+    BorrowedObject* inserted = borrowed_.insert_unless_overlapping(BorrowedObject{
         ptr, size, layout->second.element_size, type->second, domain, kind,
         token});
+    if (!inserted) return 0;
+    ++next_borrowed_token_;
     borrowed_by_token_.insert(token, inserted);
     frozen_layouts_.insert(type_id);
     return token;
@@ -395,7 +541,7 @@ class Runtime {
 
   bool unregister_external(uint64_t token) {
     std::unique_lock<RegistryMutex> lock(mu_);
-    BorrowedIterator object;
+    BorrowedObject* object = nullptr;
     if (!borrowed_by_token_.take(token, object)) return false;
     borrowed_.erase(object);
     return true;
@@ -680,16 +826,13 @@ class Runtime {
   }
 
   const BorrowedObject* find_borrowed_unlocked(uint64_t token) const {
-    const BorrowedIterator* object = borrowed_by_token_.find(token);
-    return object ? &(*object)->second : nullptr;
+    BorrowedObject* const* object = borrowed_by_token_.find(token);
+    return object ? *object : nullptr;
   }
 
   const BorrowedObject* find_borrowed_by_address_unlocked(uintptr_t ptr) const {
-    auto it = borrowed_.upper_bound(ptr);
-    if (it == borrowed_.begin()) return nullptr;
-    --it;
-    const BorrowedObject& object = it->second;
-    return ptr - object.base < object.size ? &object : nullptr;
+    const BorrowedObject* object = borrowed_.floor(ptr);
+    return object && ptr - object->base < object->size ? object : nullptr;
   }
 
   CheckResult check_borrowed_element_unlocked(
@@ -859,8 +1002,8 @@ class Runtime {
   std::unordered_map<TypeId, TypeLayout> layouts_;
   std::unordered_map<TypeId, std::vector<FieldLayout>> fields_;
   std::unordered_set<TypeId> frozen_layouts_;
-  std::map<uintptr_t, BorrowedObject> borrowed_;
-  TokenIndex<BorrowedIterator> borrowed_by_token_;
+  OrderedObjects borrowed_;
+  TokenIndex<BorrowedObject*> borrowed_by_token_;
   uint64_t next_borrowed_token_ = 1;
   std::map<uintptr_t, AllocationSite> sites_;
   std::unordered_map<SiteId, uintptr_t> sites_by_id_;

@@ -120,6 +120,74 @@ int main() {
   EXPECT_EQ(runtime.resolve_external(other_token, sizeof(Other), kOther, MemoryDomain::trusted,
                                      base), CheckResult::untracked);
 
+  // The ordered index against a model. Byte arrays of random position and
+  // length in one buffer: a registration must be refused exactly when it
+  // overlaps a registered array, and a lookup by address must find exactly
+  // the array that contains the address.
+  {
+    constexpr uint32_t kByteId = 3;
+    constexpr uint64_t kByte = type_hash("Byte");
+    Runtime ordered(0, 0);
+    EXPECT_EQ(ordered.register_type(kByteId, kByte), true);
+    EXPECT_EQ(ordered.register_type_layout(kByteId, 1, 1), true);
+    std::vector<unsigned char> buffer(1u << 20);
+    const uintptr_t origin = reinterpret_cast<uintptr_t>(buffer.data());
+    struct Range { size_t length; uint64_t token; };
+    std::map<size_t, Range> model;  // offset -> range
+    std::vector<size_t> offsets;
+    size_t accepted = 0, refused = 0;
+    for (int step = 0; step < 400000; ++step) {
+      const uint64_t r = random();
+      if (r % 3 != 0 || offsets.empty()) {
+        const size_t offset = (r >> 8) % buffer.size();
+        const size_t length = 1 + (r >> 40) % ((r >> 60) % 4 == 0 ? 4096 : 48);
+        if (offset + length > buffer.size()) continue;
+        bool overlaps = false;
+        auto next = model.lower_bound(offset);
+        if (next != model.end() && offset + length > next->first) overlaps = true;
+        if (next != model.begin()) {
+          auto prev = std::prev(next);
+          if (prev->first + prev->second.length > offset) overlaps = true;
+        }
+        const uint64_t token = ordered.register_external_array(
+            origin + offset, length, kByteId, MemoryDomain::untrusted, ObjectStorage::heap);
+        EXPECT_EQ(token != 0, !overlaps);
+        if (token) {
+          model[offset] = Range{length, token};
+          offsets.push_back(offset);
+          ++accepted;
+        } else {
+          ++refused;
+        }
+      } else {
+        const size_t pick = (r >> 8) % offsets.size();
+        const size_t offset = offsets[pick];
+        offsets[pick] = offsets.back();
+        offsets.pop_back();
+        EXPECT_EQ(ordered.unregister_external(model[offset].token), true);
+        model.erase(offset);
+      }
+      // A lookup by address: inside a range, or in a gap.
+      const size_t probe = (random() >> 8) % buffer.size();
+      auto after = model.upper_bound(probe);
+      bool inside = false;
+      if (after != model.begin()) {
+        auto range = std::prev(after);
+        inside = probe - range->first < range->second.length;
+      }
+      EXPECT_EQ(ordered.check_external_element_by_address(origin + probe, 1, kByte,
+                                                          MemoryDomain::untrusted),
+                inside ? CheckResult::ok : CheckResult::untracked);
+    }
+    EXPECT_EQ(accepted > 50000, true);
+    EXPECT_EQ(refused > 50000, true);
+    for (const auto& entry : model)
+      EXPECT_EQ(ordered.unregister_external(entry.second.token), true);
+    EXPECT_EQ(ordered.check_external_element_by_address(origin + 5, 1, kByte,
+                                                        MemoryDomain::untrusted),
+              CheckResult::untracked);
+  }
+
   std::cout << "token index and token resolution: pass (registry "
             << (interspec::kRegistryLocked ? "locked" : "single-threaded") << ")\n";
   return 0;
