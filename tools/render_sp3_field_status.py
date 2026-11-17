@@ -101,7 +101,8 @@ class Source:
         if not names or not number:
             return 0, f"`{exercise['symbol']}` is not called"
         shown = f"{number:,.2f}".rstrip("0").rstrip(".") if number >= 0.01 else f"{number:.2g}"
-        return number, f"{shown} calls of `{exercise['symbol']}` per {unit}"
+        noun = "call" if shown == "1" else "calls"
+        return number, f"{shown} {noun} of `{exercise['symbol']}` per {unit}"
 
 
 def main():
@@ -203,7 +204,8 @@ def main():
                   "| Field | Inferred | Checked by the wrapper | In the measured workload | Note |",
                   "|---|---|---|---|---|"]
         for r in mine:
-            checked = r["checked"] or f"no ({r['checked_by_port']})"
+            reason = "" if r["checked_by_port"] == "no" else f" ({r['checked_by_port']})"
+            checked = r["checked"] or "no" + reason
             lines.append(f"| `{r['field'].replace('|', ' / ')}` | {'yes' if r['inferred'] else 'no'} | "
                          f"{checked} | {r['exercised']} | {r['note']} |")
         lines.append("")
