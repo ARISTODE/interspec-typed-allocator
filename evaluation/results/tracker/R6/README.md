@@ -29,15 +29,26 @@ written by hand and verified by the tool as described.
 
 | | Fields |
 |---|---:|
-| Inferred by the analysis (9 boundaries; nginx/openssl is not joined, see C3) | 24 |
+| Inferred by the analysis, on the 8 boundaries whose case file can be joined | 24 |
 | of these, checked by a wrapper | 13 |
 | Checked by a wrapper, all 10 boundaries | 20 |
 | of these, reached by the measured workload | 19 |
-| Checked by a wrapper without a case of the analysis | 7 |
+| Checked by a wrapper without a case of the analysis, on the 8 boundaries | 4 |
+| Checked by a wrapper on the 2 boundaries without a joined case file | 3 |
+
+Two boundaries cannot be joined: the artifact has no `sp3_cases.csv` for
+ffmpeg/libvpx (the paper's table counts 2 fields there, which the artifact
+does not let me check), and for nginx/openssl the case file is not joined for
+the reason recorded in C3. So for 3 of the 20 checked fields (2 of
+ffmpeg/libvpx, the `ex_data` pointer of nginx/openssl) this table does not say
+whether the analysis infers them. The first version of this file (commit
+`7cdf80f`) counted the 2 of ffmpeg/libvpx as "not inferred" and gave 9
+boundaries and 7 fields without a case; that was wrong and is corrected here.
 
 - The one checked field that no measured workload reaches is the return value
   of `poptBadOption` (rsync/popt): the file synchronization passes only valid
-  options. The security test of that boundary exercises it.
+  options. `tools/test_rsync_policy_switches.py` runs rsync with an invalid
+  option and reaches it.
 - 11 inferred fields are not checked. For 3 the port keeps the pointer inside U
   or the array pointer does not cross (`png_get_io_ptr`, `native_write_cb`,
   `poptGetArgs` return), so there is nothing to check. For the other 8 the
@@ -46,11 +57,10 @@ written by hand and verified by the tool as described.
   two fields of `poptDupArgv`, `ucl_parser_get_error`, `zip_error_strerror`).
   None of these 8 is reached by a measured workload through a port; an
   application that uses them would need the wrapper extended.
-- 7 checked fields have no case in the analysis output: the 2 of ffmpeg/libvpx
-  and the 2 of magick/libpng (fields of the ports' own interface functions,
-  which the analysis output does not list), the option-table strings of rsync/popt, the name table of
-  nginx/libpcre and the `ex_data` pointer of nginx/openssl. These checks were
-  written by hand.
+- 4 checked fields on the joined boundaries have no case in the analysis
+  output and were written by hand: the 2 return values of the magick/libpng
+  shim (fields of the port's own interface functions), the option-table
+  strings of rsync/popt and the name table of nginx/libpcre.
 
 ## Can the libpcre name table be inferred?
 

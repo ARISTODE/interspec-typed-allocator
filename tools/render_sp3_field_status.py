@@ -119,10 +119,14 @@ def main():
     without = records["boundaries_without_fields"]
     sources = {name: Source(args.root, spec) for name, spec in status["sources"].items()}
 
-    inferred = set()
+    inferred, unjoined = set(), {}
     for benchmark in NAMES:
         path = args.artifact_reports / benchmark / "sp3_cases.csv"
-        if benchmark in without or not path.exists():
+        if benchmark in without:
+            unjoined[benchmark] = "not joined"
+            continue
+        if not path.exists():  # the column cannot be filled for this boundary
+            unjoined[benchmark] = "no case file"
             continue
         for row in csv.DictReader(path.open()):
             inferred.add((benchmark, "|".join([row["function"], row["binding_kind"],
@@ -186,16 +190,21 @@ def main():
                   "exercised": sum(bool(r["checked"]) and bool(r["number"]) for r in mine),
                   "port_only": sum(bool(r["checked"]) and not r["inferred"] for r in mine)}
         shown = dict(counts)
-        if benchmark in without:
-            shown["inferred"] = shown["inferred_checked"] = "not joined"
+        if benchmark in unjoined:
+            shown["inferred"] = shown["inferred_checked"] = shown["port_only"] = unjoined[benchmark]
         else:
-            totals.update({k: counts[k] for k in ("inferred", "inferred_checked")})
-        totals.update({k: counts[k] for k in ("checked", "exercised", "port_only")})
+            totals.update({k: counts[k] for k in ("inferred", "inferred_checked", "port_only")})
+        totals.update({k: counts[k] for k in ("checked", "exercised")})
         lines.append(f"| {name} | {shown['inferred']} | {shown['inferred_checked']} | "
                      f"{shown['checked']} | {shown['exercised']} | {shown['port_only']} |")
     lines.append(f"| Total | {totals['inferred']} | {totals['inferred_checked']} | "
                  f"{totals['checked']} | {totals['exercised']} | {totals['port_only']} |")
-    lines += ["", "nginx/openssl: " + without.get("nginx_openssl", ""), ""]
+    lines += ["", "The first, second and last column are totals over the boundaries with a joined",
+              "case file (" + str(len(NAMES) - len(unjoined)) + " of " + str(len(NAMES)) + ").", ""]
+    for benchmark, why in unjoined.items():
+        reason = without.get(benchmark) or ("The artifact has no `sp3_cases.csv` for this boundary, so the tool "
+                                            "cannot say which of the port's fields the analysis infers.")
+        lines += [f"{NAMES[benchmark]} ({why}): {reason}", ""]
     for benchmark, name in NAMES.items():
         mine = [r for r in rows if r["benchmark"] == benchmark]
         if not mine:
@@ -206,7 +215,8 @@ def main():
         for r in mine:
             reason = "" if r["checked_by_port"] == "no" else f" ({r['checked_by_port']})"
             checked = r["checked"] or "no" + reason
-            lines.append(f"| `{r['field'].replace('|', ' / ')}` | {'yes' if r['inferred'] else 'no'} | "
+            shown_inferred = unjoined.get(benchmark) or ("yes" if r["inferred"] else "no")
+            lines.append(f"| `{r['field'].replace('|', ' / ')}` | {shown_inferred} | "
                          f"{checked} | {r['exercised']} | {r['note']} |")
         lines.append("")
     lines += ["## Sources of the last column", ""]

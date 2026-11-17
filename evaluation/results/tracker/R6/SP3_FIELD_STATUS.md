@@ -9,26 +9,31 @@ checked fields that the measured workload reaches at least once.
 
 | Boundary | Inferred by the analysis | of these, checked by the wrapper | Checked by the wrapper, all | of these, exercised by the measured workload | Checked without a case of the analysis |
 |---|---:|---:|---:|---:|---:|
-| ffmpeg/libvpx | 0 | 0 | 2 | 2 | 2 |
+| ffmpeg/libvpx | no case file | no case file | 2 | 2 | no case file |
 | magick/libpng | 2 | 0 | 2 | 2 | 2 |
 | memcached/bipbuffer | 2 | 2 | 2 | 2 | 0 |
 | memcached/hash | 4 | 2 | 2 | 2 | 0 |
 | nginx/libpcre | 2 | 1 | 2 | 2 | 1 |
-| nginx/openssl | not joined | not joined | 1 | 1 | 1 |
+| nginx/openssl | not joined | not joined | 1 | 1 | not joined |
 | rsync/popt | 7 | 3 | 4 | 3 | 1 |
 | ucl/libucl | 3 | 2 | 2 | 2 | 0 |
 | yaml/libyaml | 1 | 1 | 1 | 1 | 0 |
 | zip/libzip | 3 | 2 | 2 | 2 | 0 |
-| Total | 24 | 13 | 20 | 19 | 7 |
+| Total | 24 | 13 | 20 | 19 | 4 |
 
-nginx/openssl: The artifact's sp3_cases.csv for this boundary has 196 rows for the OpenSSL API as nginx calls it natively; the paper counts 5 fields and 11 with unknown expected domain. Which 16 of the 196 rows the paper means is not recorded anywhere in the artifact, so the case file is not joined. The artifact's isolated TLS bridge passes only copied buffers and numeric handles; the one pointer field of the port is the ex_data pair added for I6 (listed above as port only).
+The first, second and last column are totals over the boundaries with a joined
+case file (8 of 10).
+
+ffmpeg/libvpx (no case file): The artifact has no `sp3_cases.csv` for this boundary, so the tool cannot say which of the port's fields the analysis infers.
+
+nginx/openssl (not joined): The artifact's sp3_cases.csv for this boundary has 196 rows for the OpenSSL API as nginx calls it natively; the paper counts 5 fields and 11 with unknown expected domain. Which 16 of the 196 rows the paper means is not recorded anywhere in the artifact, so the case file is not joined. The artifact's isolated TLS bridge passes only copied buffers and numeric handles; the one pointer field of the port is the ex_data pair added for I6 (listed above as port only).
 
 ## ffmpeg/libvpx
 
 | Field | Inferred | Checked by the wrapper | In the measured workload | Note |
 |---|---|---|---|---|
-| `vpx_codec_get_frame / return / planes[0..2]` | no | `integration/ffmpeg_libvpx/vpx_app_bench.cpp:289` | 2 calls of `vpx_codec_get_frame` per frame |  |
-| `vpx_codec_get_cx_data / return / frame.buf` | no | `integration/ffmpeg_libvpx/vpx_app_bench.cpp:247` | 2 calls of `vpx_codec_get_cx_data` per frame |  |
+| `vpx_codec_get_frame / return / planes[0..2]` | no case file | `integration/ffmpeg_libvpx/vpx_app_bench.cpp:289` | 2 calls of `vpx_codec_get_frame` per frame |  |
+| `vpx_codec_get_cx_data / return / frame.buf` | no case file | `integration/ffmpeg_libvpx/vpx_app_bench.cpp:247` | 2 calls of `vpx_codec_get_cx_data` per frame |  |
 
 ## magick/libpng
 
@@ -67,7 +72,7 @@ nginx/openssl: The artifact's sp3_cases.csv for this boundary has 196 rows for t
 
 | Field | Inferred | Checked by the wrapper | In the measured workload | Note |
 |---|---|---|---|---|
-| `SSL_get_ex_data / return / connection` | no | `integration/nginx_openssl/tls_app_bench.cpp:240` | 1 call of `interspec_tls_get_connection` per exchange | The U call that returns what SSL_get_ex_data returns. |
+| `SSL_get_ex_data / return / connection` | not joined | `integration/nginx_openssl/tls_app_bench.cpp:240` | 1 call of `interspec_tls_get_connection` per exchange | The U call that returns what SSL_get_ex_data returns. |
 
 ## rsync/popt
 
