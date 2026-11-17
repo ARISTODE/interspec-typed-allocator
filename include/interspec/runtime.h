@@ -35,6 +35,31 @@ struct Allocation {
 
 enum class MemoryDomain { trusted, untrusted };
 enum class ObjectStorage { heap, stack, global };
+// The lock that guards the registry. A sandbox and its registry are normally
+// shared between threads, and every operation takes the reader-writer lock.
+// An application that uses a sandbox from one thread at a time can say so by
+// defining INTERSPEC_SINGLE_THREADED_REGISTRY before this header is included,
+// in every translation unit that includes it; the lock then does nothing.
+// This is the registry's counterpart of RLBOX_SINGLE_THREADED_INVOCATIONS,
+// with which RLBox omits its own locks, and it rests on the same promise by
+// the application. Define both or neither.
+// Lets code that must build against older versions of this header detect
+// resolve_external() and the token index.
+#define INTERSPEC_RUNTIME_RESOLVES_TOKENS 1
+
+#ifdef INTERSPEC_SINGLE_THREADED_REGISTRY
+struct RegistryMutex {
+  void lock() noexcept {}
+  void unlock() noexcept {}
+  void lock_shared() noexcept {}
+  void unlock_shared() noexcept {}
+};
+constexpr bool kRegistryLocked = false;
+#else
+using RegistryMutex = std::shared_mutex;
+constexpr bool kRegistryLocked = true;
+#endif
+
 // Kept for existing callers of the nonheap-specific registration API.
 using NonheapKind = ObjectStorage;
 
@@ -94,6 +119,87 @@ inline const char* check_result_name(CheckResult result) {
   return "unknown";
 }
 
+// Index from a registration token to its record: an open-addressing table
+// with linear probing, kept at most half full. Tokens are issued in increasing
+// order and never reused, so the low bits of a token spread the entries. One
+// lookup touches one cache line of the table where a node-based map touches a
+// bucket and a node. Removal leaves a tombstone; the table is rebuilt when
+// live entries and tombstones together fill half of it.
+template <class Value>
+class TokenIndex {
+ public:
+  const Value* find(uint64_t token) const {
+    if (token == kEmpty || token == kTombstone || slots_.empty()) return nullptr;
+    for (size_t i = token & mask_;; i = (i + 1) & mask_) {
+      const Slot& slot = slots_[i];
+      if (slot.token == token) return &slot.value;
+      if (slot.token == kEmpty) return nullptr;
+    }
+  }
+
+  void insert(uint64_t token, const Value& value) {
+    if ((used_ + 1) * 2 > slots_.size()) rebuild();
+    size_t i = token & mask_;
+    while (slots_[i].token != kEmpty) i = (i + 1) & mask_;
+    slots_[i].token = token;
+    slots_[i].value = value;
+    ++used_;
+    ++live_;
+  }
+
+  // Removes the entry and hands its value to the caller.
+  bool take(uint64_t token, Value& value) {
+    if (token == kEmpty || token == kTombstone || slots_.empty()) return false;
+    for (size_t i = token & mask_;; i = (i + 1) & mask_) {
+      Slot& slot = slots_[i];
+      if (slot.token == token) {
+        value = slot.value;
+        slot.token = kTombstone;
+        slot.value = Value();
+        --live_;
+        return true;
+      }
+      if (slot.token == kEmpty) return false;
+    }
+  }
+
+  size_t size() const { return live_; }
+
+ private:
+  // Token 0 is never issued, and the registry stops before the largest value.
+  // Neither can be inserted; find and take refuse both.
+  static constexpr uint64_t kEmpty = 0;
+  static constexpr uint64_t kTombstone = ~uint64_t{0};
+  struct Slot {
+    uint64_t token = kEmpty;
+    Value value{};
+  };
+
+  void rebuild() {
+    size_t capacity = 16;
+    while (capacity < (live_ + 1) * 4) capacity *= 2;
+    std::vector<Slot> old(capacity);
+    old.swap(slots_);
+    mask_ = capacity - 1;
+    used_ = live_ = 0;
+    for (const Slot& slot : old)
+      if (slot.token != kEmpty && slot.token != kTombstone) {
+        size_t i = slot.token & mask_;
+        while (slots_[i].token != kEmpty) i = (i + 1) & mask_;
+        slots_[i] = slot;
+        ++used_;
+        ++live_;
+      }
+  }
+
+  std::vector<Slot> slots_;
+  size_t mask_ = 0;
+  size_t used_ = 0;  // live entries and tombstones
+  size_t live_ = 0;
+};
+
+using BorrowedIterator = std::map<uintptr_t, BorrowedObject>::iterator;
+
 class Runtime {
  public:
   Runtime(uintptr_t arena_base, size_t arena_size)
@@ -103,7 +209,7 @@ class Runtime {
                      std::numeric_limits<uintptr_t>::max() - arena_base) {}
 
   bool register_type(TypeId id, uint64_t type_hash) {
-    std::unique_lock<std::shared_mutex> lock(mu_);
+    std::unique_lock<RegistryMutex> lock(mu_);
     if (id == 0 || types_.find(id) != types_.end() ||
         type_ids_.find(type_hash) != type_ids_.end())
       return false;
@@ -116,7 +222,7 @@ class Runtime {
   // compiler type information. A compromised U must never pick these values.
   // The size need not be a power of two; array stride is exact sizeof(T).
   bool register_type_layout(TypeId id, size_t element_size, size_t alignment) {
-    std::unique_lock<std::shared_mutex> lock(mu_);
+    std::unique_lock<RegistryMutex> lock(mu_);
     if (!types_.count(id) || element_size == 0 || alignment == 0 ||
         element_size % alignment != 0 || layouts_.count(id))
       return false;
@@ -130,7 +236,7 @@ class Runtime {
   bool register_field_layout(TypeId owner_id, TypeId field_id,
                              size_t offset, size_t size,
                              bool allow_interior = false) {
-    std::unique_lock<std::shared_mutex> lock(mu_);
+    std::unique_lock<RegistryMutex> lock(mu_);
     auto layout = layouts_.find(owner_id);
     auto field = types_.find(field_id);
     if (layout == layouts_.end() || field == types_.end() ||
@@ -156,7 +262,7 @@ class Runtime {
    * must embed it in a trusted host import/callback implementation.
    */
   bool register_allocation_site_id(SiteId id, TypeId type_id) {
-    std::unique_lock<std::shared_mutex> lock(mu_);
+    std::unique_lock<RegistryMutex> lock(mu_);
     const auto type = types_.find(type_id);
     if (id == 0 || type == types_.end() ||
         site_types_.find(id) != site_types_.end())
@@ -167,7 +273,7 @@ class Runtime {
 
   bool register_allocation_site(SiteId id, uintptr_t begin, uintptr_t end,
                                 TypeId type_id) {
-    std::unique_lock<std::shared_mutex> lock(mu_);
+    std::unique_lock<RegistryMutex> lock(mu_);
     const auto type = types_.find(type_id);
     if (id == 0 || begin == 0 || begin >= end || type == types_.end() ||
         sites_by_id_.find(id) != sites_by_id_.end() ||
@@ -192,7 +298,7 @@ class Runtime {
   uintptr_t allocate(size_t size, TypeId type_id) {
     DiagnosticEvent event(this, "allocate");
     event.requested = size;
-    std::unique_lock<std::shared_mutex> lock(mu_);
+    std::unique_lock<RegistryMutex> lock(mu_);
     const auto type = types_.find(type_id);
     if (type == types_.end() || size == 0) return 0;
     const auto ptr = allocate_with_hash_unlocked(size, type->second, 0);
@@ -205,7 +311,7 @@ class Runtime {
     DiagnosticEvent event(this, "allocate_from_site");
     event.requested = size;
     event.site = site_id;
-    std::unique_lock<std::shared_mutex> lock(mu_);
+    std::unique_lock<RegistryMutex> lock(mu_);
     const auto site = site_types_.find(site_id);
     if (site == site_types_.end() || size == 0) return 0;
     const auto ptr = allocate_with_hash_unlocked(size, site->second, site_id);
@@ -217,7 +323,7 @@ class Runtime {
   uintptr_t allocate_from_pc(size_t size, uintptr_t caller_pc) {
     DiagnosticEvent event(this, "allocate_from_pc");
     event.requested = size;
-    std::unique_lock<std::shared_mutex> lock(mu_);
+    std::unique_lock<RegistryMutex> lock(mu_);
     const AllocationSite* site = find_site_unlocked(caller_pc);
     if (!site || size == 0) return 0;
     const auto ptr = allocate_with_hash_unlocked(size, site->type_hash, site->id);
@@ -229,7 +335,7 @@ class Runtime {
   // Uses an exact element stride and independently aligns each array base.
   // This prevents a forged T* into the middle of a neighboring T object.
   uintptr_t allocate_typed_array(size_t count, TypeId type_id) {
-    std::unique_lock<std::shared_mutex> lock(mu_);
+    std::unique_lock<RegistryMutex> lock(mu_);
     const auto type = types_.find(type_id);
     const auto layout = layouts_.find(type_id);
     if (type == types_.end() || layout == layouts_.end() || count == 0 ||
@@ -253,11 +359,12 @@ class Runtime {
   // The opaque token binds checks to this registration instance (ABA defense).
   uint64_t register_external_array(uintptr_t ptr, size_t count, TypeId type_id,
                                    MemoryDomain domain, ObjectStorage kind) {
-    std::unique_lock<std::shared_mutex> lock(mu_);
+    std::unique_lock<RegistryMutex> lock(mu_);
     const auto type = types_.find(type_id);
     const auto layout = layouts_.find(type_id);
     if (!ptr || type == types_.end() || layout == layouts_.end() ||
         count == 0 || next_borrowed_token_ == 0 ||
+        next_borrowed_token_ == std::numeric_limits<uint64_t>::max() ||
         ptr % layout->second.alignment != 0 ||
         count > std::numeric_limits<size_t>::max() / layout->second.element_size)
       return 0;
@@ -273,10 +380,10 @@ class Runtime {
       if (prev->second.base + prev->second.size > ptr) return 0;
     }
     const uint64_t token = next_borrowed_token_++;
-    borrowed_.emplace(ptr, BorrowedObject{
+    const auto inserted = borrowed_.emplace_hint(next, ptr, BorrowedObject{
         ptr, size, layout->second.element_size, type->second, domain, kind,
         token});
-    borrowed_by_token_.emplace(token, ptr);
+    borrowed_by_token_.insert(token, inserted);
     frozen_layouts_.insert(type_id);
     return token;
   }
@@ -287,11 +394,10 @@ class Runtime {
   }
 
   bool unregister_external(uint64_t token) {
-    std::unique_lock<std::shared_mutex> lock(mu_);
-    const auto it = borrowed_by_token_.find(token);
-    if (it == borrowed_by_token_.end()) return false;
-    borrowed_.erase(it->second);
-    borrowed_by_token_.erase(it);
+    std::unique_lock<RegistryMutex> lock(mu_);
+    BorrowedIterator object;
+    if (!borrowed_by_token_.take(token, object)) return false;
+    borrowed_.erase(object);
     return true;
   }
 
@@ -302,18 +408,18 @@ class Runtime {
   bool arena_valid() const { return arena_valid_; }
 
   size_t allocation_count() const {
-    std::shared_lock<std::shared_mutex> lock(mu_);
+    std::shared_lock<RegistryMutex> lock(mu_);
     return allocations_.size();
   }
 
   size_t allocation_site_count() const {
-    std::shared_lock<std::shared_mutex> lock(mu_);
+    std::shared_lock<RegistryMutex> lock(mu_);
     return site_types_.size();
   }
 
   bool release(uintptr_t ptr) {
     DiagnosticEvent event(this, "release");
-    std::unique_lock<std::shared_mutex> lock(mu_);
+    std::unique_lock<RegistryMutex> lock(mu_);
     describe_unlocked(event, ptr);
     const auto allocation = allocations_.find(ptr);
     if (allocation == allocations_.end()) return false;
@@ -323,7 +429,7 @@ class Runtime {
   }
 
   bool allocation_size(uintptr_t ptr, size_t& size) const {
-    std::shared_lock<std::shared_mutex> lock(mu_);
+    std::shared_lock<RegistryMutex> lock(mu_);
     const auto allocation = allocations_.find(ptr);
     if (allocation == allocations_.end()) return false;
     size = allocation->second.size;
@@ -331,7 +437,7 @@ class Runtime {
   }
 
   bool allocation_site(uintptr_t ptr, SiteId& site_id) const {
-    std::shared_lock<std::shared_mutex> lock(mu_);
+    std::shared_lock<RegistryMutex> lock(mu_);
     const auto allocation = allocations_.find(ptr);
     if (allocation == allocations_.end()) return false;
     site_id = allocation->second.site_id;
@@ -341,7 +447,7 @@ class Runtime {
   uintptr_t reallocate(uintptr_t ptr, size_t new_size) {
     DiagnosticEvent event(this, "reallocate");
     event.requested = new_size;
-    std::unique_lock<std::shared_mutex> lock(mu_);
+    std::unique_lock<RegistryMutex> lock(mu_);
     describe_unlocked(event, ptr);
     const auto old = allocations_.find(ptr);
     if (old == allocations_.end()) return 0;
@@ -377,7 +483,7 @@ class Runtime {
                               size_t& bytes) const {
     DiagnosticEvent event(this, "remaining_bytes");
     event.expected_type = expected_type;
-    std::shared_lock<std::shared_mutex> lock(mu_);
+    std::shared_lock<RegistryMutex> lock(mu_);
     const Allocation* allocation = find_allocation_unlocked(ptr);
     describe_unlocked(event, ptr, allocation);
     if (!allocation) { event.result = "untracked"; return CheckResult::untracked; }
@@ -394,7 +500,7 @@ class Runtime {
     DiagnosticEvent event(this, "check");
     event.expected_type = expected_type;
     event.requested = bytes;
-    std::shared_lock<std::shared_mutex> lock(mu_);
+    std::shared_lock<RegistryMutex> lock(mu_);
     const Allocation* allocation = find_allocation_unlocked(ptr);
     describe_unlocked(event, ptr, allocation);
     if (!allocation) { event.result = "untracked"; return CheckResult::untracked; }
@@ -415,7 +521,7 @@ class Runtime {
   CheckResult check_typed_element(uintptr_t ptr, size_t bytes,
                                   uint64_t expected_type,
                                   uintptr_t expected_element_base = 0) const {
-    std::shared_lock<std::shared_mutex> lock(mu_);
+    std::shared_lock<RegistryMutex> lock(mu_);
     const auto* allocation = find_allocation_unlocked(ptr);
     if (!allocation || allocation->element_size == 0)
       return CheckResult::untracked;
@@ -435,7 +541,7 @@ class Runtime {
                                 uint64_t expected_owner,
                                 uint64_t expected_field,
                                 uintptr_t expected_element_base = 0) const {
-    std::shared_lock<std::shared_mutex> lock(mu_);
+    std::shared_lock<RegistryMutex> lock(mu_);
     const auto* allocation = find_allocation_unlocked(ptr);
     if (!allocation || allocation->element_size == 0)
       return CheckResult::untracked;
@@ -456,10 +562,39 @@ class Runtime {
                                    MemoryDomain expected_domain,
                                    uint64_t token,
                                    uintptr_t expected_element_base = 0) const {
-    std::shared_lock<std::shared_mutex> lock(mu_);
+    std::shared_lock<RegistryMutex> lock(mu_);
     const BorrowedObject* object = find_borrowed_unlocked(token);
     return check_borrowed_element_unlocked(object, ptr, bytes, expected_type,
                                            expected_domain, expected_element_base);
+  }
+
+  // For a wrapper that hands U the token of an object in place of its
+  // address: the object behind a token that U returned. The checks are those
+  // of check_nonheap_element on the object's first element, so a token that
+  // was never issued, was unregistered, or names an object of another type or
+  // domain is refused. `base` is written only when the result is ok.
+  CheckResult resolve_external(uint64_t token, size_t bytes,
+                               uint64_t expected_type,
+                               MemoryDomain expected_domain,
+                               uintptr_t& base) const {
+    std::shared_lock<RegistryMutex> lock(mu_);
+    const BorrowedObject* object = find_borrowed_unlocked(token);
+    if (!object) return CheckResult::untracked;
+    const CheckResult result = check_borrowed_element_unlocked(
+        object, object->base, bytes, expected_type, expected_domain, 0);
+    if (result == CheckResult::ok) base = object->base;
+    return result;
+  }
+
+  // The address registered under `token`, without any check of type or
+  // domain. For measurements of registration alone; a wrapper uses
+  // resolve_external.
+  bool external_base(uint64_t token, uintptr_t& base) const {
+    std::shared_lock<RegistryMutex> lock(mu_);
+    const BorrowedObject* object = find_borrowed_unlocked(token);
+    if (!object) return false;
+    base = object->base;
+    return true;
   }
 
   CheckResult check_nonheap_field(uintptr_t ptr, size_t bytes,
@@ -468,7 +603,7 @@ class Runtime {
                                  MemoryDomain expected_domain,
                                  uint64_t token,
                                  uintptr_t expected_element_base = 0) const {
-    std::shared_lock<std::shared_mutex> lock(mu_);
+    std::shared_lock<RegistryMutex> lock(mu_);
     const BorrowedObject* object = find_borrowed_unlocked(token);
     return check_borrowed_field_unlocked(object, ptr, bytes, expected_owner,
                                          expected_field, expected_domain,
@@ -489,7 +624,7 @@ class Runtime {
       uintptr_t ptr, size_t bytes, uint64_t expected_type,
       MemoryDomain expected_domain,
       uintptr_t expected_element_base = 0) const {
-    std::shared_lock<std::shared_mutex> lock(mu_);
+    std::shared_lock<RegistryMutex> lock(mu_);
     return check_borrowed_element_unlocked(find_borrowed_by_address_unlocked(ptr),
                                            ptr, bytes, expected_type,
                                            expected_domain, expected_element_base);
@@ -499,7 +634,7 @@ class Runtime {
       uintptr_t ptr, size_t bytes, uint64_t expected_owner,
       uint64_t expected_field, MemoryDomain expected_domain,
       uintptr_t expected_element_base = 0) const {
-    std::shared_lock<std::shared_mutex> lock(mu_);
+    std::shared_lock<RegistryMutex> lock(mu_);
     return check_borrowed_field_unlocked(find_borrowed_by_address_unlocked(ptr),
                                          ptr, bytes, expected_owner,
                                          expected_field, expected_domain,
@@ -511,7 +646,7 @@ class Runtime {
     if (!DiagnosticEvent::enabled()) return;
     std::vector<Allocation> snapshot;
     {
-      std::shared_lock<std::shared_mutex> lock(mu_);
+      std::shared_lock<RegistryMutex> lock(mu_);
       for (const auto& entry : allocations_) snapshot.push_back(entry.second);
     }
     for (const auto& allocation : snapshot) {
@@ -545,13 +680,8 @@ class Runtime {
   }
 
   const BorrowedObject* find_borrowed_unlocked(uint64_t token) const {
-    if (!token) return nullptr;
-    const auto indexed = borrowed_by_token_.find(token);
-    if (indexed == borrowed_by_token_.end()) return nullptr;
-    const auto object = borrowed_.find(indexed->second);
-    if (object == borrowed_.end() || object->second.token != token)
-      return nullptr;
-    return &object->second;
+    const BorrowedIterator* object = borrowed_by_token_.find(token);
+    return object ? &(*object)->second : nullptr;
   }
 
   const BorrowedObject* find_borrowed_by_address_unlocked(uintptr_t ptr) const {
@@ -723,14 +853,14 @@ class Runtime {
   using ReleasedKey = std::pair<uint64_t, SiteId>;
   std::map<ReleasedKey, std::multimap<size_t, uintptr_t>> released_;
 
-  mutable std::shared_mutex mu_;
+  mutable RegistryMutex mu_;
   std::unordered_map<TypeId, uint64_t> types_;
   std::unordered_map<uint64_t, TypeId> type_ids_;
   std::unordered_map<TypeId, TypeLayout> layouts_;
   std::unordered_map<TypeId, std::vector<FieldLayout>> fields_;
   std::unordered_set<TypeId> frozen_layouts_;
   std::map<uintptr_t, BorrowedObject> borrowed_;
-  std::unordered_map<uint64_t, uintptr_t> borrowed_by_token_;
+  TokenIndex<BorrowedIterator> borrowed_by_token_;
   uint64_t next_borrowed_token_ = 1;
   std::map<uintptr_t, AllocationSite> sites_;
   std::unordered_map<SiteId, uintptr_t> sites_by_id_;

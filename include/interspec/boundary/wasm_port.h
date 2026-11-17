@@ -96,14 +96,18 @@ class WasmPort {
 
   Sandbox& sandbox() { return sandbox_; }
 
+  // Looked up once: the wrappers ask for a switch on every boundary call.
   static const PolicySwitches& switches() {
+    static const PolicySwitches& cached = []() -> const PolicySwitches& {
 #if INTERSPEC_CHECKS
-    static const std::string name = Policy::boundary;
+      static const std::string name = Policy::boundary;
 #else
-    static const std::string name =
-        std::string(Policy::boundary) + "+sp3_fixed_at_compile_time";
+      static const std::string name =
+          std::string(Policy::boundary) + "+sp3_fixed_at_compile_time";
 #endif
-    return policy_switches(name.c_str());
+      return policy_switches(name.c_str());
+    }();
+    return cached;
   }
   static bool sp1() { return switches().sp1; }
   static bool sp2() { return switches().sp2; }

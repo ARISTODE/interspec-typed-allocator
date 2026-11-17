@@ -17,6 +17,10 @@
 //   SP3  the packet buffer and the frame planes that U returns are checked
 //        against the object registry (live object, expected type, bounds)
 //        before T copies from them.
+// This program uses its sandbox from one thread. It says so to RLBox and to
+// the object registry, which then omit their locks.
+#define RLBOX_SINGLE_THREADED_INVOCATIONS
+#define INTERSPEC_SINGLE_THREADED_REGISTRY
 #define RLBOX_USE_EXCEPTIONS
 #define RLBOX_USE_STATIC_CALLS() rlbox_wasm2c_sandbox_lookup_symbol
 #define RLBOX_WASM2C_MODULE_NAME glue__lib__wasm2c

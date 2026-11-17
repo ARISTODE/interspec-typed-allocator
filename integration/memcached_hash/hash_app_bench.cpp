@@ -11,6 +11,10 @@
 //   SP2  the key is read by U and never written by it, so U's copy is not
 //        copied back.
 //   SP3  no field: U returns no pointer to T.
+// This program uses its sandbox from one thread. It says so to RLBox and to
+// the object registry, which then omit their locks.
+#define RLBOX_SINGLE_THREADED_INVOCATIONS
+#define INTERSPEC_SINGLE_THREADED_REGISTRY
 #define RLBOX_USE_EXCEPTIONS
 #define RLBOX_USE_STATIC_CALLS() rlbox_wasm2c_sandbox_lookup_symbol
 #define RLBOX_WASM2C_MODULE_NAME glue__lib__wasm2c

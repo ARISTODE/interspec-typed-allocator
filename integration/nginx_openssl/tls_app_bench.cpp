@@ -17,6 +17,10 @@
 //        registers its connection and configuration objects, and the
 //        object behind the returned handle must be a live registered object
 //        of T of the connection type before T uses it.
+// This program uses its sandbox from one thread. It says so to RLBox and to
+// the object registry, which then omit their locks.
+#define RLBOX_SINGLE_THREADED_INVOCATIONS
+#define INTERSPEC_SINGLE_THREADED_REGISTRY
 #define RLBOX_USE_EXCEPTIONS
 #define RLBOX_USE_STATIC_CALLS() rlbox_wasm2c_sandbox_lookup_symbol
 #define RLBOX_WASM2C_MODULE_NAME glue__lib__wasm2c

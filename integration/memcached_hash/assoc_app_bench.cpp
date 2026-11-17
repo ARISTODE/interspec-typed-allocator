@@ -20,6 +20,10 @@
 //   SP3  T registers each item before its handle reaches U. The handle is
 //        the registration token, and what U hands back must name a live
 //        registered item of T.
+// This program uses its sandbox from one thread. It says so to RLBox and to
+// the object registry, which then omit their locks.
+#define RLBOX_SINGLE_THREADED_INVOCATIONS
+#define INTERSPEC_SINGLE_THREADED_REGISTRY
 #define RLBOX_USE_EXCEPTIONS
 #define RLBOX_USE_STATIC_CALLS() rlbox_wasm2c_sandbox_lookup_symbol
 #define RLBOX_WASM2C_MODULE_NAME glue__lib__wasm2c
@@ -191,7 +195,6 @@ class SandboxTable {
 #if INTERSPEC_REGISTRY
     if (ASSOC_REGISTRY_ON()) {
       objects_.unregister_external(found->second);
-      by_token_.erase(found->second);
       handle_of_.erase(found);
       return;
     }
@@ -228,7 +231,6 @@ class SandboxTable {
           reinterpret_cast<uintptr_t>(it), 1, kItemId, interspec::MemoryDomain::trusted,
           interspec::ObjectStorage::heap);
       if (token == 0 || token > UINT32_MAX) throw std::runtime_error("item_registration");
-      by_token_[static_cast<uint32_t>(token)] = it;
       handle_of_[it] = static_cast<uint32_t>(token);
       return static_cast<uint32_t>(token);
     }
@@ -251,23 +253,19 @@ class SandboxTable {
   Item* resolve(uint32_t handle, const char* operation) {
 #if INTERSPEC_REGISTRY
     if (ASSOC_REGISTRY_ON()) {
-#if INTERSPEC_CHECKS
-      port_.count_check();
-#endif
-      const auto found = by_token_.find(handle);
-      Item* it = found == by_token_.end() ? nullptr : found->second;
+      // The registry maps the token to the item; T keeps no table of its own.
+      uintptr_t base = 0;
 #if !INTERSPEC_CHECKS
       // Tracking without check: what a wrapper needs to return a pointer.
-      if (!it) Port::reject(operation, "unknown_handle");
-      return it;
+      if (!objects_.external_base(handle, base)) Port::reject(operation, "unknown_handle");
 #else
-      const auto result = objects_.check_nonheap_element(
-          reinterpret_cast<uintptr_t>(it), sizeof(Item), kItemType,
-          interspec::MemoryDomain::trusted, handle);
+      port_.count_check();
+      const auto result = objects_.resolve_external(
+          handle, sizeof(Item), kItemType, interspec::MemoryDomain::trusted, base);
       if (result != interspec::CheckResult::ok)
         Port::reject(operation, interspec::check_result_name(result));
-      return it;
 #endif
+      return reinterpret_cast<Item*>(base);
     }
 #endif
     if (handle == 0 || handle > slots_.size() || !slots_[handle - 1])
@@ -289,7 +287,6 @@ class SandboxTable {
   Port port_;
 #if INTERSPEC_REGISTRY
   interspec::Runtime objects_{0, 0};  // no arena: T's items only
-  std::unordered_map<uint32_t, Item*> by_token_;
 #endif
   std::vector<Item*> slots_;
   std::vector<uint32_t> free_slots_;
