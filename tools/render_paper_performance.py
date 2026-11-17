@@ -2,14 +2,10 @@
 """The numbers of the paper's performance subsection, from the raw samples
 (tracker item R7).
 
-Usage: render_paper_performance.py TRACKER OUT
-TRACKER is evaluation/results/tracker. Reads
-
-  R1/03-campaign-930cb20/   p2, p3, p4, p7, instr, p6-ports, p6-apps/yaml
-  R3/01-vm-00a20ec/         p6-apps/{rsync,nginx,memcached}, r3/{rsync,yaml,yaml-sliced}
-  R4/01-vm-00a20ec/         p7-listing, p6-listing, instr-listing
-
-and writes to OUT: perf_rows.tex (the rows of the performance table),
+Usage: render_paper_performance.py CAMPAIGN OUT
+CAMPAIGN is the stored output of one complete re-measurement
+(evaluation/results/tracker/R1/04-campaign-<commit>). Reads its p2, p3, p4,
+p7, instr, p6-ports, p6-apps and r3 directories and writes to OUT: perf_rows.tex (the rows of the performance table),
 policy_rows.tex (the rows of the per-policy table) and NUMBERS.md (every number
 in a form that can be compared with the text). Nothing is typed in by hand: a
 row exists only if its samples do.
@@ -17,7 +13,11 @@ row exists only if its samples do.
 Estimator as everywhere in this repository: the value of a variant in a
 repetition is the sum of its slices (time) or the mean of its windows
 (throughput); a comparison is the median over the 15 repetitions of the paired
-ratio, with the smallest and the largest ratio. A geometric mean is taken over
+ratio, with the smallest and the largest ratio. For a throughput the ratio is
+that of the times per operation (baseline throughput over throughput), so that
+every row is an overhead in time; the reports of the memcached and nginx tools
+give the throughput loss instead (1 - throughput / baseline throughput), which
+is smaller in magnitude for large differences. A geometric mean is taken over
 the ratios (1 + overhead), not over the percentages.
 """
 import collections
@@ -28,10 +28,7 @@ import statistics as st
 import sys
 from pathlib import Path
 
-tracker, out = Path(sys.argv[1]), Path(sys.argv[2])
-CAMP = tracker / "R1/03-campaign-930cb20"
-R3 = tracker / "R3/01-vm-00a20ec"
-R4 = tracker / "R4/01-vm-00a20ec"
+CAMP, out = Path(sys.argv[1]), Path(sys.argv[2])
 WORKLOADS = json.loads((Path(__file__).resolve().parent.parent /
                         "evaluation/performance/port_workloads.json").read_text())["boundaries"]
 out.mkdir(parents=True, exist_ok=True)
@@ -109,21 +106,22 @@ for scenario, label in (("balanced_1c", "1 client, 1:1 GET/SET"), ("balanced_8c"
                  med["interspec"], d, None, 1))
 
 samples = list(csv.DictReader((CAMP / "p3/run/timing/samples.csv").open()))
-notes.append(f"- nginx samples.csv columns: {list(samples[0])}")
-for entry in json.loads((CAMP / "p3/run/timing/summary.json").read_text()):
-    med = {k: v / 1000 for k, v in entry["median_requests_per_s"].items()}
-    paired = entry["interspec_vs_rlbox_paired_pct"]
-    assert len(paired) == 15
-    d = (st.median(paired), min(paired), max(paired))
-    perf.append(("app", "nginx/libpcre", f"wrk, {entry['threads']} threads", "Kreq/s", med["native"],
-                 med["rlbox"] if "rlbox" in med else med["rlbox-only"], med["interspec"], d, None, 1))
-    notes.append(f"- nginx {entry['threads']} threads: RLBox-only against native {entry['rlbox_vs_native_pct']:.1f}% "
-                 "fewer requests")
+rate = {(int(r["threads"]), int(r["repetition"]), r["variant"]): float(r["requests_per_s"]) for r in samples}
+for threads in sorted({k[0] for k in rate}):
+    reps = sorted({k[1] for k in rate if k[0] == threads})
+    med = {v: st.median(rate[(threads, i, v)] for i in reps) / 1000 for v in ("native", "rlbox-only", "interspec")}
+    d = triple([rate[(threads, i, "rlbox-only")] / rate[(threads, i, "interspec")] for i in reps])
+    sandbox = triple([rate[(threads, i, "native")] / rate[(threads, i, "rlbox-only")] for i in reps])
+    perf.append(("app", "nginx/libpcre", f"wrk, {threads} threads", "Kreq/s", med["native"], med["rlbox-only"],
+                 med["interspec"], d, None, 1))
+    notes.append(f"- nginx {threads} threads: RLBox-only against native {sandbox[0]:+.1f}% "
+                 f"({sandbox[1]:+.1f} to {sandbox[2]:+.1f}) time per request; "
+                 f"{100 * (1 - med['rlbox-only'] / med['native']):.1f}% fewer requests per second (ratio of medians)")
 
 by = collections.defaultdict(dict)
 for r in csv.DictReader((CAMP / "p4/run/rsync-performance.csv").open()):
     by[(r["workload"], int(r["repetition"]))][r["mode"]] = float(r["total_ns"])
-rsync_ins = json.loads((R3 / "r3/rsync/run/summary.json").read_text())["workloads"]
+rsync_ins = json.loads((CAMP / "r3/rsync/run/summary.json").read_text())["workloads"]
 for workload, label in (("file_sync_194mb", "194\\,MiB file sync"), ("option_parse", "Option parsing")):
     reps = [v for k, v in by.items() if k[0] == workload]
     d = triple([v["extended_sp3"] / v["rlbox_only"] for v in reps])
@@ -139,14 +137,14 @@ for workload, label in (("file_sync_194mb", "194\\,MiB file sync"), ("option_par
         perf.append(("app", "rsync/popt", label, "Runtime (s)", med["native"] / 1e9, med["rlbox_only"] / 1e9,
                      med["extended_sp3"] / 1e9, d, ins["interspec"]["against_rlbox_only_percent"], 3))
 
-total, reps, medians = sliced(R3 / "r3/yaml-sliced/run")
-first = next(csv.DictReader((R3 / "r3/yaml-sliced/run/samples.csv").open()))
-rounds = max(int(r["round"]) for r in csv.DictReader((R3 / "r3/yaml-sliced/run/samples.csv").open()))
+total, reps, medians = sliced(CAMP / "r3/yaml-sliced/run")
+first = next(csv.DictReader((CAMP / "r3/yaml-sliced/run/samples.csv").open()))
+rounds = max(int(r["round"]) for r in csv.DictReader((CAMP / "r3/yaml-sliced/run/samples.csv").open()))
 parses = rounds * 12  # 12 parses per slice (the arguments of the step in after.sh)
 d = triple([total[(i, "interspec")] / total[(i, "rlbox-only")] for i in reps])
 sandbox = triple([total[(i, "rlbox-only")] / total[(i, "native")] for i in reps])
 nocheck = triple([total[(i, "tracked-no-check")] / total[(i, "rlbox-only")] for i in reps])
-yaml_ins = json.loads((R3 / "r3/yaml/run/summary.json").read_text())["workloads"]["yaml_parse_1mb"]
+yaml_ins = json.loads((CAMP / "r3/yaml/run/summary.json").read_text())["workloads"]["yaml_parse_1mb"]
 perf.append(("app", "yaml/libyaml", "1\\,MiB document", "Time per parse (ms)", medians["native"] / parses / 1e6,
              medians["rlbox-only"] / parses / 1e6, medians["interspec"] / parses / 1e6, d,
              yaml_ins["interspec"]["against_rlbox_only_percent"], 2))
@@ -167,7 +165,7 @@ for boundary, name, workload, metric, unit, digits in (
         ("zip_libzip", "zip/libzip", "Metadata queries", "Time per query (ns)", 1, 0)):
     port_row("lib", CAMP / f"p7/{boundary}/run", CAMP / f"instr/{boundary}/run", boundary, name, workload,
              metric, unit, digits)
-port_row("lib", R4 / "p7-listing/run", R4 / "instr-listing/run", "zip_libzip_listing", "zip/libzip",
+port_row("lib", CAMP / "p7/zip_libzip_listing/run", CAMP / "instr/zip_libzip_listing/run", "zip_libzip_listing", "zip/libzip",
          "Archive listing, 1,000 entries", "Time per listing (\\textmu{}s)", 1e3, 1)
 
 
@@ -238,21 +236,19 @@ def policy_rows(directory, labels):
             f"all off against RLBox-only {off[0]:+.1f}% ({off[1]:+.1f} to {off[2]:+.1f})")
 
 
-policy_rows(R3 / "p6-apps/memcached/run", {"watch_moderate": "memcached/bipbuffer"})
-policy_rows(R3 / "p6-apps/nginx/run", {"regex_location_4_threads": "nginx/libpcre"})
-policy_rows(R3 / "p6-apps/rsync/run", {"option_parse": "rsync/popt, option parsing",
+policy_rows(CAMP / "p6-apps/memcached/run", {"watch_moderate": "memcached/bipbuffer"})
+policy_rows(CAMP / "p6-apps/nginx/run", {"regex_location_4_threads": "nginx/libpcre"})
+policy_rows(CAMP / "p6-apps/rsync/run", {"option_parse": "rsync/popt, option parsing",
                                        "file_sync_194mb": "rsync/popt, file sync"})
 yaml_run = json.loads((CAMP / "p6-apps/yaml/run/run.json").read_text())
 policy_rows(CAMP / "p6-apps/yaml/run", {w: "yaml/libyaml" for w in yaml_run.get("workloads", [yaml_run.get("harness_entry")])})
 for boundary, label in (("ffmpeg_libvpx", "ffmpeg/libvpx"), ("magick_libpng", "magick/libpng"),
                         ("memcached_hash", "memcached/hash, function"), ("memcached_assoc", "memcached/hash, table"),
                         ("nginx_openssl", "nginx/openssl"), ("ucl_libucl", "ucl/libucl"),
-                        ("zip_libzip", "zip/libzip, queries")):
+                        ("zip_libzip", "zip/libzip, queries"), ("zip_libzip_listing", "zip/libzip, listing")):
     directory = CAMP / f"p6-ports/{boundary}/run"
     entry = json.loads((directory / "run.json").read_text())["harness_entry"]
     policy_rows(directory, {entry: label})
-entry = json.loads((R4 / "p6-listing/run/run.json").read_text())["harness_entry"]
-policy_rows(R4 / "p6-listing/run", {entry: "zip/libzip, listing"})
 
 lines = []
 for label, cells in policy:
