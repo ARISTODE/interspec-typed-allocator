@@ -1,0 +1,348 @@
+{
+ "note": "Tracker item R6, read by tools/render_sp3_field_status.py. For every record of sp3_metadata_sources.json: `check_site` names the wrapper file and a text of the line that performs the registry check (`after` restricts the search to the lines after a line that occurs once); `exercise` names the raw measurement output (`sources`) and the library or shim function, or the trace event, that shows the measured workload reaching the field; `not_exercised` says why there is nothing to count.",
+ "sources": {
+  "zip_libzip": {
+   "kind": "profiles",
+   "archive": "evaluation/results/tracker/R1/03-campaign-930cb20/instr/zip_libzip/run/callgrind-profiles.tar.gz",
+   "low_members": "interspec-500000-0\\.callgrind",
+   "high_members": "interspec-1000000-0\\.callgrind",
+   "low": 500000,
+   "high": 1000000,
+   "unit": "query",
+   "what": "callgrind profiles of the timed zip/libzip queries, InterSpec build, 500,000 and 1,000,000 queries"
+  },
+  "magick_libpng": {
+   "kind": "profiles",
+   "archive": "evaluation/results/tracker/R1/03-campaign-930cb20/instr/magick_libpng/run/callgrind-profiles.tar.gz",
+   "low_members": "interspec-350-0\\.callgrind",
+   "high_members": "interspec-700-0\\.callgrind",
+   "low": 350,
+   "high": 700,
+   "unit": "image",
+   "what": "callgrind profiles of the timed magick/libpng workload, InterSpec build, 350 and 700 images"
+  },
+  "ucl_libucl": {
+   "kind": "profiles",
+   "archive": "evaluation/results/tracker/R1/03-campaign-930cb20/instr/ucl_libucl/run/callgrind-profiles.tar.gz",
+   "low_members": "interspec-10000-0\\.callgrind",
+   "high_members": "interspec-20000-0\\.callgrind",
+   "low": 10000,
+   "high": 20000,
+   "unit": "iteration",
+   "what": "callgrind profiles of the timed ucl/libucl workload, InterSpec build, 10,000 and 20,000 iterations"
+  },
+  "ffmpeg_libvpx": {
+   "kind": "profiles",
+   "archive": "evaluation/results/tracker/R1/03-campaign-930cb20/instr/ffmpeg_libvpx/run/callgrind-profiles.tar.gz",
+   "low_members": "interspec-6-0\\.callgrind",
+   "high_members": "interspec-12-0\\.callgrind",
+   "low": 6,
+   "high": 12,
+   "unit": "frame",
+   "what": "callgrind profiles of the timed ffmpeg/libvpx workload, InterSpec build, 6 and 12 frames"
+  },
+  "memcached_assoc": {
+   "kind": "profiles",
+   "archive": "evaluation/results/tracker/R1/03-campaign-930cb20/instr/memcached_assoc/run/callgrind-profiles.tar.gz",
+   "low_members": "interspec-200000-0\\.callgrind",
+   "high_members": "interspec-400000-0\\.callgrind",
+   "low": 200000,
+   "high": 400000,
+   "unit": "operation",
+   "what": "callgrind profiles of the timed memcached hash-table workload, InterSpec build, 200,000 and 400,000 operations"
+  },
+  "nginx_openssl": {
+   "kind": "profiles",
+   "archive": "evaluation/results/tracker/R1/03-campaign-930cb20/instr/nginx_openssl/run/callgrind-profiles.tar.gz",
+   "low_members": "interspec-750-0\\.callgrind",
+   "high_members": "interspec-1500-0\\.callgrind",
+   "low": 750,
+   "high": 1500,
+   "unit": "exchange",
+   "what": "callgrind profiles of the timed nginx/openssl workload, InterSpec build, 750 and 1,500 exchanges"
+  },
+  "yaml_libyaml": {
+   "kind": "profiles",
+   "archive": "evaluation/results/tracker/R3/01-vm-00a20ec/r3/yaml/run/callgrind-profiles.tar.gz",
+   "low_members": "yaml_parse_1mb-6-interspec-0\\.\\d+\\.callgrind",
+   "high_members": "yaml_parse_1mb-12-interspec-0\\.\\d+\\.callgrind",
+   "low": 6,
+   "high": 12,
+   "unit": "parsed document",
+   "what": "callgrind profiles of yaml/libyaml, InterSpec build, 6 and 12 parses of the 1 MiB document"
+  },
+  "rsync_popt": {
+   "kind": "run-profiles",
+   "archive": "evaluation/results/tracker/R3/01-vm-00a20ec/r3/rsync/run/callgrind-profiles.tar.gz",
+   "members": "file_sync_194mb-run-interspec-0\\.\\d+\\.callgrind",
+   "unit": "file synchronization (all processes of the run)",
+   "what": "callgrind profiles of all processes of one rsync file synchronization, InterSpec build"
+  },
+  "memcached_bipbuffer": {
+   "kind": "trace",
+   "archive": "evaluation/results/tracker/R1/03-campaign-930cb20/p2/driver-correctness.tar.gz",
+   "member": "driver-output/correctness/diagnostics/normal.stderr",
+   "unit": "the deployment test's traced run",
+   "what": "registry and bridge trace of the memcached deployment test (get, set and log-watcher traffic, the operations of the timed scenarios)"
+  },
+  "nginx_libpcre": {
+   "kind": "trace",
+   "archive": "evaluation/results/tracker/R1/03-campaign-930cb20/p3/run/gate-runs.tar.gz",
+   "member": "gate/check-frequency/stderr.log",
+   "unit": "the deployment test's traced run",
+   "what": "registry trace of the nginx deployment test (requests to the regex location of the timed workload)"
+  }
+ },
+ "fields": {
+  "memcached_bipbuffer|bipbuf_peek_all|return|return|": {
+   "check_site": {
+    "file": "integration/memcached_server/bridge.cpp",
+    "text": "b.snapshot(result, *size, \"peek_all\")"
+   },
+   "exercise": {
+    "source": "memcached_bipbuffer",
+    "event": "peek_all"
+   }
+  },
+  "memcached_bipbuffer|bipbuf_request|return|return|": {
+   "check_site": {
+    "file": "integration/memcached_server/bridge.cpp",
+    "text": "b.validate(result, size, \"request\")"
+   },
+   "exercise": {
+    "source": "memcached_bipbuffer",
+    "event": "request"
+   }
+  },
+  "memcached_hash|assoc_find|return|return|": {
+   "check_site": {
+    "file": "integration/memcached_hash/assoc_app_bench.cpp",
+    "text": "objects_.resolve_handle("
+   },
+   "exercise": {
+    "source": "memcached_assoc",
+    "symbol": "interspec_assoc_find"
+   }
+  },
+  "memcached_hash|assoc_iterate|param|1|/deref": {
+   "check_site": {
+    "file": "integration/memcached_hash/assoc_app_bench.cpp",
+    "text": "objects_.resolve_handle("
+   },
+   "exercise": {
+    "source": "memcached_assoc",
+    "symbol": "interspec_assoc_iterate_item"
+   },
+   "note": "Same check as assoc_find. The workload iterates over the table when it expands."
+  },
+  "memcached_hash|item_trylock_unlock|param|0|": {
+   "not_exercised": "not a call of the port"
+  },
+  "memcached_hash|thread_setname|param|1|": {
+   "not_exercised": "not a call of the port"
+  },
+  "nginx_libpcre|ngx_regex_free|param|0|": {
+   "not_exercised": "the pointer does not cross the boundary in the port"
+  },
+  "nginx_libpcre|pcre2_get_ovector_pointer_8|return|return|": {
+   "check_site": {
+    "file": "integration/nginx_server/bridge.cpp",
+    "text": "validate(pointer, bytes, Use::offsets)"
+   },
+   "exercise": {
+    "source": "nginx_libpcre",
+    "event": "check",
+    "site": 4194307
+   },
+   "note": "Site 4194307 is the helper site capture_offsets of integration/nginx_server/boundary.json (third helper site, base 0x400000)."
+  },
+  "nginx_libpcre|pcre_fullinfo(NAMETABLE)|out_param|name table": {
+   "check_site": {
+    "file": "integration/nginx_server/bridge.cpp",
+    "text": "validate(ptr, bytes, Use::names)"
+   },
+   "exercise": {
+    "source": "nginx_libpcre",
+    "event": "check",
+    "site": 4194305
+   },
+   "note": "Site 4194305 is the helper site compiled_regex. Checked once, when the configuration is loaded."
+  },
+  "rsync_popt|poptBadOption|return|return|": {
+   "check_site": {
+    "file": "integration/rsync_popt/p4c_bridge.cpp",
+    "after": "extern \"C\" const char* poptBadOption(",
+    "text": "copy_checked(value)"
+   },
+   "exercise": {
+    "source": "rsync_popt",
+    "symbol": "interspec_p4c_bad_option"
+   }
+  },
+  "rsync_popt|poptGetArgs|return|return|": {
+   "not_exercised": "the array pointer does not cross the boundary"
+  },
+  "rsync_popt|poptGetArgs|return_ptr|return|/deref": {
+   "check_site": {
+    "file": "integration/rsync_popt/p4c_bridge.cpp",
+    "after": "extern \"C\" const char** poptGetArgs(",
+    "text": "copy_checked(value)"
+   },
+   "exercise": {
+    "source": "rsync_popt",
+    "symbol": "interspec_p4c_args_at"
+   }
+  },
+  "rsync_popt|poptGetOptArg|return|return|": {
+   "check_site": {
+    "file": "integration/rsync_popt/p4c_bridge.cpp",
+    "after": "extern \"C\" char* poptGetOptArg(",
+    "text": "copy_checked(value)"
+   },
+   "exercise": {
+    "source": "rsync_popt",
+    "symbol": "interspec_p4c_opt_arg"
+   }
+  },
+  "rsync_popt|poptStrerror|return|return|": {
+   "not_exercised": "not wrapped by the port"
+  },
+  "rsync_popt|poptDupArgv|param|3|/deref": {
+   "not_exercised": "not wrapped by the port; rsync does not call it"
+  },
+  "rsync_popt|poptDupArgv|param|3|/deref/deref": {
+   "not_exercised": "not wrapped by the port; rsync does not call it"
+  },
+  "rsync_popt|poptGetNextOpt|option table|arg (string options)": {
+   "check_site": {
+    "file": "integration/rsync_popt/p4c_bridge.cpp",
+    "after": "static void sync_slots(",
+    "text": "copy_checked(value)"
+   },
+   "exercise": {
+    "source": "rsync_popt",
+    "symbol": "interspec_p4c_slot_get_string"
+   }
+  },
+  "ucl_libucl|ucl_object_emit|return|return|": {
+   "check_site": {
+    "file": "integration/ucl_libucl/ucl_app_bench.cpp",
+    "text": "P::kUseUclEmittedRange"
+   },
+   "exercise": {
+    "source": "ucl_libucl",
+    "symbol": "ucl_object_emit"
+   }
+  },
+  "ucl_libucl|ucl_object_tostring|return|return|": {
+   "check_site": {
+    "file": "integration/ucl_libucl/ucl_app_bench.cpp",
+    "text": "P::kUseUclStringValueRange"
+   },
+   "exercise": {
+    "source": "ucl_libucl",
+    "symbol": "ucl_object_tostring"
+   }
+  },
+  "ucl_libucl|ucl_parser_get_error|return|return|": {
+   "exercise": {
+    "source": "ucl_libucl",
+    "symbol": "ucl_parser_get_error"
+   }
+  },
+  "yaml_libyaml|yaml_parser_parse|param|1|/deref/field:data/field:scalar/field:value": {
+   "check_site": {
+    "file": "integration/yaml_libyaml/yaml_app_bench.cpp",
+    "text": "P::kUseYamlScalarValueRange"
+   },
+   "exercise": {
+    "source": "yaml_libyaml",
+    "symbol": "yaml_parser_parse"
+   }
+  },
+  "zip_libzip|zip_get_name|return|return|": {
+   "check_site": {
+    "file": "integration/zip_libzip/zip_app_bench.cpp",
+    "text": "kMaxNameBytes, P::kUseZipEntryName"
+   },
+   "exercise": {
+    "source": "zip_libzip",
+    "symbol": "zip_get_name"
+   },
+   "note": "zip_stat_index calls zip_get_name as well."
+  },
+  "zip_libzip|zip_stat_index|param|3|/deref/field:name": {
+   "check_site": {
+    "file": "integration/zip_libzip/zip_app_bench.cpp",
+    "text": "kMaxNameBytes, P::kUseZipEntryName"
+   },
+   "exercise": {
+    "source": "zip_libzip",
+    "symbol": "zip_stat_index"
+   }
+  },
+  "zip_libzip|zip_error_strerror|return|return|": {
+   "exercise": {
+    "source": "zip_libzip",
+    "symbol": "zip_error_strerror"
+   }
+  },
+  "magick_libpng|png_get_io_ptr|return|return|": {
+   "not_exercised": "the pointer stays inside U in the port"
+  },
+  "magick_libpng|native_write_cb|param|1|": {
+   "not_exercised": "the callback is inside U in the port"
+  },
+  "magick_libpng|magickpng_decode_rgba|return|decoded pixels": {
+   "check_site": {
+    "file": "integration/magick_libpng/png_app_bench.cpp",
+    "text": "P::kUsePngDecodedPixelsRange"
+   },
+   "exercise": {
+    "source": "magick_libpng",
+    "symbol": "magickpng_decode_rgba"
+   }
+  },
+  "magick_libpng|magickpng_encode_rgba|return|encoded image": {
+   "check_site": {
+    "file": "integration/magick_libpng/png_app_bench.cpp",
+    "text": "P::kUsePngEncodedImageRange"
+   },
+   "exercise": {
+    "source": "magick_libpng",
+    "symbol": "magickpng_encode_rgba"
+   }
+  },
+  "ffmpeg_libvpx|vpx_codec_get_frame|return|planes[0..2]": {
+   "check_site": {
+    "file": "integration/ffmpeg_libvpx/vpx_app_bench.cpp",
+    "text": "P::kUseVp8FrameBufferRange"
+   },
+   "exercise": {
+    "source": "ffmpeg_libvpx",
+    "symbol": "vpx_codec_get_frame"
+   }
+  },
+  "ffmpeg_libvpx|vpx_codec_get_cx_data|return|frame.buf": {
+   "check_site": {
+    "file": "integration/ffmpeg_libvpx/vpx_app_bench.cpp",
+    "text": "P::kUseVp8CxDataRange"
+   },
+   "exercise": {
+    "source": "ffmpeg_libvpx",
+    "symbol": "vpx_codec_get_cx_data"
+   }
+  },
+  "nginx_openssl|SSL_get_ex_data|return|connection": {
+   "check_site": {
+    "file": "integration/nginx_openssl/tls_app_bench.cpp",
+    "text": "objects_.check_external_element_by_address("
+   },
+   "exercise": {
+    "source": "nginx_openssl",
+    "symbol": "interspec_tls_get_connection"
+   },
+   "note": "The U call that returns what SSL_get_ex_data returns."
+  }
+ }
+}

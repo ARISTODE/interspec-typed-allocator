@@ -162,6 +162,51 @@ VARIANTS["paper_counting_rule_inlined"] = VARIANTS["paper_counting_rule_factored
 ]
 
 
+# R5: paper_counting_rule_inlined restricted to the ten OpenSSL functions that
+# have unresolved pointer fields at nginx/openssl
+# (evaluation/results/tracker/C2/19-unresolved-pointer-fields-by-cause/), with
+# the depth limit of the path enumeration as a parameter. The restriction is on
+# the two classes from which every query takes its interface parameters and
+# returns; with the limit left at 8 the rows of the ten functions must equal
+# those of the unrestricted run (checked in the evidence of R5).
+R5_FUNCTIONS = ("SSL_CTX_remove_session", "SSL_free", "HMAC_Init_ex", "SSL_set_SSL_CTX",
+                "EVP_DecryptInit_ex", "EVP_EncryptInit_ex", "SSL_CTX_use_certificate",
+                "SSL_CTX_use_PrivateKey", "SSL_set_session", "ASN1_TIME_print")
+_R5_RESTRICTION = [
+    ("ql/lib/PointerBoundaryBase.qll",
+     "  class BoundaryParameter extends Parameter {\n"
+     "    BoundaryParameter() {\n"
+     "      interfaceDirection(this.getFunction(), _)\n"
+     "    }\n",
+     "  // R5 variant: only these interface functions.\n"
+     "  predicate r5Function(Function f) {\n"
+     "    f.getName() in [" + ", ".join(f'"{name}"' for name in R5_FUNCTIONS) + "]\n"
+     "  }\n\n"
+     "  class BoundaryParameter extends Parameter {\n"
+     "    BoundaryParameter() {\n"
+     "      interfaceDirection(this.getFunction(), _) and r5Function(this.getFunction())\n"
+     "    }\n"),
+    ("ql/lib/PointerBoundaryBase.qll",
+     "      ) and interfaceDirection(this, _)\n"
+     "    }\n",
+     "      ) and interfaceDirection(this, _) and r5Function(this)\n"
+     "    }\n"),
+]
+
+
+def _r5_depth(limit):
+    """Every occurrence of the limit 8, with the number of occurrences expected."""
+    return [("all", "ql/lib/PointerSlotUnified.qll", "parentDepth < 8", f"parentDepth < {limit}", 3),
+            ("all", "ql/lib/ScalarSlotUnified.qll", "parentDepth < 8", f"parentDepth < {limit}", 3),
+            ("all", "ql/queries/pointer_slots_classification.ql", "depth >= 8", f"depth >= {limit}", 3),
+            ("all", "ql/queries/scalar_slots_classification.ql", "depth >= 8", f"depth >= {limit}", 5)]
+
+
+VARIANTS["r5_ten_functions"] = VARIANTS["paper_counting_rule_inlined"] + _R5_RESTRICTION
+for _limit in (10, 12, 16):
+    VARIANTS[f"r5_ten_functions_depth_{_limit}"] = VARIANTS["r5_ten_functions"] + _r5_depth(_limit)
+
+
 def predicate_block(text, relative, name):
     """The text of predicate `name`: from `  predicate NAME(` to the next `  }` line."""
     start = "  predicate " + name + "("
@@ -175,6 +220,15 @@ def predicate_block(text, relative, name):
 def main():
     variant, pack = sys.argv[1], Path(sys.argv[2])
     for change in VARIANTS[variant]:
+        if change[0] == "all":
+            _, relative, old, new, expected = change
+            path = pack / relative
+            text = path.read_text()
+            if text.count(old) != expected:
+                sys.exit(f"{relative}: expected {expected} occurrences of {old!r}, found {text.count(old)}")
+            path.write_text(text.replace(old, new))
+            print(f"{variant}: changed {relative} ({expected} occurrences)")
+            continue
         if change[0] == "predicate":
             _, relative, name, sha256, new = change
             path = pack / relative
