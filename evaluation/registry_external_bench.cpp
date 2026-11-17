@@ -7,6 +7,10 @@
 // map from token to object and then asked the registry to check the object;
 // that is what "resolve" measures for the older header.
 //
+// With INTERSPEC_RUNTIME_HAS_HANDLES the same two operations are also measured
+// for the handle table (register_handle, resolve_handle), which is what the
+// hash table port uses since that header.
+//
 // Output: CSV, one line per metric.
 #include <interspec/runtime.h>
 
@@ -113,6 +117,46 @@ int main() {
     }
     report("unregister_and_register", population, iterations, now_ns() - start);
     if (sink == 1) std::printf("#\n");
+
+#ifdef INTERSPEC_RUNTIME_HAS_HANDLES
+    Runtime handles_runtime(0, 0);
+    if (!handles_runtime.register_type(kItemId, kItemType) ||
+        !handles_runtime.register_type_layout(kItemId, sizeof(Item), alignof(Item)))
+      return 1;
+    std::vector<uint32_t> handles(population);
+    auto add_handle = [&](size_t i) {
+      handles[i] = handles_runtime.register_handle(reinterpret_cast<uintptr_t>(&items[i]), 1,
+                                                   kItemId, MemoryDomain::trusted);
+      if (!handles[i]) std::abort();
+    };
+    auto drop_handle = [&](size_t i) {
+      if (!handles_runtime.unregister_handle(handles[i])) std::abort();
+    };
+    for (size_t i = 0; i < population; ++i) add_handle(i);
+    for (size_t step = 0; step < population * 4; ++step) {
+      const size_t i = random() % population;
+      drop_handle(i);
+      add_handle(i);
+    }
+    start = now_ns();
+    for (uint64_t n = 0; n < iterations; ++n) {
+      const size_t i = order[n & (order.size() - 1)];
+      uintptr_t base = 0;
+      if (handles_runtime.resolve_handle(handles[i], sizeof(Item), kItemType,
+                                         MemoryDomain::trusted, base) != CheckResult::ok)
+        std::abort();
+      sink += base;
+    }
+    report("resolve_handle", population, iterations, now_ns() - start);
+    start = now_ns();
+    for (uint64_t n = 0; n < iterations; ++n) {
+      const size_t i = order[n & (order.size() - 1)];
+      drop_handle(i);
+      add_handle(i);
+    }
+    report("unregister_and_register_handle", population, iterations, now_ns() - start);
+    if (sink == 1) std::printf("#\n");
+#endif
   }
   return 0;
 }

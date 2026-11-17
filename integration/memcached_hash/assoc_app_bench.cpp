@@ -18,8 +18,8 @@
 //        never writes a key. U's versions of items and keys are not copied
 //        back.
 //   SP3  T registers each item before its handle reaches U. The handle is
-//        the registration token, and what U hands back must name a live
-//        registered item of T.
+//        the one the registry issued (Runtime::register_handle), and what U
+//        hands back must name a live registered item of T.
 // This program uses its sandbox from one thread. It says so to RLBox and to
 // the object registry, which then omit their locks.
 #define RLBOX_SINGLE_THREADED_INVOCATIONS
@@ -72,8 +72,8 @@ using Port = interspec::WasmPort<AssocPolicy>;
 // Registration of T's items (INTERSPEC_REGISTRY) is separate from the check
 // (INTERSPEC_CHECKS), so that the variant "tracked-no-check"
 // (-DINTERSPEC_T_TRACKING=1 with INTERSPEC_CHECKS=0) registers and
-// unregisters the items, uses the registry's tokens as handles, and never
-// checks a handle against the registry.
+// unregisters the items, uses the registry's handles, and never checks the
+// type or domain of what a handle names.
 #ifndef INTERSPEC_T_TRACKING
 #define INTERSPEC_T_TRACKING 0
 #endif
@@ -194,7 +194,7 @@ class SandboxTable {
     if (found == handle_of_.end()) return;
 #if INTERSPEC_REGISTRY
     if (ASSOC_REGISTRY_ON()) {
-      objects_.unregister_external(found->second);
+      objects_.unregister_handle(found->second);
       handle_of_.erase(found);
       return;
     }
@@ -220,19 +220,21 @@ class SandboxTable {
     return static_cast<uint32_t>(reinterpret_cast<uintptr_t>(pointer));
   }
 
-  // Handles. With SP3 on, the handle is the registry's token for the item: a
-  // token is never issued twice, and the registry knows the item's type.
+  // Handles. With SP3 on, the handle is the registry's handle for the item:
+  // it is never issued twice, and the registry knows the item's type.
   // Otherwise it is a slot of a table in T, reused after an item is freed, as
-  // a wrapper without InterSpec would keep.
+  // a wrapper without InterSpec would keep. Either way T remembers the handle
+  // of each item, to release it, and an item gets one handle only.
   uint32_t issue(Item* it) {
+    const auto entry = handle_of_.try_emplace(it, 0);
+    if (!entry.second) throw std::runtime_error("item_has_handle");
 #if INTERSPEC_REGISTRY
     if (ASSOC_REGISTRY_ON()) {
-      const uint64_t token = objects_.register_external_array(
-          reinterpret_cast<uintptr_t>(it), 1, kItemId, interspec::MemoryDomain::trusted,
-          interspec::ObjectStorage::heap);
-      if (token == 0 || token > UINT32_MAX) throw std::runtime_error("item_registration");
-      handle_of_[it] = static_cast<uint32_t>(token);
-      return static_cast<uint32_t>(token);
+      const uint32_t registered = objects_.register_handle(
+          reinterpret_cast<uintptr_t>(it), 1, kItemId, interspec::MemoryDomain::trusted);
+      if (registered == 0) throw std::runtime_error("item_registration");
+      entry.first->second = registered;
+      return registered;
     }
 #endif
     uint32_t handle;
@@ -244,23 +246,23 @@ class SandboxTable {
       slots_.push_back(it);
       handle = static_cast<uint32_t>(slots_.size());
     }
-    handle_of_[it] = handle;
+    entry.first->second = handle;
     return handle;
   }
 
-  // SP3 on: the handle must be the token of a live registered item of T.
+  // SP3 on: the handle must be the registry's handle of a live item of T.
   // Otherwise: only a handle whose slot is in use names an item.
   Item* resolve(uint32_t handle, const char* operation) {
 #if INTERSPEC_REGISTRY
     if (ASSOC_REGISTRY_ON()) {
-      // The registry maps the token to the item; T keeps no table of its own.
+      // The registry maps the handle to the item; T keeps no table of its own.
       uintptr_t base = 0;
 #if !INTERSPEC_CHECKS
       // Tracking without check: what a wrapper needs to return a pointer.
-      if (!objects_.external_base(handle, base)) Port::reject(operation, "unknown_handle");
+      if (!objects_.handle_base(handle, base)) Port::reject(operation, "unknown_handle");
 #else
       port_.count_check();
-      const auto result = objects_.resolve_external(
+      const auto result = objects_.resolve_handle(
           handle, sizeof(Item), kItemType, interspec::MemoryDomain::trusted, base);
       if (result != interspec::CheckResult::ok)
         Port::reject(operation, interspec::check_result_name(result));

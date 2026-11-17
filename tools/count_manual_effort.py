@@ -15,7 +15,8 @@ Definitions used here:
   registration calls in T  call sites in the trusted bridge that register a
                            type, a type layout or an object by hand
                            (register_type, register_type_layout,
-                           register_external_*), and their unregister calls.
+                           register_external_*, register_handle), and their
+                           unregister calls.
                            Calls into generated code (register_types,
                            register_wasm_allocation_policy,
                            register_allocation_policy) are counted separately.
@@ -37,8 +38,9 @@ BOUNDARIES = {
     "nginx/libpcre": {"spec": "integration/nginx_server",
                       "trusted": ["integration/nginx_server/bridge.cpp"]},
 }
-MANUAL = re.compile(r"\b(register_type|register_type_layout|register_external_\w+)\s*\(")
-UNREGISTER = re.compile(r"\b(unregister_external\w*)\s*\(")
+MANUAL = re.compile(r"\b(register_type|register_type_layout|register_external_\w+|"
+                    r"register_handle)\s*\(")
+UNREGISTER = re.compile(r"\b(unregister_external\w*|unregister_handle)\s*\(")
 GENERATED = re.compile(r"\b(register_types|register_wasm_allocation_policy|"
                        r"register_allocation_policy)\s*\(")
 

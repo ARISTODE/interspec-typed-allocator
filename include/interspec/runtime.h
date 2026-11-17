@@ -59,6 +59,8 @@ enum class ObjectStorage { heap, stack, global };
 // Lets code that must build against older versions of this header detect
 // resolve_external() and the token index.
 #define INTERSPEC_RUNTIME_RESOLVES_TOKENS 1
+// register_handle(), resolve_handle() and the handle table.
+#define INTERSPEC_RUNTIME_HAS_HANDLES 1
 
 inline namespace INTERSPEC_REGISTRY_ABI {
 #ifdef INTERSPEC_SINGLE_THREADED_REGISTRY
@@ -219,6 +221,85 @@ class TokenIndex {
   size_t mask_ = 0;
   unsigned shift_ = 60;
   size_t used_ = 0;  // live entries and tombstones
+  size_t live_ = 0;
+};
+
+// Objects of T that U names by a handle and never by address, such as the
+// items of a hash table that U keeps. A handle is a 32-bit value, so it fits
+// wherever U's 32-bit code stored a pointer. Its low kSlotBits bits name a
+// slot of a dense table and the remaining bits the generation of the slot. A
+// slot is reused with the next generation, and a slot whose generations are
+// used up is retired, so no handle is issued twice. A check reads one record
+// of 32 bytes. These objects are not in the address index: they cannot be
+// found by address, and a second registration of one address is not refused
+// (a wrapper that releases handles keeps the handle of each object anyway).
+class HandleTable {
+ public:
+  static constexpr unsigned kSlotBits = 22;
+  static constexpr uint32_t kSlotMask = (uint32_t{1} << kSlotBits) - 1;
+  static constexpr uint32_t kLastGeneration = (uint32_t{1} << (32 - kSlotBits)) - 1;
+
+  struct Record {
+    uintptr_t base = 0;       // while the slot is free: the next free slot
+    size_t bytes = 0;
+    uint64_t type_hash = 0;
+    uint32_t handle = 0;      // 0 while the slot is free
+    uint16_t generation = 0;  // of the last handle issued for the slot
+    uint8_t domain = 0;
+  };
+  static_assert(sizeof(Record) == 32, "two records per cache line");
+
+  // 0 when every slot is in use or retired.
+  uint32_t insert(uintptr_t base, size_t bytes, uint64_t type_hash, MemoryDomain domain) {
+    uint32_t slot;
+    if (free_ != kNone) {
+      slot = free_;
+      free_ = static_cast<uint32_t>(records_[slot].base);
+    } else {
+      if (records_.size() > kSlotMask) return 0;
+      slot = static_cast<uint32_t>(records_.size());
+      records_.emplace_back();
+    }
+    Record& record = records_[slot];
+    ++record.generation;  // at most kLastGeneration: a retired slot is never free
+    record.handle = (static_cast<uint32_t>(record.generation) << kSlotBits) | slot;
+    record.base = base;
+    record.bytes = bytes;
+    record.type_hash = type_hash;
+    record.domain = static_cast<uint8_t>(domain);
+    ++live_;
+    return record.handle;
+  }
+
+  // A live handle is never 0 (its generation is at least 1); a free slot
+  // holds 0, so 0 must not be looked up.
+  const Record* find(uint32_t handle) const {
+    const uint32_t slot = handle & kSlotMask;
+    if (handle == 0 || slot >= records_.size()) return nullptr;
+    const Record& record = records_[slot];
+    return record.handle == handle ? &record : nullptr;
+  }
+
+  bool erase(uint32_t handle) {
+    const uint32_t slot = handle & kSlotMask;
+    if (handle == 0 || slot >= records_.size() || records_[slot].handle != handle)
+      return false;
+    Record& record = records_[slot];
+    record.handle = 0;
+    --live_;
+    if (record.generation < kLastGeneration) {
+      record.base = free_;
+      free_ = slot;
+    }
+    return true;
+  }
+
+  size_t size() const { return live_; }
+
+ private:
+  static constexpr uint32_t kNone = ~uint32_t{0};
+  std::vector<Record> records_;
+  uint32_t free_ = kNone;
   size_t live_ = 0;
 };
 
@@ -562,6 +643,69 @@ class Runtime {
   }
 
   bool unregister_nonheap(uint64_t token) { return unregister_external(token); }
+
+  // Handles for objects of T that U names without their address (see
+  // HandleTable). Like register_external_array, only trusted caller code
+  // registers; the type must be registered with its layout. Returns 0 on
+  // refusal.
+  uint32_t register_handle(uintptr_t ptr, size_t count, TypeId type_id,
+                           MemoryDomain domain) {
+    std::unique_lock<RegistryMutex> lock(mu_);
+    if (!handle_type_.valid || handle_type_.id != type_id) {
+      const auto type = types_.find(type_id);
+      const auto layout = layouts_.find(type_id);
+      if (type == types_.end() || layout == layouts_.end()) return 0;
+      // The layout of a type cannot change once an object of it is registered.
+      frozen_layouts_.insert(type_id);
+      handle_type_ = HandleType{true, type_id, type->second,
+                                layout->second.element_size, layout->second.alignment};
+    }
+    if (!ptr || count == 0 || ptr % handle_type_.alignment != 0 ||
+        count > std::numeric_limits<size_t>::max() / handle_type_.element_size)
+      return 0;
+    const size_t size = count * handle_type_.element_size;
+    if (size > std::numeric_limits<uintptr_t>::max() - ptr) return 0;
+    if (arena_valid_ && ptr < base_ + capacity_ && ptr + size > base_) return 0;
+    return handles_.insert(ptr, size, handle_type_.type_hash, domain);
+  }
+
+  bool unregister_handle(uint32_t handle) {
+    std::unique_lock<RegistryMutex> lock(mu_);
+    return handles_.erase(handle);
+  }
+
+  // The object behind a handle that U returned: refused when the handle was
+  // never issued, was unregistered, or names an object of another domain or
+  // type, or an object smaller than `bytes`. `base` is written only when the
+  // result is ok.
+  CheckResult resolve_handle(uint32_t handle, size_t bytes, uint64_t expected_type,
+                             MemoryDomain expected_domain, uintptr_t& base) const {
+    std::shared_lock<RegistryMutex> lock(mu_);
+    const HandleTable::Record* record = handles_.find(handle);
+    if (!record) return CheckResult::untracked;
+    if (record->domain != static_cast<uint8_t>(expected_domain))
+      return CheckResult::wrong_domain;
+    if (record->type_hash != expected_type) return CheckResult::wrong_type;
+    if (bytes > record->bytes) return CheckResult::out_of_bounds;
+    base = record->base;
+    return CheckResult::ok;
+  }
+
+  // The address registered under `handle`, without any check of type or
+  // domain. For measurements of registration alone; a wrapper uses
+  // resolve_handle.
+  bool handle_base(uint32_t handle, uintptr_t& base) const {
+    std::shared_lock<RegistryMutex> lock(mu_);
+    const HandleTable::Record* record = handles_.find(handle);
+    if (!record) return false;
+    base = record->base;
+    return true;
+  }
+
+  size_t handle_count() const {
+    std::shared_lock<RegistryMutex> lock(mu_);
+    return handles_.size();
+  }
 
   uintptr_t base() const { return base_; }
   size_t capacity() const { return capacity_; }
@@ -1019,6 +1163,15 @@ class Runtime {
   OrderedObjects borrowed_;
   TokenIndex<BorrowedObject*> borrowed_by_token_;
   uint64_t next_borrowed_token_ = 1;
+  HandleTable handles_;
+  struct HandleType {  // the type of the last register_handle call
+    bool valid = false;
+    TypeId id = 0;
+    uint64_t type_hash = 0;
+    size_t element_size = 0;
+    size_t alignment = 0;
+  };
+  HandleType handle_type_;
   std::map<uintptr_t, AllocationSite> sites_;
   std::unordered_map<SiteId, uintptr_t> sites_by_id_;
   std::unordered_map<SiteId, uint64_t> site_types_;
