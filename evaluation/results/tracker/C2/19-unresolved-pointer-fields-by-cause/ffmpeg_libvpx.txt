@@ -1,0 +1,3 @@
+pointer fields 347; need SP3 29; resolved 18; unknown domain and depth limit 6; unknown domain only 5
+SP3 pointers: 26; at depth limit 4; unknown domain 9
+  vpx_codec_dec_init_ver: resolved 6, unknown domain and depth limit 6, unknown domain only 5

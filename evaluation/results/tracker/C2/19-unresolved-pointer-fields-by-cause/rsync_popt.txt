@@ -1,0 +1,3 @@
+pointer fields 637; need SP3 23; resolved 8; unknown domain only 15
+SP3 pointers: 21; at depth limit 0; unknown domain 12
+  poptAddAlias: unknown domain only 15

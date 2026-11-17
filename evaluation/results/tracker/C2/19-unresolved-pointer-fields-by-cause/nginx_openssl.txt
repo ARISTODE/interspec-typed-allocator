@@ -1,0 +1,12 @@
+pointer fields 120,812; need SP3 2,472; depth limit only 1,009; resolved 501; unknown domain and depth limit 567; unknown domain only 395
+SP3 pointers: 2,443; at depth limit 1,318; unknown domain 771
+  SSL_CTX_remove_session: depth limit only 192, resolved 118, unknown domain and depth limit 219, unknown domain only 124
+  SSL_free: depth limit only 130, resolved 54, unknown domain and depth limit 145, unknown domain only 161
+  HMAC_Init_ex: depth limit only 231, resolved 54, unknown domain and depth limit 126, unknown domain only 19
+  SSL_set_SSL_CTX: depth limit only 273, resolved 182
+  EVP_DecryptInit_ex: depth limit only 47, resolved 27, unknown domain and depth limit 31, unknown domain only 42
+  EVP_EncryptInit_ex: depth limit only 47, resolved 27, unknown domain and depth limit 31, unknown domain only 42
+  SSL_CTX_use_certificate: depth limit only 41, resolved 2, unknown domain and depth limit 9
+  SSL_CTX_use_PrivateKey: depth limit only 30, resolved 2, unknown domain and depth limit 6
+  SSL_set_session: depth limit only 18, resolved 3, unknown domain only 5
+  ASN1_TIME_print: unknown domain only 2
