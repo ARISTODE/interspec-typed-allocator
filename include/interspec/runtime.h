@@ -46,10 +46,21 @@ enum class ObjectStorage { heap, stack, global };
 // This is the registry's counterpart of RLBOX_SINGLE_THREADED_INVOCATIONS,
 // with which RLBox omits its own locks, and it rests on the same promise by
 // the application. Define both or neither.
+//
+// The two forms of the registry have different layouts. They live in inline
+// namespaces of different names, so that two translation units that disagree
+// about the definition cannot be linked into sharing one registry.
+#ifdef INTERSPEC_SINGLE_THREADED_REGISTRY
+#define INTERSPEC_REGISTRY_ABI single_threaded_registry
+#else
+#define INTERSPEC_REGISTRY_ABI locked_registry
+#endif
+
 // Lets code that must build against older versions of this header detect
 // resolve_external() and the token index.
 #define INTERSPEC_RUNTIME_RESOLVES_TOKENS 1
 
+inline namespace INTERSPEC_REGISTRY_ABI {
 #ifdef INTERSPEC_SINGLE_THREADED_REGISTRY
 struct RegistryMutex {
   void lock() noexcept {}
@@ -62,6 +73,7 @@ constexpr bool kRegistryLocked = false;
 using RegistryMutex = std::shared_mutex;
 constexpr bool kRegistryLocked = true;
 #endif
+}  // inline namespace INTERSPEC_REGISTRY_ABI
 
 // Kept for existing callers of the nonheap-specific registration API.
 using NonheapKind = ObjectStorage;
@@ -348,6 +360,8 @@ class OrderedObjects {
   std::vector<BorrowedObject*> free_;
   size_t size_ = 0;
 };
+
+inline namespace INTERSPEC_REGISTRY_ABI {
 
 class Runtime {
  public:
@@ -1010,6 +1024,8 @@ class Runtime {
   std::unordered_map<SiteId, uint64_t> site_types_;
   std::map<uintptr_t, Allocation> allocations_;
 };
+
+}  // inline namespace INTERSPEC_REGISTRY_ABI
 
 constexpr uint64_t type_hash(const char* text) {
   uint64_t hash = 0;

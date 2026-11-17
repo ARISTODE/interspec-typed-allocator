@@ -1,6 +1,8 @@
 #define RLBOX_USE_EXCEPTIONS
 #define RLBOX_ENABLE_DEBUG_ASSERTIONS
 #define RLBOX_SINGLE_THREADED_INVOCATIONS
+// One thread uses the sandbox, so the object registry omits its lock too.
+#define INTERSPEC_SINGLE_THREADED_REGISTRY
 #define RLBOX_USE_STATIC_CALLS() rlbox_wasm2c_sandbox_lookup_symbol
 #define RLBOX_WASM2C_MODULE_NAME glue__lib__wasm2c
 

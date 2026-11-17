@@ -1,6 +1,8 @@
 #define RLBOX_USE_EXCEPTIONS
 #define RLBOX_ENABLE_DEBUG_ASSERTIONS
 #define RLBOX_SINGLE_THREADED_INVOCATIONS
+// One thread uses the sandbox, so the object registry omits its lock too.
+#define INTERSPEC_SINGLE_THREADED_REGISTRY
 
 #include "rlbox.hpp"
 #include "rlbox_nacl_sandbox.hpp"

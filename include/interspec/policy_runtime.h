@@ -25,6 +25,8 @@ namespace interspec {
  * This keeps generated policy/runtime logic reusable while leaving ABI and
  * application marshalling outside the trusted allocation mechanism.
  */
+inline namespace INTERSPEC_REGISTRY_ABI {
+
 class PolicyRuntime {
  public:
   PolicyRuntime(uintptr_t arena_base, size_t arena_size)
@@ -75,6 +77,8 @@ class PolicyRuntime {
  private:
   Runtime runtime_;
 };
+
+}  // inline namespace INTERSPEC_REGISTRY_ABI
 
 }  // namespace interspec
 
