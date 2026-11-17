@@ -414,9 +414,15 @@ def main():
             if name == "rlbox-only":
                 expected[workload] = m["result"]
             entry["result_matches_rlbox_only"] = m["result"] == expected[workload]
+            # The RLBox-only binaries of the applications have the registry
+            # compiled out and say so in the boundary name of their report.
+            reported = REPORT_NAME.get(boundary, boundary)
+            accepted = [f"boundary={reported} "]
+            if name == "rlbox-only":
+                accepted.append(f"boundary={reported}+sp3_fixed_at_compile_time ")
             entry["report_matches_switches"] = (
                 switches is None or any(expected_report(switches) in l and
-                                        f"boundary={REPORT_NAME.get(boundary, boundary)} " in l
+                                        any(a in l for a in accepted)
                                         for l in reports))
             if "checks" in m:
                 entry["checks"] = m["checks"]

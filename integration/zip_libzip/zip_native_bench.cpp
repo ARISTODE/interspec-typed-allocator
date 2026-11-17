@@ -38,10 +38,11 @@ std::string hex(const std::string& text) {
 }  // namespace
 
 int main(int argc, char** argv) {
-  if (argc != 3) {
-    std::fprintf(stderr, "usage: %s ARCHIVE ITERATIONS\n", argv[0]);
+  if (argc != 3 && !(argc == 4 && std::string(argv[3]) == "list")) {
+    std::fprintf(stderr, "usage: %s ARCHIVE ITERATIONS [list]\n", argv[0]);
     return 2;
   }
+  const bool listing = argc == 4;
   try {
     std::ifstream file(argv[1], std::ios::binary);
     if (!file) throw std::runtime_error("open_input");
@@ -52,18 +53,22 @@ int main(int argc, char** argv) {
 
     zip_error_t error;
     zip_error_init(&error);
-    zip_source_t* source = zip_source_buffer_create(archive.data(), archive.size(), 0, &error);
-    if (!source) throw std::runtime_error("zip_source_buffer_create");
-    zip_t* za = zip_open_from_source(source, ZIP_RDONLY, &error);
-    if (!za) throw std::runtime_error("zip_open");
-    const zip_int64_t entries = zip_get_num_entries(za, 0);
-    if (entries <= 0) throw std::runtime_error("zip_entries");
+    zip_t* za = nullptr;
+    zip_int64_t entries = 0;
+    auto open = [&] {
+      zip_source_t* source =
+          zip_source_buffer_create(archive.data(), archive.size(), 0, &error);
+      if (!source) throw std::runtime_error("zip_source_buffer_create");
+      za = zip_open_from_source(source, ZIP_RDONLY, &error);
+      if (!za) throw std::runtime_error("zip_open");
+      entries = zip_get_num_entries(za, 0);
+      if (entries <= 0) throw std::runtime_error("zip_entries");
+    };
+    if (!listing) open();
 
     uint64_t checksum = 0, last_size = 0;
     std::string last_name;
-    const auto start = std::chrono::steady_clock::now();
-    for (uint32_t i = 0; i < iterations; ++i) {
-      const zip_uint64_t idx = i % static_cast<zip_uint64_t>(entries);
+    auto query = [&](zip_uint64_t idx) {
       zip_stat_t st;
       zip_stat_init(&st);
       if (zip_stat_index(za, idx, 0, &st) != 0) throw std::runtime_error("zip_stat");
@@ -78,6 +83,18 @@ int main(int argc, char** argv) {
       checksum += static_cast<uint64_t>(st.size);
       last_size = st.size;
       last_name = name_direct ? name_direct : "";
+    };
+    const auto start = std::chrono::steady_clock::now();
+    if (listing) {
+      // Every iteration opens the archive, reads every entry once and closes it.
+      for (uint32_t i = 0; i < iterations; ++i) {
+        open();
+        for (zip_int64_t idx = 0; idx < entries; ++idx) query(static_cast<zip_uint64_t>(idx));
+        zip_close(za);
+        za = nullptr;
+      }
+    } else {
+      for (uint32_t i = 0; i < iterations; ++i) query(i % static_cast<zip_uint64_t>(entries));
     }
     const auto finish = std::chrono::steady_clock::now();
     std::printf(
@@ -88,7 +105,7 @@ int main(int argc, char** argv) {
         static_cast<unsigned long long>(last_size),
         static_cast<unsigned long long>(
             std::chrono::duration_cast<std::chrono::nanoseconds>(finish - start).count()));
-    zip_close(za);
+    if (za) zip_close(za);
     zip_error_fini(&error);
     return 0;
   } catch (const std::exception& error) {

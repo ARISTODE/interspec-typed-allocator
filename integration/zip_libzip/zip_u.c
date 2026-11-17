@@ -157,6 +157,16 @@ const char *interspec_zip_name(uint32_t which)
     return which < 2 ? g_name[which] : NULL;
 }
 
+/* Closes the archive and keeps the staging buffer, so that T can open the
+ * next archive (the listing workload opens and closes one per iteration). */
+void interspec_zip_close_archive(void)
+{
+    if (g_za) zip_close(g_za);   /* also releases the source */
+    g_za = NULL;
+    g_source = NULL;
+    g_name[0] = g_name[1] = NULL;
+}
+
 void interspec_zip_close(void)
 {
     if (g_za) zip_close(g_za);   /* also releases the source */

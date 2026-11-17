@@ -36,6 +36,13 @@ BOUNDARIES = {
         "args": lambda corpus, case, n: [str(corpus / case["archive"]), n],
         "name": lambda case: Path(case["archive"]).stem,
     },
+    # The same programs as zip_libzip with the argument "list": an iteration
+    # opens the archive, reads every entry once and closes it (item R4).
+    "zip_libzip_listing": {
+        "prefix": "zip", "tag": "ZIP_BENCH", "reported_as": "zip_libzip",
+        "args": lambda corpus, case, n: [str(corpus / case["archive"]), n, "list"],
+        "name": lambda case: Path(case["archive"]).stem,
+    },
     "magick_libpng": {
         "prefix": "png", "tag": "PNG_BENCH",
         "args": lambda corpus, case, n: [str(corpus / case["image"]), n],

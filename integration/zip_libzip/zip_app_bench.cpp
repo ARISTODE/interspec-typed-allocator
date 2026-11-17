@@ -49,6 +49,7 @@ int interspec_zip_stat_and_get_names(unsigned long long, unsigned long long, uin
                                      uint32_t);
 unsigned long long interspec_zip_size(void);
 const char* interspec_zip_name(uint32_t);
+void interspec_zip_close_archive(void);
 void interspec_zip_close(void);
 #ifdef INTERSPEC_FAULT_TESTS
 void interspec_zip_fault(uint32_t);
@@ -133,6 +134,9 @@ class Engine {
     return entries;
   }
 
+  // Closes the archive; the names it returned are no longer valid.
+  void close_archive() { port_.sandbox().invoke_sandbox_function(interspec_zip_close_archive); }
+
   // The out-parameters keep T's previous contents until U's results arrive.
   int stat_and_get_names(uint64_t idx, uint64_t* size, Name* name_direct, Name* name_stat) {
     // SP1: U is handed zero for the three out-parameters unless SP1 is off.
@@ -197,7 +201,7 @@ std::string hex(const std::string& text) {
 
 int main(int argc, char** argv) {
   if (argc < 3 || argc > 4) {
-    std::fprintf(stderr, "usage: %s ARCHIVE ITERATIONS [FAULT_MODE]\n", argv[0]);
+    std::fprintf(stderr, "usage: %s ARCHIVE ITERATIONS [FAULT_MODE | list]\n", argv[0]);
     return 2;
   }
   try {
@@ -206,7 +210,11 @@ int main(int argc, char** argv) {
     std::vector<unsigned char> archive((std::istreambuf_iterator<char>(file)),
                                        std::istreambuf_iterator<char>());
     const uint32_t iterations = static_cast<uint32_t>(std::stoul(argv[2]));
-    const uint32_t fault = argc == 4 ? static_cast<uint32_t>(std::stoul(argv[3])) : 0;
+    // "list": every iteration opens the archive, reads size and names of
+    // every entry once and closes the archive (what a listing tool does).
+    const bool listing = argc == 4 && std::string(argv[3]) == "list";
+    const uint32_t fault =
+        argc == 4 && !listing ? static_cast<uint32_t>(std::stoul(argv[3])) : 0;
     if (iterations == 0 || archive.empty()) throw std::runtime_error("arguments");
     Engine engine(static_cast<uint32_t>(archive.size()));
 #ifdef INTERSPEC_FAULT_TESTS
@@ -217,19 +225,18 @@ int main(int argc, char** argv) {
 #else
     if (fault) throw std::runtime_error("fault_requires_test_build");
 #endif
-    const int64_t entries = engine.open(archive);
-    if (entries <= 0) throw std::runtime_error("zip_open");
+    int64_t entries = listing ? 0 : engine.open(archive);
+    if (!listing && entries <= 0) throw std::runtime_error("zip_open");
 
     uint64_t checksum = 0, last_size = 0;
     std::string last_name;
-    const auto start = std::chrono::steady_clock::now();
-    for (uint32_t i = 0; i < iterations; ++i) {
+    // One query: size and both names of entry idx, as the artifact's shim call.
+    auto query = [&](uint64_t idx) {
       // What T happens to hold in its out-parameters before the call.
       uint64_t size = UINT64_C(0x5ec2e70100000001);
       Name name_direct, name_stat;
       name_direct.data = reinterpret_cast<const char*>(uintptr_t{0x5ec2e702});
       name_stat.data = reinterpret_cast<const char*>(uintptr_t{0x5ec2e703});
-      const uint64_t idx = i % static_cast<uint64_t>(entries);
       if (engine.stat_and_get_names(idx, &size, &name_direct, &name_stat) != 0)
         throw std::runtime_error("zip_stat");
       if (name_direct.data)
@@ -241,6 +248,17 @@ int main(int argc, char** argv) {
       checksum += size;
       last_size = size;
       last_name = name_direct.data ? std::string(name_direct.data, name_direct.length) : "";
+    };
+    const auto start = std::chrono::steady_clock::now();
+    if (listing) {
+      for (uint32_t i = 0; i < iterations; ++i) {
+        entries = engine.open(archive);
+        if (entries <= 0) throw std::runtime_error("zip_open");
+        for (int64_t idx = 0; idx < entries; ++idx) query(static_cast<uint64_t>(idx));
+        engine.close_archive();
+      }
+    } else {
+      for (uint32_t i = 0; i < iterations; ++i) query(i % static_cast<uint64_t>(entries));
     }
     const auto finish = std::chrono::steady_clock::now();
 #ifdef INTERSPEC_FAULT_TESTS

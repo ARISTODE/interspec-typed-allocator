@@ -36,6 +36,8 @@ if step build bash "$root/scripts/build_zip_port.sh" "$work"; then
     --document "$root/evaluation/parity/zip/test.zip" --out "$out/switch-tests"
   step benign python3 "$root/tools/run_port_parity.py" --boundary zip_libzip \
     --corpus "$root/evaluation/parity/zip" --bin "$work/bin" --out "$out/benign"
+  step benign-listing python3 "$root/tools/run_port_parity.py" --boundary zip_libzip_listing \
+    --corpus "$root/evaluation/parity/zip_listing" --bin "$work/bin" --out "$out/benign-listing"
 fi
 
 git -C "$root" rev-parse HEAD > "$out/source-commit.txt" 2>/dev/null || true

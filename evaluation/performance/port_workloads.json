@@ -8,6 +8,7 @@
     "memcached_assoc": {"corpus": "assoc", "case": 2, "iterations": 400000, "work": "400,000 hash-table operations over 20,000 keys"},
     "nginx_openssl": {"corpus": "tls", "case": 1, "iterations": 1500, "work": "one TLS 1.3 connection, 1,500 rounds of a 512-byte request and a 4,096-byte response"},
     "ucl_libucl": {"corpus": "ucl", "case": 0, "iterations": 20000, "work": "nested.conf parsed, two keys looked up and the object emitted, 20,000 times"},
-    "zip_libzip": {"corpus": "zip", "case": 1, "iterations": 1000000, "work": "test-cp437.zip opened once, 1,000,000 entry stat and name calls"}
+    "zip_libzip": {"corpus": "zip", "case": 1, "iterations": 1000000, "work": "test-cp437.zip opened once, 1,000,000 entry stat and name calls"},
+    "zip_libzip_listing": {"corpus": "zip_listing", "case": 0, "iterations": 100, "work": "tree-1000.zip opened, size and names of each of its 1,000 entries read, closed; 100 times"}
   }
 }
