@@ -1,0 +1,6 @@
+workload,configuration,repetitions,rounds,unit,median,min,max,median_cost_pct_vs_interspec-all-off,min_cost_pct_vs_interspec-all-off,max_cost_pct_vs_interspec-all-off,median_cost_pct_vs_rlbox-only,min_cost_pct_vs_rlbox-only,max_cost_pct_vs_rlbox-only
+yaml_parse_1mb,rlbox-only,15,30,ns,3584836123.0,3335481501.0,4128367836.0,3.299,-4.907,13.739,0.0,0.0,0.0
+yaml_parse_1mb,interspec-all-off,15,30,ns,3559950564.0,3152430887.0,3954226336.0,0.0,0.0,0.0,-3.193,-12.079,5.16
+yaml_parse_1mb,interspec-sp2,15,30,ns,3528538903.0,3326022901.0,3903817708.0,-1.275,-5.805,8.017,-3.426,-11.801,2.666
+yaml_parse_1mb,interspec-sp3,15,30,ns,3524655307.0,3261031732.0,3980427524.0,0.663,-5.165,6.514,-3.761,-10.338,3.085
+yaml_parse_1mb,interspec-all-on,15,30,ns,3522467166.0,3406600955.0,4059937897.0,0.492,-4.874,8.063,-2.388,-16.365,5.606

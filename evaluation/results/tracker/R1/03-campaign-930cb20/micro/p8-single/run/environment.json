@@ -1,0 +1,36 @@
+{
+  "label": "Claude Code cloud VM (KVM guest, 4 vCPUs, not a dedicated host)",
+  "publication_ready": false,
+  "physical_core_dedication": "unverified",
+  "contention_controls": "unverified",
+  "started_utc": "2026-11-17T10:43:02.262370+00:00",
+  "finished_utc": "2026-11-17T10:43:12.004034+00:00",
+  "source_commit": "930cb20955065c4af6252246ab80d8388620b755",
+  "source_status": "",
+  "build_command": null,
+  "binary_sha256": "1d6dfded0b0c7fca36dbfe904f42fc6b2114ea0c55781c443b0ee6f5df425061",
+  "source_sha256": {
+    "evaluation/runtime_bench.cpp": "18abece873806bb9dc92b368666309ae5c00cdaaea702e16922f9ab3ca7f775a",
+    "include/interspec/runtime.h": "dade73ffadfbebfdcf8ffffded58c8d2aa4f9947553a534e5f7eb87cc40cba5a",
+    "tools/run_runtime_microbench.py": "aa409527520fd4fbb3e520e1d009af97a8a590f09c90b1ba6e1c290d4c6c9d0a"
+  },
+  "checksum_controls": "exact successful-operation totals checked outside serial timed intervals; concurrent totals checked before thread exit",
+  "host": {
+    "system": "Linux",
+    "node": "vm",
+    "release": "6.18.44-fc-v553",
+    "version": "#1 SMP PREEMPT_DYNAMIC @0",
+    "machine": "x86_64",
+    "processor": "x86_64"
+  },
+  "repetitions": 15,
+  "iterations": 1000000,
+  "cpus": "0",
+  "affinity": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "compiler": "g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0"
+}

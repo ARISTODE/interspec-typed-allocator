@@ -1,0 +1,47 @@
+{
+  "boundary": "nginx_openssl",
+  "harness_entry": "nginx_openssl",
+  "mode": "policies",
+  "configurations": [
+    "rlbox-only",
+    "interspec-all-off",
+    "interspec-sp1",
+    "interspec-sp2",
+    "interspec-sp3",
+    "interspec-all-on"
+  ],
+  "reference": "rlbox-only",
+  "repetitions": 15,
+  "rounds": 30,
+  "time_of_a_repetition": "sum of elapsed_ns over the rounds",
+  "seed": 20261114,
+  "cpu": 0,
+  "case": {
+    "request_bytes": "512",
+    "response_bytes": "4096",
+    "iterations": [
+      "1",
+      "8"
+    ]
+  },
+  "iterations": 1500,
+  "arguments": [
+    "512",
+    "4096",
+    "1500"
+  ],
+  "source_commit": "930cb20",
+  "label": "Claude Code cloud VM (KVM guest, 4 vCPUs, not a dedicated host)",
+  "machine_start": {
+    "cpu_model": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+    "logical_cpus": 4,
+    "memory": "16473764 kB",
+    "kernel": "6.18.44-fc-v553",
+    "loadavg": "0.28 0.73 0.82 1/106 30619"
+  },
+  "binaries_sha256": {
+    "interspec": "a0af55b3088a2dacbfa2748a3a962ed64a5d4040a27d2093e5c4e6aff3de4ff9",
+    "rlbox-only": "141e49aba72a3bf93ee401ffb04e18a94126becdf296fce45ba723ab47394965"
+  },
+  "started_utc": "2026-11-17T11:25:00Z"
+}

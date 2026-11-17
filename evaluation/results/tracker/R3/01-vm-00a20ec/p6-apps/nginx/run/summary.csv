@@ -1,0 +1,7 @@
+workload,configuration,repetitions,rounds,unit,median,min,max,median_cost_pct_vs_interspec-all-off,min_cost_pct_vs_interspec-all-off,max_cost_pct_vs_interspec-all-off,median_cost_pct_vs_rlbox-only,min_cost_pct_vs_rlbox-only,max_cost_pct_vs_rlbox-only
+regex_location_4_threads,rlbox-only,15,6,requests_per_s,68826.517,62843.8,73252.61,-2.427,-7.75,7.207,0.0,0.0,0.0
+regex_location_4_threads,interspec-all-off,15,6,requests_per_s,68162.356,60568.585,78532.102,0.0,0.0,0.0,2.487,-6.723,8.401
+regex_location_4_threads,interspec-sp1,15,6,requests_per_s,68787.122,60359.399,73537.902,-1.713,-9.399,7.937,1.784,-5.738,7.396
+regex_location_4_threads,interspec-sp2,15,6,requests_per_s,69689.619,63046.411,77038.902,-4.254,-11.961,6.203,-1.517,-8.988,9.279
+regex_location_4_threads,interspec-sp3,15,6,requests_per_s,66547.023,60954.115,71403.84,2.832,-5.49,10.442,3.018,-0.26,11.966
+regex_location_4_threads,interspec-all-on,15,6,requests_per_s,69129.912,58995.204,73836.635,-1.194,-9.061,7.167,1.305,-5.24,10.149

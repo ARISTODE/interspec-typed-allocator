@@ -1,0 +1,11 @@
+==13741== Callgrind, a call-graph generating cache profiler
+==13741== Copyright (C) 2002-2017, and GNU GPL'd, by Josef Weidendorfer et al.
+==13741== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==13741== Command: /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/r1d-w-zip/bin/zip-interspec evaluation/parity/zip/test-cp437.zip 500000
+==13741== 
+==13741== For interactive control, run 'callgrind_control -h'.
+==13741== 
+==13741== Events    : Ir
+==13741== Collected : 786398869
+==13741== 
+==13741== I   refs:      786,398,869

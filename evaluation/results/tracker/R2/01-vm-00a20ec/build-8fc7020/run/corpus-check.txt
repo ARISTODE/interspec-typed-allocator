@@ -1,0 +1,6 @@
+basn0g01.png: OK
+basn2c08.png: OK
+basn3p08.png: OK
+basn4a16.png: OK
+basn6a08.png: OK
+ftbbn3p08.png: OK

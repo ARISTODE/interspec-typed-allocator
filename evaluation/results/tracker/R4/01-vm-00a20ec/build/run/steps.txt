@@ -1,0 +1,5 @@
+build exit=0
+switch-tests exit=0
+benign exit=0
+benign-listing exit=0
+overall exit=0

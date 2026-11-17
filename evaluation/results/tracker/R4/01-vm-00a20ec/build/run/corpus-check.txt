@@ -1,0 +1,6 @@
+cm-default.zip: OK
+filename_empty.zip: OK
+test-cp437.zip: OK
+test-utf8.zip: OK
+test.zip: OK
+testcomment.zip: OK

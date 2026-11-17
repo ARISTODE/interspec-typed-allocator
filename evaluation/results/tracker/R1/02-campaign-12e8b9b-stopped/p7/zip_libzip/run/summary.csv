@@ -1,0 +1,5 @@
+configuration,repetitions,rounds,median_elapsed_ms,min_elapsed_ms,max_elapsed_ms,checks_per_slice,median_ratio_to_native,min_ratio_to_native,max_ratio_to_native,median_ratio_to_rlbox-only,min_ratio_to_rlbox-only,max_ratio_to_rlbox-only
+native,15,30,2842.617,2593.446,3240.267,0,1.0,1.0,1.0,0.688,0.6569,0.7242
+rlbox-only,15,30,4046.332,3798.729,4816.96,0,1.4536,1.3808,1.5223,1.0,1.0,1.0
+tracked-no-check,15,30,3908.014,3620.242,4483.005,0,1.4011,1.3522,1.4529,0.9668,0.9299,1.0064
+interspec,15,30,4662.759,4295.169,5326.355,2000000,1.6435,1.6152,1.7786,1.1418,1.1001,1.1909

@@ -1,0 +1,25 @@
+yaml_parse_1mb 6 native #0: 624,700,072 in 1 process(es)
+yaml_parse_1mb 6 native #1: 624,700,072 in 1 process(es)
+yaml_parse_1mb 6 rlbox-only #0: 756,946,166 in 1 process(es)
+yaml_parse_1mb 6 rlbox-only #1: 756,946,166 in 1 process(es)
+yaml_parse_1mb 6 interspec #0: 756,339,411 in 1 process(es)
+yaml_parse_1mb 6 interspec #1: 756,339,411 in 1 process(es)
+yaml_parse_1mb 6 interspec-all-off #0: 756,978,576 in 1 process(es)
+yaml_parse_1mb 6 interspec-all-off #1: 756,978,576 in 1 process(es)
+yaml_parse_1mb 12 native #0: 1,227,444,458 in 1 process(es)
+yaml_parse_1mb 12 native #1: 1,227,444,458 in 1 process(es)
+yaml_parse_1mb 12 rlbox-only #0: 1,491,875,689 in 1 process(es)
+yaml_parse_1mb 12 rlbox-only #1: 1,491,875,689 in 1 process(es)
+yaml_parse_1mb 12 interspec #0: 1,490,654,346 in 1 process(es)
+yaml_parse_1mb 12 interspec #1: 1,490,654,346 in 1 process(es)
+yaml_parse_1mb 12 interspec-all-off #0: 1,491,932,733 in 1 process(es)
+yaml_parse_1mb 12 interspec-all-off #1: 1,491,932,733 in 1 process(es)
+### yaml, yaml_parse_1mb
+
+| Configuration | Instructions per parse | Against rlbox-only | Largest difference between repeats |
+|---|---:|---:|---:|
+| native | 100,457,398 | -17.99% | 0 |
+| rlbox-only | 122,488,254 | +0.00% | 0 |
+| interspec | 122,385,822 | -0.08% | 0 |
+| interspec-all-off | 122,492,360 | +0.00% | 0 |
+

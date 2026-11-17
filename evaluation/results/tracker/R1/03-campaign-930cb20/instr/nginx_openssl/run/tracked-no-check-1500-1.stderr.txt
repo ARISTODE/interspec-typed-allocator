@@ -1,0 +1,11 @@
+==14164== Callgrind, a call-graph generating cache profiler
+==14164== Copyright (C) 2002-2017, and GNU GPL'd, by Josef Weidendorfer et al.
+==14164== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==14164== Command: /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/r1d-w-tls/bin/tls-tracked-no-check 512 4096 1500
+==14164== 
+==14164== For interactive control, run 'callgrind_control -h'.
+==14164== 
+==14164== Events    : Ir
+==14164== Collected : 1396811406
+==14164== 
+==14164== I   refs:      1,396,811,406

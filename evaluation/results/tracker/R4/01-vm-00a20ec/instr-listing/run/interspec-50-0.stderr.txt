@@ -1,0 +1,11 @@
+==21508== Callgrind, a call-graph generating cache profiler
+==21508== Copyright (C) 2002-2017, and GNU GPL'd, by Josef Weidendorfer et al.
+==21508== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==21508== Command: /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/r4-w-zip/bin/zip-interspec evaluation/parity/zip_listing/tree-1000.zip 50 list
+==21508== 
+==21508== For interactive control, run 'callgrind_control -h'.
+==21508== 
+==21508== Events    : Ir
+==21508== Collected : 419627040
+==21508== 
+==21508== I   refs:      419,627,040

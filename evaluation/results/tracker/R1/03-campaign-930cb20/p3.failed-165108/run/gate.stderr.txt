@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "/home/user/interspec-typed-allocator/tools/test_nginx_deployment.py", line 160, in <module>
+    if __name__ == '__main__': main()
+                               ~~~~^^
+  File "/home/user/interspec-typed-allocator/tools/test_nginx_deployment.py", line 152, in main
+    hashes={v:hashlib.sha256((a.work/'bin'/f'nginx-{v}').read_bytes()).hexdigest() for v in variants}
+                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/usr/local/lib/python3.13/pathlib/_abc.py", line 625, in read_bytes
+    with self.open(mode='rb') as f:
+         ~~~~~~~~~^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/pathlib/_local.py", line 537, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/camp-nginx-work/bin/nginx-native'

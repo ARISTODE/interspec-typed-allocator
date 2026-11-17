@@ -1,0 +1,30 @@
+{
+  "native": {
+    "exit_code": 0,
+    "stdout": "ZIP_BENCH variant=native iterations=100 archive_bytes=157022 entries=1000 checksum=451609c46dbd3d00 last_name=70726f6a6563742f6d6f64756c655f3033392f736f757263655f303939392e63 last_size=17 checks=0 elapsed_ns=219611135\n",
+    "stderr": "",
+    "result_matches_reference": true,
+    "checks": 0
+  },
+  "rlbox-only": {
+    "exit_code": 0,
+    "stdout": "ZIP_BENCH variant=rlbox-only iterations=100 archive_bytes=157022 entries=1000 checksum=451609c46dbd3d00 last_name=70726f6a6563742f6d6f64756c655f3033392f736f757263655f303939392e63 last_size=17 checks=0 elapsed_ns=79644525\n",
+    "stderr": "",
+    "result_matches_reference": true,
+    "checks": 0
+  },
+  "tracked-no-check": {
+    "exit_code": 0,
+    "stdout": "ZIP_BENCH variant=tracked-no-check iterations=100 archive_bytes=157022 entries=1000 checksum=451609c46dbd3d00 last_name=70726f6a6563742f6d6f64756c655f3033392f736f757263655f303939392e63 last_size=17 checks=0 elapsed_ns=111119480\n",
+    "stderr": "",
+    "result_matches_reference": true,
+    "checks": 0
+  },
+  "interspec": {
+    "exit_code": 0,
+    "stdout": "ZIP_BENCH variant=interspec iterations=100 archive_bytes=157022 entries=1000 checksum=451609c46dbd3d00 last_name=70726f6a6563742f6d6f64756c655f3033392f736f757263655f303939392e63 last_size=17 checks=200000 elapsed_ns=128630763\n",
+    "stderr": "",
+    "result_matches_reference": true,
+    "checks": 200000
+  }
+}

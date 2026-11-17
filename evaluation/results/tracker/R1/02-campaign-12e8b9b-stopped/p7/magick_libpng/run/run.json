@@ -1,0 +1,41 @@
+{
+  "boundary": "magick_libpng",
+  "harness_entry": "magick_libpng",
+  "mode": "variants",
+  "configurations": [
+    "native",
+    "rlbox-only",
+    "tracked-no-check",
+    "interspec"
+  ],
+  "reference": "native",
+  "repetitions": 15,
+  "rounds": 30,
+  "time_of_a_repetition": "sum of elapsed_ns over the rounds",
+  "seed": 20261114,
+  "cpu": 0,
+  "case": {
+    "image": "basn4a16.png"
+  },
+  "iterations": 700,
+  "arguments": [
+    "evaluation/parity/png/basn4a16.png",
+    "700"
+  ],
+  "source_commit": "12e8b9b",
+  "label": "Claude Code cloud VM (KVM guest, 4 vCPUs, not a dedicated host)",
+  "machine_start": {
+    "cpu_model": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+    "logical_cpus": 4,
+    "memory": "16473764 kB",
+    "kernel": "6.18.44-fc-v553",
+    "loadavg": "0.26 0.65 0.76 1/109 16406"
+  },
+  "binaries_sha256": {
+    "interspec": "8e398704094b2da935757ddbeeea87451dc919afcd1d7f4336866a3a941ae990",
+    "native": "4f1a429b8f0bd400b709a3e563956fee9c483c60827f76a8422fc6b9c22e9984",
+    "rlbox-only": "21bf3b046f02ab598103d471d29928c1af8dfdd432c740d3d9443335cec0147e",
+    "tracked-no-check": "97d4ddad88e13a304eb963f010b402c813c1a4b0fc658541c0f34d0e2520ee91"
+  },
+  "started_utc": "2026-11-17T08:30:22Z"
+}

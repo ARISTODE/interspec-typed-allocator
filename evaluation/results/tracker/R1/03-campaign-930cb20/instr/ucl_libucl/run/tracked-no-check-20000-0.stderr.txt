@@ -1,0 +1,11 @@
+==14066== Callgrind, a call-graph generating cache profiler
+==14066== Copyright (C) 2002-2017, and GNU GPL'd, by Josef Weidendorfer et al.
+==14066== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==14066== Command: /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/r1d-w-ucl/bin/ucl-tracked-no-check evaluation/parity/ucl/nested.conf server.name logging.level 20000
+==14066== 
+==14066== For interactive control, run 'callgrind_control -h'.
+==14066== 
+==14066== Events    : Ir
+==14066== Collected : 1270258985
+==14066== 
+==14066== I   refs:      1,270,258,985

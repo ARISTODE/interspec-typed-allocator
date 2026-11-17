@@ -1,0 +1,31 @@
+native 350 #0: 551,967,780
+native 350 #1: 551,967,780
+native 700 #0: 1,101,825,130
+native 700 #1: 1,101,825,130
+rlbox-only 350 #0: 694,298,111
+rlbox-only 350 #1: 694,298,111
+rlbox-only 700 #0: 1,386,424,511
+rlbox-only 700 #1: 1,386,424,511
+tracked-no-check 350 #0: 694,582,646
+tracked-no-check 350 #1: 694,582,646
+tracked-no-check 700 #0: 1,386,972,946
+tracked-no-check 700 #1: 1,386,972,946
+interspec 350 #0: 694,741,366
+interspec 350 #1: 694,741,366
+interspec 700 #0: 1,387,293,377
+interspec 700 #1: 1,387,293,377
+interspec-all-off 350 #0: 694,935,920
+interspec-all-off 350 #1: 694,935,920
+interspec-all-off 700 #0: 1,387,682,520
+interspec-all-off 700 #1: 1,387,682,520
+### magick_libpng
+
+Iterations 350 and 700; instructions per iteration = difference of the counts divided by 350.
+
+| Configuration | Instructions per iteration | Against rlbox-only | Largest difference between repeats |
+|---|---:|---:|---:|
+| native | 1,571,021.0 | -20.56% | 0 |
+| rlbox-only | 1,977,504.0 | +0.00% | 0 |
+| tracked-no-check | 1,978,258.0 | +0.04% | 0 |
+| interspec | 1,978,720.0 | +0.06% | 0 |
+| interspec-all-off | 1,979,276.0 | +0.09% | 0 |

@@ -1,0 +1,34 @@
+option_parse run native #0: 564,165 in 1 process(es)
+option_parse run native #1: 564,165 in 1 process(es)
+option_parse run rlbox-only #0: 2,933,985 in 1 process(es)
+option_parse run rlbox-only #1: 2,933,985 in 1 process(es)
+option_parse run interspec #0: 3,025,962 in 1 process(es)
+option_parse run interspec #1: 3,025,962 in 1 process(es)
+option_parse run interspec-all-off #0: 3,161,101 in 1 process(es)
+option_parse run interspec-all-off #1: 3,161,101 in 1 process(es)
+file_sync_194mb run native #0: 6,277,378,919 in 3 process(es)
+file_sync_194mb run native #1: 6,277,408,970 in 3 process(es)
+file_sync_194mb run rlbox-only #0: 6,283,899,642 in 3 process(es)
+file_sync_194mb run rlbox-only #1: 6,283,882,881 in 3 process(es)
+file_sync_194mb run interspec #0: 6,284,488,630 in 3 process(es)
+file_sync_194mb run interspec #1: 6,284,492,556 in 3 process(es)
+file_sync_194mb run interspec-all-off #0: 6,285,024,432 in 3 process(es)
+file_sync_194mb run interspec-all-off #1: 6,285,003,745 in 3 process(es)
+### rsync, option_parse
+
+| Configuration | Instructions of the whole run | Against rlbox-only | Largest difference between repeats |
+|---|---:|---:|---:|
+| native | 564,165 | -80.77% | 0 |
+| rlbox-only | 2,933,985 | +0.00% | 0 |
+| interspec | 3,025,962 | +3.13% | 0 |
+| interspec-all-off | 3,161,101 | +7.74% | 0 |
+
+### rsync, file_sync_194mb
+
+| Configuration | Instructions of the whole run | Against rlbox-only | Largest difference between repeats |
+|---|---:|---:|---:|
+| native | 6,277,378,919 | -0.10% | 30,051 |
+| rlbox-only | 6,283,899,642 | +0.00% | 16,761 |
+| interspec | 6,284,488,630 | +0.01% | 3,926 |
+| interspec-all-off | 6,285,024,432 | +0.02% | 20,687 |
+

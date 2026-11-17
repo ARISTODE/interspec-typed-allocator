@@ -1,0 +1,44 @@
+{
+  "rlbox-only": {
+    "exit_code": 0,
+    "stdout": "HASH_BENCH variant=rlbox-only ops=8000000 keyspace=10000 sink=398f04311c88575b checks=0 elapsed_ns=205132042\n",
+    "stderr": "",
+    "result_matches_reference": true,
+    "checks": 0
+  },
+  "interspec-all-off": {
+    "exit_code": 0,
+    "stdout": "HASH_BENCH variant=interspec ops=8000000 keyspace=10000 sink=398f04311c88575b checks=0 elapsed_ns=177921055\n",
+    "stderr": "",
+    "result_matches_reference": true,
+    "checks": 0
+  },
+  "interspec-sp1": {
+    "exit_code": 0,
+    "stdout": "HASH_BENCH variant=interspec ops=8000000 keyspace=10000 sink=398f04311c88575b checks=0 elapsed_ns=148991256\n",
+    "stderr": "",
+    "result_matches_reference": true,
+    "checks": 0
+  },
+  "interspec-sp2": {
+    "exit_code": 0,
+    "stdout": "HASH_BENCH variant=interspec ops=8000000 keyspace=10000 sink=398f04311c88575b checks=0 elapsed_ns=176656890\n",
+    "stderr": "",
+    "result_matches_reference": true,
+    "checks": 0
+  },
+  "interspec-sp3": {
+    "exit_code": 0,
+    "stdout": "HASH_BENCH variant=interspec ops=8000000 keyspace=10000 sink=398f04311c88575b checks=0 elapsed_ns=204775013\n",
+    "stderr": "",
+    "result_matches_reference": true,
+    "checks": 0
+  },
+  "interspec-all-on": {
+    "exit_code": 0,
+    "stdout": "HASH_BENCH variant=interspec ops=8000000 keyspace=10000 sink=398f04311c88575b checks=0 elapsed_ns=183889427\n",
+    "stderr": "",
+    "result_matches_reference": true,
+    "checks": 0
+  }
+}

@@ -1,0 +1,21 @@
+==21645== Callgrind, a call-graph generating cache profiler
+==21645== Copyright (C) 2002-2017, and GNU GPL'd, by Josef Weidendorfer et al.
+==21645== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==21645== Command: /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/camp-tmp/interspec-p11-driver/interspec-rlbox-wasm2c/rsync-p11-native -a --checksum --block-size=1024 /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/after-r3-scratch-rsync/data/src/ /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/after-r3-scratch-rsync/data/dst/
+==21645== 
+==21645== For interactive control, run 'callgrind_control -h'.
+==21647== 
+==21647== Events    : Ir
+==21647== Collected : 2298414724
+==21647== 
+==21647== I   refs:      2,298,414,724
+==21646== 
+==21646== Events    : Ir
+==21646== Collected : 511503
+==21646== 
+==21646== I   refs:      511,503
+==21645== 
+==21645== Events    : Ir
+==21645== Collected : 3978482743
+==21645== 
+==21645== I   refs:      3,978,482,743

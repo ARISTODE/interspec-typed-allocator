@@ -1,0 +1,38 @@
+commit 12e8b9b3c0fce1b5a8ca4299de5b3c9f21057a8e
+p7/zip_libzip start 2026-11-17T08:19:56Z
+p7/zip_libzip exit=0 2026-11-17T08:23:57Z
+p7/memcached_assoc start 2026-11-17T08:25:13Z
+p7/memcached_assoc exit=0 2026-11-17T08:28:52Z
+p7/magick_libpng start 2026-11-17T08:30:22Z
+p7/magick_libpng exit=0 2026-11-17T08:35:25Z
+p7/memcached_hash start 2026-11-17T08:36:40Z
+p7/memcached_hash exit=0 2026-11-17T08:39:58Z
+p7/ucl_libucl start 2026-11-17T08:41:14Z
+p7/ucl_libucl exit=0 2026-11-17T08:45:30Z
+p7/nginx_openssl start 2026-11-17T08:46:45Z
+p7/nginx_openssl exit=0 2026-11-17T08:50:48Z
+p7/ffmpeg_libvpx start 2026-11-17T08:52:03Z
+p7/ffmpeg_libvpx exit=0 2026-11-17T08:56:15Z
+instr/zip_libzip start 2026-11-17T08:57:30Z
+instr/zip_libzip exit=0 2026-11-17T08:59:54Z
+instr/memcached_assoc start 2026-11-17T09:01:39Z
+instr/memcached_assoc exit=0 2026-11-17T09:02:27Z
+instr/magick_libpng start 2026-11-17T09:03:28Z
+instr/magick_libpng exit=0 2026-11-17T09:04:53Z
+instr/memcached_hash start 2026-11-17T09:06:08Z
+instr/memcached_hash exit=0 2026-11-17T09:08:02Z
+instr/ucl_libucl start 2026-11-17T09:09:17Z
+instr/ucl_libucl exit=0 2026-11-17T09:11:36Z
+instr/nginx_openssl start 2026-11-17T09:12:51Z
+instr/nginx_openssl exit=0 2026-11-17T09:14:04Z
+instr/ffmpeg_libvpx start 2026-11-17T09:15:04Z
+instr/ffmpeg_libvpx exit=0 2026-11-17T09:16:00Z
+micro/p8-locked start 2026-11-17T09:17:01Z
+micro/p8-locked exit=0 2026-11-17T09:17:18Z
+micro/p8-single-build exit=0
+micro/p8-single start 2026-11-17T09:17:50Z
+micro/p8-single exit=0 2026-11-17T09:18:01Z
+micro/ext start 2026-11-17T09:18:31Z
+micro/ext exit=0 2026-11-17T09:19:11Z
+p6-ports/zip_libzip start 2026-11-17T09:19:56Z
+p6-ports/zip_libzip stopped-by-operator 2026-11-17T09:20:41Z (campaign paused after micro/ext to change the registry again; steps above are complete)

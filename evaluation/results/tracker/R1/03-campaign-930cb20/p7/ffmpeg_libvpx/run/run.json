@@ -1,0 +1,47 @@
+{
+  "boundary": "ffmpeg_libvpx",
+  "harness_entry": "ffmpeg_libvpx",
+  "mode": "variants",
+  "configurations": [
+    "native",
+    "rlbox-only",
+    "tracked-no-check",
+    "interspec"
+  ],
+  "reference": "native",
+  "repetitions": 15,
+  "rounds": 30,
+  "time_of_a_repetition": "sum of elapsed_ns over the rounds",
+  "seed": 20261114,
+  "cpu": 0,
+  "case": {
+    "width": "352",
+    "height": "288",
+    "iterations": [
+      "2",
+      "12"
+    ]
+  },
+  "iterations": 12,
+  "arguments": [
+    "352",
+    "288",
+    "12"
+  ],
+  "source_commit": "930cb20",
+  "label": "Claude Code cloud VM (KVM guest, 4 vCPUs, not a dedicated host)",
+  "machine_start": {
+    "cpu_model": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+    "logical_cpus": 4,
+    "memory": "16473764 kB",
+    "kernel": "6.18.44-fc-v553",
+    "loadavg": "0.28 0.67 0.76 1/105 11778"
+  },
+  "binaries_sha256": {
+    "interspec": "014f8e293af61454b1d472e5137ab82fe41a90bbd893ece46dbb9672c8552693",
+    "native": "2a61b0acdf98345a4cde0e6c90dbf00df370fd8ff0d86f88cef595315bfd30ed",
+    "rlbox-only": "5f01ba80a6e9737ea646a6f16048bfa47055537a677570d5b1725c73950b2e41",
+    "tracked-no-check": "6976e557293786b0d18bd3d051d6ab7a4f230ef4937b605530b46f75f2b63ec0"
+  },
+  "started_utc": "2026-11-17T10:17:00Z"
+}

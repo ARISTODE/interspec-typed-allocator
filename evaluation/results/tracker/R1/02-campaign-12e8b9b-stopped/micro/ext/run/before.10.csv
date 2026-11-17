@@ -1,0 +1,5 @@
+metric,population,operations,total_ns,ns_per_op
+resolve_token,2,1000000,26873217,26.873
+unregister_and_register,2,1000000,124672408,124.672
+resolve_token,20000,1000000,278522501,278.523
+unregister_and_register,20000,1000000,760840841,760.841

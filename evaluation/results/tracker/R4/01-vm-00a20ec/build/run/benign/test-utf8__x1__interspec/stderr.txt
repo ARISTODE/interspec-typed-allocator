@@ -1,0 +1,1 @@
+INTERSPEC_POLICY boundary=zip_libzip sp1=1 sp2=1 sp3=full

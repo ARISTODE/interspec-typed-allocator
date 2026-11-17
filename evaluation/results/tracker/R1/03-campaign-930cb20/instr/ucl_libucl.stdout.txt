@@ -1,0 +1,31 @@
+native 10000 #0: 469,913,551
+native 10000 #1: 465,692,227
+native 20000 #0: 932,126,311
+native 20000 #1: 931,934,331
+rlbox-only 10000 #0: 620,651,097
+rlbox-only 10000 #1: 623,721,097
+rlbox-only 20000 #0: 1,246,301,097
+rlbox-only 20000 #1: 1,242,861,097
+tracked-no-check 10000 #0: 630,978,985
+tracked-no-check 10000 #1: 631,748,985
+tracked-no-check 20000 #0: 1,270,258,985
+tracked-no-check 20000 #1: 1,259,698,985
+interspec 10000 #0: 639,188,744
+interspec 10000 #1: 637,368,744
+interspec 20000 #0: 1,273,018,744
+interspec 20000 #1: 1,267,438,744
+interspec-all-off 10000 #0: 632,808,673
+interspec-all-off 10000 #1: 631,198,673
+interspec-all-off 20000 #0: 1,277,158,673
+interspec-all-off 20000 #1: 1,267,178,673
+### ucl_libucl
+
+Iterations 10,000 and 20,000; instructions per iteration = difference of the counts divided by 10,000.
+
+| Configuration | Instructions per iteration | Against rlbox-only | Largest difference between repeats |
+|---|---:|---:|---:|
+| native | 46,221.3 | -26.12% | 4,221,324 |
+| rlbox-only | 62,565.0 | +0.00% | 3,440,000 |
+| tracked-no-check | 63,928.0 | +2.18% | 10,560,000 |
+| interspec | 63,383.0 | +1.31% | 5,580,000 |
+| interspec-all-off | 64,435.0 | +2.99% | 9,980,000 |

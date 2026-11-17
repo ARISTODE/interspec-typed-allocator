@@ -1,0 +1,11 @@
+==15552== Callgrind, a call-graph generating cache profiler
+==15552== Copyright (C) 2002-2017, and GNU GPL'd, by Josef Weidendorfer et al.
+==15552== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==15552== Command: /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/r2-w-png-8fc7020/bin/png-tracked-no-check evaluation/parity/png/basn4a16.png 350
+==15552== 
+==15552== For interactive control, run 'callgrind_control -h'.
+==15552== 
+==15552== Events    : Ir
+==15552== Collected : 694582646
+==15552== 
+==15552== I   refs:      694,582,646

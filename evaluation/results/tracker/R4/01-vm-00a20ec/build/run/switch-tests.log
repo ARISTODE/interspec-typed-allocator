@@ -1,0 +1,6 @@
+PASS zip_libzip sp1
+PASS zip_libzip sp2
+PASS zip_libzip sp3
+PASS zip_libzip sp3_other_faults
+PASS zip_libzip benign
+PASS zip_libzip limit_static_empty_name

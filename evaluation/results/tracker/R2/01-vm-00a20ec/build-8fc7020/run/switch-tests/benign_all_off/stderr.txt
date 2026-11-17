@@ -1,0 +1,2 @@
+INTERSPEC_POLICY boundary=magick_libpng sp1=0 sp2=0 sp3=off
+INTERSPEC_T_OBSERVE boundary=magick_libpng png_first_byte=0x89

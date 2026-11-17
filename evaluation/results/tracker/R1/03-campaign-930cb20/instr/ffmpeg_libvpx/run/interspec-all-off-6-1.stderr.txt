@@ -1,0 +1,11 @@
+==14251== Callgrind, a call-graph generating cache profiler
+==14251== Copyright (C) 2002-2017, and GNU GPL'd, by Josef Weidendorfer et al.
+==14251== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==14251== Command: /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/r1d-w-vpx/bin/vpx-interspec 352 288 6
+==14251== 
+==14251== For interactive control, run 'callgrind_control -h'.
+==14251== 
+==14251== Events    : Ir
+==14251== Collected : 776586567
+==14251== 
+==14251== I   refs:      776,586,567

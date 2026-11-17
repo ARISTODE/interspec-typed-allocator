@@ -1,0 +1,76 @@
+{
+ "boundary": "magick_libpng",
+ "case": {
+  "image": "basn4a16.png"
+ },
+ "low_iterations": 350,
+ "high_iterations": 700,
+ "source_commit": "8fc7020",
+ "configurations": {
+  "native": {
+   "instructions_low": [
+    551967780,
+    551967780
+   ],
+   "instructions_high": [
+    1101825130,
+    1101825130
+   ],
+   "largest_difference_between_repeats": 0,
+   "instructions_per_iteration": 1571021.0,
+   "against_rlbox_only_percent": -20.555356651617394
+  },
+  "rlbox-only": {
+   "instructions_low": [
+    694298111,
+    694298111
+   ],
+   "instructions_high": [
+    1386424511,
+    1386424511
+   ],
+   "largest_difference_between_repeats": 0,
+   "instructions_per_iteration": 1977504.0,
+   "against_rlbox_only_percent": 0.0
+  },
+  "tracked-no-check": {
+   "instructions_low": [
+    694582646,
+    694582646
+   ],
+   "instructions_high": [
+    1386972946,
+    1386972946
+   ],
+   "largest_difference_between_repeats": 0,
+   "instructions_per_iteration": 1978258.0,
+   "against_rlbox_only_percent": 0.03812887356990924
+  },
+  "interspec": {
+   "instructions_low": [
+    694741366,
+    694741366
+   ],
+   "instructions_high": [
+    1387293377,
+    1387293377
+   ],
+   "largest_difference_between_repeats": 0,
+   "instructions_per_iteration": 1978720.0314285713,
+   "against_rlbox_only_percent": 0.06149324747617424
+  },
+  "interspec-all-off": {
+   "instructions_low": [
+    694935920,
+    694935920
+   ],
+   "instructions_high": [
+    1387682520,
+    1387682520
+   ],
+   "largest_difference_between_repeats": 0,
+   "instructions_per_iteration": 1979276.0,
+   "against_rlbox_only_percent": 0.08960790976908495
+  }
+ }
+}

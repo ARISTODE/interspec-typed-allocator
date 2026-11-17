@@ -1,0 +1,11 @@
+==14080== Callgrind, a call-graph generating cache profiler
+==14080== Copyright (C) 2002-2017, and GNU GPL'd, by Josef Weidendorfer et al.
+==14080== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==14080== Command: /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/r1d-w-ucl/bin/ucl-interspec evaluation/parity/ucl/nested.conf server.name logging.level 20000
+==14080== 
+==14080== For interactive control, run 'callgrind_control -h'.
+==14080== 
+==14080== Events    : Ir
+==14080== Collected : 1273018744
+==14080== 
+==14080== I   refs:      1,273,018,744
