@@ -120,7 +120,7 @@ where
     not PointerTargetDomain::exprMayTargetNullFromBoundaryRoots(writer, rhs) and n = 0
   )
 select p.getFunction().getName() as function, p.getIndex() as binding_id, path as slot_path,
-  calls as calls_below_interface, writer.getName() as writer,
+  calls as calls_below_interface, writer.getName() as writer_name,
   assign.getLocation().getFile().getRelativePath() as file,
   assign.getLocation().getStartLine() as line, concat(rhs.getAPrimaryQlClass(), ";") as rhs_class,
   calleeName(rhs) as rhs_callee, t as rule_t, u as rule_u, n as rule_null
