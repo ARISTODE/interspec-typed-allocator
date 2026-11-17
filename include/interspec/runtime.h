@@ -589,7 +589,7 @@ class Runtime {
     const uintptr_t ptr = allocate_with_hash_unlocked(
         size, type->second, 0, layout->second.alignment);
     if (!ptr) return 0;
-    auto& allocation = allocations_.find(ptr)->second;
+    auto& allocation = *live_block_unlocked(ptr);
     allocation.element_size = layout->second.element_size;
     allocation.element_count = count;
     allocation.element_alignment = layout->second.alignment;
@@ -713,7 +713,7 @@ class Runtime {
 
   size_t allocation_count() const {
     std::shared_lock<RegistryMutex> lock(mu_);
-    return allocations_.size();
+    return live_;
   }
 
   size_t allocation_site_count() const {
@@ -725,26 +725,26 @@ class Runtime {
     DiagnosticEvent event(this, "release");
     std::unique_lock<RegistryMutex> lock(mu_);
     describe_unlocked(event, ptr);
-    const auto allocation = allocations_.find(ptr);
-    if (allocation == allocations_.end()) return false;
-    release_unlocked(allocation);
+    Allocation* allocation = live_block_unlocked(ptr);
+    if (!allocation) return false;
+    release_unlocked(*allocation);
     event.result = "ok";
     return true;
   }
 
   bool allocation_size(uintptr_t ptr, size_t& size) const {
     std::shared_lock<RegistryMutex> lock(mu_);
-    const auto allocation = allocations_.find(ptr);
-    if (allocation == allocations_.end()) return false;
-    size = allocation->second.size;
+    const Allocation* allocation = live_block_unlocked(ptr);
+    if (!allocation) return false;
+    size = allocation->size;
     return true;
   }
 
   bool allocation_site(uintptr_t ptr, SiteId& site_id) const {
     std::shared_lock<RegistryMutex> lock(mu_);
-    const auto allocation = allocations_.find(ptr);
-    if (allocation == allocations_.end()) return false;
-    site_id = allocation->second.site_id;
+    const Allocation* allocation = live_block_unlocked(ptr);
+    if (!allocation) return false;
+    site_id = allocation->site_id;
     return true;
   }
 
@@ -753,16 +753,17 @@ class Runtime {
     event.requested = new_size;
     std::unique_lock<RegistryMutex> lock(mu_);
     describe_unlocked(event, ptr);
-    const auto old = allocations_.find(ptr);
-    if (old == allocations_.end()) return 0;
+    Allocation* old = live_block_unlocked(ptr);
+    if (!old) return 0;
 
     if (new_size == 0) {
-      release_unlocked(old);
+      release_unlocked(*old);
       event.result = "released";
       return 0;
     }
 
-    const Allocation original = old->second;
+    // A copy: the allocation below can move the block records.
+    const Allocation original = *old;
     // Do not silently turn a typed array into a partial trailing object.
     if (original.element_size && new_size % original.element_size != 0)
       return 0;
@@ -771,13 +772,13 @@ class Runtime {
         original.element_alignment ? original.element_alignment : 8);
     if (!replacement) return 0;
     if (original.element_size) {
-      auto& next = allocations_.find(replacement)->second;
+      auto& next = *live_block_unlocked(replacement);
       next.element_size = original.element_size;
       next.element_count = new_size / original.element_size;
       next.element_alignment = original.element_alignment;
     }
 
-    release_unlocked(allocations_.find(ptr));
+    release_unlocked(*live_block_unlocked(ptr));
     event.replacement = replacement;
     event.result = "ok";
     return replacement;
@@ -951,7 +952,8 @@ class Runtime {
     std::vector<Allocation> snapshot;
     {
       std::shared_lock<RegistryMutex> lock(mu_);
-      for (const auto& entry : allocations_) snapshot.push_back(entry.second);
+      for (const auto& block : blocks_)
+        if (block.size) snapshot.push_back(block);
     }
     for (const auto& allocation : snapshot) {
       DiagnosticEvent event(this, "live_allocation");
@@ -1065,23 +1067,27 @@ class Runtime {
     size_t aligned = 0;
     if (!aligned_size(size, aligned)) return 0;
 
-    // Reuse: the smallest released block of this site and type that holds the
-    // request and has the required alignment. A released address is never
-    // handed to another site, so a stale pointer can at most meet a later
-    // object of the same site. The record carries the new size, so the bounds
-    // of a check are those of the new object.
+    // Reuse: a released block of this site and type, of the smallest capacity
+    // that holds the request, with the required alignment. A released address
+    // is never handed to another site, so a stale pointer can at most meet a
+    // later object of the same site. The record carries the new size, so the
+    // bounds of a check are those of the new object.
     const auto released = released_.find(ReleasedKey{type_hash, site_id});
-    if (released != released_.end()) {
-      for (auto block = released->second.lower_bound(aligned);
-           block != released->second.end(); ++block) {
-        if (block->second % alignment != 0) continue;
-        const uintptr_t ptr = block->second;
-        const size_t capacity = block->first;
-        Allocation allocation{ptr, size, type_hash, site_id};
-        allocation.capacity = capacity;
-        if (!allocations_.emplace(ptr, allocation).second) return 0;
-        released->second.erase(block);
-        return ptr;
+    if (released != released_.end() && released->second.available) {
+      auto& classes = released->second.by_capacity;
+      for (auto cls = classes.lower_bound(aligned); cls != classes.end();
+           ++cls) {
+        auto& indices = cls->second;
+        for (size_t i = indices.size(); i-- > 0;) {
+          Allocation& block = blocks_[indices[i]];
+          if (block.base % alignment != 0) continue;
+          indices[i] = indices.back();
+          indices.pop_back();
+          --released->second.available;
+          block.size = size;
+          ++live_;
+          return block.base;
+        }
       }
     }
 
@@ -1098,36 +1104,65 @@ class Runtime {
         aligned > capacity_ - used_ - padding)
       return 0;
     const uintptr_t ptr = start + padding;
+    if (blocks_.size() >= std::numeric_limits<uint32_t>::max() - 1) return 0;
+    // A new block. It is created at the end of the used part of the arena and
+    // keeps its address, capacity, type and site for the lifetime of the
+    // registry, so the blocks are ordered by address in the order of their
+    // creation and a record is never inserted between two others.
     Allocation allocation{ptr, size, type_hash, site_id};
     allocation.capacity = aligned;
-    const auto inserted = allocations_.emplace(ptr, allocation);
-    if (!inserted.second) return 0;
+    blocks_.push_back(allocation);
+    block_bases_.push_back(ptr);
     used_ += padding + aligned;
+    ++live_;
+    // Index: lines that begin in the padding before the block still belong to
+    // the block before it; lines that begin inside the block belong to it.
+    const uint32_t number = static_cast<uint32_t>(blocks_.size());
+    const size_t first_line = (static_cast<size_t>(ptr - base_) + kLine - 1) / kLine;
+    if (line_blocks_.size() < first_line)
+      line_blocks_.resize(first_line, number - 1);
+    line_blocks_.resize((used_ + kLine - 1) / kLine, number);
     return ptr;
   }
 
-  // Removes the record and keeps the block for a later allocation at the same
-  // site. Until then no record covers the address, so a check of a pointer to
-  // it reports `untracked`.
-  void release_unlocked(std::map<uintptr_t, Allocation>::iterator allocation) {
-    const Allocation& record = allocation->second;
-    if (record.capacity)
-      released_[ReleasedKey{record.type_hash, record.site_id}].emplace(
-          record.capacity, record.base);
-    allocations_.erase(allocation);
+  // Marks the block as released and keeps it for a later allocation at the
+  // same site. Until then a check of a pointer into it reports `untracked`.
+  void release_unlocked(Allocation& block) {
+    auto& released = released_[ReleasedKey{block.type_hash, block.site_id}];
+    released.by_capacity[block.capacity].push_back(
+        static_cast<uint32_t>(&block - blocks_.data()));
+    ++released.available;
+    block.size = 0;
+    block.element_size = 0;
+    block.element_count = 0;
+    block.element_alignment = 0;
+    --live_;
   }
 
+  // The live allocation that contains `ptr`. The line index gives the block
+  // that covers or precedes the first byte of the line of `ptr`; at most
+  // kLine / 8 further blocks begin inside that line.
   const Allocation* find_allocation_unlocked(uintptr_t ptr) const {
-    if (allocations_.empty()) return nullptr;
-
-    auto it = allocations_.upper_bound(ptr);
-    if (it == allocations_.begin()) return nullptr;
-    --it;
-
-    const Allocation& allocation = it->second;
-    if (ptr < allocation.base) return nullptr;
+    if (ptr < base_) return nullptr;
+    const size_t line = static_cast<size_t>(ptr - base_) / kLine;
+    if (line >= line_blocks_.size()) return nullptr;
+    size_t number = line_blocks_[line];
+    const size_t count = block_bases_.size();
+    while (number < count && block_bases_[number] <= ptr) ++number;
+    if (number == 0) return nullptr;
+    const Allocation& allocation = blocks_[number - 1];
     const uintptr_t offset = ptr - allocation.base;
     return offset < allocation.size ? &allocation : nullptr;
+  }
+
+  // The live allocation that begins at `base`.
+  const Allocation* live_block_unlocked(uintptr_t base) const {
+    const Allocation* found = find_allocation_unlocked(base);
+    return found && found->base == base ? found : nullptr;
+  }
+  Allocation* live_block_unlocked(uintptr_t base) {
+    return const_cast<Allocation*>(
+        static_cast<const Runtime*>(this)->live_block_unlocked(base));
   }
 
   const AllocationSite* find_site_unlocked(uintptr_t pc) const {
@@ -1150,9 +1185,15 @@ class Runtime {
   const size_t capacity_;
   const bool arena_valid_;
   size_t used_ = 0;
-  // Released arena blocks by (type, site), each list ordered by capacity.
+  // Released arena blocks by (type, site): indices into blocks_, grouped by
+  // capacity. A capacity class stays when it becomes empty, so a site that
+  // allocates and releases objects of recurring sizes allocates no node.
   using ReleasedKey = std::pair<uint64_t, SiteId>;
-  std::map<ReleasedKey, std::multimap<size_t, uintptr_t>> released_;
+  struct ReleasedBlocks {
+    std::map<size_t, std::vector<uint32_t>> by_capacity;
+    size_t available = 0;
+  };
+  std::map<ReleasedKey, ReleasedBlocks> released_;
 
   mutable RegistryMutex mu_;
   std::unordered_map<TypeId, uint64_t> types_;
@@ -1175,7 +1216,16 @@ class Runtime {
   std::map<uintptr_t, AllocationSite> sites_;
   std::unordered_map<SiteId, uintptr_t> sites_by_id_;
   std::unordered_map<SiteId, uint64_t> site_types_;
-  std::map<uintptr_t, Allocation> allocations_;
+  // The blocks of the arena in address order; `size == 0` marks a released
+  // block. block_bases_ repeats the base addresses densely for the lookup.
+  std::vector<Allocation> blocks_;
+  std::vector<uintptr_t> block_bases_;
+  // For every kLine bytes of the used arena: the number (index + 1) of the
+  // block with the greatest base that is not above the first byte of the
+  // line, or zero if there is none.
+  static constexpr size_t kLine = 64;
+  std::vector<uint32_t> line_blocks_;
+  size_t live_ = 0;
 };
 
 }  // inline namespace INTERSPEC_REGISTRY_ABI

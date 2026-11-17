@@ -50,13 +50,21 @@ boundary. An operation that allocates many objects of a recorded site is
 worse, and this is a cost of the registry's bookkeeping, which R1 did not
 change ("the `std::map` of allocations is unchanged").
 
-## A flaw of this workload: the native column
+## The native column of this run
 
-The native program opens the archive from the file in every iteration; the
-sandboxed programs open it from a buffer that was read once. The native time
-therefore contains file I/O that the others do not have (native is 2.7 times
-slower than RLBox-only). The comparison between the sandboxed variants is not
-affected. To be corrected before the workload is used in the paper.
+Corrected on 2026-11-17 (the first version of this section said that the
+native program reads the archive from the file in every iteration; that was a
+guess and it is wrong: all variants open the archive from a buffer).
+
+The native program is 2.7 times slower than RLBox-only in this run because of
+the C library, not because of libzip: libzip converts the DOS time of every
+entry with `mktime` when it opens an archive, and glibc, with `TZ` unset,
+looks at `/etc/localtime` in every `mktime` call. `strace -c` on the native
+binary of this run shows 99,999 `newfstatat` calls for 100 listings, one per
+entry. The C library inside the sandbox has no time zone data and makes no
+system call. From the next commit on, the native program sets `TZ=UTC0`, as
+the sandboxed library effectively does. The comparison between the sandboxed
+variants is not affected.
 
 `instr-query/`: the query loop built at `00a20ec` executes 1,339.4 (RLBox-only)
 and 1,557.3 (InterSpec, +16.3%) instructions per query; the campaign's

@@ -5,7 +5,9 @@
 #include <chrono>
 #include <cstdint>
 #include <cstdio>
+#include <cstdlib>
 #include <cstring>
+#include <ctime>
 #include <fstream>
 #include <iterator>
 #include <stdexcept>
@@ -43,6 +45,13 @@ int main(int argc, char** argv) {
     return 2;
   }
   const bool listing = argc == 4;
+  // libzip converts the DOS time of every entry with mktime when it opens an
+  // archive. Without TZ, glibc looks at /etc/localtime in every mktime call
+  // (one system call per entry), which the sandboxed libc never does: it has
+  // no time zone data and uses UTC. Fix the zone so that the native program
+  // does the same work.
+  setenv("TZ", "UTC0", 1);
+  tzset();
   try {
     std::ifstream file(argv[1], std::ios::binary);
     if (!file) throw std::runtime_error("open_input");

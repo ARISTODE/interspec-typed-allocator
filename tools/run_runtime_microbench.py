@@ -133,7 +133,7 @@ def main():
     ]
     descriptions = {
         "shared_lock": "shared metadata-lock acquisition/release",
-        "metadata_lookup": "ordered allocation lookup and containment test, excluding the lock",
+        "metadata_lookup": "reference, not part of the registry: lookup and containment test in a std::map of the same population, the structure that held the allocation records before the block index",
         "type_compare": "non-inlined type equality with opaque inputs and 1/1024 negative controls",
         "bounds_check": "non-inlined offset/remaining arithmetic with opaque inputs and 1/1024 rejected extents; assumes prior containment",
         "check_live": "production Runtime::check: lock + lookup + type + bounds",

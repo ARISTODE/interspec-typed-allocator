@@ -117,6 +117,8 @@ void benchmark_primitives(size_t population, size_t iterations) {
   }, iterations);
   print_result("shared_lock", population, 1, iterations, lock_ns);
 
+  // Reference only: the registry kept its allocation records in a std::map
+  // until the block index replaced it; check_live measures the registry.
   std::map<uintptr_t, interspec::Allocation> allocations;
   for (size_t i = 0; i < population; ++i) {
     const uintptr_t base = kBase + i * 64;
