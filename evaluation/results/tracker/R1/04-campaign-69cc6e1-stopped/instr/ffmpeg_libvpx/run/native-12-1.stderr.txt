@@ -1,0 +1,11 @@
+==26081== Callgrind, a call-graph generating cache profiler
+==26081== Copyright (C) 2002-2017, and GNU GPL'd, by Josef Weidendorfer et al.
+==26081== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==26081== Command: /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/c2-w-vpx/bin/vpx-native 352 288 12
+==26081== 
+==26081== For interactive control, run 'callgrind_control -h'.
+==26081== 
+==26081== Events    : Ir
+==26081== Collected : 1267919721
+==26081== 
+==26081== I   refs:      1,267,919,721

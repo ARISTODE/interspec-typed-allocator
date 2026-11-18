@@ -1,0 +1,68 @@
+{
+ "application": "yaml",
+ "source_commit": "69cc6e1",
+ "workloads": {
+  "yaml_parse_1mb": {
+   "native": {
+    "counts": {
+     "6": [
+      624700031,
+      624700031
+     ],
+     "12": [
+      1227444451,
+      1227444451
+     ]
+    },
+    "largest_difference_between_repeats": 0,
+    "instructions": 100457403.33333333,
+    "against_rlbox_only_percent": -17.9883666166019
+   },
+   "rlbox-only": {
+    "counts": {
+     "6": [
+      756965063,
+      756965063
+     ],
+     "12": [
+      1491914966,
+      1491914966
+     ]
+    },
+    "largest_difference_between_repeats": 0,
+    "instructions": 122491650.5,
+    "against_rlbox_only_percent": 0.0
+   },
+   "interspec": {
+    "counts": {
+     "6": [
+      756371850,
+      756371850
+     ],
+     "12": [
+      1490719371,
+      1490719371
+     ]
+    },
+    "largest_difference_between_repeats": 0,
+    "instructions": 122391253.5,
+    "against_rlbox_only_percent": -0.08196232117878566
+   },
+   "interspec-all-off": {
+    "counts": {
+     "6": [
+      757035561,
+      757035561
+     ],
+     "12": [
+      1492046850,
+      1492046850
+     ]
+    },
+    "largest_difference_between_repeats": 0,
+    "instructions": 122501881.5,
+    "against_rlbox_only_percent": 0.008352406027878345
+   }
+  }
+ }
+}

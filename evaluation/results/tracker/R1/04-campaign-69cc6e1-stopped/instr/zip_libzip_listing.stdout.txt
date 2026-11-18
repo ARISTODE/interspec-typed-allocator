@@ -1,0 +1,31 @@
+native 50 #0: 402,984,659
+native 50 #1: 402,984,659
+native 100 #0: 801,042,693
+native 100 #1: 801,042,693
+rlbox-only 50 #0: 330,084,516
+rlbox-only 50 #1: 330,084,516
+rlbox-only 100 #0: 655,001,300
+rlbox-only 100 #1: 655,001,300
+tracked-no-check 50 #0: 336,865,645
+tracked-no-check 50 #1: 336,865,645
+tracked-no-check 100 #0: 668,473,593
+tracked-no-check 100 #1: 668,473,593
+interspec 50 #0: 344,026,863
+interspec 50 #1: 344,026,863
+interspec 100 #0: 682,796,499
+interspec 100 #1: 682,796,499
+interspec-all-off 50 #0: 340,209,178
+interspec-all-off 50 #1: 340,209,178
+interspec-all-off 100 #0: 675,161,214
+interspec-all-off 100 #1: 675,161,214
+### zip_libzip_listing
+
+Iterations 50 and 100; instructions per iteration = difference of the counts divided by 50.
+
+| Configuration | Instructions per iteration | Against rlbox-only | Largest difference between repeats |
+|---|---:|---:|---:|
+| native | 7,961,160.7 | +22.51% | 0 |
+| rlbox-only | 6,498,335.7 | +0.00% | 0 |
+| tracked-no-check | 6,632,159.0 | +2.06% | 0 |
+| interspec | 6,775,392.7 | +4.26% | 0 |
+| interspec-all-off | 6,699,040.7 | +3.09% | 0 |

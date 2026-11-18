@@ -1,0 +1,44 @@
+{
+  "rlbox-only": {
+    "exit_code": 0,
+    "stdout": "UCL_BENCH variant=rlbox-only iterations=20000 input_bytes=141 val1=616c706861 val2=6465627567 emitted_bytes=136 emitted_fnv=950a80d3113caa1c checks=0 elapsed_ns=110655046\n",
+    "stderr": "",
+    "result_matches_reference": true,
+    "checks": 0
+  },
+  "interspec-all-off": {
+    "exit_code": 0,
+    "stdout": "UCL_BENCH variant=interspec iterations=20000 input_bytes=141 val1=616c706861 val2=6465627567 emitted_bytes=136 emitted_fnv=950a80d3113caa1c checks=0 elapsed_ns=109982490\n",
+    "stderr": "",
+    "result_matches_reference": true,
+    "checks": 0
+  },
+  "interspec-sp1": {
+    "exit_code": 0,
+    "stdout": "UCL_BENCH variant=interspec iterations=20000 input_bytes=141 val1=616c706861 val2=6465627567 emitted_bytes=136 emitted_fnv=950a80d3113caa1c checks=0 elapsed_ns=108555689\n",
+    "stderr": "",
+    "result_matches_reference": true,
+    "checks": 0
+  },
+  "interspec-sp2": {
+    "exit_code": 0,
+    "stdout": "UCL_BENCH variant=interspec iterations=20000 input_bytes=141 val1=616c706861 val2=6465627567 emitted_bytes=136 emitted_fnv=950a80d3113caa1c checks=0 elapsed_ns=105042008\n",
+    "stderr": "",
+    "result_matches_reference": true,
+    "checks": 0
+  },
+  "interspec-sp3": {
+    "exit_code": 0,
+    "stdout": "UCL_BENCH variant=interspec iterations=20000 input_bytes=141 val1=616c706861 val2=6465627567 emitted_bytes=136 emitted_fnv=950a80d3113caa1c checks=60000 elapsed_ns=106843246\n",
+    "stderr": "",
+    "result_matches_reference": true,
+    "checks": 60000
+  },
+  "interspec-all-on": {
+    "exit_code": 0,
+    "stdout": "UCL_BENCH variant=interspec iterations=20000 input_bytes=141 val1=616c706861 val2=6465627567 emitted_bytes=136 emitted_fnv=950a80d3113caa1c checks=60000 elapsed_ns=107452554\n",
+    "stderr": "",
+    "result_matches_reference": true,
+    "checks": 60000
+  }
+}

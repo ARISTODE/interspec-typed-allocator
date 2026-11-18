@@ -1,0 +1,81 @@
+{
+ "boundary": "ffmpeg_libvpx",
+ "case": {
+  "width": "352",
+  "height": "288",
+  "iterations": [
+   "2",
+   "12"
+  ]
+ },
+ "low_iterations": 6,
+ "high_iterations": 12,
+ "source_commit": "69cc6e1",
+ "configurations": {
+  "native": {
+   "instructions_low": [
+    656365582,
+    656365578
+   ],
+   "instructions_high": [
+    1267919719,
+    1267919721
+   ],
+   "largest_difference_between_repeats": 4,
+   "instructions_per_iteration": 101925689.5,
+   "against_rlbox_only_percent": -16.10974775722289
+  },
+  "rlbox-only": {
+   "instructions_low": [
+    776552114,
+    776552114
+   ],
+   "instructions_high": [
+    1505545198,
+    1505545198
+   ],
+   "largest_difference_between_repeats": 0,
+   "instructions_per_iteration": 121498847.33333333,
+   "against_rlbox_only_percent": 0.0
+  },
+  "tracked-no-check": {
+   "instructions_low": [
+    776823468,
+    776823468
+   ],
+   "instructions_high": [
+    1505697727,
+    1505697727
+   ],
+   "largest_difference_between_repeats": 0,
+   "instructions_per_iteration": 121479043.16666667,
+   "against_rlbox_only_percent": -0.016299880288017654
+  },
+  "interspec": {
+   "instructions_low": [
+    776818175,
+    776818175
+   ],
+   "instructions_high": [
+    1505693731,
+    1505693731
+   ],
+   "largest_difference_between_repeats": 0,
+   "instructions_per_iteration": 121479259.33333333,
+   "against_rlbox_only_percent": -0.016121963648152438
+  },
+  "interspec-all-off": {
+   "instructions_low": [
+    776939583,
+    776939583
+   ],
+   "instructions_high": [
+    1505936580,
+    1505936580
+   ],
+   "largest_difference_between_repeats": 0,
+   "instructions_per_iteration": 121499499.5,
+   "against_rlbox_only_percent": 0.0005367677809120508
+  }
+ }
+}

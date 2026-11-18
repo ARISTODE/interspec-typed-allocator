@@ -1,0 +1,17 @@
+workload,size,configuration,repeat,processes,instructions
+yaml_parse_1mb,6,native,0,1,624700031
+yaml_parse_1mb,6,native,1,1,624700031
+yaml_parse_1mb,6,rlbox-only,0,1,756965063
+yaml_parse_1mb,6,rlbox-only,1,1,756965063
+yaml_parse_1mb,6,interspec,0,1,756371850
+yaml_parse_1mb,6,interspec,1,1,756371850
+yaml_parse_1mb,6,interspec-all-off,0,1,757035561
+yaml_parse_1mb,6,interspec-all-off,1,1,757035561
+yaml_parse_1mb,12,native,0,1,1227444451
+yaml_parse_1mb,12,native,1,1,1227444451
+yaml_parse_1mb,12,rlbox-only,0,1,1491914966
+yaml_parse_1mb,12,rlbox-only,1,1,1491914966
+yaml_parse_1mb,12,interspec,0,1,1490719371
+yaml_parse_1mb,12,interspec,1,1,1490719371
+yaml_parse_1mb,12,interspec-all-off,0,1,1492046850
+yaml_parse_1mb,12,interspec-all-off,1,1,1492046850

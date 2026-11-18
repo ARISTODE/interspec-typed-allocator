@@ -1,0 +1,31 @@
+native 200000 #0: 113,410,009
+native 200000 #1: 113,410,009
+native 400000 #0: 206,090,506
+native 400000 #1: 206,090,506
+rlbox-only 200000 #0: 196,279,033
+rlbox-only 200000 #1: 196,279,033
+rlbox-only 400000 #0: 363,485,079
+rlbox-only 400000 #1: 363,485,079
+tracked-no-check 200000 #0: 187,013,635
+tracked-no-check 200000 #1: 187,013,635
+tracked-no-check 400000 #0: 344,974,261
+tracked-no-check 400000 #1: 344,974,261
+interspec 200000 #0: 190,710,824
+interspec 200000 #1: 190,710,824
+interspec 400000 #0: 351,922,412
+interspec 400000 #1: 351,922,412
+interspec-all-off 200000 #0: 199,581,040
+interspec-all-off 200000 #1: 199,581,040
+interspec-all-off 400000 #0: 370,017,487
+interspec-all-off 400000 #1: 370,017,487
+### memcached_assoc
+
+Iterations 200,000 and 400,000; instructions per iteration = difference of the counts divided by 200,000.
+
+| Configuration | Instructions per iteration | Against rlbox-only | Largest difference between repeats |
+|---|---:|---:|---:|
+| native | 463.4 | -44.57% | 0 |
+| rlbox-only | 836.0 | +0.00% | 0 |
+| tracked-no-check | 789.8 | -5.53% | 0 |
+| interspec | 806.1 | -3.59% | 0 |
+| interspec-all-off | 852.2 | +1.93% | 0 |

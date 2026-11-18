@@ -1,0 +1,31 @@
+native 750 #0: 124,563,377
+native 750 #1: 124,563,098
+native 1500 #0: 236,679,013
+native 1500 #1: 236,679,145
+rlbox-only 750 #0: 715,832,069
+rlbox-only 750 #1: 715,856,823
+rlbox-only 1500 #0: 1,400,280,316
+rlbox-only 1500 #1: 1,400,287,876
+tracked-no-check 750 #0: 714,111,466
+tracked-no-check 750 #1: 714,087,694
+tracked-no-check 1500 #0: 1,396,816,528
+tracked-no-check 1500 #1: 1,396,806,295
+interspec 750 #0: 714,050,019
+interspec 750 #1: 714,057,755
+interspec 1500 #0: 1,396,694,757
+interspec 1500 #1: 1,396,710,911
+interspec-all-off 750 #0: 715,752,712
+interspec-all-off 750 #1: 715,754,734
+interspec-all-off 1500 #0: 1,400,119,470
+interspec-all-off 1500 #1: 1,400,129,961
+### nginx_openssl
+
+Iterations 750 and 1,500; instructions per iteration = difference of the counts divided by 750.
+
+| Configuration | Instructions per iteration | Against rlbox-only | Largest difference between repeats |
+|---|---:|---:|---:|
+| native | 149,487.5 | -83.62% | 279 |
+| rlbox-only | 912,597.7 | +0.00% | 24,754 |
+| tracked-no-check | 910,273.4 | -0.25% | 23,772 |
+| interspec | 910,193.0 | -0.26% | 16,154 |
+| interspec-all-off | 912,489.0 | -0.01% | 10,491 |

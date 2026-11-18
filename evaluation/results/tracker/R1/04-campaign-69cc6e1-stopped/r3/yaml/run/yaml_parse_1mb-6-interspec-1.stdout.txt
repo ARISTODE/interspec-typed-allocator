@@ -1,0 +1,1 @@
+YAML_BENCH mode=extended_sp3 iterations=6 input_bytes=1048576 events=3108 scalars=3072 scalar_bytes=6153216 hash=aae42efa22193193 checks=3072 elapsed_ns=3356058252

@@ -1,0 +1,11 @@
+==25971== Callgrind, a call-graph generating cache profiler
+==25971== Copyright (C) 2002-2017, and GNU GPL'd, by Josef Weidendorfer et al.
+==25971== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==25971== Command: /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/c2-w-ucl/bin/ucl-interspec evaluation/parity/ucl/nested.conf server.name logging.level 20000
+==25971== 
+==25971== For interactive control, run 'callgrind_control -h'.
+==25971== 
+==25971== Events    : Ir
+==25971== Collected : 1239020619
+==25971== 
+==25971== I   refs:      1,239,020,619

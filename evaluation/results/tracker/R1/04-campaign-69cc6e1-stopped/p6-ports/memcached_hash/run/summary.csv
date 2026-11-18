@@ -1,0 +1,7 @@
+configuration,repetitions,rounds,median_elapsed_ms,min_elapsed_ms,max_elapsed_ms,checks_per_slice,median_ratio_to_rlbox-only,min_ratio_to_rlbox-only,max_ratio_to_rlbox-only,median_ratio_to_interspec-all-off,min_ratio_to_interspec-all-off,max_ratio_to_interspec-all-off
+rlbox-only,15,30,5249.782,5116.638,5460.979,0,1.0,1.0,1.0,1.0507,1.0143,1.1148
+interspec-all-off,15,30,4997.589,4787.159,5213.151,0,0.9518,0.8971,0.9859,1.0,1.0,1.0
+interspec-sp1,15,30,4995.614,4802.682,5233.035,0,0.951,0.9075,0.9834,1.0017,0.9627,1.0481
+interspec-sp2,15,30,4590.83,4464.886,4760.206,0,0.8787,0.8426,0.9067,0.9205,0.8771,0.9525
+interspec-sp3,15,30,4949.066,4837.403,5072.889,0,0.9406,0.9237,0.9603,0.9868,0.9493,1.0355
+interspec-all-on,15,30,4573.586,4471.201,4750.889,0,0.8712,0.8463,0.905,0.9233,0.8773,0.9521

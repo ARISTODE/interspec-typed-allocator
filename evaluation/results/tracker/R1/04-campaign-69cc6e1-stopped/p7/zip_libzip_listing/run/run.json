@@ -1,0 +1,46 @@
+{
+  "boundary": "zip_libzip",
+  "harness_entry": "zip_libzip_listing",
+  "mode": "variants",
+  "configurations": [
+    "native",
+    "rlbox-only",
+    "tracked-no-check",
+    "interspec"
+  ],
+  "reference": "native",
+  "repetitions": 15,
+  "rounds": 30,
+  "time_of_a_repetition": "sum of elapsed_ns over the rounds",
+  "seed": 20261114,
+  "cpu": 0,
+  "case": {
+    "archive": "tree-1000.zip",
+    "iterations": [
+      "1",
+      "3"
+    ]
+  },
+  "iterations": 100,
+  "arguments": [
+    "evaluation/parity/zip_listing/tree-1000.zip",
+    "100",
+    "list"
+  ],
+  "source_commit": "69cc6e1",
+  "label": "Claude Code cloud VM (KVM guest, 4 vCPUs, not a dedicated host)",
+  "machine_start": {
+    "cpu_model": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+    "logical_cpus": 4,
+    "memory": "16473760 kB",
+    "kernel": "6.18.44-fc-v595",
+    "loadavg": "0.25 0.68 0.64 1/110 12787"
+  },
+  "binaries_sha256": {
+    "interspec": "ebb61a00c1b8f54250aa8b71603f93d51be032b70ae77de47857eccd68128f5b",
+    "native": "bb7adff24eb3d447f9d10833bae78be89b577aff1b99d5c19684a85714420b57",
+    "rlbox-only": "a66433d247495772048e0181f3d84dc96c69d513dad3aef2a7e2edf15d3e8abc",
+    "tracked-no-check": "4d0ed5b61416597d97dbacf740b311a8c19ecea9b889407626d013cad0f8aafa"
+  },
+  "started_utc": "2026-11-17T22:49:29Z"
+}

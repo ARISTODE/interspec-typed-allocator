@@ -1,0 +1,81 @@
+{
+ "boundary": "nginx_openssl",
+ "case": {
+  "request_bytes": "512",
+  "response_bytes": "4096",
+  "iterations": [
+   "1",
+   "8"
+  ]
+ },
+ "low_iterations": 750,
+ "high_iterations": 1500,
+ "source_commit": "69cc6e1",
+ "configurations": {
+  "native": {
+   "instructions_low": [
+    124563377,
+    124563098
+   ],
+   "instructions_high": [
+    236679013,
+    236679145
+   ],
+   "largest_difference_between_repeats": 279,
+   "instructions_per_iteration": 149487.51466666666,
+   "against_rlbox_only_percent": -83.61955977074771
+  },
+  "rlbox-only": {
+   "instructions_low": [
+    715832069,
+    715856823
+   ],
+   "instructions_high": [
+    1400280316,
+    1400287876
+   ],
+   "largest_difference_between_repeats": 24754,
+   "instructions_per_iteration": 912597.6626666667,
+   "against_rlbox_only_percent": 0.0
+  },
+  "tracked-no-check": {
+   "instructions_low": [
+    714111466,
+    714087694
+   ],
+   "instructions_high": [
+    1396816528,
+    1396806295
+   ],
+   "largest_difference_between_repeats": 23772,
+   "instructions_per_iteration": 910273.416,
+   "against_rlbox_only_percent": -0.25468470518268393
+  },
+  "interspec": {
+   "instructions_low": [
+    714050019,
+    714057755
+   ],
+   "instructions_high": [
+    1396694757,
+    1396710911
+   ],
+   "largest_difference_between_repeats": 16154,
+   "instructions_per_iteration": 910192.984,
+   "against_rlbox_only_percent": -0.2634982276461195
+  },
+  "interspec-all-off": {
+   "instructions_low": [
+    715752712,
+    715754734
+   ],
+   "instructions_high": [
+    1400119470,
+    1400129961
+   ],
+   "largest_difference_between_repeats": 10491,
+   "instructions_per_iteration": 912489.0106666667,
+   "against_rlbox_only_percent": -0.011905794244804202
+  }
+ }
+}

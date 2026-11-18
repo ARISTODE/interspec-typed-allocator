@@ -1,0 +1,78 @@
+{
+ "boundary": "ucl_libucl",
+ "case": {
+  "document": "nested.conf",
+  "key1": "server.name",
+  "key2": "logging.level"
+ },
+ "low_iterations": 10000,
+ "high_iterations": 20000,
+ "source_commit": "69cc6e1",
+ "configurations": {
+  "native": {
+   "instructions_low": [
+    465032769,
+    463379248
+   ],
+   "instructions_high": [
+    924940955,
+    931342556
+   ],
+   "largest_difference_between_repeats": 6401601,
+   "instructions_per_iteration": 45990.8186,
+   "against_rlbox_only_percent": -25.981236360124893
+  },
+  "rlbox-only": {
+   "instructions_low": [
+    622301067,
+    621061067
+   ],
+   "instructions_high": [
+    1243641067,
+    1239841067
+   ],
+   "largest_difference_between_repeats": 3800000,
+   "instructions_per_iteration": 62134.0,
+   "against_rlbox_only_percent": 0.0
+  },
+  "tracked-no-check": {
+   "instructions_low": [
+    619021578,
+    621791578
+   ],
+   "instructions_high": [
+    1226221578,
+    1230921578
+   ],
+   "largest_difference_between_repeats": 4700000,
+   "instructions_per_iteration": 60720.0,
+   "against_rlbox_only_percent": -2.2757266552933975
+  },
+  "interspec": {
+   "instructions_low": [
+    614530690,
+    620780690
+   ],
+   "instructions_high": [
+    1240900690,
+    1233320690
+   ],
+   "largest_difference_between_repeats": 7580000,
+   "instructions_per_iteration": 62637.0,
+   "against_rlbox_only_percent": 0.809540670164477
+  },
+  "interspec-all-off": {
+   "instructions_low": [
+    619390619,
+    623070619
+   ],
+   "instructions_high": [
+    1231200619,
+    1239020619
+   ],
+   "largest_difference_between_repeats": 7820000,
+   "instructions_per_iteration": 61181.0,
+   "against_rlbox_only_percent": -1.5337818263752578
+  }
+ }
+}
