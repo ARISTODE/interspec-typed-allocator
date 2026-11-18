@@ -2,12 +2,13 @@
 
 ## Complete application
 
-- measurements: 6; range includes zero: 6 (medians -0.5 to +0.5); whole range below zero: 0 (); whole range above zero: 0 ()
-- geometric mean of the 6 medians: +0.15%
+- measurements: 7; range includes zero: 7 (medians -0.5 to +3.7); whole range below zero: 0 (); whole range above zero: 0 ()
+- geometric mean of the 7 medians: +1.07%
 - instruction differences where counted: rsync/popt 194\,MiB file sync +0.00%, yaml/libyaml 1\,MiB document -0.08%
 
-- memcached/bipbuffer, 1 client, 1:1 GET/SET: native 178.340, RLBox-only 176.546, InterSpec 177.845 [Kops/s]; +0.4% (-6.8 to +5.2)
-- memcached/bipbuffer, 8 clients, 1:1 GET/SET: native 648.056, RLBox-only 611.941, InterSpec 608.130 [Kops/s]; +0.2% (-8.3 to +9.5)
+- memcached/bipbuffer, 8 clients, no log watcher: native 648.056, RLBox-only 611.941, InterSpec 608.130 [Kops/s]; +0.2% (-8.3 to +9.5)
+- memcached/bipbuffer, 1 client, log watcher: native 25.473, RLBox-only 25.224, InterSpec 24.603 [Kops/s]; +3.4% (-5.7 to +10.7)
+- memcached/bipbuffer, 2 clients, log watcher: native 83.928, RLBox-only 83.447, InterSpec 80.386 [Kops/s]; +3.7% (-2.7 to +9.2)
 - nginx/libpcre, wrk, 4 threads: native 71.660, RLBox-only 57.503, InterSpec 59.382 [Kreq/s]; -0.5% (-8.6 to +9.3)
 - nginx/libpcre, wrk, 8 threads: native 69.058, RLBox-only 56.034, InterSpec 54.415 [Kreq/s]; +0.5% (-24.4 to +20.4)
 - rsync/popt, 194\,MiB file sync: native 1.411, RLBox-only 1.407, InterSpec 1.421 [Runtime (s)]; -0.2% (-6.2 to +8.9)
@@ -28,7 +29,7 @@
 - zip/libzip, Metadata queries: native 86.473, RLBox-only 117.585, InterSpec 126.797 [Time per query (ns)]; +6.3% (+2.5 to +10.2)
 - zip/libzip, Archive listing, 1,000 entries: native 633.135, RLBox-only 554.401, InterSpec 572.906 [Time per listing (\textmu{}s)]; +5.2% (-0.6 to +9.4)
 
-- geometric mean of all 14 medians: -0.51%
+- geometric mean of all 15 medians: -0.04%
 
 ## Per-policy table
 

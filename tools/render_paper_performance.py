@@ -100,7 +100,10 @@ for scenario in dict.fromkeys(r["scenario"] for r in rows):
     notes.append(f"- memcached {scenario}: Kops/s native {med['native']:.1f}, RLBox-only {med['rlbox-only']:.1f}, "
                  f"InterSpec {med['interspec']:.1f}; InterSpec against RLBox-only {d[0]:+.1f}% "
                  f"({d[1]:+.1f} to {d[2]:+.1f}); RLBox-only against native {sandbox[0]:+.1f}%")
-for scenario, label in (("balanced_1c", "1 client, 1:1 GET/SET"), ("balanced_8c", "8 clients, 1:1 GET/SET")):
+# The plain GET/SET loads never call bipbuffer on the request path (log_worker_written is 0 in every
+# sample); one of them is shown as the idle case, next to the two loads with a log watcher.
+for scenario, label in (("balanced_8c", "8 clients, no log watcher"), ("watch_light", "1 client, log watcher"),
+                        ("watch_moderate", "2 clients, log watcher")):
     med, d, _ = memcached_all[scenario]
     perf.append(("app", "memcached/bipbuffer", label, "Kops/s", med["native"], med["rlbox-only"],
                  med["interspec"], d, None, 1))
