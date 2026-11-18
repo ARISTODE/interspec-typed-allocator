@@ -62,14 +62,59 @@ Reading:
   of code or of data are the candidates; hardware counters are not available in
   this VM).
 
-## What is still open for this item
+## The all-off configuration next to the old binaries (2026-11-17)
 
-- The item asks for "an RLBox-only build that links the typed allocator". The
-  closest configurations measured so far are tracked-no-check (above) and the
-  InterSpec binary with all policies switched off, which copies everything as
-  RLBox-only does and records U's allocations
-  (`../R1/03-campaign-930cb20/p6-ports/magick_libpng/`: +1.2% against
-  RLBox-only, -2.9 to +7.6). The all-off configuration is not yet part
-  of an interleaved measurement with the old binaries.
-- zip/libzip difference between the two builds: see `../R4/README.md`; the
-  difference there is real work (allocation records), not placement.
+`../R1/04-campaign-69cc6e1-stopped/r2/time/`: one interleaved measurement of
+13 binaries and configurations (P7 protocol, 15 repetitions of 30 slices of
+700 images, quiet machine): native, and for the builds of `8fc7020` ("old"),
+`930cb20` ("mid") and `69cc6e1` ("new", the registry of `e635d8d`) the four
+configurations RLBox-only, tracked-no-check, InterSpec, and InterSpec with
+all policies off. The last one is the configuration the item asks for: its
+wrapper copies everything, as RLBox-only does, and U's allocations go through
+the typed allocator and are recorded.
+
+Against the RLBox-only binary of the same build:
+
+| Build | All policies off | tracked-no-check | InterSpec | InterSpec against all off |
+|---|---:|---:|---:|---:|
+| old (`8fc7020`) | +8.2% (+2.7 to +11.8) | +6.2% (-0.0 to +11.6) | +7.7% (+0.4 to +13.7) | -0.6% (-3.7 to +10.3) |
+| mid (`930cb20`) | -3.7% (-8.2 to +3.0) | -6.4% (-11.8 to -3.9) | -4.0% (-7.6 to +5.2) | -0.6% (-4.1 to +4.0) |
+| new (`69cc6e1`) | -1.2% (-7.1 to +2.1) | -0.6% (-4.7 to +2.1) | -0.9% (-4.0 to +4.9) | +0.4% (-2.2 to +12.9) |
+
+All 13 against the new RLBox-only binary (`time/run/RATIOS.md`): twelve are
+between -5.8% and +0.6%; the old RLBox-only binary is at -7.3% (-12.7 to
+-2.3).
+
+## Answer to the item
+
+Which part of the +7.3% of the first measurement each candidate explains:
+
+- **The checks: none.** InterSpec against the same binary with all policies
+  off is -0.6%, -0.6% and +0.4% in the three builds, and 2 checks per image
+  are about 5 ns of 190,000.
+- **Selective copying: none.** The all-off configuration copies everything
+  and shows the whole difference in the old build (+8.2%).
+- **The typed allocator and the records: none that follows the allocator.**
+  The old build shows +8.2% with the allocator linked and nothing else
+  enabled, but the two later builds, which do the same 2 recorded allocations
+  per image, show -3.7% and -1.2%. All builds execute the same number of
+  instructions per image to within 0.09%.
+- **What the +7.3% is:** the old RLBox-only binary is faster than every other
+  sandboxed binary of the three builds, by about the amount in question
+  (-7.3% against the new RLBox-only binary; old InterSpec is at -0.8%). The
+  difference is a property of that one binary, not of a configuration.
+
+What stays unexplained: why that binary is faster. For yaml/libyaml we showed
+that the position of the library code relative to 64-byte boundaries changes
+the time of one program by 13% (`../R3/02-code-placement/`); we did not make
+the padding experiment for libpng, so for libpng this cause is likely and not
+shown. With functions aligned to 64 bytes, as in all builds since `577528c`,
+magick/libpng gives -0.6% (-7.0 to +4.5) at -0.03% instructions
+(`../R1/05-campaign-577528c/`). That run also repeated the comparison of
+builds with an aligned build added (`r2/time/`, 17 configurations); the host
+was slow during that step and its ranges are -16% to +20%, so it adds
+nothing to the table above.
+
+zip/libzip difference between the builds: see `../R4/README.md`; there the
+difference was real work (allocation records), and `e635d8d` removed most of
+it.

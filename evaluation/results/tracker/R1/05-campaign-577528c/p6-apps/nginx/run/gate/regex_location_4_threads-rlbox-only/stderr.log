@@ -1,0 +1,8 @@
+INTERSPEC_POLICY boundary=nginx_pcre+sp3_fixed_at_compile_time sp1=0 sp2=0 sp3=full
+2026/11/18 14:23:01 [notice] 28144#0: using the "epoll" event method
+2026/11/18 14:23:01 [notice] 28144#0: nginx/1.26.3
+2026/11/18 14:23:01 [notice] 28144#0: built by gcc 13.3.0 (Ubuntu 13.3.0-6ubuntu2~24.04.1) 
+2026/11/18 14:23:01 [notice] 28144#0: OS: Linux 6.18.44-fc-v595
+2026/11/18 14:23:01 [notice] 28144#0: getrlimit(RLIMIT_NOFILE): 20000:20000
+2026/11/18 14:23:04 [notice] 28144#0: signal 3 (SIGQUIT) received from 28143, shutting down
+2026/11/18 14:23:04 [notice] 28144#0: exit

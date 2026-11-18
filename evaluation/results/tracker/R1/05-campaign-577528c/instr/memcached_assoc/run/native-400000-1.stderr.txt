@@ -1,0 +1,11 @@
+==8522== Callgrind, a call-graph generating cache profiler
+==8522== Copyright (C) 2002-2017, and GNU GPL'd, by Josef Weidendorfer et al.
+==8522== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==8522== Command: /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/c3-w-hash/bin/assoc-native 20000 400000
+==8522== 
+==8522== For interactive control, run 'callgrind_control -h'.
+==8522== 
+==8522== Events    : Ir
+==8522== Collected : 206091255
+==8522== 
+==8522== I   refs:      206,091,255

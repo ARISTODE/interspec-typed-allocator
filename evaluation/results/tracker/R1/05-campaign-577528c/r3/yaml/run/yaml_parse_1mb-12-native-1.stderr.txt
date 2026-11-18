@@ -1,0 +1,11 @@
+==21031== Callgrind, a call-graph generating cache profiler
+==21031== Copyright (C) 2002-2017, and GNU GPL'd, by Josef Weidendorfer et al.
+==21031== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==21031== Command: /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/camp3-tmp/interspec-yaml-libyaml/yaml-native-bench /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/camp3/p5/run/document-1m.yaml 12
+==21031== 
+==21031== For interactive control, run 'callgrind_control -h'.
+==21031== 
+==21031== Events    : Ir
+==21031== Collected : 1227445168
+==21031== 
+==21031== I   refs:      1,227,445,168

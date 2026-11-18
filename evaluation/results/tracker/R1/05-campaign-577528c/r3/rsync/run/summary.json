@@ -1,0 +1,98 @@
+{
+ "application": "rsync",
+ "source_commit": "577528c",
+ "workloads": {
+  "option_parse": {
+   "native": {
+    "counts": {
+     "run": [
+      565057,
+      565057
+     ]
+    },
+    "largest_difference_between_repeats": 0,
+    "instructions": 565057,
+    "against_rlbox_only_percent": -80.74607072055588
+   },
+   "rlbox-only": {
+    "counts": {
+     "run": [
+      2934762,
+      2934762
+     ]
+    },
+    "largest_difference_between_repeats": 0,
+    "instructions": 2934762,
+    "against_rlbox_only_percent": 0.0
+   },
+   "interspec": {
+    "counts": {
+     "run": [
+      2937836,
+      2937836
+     ]
+    },
+    "largest_difference_between_repeats": 0,
+    "instructions": 2937836,
+    "against_rlbox_only_percent": 0.10474443924244348
+   },
+   "interspec-all-off": {
+    "counts": {
+     "run": [
+      3075163,
+      3075163
+     ]
+    },
+    "largest_difference_between_repeats": 0,
+    "instructions": 3075163,
+    "against_rlbox_only_percent": 4.78406766886037
+   }
+  },
+  "file_sync_194mb": {
+   "native": {
+    "counts": {
+     "run": [
+      6277320100,
+      6277306095
+     ]
+    },
+    "largest_difference_between_repeats": 14005,
+    "instructions": 6277320100,
+    "against_rlbox_only_percent": -0.10538645085799159
+   },
+   "rlbox-only": {
+    "counts": {
+     "run": [
+      6283942524,
+      6283885142
+     ]
+    },
+    "largest_difference_between_repeats": 57382,
+    "instructions": 6283942524,
+    "against_rlbox_only_percent": 0.0
+   },
+   "interspec": {
+    "counts": {
+     "run": [
+      6284227708,
+      6284207021
+     ]
+    },
+    "largest_difference_between_repeats": 20687,
+    "instructions": 6284227708,
+    "against_rlbox_only_percent": 0.004538297397060909
+   },
+   "interspec-all-off": {
+    "counts": {
+     "run": [
+      6284552597,
+      6284563012
+     ]
+    },
+    "largest_difference_between_repeats": 10415,
+    "instructions": 6284552597,
+    "against_rlbox_only_percent": 0.009708443348577234
+   }
+  }
+ }
+}

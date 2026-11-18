@@ -1,0 +1,80 @@
+{
+ "boundary": "zip_libzip",
+ "case": {
+  "archive": "test-cp437.zip",
+  "iterations": [
+   "1",
+   "33"
+  ]
+ },
+ "low_iterations": 500000,
+ "high_iterations": 1000000,
+ "source_commit": "577528c",
+ "configurations": {
+  "native": {
+   "instructions_low": [
+    433469191,
+    433469191
+   ],
+   "instructions_high": [
+    864687971,
+    864687971
+   ],
+   "largest_difference_between_repeats": 0,
+   "instructions_per_iteration": 862.43756,
+   "against_rlbox_only_percent": -35.60895684602276
+  },
+  "rlbox-only": {
+   "instructions_low": [
+    671918211,
+    671918211
+   ],
+   "instructions_high": [
+    1341605731,
+    1341605731
+   ],
+   "largest_difference_between_repeats": 0,
+   "instructions_per_iteration": 1339.37504,
+   "against_rlbox_only_percent": 0.0
+  },
+  "tracked-no-check": {
+   "instructions_low": [
+    671700234,
+    671700234
+   ],
+   "instructions_high": [
+    1341137768,
+    1341137768
+   ],
+   "largest_difference_between_repeats": 0,
+   "instructions_per_iteration": 1338.875068,
+   "against_rlbox_only_percent": -0.037328752968235346
+  },
+  "interspec": {
+   "instructions_low": [
+    742262243,
+    742262243
+   ],
+   "instructions_high": [
+    1482262279,
+    1482262279
+   ],
+   "largest_difference_between_repeats": 0,
+   "instructions_per_iteration": 1480.000072,
+   "against_rlbox_only_percent": 10.499302122279364
+  },
+  "interspec-all-off": {
+   "instructions_low": [
+    694700028,
+    694700028
+   ],
+   "instructions_high": [
+    1387137564,
+    1387137564
+   ],
+   "largest_difference_between_repeats": 0,
+   "instructions_per_iteration": 1384.875072,
+   "against_rlbox_only_percent": 3.397109147263211
+  }
+ }
+}

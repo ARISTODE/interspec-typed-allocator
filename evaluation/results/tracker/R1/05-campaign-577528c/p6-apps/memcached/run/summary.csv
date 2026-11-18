@@ -1,0 +1,7 @@
+workload,configuration,repetitions,rounds,unit,median,min,max,median_cost_pct_vs_interspec-all-off,min_cost_pct_vs_interspec-all-off,max_cost_pct_vs_interspec-all-off,median_cost_pct_vs_rlbox-only,min_cost_pct_vs_rlbox-only,max_cost_pct_vs_rlbox-only
+watch_moderate,rlbox-only,15,6,operations_per_s,85088.354,80503.994,90540.484,0.646,-5.394,4.255,0.0,0.0,0.0
+watch_moderate,interspec-all-off,15,6,operations_per_s,85305.62,80368.291,89022.621,0.0,0.0,0.0,-0.641,-4.082,5.701
+watch_moderate,interspec-sp1,15,6,operations_per_s,85071.796,79917.011,92122.518,0.565,-7.018,4.158,0.734,-4.644,3.208
+watch_moderate,interspec-sp2,15,6,operations_per_s,84045.498,79498.91,89395.107,0.337,-4.001,5.125,0.683,-3.831,3.479
+watch_moderate,interspec-sp3,15,6,operations_per_s,82713.856,77578.925,88750.718,2.751,-3.486,6.005,2.086,-3.642,4.346
+watch_moderate,interspec-all-on,15,6,operations_per_s,82704.935,78314.534,88513.795,1.963,-3.227,4.791,2.29,-2.393,3.6

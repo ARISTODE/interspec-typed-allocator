@@ -70,3 +70,42 @@ variants is not affected.
 and 1,557.3 (InterSpec, +16.3%) instructions per query; the campaign's
 binaries at `930cb20` gave 1,328.4 and 1,568.3 (+18.1%). The harness changed
 between the two commits (the query is now a function shared with the listing).
+
+## After the second registry change (2026-11-18)
+
+`../R1/05-campaign-577528c/` (commit `577528c`, registry of `e635d8d`, aligned
+builds, P7 protocol; these steps ran before the host slowdown of that run):
+
+| Workload | RLBox-only | InterSpec | Time | Instructions |
+|---|---:|---:|---|---:|
+| Metadata queries, per query | 117.6 ns | 126.8 ns | +6.3% (+2.5 to +10.2) | 1,339.4 to 1,480.0 (+10.50%) |
+| Listing of 1,000 entries, per listing | 554 us | 573 us | +5.2% (-0.6 to +9.4) | 6,498,335 to 6,775,393 (+4.26%) |
+
+Per-policy protocol on the same binaries (`p6-ports/`): queries, all on
+against RLBox-only +8.1% (+2.8 to +15.4), SP3 alone against all off +5.4%
+(-2.5 to +11.6); listing, all on against RLBox-only +2.7% (-2.0 to +14.3).
+
+Where the remaining cost is (profiles in `instr/zip_libzip*/run/`):
+
+- Queries: 141 additional instructions per query. With all policies off the
+  wrapper is 46 instructions longer than the RLBox-only wrapper; the two SP3
+  checks are the other 95. The whole query is 1,339 instructions and 118 ns,
+  so two checks are 7% of the instructions of an operation that does almost
+  nothing else. This is the shortest call in the evaluation that carries SP3
+  checks.
+- Listing: 278,000 additional instructions per listing. Recording and
+  releasing the 1,000 names costs 200 instructions per name (before the
+  change: about 1,450 per name), and the sandboxed `malloc` and `free` do
+  152,000 instructions less because the typed allocator serves these
+  allocations.
+- Native listing: 23% more instructions and 14% more time than RLBox-only.
+  glibc's `mktime` reads the environment at each of the 1,000 time
+  conversions (`getenv`, 1.12 million instructions per listing; `__offtime`,
+  0.52 million); the C library in the sandbox does not. The native column of
+  this row measures a different C library.
+
+State of the item: the hash table has no cost left. zip/libzip is not measured
+inside a larger application (the port is the application: a program that
+lists an archive), so the item is met by the second alternative of its "Done
+when" if JH agrees: the paper presents the queries as the stress case, with
+the per-call breakdown above, next to the listing as the complete operation.

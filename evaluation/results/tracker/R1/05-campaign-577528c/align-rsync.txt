@@ -1,0 +1,5 @@
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/camp3-tmp/interspec-p11-driver/interspec-rlbox-wasm2c/rsync-p11-extended-sp3: 129 functions checked, 0 not on a 64-byte boundary
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/camp3-tmp/interspec-p11-driver/interspec-rlbox-wasm2c/rsync-src/rsync: 126 functions checked, 0 not on a 64-byte boundary
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/camp3-tmp/interspec-p11-driver/interspec-rlbox-wasm2c/p9b-wasm-smoke: 129 functions checked, 0 not on a 64-byte boundary
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/camp3-tmp/interspec-p11-driver/interspec-rlbox-wasm2c/rsync-p11-rlbox-only: 126 functions checked, 0 not on a 64-byte boundary
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/camp3-tmp/interspec-p11-driver/interspec-rlbox-wasm2c/rsync-p11-tracked-no-check: 129 functions checked, 0 not on a 64-byte boundary

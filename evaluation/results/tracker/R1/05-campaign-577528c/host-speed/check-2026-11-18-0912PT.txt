@@ -1,0 +1,13 @@
+# yaml RLBox-only binary of the campaign, 12 parses of the 1 MiB document per run; the R5 analysis process is stopped (SIGSTOP) during this check
+3.14 2.71 2.38 1/151 14473
+2026-11-18T17:12:26Z cpu 0 runs 0.149 0.167 0.138 0.128 0.155 0.152 0.151 0.185 0.190 0.191 median 0.154 max 0.191 slow 8 not-quiet
+2026-11-18T17:12:27Z cpu 1 runs 0.144 0.158 0.125 0.137 0.143 0.154 0.161 0.190 0.209 0.184 median 0.156 max 0.209 slow 8 not-quiet
+2026-11-18T17:12:29Z cpu 2 runs 0.157 0.177 0.158 0.203 0.124 0.186 0.214 0.214 0.233 0.220 median 0.194 max 0.233 slow 9 not-quiet
+2026-11-18T17:12:31Z cpu 3 runs 0.190 0.145 0.148 0.155 0.190 0.134 0.131 0.178 0.153 0.214 median 0.154 max 0.214 slow 8 not-quiet
+2026-11-18T17:12:33Z cpu 0 runs 0.130 0.221 0.163 0.181 0.156 0.143 0.211 0.234 0.205 0.206 median 0.193 max 0.234 slow 9 not-quiet
+2026-11-18T17:12:35Z cpu 1 runs 0.221 0.233 0.212 0.175 0.163 0.126 0.184 0.181 0.212 0.196 median 0.190 max 0.233 slow 9 not-quiet
+2026-11-18T17:12:37Z cpu 2 runs 0.195 0.180 0.138 0.127 0.184 0.180 0.149 0.129 0.127 0.220 median 0.165 max 0.220 slow 6 not-quiet
+2026-11-18T17:12:39Z cpu 3 runs 0.189 0.211 0.192 0.166 0.198 0.214 0.248 0.256 0.240 0.219 median 0.212 max 0.256 slow 10 not-quiet
+# native binary
+2026-11-18T17:12:40Z cpu 0 runs 0.109 0.110 0.104 0.106 0.103 0.103 0.105 0.103 0.104 0.104 median 0.104 max 0.110 slow 0
+cpu  3137994 355 1319403 11493040 52040 0 1730368 88237 0 0

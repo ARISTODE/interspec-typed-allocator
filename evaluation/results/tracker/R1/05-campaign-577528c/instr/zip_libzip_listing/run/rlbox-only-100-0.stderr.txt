@@ -1,0 +1,11 @@
+==8455== Callgrind, a call-graph generating cache profiler
+==8455== Copyright (C) 2002-2017, and GNU GPL'd, by Josef Weidendorfer et al.
+==8455== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==8455== Command: /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/c3-w-zip/bin/zip-rlbox-only evaluation/parity/zip_listing/tree-1000.zip 100 list
+==8455== 
+==8455== For interactive control, run 'callgrind_control -h'.
+==8455== 
+==8455== Events    : Ir
+==8455== Collected : 655002014
+==8455== 
+==8455== I   refs:      655,002,014

@@ -1,0 +1,6 @@
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/camp3-p2-tmp/interspec-memcached-deployment/upstream-tests-interspec/memcached-debug: 10 functions checked, 0 not on a 64-byte boundary
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/camp3-p2-tmp/interspec-memcached-deployment/bin/memcached-interspec: 10 functions checked, 0 not on a 64-byte boundary
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/camp3-p2-tmp/interspec-memcached-deployment/bin/memcached-tracked-no-check: 10 functions checked, 0 not on a 64-byte boundary
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/camp3-p2-tmp/interspec-memcached-deployment/bin/memcached-diagnostics: 21 functions checked, 0 not on a 64-byte boundary
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/camp3-p2-tmp/interspec-memcached-deployment/bin/memcached-interspec-debug: 10 functions checked, 0 not on a 64-byte boundary
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/camp3-p2-tmp/interspec-memcached-deployment/bin/memcached-rlbox-only: 10 functions checked, 0 not on a 64-byte boundary

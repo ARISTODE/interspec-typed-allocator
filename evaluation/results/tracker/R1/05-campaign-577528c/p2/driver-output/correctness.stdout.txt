@@ -1,0 +1,50 @@
+{"case": "normal-native", "pass": true, "seconds": 3.0548685019966797, "checks": ["lru_async_item_bumps", "set_get_flags", "add_replace", "cas", "append_prepend", "incr_decr", "binary_256k", "multiget", "touch_delete", "fragmented_request", "invalid_commands", "expiry", "flush_all", "watch_log_content", "concurrent_cache_2000_ops", "watcher_churn_25"], "checks_passed": 16}
+{"case": "normal-rlbox-only", "pass": true, "seconds": 3.022459052997874, "checks": ["lru_async_item_bumps", "set_get_flags", "add_replace", "cas", "append_prepend", "incr_decr", "binary_256k", "multiget", "touch_delete", "fragmented_request", "invalid_commands", "expiry", "flush_all", "watch_log_content", "concurrent_cache_2000_ops", "watcher_churn_25"], "checks_passed": 16}
+{"case": "normal-tracked-no-check", "pass": true, "seconds": 3.0281885490003333, "checks": ["lru_async_item_bumps", "set_get_flags", "add_replace", "cas", "append_prepend", "incr_decr", "binary_256k", "multiget", "touch_delete", "fragmented_request", "invalid_commands", "expiry", "flush_all", "watch_log_content", "concurrent_cache_2000_ops", "watcher_churn_25"], "checks_passed": 16}
+{"case": "normal-interspec", "pass": true, "seconds": 3.028162873997644, "checks": ["lru_async_item_bumps", "set_get_flags", "add_replace", "cas", "append_prepend", "incr_decr", "binary_256k", "multiget", "touch_delete", "fragmented_request", "invalid_commands", "expiry", "flush_all", "watch_log_content", "concurrent_cache_2000_ops", "watcher_churn_25"], "checks_passed": 16}
+{"case": "normal-diagnostics", "pass": true, "seconds": 3.027642246001051, "checks": ["lru_async_item_bumps", "set_get_flags", "add_replace", "cas", "append_prepend", "incr_decr", "binary_256k", "multiget", "touch_delete", "fragmented_request", "invalid_commands", "expiry", "flush_all", "watch_log_content", "concurrent_cache_2000_ops", "watcher_churn_25"], "checks_passed": 16}
+{"case": "fault-r1-t1-m1", "pass": true, "seconds": 0.03032199800145463, "role": 1, "target": 1, "mode": 1, "reason": "wrong_type", "exit_code": -6}
+{"case": "fault-r1-t1-m2", "pass": true, "seconds": 0.03656043799855979, "role": 1, "target": 1, "mode": 2, "reason": "untracked", "exit_code": -6}
+{"case": "fault-r1-t1-m3", "pass": true, "seconds": 0.030345011000463273, "role": 1, "target": 1, "mode": 3, "reason": "untracked", "exit_code": -6}
+{"case": "fault-r1-t1-m4", "pass": true, "seconds": 0.03329797500191489, "role": 1, "target": 1, "mode": 4, "reason": "out_of_bounds", "exit_code": -6}
+{"case": "fault-r1-t2-m1", "pass": true, "seconds": 0.03061015600178507, "role": 1, "target": 2, "mode": 1, "reason": "wrong_type", "exit_code": -6}
+{"case": "fault-r1-t2-m2", "pass": true, "seconds": 0.030937625000660773, "role": 1, "target": 2, "mode": 2, "reason": "untracked", "exit_code": -6}
+{"case": "fault-r1-t2-m3", "pass": true, "seconds": 0.03196976099934545, "role": 1, "target": 2, "mode": 3, "reason": "untracked", "exit_code": -6}
+{"case": "fault-r1-t2-m4", "pass": true, "seconds": 0.029935571998066735, "role": 1, "target": 2, "mode": 4, "reason": "out_of_bounds", "exit_code": -6}
+{"case": "fault-r1-t3-m1", "pass": true, "seconds": 0.03142108099928009, "role": 1, "target": 3, "mode": 1, "reason": "wrong_type", "exit_code": -6}
+{"case": "fault-r1-t3-m2", "pass": true, "seconds": 0.029876995999075007, "role": 1, "target": 3, "mode": 2, "reason": "untracked", "exit_code": -6}
+{"case": "fault-r1-t3-m3", "pass": true, "seconds": 0.030007962999661686, "role": 1, "target": 3, "mode": 3, "reason": "untracked", "exit_code": -6}
+{"case": "fault-r1-t3-m4", "pass": true, "seconds": 0.029795114998705685, "role": 1, "target": 3, "mode": 4, "reason": "out_of_bounds", "exit_code": -6}
+{"case": "fault-r2-t1-m1", "pass": true, "seconds": 0.031283726002584444, "role": 2, "target": 1, "mode": 1, "reason": "wrong_type", "exit_code": -6}
+{"case": "fault-r2-t1-m2", "pass": true, "seconds": 0.03107341000213637, "role": 2, "target": 1, "mode": 2, "reason": "untracked", "exit_code": -6}
+{"case": "fault-r2-t1-m3", "pass": true, "seconds": 0.031714620999991894, "role": 2, "target": 1, "mode": 3, "reason": "untracked", "exit_code": -6}
+{"case": "fault-r2-t1-m4", "pass": true, "seconds": 0.03199147199848085, "role": 2, "target": 1, "mode": 4, "reason": "out_of_bounds", "exit_code": -6}
+{"case": "fault-r2-t2-m1", "pass": true, "seconds": 0.027092342999821994, "role": 2, "target": 2, "mode": 1, "reason": "wrong_type", "exit_code": -6}
+{"case": "fault-r2-t2-m2", "pass": true, "seconds": 0.026637018996552797, "role": 2, "target": 2, "mode": 2, "reason": "untracked", "exit_code": -6}
+{"case": "fault-r2-t2-m3", "pass": true, "seconds": 0.028301079000812024, "role": 2, "target": 2, "mode": 3, "reason": "untracked", "exit_code": -6}
+{"case": "fault-r2-t2-m4", "pass": true, "seconds": 0.028194116999657126, "role": 2, "target": 2, "mode": 4, "reason": "out_of_bounds", "exit_code": -6}
+{"case": "fault-r2-t3-m1", "pass": true, "seconds": 0.02983013899938669, "role": 2, "target": 3, "mode": 1, "reason": "wrong_type", "exit_code": -6}
+{"case": "fault-r2-t3-m2", "pass": true, "seconds": 0.028616367999347858, "role": 2, "target": 3, "mode": 2, "reason": "untracked", "exit_code": -6}
+{"case": "fault-r2-t3-m3", "pass": true, "seconds": 0.027588009001192404, "role": 2, "target": 3, "mode": 3, "reason": "untracked", "exit_code": -6}
+{"case": "fault-r2-t3-m4", "pass": true, "seconds": 0.028465991003031377, "role": 2, "target": 3, "mode": 4, "reason": "out_of_bounds", "exit_code": -6}
+{"case": "fault-r3-t1-m1", "pass": true, "seconds": 0.05822638400059077, "role": 3, "target": 1, "mode": 1, "reason": "wrong_type", "exit_code": -6}
+{"case": "fault-r3-t1-m2", "pass": true, "seconds": 0.05626284500249312, "role": 3, "target": 1, "mode": 2, "reason": "untracked", "exit_code": -6}
+{"case": "fault-r3-t1-m3", "pass": true, "seconds": 0.05124317300214898, "role": 3, "target": 1, "mode": 3, "reason": "untracked", "exit_code": -6}
+{"case": "fault-r3-t1-m4", "pass": true, "seconds": 0.06013934300062829, "role": 3, "target": 1, "mode": 4, "reason": "out_of_bounds", "exit_code": -6}
+{"case": "fault-r3-t2-m1", "pass": true, "seconds": 0.05644333699819981, "role": 3, "target": 2, "mode": 1, "reason": "wrong_type", "exit_code": -6}
+{"case": "fault-r3-t2-m2", "pass": true, "seconds": 0.05550012000094284, "role": 3, "target": 2, "mode": 2, "reason": "untracked", "exit_code": -6}
+{"case": "fault-r3-t2-m3", "pass": true, "seconds": 0.05601728199690115, "role": 3, "target": 2, "mode": 3, "reason": "untracked", "exit_code": -6}
+{"case": "fault-r3-t2-m4", "pass": true, "seconds": 0.05397088000245276, "role": 3, "target": 2, "mode": 4, "reason": "out_of_bounds", "exit_code": -6}
+{"case": "fault-r3-t3-m1", "pass": true, "seconds": 0.05076037899925723, "role": 3, "target": 3, "mode": 1, "reason": "wrong_type", "exit_code": -6}
+{"case": "fault-r3-t3-m2", "pass": true, "seconds": 0.05561590800061822, "role": 3, "target": 3, "mode": 2, "reason": "untracked", "exit_code": -6}
+{"case": "fault-r3-t3-m3", "pass": true, "seconds": 0.05143099199995049, "role": 3, "target": 3, "mode": 3, "reason": "untracked", "exit_code": -6}
+{"case": "fault-r3-t3-m4", "pass": true, "seconds": 0.053584761000820436, "role": 3, "target": 3, "mode": 4, "reason": "out_of_bounds", "exit_code": -6}
+{"case": "control-r1-m5", "pass": true, "seconds": 1.0478495499992277, "mode": 5, "role": 1, "outcome": "accepted_same_type"}
+{"case": "control-r2-m5", "pass": true, "seconds": 1.0481329769972945, "mode": 5, "role": 2, "outcome": "accepted_same_type"}
+{"case": "control-r3-m5", "pass": true, "seconds": 1.0418166620002012, "mode": 5, "role": 3, "outcome": "accepted_same_type"}
+{"case": "control-r1-m6", "pass": true, "seconds": 0.03364957599842455, "mode": 6, "role": 1, "outcome": "rejected_malformed_record"}
+{"case": "control-r3-m6", "pass": true, "seconds": 0.05350077800176223, "mode": 6, "role": 3, "outcome": "rejected_unknown_handle"}
+{"case": "control-r3-m7", "pass": true, "seconds": 0.05110545900242869, "mode": 7, "role": 3, "outcome": "rejected_wrong_item_hash"}
+{"case": "control-r3-m8", "pass": true, "seconds": 0.04938764100006665, "mode": 8, "role": 3, "outcome": "rejected_malformed_record"}
+{"case": "upstream-native", "pass": true, "seconds": 14.45582266600104, "tests": ["t/watcher.t", "t/watcher_connid.t"], "transport": "loopback_tcp", "test_assertions": "unmodified", "launcher_sha256": "4fd28c15cc2cf110a20bf16753b35056d99f1c19984f11af1826e19e0160a795"}
+{"case": "upstream-interspec", "pass": true, "seconds": 14.350901538000471, "tests": ["t/watcher.t", "t/watcher_connid.t"], "transport": "loopback_tcp", "test_assertions": "unmodified", "launcher_sha256": "4fd28c15cc2cf110a20bf16753b35056d99f1c19984f11af1826e19e0160a795"}

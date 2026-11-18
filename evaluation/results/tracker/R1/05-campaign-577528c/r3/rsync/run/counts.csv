@@ -1,0 +1,17 @@
+workload,size,configuration,repeat,processes,instructions
+option_parse,run,native,0,1,565057
+option_parse,run,native,1,1,565057
+option_parse,run,rlbox-only,0,1,2934762
+option_parse,run,rlbox-only,1,1,2934762
+option_parse,run,interspec,0,1,2937836
+option_parse,run,interspec,1,1,2937836
+option_parse,run,interspec-all-off,0,1,3075163
+option_parse,run,interspec-all-off,1,1,3075163
+file_sync_194mb,run,native,0,3,6277320100
+file_sync_194mb,run,native,1,3,6277306095
+file_sync_194mb,run,rlbox-only,0,3,6283942524
+file_sync_194mb,run,rlbox-only,1,3,6283885142
+file_sync_194mb,run,interspec,0,3,6284227708
+file_sync_194mb,run,interspec,1,3,6284207021
+file_sync_194mb,run,interspec-all-off,0,3,6284552597
+file_sync_194mb,run,interspec-all-off,1,3,6284563012

@@ -1,0 +1,11 @@
+==8378== Callgrind, a call-graph generating cache profiler
+==8378== Copyright (C) 2002-2017, and GNU GPL'd, by Josef Weidendorfer et al.
+==8378== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==8378== Command: /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/c3-w-zip/bin/zip-tracked-no-check evaluation/parity/zip/test-cp437.zip 1000000
+==8378== 
+==8378== For interactive control, run 'callgrind_control -h'.
+==8378== 
+==8378== Events    : Ir
+==8378== Collected : 1341137768
+==8378== 
+==8378== I   refs:      1,341,137,768

@@ -1,0 +1,31 @@
+native 6 #0: 656,366,359
+native 6 #1: 656,366,343
+native 12 #0: 1,267,920,468
+native 12 #1: 1,267,920,466
+rlbox-only 6 #0: 776,552,856
+rlbox-only 6 #1: 776,552,856
+rlbox-only 12 #0: 1,505,545,926
+rlbox-only 12 #1: 1,505,545,926
+tracked-no-check 6 #0: 776,824,163
+tracked-no-check 6 #1: 776,824,163
+tracked-no-check 12 #0: 1,505,698,408
+tracked-no-check 12 #1: 1,505,698,408
+interspec 6 #0: 776,818,880
+interspec 6 #1: 776,818,880
+interspec 12 #0: 1,505,694,464
+interspec 12 #1: 1,505,694,464
+interspec-all-off 6 #0: 776,940,288
+interspec-all-off 6 #1: 776,940,288
+interspec-all-off 12 #0: 1,505,937,313
+interspec-all-off 12 #1: 1,505,937,313
+### ffmpeg_libvpx
+
+Iterations 6 and 12; instructions per iteration = difference of the counts divided by 6.
+
+| Configuration | Instructions per iteration | Against rlbox-only | Largest difference between repeats |
+|---|---:|---:|---:|
+| native | 101,925,684.8 | -16.11% | 16 |
+| rlbox-only | 121,498,845.0 | +0.00% | 0 |
+| tracked-no-check | 121,479,040.8 | -0.02% | 0 |
+| interspec | 121,479,264.0 | -0.02% | 0 |
+| interspec-all-off | 121,499,504.2 | +0.00% | 0 |

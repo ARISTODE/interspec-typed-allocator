@@ -10,6 +10,8 @@ file are in PT.
 | `01-hash-table-diagnosis-12e8b9b/` | Why the memcached hash table stayed expensive after the first registry changes: cachegrind runs and a cycle-counter probe of the hash-table program at `12e8b9b`. |
 | `02-campaign-12e8b9b-stopped/` | A first re-measurement at `12e8b9b`. I stopped it after the port timings, the instruction counts and the microbenchmarks, because the hash table still cost +27.9% and the diagnosis above pointed at a change of the runtime. It is kept as the measurement of that intermediate runtime; nothing in the paper cites it. |
 | `03-campaign-930cb20/` | The complete re-measurement at `930cb20`: every timing item (P2 to P7, P9), the instruction counts of the ports (R3) and the registry microbenchmarks. `steps.txt` lists every step with start, end and exit status. |
+| `04-campaign-69cc6e1-stopped/` | A re-measurement after the second registry change (`e635d8d`), stopped by hand after 43 steps because yaml/libyaml showed +9.7% at an equal instruction count. `../R3/02-code-placement/` shows that this was the position of the library code in the binary. Kept; nothing in the paper cites it. |
+| `05-campaign-577528c/` | The complete re-measurement after the second registry change, with every binary built with functions aligned to 64 bytes. 55 steps, all with exit status 0. The paper's performance numbers come from this run. Its README has the tables. |
 
 ## What changed in the runtime
 
@@ -105,7 +107,62 @@ The other four port workloads at `930cb20`: memcached hash function -14.3%
 (-17.9 to -11.5), ucl/libucl +3.2% (-3.8 to +8.4), nginx/openssl -0.7% (-5.5
 to +2.9), ffmpeg/libvpx +2.1% (-1.7 to +5.6).
 
-## Workflows at the changed commit
+## Second registry change (`e635d8d`): allocation records
+
+R4 showed at `930cb20` that recording an allocation was the remaining cost:
+the zip listing, which allocates 1,000 names per archive, cost +62.9%, and a
+check into one of 1,000 records cost 65 ns. `e635d8d` changes how the
+registry keeps the records of U's allocations:
+
+- A block of the typed arena keeps its address, capacity, type and site for
+  the lifetime of the registry. The records are a dense array in address
+  order, found through an index with one entry per 64 bytes of used arena.
+- Recording and releasing an allocation no longer inserts into or erases from
+  a tree and allocates no node. Released blocks wait in lists per capacity of
+  their type and site.
+- The checked properties are unchanged. `tests/runtime_block_index.cpp`
+  compares the registry with a `std::map` model over random sequences of
+  allocations, releases and reallocations.
+
+Registry operations before (`930cb20`) and after, single-threaded form, ns
+per operation, P8 tool, median of 15 runs. Two runs with the same registry
+code: the stopped run 04 (quiet machine) and run 05 (made while the host was
+slow, see its README).
+
+| Operation | Live objects | Before, run 04 | After, run 04 | Before, run 05 | After, run 05 |
+|---|---:|---:|---:|---:|---:|
+| Check (`check_live`) | 2 | 6.06 | 2.58 | 8.57 | 2.63 |
+| Registration (`allocate_from_site`) | 16,384 | 56.82 | 23.21 | 100.16 | 31.99 |
+| Release (`release`) | 16,384 | 152.65 | 7.30 | 226.94 | 9.65 |
+
+Locked form (run 04): check 22.64 to 22.17, registration 73.73 to 52.45,
+release 171.23 to 36.46. A check in the locked form is still the lock.
+
+The workloads named in the item, P7 protocol, InterSpec against RLBox-only.
+The last column is run 05 (aligned builds):
+
+| Workload | `8fc7020` | `930cb20` | `577528c` | `577528c`, instructions |
+|---|---:|---:|---:|---:|
+| memcached hash table | +146.7% (+135.7 to +153.3) | -3.0% (-8.4 to -1.4) | -2.7% (-6.2 to +0.4) | -3.59% |
+| zip/libzip, metadata queries | +42.9% (+35.1 to +52.7) | +20.0% (+15.7 to +27.6) | +6.3% (+2.5 to +10.2) | +10.50% |
+| zip/libzip, listing of 1,000 entries | (not measured) | +62.9% (+52.4 to +73.1), at `00a20ec` | +5.2% (-0.6 to +9.4) | +4.26% |
+| magick/libpng | +7.3% (+3.7 to +14.1) | +1.5% (-4.6 to +7.9) | -0.6% (-7.0 to +4.5) | -0.03% |
+
+- zip/libzip: the listing went from +62.9% to +5.2%, and from 1,792,000 to
+  278,000 additional instructions per listing. The queries went from +20.0%
+  to +6.3%; their range is still above zero. `05-campaign-577528c/README.md`
+  has the breakdown per call, and R4 the decision about how the paper
+  presents this row.
+- The hash table and libpng did not change beyond the spread of the
+  measurement.
+
+Workflows at `e635d8d` (run ids on GitHub Actions): ci 44179153203,
+memcached-deployment 44179153233, nginx-deployment 44179153129,
+sp3-security-delta 44179153237, all success. Also success: policy-switches
+44179153199, p10-wasm2c-p7c 44179153094, yaml-libyaml-evaluation
+44179153271. `controlled-publication-evaluation` fails as before.
+
+## Workflows at the changed commit (`930cb20`)
 
 At `930cb20` (run ids on GitHub Actions): ci 44056214975, memcached-deployment
 44056214912, nginx-deployment 44056215281, sp3-security-delta 44056214890, all

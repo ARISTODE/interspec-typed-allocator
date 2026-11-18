@@ -1,0 +1,11 @@
+==8605== Callgrind, a call-graph generating cache profiler
+==8605== Copyright (C) 2002-2017, and GNU GPL'd, by Josef Weidendorfer et al.
+==8605== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==8605== Command: /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/c3-w-png/bin/png-interspec evaluation/parity/png/basn4a16.png 700
+==8605== 
+==8605== For interactive control, run 'callgrind_control -h'.
+==8605== 
+==8605== Events    : Ir
+==8605== Collected : 1386036304
+==8605== 
+==8605== I   refs:      1,386,036,304

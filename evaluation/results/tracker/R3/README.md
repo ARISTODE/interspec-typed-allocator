@@ -71,3 +71,27 @@ The unsliced P5 measurement of the campaign was too noisy to bound anything
 | InterSpec | 9.16 | -1.2% (-6.6 to +6.5) |
 
 RLBox-only against native: +23.7% (+19.7 to +29.0).
+
+## Measured again at `577528c` (2026-11-18)
+
+After the second registry change, with aligned builds:
+`../R1/05-campaign-577528c/` has the instruction counts of the eight port
+workloads (`instr/`), of rsync/popt and yaml/libyaml (`r3/rsync/`,
+`r3/yaml/`), yaml in interleaved slices (`r3/yaml-sliced/`) and the
+per-policy timing of the four applications (`p6-apps/`). Its README has the
+tables. Differences from the tables above:
+
+- zip/libzip per query: +10.50% (1,339.4 to 1,480.0) instead of +18.06%.
+- rsync/popt option parsing: +0.10% (2,934,762 to 2,937,836) instead of
+  +3.13%; the file sync is unchanged at +0.00%.
+- ucl/libucl: -1.68%, with repeats that differ by about 1% as before.
+- yaml/libyaml: -0.08% as before; in time +0.5% (-2.6 to +5.1).
+
+`02-code-placement/` is the diagnosis of a +9.7% that yaml/libyaml showed in
+the stopped run at `69cc6e1` at this same instruction count: the position of
+the library code in the binary, not work. It is the reason for the aligned
+builds.
+
+The timing steps of the four applications in that run were made while the
+host was slow (see its README); their ratios between sandboxed
+configurations hold, their absolute values do not.

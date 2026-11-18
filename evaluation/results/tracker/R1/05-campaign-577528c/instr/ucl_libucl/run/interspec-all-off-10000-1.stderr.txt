@@ -1,0 +1,11 @@
+==8761== Callgrind, a call-graph generating cache profiler
+==8761== Copyright (C) 2002-2017, and GNU GPL'd, by Josef Weidendorfer et al.
+==8761== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==8761== Command: /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/c3-w-ucl/bin/ucl-interspec evaluation/parity/ucl/nested.conf server.name logging.level 10000
+==8761== 
+==8761== For interactive control, run 'callgrind_control -h'.
+==8761== 
+==8761== Events    : Ir
+==8761== Collected : 619761314
+==8761== 
+==8761== I   refs:      619,761,314

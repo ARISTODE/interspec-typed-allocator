@@ -1,0 +1,11 @@
+==8472== Callgrind, a call-graph generating cache profiler
+==8472== Copyright (C) 2002-2017, and GNU GPL'd, by Josef Weidendorfer et al.
+==8472== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==8472== Command: /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/c3-w-zip/bin/zip-interspec evaluation/parity/zip_listing/tree-1000.zip 50 list
+==8472== 
+==8472== For interactive control, run 'callgrind_control -h'.
+==8472== 
+==8472== Events    : Ir
+==8472== Collected : 340209906
+==8472== 
+==8472== I   refs:      340,209,906
