@@ -1,0 +1,11 @@
+d8 start 2026-11-17T21:24:32Z
+d8 exit=0 2026-11-17T22:19:12Z
+slot-writes start 2026-11-18T16:55:32Z
+slot-writes exit=0 2026-11-18T16:57:03Z
+d10 start 2026-11-18T16:57:03Z
+d10 interrupted: the container was restarted at about 15:18 PT on 2026-11-18 (new boot); partial output moved to d10.interrupted
+slot-writes-2 start 2026-11-19T16:43:01Z
+slot-writes-2 exit=0 2026-11-19T16:45:45Z
+d10 start 2026-11-19T16:45:45Z
+d10 exit=0 2026-11-19T18:03:18Z
+d12 start 2026-11-19T18:03:18Z

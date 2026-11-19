@@ -1,0 +1,2 @@
+benchmark,total_fields,pointer_fields,scalar_fields,struct_fields,array_fields,other_fields
+nginx_openssl,747587,271215,201991,117789,9787,146805

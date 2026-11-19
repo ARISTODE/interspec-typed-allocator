@@ -1,0 +1,47 @@
+low: fields that need SP3 2,440: depth limit only 1,009, resolved 469, unknown domain and depth limit 567, unknown domain only 395; pointers that need SP3 2,420, at the limit 1,318, without a domain 771
+high: fields that need SP3 6,461: depth limit only 2,222, resolved 1,689, unknown domain and depth limit 1,230, unknown domain only 1,320; pointers that need SP3 6,441, at the limit 2,802, without a domain 2,039
+
+fields of the low run by their class in the high run:
+  depth limit only                 -> depth limit only                        260
+  depth limit only                 -> resolved                                523
+  depth limit only                 -> unknown domain and depth limit          226
+  resolved                         -> depth limit only                          4
+  resolved                         -> resolved                                371
+  resolved                         -> unknown domain and depth limit           34
+  resolved                         -> unknown domain only                      60
+  unknown domain and depth limit   -> unknown domain and depth limit          119
+  unknown domain and depth limit   -> unknown domain only                     448
+  unknown domain only              -> unknown domain and depth limit            3
+  unknown domain only              -> unknown domain only                     392
+
+pointers of the low run that are at its limit, in the high run:
+  has a domain 911, no domain 407
+pointers that need SP3 and exist only in the high run: 4,021, 2,802 at its limit, 1,268 without a domain
+
+pointers without a domain in the low run: 771
+  no assignment found within three calls: 766
+  assignments found, none classified: 5
+kinds of right-hand side, per pointer with assignments:
+      2  Literal + VariableCall
+      2  Literal
+      1  PointerFieldAccess
+functions whose result is assigned, per pointer:
+why they count as influenced by U:
+  not written by U, behind a pointer that U writes: 765
+  written by U itself: 6
+written pointers that they lie behind: 27; the largest:
+    167  SSL_free: /deref/field:ctx
+    145  SSL_CTX_remove_session: /deref/field:session_cache_head
+    145  SSL_CTX_remove_session: /deref/field:session_cache_tail
+     31  EVP_DecryptInit_ex: /deref/field:cipher
+     31  EVP_EncryptInit_ex: /deref/field:cipher
+     29  SSL_free: /deref/field:ctx/deref/field:session_cache_head
+     27  EVP_DecryptInit_ex: /deref/field:engine
+     27  EVP_EncryptInit_ex: /deref/field:engine
+     22  SSL_free: /deref/field:ex_data/field:ctx
+     16  SSL_free: /deref/field:ctx/deref/field:session_cache_tail/deref/field:owner
+     15  HMAC_Init_ex: /deref/field:i_ctx/deref/field:pctx/deref/field:libctx
+     13  SSL_free: /deref/field:ctx/deref/field:session_cache_tail
+     11  HMAC_Init_ex: /deref/field:i_ctx/deref/field:engine
+     11  HMAC_Init_ex: /deref/field:md_ctx/deref/field:engine
+types: void * 409, char * 266, unsigned char * 65, unsigned short * 17, unsigned long * 11, evp_md_st ** 3
