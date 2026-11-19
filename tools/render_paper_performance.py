@@ -207,6 +207,10 @@ summary.append(f"- geometric mean of all {len(perf)} medians: {geomean([p[7][0] 
 
 # --- per-policy table ------------------------------------------------------
 COLS = ["interspec-sp1", "interspec-sp2", "interspec-sp3", "interspec-all-on"]
+# Switches that control no field at a boundary: the configuration runs, but it is
+# the all-off binary under another name, so the table shows "--" as for a policy
+# without a configuration (tools/run_policy_switch_tests.py, memcached/hash).
+NO_FIELD = {"memcached/hash, function": {"interspec-sp1", "interspec-sp3"}}
 policy, policy_notes = [], []
 
 
@@ -228,7 +232,8 @@ def policy_rows(directory, labels):
         def cost(config, base):
             return triple([(by[(i, base)] / by[(i, config)]) if higher else (by[(i, config)] / by[(i, base)])
                            for i in reps])
-        cells = [cost(c, "interspec-all-off") if (reps[0], c) in by else None for c in COLS]
+        cells = [cost(c, "interspec-all-off") if (reps[0], c) in by and c not in NO_FIELD.get(labels[name], ())
+                 else None for c in COLS]
         on, off = cost("interspec-all-on", "rlbox-only"), cost("interspec-all-off", "rlbox-only")
         policy.append((labels[name], cells))
         policy_notes.append(
