@@ -1,0 +1,4 @@
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/c3-w-png/bin/png-rlbox-only: 206 functions checked, 0 not on a 64-byte boundary
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/c3-w-png/bin/png-interspec: 206 functions checked, 0 not on a 64-byte boundary
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/c3-w-png/bin/png-tracked-no-check: 206 functions checked, 0 not on a 64-byte boundary
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/c3-w-png/bin/png-interspec-fault: 207 functions checked, 0 not on a 64-byte boundary

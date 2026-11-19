@@ -1,0 +1,112 @@
+[
+  {
+    "arguments": [
+      "--preset",
+      "paper",
+      "--server-cpus",
+      "0-1",
+      "--client-cpus",
+      "2-3",
+      "--label",
+      "Claude Code cloud VM (KVM guest, 4 vCPUs, not a dedicated host)"
+    ],
+    "files": {
+      "bin/client": "8030430d7ba307df457812fbc4240a9f83fc5b80232f3f6d7034797a620616b8",
+      "correctness.json": "2c7df10e95a1082aef1f2e3b2c5a4fbe2ba9b785176e18b1d1bcca471264489b",
+      "evaluation/memcached_client.cpp": "cb566e997253d0ba83537032b6587bd7414d15c9c0493d150c38537862dec0d8",
+      "evaluation/memcached_measurement.h": "20f4c41e6acc4678d84d78490904cbc96ae1fb5e89b7a4ed594481325d9ae4c4",
+      "evaluation/memcached_workload.h": "1e494d9161a99455730a972838a18ca990763dd0d135f0a404df785b644c7ca5",
+      "tools/benchmark_memcached.py": "ef7419a386691088351c50f11b527e1ed9b12d0e85fc88b1202d09886b8d6f53",
+      "tools/benchmark_memcached_matrix.py": "7bf7f42e36df4ff9e3852f10b62297edfe4dfc35614ef63b6f474b76b45a52d1",
+      "tools/evaluation_checkpoint.py": "4c02562e20bd9cdbe1d0a5c8b044604e41eda46fde83826ed3b08e30403354df",
+      "tools/matrix_checkpoint.py": "1385b0bb8163261ff0fe28e4923d55e92d35aa5e8e1a491944fbc9830e7949a4",
+      "tools/memcached_common.py": "877f757c475fd07b6b98db61ae2df857673b103681e8486162ff3c20e202c946",
+      "tools/process_guard.py": "1836872116eda0e585cee0fbcad970b61310d98b9fc6ad7ad6f81c7ad9946a22",
+      "tools/rlbox_only_baseline.py": "e9346e79389e811982266dd6980df4d8158192f2394aa25ddd42b6a073a770e8",
+      "work/bin/memcached-interspec": "8aa54fc1aaab84ebd882aec958218150cd71fb830644f729b98a5989133f50c6",
+      "work/bin/memcached-native": "9fcdb13982dd3492bf954b3b4b3b8fa23201481a0b8b18a40fd32522b07486f8",
+      "work/bin/memcached-rlbox-only": "886c614a72e879289feeedfe41252903ef677ee6d34c2bb0921c86a7f753f02f",
+      "work/bin/memcached-tracked-no-check": "cf7453446373df6b4a5e7b88637632797caab47ebb17eea150fd3f9f2afdf7f6",
+      "work/build-manifest.json": "590afa1078176dbe41717512b99dedf6790fac92b2971ff572dde2ed5acc34d3"
+    },
+    "interruption_policy": "one-explicit-whole-scenario-replacement",
+    "phase": "full-matrix-scenario-blocks-v1",
+    "scenarios": [
+      {
+        "clients": 1,
+        "get_percent": 50,
+        "keys": 10000,
+        "mode": "cache_only",
+        "name": "balanced_1c",
+        "pipeline": 10,
+        "purpose": "low-concurrency balanced cache traffic; preserves the paper's 1-client, 1:1, pipeline-10 shape",
+        "value_bytes": 256
+      },
+      {
+        "clients": 8,
+        "get_percent": 50,
+        "keys": 10000,
+        "mode": "cache_only",
+        "name": "balanced_8c",
+        "pipeline": 10,
+        "purpose": "higher-concurrency balanced cache traffic; preserves the paper's 8-client, 1:1, pipeline-10 shape",
+        "value_bytes": 256
+      },
+      {
+        "clients": 8,
+        "get_percent": 95,
+        "keys": 10000,
+        "mode": "cache_only",
+        "name": "read_heavy_1k",
+        "pipeline": 16,
+        "purpose": "read-mostly object-cache scenario with 1 KiB values",
+        "value_bytes": 1024
+      },
+      {
+        "clients": 8,
+        "get_percent": 10,
+        "keys": 10000,
+        "mode": "cache_only",
+        "name": "write_heavy",
+        "pipeline": 8,
+        "purpose": "mutation-heavy scenario stressing SET paths and asynchronous LRU activity",
+        "value_bytes": 256
+      },
+      {
+        "clients": 1,
+        "get_percent": 50,
+        "keys": 10000,
+        "mode": "watch_active",
+        "name": "watch_light",
+        "pipeline": 1,
+        "purpose": "lossless active-observability scenario with a live watcher",
+        "value_bytes": 256
+      },
+      {
+        "clients": 2,
+        "get_percent": 50,
+        "keys": 10000,
+        "mode": "watch_active",
+        "name": "watch_moderate",
+        "pipeline": 2,
+        "purpose": "moderate active-observability load with worker and watcher queues exercised continuously",
+        "value_bytes": 256
+      }
+    ],
+    "scope": "Host control not asserted",
+    "source_identity": "Exact bundled hashes authoritative, including uncommitted edits",
+    "source_revision": "2d2c3afb77b43ef9fb4054f4dfcb04a10b030752",
+    "variants": [
+      "native",
+      "rlbox-only",
+      "tracked-no-check",
+      "interspec"
+    ],
+    "version": 1
+  },
+  {
+    "operations": {},
+    "plan_sha256": "8e721f5c9dc1c32145dd54230b626a196ab7c2046ba5ff9a31e69f294054177b",
+    "version": 1
+  }
+]

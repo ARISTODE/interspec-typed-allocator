@@ -1,0 +1,5 @@
+{
+  "report": "/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/camp3b-p2-state/reports/2a5542673f854a248e345fc8487d92ea",
+  "excluded": [],
+  "grid_complete": true
+}

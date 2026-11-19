@@ -1,0 +1,95 @@
+{
+  "boundary": "memcached_bipbuffer",
+  "policies_at_this_boundary": [
+    "sp1",
+    "sp2",
+    "sp3"
+  ],
+  "configurations": {
+    "rlbox-only": {
+      "binary": "rlbox-only",
+      "switches": {
+        "INTERSPEC_SP1": "0",
+        "INTERSPEC_SP2": "0",
+        "INTERSPEC_SP3": "1"
+      }
+    },
+    "interspec-all-off": {
+      "binary": "interspec",
+      "switches": {
+        "INTERSPEC_SP1": "0",
+        "INTERSPEC_SP2": "0",
+        "INTERSPEC_SP3": "0"
+      }
+    },
+    "interspec-sp1": {
+      "binary": "interspec",
+      "switches": {
+        "INTERSPEC_SP1": "1",
+        "INTERSPEC_SP2": "0",
+        "INTERSPEC_SP3": "0"
+      }
+    },
+    "interspec-sp2": {
+      "binary": "interspec",
+      "switches": {
+        "INTERSPEC_SP1": "0",
+        "INTERSPEC_SP2": "1",
+        "INTERSPEC_SP3": "0"
+      }
+    },
+    "interspec-sp3": {
+      "binary": "interspec",
+      "switches": {
+        "INTERSPEC_SP1": "0",
+        "INTERSPEC_SP2": "0",
+        "INTERSPEC_SP3": "1"
+      }
+    },
+    "interspec-all-on": {
+      "binary": "interspec",
+      "switches": {
+        "INTERSPEC_SP1": "1",
+        "INTERSPEC_SP2": "1",
+        "INTERSPEC_SP3": "1"
+      }
+    }
+  },
+  "workloads": [
+    "watch_moderate"
+  ],
+  "unit": "operations_per_s",
+  "repetitions": 15,
+  "rounds": {
+    "watch_moderate": 6
+  },
+  "value_of_a_repetition": "mean of the windows",
+  "seed": 20261114,
+  "parameters": {
+    "scenario": "watch_moderate",
+    "clients": 2,
+    "pipeline": 2,
+    "value_bytes": 256,
+    "keys": 10000,
+    "get_percent": 50,
+    "seconds": 2,
+    "warmup_seconds": 1,
+    "server_cpus": "0-1",
+    "client_cpus": "2-3",
+    "client_sha256": "8030430d7ba307df457812fbc4240a9f83fc5b80232f3f6d7034797a620616b8"
+  },
+  "source_commit": "2d2c3af",
+  "label": "Claude Code cloud VM (KVM guest, 4 vCPUs, not a dedicated host)",
+  "machine_start": {
+    "cpu_model": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+    "logical_cpus": 4,
+    "memory": "16473756 kB",
+    "kernel": "6.18.44-fc-v653",
+    "loadavg": "0.00 0.42 1.15 1/108 4056"
+  },
+  "binaries_sha256": {
+    "rlbox-only": "886c614a72e879289feeedfe41252903ef677ee6d34c2bb0921c86a7f753f02f",
+    "interspec": "8aa54fc1aaab84ebd882aec958218150cd71fb830644f729b98a5989133f50c6"
+  },
+  "started_utc": "2026-11-19T07:36:18Z"
+}

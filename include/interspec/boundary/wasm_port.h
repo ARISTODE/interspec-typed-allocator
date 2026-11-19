@@ -97,7 +97,11 @@ class WasmPort {
   Sandbox& sandbox() { return sandbox_; }
 
   // Looked up once: the wrappers ask for a switch on every boundary call.
-  static const PolicySwitches& switches() {
+  // Always inlined, with the three accessors below: left to the compiler, the
+  // RLBox-only build of the hash port called this function out of line (21
+  // instructions per boundary call) and the InterSpec build did not, which
+  // made the comparison of the two builds depend on an inlining decision.
+  [[gnu::always_inline]] static const PolicySwitches& switches() {
     static const PolicySwitches& cached = []() -> const PolicySwitches& {
 #if INTERSPEC_CHECKS
       static const std::string name = Policy::boundary;
@@ -109,9 +113,9 @@ class WasmPort {
     }();
     return cached;
   }
-  static bool sp1() { return switches().sp1; }
-  static bool sp2() { return switches().sp2; }
-  static bool sp3() {
+  [[gnu::always_inline]] static bool sp1() { return switches().sp1; }
+  [[gnu::always_inline]] static bool sp2() { return switches().sp2; }
+  [[gnu::always_inline]] static bool sp3() {
 #if INTERSPEC_CHECKS
     return switches().sp3 == Sp3Mode::full;
 #else

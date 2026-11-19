@@ -1,0 +1,8 @@
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/c3-w-hash/bin/assoc-rlbox-only-fault: 22 functions checked, 0 not on a 64-byte boundary
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/c3-w-hash/bin/assoc-interspec-fault: 22 functions checked, 0 not on a 64-byte boundary
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/c3-w-hash/bin/hash-interspec-fault: 20 functions checked, 0 not on a 64-byte boundary
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/c3-w-hash/bin/assoc-rlbox-only: 10 functions checked, 0 not on a 64-byte boundary
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/c3-w-hash/bin/assoc-interspec: 10 functions checked, 0 not on a 64-byte boundary
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/c3-w-hash/bin/assoc-tracked-no-check: 10 functions checked, 0 not on a 64-byte boundary
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/c3-w-hash/bin/hash-interspec: 10 functions checked, 0 not on a 64-byte boundary
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/c3-w-hash/bin/hash-rlbox-only: 10 functions checked, 0 not on a 64-byte boundary

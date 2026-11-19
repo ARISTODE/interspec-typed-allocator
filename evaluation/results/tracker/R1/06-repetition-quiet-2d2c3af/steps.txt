@@ -1,0 +1,76 @@
+commit 2d2c3afb77b43ef9fb4054f4dfcb04a10b030752
+builds/zip exit=0 not repeated, see campaign 3
+builds/png exit=0 not repeated, see campaign 3
+builds/ucl exit=0 not repeated, see campaign 3
+builds/vpx exit=0 not repeated, see campaign 3
+builds/hash exit=0 not repeated, see campaign 3
+builds/tls exit=0 not repeated, see campaign 3
+nginx-build exit=0 not repeated, see campaign 3
+r3/rsync exit=0 not repeated, see campaign 3
+r3/yaml exit=0 not repeated, see campaign 3
+p7/zip_libzip exit=0 not repeated, see campaign 3
+instr/zip_libzip exit=0 not repeated, see campaign 3
+p7/zip_libzip_listing exit=0 not repeated, see campaign 3
+instr/zip_libzip_listing exit=0 not repeated, see campaign 3
+p7/memcached_assoc exit=0 not repeated, see campaign 3
+instr/memcached_assoc exit=0 not repeated, see campaign 3
+p7/magick_libpng exit=0 not repeated, see campaign 3
+instr/magick_libpng exit=0 not repeated, see campaign 3
+p7/memcached_hash exit=0 not repeated, see campaign 3
+instr/memcached_hash exit=0 not repeated, see campaign 3
+p7/ucl_libucl exit=0 not repeated, see campaign 3
+instr/ucl_libucl exit=0 not repeated, see campaign 3
+p7/nginx_openssl exit=0 not repeated, see campaign 3
+instr/nginx_openssl exit=0 not repeated, see campaign 3
+p7/ffmpeg_libvpx exit=0 not repeated, see campaign 3
+instr/ffmpeg_libvpx exit=0 not repeated, see campaign 3
+p6-ports/zip_libzip exit=0 not repeated, see campaign 3
+p6-ports/zip_libzip_listing exit=0 not repeated, see campaign 3
+p6-ports/memcached_assoc exit=0 not repeated, see campaign 3
+p6-ports/magick_libpng exit=0 not repeated, see campaign 3
+p6-ports/memcached_hash exit=0 not repeated, see campaign 3
+p6-ports/ucl_libucl exit=0 not repeated, see campaign 3
+p6-ports/nginx_openssl exit=0 not repeated, see campaign 3
+p9/memcached-native exit=0 not repeated, see campaign 3
+p9/memcached-rlbox-only exit=0 not repeated, see campaign 3
+p9/memcached-interspec exit=0 not repeated, see campaign 3
+p9/nginx-native exit=0 not repeated, see campaign 3
+p9/nginx-rlbox-only exit=0 not repeated, see campaign 3
+p9/nginx-interspec exit=0 not repeated, see campaign 3
+align ports ok
+p6-ports/ffmpeg_libvpx start 2026-11-18T23:26:21Z
+p6-ports/ffmpeg_libvpx exit=0 2026-11-18T23:32:06Z
+micro/p8-locked start 2026-11-18T23:33:24Z
+micro/p8-locked exit=0 2026-11-18T23:33:41Z
+micro/builds exit=0
+micro/p8-single start 2026-11-18T23:37:41Z
+micro/p8-single exit=0 2026-11-18T23:37:45Z
+micro/p8-single_930cb20 start 2026-11-18T23:40:40Z
+micro/p8-single_930cb20 exit=0 2026-11-18T23:40:49Z
+micro/p8-locked_930cb20 start 2026-11-18T23:43:43Z
+micro/p8-locked_930cb20 exit=0 2026-11-18T23:43:57Z
+micro/ext start 2026-11-18T23:53:34Z
+micro/ext exit=0 2026-11-18T23:54:14Z
+r2/time start 2026-11-18T23:57:53Z
+r2/time exit=0 2026-11-19T00:15:35Z
+p4 start 2026-11-19T00:28:20Z
+p4 exit=0 2026-11-19T00:36:33Z
+p5 start 2026-11-19T00:41:43Z
+p5 exit=0 2026-11-19T00:59:47Z
+r3/yaml-sliced start 2026-11-19T01:01:06Z
+r3/yaml-sliced exit=0 2026-11-19T01:04:58Z
+p3 start 2026-11-19T01:06:35Z
+p3 exit=0 2026-11-19T02:13:06Z
+p2 start 2026-11-19T02:15:24Z
+p2 exit=0 2026-11-19T06:14:35Z
+driver 307 held (SIGSTOP) 2026-11-19T06:14:35Z for a paper build between steps
+driver released (SIGCONT) 2026-11-19T06:19:03Z after the paper build; quiet check before release in hold-release.quiet.txt
+p6-apps/rsync start 2026-11-19T06:27:39Z
+p6-apps/rsync exit=0 2026-11-19T06:44:40Z
+p6-apps/yaml start 2026-11-19T06:46:28Z
+p6-apps/yaml exit=0 2026-11-19T06:51:42Z
+p6-apps/nginx start 2026-11-19T06:58:59Z
+p6-apps/nginx exit=0 2026-11-19T07:28:33Z
+p6-apps/memcached start 2026-11-19T07:36:18Z
+p6-apps/memcached exit=0 2026-11-19T08:22:08Z
+campaign end 2026-11-19T08:22:09Z
