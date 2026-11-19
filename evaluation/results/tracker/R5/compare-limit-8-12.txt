@@ -1,0 +1,20 @@
+low: fields that need SP3 2,440: depth limit only 1,009, resolved 469, unknown domain and depth limit 567, unknown domain only 395; pointers that need SP3 2,420, at the limit 1,318, without a domain 771
+high: fields that need SP3 16,888: depth limit only 4,436, resolved 5,400, unknown domain and depth limit 3,071, unknown domain only 3,981; pointers that need SP3 16,868, at the limit 5,909, without a domain 5,687
+
+fields of the low run by their class in the high run:
+  depth limit only                 -> depth limit only                        187
+  depth limit only                 -> resolved                                570
+  depth limit only                 -> unknown domain and depth limit          141
+  depth limit only                 -> unknown domain only                     111
+  resolved                         -> depth limit only                         11
+  resolved                         -> resolved                                364
+  resolved                         -> unknown domain and depth limit           57
+  resolved                         -> unknown domain only                      37
+  unknown domain and depth limit   -> unknown domain and depth limit          119
+  unknown domain and depth limit   -> unknown domain only                     448
+  unknown domain only              -> unknown domain and depth limit            5
+  unknown domain only              -> unknown domain only                     390
+
+pointers of the low run that are at its limit, in the high run:
+  has a domain 911, no domain 407
+pointers that need SP3 and exist only in the high run: 14,448, 5,909 at its limit, 4,916 without a domain
