@@ -203,6 +203,60 @@ def _r5_depth(limit):
 
 
 VARIANTS["r5_ten_functions"] = VARIANTS["paper_counting_rule_inlined"] + _R5_RESTRICTION
+
+
+# SP3's dereference condition (Condition B of the paper) with the shipped opacity
+# test. The tables count every field reachable from the interface (paper counting
+# rule, which switches the opacity rule off), and T's use of a slot below a pointer
+# that T passes is then approximated by "the write can escape" (slotUsedByTrustedViaEscape),
+# so a pointer deep inside an object of U, such as OpenSSL's SSL or SSL_CTX, counts
+# as dereferenced by T. T cannot read a field of a class whose fields it never
+# accesses and whose definition it cannot see (the shipped classOpaqueToTrusted),
+# so it cannot dereference a pointer stored there through this path; a getter that
+# returns such a pointer is an interface function of its own and is classified as such.
+# Only the T-use condition of SP3 changes; SP1 and SP2 are computed as before.
+_SP3_OPACITY = [
+    ("ql/lib/PointerSlotUnified.qll",
+     "  predicate classOpaqueToTrusted(Class cls) {\n"
+     "    // C2 diagnostic variant without_opacity_rule: no struct is opaque.\n"
+     "    none() and exists(cls)\n"
+     "  }\n",
+     "  predicate classOpaqueToTrusted(Class cls) {\n"
+     "    // C2 diagnostic variant without_opacity_rule: no struct is opaque.\n"
+     "    none() and exists(cls)\n"
+     "  }\n"
+     "\n"
+     "  /** Variant sp3_opacity: the shipped opacity test, used only for SP3's trusted-use condition. */\n"
+     "  predicate classOpaqueToTrustedForSP3(Class cls) {\n"
+     "    not PointerBoundaryBase::isTrustedFile(cls.getFile()) and\n"
+     "    not classLayoutVisibleToTrusted(cls)\n"
+     "  }\n"),
+    ("ql/queries/pointer_slots_classification.ql",
+     "  parameterSlotUInfluenced(p, direction, slotPath) and\n"
+     "  pointerSlotUsedByTrustedForSP3(p, slotPath)\n"
+     "}\n",
+     "  parameterSlotUInfluenced(p, direction, slotPath) and\n"
+     "  pointerSlotUsedByTrustedForSP3(p, slotPath) and\n"
+     "  not slotInsideClassOpaqueToTrusted(p, slotPath)\n"
+     "}\n"
+     "\n"
+     "/**\n"
+     " * Variant sp3_opacity: the slot is a field, or lies below a field, of an object whose\n"
+     " * class T never accesses and whose definition T cannot see. T cannot read such a\n"
+     " * field, so it cannot dereference a pointer stored in it through this path.\n"
+     " */\n"
+     "bindingset[p, slotPath]\n"
+     "predicate slotInsideClassOpaqueToTrusted(PointerBoundaryBase::BoundaryParameter p, string slotPath) {\n"
+     "  exists(int i, string objPath, Type t, Class cls |\n"
+     "    i = slotPath.indexOf(\"/field:\") and\n"
+     "    objPath = slotPath.prefix(i) and\n"
+     "    PointerSlotUnified::reachablePath(p, objPath, t) and\n"
+     "    PointerSlotUnified::classType(t, cls) and\n"
+     "    PointerSlotUnified::classOpaqueToTrustedForSP3(cls)\n"
+     "  )\n"
+     "}\n"),
+]
+VARIANTS["paper_counting_rule_sp3_opacity"] = VARIANTS["paper_counting_rule_inlined"] + _SP3_OPACITY
 for _limit in (10, 12, 16):
     VARIANTS[f"r5_ten_functions_depth_{_limit}"] = VARIANTS["r5_ten_functions"] + _r5_depth(_limit)
 
