@@ -1,0 +1,45 @@
+{
+  "boundary": "memcached_hash",
+  "harness_entry": "memcached_hash",
+  "mode": "policies",
+  "configurations": [
+    "rlbox-only",
+    "interspec-all-off",
+    "interspec-sp1",
+    "interspec-sp2",
+    "interspec-sp3",
+    "interspec-all-on"
+  ],
+  "reference": "rlbox-only",
+  "repetitions": 15,
+  "rounds": 30,
+  "time_of_a_repetition": "sum of elapsed_ns over the rounds",
+  "seed": 20261114,
+  "cpu": 0,
+  "case": {
+    "keyspace": "10000",
+    "iterations": [
+      "10",
+      "100000"
+    ]
+  },
+  "iterations": 8000000,
+  "arguments": [
+    "10000",
+    "8000000"
+  ],
+  "source_commit": "ce4735a",
+  "label": "Claude Code cloud VM (KVM guest, 4 vCPUs, not a dedicated host)",
+  "machine_start": {
+    "cpu_model": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+    "logical_cpus": 4,
+    "memory": "16473756 kB",
+    "kernel": "6.18.44-fc-v653",
+    "loadavg": "0.00 0.00 0.00 1/110 780"
+  },
+  "binaries_sha256": {
+    "interspec": "fb541d7e8a781eddbd2821b47bd1c2b0b25de1a5d80cd455b64f6184a97a0a0c",
+    "rlbox-only": "79bbf3eaac777b6469fab1bdced25c81f05e30f89081437e378eab68d4892985"
+  },
+  "started_utc": "2026-11-19T15:06:26Z"
+}

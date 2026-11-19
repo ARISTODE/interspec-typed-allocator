@@ -1,0 +1,11 @@
+==18184== Callgrind, a call-graph generating cache profiler
+==18184== Copyright (C) 2002-2017, and GNU GPL'd, by Josef Weidendorfer et al.
+==18184== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==18184== Command: /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/c4-w-hash/bin/hash-rlbox-only 10000 8000000
+==18184== 
+==18184== For interactive control, run 'callgrind_control -h'.
+==18184== 
+==18184== Events    : Ir
+==18184== Collected : 1852057153
+==18184== 
+==18184== I   refs:      1,852,057,153

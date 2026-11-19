@@ -1,0 +1,26 @@
+native 4000000 #0: 390,116,616
+native 4000000 #1: 390,116,616
+native 8000000 #0: 775,403,918
+native 8000000 #1: 775,403,918
+rlbox-only 4000000 #0: 928,483,745
+rlbox-only 4000000 #1: 928,483,745
+rlbox-only 8000000 #0: 1,852,057,153
+rlbox-only 8000000 #1: 1,852,057,153
+interspec 4000000 #0: 814,478,139
+interspec 4000000 #1: 814,478,139
+interspec 8000000 #0: 1,624,045,973
+interspec 8000000 #1: 1,624,045,973
+interspec-all-off 4000000 #0: 928,479,410
+interspec-all-off 4000000 #1: 928,479,410
+interspec-all-off 8000000 #0: 1,852,052,818
+interspec-all-off 8000000 #1: 1,852,052,818
+### memcached_hash
+
+Iterations 4,000,000 and 8,000,000; instructions per iteration = difference of the counts divided by 4,000,000.
+
+| Configuration | Instructions per iteration | Against rlbox-only | Largest difference between repeats |
+|---|---:|---:|---:|
+| native | 96.3 | -58.28% | 0 |
+| rlbox-only | 230.9 | +0.00% | 0 |
+| interspec | 202.4 | -12.34% | 0 |
+| interspec-all-off | 230.9 | +0.00% | 0 |

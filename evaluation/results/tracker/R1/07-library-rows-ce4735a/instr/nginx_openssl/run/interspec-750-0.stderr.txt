@@ -1,0 +1,11 @@
+==19334== Callgrind, a call-graph generating cache profiler
+==19334== Copyright (C) 2002-2017, and GNU GPL'd, by Josef Weidendorfer et al.
+==19334== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==19334== Command: /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/c4-w-tls/bin/tls-interspec 512 4096 750
+==19334== 
+==19334== For interactive control, run 'callgrind_control -h'.
+==19334== 
+==19334== Events    : Ir
+==19334== Collected : 714047939
+==19334== 
+==19334== I   refs:      714,047,939

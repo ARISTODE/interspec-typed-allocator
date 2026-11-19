@@ -1,0 +1,45 @@
+{
+  "boundary": "ucl_libucl",
+  "harness_entry": "ucl_libucl",
+  "mode": "variants",
+  "configurations": [
+    "native",
+    "rlbox-only",
+    "tracked-no-check",
+    "interspec"
+  ],
+  "reference": "native",
+  "repetitions": 15,
+  "rounds": 30,
+  "time_of_a_repetition": "sum of elapsed_ns over the rounds",
+  "seed": 20261114,
+  "cpu": 0,
+  "case": {
+    "document": "nested.conf",
+    "key1": "server.name",
+    "key2": "logging.level"
+  },
+  "iterations": 20000,
+  "arguments": [
+    "evaluation/parity/ucl/nested.conf",
+    "server.name",
+    "logging.level",
+    "20000"
+  ],
+  "source_commit": "ce4735a",
+  "label": "Claude Code cloud VM (KVM guest, 4 vCPUs, not a dedicated host)",
+  "machine_start": {
+    "cpu_model": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+    "logical_cpus": 4,
+    "memory": "16473756 kB",
+    "kernel": "6.18.44-fc-v653",
+    "loadavg": "0.00 0.05 0.17 1/110 10323"
+  },
+  "binaries_sha256": {
+    "interspec": "19df84811b15e9e1a5aeb67efcdbf187933c090a292179f3cc9194df3b05686a",
+    "native": "ad0c18bbaa25f770ed8507148a5f5978042d2c6c9c352844b7998d378822e82c",
+    "rlbox-only": "4db0d140ca835463e8f7047373fcf55e7950fcb82d162100fb0651448fea0804",
+    "tracked-no-check": "a3ce930ab9fee11ffbe04f6379d6b36fa5111634767bea83f03267509ed48f0e"
+  },
+  "started_utc": "2026-11-19T10:02:06Z"
+}

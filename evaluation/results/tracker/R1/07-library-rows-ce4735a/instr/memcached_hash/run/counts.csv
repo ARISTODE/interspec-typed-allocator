@@ -1,0 +1,17 @@
+boundary,configuration,iterations,repeat,instructions
+memcached_hash,native,4000000,0,390116616
+memcached_hash,native,4000000,1,390116616
+memcached_hash,native,8000000,0,775403918
+memcached_hash,native,8000000,1,775403918
+memcached_hash,rlbox-only,4000000,0,928483745
+memcached_hash,rlbox-only,4000000,1,928483745
+memcached_hash,rlbox-only,8000000,0,1852057153
+memcached_hash,rlbox-only,8000000,1,1852057153
+memcached_hash,interspec,4000000,0,814478139
+memcached_hash,interspec,4000000,1,814478139
+memcached_hash,interspec,8000000,0,1624045973
+memcached_hash,interspec,8000000,1,1624045973
+memcached_hash,interspec-all-off,4000000,0,928479410
+memcached_hash,interspec-all-off,4000000,1,928479410
+memcached_hash,interspec-all-off,8000000,0,1852052818
+memcached_hash,interspec-all-off,8000000,1,1852052818

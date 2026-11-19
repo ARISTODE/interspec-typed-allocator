@@ -1,0 +1,11 @@
+==17310== Callgrind, a call-graph generating cache profiler
+==17310== Copyright (C) 2002-2017, and GNU GPL'd, by Josef Weidendorfer et al.
+==17310== Using Valgrind-3.22.0 and LibVEX; rerun with -h for copyright info
+==17310== Command: /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/c4-w-hash/bin/assoc-rlbox-only 20000 400000
+==17310== 
+==17310== For interactive control, run 'callgrind_control -h'.
+==17310== 
+==17310== Events    : Ir
+==17310== Collected : 350558084
+==17310== 
+==17310== I   refs:      350,558,084

@@ -1,0 +1,5 @@
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/c4-w-tls/bin/tls-tracked-no-check: 1583 functions checked, 0 not on a 64-byte boundary
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/c4-w-tls/bin/tls-rlbox-only-fault: 1586 functions checked, 0 not on a 64-byte boundary
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/c4-w-tls/bin/tls-rlbox-only: 1583 functions checked, 0 not on a 64-byte boundary
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/c4-w-tls/bin/tls-interspec-fault: 1586 functions checked, 0 not on a 64-byte boundary
+/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/c4-w-tls/bin/tls-interspec: 1583 functions checked, 0 not on a 64-byte boundary
