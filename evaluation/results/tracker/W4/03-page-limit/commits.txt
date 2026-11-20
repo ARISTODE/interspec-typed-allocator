@@ -1,3 +1,4 @@
+1572273 Restore qualifiers, definitions and baselines lost in the cuts
 41d71b8 Page limit: final trims; tables on the pages of their text
 da73311 Page limit: shorten the introduction
 9262ac1 Page limit: shorten the security assessment and the coverage text; one coverage table

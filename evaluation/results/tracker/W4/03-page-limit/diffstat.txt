@@ -1,9 +1,9 @@
- tex/appendix.tex                  | 173 ++++++++++++++
- tex/background.tex                |  88 ++-----
- tex/civ_taxonomy_mitigation.tex   |  63 +++--
- tex/eval.tex                      | 487 ++++++++++++++------------------------
- tex/intro.tex                     |  86 +++----
+ tex/appendix.tex                  | 202 ++++++++++++++-
+ tex/background.tex                |  87 ++-----
+ tex/civ_taxonomy_mitigation.tex   |  59 ++---
+ tex/eval.tex                      | 499 ++++++++++++++------------------------
+ tex/intro.tex                     |  85 +++----
  tex/limitation.tex                |  10 +-
- tex/policy_inference_and_impl.tex | 149 ++++--------
+ tex/policy_inference_and_impl.tex | 152 ++++--------
  tex/threat_model.tex              |   2 +-
- 8 files changed, 482 insertions(+), 576 deletions(-)
+ 8 files changed, 515 insertions(+), 581 deletions(-)

@@ -1,7 +1,7 @@
 # Paper body within the 13-page limit of EuroS&P 2027
 
 2026-11-19 (PT). Paper branch `claude/nifty-cray-ik99hh`, commits
-`ba23a2a..41d71b8` (`commits.txt`, `diffstat.txt`); `main` is unchanged at
+`ba23a2a..1572273` (`commits.txt`, `diffstat.txt`); `main` is unchanged at
 `dcb2c60`. JH approved the plan of `../02-eurosp-format/README.md` ("Nothing,
 apply the plan"). Done with the `academic-paper` skill (revision rules: change
 only the targeted blocks, no change of a claim's strength, numbers conserved).
@@ -15,15 +15,15 @@ about 0.1 page); references start on page 14.
 
 | Section | Before | After |
 |---|---:|---:|
-| 1 Introduction | 1.38 | 1.19 |
+| 1 Introduction | 1.38 | 1.22 |
 | 2 Background | 1.35 | 0.94 |
-| 3 Related Work | 0.75 | 0.65 |
-| 4 Threat Model | 0.28 | 0.28 |
-| 5 CIV Taxonomy and Security Policies | 2.37 | 1.91 |
-| 6 Policy Inference and Enforcement | 4.57 | 3.04 |
-| 7 Evaluation | 5.21 | 3.90 |
+| 3 Related Work | 0.75 | 0.67 |
+| 4 Threat Model (the after value includes Figure 1, which now floats here) | 0.28 | 0.40 |
+| 5 CIV Taxonomy and Security Policies | 2.37 | 1.72 |
+| 6 Policy Inference and Enforcement | 4.57 | 3.07 |
+| 7 Evaluation | 5.21 | 3.92 |
 | 8 Limitations and Future Work | 0.58 | 0.54 |
-| 9 Conclusion | 0.11 | 0.15 |
+| 9 Conclusion | 0.11 | 0.13 |
 | Body ends at page | 17.0 | 13.0 |
 
 ## What moved to appendices (text unchanged, a summary stays in the body)
@@ -49,22 +49,40 @@ added to reach the limit:
   sentences that repeated earlier text were removed in Sections 2 to 7.
 
 Shortened text of the original submission is not marked in blue (the `\rev`
-markup marks additions); `git diff ba23a2a..41d71b8` shows every change.
+markup marks additions); `git diff ba23a2a..1572273` shows every change.
 
-## Checks
+## Quality pass after JH's note of 2026-11-19
+
+JH: "I don't want to compromise writing quality, when you shorten the writing,
+don't reduce the quality". Two independent reads compared the cuts of
+`ba23a2a..41d71b8` with the original text: one for changed meaning, dangling
+references and grammar, one paragraph by paragraph for lost clarity. Both
+found no changed number, no lost citation and no build problem. They found
+ten sentences that had become stronger or lost a condition, six terms whose
+only definition had moved to an appendix (registration token, lock, handle,
+"both configurations", "library stress workloads", the baseline of the
+per-policy percentages), and two paragraphs that read worse than the original
+(the object-registry summary and the per-policy summary). Commit `1572273`
+restores all of these in the body. The space comes from moving whole blocks to
+appendices in their original wording: the paragraph on uninitialized memory
+and padding, the paragraph on SP3 in other isolation models, the tests of the
+policy switches, and two caption notes. The second read judged the merged
+coverage table, the merged motivation paragraphs of the introduction, the
+shorter background and the prose form of the origin classes as equal to or
+better than the original.
+
+## Checks (repeated at `1572273`)
 
 - Numbers (`token-conservation.json`, the skill's
   `check_revision_token_conservation.py` on the whole paper before and after):
   the only numbers that occur less often are the field totals that were in
   both coverage tables and small integers in removed prose and in the box
   padding; the numbers that occur more often are the ones the body summaries
-  repeat from the appendices (8.0, 5.9, 5.5, 2.6, 22, 3.8, the PCRE version).
-  The CVE identifiers the checker lists as removed are still in the text,
-  without parentheses.
+  repeat from the appendices (8.0, 5.9, 5.5, 4.4, 8.6, 67, 2.6, 22, 3.8, the PCRE version).
 - Citations: 44 distinct keys cited before and after, none lost.
 - Labels: none lost; four new appendix labels, all referenced.
-- Tables on the page of their text: Tables 2 and 3 on page 10 (their
-  paragraphs are on pages 9 and 10), the coverage table on page 11 with both
+- Tables on the page of their text: Tables 2 and 3 on page 10 with both of
+  their paragraphs, the coverage table on page 11 with both
   coverage paragraphs, the security table on page 12 with Section 7.3.
 - The abstract was not changed; no number that it states changed.
 
@@ -74,4 +92,4 @@ markup marks additions); `git diff ba23a2a..41d71b8` shows every change.
   submission (the call asks for it in the acknowledgments section).
 - The call asks that potential harms are discussed in the body; the ethics
   text is Appendix B.
-- The margin is about ten lines on page 13.
+- The margin is a few lines on page 13.
