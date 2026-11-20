@@ -1,0 +1,20 @@
+{
+  "numbers_delta": {
+    "removed": {},
+    "added": {
+      "6.7": 1,
+      "8.6": 1
+    }
+  },
+  "citations_delta": {
+    "removed": {},
+    "added": {}
+  },
+  "protected_terms_delta": {
+    "removed": {
+      "SP2": 1
+    },
+    "added": {}
+  },
+  "conserved": false
+}

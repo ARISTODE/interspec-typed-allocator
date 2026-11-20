@@ -1,0 +1,198 @@
+{
+ "early": {
+  "sentences": 480,
+  "words": 9410,
+  "sentence_len_mean": 19.6,
+  "sentence_len_median": 18.0,
+  "sentence_len_sd": 9.5,
+  "share_le_12_words": 0.21,
+  "share_ge_35_words": 0.06,
+  "sentences_per_paragraph_mean": 4.4,
+  "sentences_per_paragraph_median": 4.0,
+  "words_per_paragraph_mean": 87,
+  "per_100_sentences": {
+   "semicolon": 5.0,
+   "colon": 1.7,
+   "parenthesis": 17.1,
+   "dash_aside": 0.0,
+   "starts_with_We": 10.4,
+   "starts_with_This_These_It": 10.2,
+   "passive_approx": 16.7,
+   "e.g._or_i.e.": 0.8
+  },
+  "sentence_openers_per_100": {
+   "However": 1.7,
+   "For example": 1.2,
+   "While": 1.0,
+   "Similarly": 0.6,
+   "First": 0.6,
+   "Second": 0.6,
+   "In contrast": 0.4,
+   "Additionally": 0.4,
+   "Third": 0.4,
+   "Conversely": 0.4
+  },
+  "hedges_per_1000_words": {
+   "can": 3.8,
+   "may": 3.4,
+   "could": 0.9,
+   "often": 0.4
+  }
+ },
+ "sok": {
+  "sentences": 493,
+  "words": 10256,
+  "sentence_len_mean": 20.8,
+  "sentence_len_median": 19,
+  "sentence_len_sd": 10.6,
+  "share_le_12_words": 0.2,
+  "share_ge_35_words": 0.08,
+  "sentences_per_paragraph_mean": 5.3,
+  "sentences_per_paragraph_median": 5,
+  "words_per_paragraph_mean": 110,
+  "per_100_sentences": {
+   "semicolon": 3.4,
+   "colon": 14.0,
+   "parenthesis": 30.8,
+   "dash_aside": 2.2,
+   "starts_with_We": 6.1,
+   "starts_with_This_These_It": 8.9,
+   "passive_approx": 19.3,
+   "e.g._or_i.e.": 2.0
+  },
+  "sentence_openers_per_100": {
+   "However": 5.7,
+   "For example": 2.4,
+   "While": 1.2,
+   "Therefore": 1.0,
+   "For instance": 0.8,
+   "In addition": 0.8,
+   "Consequently": 0.6,
+   "Although": 0.6,
+   "Additionally": 0.4,
+   "As a result": 0.4,
+   "Since": 0.4
+  },
+  "hedges_per_1000_words": {
+   "can": 8.3,
+   "may": 1.9,
+   "could": 1.3,
+   "potentially": 1.2,
+   "generally": 0.5,
+   "typically": 0.4,
+   "often": 0.3
+  }
+ },
+ "ksplit": {
+  "sentences": 588,
+  "words": 11655,
+  "sentence_len_mean": 19.8,
+  "sentence_len_median": 17.0,
+  "sentence_len_sd": 19.5,
+  "share_le_12_words": 0.35,
+  "share_ge_35_words": 0.1,
+  "sentences_per_paragraph_mean": 11.1,
+  "sentences_per_paragraph_median": 10,
+  "words_per_paragraph_mean": 220,
+  "per_100_sentences": {
+   "semicolon": 5.6,
+   "colon": 13.6,
+   "parenthesis": 33.8,
+   "dash_aside": 10.5,
+   "starts_with_We": 5.8,
+   "starts_with_This_These_It": 2.6,
+   "passive_approx": 16.7,
+   "e.g._or_i.e.": 9.0
+  },
+  "sentence_openers_per_100": {
+   "For example": 2.4,
+   "Specifically": 1.4,
+   "While": 1.4,
+   "However": 1.0,
+   "Finally": 0.9,
+   "In addition": 0.7,
+   "Similarly": 0.5,
+   "As a result": 0.5
+  },
+  "hedges_per_1000_words": {
+   "can": 2.1,
+   "may": 1.5,
+   "could": 0.3
+  }
+ },
+ "before": {
+  "sentences": 445,
+  "words": 10082,
+  "sentence_len_mean": 22.7,
+  "sentence_len_median": 21,
+  "sentence_len_sd": 11.6,
+  "share_le_12_words": 0.2,
+  "share_ge_35_words": 0.16,
+  "sentences_per_paragraph_mean": 4.4,
+  "sentences_per_paragraph_median": 4.0,
+  "words_per_paragraph_mean": 99,
+  "per_100_sentences": {
+   "semicolon": 9.0,
+   "colon": 8.5,
+   "parenthesis": 17.1,
+   "dash_aside": 0.0,
+   "starts_with_We": 8.8,
+   "starts_with_This_These_It": 7.9,
+   "passive_approx": 11.9,
+   "e.g._or_i.e.": 0.4
+  },
+  "sentence_openers_per_100": {
+   "However": 1.3,
+   "In addition": 0.7,
+   "In contrast": 0.4,
+   "For example": 0.4,
+   "Similarly": 0.4,
+   "First": 0.4,
+   "Second": 0.4,
+   "While": 0.4
+  },
+  "hedges_per_1000_words": {
+   "can": 3.0,
+   "may": 2.8,
+   "could": 0.5
+  }
+ },
+ "after": {
+  "sentences": 540,
+  "words": 9956,
+  "sentence_len_mean": 18.4,
+  "sentence_len_median": 18.0,
+  "sentence_len_sd": 8.1,
+  "share_le_12_words": 0.24,
+  "share_ge_35_words": 0.03,
+  "sentences_per_paragraph_mean": 4.9,
+  "sentences_per_paragraph_median": 4.5,
+  "words_per_paragraph_mean": 91,
+  "per_100_sentences": {
+   "semicolon": 2.6,
+   "colon": 0.7,
+   "parenthesis": 14.3,
+   "dash_aside": 0.0,
+   "starts_with_We": 8.3,
+   "starts_with_This_These_It": 9.1,
+   "passive_approx": 10.0,
+   "e.g._or_i.e.": 0.4
+  },
+  "sentence_openers_per_100": {
+   "However": 1.3,
+   "For example": 0.7,
+   "Similarly": 0.6,
+   "In addition": 0.6,
+   "In contrast": 0.4,
+   "First": 0.4,
+   "Second": 0.4,
+   "While": 0.4,
+   "Conversely": 0.4
+  },
+  "hedges_per_1000_words": {
+   "can": 3.0,
+   "may": 2.9,
+   "could": 0.5
+  }
+ }
+}
