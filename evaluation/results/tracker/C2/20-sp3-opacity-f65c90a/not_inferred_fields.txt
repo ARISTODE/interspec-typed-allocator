@@ -1,0 +1,7 @@
+nginx_openssl	ASN1_TIME_print	param	1		no domain
+nginx_openssl	ASN1_TIME_print	param	1	/deref/field:data	no domain
+nginx_openssl	X509_NAME_oneline	return	return		T and U
+nginx_openssl	X509_get_ex_data	return	return		T and U
+nginx_openssl	SSL_CTX_get_ex_data	return	return		T and U
+nginx_openssl	SSL_get_ex_data	return	return		T and U
+rsync_popt	poptBadOption	return	return		T and U

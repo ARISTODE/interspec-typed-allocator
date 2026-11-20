@@ -1,0 +1,6 @@
+benchmark,function,file,total_fields,pointer_fields,scalar_fields,struct_fields,array_fields,other_fields
+nginx_libpcre,ngx_regex_free,benchmarks/nginx/src/core/ngx_regex.c,1,1,0,0,0,0
+nginx_libpcre,pcre_compile,benchmarks/pcre/pcre_compile.c,33,8,24,1,0,0
+nginx_libpcre,pcre_exec,benchmarks/pcre/pcre_exec.c,45,12,31,2,0,0
+nginx_libpcre,pcre_fullinfo,benchmarks/pcre/pcre_fullinfo.c,39,11,26,2,0,0
+nginx_libpcre,pcre_study,benchmarks/pcre/pcre_study.c,40,12,26,2,0,0

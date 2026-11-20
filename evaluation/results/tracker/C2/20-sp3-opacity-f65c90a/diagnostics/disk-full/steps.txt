@@ -1,0 +1,21 @@
+nginx_openssl start 2026-11-20T00:54:35Z source=/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work-inlined-b/root/reports/nginx_openssl
+nginx_openssl exit=1 2026-11-20T00:56:21Z
+memcached_bipbuffer start 2026-11-20T00:56:21Z source=/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work-paper-rule/root/reports/memcached_bipbuffer
+memcached_bipbuffer exit=1 2026-11-20T00:56:21Z
+memcached_hash start 2026-11-20T00:56:21Z source=/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work-paper-rule/root/reports/memcached_hash
+memcached_hash exit=1 2026-11-20T00:56:21Z
+rsync_popt start 2026-11-20T00:56:21Z source=/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work-paper-rule/root/reports/rsync_popt
+rsync_popt exit=1 2026-11-20T00:56:21Z
+ucl_libucl start 2026-11-20T00:56:21Z source=/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work-paper-rule/root/reports/ucl_libucl
+ucl_libucl exit=1 2026-11-20T00:56:21Z
+yaml_libyaml start 2026-11-20T00:56:21Z source=/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work-paper-rule/root/reports/yaml_libyaml
+yaml_libyaml exit=1 2026-11-20T00:56:21Z
+zip_libzip start 2026-11-20T00:56:21Z source=/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work-paper-rule/root/reports/zip_libzip
+zip_libzip exit=1 2026-11-20T00:56:21Z
+magick_libpng start 2026-11-20T00:56:21Z source=/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work-paper-rule/root/reports/magick_libpng
+magick_libpng exit=1 2026-11-20T00:56:21Z
+nginx_libpcre start 2026-11-20T00:56:21Z source=/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work-paper-rule/root/reports/nginx_libpcre
+nginx_libpcre exit=1 2026-11-20T00:56:21Z
+ffmpeg_libvpx start 2026-11-20T00:56:21Z source=/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work-inlined-b/root/reports/ffmpeg_libvpx
+ffmpeg_libvpx exit=1 2026-11-20T00:56:21Z
+all ten runs failed at 00:56Z with exit 1 within two minutes: the disk was full (CodeQL query caches of the stopped ffmpeg run, 7.7 GB, and of nginx_openssl_libs, 4.8 GB); caches cleared, runner changed to --max-disk-cache 4000 and to clear each database's cache after its run; restarted 2026-11-20T00:57:47Z

@@ -1,0 +1,19 @@
+benchmark,function,file,binding_kind,binding_id,direction,slot_kind,slot_path,slot_types,sp3_origin_class,owned_by_t,exposed_to_u,u_reads,u_writes,u_forwarded,t_uses,u_influenced,escapes_to_t,flow_cut,t_domain_invariant,sp3_target_class,sp3_target_t,sp3_target_u,sp3_target_null
+nginx_openssl,ASN1_TIME_print,benchmarks/openssl/crypto/asn1/a_time.c,param,1,T_TO_U,out_param,/deref/field:data,unsigned char *,T_passed_U_updated,0,1,1,1,0,1,1,0,0,0,unknown,0,0,0
+nginx_openssl,OpenSSL_version,benchmarks/openssl/crypto/cversion.c,return,return,U_TO_T,return,,char *;const char *,U_defined,0,0,0,0,0,1,1,0,0,0,U_only,0,1,0
+nginx_openssl,ERR_peek_error_data,benchmarks/openssl/crypto/err/err.c,param,0,T_TO_U,out_param,/deref,char *,T_passed_U_updated,1,1,1,1,0,1,1,1,0,0,U_only,0,1,0
+nginx_openssl,OBJ_nid2sn,benchmarks/openssl/crypto/objects/obj_dat.c,return,return,U_TO_T,return,,char *;const char *,U_defined,0,0,0,0,0,1,1,0,0,0,U_only,0,1,0
+nginx_openssl,i2d_OCSP_REQUEST,benchmarks/openssl/crypto/ocsp/ocsp_asn.c,param,1,T_TO_U,out_param,/deref,unsigned char *,T_passed_U_updated,1,1,1,1,0,1,1,1,0,0,U_only,0,1,0
+nginx_openssl,OCSP_cert_status_str,benchmarks/openssl/crypto/ocsp/ocsp_prn.c,return,return,U_TO_T,return,,char *;const char *,U_defined,0,0,0,0,0,1,1,0,0,0,U_or_null,0,1,1
+nginx_openssl,OCSP_response_status_str,benchmarks/openssl/crypto/ocsp/ocsp_prn.c,return,return,U_TO_T,return,,char *;const char *,U_defined,0,0,0,0,0,1,1,0,0,0,U_or_null,0,1,1
+nginx_openssl,X509_get_serialNumber,benchmarks/openssl/crypto/x509/x509_cmp.c,return,return,U_TO_T,return,,ASN1_INTEGER *;asn1_string_st *,U_defined,0,0,0,0,0,1,1,0,0,0,U_only,0,1,0
+nginx_openssl,X509_NAME_oneline,benchmarks/openssl/crypto/x509/x509_obj.c,return,return,U_TO_T,return,,char *,T_or_U_round_tripped,0,0,0,0,0,1,1,0,0,0,T_or_U,1,1,0
+nginx_openssl,X509_get0_notAfter,benchmarks/openssl/crypto/x509/x509_set.c,return,return,U_TO_T,return,,asn1_string_st *;const ASN1_TIME *,U_defined,0,0,0,0,0,1,1,0,0,0,U_only,0,1,0
+nginx_openssl,X509_verify_cert_error_string,benchmarks/openssl/crypto/x509/x509_txt.c,return,return,U_TO_T,return,,char *;const char *,U_defined,0,0,0,0,0,1,1,0,0,0,U_only,0,1,0
+nginx_openssl,X509_get_ex_data,benchmarks/openssl/crypto/x509/x_x509.c,return,return,U_TO_T,return,,void *,T_or_U_round_tripped,0,0,0,0,0,1,1,0,0,0,T_or_U_or_null,1,1,1
+nginx_openssl,X509_set_ex_data,benchmarks/openssl/crypto/x509/x_x509.c,param,0,T_TO_U,out_param,/deref/field:ex_data/field:sk,stack_st_void *,T_passed_U_updated,0,1,1,1,0,1,1,1,0,0,U_only,0,1,0
+nginx_openssl,SSL_CIPHER_get_name,benchmarks/openssl/ssl/ssl_ciph.c,return,return,U_TO_T,return,,char *;const char *,U_defined,0,0,0,0,0,1,1,0,0,0,U_only,0,1,0
+nginx_openssl,SSL_CTX_get_ex_data,benchmarks/openssl/ssl/ssl_lib.c,return,return,U_TO_T,return,,void *,T_or_U_round_tripped,0,0,0,0,0,1,1,0,0,0,T_or_U_or_null,1,1,1
+nginx_openssl,SSL_get_ex_data,benchmarks/openssl/ssl/ssl_lib.c,return,return,U_TO_T,return,,void *,T_or_U_round_tripped,0,0,0,0,0,1,1,0,0,0,T_or_U_or_null,1,1,1
+nginx_openssl,SSL_SESSION_get_id,benchmarks/openssl/ssl/ssl_sess.c,return,return,U_TO_T,return,,const unsigned char *;unsigned char *,U_defined,0,0,0,0,0,1,1,0,0,0,U_only,0,1,0
+nginx_openssl,SSL_get_session,benchmarks/openssl/ssl/ssl_sess.c,return,return,U_TO_T,return,,SSL_SESSION *;ssl_session_st *,U_defined,0,0,0,0,0,1,1,0,0,0,U_only,0,1,0

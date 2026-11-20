@@ -1,0 +1,2 @@
+benchmark,total_fields,pointer_fields,scalar_fields,struct_fields,array_fields,other_fields
+ucl_libucl,1622,649,674,177,41,81

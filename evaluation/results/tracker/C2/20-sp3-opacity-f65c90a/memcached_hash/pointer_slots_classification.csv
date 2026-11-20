@@ -1,0 +1,50 @@
+benchmark,function,binding_kind,binding_id,direction,slot_path,slot_type,owned_by_t,exposed_to_u,u_reads,u_writes,u_forwarded,t_uses,u_influenced,escapes_to_t,flow_cut,sp1,sp2,sp3,file,t_domain_invariant,sp3_target_t,sp3_target_u,sp3_target_null
+memcached_hash,assoc_delete,param,0,T_TO_U,,char *,1,1,1,0,1,0,0,0,0,0,1,0,benchmarks/memcached/assoc.c,0,0,0,0
+memcached_hash,assoc_delete,param,0,T_TO_U,,const char *,1,1,1,0,1,0,0,0,0,0,1,0,benchmarks/memcached/assoc.c,0,0,0,0
+memcached_hash,assoc_find,param,0,T_TO_U,,char *,1,1,0,0,0,0,0,0,0,0,1,0,benchmarks/memcached/assoc.c,0,0,0,0
+memcached_hash,assoc_find,param,0,T_TO_U,,char *,1,1,1,0,0,0,0,1,0,0,1,0,benchmarks/memcached/assoc.c,0,0,0,0
+memcached_hash,assoc_find,param,0,T_TO_U,,const char *,1,1,0,0,0,0,0,0,0,0,1,0,benchmarks/memcached/assoc.c,0,0,0,0
+memcached_hash,assoc_find,param,0,T_TO_U,,const char *,1,1,1,0,0,0,0,1,0,0,1,0,benchmarks/memcached/assoc.c,0,0,0,0
+memcached_hash,assoc_find,return,return,U_TO_T,,_stritem *,0,0,0,0,0,1,1,0,0,0,0,1,benchmarks/memcached/assoc.c,0,1,0,0
+memcached_hash,assoc_find,return,return,U_TO_T,,item *,0,0,0,0,0,1,1,0,0,0,0,1,benchmarks/memcached/assoc.c,0,1,0,0
+memcached_hash,assoc_find,return_ptr,return,U_TO_T,/deref/field:h_next,_stritem *,0,0,0,0,0,0,1,0,0,0,0,0,benchmarks/memcached/assoc.c,0,0,0,0
+memcached_hash,assoc_find,return_ptr,return,U_TO_T,/deref/field:next,_stritem *,0,0,0,0,0,0,1,0,0,0,0,0,benchmarks/memcached/assoc.c,0,0,0,0
+memcached_hash,assoc_find,return_ptr,return,U_TO_T,/deref/field:prev,_stritem *,0,0,0,0,0,0,1,0,0,0,0,0,benchmarks/memcached/assoc.c,0,0,0,0
+memcached_hash,assoc_get_iterator,return,return,U_TO_T,,void *,0,0,0,0,0,0,1,0,0,0,0,0,benchmarks/memcached/assoc.c,0,0,0,0
+memcached_hash,assoc_insert,param,0,T_TO_U,,_stritem *,1,1,0,0,0,0,0,0,0,0,1,0,benchmarks/memcached/assoc.c,0,0,0,0
+memcached_hash,assoc_insert,param,0,T_TO_U,,_stritem *,1,1,1,0,0,0,0,1,0,0,1,0,benchmarks/memcached/assoc.c,0,0,0,0
+memcached_hash,assoc_insert,param,0,T_TO_U,,item *,1,1,0,0,0,0,0,0,0,0,1,0,benchmarks/memcached/assoc.c,0,0,0,0
+memcached_hash,assoc_insert,param,0,T_TO_U,,item *,1,1,1,0,0,0,0,1,0,0,1,0,benchmarks/memcached/assoc.c,0,0,0,0
+memcached_hash,assoc_insert,param,0,T_TO_U,/deref/field:h_next,_stritem *,1,1,0,0,0,0,0,0,0,0,0,0,benchmarks/memcached/assoc.c,0,0,0,0
+memcached_hash,assoc_insert,param,0,T_TO_U,/deref/field:h_next,_stritem *,1,1,0,1,0,1,1,1,0,0,0,1,benchmarks/memcached/assoc.c,1,1,0,0
+memcached_hash,assoc_insert,param,0,T_TO_U,/deref/field:next,_stritem *,1,1,0,0,0,0,0,0,0,0,0,0,benchmarks/memcached/assoc.c,0,0,0,0
+memcached_hash,assoc_insert,param,0,T_TO_U,/deref/field:next,_stritem *,1,1,0,0,0,0,0,1,0,0,1,0,benchmarks/memcached/assoc.c,0,0,0,0
+memcached_hash,assoc_insert,param,0,T_TO_U,/deref/field:prev,_stritem *,1,1,0,0,0,0,0,0,0,0,0,0,benchmarks/memcached/assoc.c,0,0,0,0
+memcached_hash,assoc_insert,param,0,T_TO_U,/deref/field:prev,_stritem *,1,1,0,0,0,0,0,1,0,0,1,0,benchmarks/memcached/assoc.c,0,0,0,0
+memcached_hash,assoc_iterate,param,0,T_TO_U,,void *,1,1,0,0,0,0,0,0,0,0,1,0,benchmarks/memcached/assoc.c,0,0,0,0
+memcached_hash,assoc_iterate,param,0,T_TO_U,,void *,1,1,1,0,0,0,0,0,0,0,1,0,benchmarks/memcached/assoc.c,0,0,0,0
+memcached_hash,assoc_iterate,param,1,T_TO_U,,_stritem **,1,1,0,0,0,0,0,0,0,0,1,0,benchmarks/memcached/assoc.c,0,0,0,0
+memcached_hash,assoc_iterate,param,1,T_TO_U,,_stritem **,1,1,1,0,0,0,0,0,0,0,1,0,benchmarks/memcached/assoc.c,0,0,0,0
+memcached_hash,assoc_iterate,param,1,T_TO_U,,item **,1,1,0,0,0,0,0,0,0,0,1,0,benchmarks/memcached/assoc.c,0,0,0,0
+memcached_hash,assoc_iterate,param,1,T_TO_U,,item **,1,1,1,0,0,0,0,0,0,0,1,0,benchmarks/memcached/assoc.c,0,0,0,0
+memcached_hash,assoc_iterate,param,1,T_TO_U,/deref,_stritem *,1,1,0,0,0,0,0,0,0,0,0,0,benchmarks/memcached/assoc.c,0,0,0,0
+memcached_hash,assoc_iterate,param,1,T_TO_U,/deref,_stritem *,1,1,0,1,0,1,1,0,0,0,0,1,benchmarks/memcached/assoc.c,1,1,0,0
+memcached_hash,assoc_iterate,param,1,T_TO_U,/deref/deref/field:h_next,_stritem *,0,1,0,0,0,0,0,0,0,0,0,0,benchmarks/memcached/assoc.c,0,0,0,0
+memcached_hash,assoc_iterate,param,1,T_TO_U,/deref/deref/field:h_next,_stritem *,0,1,0,0,0,0,1,0,0,0,0,0,benchmarks/memcached/assoc.c,0,0,0,0
+memcached_hash,assoc_iterate,param,1,T_TO_U,/deref/deref/field:next,_stritem *,0,1,0,0,0,0,0,0,0,0,0,0,benchmarks/memcached/assoc.c,0,0,0,0
+memcached_hash,assoc_iterate,param,1,T_TO_U,/deref/deref/field:next,_stritem *,0,1,0,0,0,0,1,0,0,0,0,0,benchmarks/memcached/assoc.c,0,0,0,0
+memcached_hash,assoc_iterate,param,1,T_TO_U,/deref/deref/field:prev,_stritem *,0,1,0,0,0,0,0,0,0,0,0,0,benchmarks/memcached/assoc.c,0,0,0,0
+memcached_hash,assoc_iterate,param,1,T_TO_U,/deref/deref/field:prev,_stritem *,0,1,0,0,0,0,1,0,0,0,0,0,benchmarks/memcached/assoc.c,0,0,0,0
+memcached_hash,assoc_iterate_final,param,0,T_TO_U,,void *,1,1,0,0,0,0,0,0,0,0,1,0,benchmarks/memcached/assoc.c,0,0,0,0
+memcached_hash,assoc_iterate_final,param,0,T_TO_U,,void *,1,1,1,0,0,0,0,0,0,0,1,0,benchmarks/memcached/assoc.c,0,0,0,0
+memcached_hash,XXH3_hash,param,0,T_TO_U,,const void *,1,1,1,0,1,0,0,0,0,0,0,0,benchmarks/memcached/hash.c,0,0,0,0
+memcached_hash,XXH3_hash,param,0,T_TO_U,,void *,1,1,1,0,1,0,0,0,0,0,0,0,benchmarks/memcached/hash.c,0,0,0,0
+memcached_hash,jenkins_hash,param,0,T_TO_U,,const void *,1,1,1,0,0,0,0,0,0,0,0,0,benchmarks/memcached/jenkins_hash.c,0,0,0,0
+memcached_hash,jenkins_hash,param,0,T_TO_U,,void *,1,1,1,0,0,0,0,0,0,0,0,0,benchmarks/memcached/jenkins_hash.c,0,0,0,0
+memcached_hash,MurmurHash3_x86_32,param,0,T_TO_U,,const void *,1,1,1,0,0,0,0,0,0,0,0,0,benchmarks/memcached/murmur3_hash.c,0,0,0,0
+memcached_hash,MurmurHash3_x86_32,param,0,T_TO_U,,void *,1,1,1,0,0,0,0,0,0,0,0,0,benchmarks/memcached/murmur3_hash.c,0,0,0,0
+memcached_hash,item_trylock,return,return,T_TO_U,,void *,1,1,1,0,0,0,0,0,0,0,0,0,benchmarks/memcached/thread.c,0,0,0,0
+memcached_hash,item_trylock_unlock,param,0,U_TO_T,,void *,0,0,0,0,0,0,1,0,0,0,0,0,benchmarks/memcached/thread.c,0,0,0,0
+memcached_hash,item_trylock_unlock,param,0,U_TO_T,,void *,0,0,0,0,0,1,1,0,0,0,0,1,benchmarks/memcached/thread.c,0,1,0,0
+memcached_hash,thread_setname,param,1,U_TO_T,,char *,0,0,0,0,0,1,1,0,0,0,0,1,benchmarks/memcached/thread.c,0,0,1,0
+memcached_hash,thread_setname,param,1,U_TO_T,,const char *,0,0,0,0,0,1,1,0,0,0,0,1,benchmarks/memcached/thread.c,0,0,1,0

@@ -1,0 +1,23 @@
+nginx_openssl start 2026-11-19T23:46:26Z source=/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work-inlined-b/root/reports/nginx_openssl
+nginx_openssl exit=0 2026-11-20T00:12:58Z
+memcached_bipbuffer start 2026-11-20T00:12:58Z source=/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work-paper-rule/root/reports/memcached_bipbuffer
+memcached_bipbuffer exit=0 2026-11-20T00:15:26Z
+memcached_hash start 2026-11-20T00:15:26Z source=/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work-paper-rule/root/reports/memcached_hash
+memcached_hash exit=0 2026-11-20T00:17:58Z
+rsync_popt start 2026-11-20T00:17:58Z source=/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work-paper-rule/root/reports/rsync_popt
+rsync_popt exit=0 2026-11-20T00:26:12Z
+ucl_libucl start 2026-11-20T00:26:12Z source=/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work-paper-rule/root/reports/ucl_libucl
+ucl_libucl exit=0 2026-11-20T00:28:52Z
+yaml_libyaml start 2026-11-20T00:28:52Z source=/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work-paper-rule/root/reports/yaml_libyaml
+yaml_libyaml exit=0 2026-11-20T00:31:56Z
+zip_libzip start 2026-11-20T00:31:56Z source=/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work-paper-rule/root/reports/zip_libzip
+zip_libzip exit=0 2026-11-20T00:34:24Z
+magick_libpng start 2026-11-20T00:34:24Z source=/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work-paper-rule/root/reports/magick_libpng
+magick_libpng exit=0 2026-11-20T00:45:04Z
+nginx_libpcre start 2026-11-20T00:45:04Z source=/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work-paper-rule/root/reports/nginx_libpcre
+nginx_libpcre exit=0 2026-11-20T00:50:21Z
+ffmpeg_libvpx start 2026-11-20T00:50:21Z source=/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work-inlined-b/root/reports/ffmpeg_libvpx
+ffmpeg_libvpx stopped by hand 2026-11-20T00:54:23Z after 10 minutes: the rule is changed to field access by T (variant paper_counting_rule_sp3_field_access); the nine finished runs of this variant are kept
+ffmpeg_libvpx run again with this variant 2026-11-20T02:06:43Z (the field-access variant was set aside, see sp3op-out-field-access-diagnostic/steps.txt)
+ffmpeg_libvpx start 2026-11-20T02:06:43Z source=/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work-inlined-b/root/reports/ffmpeg_libvpx
+ffmpeg_libvpx exit=0 2026-11-20T03:06:23Z

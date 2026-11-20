@@ -1,0 +1,14 @@
+{
+ "reused scalar_slots.bqrs and slot_type_breakdown.bqrs from (scratch paths of the runs behind the tables)": {
+  "ffmpeg_libvpx": "/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work-inlined-b/root/reports/ffmpeg_libvpx",
+  "magick_libpng": "/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work-paper-rule/root/reports/magick_libpng",
+  "memcached_bipbuffer": "/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work-paper-rule/root/reports/memcached_bipbuffer",
+  "memcached_hash": "/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work-paper-rule/root/reports/memcached_hash",
+  "nginx_libpcre": "/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work-paper-rule/root/reports/nginx_libpcre",
+  "nginx_openssl": "/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work-inlined-b/root/reports/nginx_openssl",
+  "rsync_popt": "/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work-paper-rule/root/reports/rsync_popt",
+  "ucl_libucl": "/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work-paper-rule/root/reports/ucl_libucl",
+  "yaml_libyaml": "/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work-paper-rule/root/reports/yaml_libyaml",
+  "zip_libzip": "/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work-paper-rule/root/reports/zip_libzip"
+ }
+}

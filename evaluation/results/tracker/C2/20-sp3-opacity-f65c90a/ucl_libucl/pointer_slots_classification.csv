@@ -1,0 +1,660 @@
+benchmark,function,binding_kind,binding_id,direction,slot_path,slot_type,owned_by_t,exposed_to_u,u_reads,u_writes,u_forwarded,t_uses,u_influenced,escapes_to_t,flow_cut,sp1,sp2,sp3,file,t_domain_invariant,sp3_target_t,sp3_target_u,sp3_target_null
+ucl_libucl,ucl_object_emit,param,0,T_TO_U,,const ucl_object_t *,0,1,1,0,1,0,0,0,0,0,1,0,third_party/libucl/src/ucl_emitter.c,0,0,0,0
+ucl_libucl,ucl_object_emit,param,0,T_TO_U,,ucl_object_s *,0,1,1,0,1,0,0,0,0,0,1,0,third_party/libucl/src/ucl_emitter.c,0,0,0,0
+ucl_libucl,ucl_object_emit,param,0,T_TO_U,/deref/field:key,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_emitter.c,0,0,0,0
+ucl_libucl,ucl_object_emit,param,0,T_TO_U,/deref/field:next,ucl_object_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_emitter.c,0,0,0,0
+ucl_libucl,ucl_object_emit,param,0,T_TO_U,/deref/field:prev,ucl_object_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_emitter.c,0,0,0,0
+ucl_libucl,ucl_object_emit,param,0,T_TO_U,/deref/field:trash_stack/elem,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_emitter.c,0,0,0,0
+ucl_libucl,ucl_object_emit,param,0,T_TO_U,/deref/field:value/field:av,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_emitter.c,0,0,0,0
+ucl_libucl,ucl_object_emit,param,0,T_TO_U,/deref/field:value/field:ov,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_emitter.c,0,0,0,0
+ucl_libucl,ucl_object_emit,param,0,T_TO_U,/deref/field:value/field:sv,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_emitter.c,0,0,0,0
+ucl_libucl,ucl_object_emit,param,0,T_TO_U,/deref/field:value/field:ud,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_emitter.c,0,0,0,0
+ucl_libucl,ucl_object_emit,return,return,U_TO_T,,unsigned char *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_emitter.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,,ucl_parser *,0,1,1,0,1,0,0,0,0,0,1,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:chunks,ucl_chunk *,0,1,1,1,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:chunks/deref/field:begin,unsigned char *,0,1,1,1,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:chunks/deref/field:end,unsigned char *,0,1,1,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:chunks/deref/field:fname,char *,0,1,1,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:chunks/deref/field:next,ucl_chunk *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:chunks/deref/field:pos,unsigned char *,0,1,1,1,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:chunks/deref/field:special_handlers,ucl_parser_special_handler_chain *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:chunks/deref/field:special_handlers/deref/field:begin,unsigned char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:chunks/deref/field:special_handlers/deref/field:next,ucl_parser_special_handler_chain *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:chunks/deref/field:special_handlers/deref/field:special_handler,ucl_parser_special_handler *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:chunks/deref/field:special_handlers/deref/field:special_handler/deref/field:magic,unsigned char *,0,1,0,0,0,0,1,0,1,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:chunks/deref/field:special_handlers/deref/field:special_handler/deref/field:next,ucl_parser_special_handler *,0,1,0,0,0,0,1,0,1,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:chunks/deref/field:special_handlers/deref/field:special_handler/deref/field:user_data,void *,0,1,0,0,0,0,1,0,1,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:comments,ucl_object_s *,0,1,1,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:comments/deref/field:key,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:comments/deref/field:next,ucl_object_s *,0,1,1,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:comments/deref/field:prev,ucl_object_s *,0,1,1,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:comments/deref/field:trash_stack/elem,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:comments/deref/field:value/field:av,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:comments/deref/field:value/field:ov,void *,0,1,1,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:comments/deref/field:value/field:sv,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:comments/deref/field:value/field:ud,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:cur_file,char *,0,1,1,1,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:cur_obj,ucl_object_s *,0,1,1,1,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:cur_obj/deref/field:key,char *,0,1,1,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:cur_obj/deref/field:next,ucl_object_s *,0,1,1,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:cur_obj/deref/field:prev,ucl_object_s *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:cur_obj/deref/field:trash_stack/elem,unsigned char *,0,1,1,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:cur_obj/deref/field:value/field:av,void *,0,1,1,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:cur_obj/deref/field:value/field:ov,void *,0,1,1,1,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:cur_obj/deref/field:value/field:sv,char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:cur_obj/deref/field:value/field:ud,void *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:err,struct <unnamed> *,0,1,1,1,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:err/deref/field:d,char *,0,1,1,1,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:err/deref/field:pd,void **,0,1,1,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:err/deref/field:pd/deref,void *,0,1,0,1,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:include_trace_ud,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:includepaths,ucl_object_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:includepaths/deref/field:key,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:includepaths/deref/field:next,ucl_object_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:includepaths/deref/field:prev,ucl_object_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:includepaths/deref/field:trash_stack/elem,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:includepaths/deref/field:value/field:av,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:includepaths/deref/field:value/field:ov,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:includepaths/deref/field:value/field:sv,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:includepaths/deref/field:value/field:ud,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:keys,ucl_pubkey *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:keys/deref/field:next,ucl_pubkey *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:last_comment,ucl_object_s *,0,1,1,1,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:last_comment/deref/field:key,char *,0,1,1,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:last_comment/deref/field:next,ucl_object_s *,0,1,1,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:last_comment/deref/field:prev,ucl_object_s *,0,1,1,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:last_comment/deref/field:trash_stack/elem,unsigned char *,0,1,1,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:last_comment/deref/field:value/field:av,void *,0,1,1,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:last_comment/deref/field:value/field:ov,void *,0,1,1,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:last_comment/deref/field:value/field:sv,char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:last_comment/deref/field:value/field:ud,void *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:macroes,ucl_macro *,0,1,1,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:macroes/deref/field:hh/field:hh_next,UT_hash_handle *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:macroes/deref/field:hh/field:hh_prev,UT_hash_handle *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:macroes/deref/field:hh/field:key,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:macroes/deref/field:hh/field:next,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:macroes/deref/field:hh/field:prev,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:macroes/deref/field:hh/field:tbl,UT_hash_table *,0,1,1,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:macroes/deref/field:hh/field:tbl/deref/field:buckets,UT_hash_bucket *,0,1,1,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:macroes/deref/field:hh/field:tbl/deref/field:tail,UT_hash_handle *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:macroes/deref/field:name,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:macroes/deref/field:ud,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:special_handlers,ucl_parser_special_handler *,0,1,1,1,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:special_handlers/deref/field:magic,unsigned char *,0,1,1,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:special_handlers/deref/field:next,ucl_parser_special_handler *,0,1,1,1,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:special_handlers/deref/field:user_data,void *,0,1,1,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:stack,ucl_stack *,0,1,1,1,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:stack/deref/field:chunk,ucl_chunk *,0,1,1,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:stack/deref/field:chunk/deref/field:begin,unsigned char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:stack/deref/field:chunk/deref/field:end,unsigned char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:stack/deref/field:chunk/deref/field:fname,char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:stack/deref/field:chunk/deref/field:next,ucl_chunk *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:stack/deref/field:chunk/deref/field:pos,unsigned char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:stack/deref/field:chunk/deref/field:special_handlers,ucl_parser_special_handler_chain *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:stack/deref/field:chunk/deref/field:special_handlers/deref/field:begin,unsigned char *,0,1,0,0,0,0,1,0,1,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:stack/deref/field:chunk/deref/field:special_handlers/deref/field:next,ucl_parser_special_handler_chain *,0,1,0,0,0,0,1,0,1,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:stack/deref/field:chunk/deref/field:special_handlers/deref/field:special_handler,ucl_parser_special_handler *,0,1,0,0,0,0,1,0,1,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:stack/deref/field:next,ucl_stack *,0,1,1,1,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:stack/deref/field:obj,ucl_object_s *,0,1,1,1,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:stack/deref/field:obj/deref/field:key,char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:stack/deref/field:obj/deref/field:next,ucl_object_s *,0,1,1,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:stack/deref/field:obj/deref/field:prev,ucl_object_s *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:stack/deref/field:obj/deref/field:trash_stack/elem,unsigned char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:stack/deref/field:obj/deref/field:value/field:av,void *,0,1,1,1,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:stack/deref/field:obj/deref/field:value/field:ov,void *,0,1,1,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:stack/deref/field:obj/deref/field:value/field:sv,char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:stack/deref/field:obj/deref/field:value/field:ud,void *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:top_obj,ucl_object_s *,0,1,1,1,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:top_obj/deref/field:key,char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:top_obj/deref/field:next,ucl_object_s *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:top_obj/deref/field:prev,ucl_object_s *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:top_obj/deref/field:trash_stack/elem,unsigned char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:top_obj/deref/field:value/field:av,void *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:top_obj/deref/field:value/field:ov,void *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:top_obj/deref/field:value/field:sv,char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:top_obj/deref/field:value/field:ud,void *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:trash_objs,ucl_object_s *,0,1,1,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:trash_objs/deref/field:key,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:trash_objs/deref/field:next,ucl_object_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:trash_objs/deref/field:prev,ucl_object_s *,0,1,1,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:trash_objs/deref/field:trash_stack/elem,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:trash_objs/deref/field:value/field:av,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:trash_objs/deref/field:value/field:ov,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:trash_objs/deref/field:value/field:sv,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:trash_objs/deref/field:value/field:ud,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:var_data,void *,0,1,1,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:variables,ucl_variable *,0,1,1,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:variables/deref/field:next,ucl_variable *,0,1,1,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:variables/deref/field:prev,ucl_variable *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:variables/deref/field:value,char *,0,1,1,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,0,T_TO_U,/deref/field:variables/deref/field:var,char *,0,1,1,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,1,T_TO_U,,const unsigned char *,1,1,1,0,1,0,0,0,0,0,1,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_add_chunk,param,1,T_TO_U,,unsigned char *,1,1,1,0,1,0,0,0,0,0,1,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return,return,U_TO_T,,ucl_parser *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:chunks,ucl_chunk *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:chunks/deref/field:begin,unsigned char *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:chunks/deref/field:end,unsigned char *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:chunks/deref/field:fname,char *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:chunks/deref/field:next,ucl_chunk *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:chunks/deref/field:pos,unsigned char *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:chunks/deref/field:special_handlers,ucl_parser_special_handler_chain *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:chunks/deref/field:special_handlers/deref/field:begin,unsigned char *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:chunks/deref/field:special_handlers/deref/field:next,ucl_parser_special_handler_chain *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:chunks/deref/field:special_handlers/deref/field:special_handler,ucl_parser_special_handler *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:chunks/deref/field:special_handlers/deref/field:special_handler/deref/field:magic,unsigned char *,0,0,0,0,0,0,1,0,1,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:chunks/deref/field:special_handlers/deref/field:special_handler/deref/field:next,ucl_parser_special_handler *,0,0,0,0,0,0,1,0,1,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:chunks/deref/field:special_handlers/deref/field:special_handler/deref/field:user_data,void *,0,0,0,0,0,0,1,0,1,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:comments,ucl_object_s *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:comments/deref/field:key,char *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:comments/deref/field:next,ucl_object_s *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:comments/deref/field:prev,ucl_object_s *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:comments/deref/field:trash_stack/elem,unsigned char *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:comments/deref/field:value/field:av,void *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:comments/deref/field:value/field:ov,void *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:comments/deref/field:value/field:sv,char *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:comments/deref/field:value/field:ud,void *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:cur_file,char *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:cur_obj,ucl_object_s *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:cur_obj/deref/field:key,char *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:cur_obj/deref/field:next,ucl_object_s *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:cur_obj/deref/field:prev,ucl_object_s *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:cur_obj/deref/field:trash_stack/elem,unsigned char *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:cur_obj/deref/field:value/field:av,void *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:cur_obj/deref/field:value/field:ov,void *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:cur_obj/deref/field:value/field:sv,char *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:cur_obj/deref/field:value/field:ud,void *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:err,struct <unnamed> *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:err/deref/field:d,char *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:err/deref/field:pd,void **,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:err/deref/field:pd/deref,void *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:include_trace_ud,void *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:includepaths,ucl_object_s *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:includepaths/deref/field:key,char *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:includepaths/deref/field:next,ucl_object_s *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:includepaths/deref/field:prev,ucl_object_s *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:includepaths/deref/field:trash_stack/elem,unsigned char *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:includepaths/deref/field:value/field:av,void *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:includepaths/deref/field:value/field:ov,void *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:includepaths/deref/field:value/field:sv,char *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:includepaths/deref/field:value/field:ud,void *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:keys,ucl_pubkey *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:keys/deref/field:next,ucl_pubkey *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:last_comment,ucl_object_s *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:last_comment/deref/field:key,char *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:last_comment/deref/field:next,ucl_object_s *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:last_comment/deref/field:prev,ucl_object_s *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:last_comment/deref/field:trash_stack/elem,unsigned char *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:last_comment/deref/field:value/field:av,void *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:last_comment/deref/field:value/field:ov,void *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:last_comment/deref/field:value/field:sv,char *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:last_comment/deref/field:value/field:ud,void *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:macroes,ucl_macro *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:macroes/deref/field:hh/field:hh_next,UT_hash_handle *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:macroes/deref/field:hh/field:hh_prev,UT_hash_handle *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:macroes/deref/field:hh/field:key,void *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:macroes/deref/field:hh/field:next,void *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:macroes/deref/field:hh/field:prev,void *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:macroes/deref/field:hh/field:tbl,UT_hash_table *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:macroes/deref/field:hh/field:tbl/deref/field:buckets,UT_hash_bucket *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:macroes/deref/field:hh/field:tbl/deref/field:tail,UT_hash_handle *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:macroes/deref/field:name,char *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:macroes/deref/field:ud,void *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:special_handlers,ucl_parser_special_handler *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:special_handlers/deref/field:magic,unsigned char *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:special_handlers/deref/field:next,ucl_parser_special_handler *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:special_handlers/deref/field:user_data,void *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:stack,ucl_stack *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:stack/deref/field:chunk,ucl_chunk *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:stack/deref/field:chunk/deref/field:begin,unsigned char *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:stack/deref/field:chunk/deref/field:end,unsigned char *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:stack/deref/field:chunk/deref/field:fname,char *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:stack/deref/field:chunk/deref/field:next,ucl_chunk *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:stack/deref/field:chunk/deref/field:pos,unsigned char *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:stack/deref/field:chunk/deref/field:special_handlers,ucl_parser_special_handler_chain *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:stack/deref/field:chunk/deref/field:special_handlers/deref/field:begin,unsigned char *,0,0,0,0,0,0,1,0,1,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:stack/deref/field:chunk/deref/field:special_handlers/deref/field:next,ucl_parser_special_handler_chain *,0,0,0,0,0,0,1,0,1,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:stack/deref/field:chunk/deref/field:special_handlers/deref/field:special_handler,ucl_parser_special_handler *,0,0,0,0,0,0,1,0,1,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:stack/deref/field:next,ucl_stack *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:stack/deref/field:obj,ucl_object_s *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:stack/deref/field:obj/deref/field:key,char *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:stack/deref/field:obj/deref/field:next,ucl_object_s *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:stack/deref/field:obj/deref/field:prev,ucl_object_s *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:stack/deref/field:obj/deref/field:trash_stack/elem,unsigned char *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:stack/deref/field:obj/deref/field:value/field:av,void *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:stack/deref/field:obj/deref/field:value/field:ov,void *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:stack/deref/field:obj/deref/field:value/field:sv,char *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:stack/deref/field:obj/deref/field:value/field:ud,void *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:top_obj,ucl_object_s *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:top_obj/deref/field:key,char *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:top_obj/deref/field:next,ucl_object_s *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:top_obj/deref/field:prev,ucl_object_s *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:top_obj/deref/field:trash_stack/elem,unsigned char *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:top_obj/deref/field:value/field:av,void *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:top_obj/deref/field:value/field:ov,void *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:top_obj/deref/field:value/field:sv,char *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:top_obj/deref/field:value/field:ud,void *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:trash_objs,ucl_object_s *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:trash_objs/deref/field:key,char *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:trash_objs/deref/field:next,ucl_object_s *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:trash_objs/deref/field:prev,ucl_object_s *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:trash_objs/deref/field:trash_stack/elem,unsigned char *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:trash_objs/deref/field:value/field:av,void *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:trash_objs/deref/field:value/field:ov,void *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:trash_objs/deref/field:value/field:sv,char *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:trash_objs/deref/field:value/field:ud,void *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:var_data,void *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:variables,ucl_variable *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:variables/deref/field:next,ucl_variable *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:variables/deref/field:prev,ucl_variable *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:variables/deref/field:value,char *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_parser_new,return_ptr,return,U_TO_T,/deref/field:variables/deref/field:var,char *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_parser.c,0,0,0,0
+ucl_libucl,ucl_object_lookup_path_char,param,0,T_TO_U,,const ucl_object_t *,0,1,1,0,1,0,0,0,0,0,1,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_object_lookup_path_char,param,0,T_TO_U,,ucl_object_s *,0,1,1,0,1,0,0,0,0,0,1,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_object_lookup_path_char,param,0,T_TO_U,/deref/field:key,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_object_lookup_path_char,param,0,T_TO_U,/deref/field:next,ucl_object_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_object_lookup_path_char,param,0,T_TO_U,/deref/field:prev,ucl_object_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_object_lookup_path_char,param,0,T_TO_U,/deref/field:trash_stack/elem,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_object_lookup_path_char,param,0,T_TO_U,/deref/field:value/field:av,void *,0,1,1,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_object_lookup_path_char,param,0,T_TO_U,/deref/field:value/field:ov,void *,0,1,1,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_object_lookup_path_char,param,0,T_TO_U,/deref/field:value/field:sv,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_object_lookup_path_char,param,0,T_TO_U,/deref/field:value/field:ud,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_object_lookup_path_char,param,1,T_TO_U,,char *,1,1,1,0,1,0,0,0,0,0,1,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_object_lookup_path_char,param,1,T_TO_U,,const char *,1,1,1,0,1,0,0,0,0,0,1,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_object_lookup_path_char,return,return,U_TO_T,,const ucl_object_t *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_object_lookup_path_char,return,return,U_TO_T,,ucl_object_s *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_object_lookup_path_char,return_ptr,return,U_TO_T,/deref/field:key,char *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_object_lookup_path_char,return_ptr,return,U_TO_T,/deref/field:next,ucl_object_s *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_object_lookup_path_char,return_ptr,return,U_TO_T,/deref/field:prev,ucl_object_s *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_object_lookup_path_char,return_ptr,return,U_TO_T,/deref/field:trash_stack/elem,unsigned char *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_object_lookup_path_char,return_ptr,return,U_TO_T,/deref/field:value/field:av,void *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_object_lookup_path_char,return_ptr,return,U_TO_T,/deref/field:value/field:ov,void *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_object_lookup_path_char,return_ptr,return,U_TO_T,/deref/field:value/field:sv,char *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_object_lookup_path_char,return_ptr,return,U_TO_T,/deref/field:value/field:ud,void *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_object_tostring,param,0,T_TO_U,,const ucl_object_t *,0,1,1,0,1,0,0,0,0,0,1,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_object_tostring,param,0,T_TO_U,,ucl_object_s *,0,1,1,0,1,0,0,0,0,0,1,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_object_tostring,param,0,T_TO_U,/deref/field:key,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_object_tostring,param,0,T_TO_U,/deref/field:next,ucl_object_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_object_tostring,param,0,T_TO_U,/deref/field:prev,ucl_object_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_object_tostring,param,0,T_TO_U,/deref/field:trash_stack/elem,unsigned char *,0,1,1,1,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_object_tostring,param,0,T_TO_U,/deref/field:value/field:av,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_object_tostring,param,0,T_TO_U,/deref/field:value/field:ov,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_object_tostring,param,0,T_TO_U,/deref/field:value/field:sv,char *,0,1,1,1,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_object_tostring,param,0,T_TO_U,/deref/field:value/field:ud,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_object_tostring,return,return,U_TO_T,,char *,0,0,0,0,0,1,1,0,0,0,0,1,third_party/libucl/src/ucl_util.c,0,0,1,0
+ucl_libucl,ucl_object_tostring,return,return,U_TO_T,,const char *,0,0,0,0,0,1,1,0,0,0,0,1,third_party/libucl/src/ucl_util.c,0,0,1,0
+ucl_libucl,ucl_object_unref,param,0,T_TO_U,,ucl_object_s *,0,1,1,0,1,0,0,0,0,0,1,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_object_unref,param,0,T_TO_U,,ucl_object_t *,0,1,1,0,1,0,0,0,0,0,1,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_object_unref,param,0,T_TO_U,/deref/field:key,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_object_unref,param,0,T_TO_U,/deref/field:next,ucl_object_s *,0,1,1,1,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_object_unref,param,0,T_TO_U,/deref/field:prev,ucl_object_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_object_unref,param,0,T_TO_U,/deref/field:trash_stack/elem,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_object_unref,param,0,T_TO_U,/deref/field:value/field:av,void *,0,1,1,1,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_object_unref,param,0,T_TO_U,/deref/field:value/field:ov,void *,0,1,1,1,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_object_unref,param,0,T_TO_U,/deref/field:value/field:sv,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_object_unref,param,0,T_TO_U,/deref/field:value/field:ud,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,,ucl_parser *,0,1,1,0,0,0,0,0,0,0,1,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:chunks,ucl_chunk *,0,1,1,1,1,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:chunks/deref/field:begin,unsigned char *,0,1,1,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:chunks/deref/field:end,unsigned char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:chunks/deref/field:fname,char *,0,1,1,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:chunks/deref/field:next,ucl_chunk *,0,1,1,1,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:chunks/deref/field:pos,unsigned char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:chunks/deref/field:special_handlers,ucl_parser_special_handler_chain *,0,1,1,1,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:chunks/deref/field:special_handlers/deref/field:begin,unsigned char *,0,1,1,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:chunks/deref/field:special_handlers/deref/field:next,ucl_parser_special_handler_chain *,0,1,1,1,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:chunks/deref/field:special_handlers/deref/field:special_handler,ucl_parser_special_handler *,0,1,1,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:chunks/deref/field:special_handlers/deref/field:special_handler/deref/field:magic,unsigned char *,0,1,0,0,0,0,1,0,1,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:chunks/deref/field:special_handlers/deref/field:special_handler/deref/field:next,ucl_parser_special_handler *,0,1,0,0,0,0,1,0,1,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:chunks/deref/field:special_handlers/deref/field:special_handler/deref/field:user_data,void *,0,1,1,0,0,0,1,0,1,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:comments,ucl_object_s *,0,1,1,0,1,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:comments/deref/field:key,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:comments/deref/field:next,ucl_object_s *,0,1,1,1,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:comments/deref/field:prev,ucl_object_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:comments/deref/field:trash_stack/elem,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:comments/deref/field:value/field:av,void *,0,1,1,1,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:comments/deref/field:value/field:ov,void *,0,1,1,1,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:comments/deref/field:value/field:sv,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:comments/deref/field:value/field:ud,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:cur_file,char *,0,1,1,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:cur_obj,ucl_object_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:cur_obj/deref/field:key,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:cur_obj/deref/field:next,ucl_object_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:cur_obj/deref/field:prev,ucl_object_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:cur_obj/deref/field:trash_stack/elem,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:cur_obj/deref/field:value/field:av,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:cur_obj/deref/field:value/field:ov,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:cur_obj/deref/field:value/field:sv,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:cur_obj/deref/field:value/field:ud,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:err,struct <unnamed> *,0,1,1,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:err/deref/field:d,char *,0,1,1,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:err/deref/field:pd,void **,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:err/deref/field:pd/deref,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:include_trace_ud,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:includepaths,ucl_object_s *,0,1,1,0,1,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:includepaths/deref/field:key,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:includepaths/deref/field:next,ucl_object_s *,0,1,1,1,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:includepaths/deref/field:prev,ucl_object_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:includepaths/deref/field:trash_stack/elem,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:includepaths/deref/field:value/field:av,void *,0,1,1,1,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:includepaths/deref/field:value/field:ov,void *,0,1,1,1,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:includepaths/deref/field:value/field:sv,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:includepaths/deref/field:value/field:ud,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:keys,ucl_pubkey *,0,1,1,1,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:keys/deref/field:next,ucl_pubkey *,0,1,1,1,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:last_comment,ucl_object_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:last_comment/deref/field:key,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:last_comment/deref/field:next,ucl_object_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:last_comment/deref/field:prev,ucl_object_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:last_comment/deref/field:trash_stack/elem,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:last_comment/deref/field:value/field:av,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:last_comment/deref/field:value/field:ov,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:last_comment/deref/field:value/field:sv,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:last_comment/deref/field:value/field:ud,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:macroes,ucl_macro *,0,1,1,1,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:macroes/deref/field:hh/field:hh_next,UT_hash_handle *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:macroes/deref/field:hh/field:hh_prev,UT_hash_handle *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:macroes/deref/field:hh/field:key,void *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:macroes/deref/field:hh/field:next,void *,0,1,1,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:macroes/deref/field:hh/field:prev,void *,0,1,1,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:macroes/deref/field:hh/field:tbl,UT_hash_table *,0,1,1,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:macroes/deref/field:hh/field:tbl/deref/field:buckets,UT_hash_bucket *,0,1,1,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:macroes/deref/field:hh/field:tbl/deref/field:tail,UT_hash_handle *,0,1,1,1,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:macroes/deref/field:name,char *,0,1,1,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:macroes/deref/field:ud,void *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:special_handlers,ucl_parser_special_handler *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:special_handlers/deref/field:magic,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:special_handlers/deref/field:next,ucl_parser_special_handler *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:special_handlers/deref/field:user_data,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:stack,ucl_stack *,0,1,1,1,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:stack/deref/field:chunk,ucl_chunk *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:stack/deref/field:chunk/deref/field:begin,unsigned char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:stack/deref/field:chunk/deref/field:end,unsigned char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:stack/deref/field:chunk/deref/field:fname,char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:stack/deref/field:chunk/deref/field:next,ucl_chunk *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:stack/deref/field:chunk/deref/field:pos,unsigned char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:stack/deref/field:chunk/deref/field:special_handlers,ucl_parser_special_handler_chain *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:stack/deref/field:chunk/deref/field:special_handlers/deref/field:begin,unsigned char *,0,1,0,0,0,0,1,0,1,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:stack/deref/field:chunk/deref/field:special_handlers/deref/field:next,ucl_parser_special_handler_chain *,0,1,0,0,0,0,1,0,1,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:stack/deref/field:chunk/deref/field:special_handlers/deref/field:special_handler,ucl_parser_special_handler *,0,1,0,0,0,0,1,0,1,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:stack/deref/field:next,ucl_stack *,0,1,1,1,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:stack/deref/field:obj,ucl_object_s *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:stack/deref/field:obj/deref/field:key,char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:stack/deref/field:obj/deref/field:next,ucl_object_s *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:stack/deref/field:obj/deref/field:prev,ucl_object_s *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:stack/deref/field:obj/deref/field:trash_stack/elem,unsigned char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:stack/deref/field:obj/deref/field:value/field:av,void *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:stack/deref/field:obj/deref/field:value/field:ov,void *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:stack/deref/field:obj/deref/field:value/field:sv,char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:stack/deref/field:obj/deref/field:value/field:ud,void *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:top_obj,ucl_object_s *,0,1,1,0,1,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:top_obj/deref/field:key,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:top_obj/deref/field:next,ucl_object_s *,0,1,1,1,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:top_obj/deref/field:prev,ucl_object_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:top_obj/deref/field:trash_stack/elem,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:top_obj/deref/field:value/field:av,void *,0,1,1,1,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:top_obj/deref/field:value/field:ov,void *,0,1,1,1,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:top_obj/deref/field:value/field:sv,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:top_obj/deref/field:value/field:ud,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:trash_objs,ucl_object_s *,0,1,1,1,1,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:trash_objs/deref/field:key,char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:trash_objs/deref/field:next,ucl_object_s *,0,1,1,1,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:trash_objs/deref/field:prev,ucl_object_s *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:trash_objs/deref/field:trash_stack/elem,unsigned char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:trash_objs/deref/field:value/field:av,void *,0,1,1,1,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:trash_objs/deref/field:value/field:ov,void *,0,1,1,1,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:trash_objs/deref/field:value/field:sv,char *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:trash_objs/deref/field:value/field:ud,void *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:var_data,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:variables,ucl_variable *,0,1,1,1,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:variables/deref/field:next,ucl_variable *,0,1,1,1,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:variables/deref/field:prev,ucl_variable *,0,1,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:variables/deref/field:value,char *,0,1,1,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_free,param,0,T_TO_U,/deref/field:variables/deref/field:var,char *,0,1,1,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,,ucl_parser *,0,1,1,0,0,0,0,0,0,0,1,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:chunks,ucl_chunk *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:chunks/deref/field:begin,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:chunks/deref/field:end,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:chunks/deref/field:fname,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:chunks/deref/field:next,ucl_chunk *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:chunks/deref/field:pos,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:chunks/deref/field:special_handlers,ucl_parser_special_handler_chain *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:chunks/deref/field:special_handlers/deref/field:begin,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:chunks/deref/field:special_handlers/deref/field:next,ucl_parser_special_handler_chain *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:chunks/deref/field:special_handlers/deref/field:special_handler,ucl_parser_special_handler *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:chunks/deref/field:special_handlers/deref/field:special_handler/deref/field:magic,unsigned char *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:chunks/deref/field:special_handlers/deref/field:special_handler/deref/field:next,ucl_parser_special_handler *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:chunks/deref/field:special_handlers/deref/field:special_handler/deref/field:user_data,void *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:comments,ucl_object_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:comments/deref/field:key,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:comments/deref/field:next,ucl_object_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:comments/deref/field:prev,ucl_object_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:comments/deref/field:trash_stack/elem,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:comments/deref/field:value/field:av,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:comments/deref/field:value/field:ov,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:comments/deref/field:value/field:sv,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:comments/deref/field:value/field:ud,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:cur_file,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:cur_obj,ucl_object_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:cur_obj/deref/field:key,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:cur_obj/deref/field:next,ucl_object_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:cur_obj/deref/field:prev,ucl_object_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:cur_obj/deref/field:trash_stack/elem,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:cur_obj/deref/field:value/field:av,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:cur_obj/deref/field:value/field:ov,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:cur_obj/deref/field:value/field:sv,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:cur_obj/deref/field:value/field:ud,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:err,struct <unnamed> *,0,1,1,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:err/deref/field:d,char *,0,1,1,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:err/deref/field:pd,void **,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:err/deref/field:pd/deref,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:include_trace_ud,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:includepaths,ucl_object_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:includepaths/deref/field:key,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:includepaths/deref/field:next,ucl_object_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:includepaths/deref/field:prev,ucl_object_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:includepaths/deref/field:trash_stack/elem,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:includepaths/deref/field:value/field:av,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:includepaths/deref/field:value/field:ov,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:includepaths/deref/field:value/field:sv,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:includepaths/deref/field:value/field:ud,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:keys,ucl_pubkey *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:keys/deref/field:next,ucl_pubkey *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:last_comment,ucl_object_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:last_comment/deref/field:key,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:last_comment/deref/field:next,ucl_object_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:last_comment/deref/field:prev,ucl_object_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:last_comment/deref/field:trash_stack/elem,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:last_comment/deref/field:value/field:av,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:last_comment/deref/field:value/field:ov,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:last_comment/deref/field:value/field:sv,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:last_comment/deref/field:value/field:ud,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:macroes,ucl_macro *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:macroes/deref/field:hh/field:hh_next,UT_hash_handle *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:macroes/deref/field:hh/field:hh_prev,UT_hash_handle *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:macroes/deref/field:hh/field:key,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:macroes/deref/field:hh/field:next,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:macroes/deref/field:hh/field:prev,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:macroes/deref/field:hh/field:tbl,UT_hash_table *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:macroes/deref/field:hh/field:tbl/deref/field:buckets,UT_hash_bucket *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:macroes/deref/field:hh/field:tbl/deref/field:tail,UT_hash_handle *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:macroes/deref/field:name,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:macroes/deref/field:ud,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:special_handlers,ucl_parser_special_handler *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:special_handlers/deref/field:magic,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:special_handlers/deref/field:next,ucl_parser_special_handler *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:special_handlers/deref/field:user_data,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:stack,ucl_stack *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:stack/deref/field:chunk,ucl_chunk *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:stack/deref/field:chunk/deref/field:begin,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:stack/deref/field:chunk/deref/field:end,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:stack/deref/field:chunk/deref/field:fname,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:stack/deref/field:chunk/deref/field:next,ucl_chunk *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:stack/deref/field:chunk/deref/field:pos,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:stack/deref/field:chunk/deref/field:special_handlers,ucl_parser_special_handler_chain *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:stack/deref/field:chunk/deref/field:special_handlers/deref/field:begin,unsigned char *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:stack/deref/field:chunk/deref/field:special_handlers/deref/field:next,ucl_parser_special_handler_chain *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:stack/deref/field:chunk/deref/field:special_handlers/deref/field:special_handler,ucl_parser_special_handler *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:stack/deref/field:next,ucl_stack *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:stack/deref/field:obj,ucl_object_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:stack/deref/field:obj/deref/field:key,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:stack/deref/field:obj/deref/field:next,ucl_object_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:stack/deref/field:obj/deref/field:prev,ucl_object_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:stack/deref/field:obj/deref/field:trash_stack/elem,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:stack/deref/field:obj/deref/field:value/field:av,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:stack/deref/field:obj/deref/field:value/field:ov,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:stack/deref/field:obj/deref/field:value/field:sv,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:stack/deref/field:obj/deref/field:value/field:ud,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:top_obj,ucl_object_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:top_obj/deref/field:key,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:top_obj/deref/field:next,ucl_object_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:top_obj/deref/field:prev,ucl_object_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:top_obj/deref/field:trash_stack/elem,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:top_obj/deref/field:value/field:av,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:top_obj/deref/field:value/field:ov,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:top_obj/deref/field:value/field:sv,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:top_obj/deref/field:value/field:ud,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:trash_objs,ucl_object_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:trash_objs/deref/field:key,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:trash_objs/deref/field:next,ucl_object_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:trash_objs/deref/field:prev,ucl_object_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:trash_objs/deref/field:trash_stack/elem,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:trash_objs/deref/field:value/field:av,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:trash_objs/deref/field:value/field:ov,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:trash_objs/deref/field:value/field:sv,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:trash_objs/deref/field:value/field:ud,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:var_data,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:variables,ucl_variable *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:variables/deref/field:next,ucl_variable *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:variables/deref/field:prev,ucl_variable *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:variables/deref/field:value,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,param,0,T_TO_U,/deref/field:variables/deref/field:var,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,return,return,U_TO_T,,char *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_error,return,return,U_TO_T,,const char *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,,ucl_parser *,0,1,1,0,0,0,0,0,0,0,1,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:chunks,ucl_chunk *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:chunks/deref/field:begin,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:chunks/deref/field:end,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:chunks/deref/field:fname,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:chunks/deref/field:next,ucl_chunk *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:chunks/deref/field:pos,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:chunks/deref/field:special_handlers,ucl_parser_special_handler_chain *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:chunks/deref/field:special_handlers/deref/field:begin,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:chunks/deref/field:special_handlers/deref/field:next,ucl_parser_special_handler_chain *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:chunks/deref/field:special_handlers/deref/field:special_handler,ucl_parser_special_handler *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:chunks/deref/field:special_handlers/deref/field:special_handler/deref/field:magic,unsigned char *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:chunks/deref/field:special_handlers/deref/field:special_handler/deref/field:next,ucl_parser_special_handler *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:chunks/deref/field:special_handlers/deref/field:special_handler/deref/field:user_data,void *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:comments,ucl_object_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:comments/deref/field:key,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:comments/deref/field:next,ucl_object_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:comments/deref/field:prev,ucl_object_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:comments/deref/field:trash_stack/elem,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:comments/deref/field:value/field:av,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:comments/deref/field:value/field:ov,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:comments/deref/field:value/field:sv,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:comments/deref/field:value/field:ud,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:cur_file,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:cur_obj,ucl_object_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:cur_obj/deref/field:key,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:cur_obj/deref/field:next,ucl_object_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:cur_obj/deref/field:prev,ucl_object_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:cur_obj/deref/field:trash_stack/elem,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:cur_obj/deref/field:value/field:av,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:cur_obj/deref/field:value/field:ov,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:cur_obj/deref/field:value/field:sv,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:cur_obj/deref/field:value/field:ud,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:err,struct <unnamed> *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:err/deref/field:d,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:err/deref/field:pd,void **,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:err/deref/field:pd/deref,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:include_trace_ud,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:includepaths,ucl_object_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:includepaths/deref/field:key,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:includepaths/deref/field:next,ucl_object_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:includepaths/deref/field:prev,ucl_object_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:includepaths/deref/field:trash_stack/elem,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:includepaths/deref/field:value/field:av,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:includepaths/deref/field:value/field:ov,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:includepaths/deref/field:value/field:sv,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:includepaths/deref/field:value/field:ud,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:keys,ucl_pubkey *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:keys/deref/field:next,ucl_pubkey *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:last_comment,ucl_object_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:last_comment/deref/field:key,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:last_comment/deref/field:next,ucl_object_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:last_comment/deref/field:prev,ucl_object_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:last_comment/deref/field:trash_stack/elem,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:last_comment/deref/field:value/field:av,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:last_comment/deref/field:value/field:ov,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:last_comment/deref/field:value/field:sv,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:last_comment/deref/field:value/field:ud,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:macroes,ucl_macro *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:macroes/deref/field:hh/field:hh_next,UT_hash_handle *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:macroes/deref/field:hh/field:hh_prev,UT_hash_handle *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:macroes/deref/field:hh/field:key,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:macroes/deref/field:hh/field:next,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:macroes/deref/field:hh/field:prev,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:macroes/deref/field:hh/field:tbl,UT_hash_table *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:macroes/deref/field:hh/field:tbl/deref/field:buckets,UT_hash_bucket *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:macroes/deref/field:hh/field:tbl/deref/field:tail,UT_hash_handle *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:macroes/deref/field:name,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:macroes/deref/field:ud,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:special_handlers,ucl_parser_special_handler *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:special_handlers/deref/field:magic,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:special_handlers/deref/field:next,ucl_parser_special_handler *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:special_handlers/deref/field:user_data,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:stack,ucl_stack *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:stack/deref/field:chunk,ucl_chunk *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:stack/deref/field:chunk/deref/field:begin,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:stack/deref/field:chunk/deref/field:end,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:stack/deref/field:chunk/deref/field:fname,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:stack/deref/field:chunk/deref/field:next,ucl_chunk *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:stack/deref/field:chunk/deref/field:pos,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:stack/deref/field:chunk/deref/field:special_handlers,ucl_parser_special_handler_chain *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:stack/deref/field:chunk/deref/field:special_handlers/deref/field:begin,unsigned char *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:stack/deref/field:chunk/deref/field:special_handlers/deref/field:next,ucl_parser_special_handler_chain *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:stack/deref/field:chunk/deref/field:special_handlers/deref/field:special_handler,ucl_parser_special_handler *,0,1,0,0,0,0,0,0,1,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:stack/deref/field:next,ucl_stack *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:stack/deref/field:obj,ucl_object_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:stack/deref/field:obj/deref/field:key,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:stack/deref/field:obj/deref/field:next,ucl_object_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:stack/deref/field:obj/deref/field:prev,ucl_object_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:stack/deref/field:obj/deref/field:trash_stack/elem,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:stack/deref/field:obj/deref/field:value/field:av,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:stack/deref/field:obj/deref/field:value/field:ov,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:stack/deref/field:obj/deref/field:value/field:sv,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:stack/deref/field:obj/deref/field:value/field:ud,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:top_obj,ucl_object_s *,0,1,1,0,1,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:top_obj/deref/field:key,char *,0,1,1,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:top_obj/deref/field:next,ucl_object_s *,0,1,1,1,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:top_obj/deref/field:prev,ucl_object_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:top_obj/deref/field:trash_stack/elem,unsigned char *,0,1,1,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:top_obj/deref/field:value/field:av,void *,0,1,1,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:top_obj/deref/field:value/field:ov,void *,0,1,1,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:top_obj/deref/field:value/field:sv,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:top_obj/deref/field:value/field:ud,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:trash_objs,ucl_object_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:trash_objs/deref/field:key,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:trash_objs/deref/field:next,ucl_object_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:trash_objs/deref/field:prev,ucl_object_s *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:trash_objs/deref/field:trash_stack/elem,unsigned char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:trash_objs/deref/field:value/field:av,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:trash_objs/deref/field:value/field:ov,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:trash_objs/deref/field:value/field:sv,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:trash_objs/deref/field:value/field:ud,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:var_data,void *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:variables,ucl_variable *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:variables/deref/field:next,ucl_variable *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:variables/deref/field:prev,ucl_variable *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:variables/deref/field:value,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,param,0,T_TO_U,/deref/field:variables/deref/field:var,char *,0,1,0,0,0,0,0,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,return,return,U_TO_T,,ucl_object_s *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,return,return,U_TO_T,,ucl_object_t *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,return_ptr,return,U_TO_T,/deref/field:key,char *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,return_ptr,return,U_TO_T,/deref/field:next,ucl_object_s *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,return_ptr,return,U_TO_T,/deref/field:prev,ucl_object_s *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,return_ptr,return,U_TO_T,/deref/field:trash_stack/elem,unsigned char *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,return_ptr,return,U_TO_T,/deref/field:value/field:av,void *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,return_ptr,return,U_TO_T,/deref/field:value/field:ov,void *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,return_ptr,return,U_TO_T,/deref/field:value/field:sv,char *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0
+ucl_libucl,ucl_parser_get_object,return_ptr,return,U_TO_T,/deref/field:value/field:ud,void *,0,0,0,0,0,0,1,0,0,0,0,0,third_party/libucl/src/ucl_util.c,0,0,0,0

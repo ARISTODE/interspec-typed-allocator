@@ -1,0 +1,10 @@
+benchmark,function,file,binding_kind,binding_id,direction,slot_kind,slot_path,slot_types,sp3_origin_class,owned_by_t,exposed_to_u,u_reads,u_writes,u_forwarded,t_uses,u_influenced,escapes_to_t,flow_cut,t_domain_invariant,sp3_target_class,sp3_target_t,sp3_target_u,sp3_target_null
+ffmpeg_libvpx,vpx_codec_vp8_cx,benchmarks/libvpx/libvpx-1.15.2/vp8/vp8_cx_iface.c,return,return,U_TO_T,return,,vpx_codec_iface *;vpx_codec_iface_t *,U_defined,0,0,0,0,0,1,1,0,0,0,U_only,0,1,0
+ffmpeg_libvpx,vpx_codec_vp8_dx,benchmarks/libvpx/libvpx-1.15.2/vp8/vp8_dx_iface.c,return,return,U_TO_T,return,,vpx_codec_iface *;vpx_codec_iface_t *,U_defined,0,0,0,0,0,1,1,0,0,0,U_only,0,1,0
+ffmpeg_libvpx,vpx_codec_vp9_cx,benchmarks/libvpx/libvpx-1.15.2/vp9/vp9_cx_iface.c,return,return,U_TO_T,return,,vpx_codec_iface *;vpx_codec_iface_t *,U_defined,0,0,0,0,0,1,1,0,0,0,U_only,0,1,0
+ffmpeg_libvpx,vpx_codec_vp9_dx,benchmarks/libvpx/libvpx-1.15.2/vp9/vp9_dx_iface.c,return,return,U_TO_T,return,,vpx_codec_iface *;vpx_codec_iface_t *,U_defined,0,0,0,0,0,1,1,0,0,0,U_only,0,1,0
+ffmpeg_libvpx,vpx_codec_err_to_string,benchmarks/libvpx/libvpx-1.15.2/vpx/src/vpx_codec.c,return,return,U_TO_T,return,,char *;const char *,U_defined,0,0,0,0,0,1,1,0,0,0,U_only,0,1,0
+ffmpeg_libvpx,vpx_codec_version_str,benchmarks/libvpx/libvpx-1.15.2/vpx/src/vpx_codec.c,return,return,U_TO_T,return,,char *;const char *,U_defined,0,0,0,0,0,1,1,0,0,0,U_only,0,1,0
+ffmpeg_libvpx,vpx_codec_get_frame,benchmarks/libvpx/libvpx-1.15.2/vpx/src/vpx_decoder.c,return,return,U_TO_T,return,,vpx_image *;vpx_image_t *,U_defined,0,0,0,0,0,1,1,0,0,0,U_only,0,1,0
+ffmpeg_libvpx,vpx_codec_get_frame,benchmarks/libvpx/libvpx-1.15.2/vpx/src/vpx_decoder.c,return_ptr,return,U_TO_T,return_ptr,/deref/field:fb_priv,void *,U_defined,0,0,0,0,0,1,1,0,0,0,U_only,0,1,0
+ffmpeg_libvpx,vpx_codec_get_cx_data,benchmarks/libvpx/libvpx-1.15.2/vpx/src/vpx_encoder.c,return,return,U_TO_T,return,,const vpx_codec_cx_pkt_t *;vpx_codec_cx_pkt *,U_defined,0,0,0,0,0,1,1,0,0,0,U_only,0,1,0

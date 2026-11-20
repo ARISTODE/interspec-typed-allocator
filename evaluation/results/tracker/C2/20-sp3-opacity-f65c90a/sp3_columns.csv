@@ -1,0 +1,11 @@
+boundary,pointer_fields,need_sp3,inferred,domain_stated_by_developer,pointer_coverage
+ffmpeg_libvpx,347,9,9,0,1.000000
+magick_libpng,2183,1,1,0,1.000000
+memcached_bipbuffer,12,2,2,0,1.000000
+memcached_hash,24,7,7,0,1.000000
+nginx_libpcre,44,0,0,0,1.000000
+nginx_openssl,120812,22,16,6,0.999950
+rsync_popt,637,8,7,1,0.998430
+ucl_libucl,649,1,1,0,1.000000
+yaml_libyaml,461,2,2,0,1.000000
+zip_libzip,653,3,3,0,1.000000

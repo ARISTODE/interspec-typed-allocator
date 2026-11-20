@@ -1,0 +1,18 @@
+nginx_openssl start 2026-11-20T00:57:47Z source=/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work-inlined-b/root/reports/nginx_openssl
+nginx_openssl exit=0 2026-11-20T01:28:37Z
+memcached_bipbuffer start 2026-11-20T01:28:40Z source=/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work-paper-rule/root/reports/memcached_bipbuffer
+memcached_bipbuffer exit=0 2026-11-20T01:31:21Z
+memcached_hash start 2026-11-20T01:31:22Z source=/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work-paper-rule/root/reports/memcached_hash
+memcached_hash exit=0 2026-11-20T01:34:01Z
+rsync_popt start 2026-11-20T01:34:03Z source=/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work-paper-rule/root/reports/rsync_popt
+rsync_popt exit=0 2026-11-20T01:42:38Z
+ucl_libucl start 2026-11-20T01:42:39Z source=/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work-paper-rule/root/reports/ucl_libucl
+ucl_libucl exit=0 2026-11-20T01:45:24Z
+yaml_libyaml start 2026-11-20T01:45:25Z source=/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work-paper-rule/root/reports/yaml_libyaml
+yaml_libyaml exit=0 2026-11-20T01:48:26Z
+zip_libzip start 2026-11-20T01:48:27Z source=/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work-paper-rule/root/reports/zip_libzip
+zip_libzip exit=0 2026-11-20T01:51:13Z
+magick_libpng start 2026-11-20T01:51:14Z source=/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work-paper-rule/root/reports/magick_libpng
+magick_libpng exit=0 2026-11-20T02:03:11Z
+nginx_libpcre start 2026-11-20T02:03:12Z source=/tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/coverage-work-paper-rule/root/reports/nginx_libpcre
+stopped by hand 2026-11-20T02:06:31Z during nginx_libpcre: the field-access rule drops the two yaml/libyaml fields that the port checks (anonymous nested structs of yaml_event_t, accessed from the C++ driver, do not match the C library's type entities), so the shipped opacity rule is used; this run is kept as a diagnostic
