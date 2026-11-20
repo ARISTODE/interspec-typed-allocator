@@ -1,0 +1,11 @@
+--- /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/w4-build/base/tex/eval.tex	2026-11-20 05:11:31.000000000 +0000
++++ /tmp/claude-0/-home-user/875e1a03-82ac-5cc7-996e-5a0301286f02/scratchpad/w4-build/small/tex/eval.tex	2026-11-20 05:22:14.082512993 +0000
+@@ -399,7 +399,7 @@
+ 
+ \begin{table*}[!t]
+ \centering
+-\footnotesize
++\small
+ \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrrrrrr@{}}
+ \toprule
+ \textbf{Boundary} & \textbf{Fields} &
