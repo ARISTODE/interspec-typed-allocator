@@ -257,6 +257,56 @@ _SP3_OPACITY = [
      "}\n"),
 ]
 VARIANTS["paper_counting_rule_sp3_opacity"] = VARIANTS["paper_counting_rule_inlined"] + _SP3_OPACITY
+
+
+# The same restriction with the plain form of Condition B: a pointer stored in an
+# object counts as dereferenced by T only if T's code accesses some field of the
+# object's class (and the class is not defined in T). Unlike the shipped opacity
+# test, it does not treat a class as visible only because its definition is in a
+# public include header: OpenSSL's ASN1_STRING is public, but nginx handles it
+# only through ASN1_STRING_length and ASN1_STRING_data.
+_SP3_FIELD_ACCESS = [
+    ("ql/lib/PointerSlotUnified.qll",
+     "  predicate classOpaqueToTrusted(Class cls) {\n"
+     "    // C2 diagnostic variant without_opacity_rule: no struct is opaque.\n"
+     "    none() and exists(cls)\n"
+     "  }\n",
+     "  predicate classOpaqueToTrusted(Class cls) {\n"
+     "    // C2 diagnostic variant without_opacity_rule: no struct is opaque.\n"
+     "    none() and exists(cls)\n"
+     "  }\n"
+     "\n"
+     "  /** Variant sp3_field_access: T's code accesses no field of this class, which T does not define. */\n"
+     "  predicate classFieldsNotAccessedByTrusted(Class cls) {\n"
+     "    not PointerBoundaryBase::isTrustedFile(cls.getFile()) and\n"
+     "    not trustedFieldVisibleToTrusted(cls)\n"
+     "  }\n"),
+    ("ql/queries/pointer_slots_classification.ql",
+     "  parameterSlotUInfluenced(p, direction, slotPath) and\n"
+     "  pointerSlotUsedByTrustedForSP3(p, slotPath)\n"
+     "}\n",
+     "  parameterSlotUInfluenced(p, direction, slotPath) and\n"
+     "  pointerSlotUsedByTrustedForSP3(p, slotPath) and\n"
+     "  not slotInsideClassNotAccessedByTrusted(p, slotPath)\n"
+     "}\n"
+     "\n"
+     "/**\n"
+     " * Variant sp3_field_access: the slot is a field, or lies below a field, of an object\n"
+     " * whose class T's code never accesses. T cannot load a pointer from such a field, so\n"
+     " * it cannot dereference it through this path (Condition B).\n"
+     " */\n"
+     "bindingset[p, slotPath]\n"
+     "predicate slotInsideClassNotAccessedByTrusted(PointerBoundaryBase::BoundaryParameter p, string slotPath) {\n"
+     "  exists(int i, string objPath, Type t, Class cls |\n"
+     "    i = slotPath.indexOf(\"/field:\") and\n"
+     "    objPath = slotPath.prefix(i) and\n"
+     "    PointerSlotUnified::reachablePath(p, objPath, t) and\n"
+     "    PointerSlotUnified::classType(t, cls) and\n"
+     "    PointerSlotUnified::classFieldsNotAccessedByTrusted(cls)\n"
+     "  )\n"
+     "}\n"),
+]
+VARIANTS["paper_counting_rule_sp3_field_access"] = VARIANTS["paper_counting_rule_inlined"] + _SP3_FIELD_ACCESS
 for _limit in (10, 12, 16):
     VARIANTS[f"r5_ten_functions_depth_{_limit}"] = VARIANTS["r5_ten_functions"] + _r5_depth(_limit)
 
