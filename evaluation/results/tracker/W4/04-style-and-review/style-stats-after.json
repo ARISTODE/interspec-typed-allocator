@@ -158,24 +158,24 @@
   }
  },
  "after": {
-  "sentences": 540,
-  "words": 9956,
-  "sentence_len_mean": 18.4,
+  "sentences": 538,
+  "words": 9999,
+  "sentence_len_mean": 18.6,
   "sentence_len_median": 18.0,
-  "sentence_len_sd": 8.1,
+  "sentence_len_sd": 8.2,
   "share_le_12_words": 0.24,
   "share_ge_35_words": 0.03,
-  "sentences_per_paragraph_mean": 4.9,
-  "sentences_per_paragraph_median": 4.5,
-  "words_per_paragraph_mean": 91,
+  "sentences_per_paragraph_mean": 5.0,
+  "sentences_per_paragraph_median": 5.0,
+  "words_per_paragraph_mean": 93,
   "per_100_sentences": {
    "semicolon": 2.6,
    "colon": 0.7,
    "parenthesis": 14.3,
    "dash_aside": 0.0,
-   "starts_with_We": 8.3,
-   "starts_with_This_These_It": 9.1,
-   "passive_approx": 10.0,
+   "starts_with_We": 8.4,
+   "starts_with_This_These_It": 8.7,
+   "passive_approx": 9.7,
    "e.g._or_i.e.": 0.4
   },
   "sentence_openers_per_100": {
@@ -190,8 +190,8 @@
    "Conversely": 0.4
   },
   "hedges_per_1000_words": {
+   "may": 3.0,
    "can": 3.0,
-   "may": 2.9,
    "could": 0.5
   }
  }
