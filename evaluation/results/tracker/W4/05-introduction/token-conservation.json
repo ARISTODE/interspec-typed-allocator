@@ -1,0 +1,22 @@
+{
+  "numbers_delta": {
+    "removed": {
+      "1": 1,
+      "2": 1,
+      "3": 1
+    },
+    "added": {
+      "214": 1,
+      "350,000": 1
+    }
+  },
+  "citations_delta": {
+    "removed": {},
+    "added": {}
+  },
+  "protected_terms_delta": {
+    "removed": {},
+    "added": {}
+  },
+  "conserved": false
+}
