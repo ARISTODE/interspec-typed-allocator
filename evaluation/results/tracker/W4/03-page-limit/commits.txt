@@ -1,0 +1,9 @@
+41d71b8 Page limit: final trims; tables on the pages of their text
+da73311 Page limit: shorten the introduction
+9262ac1 Page limit: shorten the security assessment and the coverage text; one coverage table
+9955db8 Page limit: shorten Sections 6.1 to 6.3
+a4a8437 Page limit: shorten the taxonomy section
+99db5cc Page limit: shorten background and related work
+3a9a952 Page limit: details of the measurement method move to an appendix
+9dbad70 Page limit: per-policy costs and registry and memory costs move to appendices
+0d4a390 Page limit: object registry details move to an appendix
