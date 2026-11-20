@@ -1,0 +1,33 @@
+1     Introduction                                               starts  0.39  length  1.38
+2     Background                                                 starts  1.78  length  1.35
+  2.1   Software Compartmentalization                              starts  1.80  length  0.31
+  2.2   Compartment Interface Vulnerabilities                      starts  2.11  length  0.39
+  2.3   Automated Isolation Frameworks                             starts  2.50  length  0.62
+3     Related Work                                               starts  3.13  length  0.75
+  3.1   Prior Research on CIVs                                     starts  3.14  length  0.24
+  3.2   CIV Mitigation                                             starts  3.39  length  0.48
+4     Threat Model                                               starts  3.87  length  0.28
+5     CIV Taxonomy and Security Policies                         starts  4.16  length  2.37
+  5.1   CIV Classification                                         starts  4.21  length  0.45
+  5.2   Data Leakage CIVs                                          starts  4.66  length  0.70
+  5.3   Data Corruption CIVs                                       starts  5.35  length  1.17
+6     Policy Inference and Enforcement                           starts  6.53  length  4.57
+  6.1   Static Analysis for Policy Inference                       starts  6.64  length  0.63
+  6.2   SP1 and SP2 Inference and Enforcement                      starts  7.27  length  1.48
+  6.3   SP3 Inference and Enforcement                              starts  8.74  length  2.36
+7     Evaluation                                                 starts 11.10  length  5.21
+  7.1   Performance Overhead                                       starts 11.76  length  1.85
+  7.2   Policy Coverage                                            starts 13.61  length  1.58
+  7.3   Security Assessment                                        starts 15.19  length  1.12
+8     Limitations and Future Work                                starts 16.31  length  0.58
+9     Conclusion                                                 starts 16.89  length  0.11
+      References                                                 starts 17.00  length  2.00
+      Appendix\nobreakspace  A: Open Science                     starts 19.00  length  0.00
+      Appendix\nobreakspace  B: Ethical Considerations           starts 19.00  length  0.00
+      Appendix\nobreakspace  C: Generative AI Usage              starts 19.00  length  0.00
+      Appendix\nobreakspace  D: SP1 and SP2 Copying Examples     starts 19.00  length  1.00
+      Appendix\nobreakspace  E: SP3 Enforcement Example          starts 20.00  length  0.00
+      Appendix\nobreakspace  F: Security Assessment Listings     starts 20.00  length  1.00
+      Appendix\nobreakspace  G: Example Generated Wrapper        starts 21.00  length  0.00
+      Appendix\nobreakspace  H: OpenSSL External Data Pattern    starts 21.00  length  1.00
+      Appendix\nobreakspace  I: Benchmark Workloads              starts 22.00  length      
