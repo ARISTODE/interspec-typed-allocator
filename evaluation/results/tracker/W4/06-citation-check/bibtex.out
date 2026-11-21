@@ -1,0 +1,15 @@
+This is BibTeX, Version 0.99d (TeX Live 2023/Debian)
+The top-level auxiliary file: paper.aux
+The style file: IEEEtranS.bst
+Database file #1: bib/references.bib
+Database file #2: bib/asplos.bib
+Database file #3: bib/ksplit.bib
+Database file #4: bib/tan.bib
+Database file #5: bib/vmfunc.bib
+Database file #6: bib/ebpflex.bib
+-- IEEEtranS.bst version 1.12 (2007/01/11) by Michael Shell.
+-- http://www.michaelshell.org/tex/ieeetran/bibtex/
+-- See the "IEEEtran_bst_HOWTO.pdf" manual for usage information.
+** Sorting version - not for normal IEEE work.
+
+Done.
