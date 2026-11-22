@@ -1,0 +1,125 @@
+\section{Introduction}
+\label{sec:intro}
+
+\textit{Software compartmentalization} hardens application security by enforcing the \textit{principle of least privilege}~\cite{protection-info-system, sok-compartmentalization}. A compartmentalized application divides its code and data into \textit{compartments} and isolates each one in its own protection domain, using mechanisms that range from process isolation to WebAssembly sandboxing and hardware memory tagging~\cite{provos2003preventing, rlbox, isolation-without-taxation, xfi, bgi, erim, hacks, bulkhead}. \rev{Compartmentalization is increasingly retrofitted into existing software, such as browser libraries~\cite{rlbox} and kernel drivers~\cite{sud, nooks, microdrivers, ksplit, lvds, lxds}, to confine the damage that a compromised component can cause. Where it has been deployed, it has reduced the impact of real vulnerabilities, for example in the sandbox compartments of OpenSSH and slaacd in OpenBSD~\cite{sok-compartmentalization}.}
+
+\rev{However, isolation alone does not make a compartmentalized application
+secure. Compartments still communicate through a \textit{compartment
+interface}, the functions that one compartment invokes in another and the data
+that these functions exchange~\cite{sok-compartmentalization, assess_civ}.
+Isolation prevents a compartment from accessing another compartment's memory
+directly, but it does not control this data. A compromised compartment can
+therefore attack other compartments without escaping its isolation, by abusing
+the data that the interface legitimately exposes. Prior work has found such
+flaws in real software. In Firefox, a sandboxed image library could read and
+write arbitrary memory of the renderer if the renderer did not check callback
+arguments~\cite{rlbox}. Similarly, a sandboxed libghostscript can write to
+arbitrary memory of ImageMagick, and an attacker can extract the keys of an
+isolated OpenSSL through a single interface flaw~\cite{assess_civ}. These
+attacks do not need to hijack control flow. Corrupted data alone, such as a
+pointer that the application later dereferences, is enough~\cite{dui}.}
+
+\rev{Such flaws are called \textit{compartment interface vulnerabilities}
+(\vulName{}s)~\cite{assess_civ}. They are instances of the confused-deputy
+problem, in which an untrusted compartment manipulates the interface so that a
+trusted compartment misuses its authority on the attacker's
+behalf~\cite{hardy1988confuseddeputy}. \vulName{}s are also common. Fuzzing 39
+compartmentalization scenarios across 25 applications revealed 629 potential
+\vulName{}s~\cite{assess_civ}, and a study of 11 Linux drivers under isolation
+finds several classes of \vulName{}s prevalent across these
+drivers~\cite{huang_sok_attack_surface_device_drv_iso}.}
+
+\rev{This paper addresses \textit{insecure data-flow} \vulName{}s, which leak or
+corrupt interface data and account for most of the \vulName{}s that these
+studies report~\cite{huang_sok_attack_surface_device_drv_iso, assess_civ}.
+\vulName{}s that abuse the order or timing of interface calls are outside our
+scope. \textit{Data leakage} occurs when a trusted compartment exposes more
+interface data than an untrusted compartment needs. \textit{Data corruption}
+occurs when an untrusted compartment modifies interface data that a trusted one
+later uses. Preventing both requires three decisions for every piece of data
+that crosses an interface. The first is which data a trusted compartment may
+pass to an untrusted one. The second is which updates by the untrusted
+compartment may reach the trusted state. The third is which pointers from the
+untrusted compartment must be validated before the trusted compartment
+dereferences them. Real interfaces make these decisions hard to get right by
+hand. For example, the 214 OpenSSL functions that Nginx calls exchange more
+than 350,000 interface fields (Section~\ref{subsec:eval_policy_coverage}).}
+
+\rev{Prior work has measured this attack surface and built tools that detect
+\vulName{}s~\cite{assess_civ, civscope, dui,
+huang_sok_attack_surface_device_drv_iso}, but protecting interfaces remains
+largely manual. Almost all compartmentalization frameworks neglect the security
+of interfaces~\cite{assess_civ}. Even RLBox, the framework that sandboxes
+libraries in Firefox, relies extensively on validation code that developers
+write by hand~\cite{assess_civ}, and its authors found writing this code the
+hardest part of retrofitting Firefox~\cite{rlbox}. Driver isolation systems
+that copy only part of the shared state choose that part for compatibility and
+performance, not to prevent \vulName{}s~\cite{microdrivers, ksplit}. Where
+interface checks are automated, they rely on invariants inferred from observed
+executions~\cite{microdriver+} or on rules that developers
+write~\cite{Mao11LXFI}, and inferring sound and complete invariants remains
+challenging~\cite{huang_sok_attack_surface_device_drv_iso}. \textbf{As a
+result, the data that crosses a compartment interface remains a largely
+unprotected attack surface, and protecting it is left to the developer.}}
+
+\rev{We present \sysName{}, which makes the three decisions automatically and
+enforces them at runtime. Our key observation is that the code on the two
+sides of an interface already shows how each field of the interface data is
+used. A field that the untrusted code never reads, or the trusted code never
+writes, need not be passed to the untrusted compartment. An update to a field
+that the untrusted code never writes, or the trusted code never reads, need not
+be copied back. A pointer that the untrusted code may modify and the trusted
+code later dereferences must be validated first. \sysName{} computes these
+access patterns with static analysis on a Program Dependence Graph
+(PDG)~\cite{Ferrante87PDG, LiuTJ17Ptrsplit} and derives one policy for each
+decision. A \emph{least-privilege read} policy (SP1) keeps data that the
+untrusted compartment does not need out of it, providing confidentiality. A
+\emph{least-privilege write} policy (SP2) discards updates that the trusted
+compartment should not accept, providing integrity. A \emph{pointer integrity}
+policy (SP3) checks that each pointer from the untrusted compartment refers to
+a live object of the expected type in the expected compartment's memory and
+that the access stays within the object's bounds.}
+
+\rev{\sysName{} enforces these policies by generating wrappers around interface
+calls, integrated with RLBox~\cite{rlbox}. The wrappers copy only the data
+that SP1 and SP2 allow, and they validate pointers against a trusted object
+registry that records the type, bounds, and lifetime of known objects in both
+compartments' memory.} Our key contributions are listed below.
+
+%\sysname{}'s analysis automatically computes a set of interface fields that the trusted compartment does not need to expose to the untrusted one, providing confidentiality for those fields. It also computes a set of interface fields that 
+% GT: removed the following as it's too detailed in the intro.
+%If the trusted compartment writes a field and the untrusted one reads it, that field is treated as data passed from T to U. If untrusted code writes a field and trusted code reads it, that field is treated as data passed from U to T. If U may modify a pointer value that trusted code later dereferences, trusted code must validate that the pointer references the expected memory domain before use.
+%Instead of copying whole interface objects into the sandbox, the wrapper passes only fields that U reads. Instead of propagating whole objects back to T after a sandbox call, it propagates only fields whose values T reads. For pointer fields whose values U may modify and T later dereferences, \sysName{} inserts runtime domain checks. 
+
+\begin{itemize}
+    \item We analyze insecure data-flow \vulName{}s and
+    define three security policies (SP1, SP2, SP3) that address data
+    leakage, data corruption, and \rev{pointer integrity}
+    (Section~\ref{sec:CIV_taxonomy_mitigation}).
+
+    \item We design and implement a static analysis framework that
+    infers these policies from a compartment boundary specification by
+    analyzing how trusted and untrusted compartments access interface data (Section~\ref{sec:impl}).
+
+    \item We integrate the inferred policies with RLBox by generating
+    boundary wrappers that restrict data sharing at field granularity and validate \rev{pointer values against a trusted object registry} (Section~\ref{sec:impl}).
+
+    \item We validate the enforced policies against representative
+    data-leakage, data-corruption, and \rev{pointer redirection} violations
+    (Section~\ref{subsec:eval_security_analysis}).
+\end{itemize}
+
+\gtan{Update the numbers below once the evaluation section is finalized.}
+We evaluate \sysName{} on 10 library isolation boundaries, six in the
+applications FFmpeg, memcached, Nginx, and rsync and four in programs that use
+libpng, libucl, libyaml, and libzip (Section~\ref{sec:eval}). \rev{Averaged over the boundaries,
+the inferred policies provide confidentiality coverage for 49.0\% of interface
+fields and integrity coverage for 59.3\%. On average, 99.98\% of
+pointer fields either need no runtime validation or have an inferred expected
+domain (Section~\ref{subsec:eval_policy_coverage}). Relative to an RLBox sandboxing
+baseline, \sysName{} adds 0.8\% on average to complete programs, and its
+overhead is within measurement variation in 11 of 15 workloads. In library
+stress workloads, which call the sandboxed library without application work
+in between, it ranges from $-$6.7\%, where the policies remove a copy, to
+8.6\% for queries that take about 120\,ns and return two pointers to check
+(Section~\ref{subsec:eval_perf_overhead}).}
