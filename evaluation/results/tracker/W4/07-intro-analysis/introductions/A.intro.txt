@@ -1,0 +1,49 @@
+P1 [words 65, offset 0, 0%]
+All major browsers today employ coarse grain privilege separation to limit the impact of vulnerabilities. To wit, they run renderers—the portion of the browser that handles untrusted user content from HTML parsing, to JavaScript execution, to image decoding and rendering—in separate sandboxed processes [3, 33, 40]. This stops web attackers that manage to compromise the renderer from abusing local OS resources to, say, install malware.
+
+P2 [words 63, offset 65, 5%]
+Unfortunately, this is no longer enough: nearly everything we care about today is done through a website. By compromising the renderer, an attacker gets total control of the current site and, often, any other sites the browser has credentials for [14]. With services like Dropbox and Google Drive, privilege separation is insufficient even to protect local files that sync with the cloud [24].
+
+P3 [words 92, offset 128, 10%]
+Browser vendors spend a huge amount of engineering effort trying to find renderer vulnerabilities in their own code [28]. Unfortunately, many remain—frequently in the dozens of third-party libraries used by the renderer to decode audio, images, fonts, and other content. For example, an out-of-bounds write in libvorbis was used to exploit Firefox at Pwn2Own 2018 [7]. Both Chrome and Firefox were vulnerable to an integer-overflow bug in the libvpx video decoding library [10]. Both also rely on the Skia graphics library, which had four remote code execution bugs until recently [12, 37].
+
+P4 [words 142, offset 220, 17%]
+To appreciate the impact of these vulnerabilities and the difficulty of mitigating them, consider a typical web user, Alice, that uses Gmail to read email in her browser. Suppose an intruder, Trudy, sends Alice an email that contains a link to her malicious site, hosted on sites.google.com. If Alice clicks on the link, her browser will navigate her to Trudy’s site, which can embed an .ogg audio track or .webm video to exploit vulnerabilities in libvorbis and libvpx and compromise the renderer of Alice’s browser. Trudy now has total control of Alice’s Gmail account. Trudy can read and send emails as Alice, for example, to respond to password reset requests from other sites Alice belongs to. In most cases, Trudy can also attack cross site [14], i.e., she can access any other site that Alice is logged into (e.g., Alice’s amazon.com account).
+
+P5 [words 68, offset 362, 28%]
+Recent version of Chrome (and upcoming versions of Firefox) support Site Isolation [41], which isolates different sites from each other (e.g., *.google.com from *.amazon.com) to prevent such cross-site attacks. Unfortunately, Trudy might still be able to access {drive,pay,cloud}.google.com, which manage Alice’s files, online payments, and cloud infrastructure—since the renderer that loads the malicious .ogg and .webm content might still be running in the same process as those origins.
+
+P6 [words 73, offset 430, 33%]
+For many sites, Trudy might not even need to upload malicious content to the (trusted) victim origin (sites.google.com in our example). Most web applications load content, including images, fonts, and video, from different origins. Of the Alexa top 500 websites, for example, over 93% of the sites load at least one such cross-origin resource (§7.1). And the libraries handling such content are not isolated from the embedding origin, even with Site Isolation [41].
+
+P7 [words 50, offset 503, 38%]
+To mitigate these vulnerabilities, we need to harden the renderer itself. To this end, we extend the Firefox renderer to isolate third party libraries in fine grain sandboxes. Using this, we can prevent a compromised library from gaining control of the current origin or any other origin in the browser.
+
+P8 [words 136, offset 553, 42%]
+Making this practical poses three significant challenges across three dimensions. First, engineering effort—we need to minimize the upfront work required to change the renderer to use sandboxing, especially as this is multiplied across dozens of libraries; minimizing changes to libraries is also important as this can significantly increase the burden of tracking upstream changes. Second, security—the renderer was not built to protect itself from libraries; thus, we have to sanitize all data and regulate control flow between the library and renderer to prevent libraries from breaking out of the sandbox. In our experience, bugs at the library-renderer boundary are not only easy to overlook, but can nullify any sandboxing effort—and other developers, not just us, must be able to securely sandbox new libraries. Finally, efficiency—the renderer is performance critical, so adding user-visible latency is not acceptable.
+
+P9 [words 59, offset 689, 53%]
+To help us address these challenges, we develop a framework called RLBox that makes data- and control-flow at the library-renderer interface explicit, using types. Unlike prior approaches to sandbox automation that rely on extensive custom analysis frameworks (§8), RLBox is simply a library that leverages the C++ type system and is easy to incorporate into Firefox’s predominantly C++ codebase.
+
+P10 [words 78, offset 748, 57%]
+Using type information, RLBox can identify where security checks are needed, automatically insert dynamic checks when possible, and force compiler errors for any security checks that require additional user intervention. Our type-driven approach enables a systematic way to migrate Firefox’s renderer to use sandboxed libraries and allows RLBox to support secure and efficient sharing of data structures between the renderer and library (e.g., by making shared memory operations safe and by lazily copying data out of the sandbox).
+
+P11 [words 53, offset 826, 63%]
+To enable efficient sandboxing, we adapt and evaluate two isolation mechanisms for library sandboxing: software-based fault isolation (SFI) leveraging Google’s Native Client (NaCl) [49, 65] and a multi-core process-based approach. We also explore applying sandboxing at different granularities (e.g., per-origin and per-library sandboxing) to find the appropriate balance between security and sandboxing overhead.
+
+P12 [words 98, offset 879, 67%]
+To evaluate RLBox, we sandbox several libraries in Firefox: the libjpeg and libpng image decoding libraries, the libvpx and libtheora video decoding libraries, the libvorbis audio decoding library, and the zlib decompression library. Browsing a representative sample of both popular and unpopular websites (§7), we find the end-to-end memory overhead of RLBox to be modest—25% with SFI, 18% with process isolation—and transient, appearing only at content load time. The impact on page latency is small: 3% and 13% with SFI and process isolation, respectively. Our sandboxing does not noticeably impact the video frame rates nor audio decoding bitrate.
+
+P13 [words 71, offset 977, 75%]
+Our evaluation shows that retrofitting fine grain isolation, especially using SFI, is practical—and we’ve been integrating RLBox into production Firefox [51]. Since NaCl has been deprecated [17] in favor of WebAssembly (Wasm) [20], our production sandbox also uses Wasm. We used RLBox with this Wasm-based sandbox to isolate the libGraphite font shaping library and are in the process of migrating several others [15, 51]. We describe this effort in Section 9.
+
+P14 [words 114, offset 1048, 80%]
+Though we developed RLBox to sandbox libraries in Firefox, RLBox is a general library-sandboxing framework that can be used outside Firefox. To demonstrate this, we use RLBox to sandbox libraries in two different contexts: the Apache web server and Node.js runtime. For Apache, we sandbox the libmarkdown library that is used in the mod_markdown module [31]; we find that RLBox with the SFI sandbox increases the tail latency of the Apache server by 10% (4ms) and decreases the throughput by 27% (256 requests/second). For Node.js, we sandbox the C bcrypt library that is used by the JavaScript bcrypt module [38]; we measure RLBox with SFI to impose an overhead of 27% on hashing throughput.
+
+P15 [words 125, offset 1162, 89%]
+Contributions. We present the case for sandboxing third party libraries in the browser renderer, and potential architectural trade-offs, including our approach (§2). We offer a taxonomy of security pitfalls encountered while migrating the Firefox code base to this architecture that were largely overlooked by previous work (§3), and RLBox, a framework we developed to prevent these pitfalls that leverages the C++ type system to enforce safe data and control flow (§4), and enables an incremental compiler-driven approach to migrating code to a sandboxed architecture (§5). We describe our implementation, including our software fault isolation and multi-core process-based isolation mechanisms (§6), and evaluate the performance of RLBox (§7). We close with a discussion of related work (§8) and our effort upstreaming RLBox into production Firefox (§9).
+
+P16 [words 22, offset 1287, 98%]
+Availability. All work presented in this paper, including our modified Firefox builds, the RLBox library, and benchmarks are available and open source.
+
+TOTAL 1309
